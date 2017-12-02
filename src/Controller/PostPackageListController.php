@@ -134,7 +134,7 @@ class PostPackageListController extends Controller
             $this->database->beginTransaction();
             $stm = $this->database->prepare('
             INSERT INTO
-                pkgstats_users
+                `user`
             SET
                 ip = :ip,
                 time = :time,
@@ -156,7 +156,7 @@ class PostPackageListController extends Controller
             $stm->execute();
             $stm = $this->database->prepare('
             INSERT INTO
-                pkgstats_packages
+                package
             SET
                 pkgname = :pkgname,
                 month = :month,
@@ -171,7 +171,7 @@ class PostPackageListController extends Controller
             }
             $stm = $this->database->prepare('
             INSERT INTO
-                pkgstats_modules
+                module
             SET
                 name = :module,
                 month = :month,
@@ -208,7 +208,7 @@ class PostPackageListController extends Controller
             COUNT(*) AS count,
             MIN(time) AS mintime
         FROM
-            pkgstats_users
+            `user`
         WHERE
             time >= :time
             AND ip = :ip

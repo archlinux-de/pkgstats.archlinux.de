@@ -45,7 +45,7 @@ class PackageStatisticsController extends Controller
                     'pkgname',
                     'SUM(count) AS count'
                 ])
-                ->from('pkgstats_packages')
+                ->from('package')
                 ->where('month >= ' . $this->getRangeYearMonth())
                 ->groupBy('pkgname');
             $packages = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);
@@ -87,13 +87,13 @@ class PackageStatisticsController extends Controller
         } else {
 //            $pkgstatsCount = $this->getDoctrine()->getConnection()->createQueryBuilder()
 //                ->select('DISTINCT pkgname')
-//                ->from('pkgstats_packages')
+//                ->from('package')
 //                ->where('month >= ' . $this->getRangeYearMonth())
 //                ->execute()
 //                ->rowCount();
             $pkgstatsCount = $this->getDoctrine()->getConnection()->createQueryBuilder()
                 ->select('COUNT(*)')
-                ->from('pkgstats_users')
+                ->from('user')
                 ->where('time >= ' . $this->getRangeTime())
                 ->execute()
                 ->fetchColumn();
@@ -143,7 +143,7 @@ class PackageStatisticsController extends Controller
                 'SQL_CALC_FOUND_ROWS pkgname AS pkgname',
                 'SUM(count) AS count'
             ])
-            ->from('pkgstats_packages')
+            ->from('package')
             ->where('month >= ' . $this->getRangeYearMonth())
             ->groupBy('pkgname')
             ->setFirstResult($request->getStart())

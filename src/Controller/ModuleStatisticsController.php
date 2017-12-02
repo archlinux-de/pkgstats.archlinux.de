@@ -43,9 +43,9 @@ class ModuleStatisticsController extends Controller
             $queryBuilder
                 ->select([
                     'name',
-                    'SUM(count) AS count'
+                    'SUM(`count`) AS count'
                 ])
-                ->from('pkgstats_modules')
+                ->from('module')
                 ->where('month >= ' . $this->getRangeYearMonth())
                 ->groupBy('name');
             $modules = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);
@@ -87,13 +87,13 @@ class ModuleStatisticsController extends Controller
         } else {
             $moduleCount = $this->getDoctrine()->getConnection()->createQueryBuilder()
                 ->select('DISTINCT name')
-                ->from('pkgstats_modules')
-                ->where('month >= ' . $this->getRangeYearMonth())
+                ->from('module')
+                ->where('`month` >= ' . $this->getRangeYearMonth())
                 ->execute()
                 ->rowCount();
 //            $moduleCount = $this->getDoctrine()->getConnection()->createQueryBuilder()
 //                ->select('COUNT(*)')
-//                ->from('pkgstats_users')
+//                ->from('users')
 //                ->where('time >= ' . $this->getRangeTime())
 //                ->execute()
 //                ->fetchColumn();
@@ -143,7 +143,7 @@ class ModuleStatisticsController extends Controller
                 'SQL_CALC_FOUND_ROWS name',
                 'SUM(count) AS count'
             ])
-            ->from('pkgstats_modules')
+            ->from('module')
             ->where('month >= ' . $this->getRangeYearMonth())
             ->groupBy('name')
             ->setFirstResult($request->getStart())

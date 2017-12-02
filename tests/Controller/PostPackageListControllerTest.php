@@ -13,7 +13,7 @@ class PostPackageListControllerTest extends WebTestCase
         $kernel = static::bootKernel();
         $kernel->getContainer()
             ->get('database_connection')
-            ->exec('DELETE FROM pkgstats_users WHERE ip IN (SHA1("127.0.0.1"), SHA1("::1"))');
+            ->exec('DELETE FROM user WHERE ip IN (SHA1("127.0.0.1"), SHA1("::1"))');
     }
 
     public function testPostPackageListIsSuccessful()

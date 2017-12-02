@@ -40,19 +40,19 @@ class FunStatisticsController extends Controller
             SELECT
                 COUNT(*)
             FROM
-                pkgstats_users
+                `user`
             WHERE
                 time >= ' . $this->getRangeTime() . '
             ')->fetchColumn();
 
         $stm = $this->database->prepare('
             SELECT
-                SUM(count)
+                SUM(`count`)
             FROM
-                pkgstats_packages
+                package
             WHERE
                 pkgname = :pkgname
-                AND month >= ' . $this->getRangeYearMonth() . '
+                AND `month` >= ' . $this->getRangeYearMonth() . '
             GROUP BY
                 pkgname
             ');
