@@ -1,0 +1,17 @@
+{% spaceless %}
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{{ absolute_url(path('app_start_index')) }}</loc>
+    </url>
+    <url>
+        <loc>{{ absolute_url(path('app_funstatistics_fun')) }}</loc>
+    </url>
+    <url>
+        <loc>{{ absolute_url(path('app_modulestatistics_module')) }}</loc>
+    </url>
+    <url>
+        <loc>{{ absolute_url(path('app_packagestatistics_package')) }}</loc>
+    </url>
+</urlset>
+{% endspaceless %}

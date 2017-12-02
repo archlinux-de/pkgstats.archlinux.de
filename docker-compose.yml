@@ -1,0 +1,47 @@
+version: "3"
+
+volumes:
+  db-socket:
+  db-data:
+
+services:
+  app:
+    build: docker/app
+    working_dir: /app
+    environment:
+      - HOME=/tmp
+    command: php -S 0.0.0.0:8080 -t /app/public
+    user: "1000"
+    ports:
+      - "${PORT:-8080}:8080"
+    volumes:
+      - .:/app
+      - db-socket:/run/mysqld
+    tmpfs:
+      - /tmp
+    depends_on:
+      - db
+
+  db:
+    build: docker/db
+    command: mysqld
+    user: mysql
+    network_mode: none
+    volumes:
+      - db-data:/var/lib/mysql
+      - db-socket:/run/mysqld
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=localhost
+      - PMA_USER=root
+      - PMA_PASSWORD=
+    ports:
+      - "8090:80"
+    volumes:
+      - db-socket:/run/mysqld
+    tmpfs:
+      - /tmp
+    depends_on:
+      - db

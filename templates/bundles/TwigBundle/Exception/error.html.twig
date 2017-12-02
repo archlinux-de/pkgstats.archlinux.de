@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="{{ _charset }}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{{ absolute_url(asset('build/images/archicon.svg')) }}" sizes="any" type="image/svg+xml">
+    <title>Fehler: {{ status_text }}</title>
+    <link href="{{ absolute_url(asset('build/css/app.css')) }}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="alert alert-warning mt-5" role="alert">
+        <div class="row">
+            <div class="d-none d-lg-block col-lg-2 align-self-center">
+                <img src="{{ absolute_url(asset('build/images/archicon.svg')) }}" width="120" height="120">
+            </div>
+            <div class="col-lg-10">
+                <h1 class="alert-heading">Es ist ein Fehler aufgetreten</h1>
+                <h2>Der Server meldet: "{{ status_code }} {{ status_text }}".</h2>
+                <p>Etwas lief schief. Sollte das Problem weiterhin bestehen, melde Dich bei uns. Wir werden es so
+                    schnell wie möglich beheben.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

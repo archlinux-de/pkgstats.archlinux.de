@@ -1,0 +1,54 @@
+$brand-primary: #08c;
+$brand-secondary: #333;
+$brand-dark: #222;
+$brand-light: #f6f9fc;
+$theme-colors: (
+  primary: $brand-primary,
+  secondary: $brand-secondary,
+  success: #28a745,
+  info: #17a2b8,
+  warning: #ffc107,
+  danger: #dc3545,
+  light: $brand-light,
+  dark: $brand-secondary
+);
+$enable-rounded: false;
+$enable-transitions: false;
+$enable-print-styles: false;
+$body-bg: $brand-light;
+$body-color: $brand-dark;
+$input-btn-focus-box-shadow: 0;
+$link-hover-color: #666;
+$navbar-dark-color: #999;
+$navbar-dark-hover-color: #fff;
+$navbar-dark-active-color: #fff;
+$jumbotron-bg: #ecf2f5;
+$font-size-base: 0.875rem;
+$navbar-brand-padding-y: 0.14rem;
+$h1-font-size: 2rem !default;
+$h2-font-size: 1.5rem !default;
+$h3-font-size: 1.25rem !default;
+$h4-font-size: 1.15rem !default;
+$h5-font-size: 1rem !default;
+$h6-font-size: 1rem !default;
+$font-family-sans-serif: sans-serif;
+$font-family-monospace: monospace;
+
+@import "~bootstrap/scss/bootstrap";
+@import "~datatables.net-bs4/css/dataTables.bootstrap4.css";
+
+.navbar-border-brand {
+  border-bottom: 0.313rem solid $brand-primary;
+}
+
+.w-20 {
+  width: 20% !important;
+}
+
+.break-word {
+  word-wrap: break-word;
+}
+
+.dataTables_info {
+  white-space: normal !important;
+}
