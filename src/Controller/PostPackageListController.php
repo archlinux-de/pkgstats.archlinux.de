@@ -41,7 +41,7 @@ class PostPackageListController extends Controller
     }
 
     /**
-     * @Route("/", methods={"POST"})
+     * @Route("/post", methods={"POST"})
      * @param Request $request
      * @return Response
      */

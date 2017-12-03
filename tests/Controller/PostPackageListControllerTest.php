@@ -22,7 +22,7 @@ class PostPackageListControllerTest extends WebTestCase
 
         $client->request(
             'POST',
-            '/',
+            '/post',
             ['pkgstatsver' => '2.3', 'arch' => 'x86_64', 'packages' => 'pkgstats', 'modules' => 'snd']
         );
 
