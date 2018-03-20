@@ -66,7 +66,7 @@ class FunStatisticsController extends Controller
                     array(
                         'Mozilla Firefox' => 'firefox',
                         'Chromium' => 'chromium',
-                        'Konqueror' => 'kdebase-konqueror',
+                        'Konqueror' => ['kdebase-konqueror', 'konqueror'],
                         'Midori' => 'midori',
                         'Epiphany' => 'epiphany',
                         'Opera' => 'opera',
@@ -101,7 +101,7 @@ class FunStatisticsController extends Controller
                 'data' => $this->getPackageStatistics(
                     $stm,
                     array(
-                        'KDE SC' => array('kdebase-workspace', 'plasma-workspace'),
+                        'KDE SC' => array('kdebase-workspace', 'plasma-workspace', 'plasma-desktop'),
                         'GNOME' => 'gnome-shell',
                         'LXDE' => 'lxde-common',
                         'Xfce' => 'xfdesktop',
@@ -115,8 +115,8 @@ class FunStatisticsController extends Controller
                 'data' => $this->getPackageStatistics(
                     $stm,
                     array(
-                        'Dolphin' => 'kdebase-dolphin',
-                        'Konqueror' => 'kdebase-konqueror',
+                        'Dolphin' => ['kdebase-dolphin', 'dolphin'],
+                        'Konqueror' => ['kdebase-konqueror', 'konqueror'],
                         'MC' => 'mc',
                         'Nautilus' => 'nautilus',
                         'Pcmanfm' => 'pcmanfm',
