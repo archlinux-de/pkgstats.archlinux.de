@@ -2,18 +2,18 @@
   "license": "GPL-3.0",
   "private": true,
   "devDependencies": {
-    "@symfony/webpack-encore": "^0.14.0",
-    "autoprefixer": "^7.1.2",
+    "@symfony/webpack-encore": "^0.19.0",
+    "autoprefixer": "^8.1.0",
     "bootstrap": "^4.0.0",
-    "datatables.net": "^1.10.15",
-    "datatables.net-bs4": "^1.10.15",
-    "node-sass": "^4.5.3",
-    "popper.js": "^1.12.3",
-    "postcss-loader": "^2.0.6",
-    "sass-loader": "^6.0.6",
-    "standard": "^10.0.3",
-    "stylelint": "^8.0.0",
-    "stylelint-config-standard": "^17.0.0"
+    "datatables.net": "^1.10.16",
+    "datatables.net-bs4": "^1.10.16",
+    "node-sass": "^4.7.2",
+    "popper.js": "^1.12.9",
+    "postcss-loader": "^2.1.1",
+    "sass-loader": "^6.0.7",
+    "standard": "^11.0.0",
+    "stylelint": "^9.1.1",
+    "stylelint-config-standard": "^18.2.0"
   },
   "scripts": {
     "dev-server": "encore dev-server",
@@ -21,5 +21,5 @@
     "watch": "encore dev --watch",
     "build": "encore production"
   },
-  "browserslist": "> 1%"
+  "browserslist": "> 0.5%"
 }

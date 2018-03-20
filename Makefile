@@ -1,4 +1,4 @@
-.PHONY: all init start stop restart clean rebuild composer-update shell test ci-test deploy assets coverage
+.PHONY: all init start stop restart clean rebuild install shell test ci-test deploy coverage
 
 APP-RUN=docker-compose run --rm -u $$(id -u) app
 DB-RUN=docker-compose run --rm db
@@ -7,10 +7,11 @@ COMPOSER=composer --no-interaction
 all: init
 
 init: start
+	${APP-RUN} bin/console cache:warmup
 	${APP-RUN} bin/console doctrine:database:create
 	${APP-RUN} bin/console doctrine:schema:create
 
-start: vendor assets
+start: install
 	docker-compose up -d
 	${DB-RUN} mysqladmin -uroot --wait=10 ping
 
@@ -29,14 +30,9 @@ rebuild: clean
 	docker-compose build --no-cache --pull
 	${MAKE}
 
-composer-update:
-	${APP-RUN} ${COMPOSER} update
-
-composer.lock: composer.json
-	${APP-RUN} ${COMPOSER} update nothing
-
-vendor: composer.lock
+install:
 	${APP-RUN} ${COMPOSER} install
+	${APP-RUN} yarn install
 
 shell:
 	${APP-RUN} bash
@@ -50,19 +46,16 @@ test:
 ci-test: init
 	${MAKE} test
 	${APP-RUN} vendor/bin/security-checker security:check
-
-assets:
-	${APP-RUN} yarn install
-	${APP-RUN} yarn run encore dev
+	${APP-RUN} node_modules/.bin/encore dev
 
 coverage:
-	${APP-RUN} php -d zend_extension=xdebug.so vendor/bin/phpunit --coverage-html var/coverage
+	${APP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage
 
 deploy:
 	chmod o-x .
-	APP_ENV=prod composer --no-interaction install --no-dev --optimize-autoloader
+	composer --no-interaction install --no-dev --optimize-autoloader
 	yarn install
-	APP_ENV=prod bin/console cache:clear --env=prod --no-debug --no-warmup
+	bin/console cache:clear --no-debug --no-warmup
 	yarn run encore production
-	APP_ENV=prod bin/console cache:warmup --env=prod
+	bin/console cache:warmup
 	chmod o+x .
