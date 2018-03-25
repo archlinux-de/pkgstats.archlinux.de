@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d67ce4c465f475c6eb117310cf6b2e99",
+    "content-hash": "c26b079290748056ec76c29a4a178a41",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -846,6 +846,39 @@
                 "orm"
             ],
             "time": "2018-02-27T07:30:56+00:00"
+        },
+        {
+            "name": "geertw/ip-anonymizer",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/geertw/php-ip-anonymizer.git",
+                "reference": "6610b85b119de3bb505fd9a484bac67066e4a62f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/geertw/php-ip-anonymizer/zipball/6610b85b119de3bb505fd9a484bac67066e4a62f",
+                "reference": "6610b85b119de3bb505fd9a484bac67066e4a62f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "geertw\\IpAnonymizer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Geert Wirken",
+                    "email": "geert@gwirken.nl"
+                }
+            ],
+            "description": "IPv4 and IPv6 address anonymizer",
+            "time": "2017-06-24T13:15:14+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -5091,8 +5124,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": "^7.2",
-        "ext-iconv": "*",
         "ext-apcu": "^5.1",
+        "ext-iconv": "*",
         "ext-pdo_mysql": "*"
     },
     "platform-dev": []

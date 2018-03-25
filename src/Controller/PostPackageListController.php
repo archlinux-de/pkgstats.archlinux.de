@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
+use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
 use Doctrine\DBAL\Driver\Connection;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -27,17 +28,25 @@ class PostPackageListController extends Controller
     private $router;
     /** @var GeoIp */
     private $geoIp;
+    /** @var ClientIdGenerator */
+    private $clientIdGenerator;
 
     /**
      * @param Connection $connection
      * @param RouterInterface $router
      * @param GeoIp $geoIp
+     * @param ClientIdGenerator $clientIdGenerator
      */
-    public function __construct(Connection $connection, RouterInterface $router, GeoIp $geoIp)
-    {
+    public function __construct(
+        Connection $connection,
+        RouterInterface $router,
+        GeoIp $geoIp,
+        ClientIdGenerator $clientIdGenerator
+    ) {
         $this->database = $connection;
         $this->router = $router;
         $this->geoIp = $geoIp;
+        $this->clientIdGenerator = $clientIdGenerator;
     }
 
     /**
@@ -145,7 +154,7 @@ class PostPackageListController extends Controller
                 packages = :packages,
                 modules = :modules
             ');
-            $stm->bindValue('ip', sha1($clientIp), \PDO::PARAM_STR);
+            $stm->bindValue('ip', $this->clientIdGenerator->createClientId($clientIp), \PDO::PARAM_STR);
             $stm->bindValue('time', time(), \PDO::PARAM_INT);
             $stm->bindParam('arch', $arch, \PDO::PARAM_STR);
             $stm->bindParam('cpuarch', $cpuArch, \PDO::PARAM_STR);
@@ -216,17 +225,17 @@ class PostPackageListController extends Controller
             ip
         ');
         $stm->bindValue('time', time() - $this->delay, \PDO::PARAM_INT);
-        $stm->bindValue('ip', sha1($request->getClientIp()), \PDO::PARAM_STR);
+        $stm->bindValue('ip', $this->clientIdGenerator->createClientId($request->getClientIp()), \PDO::PARAM_STR);
         $stm->execute();
         $log = $stm->fetch();
         if ($log !== false && $log['count'] >= $this->count) {
             throw new BadRequestHttpException(
                 'You already submitted your data '
                 . $this->count . ' times since '
-                . $this->getGmDateTime($log['mintime'])
+                . $this->createGmDateTime($log['mintime'])
                 . ' using the IP ' . $request->getClientIp()
                 . ".\n         You are blocked until "
-                . $this->getGmDateTime($log['mintime'] + $this->delay)
+                . $this->createGmDateTime($log['mintime'] + $this->delay)
             );
         }
     }
@@ -235,7 +244,7 @@ class PostPackageListController extends Controller
      * @param int $timestamp
      * @return string
      */
-    private function getGmDateTime($timestamp): string
+    private function createGmDateTime($timestamp): string
     {
         return gmdate('Y-m-d H:i', $timestamp);
     }
