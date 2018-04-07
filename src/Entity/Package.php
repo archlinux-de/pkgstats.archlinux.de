@@ -13,7 +13,7 @@ class Package
     /**
      * @var string
      *
-     * @ORM\Column(name="pkgname", type="string", length=255)
+     * @ORM\Column(name="pkgname", type="string", length=191)
      * @ORM\Id
      */
     private $pkgname;
