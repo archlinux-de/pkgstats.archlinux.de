@@ -1,4 +1,4 @@
-.PHONY: all init start stop restart clean rebuild install shell test ci-test deploy coverage
+.PHONY: all init start stop restart clean rebuild install shell test ci-test deploy coverage update
 
 APP-RUN=docker-compose run --rm -u $$(id -u) app
 DB-RUN=docker-compose run --rm db
@@ -50,6 +50,10 @@ ci-test: init
 
 coverage:
 	${APP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage
+
+update:
+	${APP-RUN} ${COMPOSER} update
+	${APP-RUN} yarn upgrade --latest
 
 deploy:
 	chmod o-x .
