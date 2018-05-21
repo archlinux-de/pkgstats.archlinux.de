@@ -43,7 +43,8 @@ class SmokeTest extends WebTestCase
             ['/module.json'],
             ['/package.json'],
             ['/sitemap.xml'],
-            ['/impressum']
+            ['/impressum'],
+            ['/privacy-policy']
         ];
     }
 }
