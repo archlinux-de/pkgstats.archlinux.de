@@ -1,9 +1,12 @@
 <?php
 
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use App\Tests\Util\DatabaseTestCase;
 
+/**
+ * @coversNothing
+ */
 class SmokeTest extends DatabaseTestCase
 {
     /**

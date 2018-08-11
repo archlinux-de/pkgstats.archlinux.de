@@ -1,9 +1,12 @@
 <?php
 
-namespace Tests\App\Controller;
+namespace App\Tests\Controller;
 
 use App\Tests\Util\DatabaseTestCase;
 
+/**
+ * @covers \App\Controller\PostPackageListController
+ */
 class PostPackageListControllerTest extends DatabaseTestCase
 {
     public function testPostPackageListIsSuccessful()

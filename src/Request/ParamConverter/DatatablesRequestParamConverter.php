@@ -4,11 +4,11 @@ namespace App\Request\ParamConverter;
 
 use App\Request\Datatables\Column;
 use App\Request\Datatables\Order;
+use App\Request\Datatables\Request as DatatablesRequest;
 use App\Request\Datatables\Search;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
-use \App\Request\Datatables\Request as DatatablesRequest;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class DatatablesRequestParamConverter implements ParamConverterInterface
@@ -76,7 +76,7 @@ class DatatablesRequestParamConverter implements ParamConverterInterface
         }
 
         $errors = $this->validator->validate($datatablesRequest);
-        if (count($errors) > 0) {
+        if ($errors->count() > 0) {
             throw new \InvalidArgumentException((string)$errors);
         }
 

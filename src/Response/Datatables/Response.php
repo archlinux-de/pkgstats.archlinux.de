@@ -96,10 +96,10 @@ class Response implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'draw' => $this->draw,
-            'recordsTotal' => $this->recordsTotal,
-            'recordsFiltered' => $this->recordsFiltered,
-            'data' => $this->data,
+            'draw' => $this->getDraw(),
+            'recordsTotal' => $this->getRecordsTotal(),
+            'recordsFiltered' => $this->getRecordsFiltered(),
+            'data' => $this->getData(),
         ];
     }
 }
