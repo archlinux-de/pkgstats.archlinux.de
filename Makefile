@@ -44,7 +44,6 @@ shell-node:
 	${NODE-RUN} bash
 
 test: start
-	${MAKE} init
 	${PHP-RUN} vendor/bin/phpcs
 	${NODE-RUN} node_modules/.bin/standard 'assets/js/**/*.js' '*.js'
 	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css'
@@ -76,7 +75,6 @@ ci-update-commit:
 ci-update:
 	${PHP-RUN} composer --no-interaction update
 	${NODE-RUN} yarn upgrade --latest
-	${PHP-DB-RUN} bin/console doctrine:database:drop --force
 	${MAKE} test-ci
 	git diff-index --quiet HEAD || ${MAKE} ci-update-commit
 

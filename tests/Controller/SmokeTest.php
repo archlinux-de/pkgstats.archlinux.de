@@ -2,9 +2,9 @@
 
 namespace Tests\App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Util\DatabaseTestCase;
 
-class SmokeTest extends WebTestCase
+class SmokeTest extends DatabaseTestCase
 {
     /**
      * @param string $url
@@ -12,7 +12,7 @@ class SmokeTest extends WebTestCase
      */
     public function testRequestIsSuccessful(string $url)
     {
-        $client = static::createClient();
+        $client = $this->getClient();
 
         $client->request('GET', $url);
 
@@ -21,7 +21,7 @@ class SmokeTest extends WebTestCase
 
     public function testUnknownUrlFails()
     {
-        $client = static::createClient();
+        $client = $this->getClient();
 
         $client->request('GET', '/unknown');
 

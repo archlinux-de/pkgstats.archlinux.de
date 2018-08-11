@@ -2,23 +2,13 @@
 
 namespace Tests\App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Util\DatabaseTestCase;
 
-class PostPackageListControllerTest extends WebTestCase
+class PostPackageListControllerTest extends DatabaseTestCase
 {
-    public function setUp()
-    {
-        //TODO: Remove entries from previous runs to avoid the rate limit.
-        // Should be obsolete once we are able to setup a proper test environment.
-        $kernel = static::bootKernel();
-        $kernel->getContainer()
-            ->get('database_connection')
-            ->exec('DELETE FROM user WHERE ip IN (SHA1("127.0.0.1"), SHA1("::1"))');
-    }
-
     public function testPostPackageListIsSuccessful()
     {
-        $client = static::createClient();
+        $client = $this->getClient();
 
         $client->request(
             'POST',
