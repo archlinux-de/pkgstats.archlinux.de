@@ -76,6 +76,7 @@ ci-update-commit:
 ci-update:
 	${PHP-RUN} composer --no-interaction update
 	${NODE-RUN} yarn upgrade --latest
+	${PHP-DB-RUN} bin/console doctrine:database:drop --force
 	${MAKE} test-ci
 	git diff-index --quiet HEAD || ${MAKE} ci-update-commit
 
