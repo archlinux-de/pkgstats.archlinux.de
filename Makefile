@@ -1,63 +1,90 @@
-.PHONY: all init start stop restart clean rebuild install shell test ci-test deploy coverage update
+.EXPORT_ALL_VARIABLES:
+.PHONY: all init start stop clean rebuild install shell-php shell-node test test-db test-coverage test-ci ci-build ci-update ci-update-commit deploy
 
-APP-RUN=docker-compose run --rm -u $$(id -u) app
-DB-RUN=docker-compose run --rm db
-COMPOSER=composer --no-interaction
+UID!=id -u
+GID!=id -g
+COMPOSE=UID=${UID} GID=${GID} docker-compose -f docker/docker-compose.yml
+COMPOSE-RUN=${COMPOSE} run --rm -u ${UID}:${GID}
+PHP-DB-RUN=${COMPOSE-RUN} php
+PHP-RUN=${COMPOSE-RUN} --no-deps php
+NODE-RUN=${COMPOSE-RUN} --no-deps encore
+MARIADB-RUN=${COMPOSE-RUN} --no-deps mariadb
 
-all: init
+all: install
 
 init: start
-	${APP-RUN} bin/console cache:warmup
-	${APP-RUN} bin/console doctrine:database:create
-	${APP-RUN} bin/console doctrine:schema:create
+	${PHP-DB-RUN} bin/console cache:warmup
+	${PHP-DB-RUN} bin/console doctrine:database:create
+	${PHP-DB-RUN} bin/console doctrine:schema:create
 
-start: install
-	docker-compose up -d
-	${DB-RUN} mysqladmin -uroot --wait=10 ping
+start:
+	${COMPOSE} up -d
+	${MARIADB-RUN} mysqladmin -uroot --wait=10 ping
 
 stop:
-	docker-compose stop
-
-restart:
-	${MAKE} stop
-	${MAKE} start
+	${COMPOSE} stop
 
 clean:
-	docker-compose down -v
+	${COMPOSE} down -v
 	git clean -fdqx -e .idea
 
 rebuild: clean
-	docker-compose build --no-cache --pull
-	${MAKE}
+	${COMPOSE} build --pull
+	${MAKE} install
+	${MAKE} init
 
 install:
-	${APP-RUN} ${COMPOSER} install
-	${APP-RUN} yarn install
+	${PHP-RUN} composer --no-interaction install
+	${NODE-RUN} yarn install
 
-shell:
-	${APP-RUN} bash
+shell-php:
+	${PHP-DB-RUN} bash
 
-test:
-	${APP-RUN} vendor/bin/phpcs
-	${APP-RUN} node_modules/.bin/standard 'assets/js/**/*.js' '*.js'
-	${APP-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css'
-	${APP-RUN} vendor/bin/phpunit
+shell-node:
+	${NODE-RUN} bash
 
-ci-test: init
+test: start
+	${PHP-RUN} vendor/bin/phpcs
+	${NODE-RUN} node_modules/.bin/standard 'assets/js/**/*.js' '*.js'
+	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css'
+	${PHP-RUN} bin/console lint:yaml config
+	${PHP-RUN} bin/console lint:twig templates
+	${PHP-DB-RUN} vendor/bin/phpunit
+
+test-db: start
+	${PHP-DB-RUN} vendor/bin/phpunit
+
+test-coverage:
+	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage
+
+test-ci:
 	${MAKE} test
-	${APP-RUN} vendor/bin/security-checker security:check
-	${APP-RUN} node_modules/.bin/encore dev
+	${NODE-RUN} node_modules/.bin/encore production
+	${MAKE} test-db
 
-coverage:
-	${APP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage
+ci-build: install
+	${MAKE} test-ci
+	if [ "$${TRAVIS_EVENT_TYPE}" = "cron" ]; then ${MAKE} ci-update; fi
+	${PHP-RUN} bin/console security:check
 
-update:
-	${APP-RUN} ${COMPOSER} update
-	${APP-RUN} yarn upgrade --latest
+ci-update-commit:
+	git config --local user.name "$${GH_NAME}"
+	git config --local user.email "$${GH_EMAIL}"
+	git checkout "$${TRAVIS_BRANCH}"
+	git add -A
+	git commit -m"Update dependencies"
+	git remote add origin-push https://$${GH_USER}:$${GH_TOKEN}@github.com/$${TRAVIS_REPO_SLUG}.git
+	git push --set-upstream origin-push "$${TRAVIS_BRANCH}"
+
+ci-update:
+	${PHP-RUN} composer --no-interaction update
+	${NODE-RUN} yarn upgrade --latest
+	${MAKE} test-ci
+	git diff-index --quiet HEAD || ${MAKE} ci-update-commit
 
 deploy:
 	chmod o-x .
-	composer --no-interaction install --no-dev --optimize-autoloader
+	composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
 	yarn install
 	bin/console cache:clear --no-debug --no-warmup
 	yarn run encore production

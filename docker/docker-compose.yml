@@ -1,0 +1,78 @@
+version: "3.4"
+
+volumes:
+  mariadb-socket:
+  mariadb-data:
+  php-fpm-socket:
+
+services:
+  php:
+    build: php
+    working_dir: /app
+    environment:
+      - HOME=/tmp
+    command: php-fpm -F
+    user: "${UID}:${GID}"
+    volumes:
+      - ../:/app
+      - mariadb-socket:/run/mysqld
+      - php-fpm-socket:/run/php-fpm
+    tmpfs:
+      - /tmp
+    depends_on:
+      - mariadb
+
+  encore:
+    build: node
+    working_dir: /app
+    environment:
+      - HOME=/tmp
+    command: node_modules/.bin/encore dev-server --host 0.0.0.0 --port 8180 --disable-host-check --inline=false
+    user: "${UID}:${GID}"
+    restart: always
+    volumes:
+      - ../:/app
+    tmpfs:
+      - /tmp
+
+  nginx:
+    build: nginx
+    working_dir: /app
+    command: nginx -g "daemon off;"
+    user: "${UID}:${GID}"
+    ports:
+      - "8180:8180"
+    volumes:
+      - ../:/app:ro
+      - php-fpm-socket:/run/php-fpm
+    tmpfs:
+      - /tmp
+      - /var/lib/nginx
+    depends_on:
+      - php
+
+  mariadb:
+    build: mariadb
+    command: mysqld
+    user: mysql
+    network_mode: none
+    volumes:
+      - mariadb-data:/var/lib/mysql
+      - mariadb-socket:/run/mysqld
+    tmpfs:
+      - /tmp
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:4.7.7-1
+    environment:
+      - PMA_HOST=localhost
+      - PMA_USER=root
+      - PMA_PASSWORD=
+    ports:
+      - "8190:80"
+    volumes:
+      - mariadb-socket:/run/mysqld
+    tmpfs:
+      - /tmp
+    depends_on:
+      - mariadb
