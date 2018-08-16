@@ -1,6 +1,5 @@
 const Encore = require('@symfony/webpack-encore')
 const CompressionPlugin = require('compression-webpack-plugin')
-const BrotliPlugin = require('brotli-webpack-plugin')
 
 Encore
   .setOutputPath('public/build/')
@@ -28,7 +27,6 @@ Encore
   })
 
 if (Encore.isProduction()) {
-  Encore.addPlugin(new BrotliPlugin())
   Encore.addPlugin(new CompressionPlugin())
 }
 
