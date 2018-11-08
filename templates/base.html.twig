@@ -7,7 +7,7 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     <title>{% block title %}{% endblock %}{% if block('title') %} - {% endif %}pkgstats</title>
     {% block stylesheets %}
-        <link href="{{ asset('build/css/app.css') }}" rel="stylesheet">
+        {{ encore_entry_link_tags('css/app') }}
     {% endblock %}
     <meta name="robots" content="{% block robots %}index,follow{% endblock %}"/>
     <link rel="canonical" href="{% block canonical %}{{ absolute_url(path(app.request.attributes.get('_route'),
@@ -57,8 +57,7 @@
 </footer>
 
 {% block javascripts %}
-    <script src="{{ asset('build/manifest.js') }}"></script>
-    <script src="{{ asset('build/js/vendor.js') }}"></script>
+    {{ encore_entry_script_tags('js/app') }}
 {% endblock %}
 </body>
 </html>

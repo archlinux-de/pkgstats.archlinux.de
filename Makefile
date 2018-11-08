@@ -56,8 +56,8 @@ test-coverage:
 	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage
 
 test-ci:
-	${MAKE} test
 	${NODE-RUN} node_modules/.bin/encore production
+	${MAKE} test
 
 ci-build: install
 	${MAKE} test-ci
@@ -75,7 +75,7 @@ ci-update-commit:
 
 ci-update:
 	${PHP-RUN} composer --no-interaction update
-	${NODE-RUN} yarn upgrade
+	${NODE-RUN} yarn upgrade --latest
 	${MAKE} test-ci
 	git diff-index --quiet HEAD || ${MAKE} ci-update-commit
 

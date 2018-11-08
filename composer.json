@@ -6,8 +6,8 @@
     "require": {
         "php": "^7.2",
         "ext-apcu": "^5.1",
-        "ext-iconv": "*",
         "ext-ctype": "*",
+        "ext-iconv": "*",
         "ext-mbstring": "*",
         "ext-pdo_mysql": "*",
         "doctrine/doctrine-bundle": "^1.9",
@@ -25,6 +25,7 @@
         "symfony/monolog-bundle": "^3.3",
         "symfony/twig-bundle": "^4.1",
         "symfony/validator": "^4.1",
+        "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "^4.1"
     },
     "require-dev": {
