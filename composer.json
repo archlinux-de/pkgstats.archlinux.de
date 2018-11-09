@@ -21,7 +21,6 @@
         "symfony/expression-language": "^4.1",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "^4.1",
-        "symfony/lts": "^4@dev",
         "symfony/monolog-bundle": "^3.3",
         "symfony/twig-bundle": "^4.1",
         "symfony/validator": "^4.1",
@@ -56,6 +55,7 @@
         }
     },
     "replace": {
+        "paragonie/random_compat": "2.*",
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
         "symfony/polyfill-mbstring": "*",
@@ -81,7 +81,8 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false
+            "allow-contrib": false,
+            "require": "4.1.*"
         }
     }
 }
