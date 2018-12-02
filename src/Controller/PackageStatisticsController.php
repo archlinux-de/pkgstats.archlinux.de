@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
-use Doctrine\DBAL\Query\QueryBuilder;
 use App\Request\Datatables\Request as DatatablesRequest;
 use App\Response\Datatables\Response as DatatablesResponse;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class PackageStatisticsController extends Controller
+class PackageStatisticsController extends AbstractController
 {
     use StatisticsControllerTrait;
 

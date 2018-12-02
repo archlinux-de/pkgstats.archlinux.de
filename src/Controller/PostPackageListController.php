@@ -5,16 +5,16 @@ namespace App\Controller;
 use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
 use Doctrine\DBAL\Driver\Connection;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 
-class PostPackageListController extends Controller
+class PostPackageListController extends AbstractController
 {
     /** @var int */
     private $delay = 86400; // 24 hours

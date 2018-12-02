@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use Doctrine\DBAL\Driver\Statement;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class FunStatisticsController extends Controller
+class FunStatisticsController extends AbstractController
 {
     use StatisticsControllerTrait;
 
@@ -59,127 +59,136 @@ class FunStatisticsController extends Controller
 
         return [
             'total' => $total,
-            'stats' => [[
-                'name' => 'Browsers',
-                'data' => $this->getPackageStatistics(
-                    $stm,
-                    array(
-                        'Mozilla Firefox' => 'firefox',
-                        'Chromium' => 'chromium',
-                        'Konqueror' => ['kdebase-konqueror', 'konqueror'],
-                        'Midori' => 'midori',
-                        'Epiphany' => 'epiphany',
-                        'Opera' => 'opera',
+            'stats' => [
+                [
+                    'name' => 'Browsers',
+                    'data' => $this->getPackageStatistics(
+                        $stm,
+                        array(
+                            'Mozilla Firefox' => 'firefox',
+                            'Chromium' => 'chromium',
+                            'Konqueror' => ['kdebase-konqueror', 'konqueror'],
+                            'Midori' => 'midori',
+                            'Epiphany' => 'epiphany',
+                            'Opera' => 'opera',
+                        )
                     )
-                )
-            ], [
-                'name' => 'Editors',
-                'data' => $this->getPackageStatistics(
-                    $stm,
-                    array(
-                        'Vim' => array(
-                            'vim',
-                            'gvim',
-                        ),
-                        'Emacs' => array(
-                            'emacs',
-                            'xemacs',
-                        ),
-                        'Nano' => 'nano',
-                        'Gedit' => 'gedit',
-                        'Kate' => array('kdesdk-kate', 'kate'),
-                        'Kwrite' => array('kdebase-kwrite', 'kwrite'),
-                        'Vi' => 'vi',
-                        'Mousepad' => 'mousepad',
-                        'Leafpad' => 'leafpad',
-                        'Geany' => 'geany',
-                        'Pluma' => 'pluma',
+                ],
+                [
+                    'name' => 'Editors',
+                    'data' => $this->getPackageStatistics(
+                        $stm,
+                        array(
+                            'Vim' => array(
+                                'vim',
+                                'gvim',
+                            ),
+                            'Emacs' => array(
+                                'emacs',
+                                'xemacs',
+                            ),
+                            'Nano' => 'nano',
+                            'Gedit' => 'gedit',
+                            'Kate' => array('kdesdk-kate', 'kate'),
+                            'Kwrite' => array('kdebase-kwrite', 'kwrite'),
+                            'Vi' => 'vi',
+                            'Mousepad' => 'mousepad',
+                            'Leafpad' => 'leafpad',
+                            'Geany' => 'geany',
+                            'Pluma' => 'pluma',
+                        )
                     )
-                )
-            ], [
-                'name' => 'Desktop Environments',
-                'data' => $this->getPackageStatistics(
-                    $stm,
-                    array(
-                        'KDE SC' => array('kdebase-workspace', 'plasma-workspace', 'plasma-desktop'),
-                        'GNOME' => 'gnome-shell',
-                        'LXDE' => 'lxde-common',
-                        'Xfce' => 'xfdesktop',
-                        'Enlightenment' => array('enlightenment', 'enlightenment16'),
-                        'MATE' => 'mate-panel',
-                        'Cinnamon' => 'cinnamon',
+                ],
+                [
+                    'name' => 'Desktop Environments',
+                    'data' => $this->getPackageStatistics(
+                        $stm,
+                        array(
+                            'KDE SC' => array('kdebase-workspace', 'plasma-workspace', 'plasma-desktop'),
+                            'GNOME' => 'gnome-shell',
+                            'LXDE' => 'lxde-common',
+                            'Xfce' => 'xfdesktop',
+                            'Enlightenment' => array('enlightenment', 'enlightenment16'),
+                            'MATE' => 'mate-panel',
+                            'Cinnamon' => 'cinnamon',
+                        )
                     )
-                )
-            ], [
-                'name' => 'File Managers',
-                'data' => $this->getPackageStatistics(
-                    $stm,
-                    array(
-                        'Dolphin' => ['kdebase-dolphin', 'dolphin'],
-                        'Konqueror' => ['kdebase-konqueror', 'konqueror'],
-                        'MC' => 'mc',
-                        'Nautilus' => 'nautilus',
-                        'Pcmanfm' => 'pcmanfm',
-                        'Thunar' => 'thunar',
-                        'Caja' => 'caja',
+                ],
+                [
+                    'name' => 'File Managers',
+                    'data' => $this->getPackageStatistics(
+                        $stm,
+                        array(
+                            'Dolphin' => ['kdebase-dolphin', 'dolphin'],
+                            'Konqueror' => ['kdebase-konqueror', 'konqueror'],
+                            'MC' => 'mc',
+                            'Nautilus' => 'nautilus',
+                            'Pcmanfm' => 'pcmanfm',
+                            'Thunar' => 'thunar',
+                            'Caja' => 'caja',
+                        )
                     )
-                )
-            ], [
-                'name' => 'Window Managers',
-                'data' => $this->getPackageStatistics(
-                    $stm,
-                    array(
-                        'Openbox' => 'openbox',
-                        'Fluxbox' => 'fluxbox',
-                        'I3' => 'i3-wm',
-                        'awesome' => 'awesome',
+                ],
+                [
+                    'name' => 'Window Managers',
+                    'data' => $this->getPackageStatistics(
+                        $stm,
+                        array(
+                            'Openbox' => 'openbox',
+                            'Fluxbox' => 'fluxbox',
+                            'I3' => 'i3-wm',
+                            'awesome' => 'awesome',
+                        )
                     )
-                )
-            ], [
-                'name' => 'Media Players',
-                'data' => $this->getPackageStatistics(
-                    $stm,
-                    array(
-                        'Mplayer' => 'mplayer',
-                        'Xine' => 'xine-lib',
-                        'VLC' => 'vlc',
+                ],
+                [
+                    'name' => 'Media Players',
+                    'data' => $this->getPackageStatistics(
+                        $stm,
+                        array(
+                            'Mplayer' => 'mplayer',
+                            'Xine' => 'xine-lib',
+                            'VLC' => 'vlc',
+                        )
                     )
-                )
-            ], [
-                'name' => 'Shells',
-                'data' => $this->getPackageStatistics(
-                    $stm,
-                    array(
-                        'Bash' => 'bash',
-                        'Dash' => 'dash',
-                        'Zsh' => 'zsh',
-                        'Fish' => 'fish',
-                        'Tcsh' => 'tcsh',
+                ],
+                [
+                    'name' => 'Shells',
+                    'data' => $this->getPackageStatistics(
+                        $stm,
+                        array(
+                            'Bash' => 'bash',
+                            'Dash' => 'dash',
+                            'Zsh' => 'zsh',
+                            'Fish' => 'fish',
+                            'Tcsh' => 'tcsh',
+                        )
                     )
-                )
-            ], [
-                'name' => 'Graphic Chipsets',
-                'data' => $this->getPackageStatistics(
-                    $stm,
-                    array(
-                        'ATI' => array(
-                            'xf86-video-ati',
-                            'xf86-video-r128',
-                            'xf86-video-mach64',
-                        ),
-                        'NVIDIA' => array(
-                            'nvidia-304xx-utils',
-                            'nvidia-utils',
-                            'xf86-video-nouveau',
-                            'xf86-video-nv',
-                        ),
-                        'Intel' => array(
-                            'xf86-video-intel',
-                            'xf86-video-i740',
-                        ),
+                ],
+                [
+                    'name' => 'Graphic Chipsets',
+                    'data' => $this->getPackageStatistics(
+                        $stm,
+                        array(
+                            'ATI' => array(
+                                'xf86-video-ati',
+                                'xf86-video-r128',
+                                'xf86-video-mach64',
+                            ),
+                            'NVIDIA' => array(
+                                'nvidia-304xx-utils',
+                                'nvidia-utils',
+                                'xf86-video-nouveau',
+                                'xf86-video-nv',
+                            ),
+                            'Intel' => array(
+                                'xf86-video-intel',
+                                'xf86-video-i740',
+                            ),
+                        )
                     )
-                )
-            ]]
+                ]
+            ]
         ];
     }
 
