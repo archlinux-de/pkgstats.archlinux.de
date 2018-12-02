@@ -4,6 +4,7 @@ namespace App\Tests\Request\ParamConverter;
 
 use App\Request\Datatables\Request as DatatablesRequest;
 use App\Request\ParamConverter\DatatablesRequestParamConverter;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
@@ -16,10 +17,10 @@ class DatatablesRequestParamConverterTest extends TestCase
     /** @var ParamConverterInterface */
     private $paramConverter;
 
-    /** @var ValidatorInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ValidatorInterface|MockObject */
     private $validator;
 
-    /** @var ParamConverter|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ParamConverter|MockObject */
     private $configuration;
 
     public function setUp()
@@ -45,7 +46,7 @@ class DatatablesRequestParamConverterTest extends TestCase
 
     private function configureValidator(int $errors): void
     {
-        /** @var ConstraintViolationList|\PHPUnit_Framework_MockObject_MockObject $constraintViolationList */
+        /** @var ConstraintViolationList|MockObject $constraintViolationList */
         $constraintViolationList = $this->createMock(ConstraintViolationList::class);
         $constraintViolationList->method('count')->willReturn($errors);
 

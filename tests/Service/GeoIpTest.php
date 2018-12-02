@@ -4,14 +4,15 @@ namespace App\Tests\Service;
 
 use App\Service\GeoIp;
 use MaxMind\Db\Reader;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 class GeoIpTest extends TestCase
 {
-    /** @var Reader|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var Reader|MockObject */
     private $reader;
-    /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var LoggerInterface|MockObject */
     private $logger;
     /** @var GeoIp */
     private $geoIp;
