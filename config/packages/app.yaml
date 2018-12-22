@@ -1,0 +1,59 @@
+parameters:
+    app.range_months: 3
+    app.post.delay: 86400
+    app.post.max_count: 10
+    app.fun:
+        Browsers:
+            Mozilla Firefox: firefox
+            Chromium: chromium
+            Konqueror: [kdebase-konqueror, konqueror]
+            Midori: midori
+            Epiphany: epiphany
+            Opera: opera
+        Editors:
+            Vim: [vim, gvim]
+            Emacs: [emacs, xemacs]
+            Nano: nano
+            Gedit: gedit
+            Kate: [kdesdk-kate, kate]
+            Kwrite: [kdebase-kwrite, kwrite]
+            Vi: vi
+            Mousepad: mousepad
+            Leafpad: leafpad
+            Geany: geany
+            Pluma: pluma
+        Desktop Environments:
+            KDE SC: [kdebase-workspace, plasma-workspace, plasma-desktop]
+            GNOME: gnome-shell
+            LXDE: lxde-common
+            Xfce: xfdesktop
+            Enlightenment: [enlightenment, enlightenment16]
+            MATE: mate-panel
+            Cinnamon: cinnamon
+        File Managers:
+            Dolphin: [kdebase-dolphin, dolphin]
+            Konqueror: [kdebase-konqueror, konqueror]
+            MC: mc
+            Nautilus: nautilus
+            Pcmanfm: pcmanfm
+            Thunar: thunar
+            Caja: caja
+        Window Managers:
+            Openbox: openbox
+            Fluxbox: fluxbox
+            I3: i3-wm
+            awesome: awesome
+        Media Players:
+            Mplayer: mplayer
+            Xine: xine-lib
+            VLC: vlc
+        Shells:
+            Bash: bash
+            Dash: dash
+            Zsh: zsh
+            Fish: fish
+            Tcsh: tcsh
+        Graphic Chipsets:
+            ATI: [xf86-video-ati, xf86-video-r128, xf86-video-mach64]
+            NVIDIA: [nvidia-304xx-utils, nvidia-utils, xf86-video-nouveau, xf86-video-nv]
+            Intel: [xf86-video-intel, xf86-video-i740]

@@ -13,27 +13,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class FunStatisticsController extends AbstractController
 {
     /** @var int */
-    private $rangeMonths = 3;
+    private $rangeMonths;
     /** @var CacheItemPoolInterface */
     private $cache;
     /** @var PackageRepository */
     private $packageRepository;
     /** @var UserRepository */
     private $userRepository;
+    /** @var array */
+    private $funConfiguration;
 
     /**
+     * @param int $rangeMonths
      * @param CacheItemPoolInterface $cache
      * @param PackageRepository $packageRepository
      * @param UserRepository $userRepository
+     * @param array $funConfiguration
      */
     public function __construct(
+        int $rangeMonths,
         CacheItemPoolInterface $cache,
         PackageRepository $packageRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        array $funConfiguration
     ) {
+        $this->rangeMonths = $rangeMonths;
         $this->cache = $cache;
         $this->packageRepository = $packageRepository;
         $this->userRepository = $userRepository;
+        $this->funConfiguration = $funConfiguration;
     }
 
     /**
@@ -58,135 +66,22 @@ class FunStatisticsController extends AbstractController
         return $this->render('fun.html.twig', $data);
     }
 
+    /**
+     * @return array
+     */
     private function getData(): array
     {
         $total = $this->userRepository->getCountSince($this->getRangeTime());
 
-        return [
-            'total' => $total,
-            'stats' => [
-                [
-                    'name' => 'Browsers',
-                    'data' => $this->getPackageStatistics(
-                        [
-                            'Mozilla Firefox' => 'firefox',
-                            'Chromium' => 'chromium',
-                            'Konqueror' => ['kdebase-konqueror', 'konqueror'],
-                            'Midori' => 'midori',
-                            'Epiphany' => 'epiphany',
-                            'Opera' => 'opera',
-                        ]
-                    )
-                ],
-                [
-                    'name' => 'Editors',
-                    'data' => $this->getPackageStatistics(
-                        [
-                            'Vim' => [
-                                'vim',
-                                'gvim',
-                            ],
-                            'Emacs' => [
-                                'emacs',
-                                'xemacs',
-                            ],
-                            'Nano' => 'nano',
-                            'Gedit' => 'gedit',
-                            'Kate' => ['kdesdk-kate', 'kate'],
-                            'Kwrite' => ['kdebase-kwrite', 'kwrite'],
-                            'Vi' => 'vi',
-                            'Mousepad' => 'mousepad',
-                            'Leafpad' => 'leafpad',
-                            'Geany' => 'geany',
-                            'Pluma' => 'pluma',
-                        ]
-                    )
-                ],
-                [
-                    'name' => 'Desktop Environments',
-                    'data' => $this->getPackageStatistics(
-                        [
-                            'KDE SC' => ['kdebase-workspace', 'plasma-workspace', 'plasma-desktop'],
-                            'GNOME' => 'gnome-shell',
-                            'LXDE' => 'lxde-common',
-                            'Xfce' => 'xfdesktop',
-                            'Enlightenment' => ['enlightenment', 'enlightenment16'],
-                            'MATE' => 'mate-panel',
-                            'Cinnamon' => 'cinnamon',
-                        ]
-                    )
-                ],
-                [
-                    'name' => 'File Managers',
-                    'data' => $this->getPackageStatistics(
-                        [
-                            'Dolphin' => ['kdebase-dolphin', 'dolphin'],
-                            'Konqueror' => ['kdebase-konqueror', 'konqueror'],
-                            'MC' => 'mc',
-                            'Nautilus' => 'nautilus',
-                            'Pcmanfm' => 'pcmanfm',
-                            'Thunar' => 'thunar',
-                            'Caja' => 'caja',
-                        ]
-                    )
-                ],
-                [
-                    'name' => 'Window Managers',
-                    'data' => $this->getPackageStatistics(
-                        [
-                            'Openbox' => 'openbox',
-                            'Fluxbox' => 'fluxbox',
-                            'I3' => 'i3-wm',
-                            'awesome' => 'awesome',
-                        ]
-                    )
-                ],
-                [
-                    'name' => 'Media Players',
-                    'data' => $this->getPackageStatistics(
-                        [
-                            'Mplayer' => 'mplayer',
-                            'Xine' => 'xine-lib',
-                            'VLC' => 'vlc',
-                        ]
-                    )
-                ],
-                [
-                    'name' => 'Shells',
-                    'data' => $this->getPackageStatistics(
-                        [
-                            'Bash' => 'bash',
-                            'Dash' => 'dash',
-                            'Zsh' => 'zsh',
-                            'Fish' => 'fish',
-                            'Tcsh' => 'tcsh',
-                        ]
-                    )
-                ],
-                [
-                    'name' => 'Graphic Chipsets',
-                    'data' => $this->getPackageStatistics(
-                        [
-                            'ATI' => [
-                                'xf86-video-ati',
-                                'xf86-video-r128',
-                                'xf86-video-mach64',
-                            ],
-                            'NVIDIA' => [
-                                'nvidia-304xx-utils',
-                                'nvidia-utils',
-                                'xf86-video-nouveau',
-                                'xf86-video-nv',
-                            ],
-                            'Intel' => [
-                                'xf86-video-intel',
-                                'xf86-video-i740',
-                            ],
-                        ]
-                    )
-                ]
-            ]
-        ];
+        $stats = [];
+        foreach ($this->funConfiguration as $funCategory => $funPackages) {
+            $stats[] = [
+                'name' => $funCategory,
+                'data' => $this->getPackageStatistics($funPackages)
+            ];
+        }
+
+        return ['total' => $total, 'stats' => $stats];
     }
 
     /**

@@ -21,9 +21,9 @@ use Symfony\Component\Routing\RouterInterface;
 class PostPackageListController extends AbstractController
 {
     /** @var int */
-    private $delay = 86400; // 24 hours
+    private $delay;
     /** @var int */
-    private $count = 10;
+    private $count;
     /** @var bool */
     private $quiet = false;
     /** @var RouterInterface */
@@ -38,6 +38,8 @@ class PostPackageListController extends AbstractController
     private $entityManager;
 
     /**
+     * @param int $delay
+     * @param int $count
      * @param RouterInterface $router
      * @param GeoIp $geoIp
      * @param ClientIdGenerator $clientIdGenerator
@@ -45,12 +47,16 @@ class PostPackageListController extends AbstractController
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
+        int $delay,
+        int $count,
         RouterInterface $router,
         GeoIp $geoIp,
         ClientIdGenerator $clientIdGenerator,
         UserRepository $userRepository,
         EntityManagerInterface $entityManager
     ) {
+        $this->delay = $delay;
+        $this->count = $count;
         $this->router = $router;
         $this->geoIp = $geoIp;
         $this->clientIdGenerator = $clientIdGenerator;
@@ -207,14 +213,5 @@ class PostPackageListController extends AbstractController
                 'You already submitted your data ' . $this->count . ' times.'
             );
         }
-    }
-
-    /**
-     * @param int $timestamp
-     * @return string
-     */
-    private function createGmDateTime($timestamp): string
-    {
-        return gmdate('Y-m-d H:i', $timestamp);
     }
 }

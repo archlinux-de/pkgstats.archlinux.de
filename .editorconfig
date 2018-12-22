@@ -10,7 +10,7 @@ trim_trailing_whitespace = true
 [Makefile]
 indent_style = tab
 
-[{*.php,config/*.yaml}]
+[*.{php,yaml}]
 indent_size = 4
 
 [*.{js,css,scss,json,yml}]

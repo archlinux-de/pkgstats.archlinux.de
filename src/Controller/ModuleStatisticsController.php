@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ModuleStatisticsController extends AbstractController
 {
     /** @var int */
-    private $rangeMonths = 3;
+    private $rangeMonths;
 
     /** @var CacheItemPoolInterface */
     private $cache;
@@ -28,15 +28,18 @@ class ModuleStatisticsController extends AbstractController
     private $userRepository;
 
     /**
+     * @param int $rangeMonths
      * @param CacheItemPoolInterface $cache
      * @param ModuleRepository $moduleRepository
      * @param UserRepository $userRepository
      */
     public function __construct(
+        int $rangeMonths,
         CacheItemPoolInterface $cache,
         ModuleRepository $moduleRepository,
         UserRepository $userRepository
     ) {
+        $this->rangeMonths = $rangeMonths;
         $this->cache = $cache;
         $this->moduleRepository = $moduleRepository;
         $this->userRepository = $userRepository;
