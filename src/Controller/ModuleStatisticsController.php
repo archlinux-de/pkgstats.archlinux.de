@@ -154,7 +154,7 @@ class ModuleStatisticsController extends AbstractController
         $compareableColumns = [
         ];
         $textSearchableColumns = [
-            'name' => 'name'
+            'name' => 'module.name'
         ];
         $searchableColumns = array_merge(
             $compareableColumns,

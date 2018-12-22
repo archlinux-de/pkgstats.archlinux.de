@@ -154,7 +154,7 @@ class PackageStatisticsController extends AbstractController
         $compareableColumns = [
         ];
         $textSearchableColumns = [
-            'pkgname' => 'pkgname'
+            'pkgname' => 'package.pkgname'
         ];
         $searchableColumns = array_merge(
             $compareableColumns,
