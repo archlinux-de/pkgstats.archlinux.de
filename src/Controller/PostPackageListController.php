@@ -77,14 +77,7 @@ class PostPackageListController extends AbstractController
             str_replace('pkgstats/', '', $request->server->get('HTTP_USER_AGENT'))
         );
 
-        if (!in_array($pkgstatsver, [
-            '1.0',
-            '2.0',
-            '2.1',
-            '2.2',
-            '2.3',
-        ])
-        ) {
+        if (!in_array($pkgstatsver, ['1.0', '2.0', '2.1', '2.2', '2.3'])) {
             throw new BadRequestHttpException('Sorry, your version of pkgstats is not supported.');
         }
 
@@ -111,19 +104,10 @@ class PostPackageListController extends AbstractController
         } elseif (empty($mirror)) {
             $mirror = null;
         }
-        if (!in_array($arch, [
-            'i686',
-            'x86_64',
-        ])
-        ) {
+        if (!in_array($arch, ['i686', 'x86_64'])) {
             throw new BadRequestHttpException($arch . ' is not a known architecture.');
         }
-        if (!in_array($cpuArch, [
-            'i686',
-            'x86_64',
-            '',
-        ])
-        ) {
+        if (!in_array($cpuArch, ['i686', 'x86_64', ''])) {
             throw new BadRequestHttpException($cpuArch . ' is not a known architecture.');
         }
         if ($cpuArch == '') {

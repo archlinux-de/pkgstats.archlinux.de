@@ -74,7 +74,11 @@ class PackageStatisticsController extends AbstractController
                 ->where('package.month >= :month')
                 ->setParameter('month', $this->getRangeYearMonth())
                 ->groupBy('package.pkgname');
-            $packages = $queryBuilder->getQuery()->getResult();
+            $packages = $queryBuilder->getQuery()->getScalarResult();
+
+            array_walk($packages, function (&$item) {
+                $item['count'] = (int)$item['count'];
+            });
 
             $cachedPackages->expiresAt(new \DateTime('24 hour'));
             $cachedPackages->set($packages);
@@ -206,6 +210,10 @@ class PackageStatisticsController extends AbstractController
         $pagination = new Paginator($queryBuilder, false);
         $pkgstatsFiltered = $pagination->count();
         $packages = $pagination->getQuery()->getScalarResult();
+
+        array_walk($packages, function (&$item) {
+            $item['count'] = (int)$item['count'];
+        });
 
         $response = new DatatablesResponse($packages);
         $response->setRecordsFiltered($pkgstatsFiltered);

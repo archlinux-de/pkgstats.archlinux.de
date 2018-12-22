@@ -74,7 +74,11 @@ class ModuleStatisticsController extends AbstractController
                 ->where('module.month >= :month')
                 ->setParameter('month', $this->getRangeYearMonth())
                 ->groupBy('module.name');
-            $modules = $queryBuilder->getQuery()->getResult();
+            $modules = $queryBuilder->getQuery()->getScalarResult();
+
+            array_walk($modules, function (&$item) {
+                $item['count'] = (int)$item['count'];
+            });
 
             $cachedModules->expiresAt(new \DateTime('24 hour'));
             $cachedModules->set($modules);
@@ -206,6 +210,10 @@ class ModuleStatisticsController extends AbstractController
         $pagination = new Paginator($queryBuilder, false);
         $modulesFiltered = $pagination->count();
         $modules = $pagination->getQuery()->getScalarResult();
+
+        array_walk($modules, function (&$item) {
+            $item['count'] = (int)$item['count'];
+        });
 
         $response = new DatatablesResponse($modules);
         $response->setRecordsFiltered($modulesFiltered);
