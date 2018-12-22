@@ -36,3 +36,15 @@ services:
             - '%geoip.database%'
 
     geertw\IpAnonymizer\IpAnonymizer:
+
+    App\Repository\PackageRepository:
+        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
+        arguments: ['\App\Entity\Package']
+
+    App\Repository\UserRepository:
+        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
+        arguments: ['\App\Entity\User']
+
+    App\Repository\ModuleRepository:
+        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
+        arguments: ['\App\Entity\Module']

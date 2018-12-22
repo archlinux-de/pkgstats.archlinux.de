@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Repository\PackageRepository;
+use App\Repository\UserRepository;
 use App\Request\Datatables\Request as DatatablesRequest;
 use App\Response\Datatables\Response as DatatablesResponse;
-use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Psr\Cache\CacheItemPoolInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +15,32 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PackageStatisticsController extends AbstractController
 {
-    use StatisticsControllerTrait;
+    /** @var int */
+    private $rangeMonths = 3;
+
+    /** @var CacheItemPoolInterface */
+    private $cache;
+
+    /** @var PackageRepository */
+    private $packageRepository;
+
+    /** @var UserRepository */
+    private $userRepository;
+
+    /**
+     * @param CacheItemPoolInterface $cache
+     * @param PackageRepository $packageRepository
+     * @param UserRepository $userRepository
+     */
+    public function __construct(
+        CacheItemPoolInterface $cache,
+        PackageRepository $packageRepository,
+        UserRepository $userRepository
+    ) {
+        $this->cache = $cache;
+        $this->packageRepository = $packageRepository;
+        $this->userRepository = $userRepository;
+    }
 
     /**
      * @Route("/package", methods={"GET"})
@@ -34,21 +62,16 @@ class PackageStatisticsController extends AbstractController
     {
         $cachedPackages = $this->cache->getItem('pkgstats.json');
         if ($cachedPackages->isHit()) {
-            /** @var DatatablesResponse $response */
             $packages = $cachedPackages->get();
         } else {
-            $connection = $this->getDoctrine()->getConnection();
-            /** @var QueryBuilder $queryBuilder */
-            $queryBuilder = $connection->createQueryBuilder();
-            $queryBuilder
-                ->select([
-                    'pkgname',
-                    'SUM(count) AS count'
-                ])
-                ->from('package')
-                ->where('month >= ' . $this->getRangeYearMonth())
-                ->groupBy('pkgname');
-            $packages = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);
+            $queryBuilder = $this->packageRepository
+                ->createQueryBuilder('package')
+                ->select('package.pkgname AS pkgname')
+                ->addSelect('SUM(package.count) AS count')
+                ->where('package.month >= :month')
+                ->setParameter('month', $this->getRangeYearMonth())
+                ->groupBy('package.pkgname');
+            $packages = $queryBuilder->getQuery()->getResult();
 
             $cachedPackages->expiresAt(new \DateTime('24 hour'));
             $cachedPackages->set($packages);
@@ -59,12 +82,40 @@ class PackageStatisticsController extends AbstractController
     }
 
     /**
+     * @return string
+     */
+    private function getRangeYearMonth(): string
+    {
+        return date('Ym', $this->getRangeTime());
+    }
+
+    /**
+     * @return int
+     */
+    private function getRangeTime(): int
+    {
+        return strtotime(date('1-m-Y', strtotime('now -' . $this->rangeMonths . ' months')));
+    }
+
+    /**
      * @Route("/package/datatables", methods={"GET"})
      * @param DatatablesRequest $request
      * @return Response
      * @throws \Psr\Cache\InvalidArgumentException
      */
     public function datatablesAction(DatatablesRequest $request): Response
+    {
+        $response = $this->createDatatablesResponse($request);
+
+        return $this->json($response);
+    }
+
+    /**
+     * @param DatatablesRequest $request
+     * @return DatatablesResponse
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    private function createDatatablesResponse(DatatablesRequest $request): DatatablesResponse
     {
         $cachedResponse = $this->cache->getItem($request->getId());
         if ($cachedResponse->isHit()) {
@@ -80,38 +131,11 @@ class PackageStatisticsController extends AbstractController
             }
         }
 
-        $cachedPkgstatsCount = $this->cache->getItem('pkgstats.count');
-        if ($cachedPkgstatsCount->isHit()) {
-            /** @var int $pkgstatsCount */
-            $pkgstatsCount = $cachedPkgstatsCount->get();
-        } else {
-//            $pkgstatsCount = $this->getDoctrine()->getConnection()->createQueryBuilder()
-//                ->select('DISTINCT pkgname')
-//                ->from('package')
-//                ->where('month >= ' . $this->getRangeYearMonth())
-//                ->execute()
-//                ->rowCount();
-            $pkgstatsCount = $this->getDoctrine()->getConnection()->createQueryBuilder()
-                ->select('COUNT(*)')
-                ->from('user')
-                ->where('time >= ' . $this->getRangeTime())
-                ->execute()
-                ->fetchColumn();
-            $cachedPkgstatsCount->expiresAt(new \DateTime('24 hour'));
-            $cachedPkgstatsCount->set($pkgstatsCount);
-            $this->cache->save($cachedPkgstatsCount);
-        }
+        $pkgstatsCount = $this->calculatePkgstatsCount();
 
         $response->setRecordsTotal($pkgstatsCount);
         $response->setDraw($request->getDraw());
-
-        return $this->json(
-            $response,
-            Response::HTTP_OK,
-            [
-                'X-Cache-App' => $cachedResponse->isHit() ? 'HIT' : 'MISS'
-            ]
-        );
+        return $response;
     }
 
     /**
@@ -122,11 +146,12 @@ class PackageStatisticsController extends AbstractController
     {
         $compareableColumns = [
         ];
+        $textSearchableColumns = [
+            'pkgname' => 'pkgname'
+        ];
         $searchableColumns = array_merge(
             $compareableColumns,
-            [
-                'pkgname' => 'pkgname'
-            ]
+            $textSearchableColumns
         );
         $orderableColumns = array_merge(
             $compareableColumns,
@@ -135,29 +160,25 @@ class PackageStatisticsController extends AbstractController
             ]
         );
 
-        $connection = $this->getDoctrine()->getConnection();
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = $connection->createQueryBuilder();
-        $queryBuilder
-            ->select([
-                'SQL_CALC_FOUND_ROWS pkgname AS pkgname',
-                'SUM(count) AS count'
-            ])
-            ->from('package')
-            ->where('month >= ' . $this->getRangeYearMonth())
-            ->groupBy('pkgname')
+        $queryBuilder = $this->packageRepository
+            ->createQueryBuilder('package')
+            ->select('package.pkgname AS pkgname')
+            ->addSelect('SUM(package.count) AS count')
+            ->where('package.month >= :month')
+            ->setParameter('month', $this->getRangeYearMonth())
+            ->groupBy('package.pkgname')
             ->setFirstResult($request->getStart())
             ->setMaxResults($request->getLength());
 
         foreach ($request->getOrders() as $order) {
             $orderColumnName = $order->getColumn()->getData();
             if (isset($orderableColumns[$orderColumnName])) {
-                $queryBuilder->orderBy($orderColumnName, $order->getDir());
+                $queryBuilder->orderBy($orderableColumns[$orderColumnName], $order->getDir());
             }
         }
 
         if ($request->hasSearch() && !$request->getSearch()->isRegex()) {
-            $queryBuilder->andWhere('pkgname LIKE :search');
+            $queryBuilder->andWhere($this->createTextSearchQuery($textSearchableColumns));
             $queryBuilder->setParameter(':search', '%' . $request->getSearch()->getValue() . '%');
         }
 
@@ -179,14 +200,53 @@ class PackageStatisticsController extends AbstractController
             }
         }
 
-        $packages = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);
-
-        $pkgstatsFiltered = $connection->createQueryBuilder()
-            ->select('FOUND_ROWS()')->execute()->fetchColumn();
+        $pagination = new Paginator($queryBuilder, false);
+        $pkgstatsFiltered = $pagination->count();
+        $packages = $pagination->getQuery()->getScalarResult();
 
         $response = new DatatablesResponse($packages);
         $response->setRecordsFiltered($pkgstatsFiltered);
 
         return $response;
+    }
+
+    /**
+     * @param $textSearchableColumns
+     * @return string
+     */
+    private function createTextSearchQuery($textSearchableColumns): string
+    {
+        $textSearchesArray = iterator_to_array($this->createTextSearchesIterator($textSearchableColumns));
+        return '(' . implode(' OR ', $textSearchesArray) . ')';
+    }
+
+    /**
+     * @param $textSearchableColumns
+     * @return \Iterator
+     */
+    private function createTextSearchesIterator($textSearchableColumns): \Iterator
+    {
+        foreach ($textSearchableColumns as $textSearchableColumn) {
+            yield $textSearchableColumn . ' LIKE :search';
+        }
+    }
+
+    /**
+     * @return int
+     */
+    private function calculatePkgstatsCount(): int
+    {
+        $cachedPackageCount = $this->cache->getItem('pkgstats.count');
+        if ($cachedPackageCount->isHit()) {
+            /** @var int $packageCount */
+            $packageCount = $cachedPackageCount->get();
+        } else {
+            $packageCount = $this->userRepository->getCountSince($this->getRangeTime());
+
+            $cachedPackageCount->expiresAt(new \DateTime('24 hour'));
+            $cachedPackageCount->set($packageCount);
+            $this->cache->save($cachedPackageCount);
+        }
+        return $packageCount;
     }
 }

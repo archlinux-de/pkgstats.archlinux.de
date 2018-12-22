@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Module;
+use App\Entity\Package;
+use App\Entity\User;
+use App\Repository\UserRepository;
 use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
-use Doctrine\DBAL\Driver\Connection;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,31 +26,36 @@ class PostPackageListController extends AbstractController
     private $count = 10;
     /** @var bool */
     private $quiet = false;
-    /** @var Connection */
-    private $database;
     /** @var RouterInterface */
     private $router;
     /** @var GeoIp */
     private $geoIp;
     /** @var ClientIdGenerator */
     private $clientIdGenerator;
+    /** @var UserRepository */
+    private $userRepository;
+    /** @var EntityManagerInterface */
+    private $entityManager;
 
     /**
-     * @param Connection $connection
      * @param RouterInterface $router
      * @param GeoIp $geoIp
      * @param ClientIdGenerator $clientIdGenerator
+     * @param UserRepository $userRepository
+     * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        Connection $connection,
         RouterInterface $router,
         GeoIp $geoIp,
-        ClientIdGenerator $clientIdGenerator
+        ClientIdGenerator $clientIdGenerator,
+        UserRepository $userRepository,
+        EntityManagerInterface $entityManager
     ) {
-        $this->database = $connection;
         $this->router = $router;
         $this->geoIp = $geoIp;
         $this->clientIdGenerator = $clientIdGenerator;
+        $this->userRepository = $userRepository;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -62,24 +71,24 @@ class PostPackageListController extends AbstractController
             str_replace('pkgstats/', '', $request->server->get('HTTP_USER_AGENT'))
         );
 
-        if (!in_array($pkgstatsver, array(
+        if (!in_array($pkgstatsver, [
             '1.0',
             '2.0',
             '2.1',
             '2.2',
             '2.3',
-        ))
+        ])
         ) {
             throw new BadRequestHttpException('Sorry, your version of pkgstats is not supported.');
         }
 
         $packages = array_unique(explode("\n", trim($request->request->get('packages'))));
         $packageCount = count($packages);
-        if (in_array($pkgstatsver, array('2.2', '2.3'))) {
+        if (in_array($pkgstatsver, ['2.2', '2.3'])) {
             $modules = array_unique(explode("\n", trim($request->request->get('modules'))));
             $moduleCount = count($modules);
         } else {
-            $modules = array();
+            $modules = [];
             $moduleCount = null;
         }
         $arch = $request->request->get('arch');
@@ -96,18 +105,18 @@ class PostPackageListController extends AbstractController
         } elseif (empty($mirror)) {
             $mirror = null;
         }
-        if (!in_array($arch, array(
+        if (!in_array($arch, [
             'i686',
             'x86_64',
-        ))
+        ])
         ) {
             throw new BadRequestHttpException($arch . ' is not a known architecture.');
         }
-        if (!in_array($cpuArch, array(
+        if (!in_array($cpuArch, [
             'i686',
             'x86_64',
             '',
-        ))
+        ])
         ) {
             throw new BadRequestHttpException($cpuArch . ' is not a known architecture.');
         }
@@ -140,62 +149,36 @@ class PostPackageListController extends AbstractController
             $countryCode = null;
         }
         try {
-            $this->database->beginTransaction();
-            $stm = $this->database->prepare('
-            INSERT INTO
-                `user`
-            SET
-                ip = :ip,
-                time = :time,
-                arch = :arch,
-                cpuarch = :cpuarch,
-                countryCode = :countryCode,
-                mirror = :mirror,
-                packages = :packages,
-                modules = :modules
-            ');
-            $stm->bindValue('ip', $this->clientIdGenerator->createClientId($clientIp), \PDO::PARAM_STR);
-            $stm->bindValue('time', time(), \PDO::PARAM_INT);
-            $stm->bindParam('arch', $arch, \PDO::PARAM_STR);
-            $stm->bindParam('cpuarch', $cpuArch, \PDO::PARAM_STR);
-            $stm->bindParam('countryCode', $countryCode, \PDO::PARAM_STR);
-            $stm->bindParam('mirror', $mirror, \PDO::PARAM_STR);
-            $stm->bindParam('packages', $packageCount, \PDO::PARAM_INT);
-            $stm->bindParam('modules', $moduleCount, \PDO::PARAM_INT);
-            $stm->execute();
-            $stm = $this->database->prepare('
-            INSERT INTO
-                package
-            SET
-                pkgname = :pkgname,
-                month = :month,
-                count = 1
-            ON DUPLICATE KEY UPDATE
-                count = count + 1
-            ');
+            $this->entityManager->beginTransaction();
+            $user = (new User())
+                ->setIp($this->clientIdGenerator->createClientId($clientIp))
+                ->setTime(time())
+                ->setArch($arch)
+                ->setCpuarch($cpuArch)
+                ->setCountrycode($countryCode)
+                ->setMirror($mirror)
+                ->setPackages($packageCount)
+                ->setModules($moduleCount);
+            $this->entityManager->persist($user);
+
             foreach ($packages as $package) {
-                $stm->bindValue('pkgname', $package, \PDO::PARAM_STR);
-                $stm->bindValue('month', date('Ym', time()), \PDO::PARAM_INT);
-                $stm->execute();
+                $packageEntity = (new Package())
+                    ->setPkgname($package)
+                    ->setMonth(date('Ym', time()));
+                $this->entityManager->merge($packageEntity);
             }
-            $stm = $this->database->prepare('
-            INSERT INTO
-                module
-            SET
-                name = :module,
-                month = :month,
-                count = 1
-            ON DUPLICATE KEY UPDATE
-                count = count + 1
-            ');
+
             foreach ($modules as $module) {
-                $stm->bindParam('module', $module, \PDO::PARAM_STR);
-                $stm->bindValue('month', date('Ym', time()), \PDO::PARAM_INT);
-                $stm->execute();
+                $moduleEntity = (new Module())
+                    ->setName($module)
+                    ->setMonth(date('Ym', time()));
+                $this->entityManager->merge($moduleEntity);
             }
-            $this->database->commit();
+
+            $this->entityManager->flush();
+            $this->entityManager->commit();
         } catch (\PDOException $e) {
-            $this->database->rollBack();
+            $this->entityManager->rollback();
             throw new HttpException(500, $e->getMessage(), $e);
         }
 
@@ -210,32 +193,18 @@ class PostPackageListController extends AbstractController
         return new Response($body, Response::HTTP_OK, ['Content-Type' => 'text/plain; charset=UTF-8']);
     }
 
+    /**
+     * @param Request $request
+     */
     private function checkIfAlreadySubmitted(Request $request)
     {
-        $stm = $this->database->prepare('
-        SELECT
-            COUNT(*) AS count,
-            MIN(time) AS mintime
-        FROM
-            `user`
-        WHERE
-            time >= :time
-            AND ip = :ip
-        GROUP BY
-            ip
-        ');
-        $stm->bindValue('time', time() - $this->delay, \PDO::PARAM_INT);
-        $stm->bindValue('ip', $this->clientIdGenerator->createClientId($request->getClientIp()), \PDO::PARAM_STR);
-        $stm->execute();
-        $log = $stm->fetch();
-        if ($log !== false && $log['count'] >= $this->count) {
+        $submissionCount = $this->userRepository->getSubmissionCountSince(
+            $this->clientIdGenerator->createClientId($request->getClientIp()),
+            time() - $this->delay
+        );
+        if ($submissionCount >= $this->count) {
             throw new BadRequestHttpException(
-                'You already submitted your data '
-                . $this->count . ' times since '
-                . $this->createGmDateTime($log['mintime'])
-                . ' using the IP ' . $request->getClientIp()
-                . ".\n         You are blocked until "
-                . $this->createGmDateTime($log['mintime'] + $this->delay)
+                'You already submitted your data ' . $this->count . ' times.'
             );
         }
     }

@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Repository\ModuleRepository;
+use App\Repository\UserRepository;
 use App\Request\Datatables\Request as DatatablesRequest;
 use App\Response\Datatables\Response as DatatablesResponse;
-use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Psr\Cache\CacheItemPoolInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +15,32 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ModuleStatisticsController extends AbstractController
 {
-    use StatisticsControllerTrait;
+    /** @var int */
+    private $rangeMonths = 3;
+
+    /** @var CacheItemPoolInterface */
+    private $cache;
+
+    /** @var ModuleRepository */
+    private $moduleRepository;
+
+    /** @var UserRepository */
+    private $userRepository;
+
+    /**
+     * @param CacheItemPoolInterface $cache
+     * @param ModuleRepository $moduleRepository
+     * @param UserRepository $userRepository
+     */
+    public function __construct(
+        CacheItemPoolInterface $cache,
+        ModuleRepository $moduleRepository,
+        UserRepository $userRepository
+    ) {
+        $this->cache = $cache;
+        $this->moduleRepository = $moduleRepository;
+        $this->userRepository = $userRepository;
+    }
 
     /**
      * @Route("/module", methods={"GET"})
@@ -30,25 +58,20 @@ class ModuleStatisticsController extends AbstractController
      * @return Response
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function packageJsonAction(): Response
+    public function moduleJsonAction(): Response
     {
         $cachedModules = $this->cache->getItem('module.json');
         if ($cachedModules->isHit()) {
-            /** @var DatatablesResponse $response */
             $modules = $cachedModules->get();
         } else {
-            $connection = $this->getDoctrine()->getConnection();
-            /** @var QueryBuilder $queryBuilder */
-            $queryBuilder = $connection->createQueryBuilder();
-            $queryBuilder
-                ->select([
-                    'name',
-                    'SUM(`count`) AS count'
-                ])
-                ->from('module')
-                ->where('month >= ' . $this->getRangeYearMonth())
-                ->groupBy('name');
-            $modules = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);
+            $queryBuilder = $this->moduleRepository
+                ->createQueryBuilder('module')
+                ->select('module.name AS name')
+                ->addSelect('SUM(module.count) AS count')
+                ->where('module.month >= :month')
+                ->setParameter('month', $this->getRangeYearMonth())
+                ->groupBy('module.name');
+            $modules = $queryBuilder->getQuery()->getResult();
 
             $cachedModules->expiresAt(new \DateTime('24 hour'));
             $cachedModules->set($modules);
@@ -59,12 +82,40 @@ class ModuleStatisticsController extends AbstractController
     }
 
     /**
+     * @return string
+     */
+    private function getRangeYearMonth(): string
+    {
+        return date('Ym', $this->getRangeTime());
+    }
+
+    /**
+     * @return int
+     */
+    private function getRangeTime(): int
+    {
+        return strtotime(date('1-m-Y', strtotime('now -' . $this->rangeMonths . ' months')));
+    }
+
+    /**
      * @Route("/module/datatables", methods={"GET"})
      * @param DatatablesRequest $request
      * @return Response
      * @throws \Psr\Cache\InvalidArgumentException
      */
     public function datatablesAction(DatatablesRequest $request): Response
+    {
+        $response = $this->createDatatablesResponse($request);
+
+        return $this->json($response);
+    }
+
+    /**
+     * @param DatatablesRequest $request
+     * @return DatatablesResponse
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    private function createDatatablesResponse(DatatablesRequest $request): DatatablesResponse
     {
         $cachedResponse = $this->cache->getItem($request->getId());
         if ($cachedResponse->isHit()) {
@@ -80,38 +131,11 @@ class ModuleStatisticsController extends AbstractController
             }
         }
 
-        $cachedModuleCount = $this->cache->getItem('module.count');
-        if ($cachedModuleCount->isHit()) {
-            /** @var int $moduleCount */
-            $moduleCount = $cachedModuleCount->get();
-        } else {
-            $moduleCount = $this->getDoctrine()->getConnection()->createQueryBuilder()
-                ->select('DISTINCT name')
-                ->from('module')
-                ->where('`month` >= ' . $this->getRangeYearMonth())
-                ->execute()
-                ->rowCount();
-//            $moduleCount = $this->getDoctrine()->getConnection()->createQueryBuilder()
-//                ->select('COUNT(*)')
-//                ->from('users')
-//                ->where('time >= ' . $this->getRangeTime())
-//                ->execute()
-//                ->fetchColumn();
-            $cachedModuleCount->expiresAt(new \DateTime('24 hour'));
-            $cachedModuleCount->set($moduleCount);
-            $this->cache->save($cachedModuleCount);
-        }
+        $moduleCount = $this->calculateModuleCount();
 
         $response->setRecordsTotal($moduleCount);
         $response->setDraw($request->getDraw());
-
-        return $this->json(
-            $response,
-            Response::HTTP_OK,
-            [
-                'X-Cache-App' => $cachedResponse->isHit() ? 'HIT' : 'MISS'
-            ]
-        );
+        return $response;
     }
 
     /**
@@ -122,11 +146,12 @@ class ModuleStatisticsController extends AbstractController
     {
         $compareableColumns = [
         ];
+        $textSearchableColumns = [
+            'name' => 'name'
+        ];
         $searchableColumns = array_merge(
             $compareableColumns,
-            [
-                'name' => 'name'
-            ]
+            $textSearchableColumns
         );
         $orderableColumns = array_merge(
             $compareableColumns,
@@ -135,29 +160,25 @@ class ModuleStatisticsController extends AbstractController
             ]
         );
 
-        $connection = $this->getDoctrine()->getConnection();
-        /** @var QueryBuilder $queryBuilder */
-        $queryBuilder = $connection->createQueryBuilder();
-        $queryBuilder
-            ->select([
-                'SQL_CALC_FOUND_ROWS name',
-                'SUM(count) AS count'
-            ])
-            ->from('module')
-            ->where('month >= ' . $this->getRangeYearMonth())
-            ->groupBy('name')
+        $queryBuilder = $this->moduleRepository
+            ->createQueryBuilder('module')
+            ->select('module.name AS name')
+            ->addSelect('SUM(module.count) AS count')
+            ->where('module.month >= :month')
+            ->setParameter('month', $this->getRangeYearMonth())
+            ->groupBy('module.name')
             ->setFirstResult($request->getStart())
             ->setMaxResults($request->getLength());
 
         foreach ($request->getOrders() as $order) {
             $orderColumnName = $order->getColumn()->getData();
             if (isset($orderableColumns[$orderColumnName])) {
-                $queryBuilder->orderBy($orderColumnName, $order->getDir());
+                $queryBuilder->orderBy($orderableColumns[$orderColumnName], $order->getDir());
             }
         }
 
         if ($request->hasSearch() && !$request->getSearch()->isRegex()) {
-            $queryBuilder->andWhere('name LIKE :search');
+            $queryBuilder->andWhere($this->createTextSearchQuery($textSearchableColumns));
             $queryBuilder->setParameter(':search', '%' . $request->getSearch()->getValue() . '%');
         }
 
@@ -179,14 +200,53 @@ class ModuleStatisticsController extends AbstractController
             }
         }
 
-        $modules = $queryBuilder->execute()->fetchAll(\PDO::FETCH_ASSOC);
-
-        $modulesFiltered = $connection->createQueryBuilder()
-            ->select('FOUND_ROWS()')->execute()->fetchColumn();
+        $pagination = new Paginator($queryBuilder, false);
+        $modulesFiltered = $pagination->count();
+        $modules = $pagination->getQuery()->getScalarResult();
 
         $response = new DatatablesResponse($modules);
         $response->setRecordsFiltered($modulesFiltered);
 
         return $response;
+    }
+
+    /**
+     * @param $textSearchableColumns
+     * @return string
+     */
+    private function createTextSearchQuery($textSearchableColumns): string
+    {
+        $textSearchesArray = iterator_to_array($this->createTextSearchesIterator($textSearchableColumns));
+        return '(' . implode(' OR ', $textSearchesArray) . ')';
+    }
+
+    /**
+     * @param $textSearchableColumns
+     * @return \Iterator
+     */
+    private function createTextSearchesIterator($textSearchableColumns): \Iterator
+    {
+        foreach ($textSearchableColumns as $textSearchableColumn) {
+            yield $textSearchableColumn . ' LIKE :search';
+        }
+    }
+
+    /**
+     * @return int
+     */
+    private function calculateModuleCount(): int
+    {
+        $cachedModuleCount = $this->cache->getItem('module.count');
+        if ($cachedModuleCount->isHit()) {
+            /** @var int $moduleCount */
+            $moduleCount = $cachedModuleCount->get();
+        } else {
+            $moduleCount = $this->userRepository->getCountSince($this->getRangeTime());
+
+            $cachedModuleCount->expiresAt(new \DateTime('24 hour'));
+            $cachedModuleCount->set($moduleCount);
+            $this->cache->save($cachedModuleCount);
+        }
+        return $moduleCount;
     }
 }

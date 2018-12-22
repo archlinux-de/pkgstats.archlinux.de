@@ -1,5 +1,5 @@
 .EXPORT_ALL_VARIABLES:
-.PHONY: all init start stop clean rebuild install shell-php shell-node test test-coverage test-ci ci-build ci-update ci-update-commit deploy
+.PHONY: all init start stop clean rebuild install shell-php shell-node test test-db test-coverage test-ci ci-build ci-update ci-update-commit deploy
 
 UID!=id -u
 GID!=id -g
@@ -44,13 +44,16 @@ shell-php:
 shell-node:
 	${NODE-RUN} bash
 
-test: start
+test:
 	${PHP-RUN} vendor/bin/phpcs
 	${NODE-RUN} node_modules/.bin/standard 'assets/js/**/*.js' '*.js'
 	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css'
 	${PHP-RUN} bin/console lint:yaml config
 	${PHP-RUN} bin/console lint:twig templates
-	${PHP-DB-RUN} vendor/bin/phpunit
+	${PHP-RUN} vendor/bin/phpunit
+
+test-db: start
+	${PHP-DB-RUN} vendor/bin/phpunit -c phpunit-db.xml
 
 test-coverage:
 	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage
@@ -58,6 +61,7 @@ test-coverage:
 test-ci:
 	${NODE-RUN} node_modules/.bin/encore production
 	${MAKE} test
+	${MAKE} test-db
 
 ci-build: install
 	${MAKE} test-ci

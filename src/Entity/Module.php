@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ModuleRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Module
 {
@@ -42,6 +45,16 @@ class Module
     }
 
     /**
+     * @param string $name
+     * @return Module
+     */
+    public function setName(string $name): Module
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getMonth(): int
@@ -50,10 +63,48 @@ class Module
     }
 
     /**
+     * @param int $month
+     * @return Module
+     */
+    public function setMonth(int $month): Module
+    {
+        $this->month = $month;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getCount(): int
     {
         return $this->count;
+    }
+
+    /**
+     * @param int $count
+     * @return Module
+     */
+    protected function setCount(int $count): Module
+    {
+        $this->count = $count;
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * @param PreUpdateEventArgs $args
+     */
+    public function incrementCountOnUpdate(PreUpdateEventArgs $args): void
+    {
+        $args->setNewValue('count', $args->getOldValue('count') + 1);
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @param LifecycleEventArgs $args
+     */
+    public function setCountOnPersist(LifecycleEventArgs $args): void
+    {
+        $args->getEntity()->setCount(1);
     }
 }

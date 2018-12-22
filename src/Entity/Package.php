@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PackageRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Package
 {
@@ -42,6 +45,16 @@ class Package
     }
 
     /**
+     * @param string $pkgname
+     * @return Package
+     */
+    public function setPkgname(string $pkgname): Package
+    {
+        $this->pkgname = $pkgname;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getMonth(): int
@@ -50,10 +63,48 @@ class Package
     }
 
     /**
+     * @param int $month
+     * @return Package
+     */
+    public function setMonth(int $month): Package
+    {
+        $this->month = $month;
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getCount(): int
     {
         return $this->count;
+    }
+
+    /**
+     * @param int $count
+     * @return Package
+     */
+    protected function setCount(int $count): Package
+    {
+        $this->count = $count;
+        return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * @param PreUpdateEventArgs $args
+     */
+    public function incrementCountOnUpdate(PreUpdateEventArgs $args): void
+    {
+        $args->setNewValue('count', $args->getOldValue('count') + 1);
+    }
+
+    /**
+     * @ORM\PrePersist
+     * @param LifecycleEventArgs $args
+     */
+    public function setCountOnPersist(LifecycleEventArgs $args): void
+    {
+        $args->getEntity()->setCount(1);
     }
 }

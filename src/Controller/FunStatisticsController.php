@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
-use Doctrine\DBAL\Driver\Statement;
+use App\Repository\PackageRepository;
+use App\Repository\UserRepository;
+use Psr\Cache\CacheItemPoolInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,7 +12,29 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class FunStatisticsController extends AbstractController
 {
-    use StatisticsControllerTrait;
+    /** @var int */
+    private $rangeMonths = 3;
+    /** @var CacheItemPoolInterface */
+    private $cache;
+    /** @var PackageRepository */
+    private $packageRepository;
+    /** @var UserRepository */
+    private $userRepository;
+
+    /**
+     * @param CacheItemPoolInterface $cache
+     * @param PackageRepository $packageRepository
+     * @param UserRepository $userRepository
+     */
+    public function __construct(
+        CacheItemPoolInterface $cache,
+        PackageRepository $packageRepository,
+        UserRepository $userRepository
+    ) {
+        $this->cache = $cache;
+        $this->packageRepository = $packageRepository;
+        $this->userRepository = $userRepository;
+    }
 
     /**
      * @Route("/fun", methods={"GET"})
@@ -36,26 +60,7 @@ class FunStatisticsController extends AbstractController
 
     private function getData(): array
     {
-        $total = $this->database->query('
-            SELECT
-                COUNT(*)
-            FROM
-                `user`
-            WHERE
-                time >= ' . $this->getRangeTime() . '
-            ')->fetchColumn();
-
-        $stm = $this->database->prepare('
-            SELECT
-                SUM(`count`)
-            FROM
-                package
-            WHERE
-                pkgname = :pkgname
-                AND `month` >= ' . $this->getRangeYearMonth() . '
-            GROUP BY
-                pkgname
-            ');
+        $total = $this->userRepository->getCountSince($this->getRangeTime());
 
         return [
             'total' => $total,
@@ -63,62 +68,58 @@ class FunStatisticsController extends AbstractController
                 [
                     'name' => 'Browsers',
                     'data' => $this->getPackageStatistics(
-                        $stm,
-                        array(
+                        [
                             'Mozilla Firefox' => 'firefox',
                             'Chromium' => 'chromium',
                             'Konqueror' => ['kdebase-konqueror', 'konqueror'],
                             'Midori' => 'midori',
                             'Epiphany' => 'epiphany',
                             'Opera' => 'opera',
-                        )
+                        ]
                     )
                 ],
                 [
                     'name' => 'Editors',
                     'data' => $this->getPackageStatistics(
-                        $stm,
-                        array(
-                            'Vim' => array(
+                        [
+                            'Vim' => [
                                 'vim',
                                 'gvim',
-                            ),
-                            'Emacs' => array(
+                            ],
+                            'Emacs' => [
                                 'emacs',
                                 'xemacs',
-                            ),
+                            ],
                             'Nano' => 'nano',
                             'Gedit' => 'gedit',
-                            'Kate' => array('kdesdk-kate', 'kate'),
-                            'Kwrite' => array('kdebase-kwrite', 'kwrite'),
+                            'Kate' => ['kdesdk-kate', 'kate'],
+                            'Kwrite' => ['kdebase-kwrite', 'kwrite'],
                             'Vi' => 'vi',
                             'Mousepad' => 'mousepad',
                             'Leafpad' => 'leafpad',
                             'Geany' => 'geany',
                             'Pluma' => 'pluma',
-                        )
+                        ]
                     )
                 ],
                 [
                     'name' => 'Desktop Environments',
                     'data' => $this->getPackageStatistics(
-                        $stm,
-                        array(
-                            'KDE SC' => array('kdebase-workspace', 'plasma-workspace', 'plasma-desktop'),
+                        [
+                            'KDE SC' => ['kdebase-workspace', 'plasma-workspace', 'plasma-desktop'],
                             'GNOME' => 'gnome-shell',
                             'LXDE' => 'lxde-common',
                             'Xfce' => 'xfdesktop',
-                            'Enlightenment' => array('enlightenment', 'enlightenment16'),
+                            'Enlightenment' => ['enlightenment', 'enlightenment16'],
                             'MATE' => 'mate-panel',
                             'Cinnamon' => 'cinnamon',
-                        )
+                        ]
                     )
                 ],
                 [
                     'name' => 'File Managers',
                     'data' => $this->getPackageStatistics(
-                        $stm,
-                        array(
+                        [
                             'Dolphin' => ['kdebase-dolphin', 'dolphin'],
                             'Konqueror' => ['kdebase-konqueror', 'konqueror'],
                             'MC' => 'mc',
@@ -126,66 +127,62 @@ class FunStatisticsController extends AbstractController
                             'Pcmanfm' => 'pcmanfm',
                             'Thunar' => 'thunar',
                             'Caja' => 'caja',
-                        )
+                        ]
                     )
                 ],
                 [
                     'name' => 'Window Managers',
                     'data' => $this->getPackageStatistics(
-                        $stm,
-                        array(
+                        [
                             'Openbox' => 'openbox',
                             'Fluxbox' => 'fluxbox',
                             'I3' => 'i3-wm',
                             'awesome' => 'awesome',
-                        )
+                        ]
                     )
                 ],
                 [
                     'name' => 'Media Players',
                     'data' => $this->getPackageStatistics(
-                        $stm,
-                        array(
+                        [
                             'Mplayer' => 'mplayer',
                             'Xine' => 'xine-lib',
                             'VLC' => 'vlc',
-                        )
+                        ]
                     )
                 ],
                 [
                     'name' => 'Shells',
                     'data' => $this->getPackageStatistics(
-                        $stm,
-                        array(
+                        [
                             'Bash' => 'bash',
                             'Dash' => 'dash',
                             'Zsh' => 'zsh',
                             'Fish' => 'fish',
                             'Tcsh' => 'tcsh',
-                        )
+                        ]
                     )
                 ],
                 [
                     'name' => 'Graphic Chipsets',
                     'data' => $this->getPackageStatistics(
-                        $stm,
-                        array(
-                            'ATI' => array(
+                        [
+                            'ATI' => [
                                 'xf86-video-ati',
                                 'xf86-video-r128',
                                 'xf86-video-mach64',
-                            ),
-                            'NVIDIA' => array(
+                            ],
+                            'NVIDIA' => [
                                 'nvidia-304xx-utils',
                                 'nvidia-utils',
                                 'xf86-video-nouveau',
                                 'xf86-video-nv',
-                            ),
-                            'Intel' => array(
+                            ],
+                            'Intel' => [
                                 'xf86-video-intel',
                                 'xf86-video-i740',
-                            ),
-                        )
+                            ],
+                        ]
                     )
                 ]
             ]
@@ -193,24 +190,29 @@ class FunStatisticsController extends AbstractController
     }
 
     /**
-     * @param Statement $stm
+     * @return int
+     */
+    private function getRangeTime(): int
+    {
+        return strtotime(date('1-m-Y', strtotime('now -' . $this->rangeMonths . ' months')));
+    }
+
+    /**
      * @param array $packages
      *
      * @return array
      */
-    private function getPackageStatistics(Statement $stm, array $packages): array
+    private function getPackageStatistics(array $packages): array
     {
-        $packageArray = array();
+        $packageArray = [];
         foreach ($packages as $package => $pkgnames) {
             if (!is_array($pkgnames)) {
-                $pkgnames = array(
+                $pkgnames = [
                     $pkgnames,
-                );
+                ];
             }
             foreach ($pkgnames as $pkgname) {
-                $stm->bindValue('pkgname', $pkgname, \PDO::PARAM_STR);
-                $stm->execute();
-                $count = $stm->fetchColumn() ?: 0;
+                $count = $this->packageRepository->getCountByNameSince($pkgname, $this->getRangeYearMonth());
                 if (isset($packageArray[$package])) {
                     $packageArray[$package] += $count;
                 } else {
@@ -221,5 +223,13 @@ class FunStatisticsController extends AbstractController
 
         arsort($packageArray);
         return $packageArray;
+    }
+
+    /**
+     * @return int
+     */
+    private function getRangeYearMonth(): int
+    {
+        return date('Ym', $this->getRangeTime());
     }
 }
