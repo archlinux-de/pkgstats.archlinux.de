@@ -70,13 +70,9 @@ class PostPackageListController extends AbstractController
      */
     public function postAction(Request $request): Response
     {
-        # Can be rewritten once 2.0 is no longer in use
-        $pkgstatsver = $request->request->get(
-            'pkgstatsver',
-            str_replace('pkgstats/', '', $request->server->get('HTTP_USER_AGENT'))
-        );
+        $pkgstatsver = str_replace('pkgstats/', '', $request->server->get('HTTP_USER_AGENT'));
 
-        if (!in_array($pkgstatsver, ['1.0', '2.0', '2.1', '2.2', '2.3'])) {
+        if (!in_array($pkgstatsver, ['2.3'])) {
             throw new BadRequestHttpException('Sorry, your version of pkgstats is not supported.');
         }
 
@@ -84,21 +80,14 @@ class PostPackageListController extends AbstractController
         $packages = array_filter($packages);
         $packageCount = count($packages);
 
-        if (in_array($pkgstatsver, ['2.2', '2.3'])) {
-            $modules = array_unique(explode("\n", trim($request->request->get('modules'))));
-            $modules = array_filter($modules);
-            $moduleCount = count($modules);
-        } else {
-            $modules = [];
-            $moduleCount = null;
-        }
+        $modules = array_unique(explode("\n", trim($request->request->get('modules'))));
+        $modules = array_filter($modules);
+        $moduleCount = count($modules);
 
         $arch = $request->request->get('arch');
-        $cpuArch = $request->request->get('cpuarch', '');
-        # Can be rewritten once 1.0 is no longer in use
+        $cpuArch = $request->request->get('cpuarch', $arch);
         $mirror = $request->request->get('mirror', '');
-        # Can be rewritten once 2.0 is no longer in use
-        $this->quiet = ($request->request->get('quiet', 'false') == 'true');
+        $this->quiet = $request->request->get('quiet') == 'true';
 
         if (!empty($mirror) && !preg_match('#^(?:https?|ftp)://\S+#', $mirror)) {
             $mirror = null;
@@ -107,14 +96,11 @@ class PostPackageListController extends AbstractController
         } elseif (empty($mirror)) {
             $mirror = null;
         }
-        if (!in_array($arch, ['i686', 'x86_64'])) {
+        if (!in_array($arch, ['x86_64'])) {
             throw new BadRequestHttpException($arch . ' is not a known architecture.');
         }
-        if (!in_array($cpuArch, ['i686', 'x86_64', ''])) {
+        if (!in_array($cpuArch, ['x86_64'])) {
             throw new BadRequestHttpException($cpuArch . ' is not a known architecture.');
-        }
-        if ($cpuArch == '') {
-            $cpuArch = null;
         }
         if ($packageCount == 0) {
             throw new BadRequestHttpException('Your package list is empty.');

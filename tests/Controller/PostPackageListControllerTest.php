@@ -20,11 +20,18 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testPostPackageListIsSuccessful(string $version)
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/' . $version);
 
         $client->request(
             'POST',
             '/post',
-            ['pkgstatsver' => $version, 'arch' => 'x86_64', 'packages' => 'pkgstats', 'modules' => 'snd']
+            [
+                'arch' => 'x86_64',
+                'cpuarch' => 'x86_64',
+                'packages' => 'pkgstats',
+                'modules' => 'snd',
+                'mirror' => 'http://localhost'
+            ]
         );
 
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -36,6 +43,8 @@ class PostPackageListControllerTest extends DatabaseTestCase
         /** @var User $user */
         $user = $userRepository->findAll()[0];
         $this->assertEquals('x86_64', $user->getArch());
+        $this->assertEquals('x86_64', $user->getCpuarch());
+        $this->assertEquals('http://localhost', $user->getMirror());
         $this->assertEquals(1, $user->getPackages());
         if (in_array($version, ['2.2', '2.3'])) {
             $this->assertEquals(1, $user->getModules());
@@ -58,10 +67,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function provideSupportedVersions(): array
     {
         return [
-            ['1.0'],
-            ['2.0'],
-            ['2.1'],
-            ['2.2'],
             ['2.3']
         ];
     }
@@ -72,6 +77,10 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function provideUnsupportedVersions(): array
     {
         return [
+            ['1.0'],
+            ['2.0'],
+            ['2.1'],
+            ['2.2'],
             ['0.1'],
             [''],
             ['a'],
@@ -87,11 +96,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testUnsupportedVersionFails(string $version)
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/' . $version);
 
         $client->request(
             'POST',
             '/post',
-            ['pkgstatsver' => $version, 'arch' => 'x86_64', 'packages' => 'pkgstats', 'modules' => 'snd']
+            ['arch' => 'x86_64', 'packages' => 'pkgstats', 'modules' => 'snd']
         );
 
         $this->assertTrue($client->getResponse()->isClientError());
@@ -104,11 +114,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testPostPackageListWithArchitectureIsSuccessful(string $architecture)
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
-            ['pkgstatsver' => '2.3', 'arch' => $architecture, 'packages' => 'pkgstats', 'modules' => 'snd']
+            ['arch' => $architecture, 'packages' => 'pkgstats', 'modules' => 'snd']
         );
 
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -117,11 +128,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testLocalMirrorGetsIgnored()
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
-            ['pkgstatsver' => '2.3', 'arch' => 'x86_64', 'packages' => 'pkgstats', 'mirror' => 'file:/---7/mirror/']
+            ['arch' => 'x86_64', 'packages' => 'pkgstats', 'mirror' => 'file://mirror/']
         );
 
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -130,12 +142,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testLongMirrorGetsRejected()
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
             [
-                'pkgstatsver' => '2.3',
                 'arch' => 'x86_64',
                 'packages' => 'pkgstats',
                 'mirror' => 'https://' . str_repeat('a', 255)
@@ -152,11 +164,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testPostPackageListWithUnsupportedArchitectureFails(string $architecture)
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
-            ['pkgstatsver' => '2.3', 'arch' => $architecture, 'packages' => 'pkgstats', 'modules' => 'snd']
+            ['arch' => $architecture, 'packages' => 'pkgstats', 'modules' => 'snd']
         );
 
         $this->assertTrue($client->getResponse()->isClientError());
@@ -169,12 +182,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $architecture)
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
             [
-                'pkgstatsver' => '2.3',
                 'arch' => 'x86_64',
                 'cpuarch' => $architecture,
                 'packages' => 'pkgstats',
@@ -188,12 +201,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testEmptyPackageListGetsRejected()
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
             [
-                'pkgstatsver' => '2.3',
                 'arch' => 'x86_64',
                 'packages' => ''
             ]
@@ -205,12 +218,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testLongPackageListGetsRejected()
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
             [
-                'pkgstatsver' => '2.3',
                 'arch' => 'x86_64',
                 'packages' => (function () {
                     $result = '';
@@ -228,12 +241,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testInvalidPackageListGetsRejected()
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
             [
-                'pkgstatsver' => '2.3',
                 'arch' => 'x86_64',
                 'packages' => '-pkgstats'
             ]
@@ -245,12 +258,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testLongPackageGetsRejected()
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
             [
-                'pkgstatsver' => '2.3',
                 'arch' => 'x86_64',
                 'packages' => str_repeat('a', 256)
             ]
@@ -262,12 +275,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testLongModuleListGetsRejected()
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
             [
-                'pkgstatsver' => '2.3',
                 'arch' => 'x86_64',
                 'packages' => 'pkgstats',
                 'modules' => (function () {
@@ -286,12 +299,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testLongModuleGetsRejected()
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
             [
-                'pkgstatsver' => '2.3',
                 'arch' => 'x86_64',
                 'packages' => 'pkgstats',
                 'modules' => str_repeat('a', 256)
@@ -304,12 +317,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testQuietMode()
     {
         $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
 
         $client->request(
             'POST',
             '/post',
             [
-                'pkgstatsver' => '2.3',
                 'arch' => 'x86_64',
                 'packages' => 'pkgstats',
                 'modules' => 'snd',
@@ -325,10 +338,11 @@ class PostPackageListControllerTest extends DatabaseTestCase
     {
         for ($i = 1; $i <= 11; $i++) {
             $client = $this->getClient();
+            $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
             $client->request(
                 'POST',
                 '/post',
-                ['pkgstatsver' => '2.3', 'arch' => 'x86_64', 'packages' => 'pkgstats', 'modules' => 'snd']
+                ['arch' => 'x86_64', 'packages' => 'pkgstats', 'modules' => 'snd']
             );
             if ($i <= 10) {
                 $this->assertTrue($client->getResponse()->isSuccessful());
@@ -344,7 +358,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function provideSupportedArchitectures(): array
     {
         return [
-            ['i686'],
             ['x86_64']
         ];
     }
@@ -356,6 +369,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     {
         return [
             [''],
+            ['i686'],
             ['arm']
         ];
     }
@@ -366,6 +380,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function provideUnsupportedCpuArchitectures(): array
     {
         return [
+            ['i686'],
             ['arm']
         ];
     }
