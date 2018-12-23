@@ -2,6 +2,10 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Package;
+use App\Entity\User;
+use App\Repository\PackageRepository;
+use App\Repository\UserRepository;
 use App\Tests\Util\DatabaseTestCase;
 
 /**
@@ -25,6 +29,27 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertContains('Thanks for your submission. :-)', $client->getResponse()->getContent());
+
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->getEntityManager()->getRepository(User::class);
+        $this->assertCount(1, $userRepository->findAll());
+        /** @var User $user */
+        $user = $userRepository->findAll()[0];
+        $this->assertEquals('x86_64', $user->getArch());
+        $this->assertEquals(1, $user->getPackages());
+        if (in_array($version, ['2.2', '2.3'])) {
+            $this->assertEquals(1, $user->getModules());
+        } else {
+            $this->assertEquals(0, $user->getModules());
+        }
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getEntityManager()->getRepository(Package::class);
+        $this->assertCount(1, $packageRepository->findAll());
+        /** @var Package $package */
+        $package = $packageRepository->findAll()[0];
+        $this->assertEquals('pkgstats', $package->getPkgname());
+        $this->assertEquals(1, $package->getCount());
     }
 
     /**
@@ -89,6 +114,230 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
+    public function testLocalMirrorGetsIgnored()
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            ['pkgstatsver' => '2.3', 'arch' => 'x86_64', 'packages' => 'pkgstats', 'mirror' => 'file:/---7/mirror/']
+        );
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+    }
+
+    public function testLongMirrorGetsRejected()
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'pkgstatsver' => '2.3',
+                'arch' => 'x86_64',
+                'packages' => 'pkgstats',
+                'mirror' => 'https://' . str_repeat('a', 255)
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    /**
+     * @param string $architecture
+     * @dataProvider provideUnsupportedArchitectures
+     */
+    public function testPostPackageListWithUnsupportedArchitectureFails(string $architecture)
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            ['pkgstatsver' => '2.3', 'arch' => $architecture, 'packages' => 'pkgstats', 'modules' => 'snd']
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    /**
+     * @param string $architecture
+     * @dataProvider provideUnsupportedCpuArchitectures
+     */
+    public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $architecture)
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'pkgstatsver' => '2.3',
+                'arch' => 'x86_64',
+                'cpuarch' => $architecture,
+                'packages' => 'pkgstats',
+                'modules' => 'snd'
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    public function testEmptyPackageListGetsRejected()
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'pkgstatsver' => '2.3',
+                'arch' => 'x86_64',
+                'packages' => ''
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    public function testLongPackageListGetsRejected()
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'pkgstatsver' => '2.3',
+                'arch' => 'x86_64',
+                'packages' => (function () {
+                    $result = '';
+                    for ($i = 0; $i < 10002; $i++) {
+                        $result .= 'package-' . $i . "\n";
+                    }
+                    return $result;
+                })()
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    public function testInvalidPackageListGetsRejected()
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'pkgstatsver' => '2.3',
+                'arch' => 'x86_64',
+                'packages' => '-pkgstats'
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    public function testLongPackageGetsRejected()
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'pkgstatsver' => '2.3',
+                'arch' => 'x86_64',
+                'packages' => str_repeat('a', 256)
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    public function testLongModuleListGetsRejected()
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'pkgstatsver' => '2.3',
+                'arch' => 'x86_64',
+                'packages' => 'pkgstats',
+                'modules' => (function () {
+                    $result = '';
+                    for ($i = 0; $i < 10002; $i++) {
+                        $result .= 'module-' . $i . "\n";
+                    }
+                    return $result;
+                })()
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    public function testLongModuleGetsRejected()
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'pkgstatsver' => '2.3',
+                'arch' => 'x86_64',
+                'packages' => 'pkgstats',
+                'modules' => str_repeat('a', 256)
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    public function testQuietMode()
+    {
+        $client = $this->getClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'pkgstatsver' => '2.3',
+                'arch' => 'x86_64',
+                'packages' => 'pkgstats',
+                'modules' => 'snd',
+                'quiet' => 'true'
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('', $client->getResponse()->getContent());
+    }
+
+    public function testSubmissionsAreLimitedPerUser()
+    {
+        for ($i = 1; $i <= 11; $i++) {
+            $client = $this->getClient();
+            $client->request(
+                'POST',
+                '/post',
+                ['pkgstatsver' => '2.3', 'arch' => 'x86_64', 'packages' => 'pkgstats', 'modules' => 'snd']
+            );
+            if ($i <= 10) {
+                $this->assertTrue($client->getResponse()->isSuccessful());
+            } else {
+                $this->assertTrue($client->getResponse()->isClientError());
+            }
+        }
+    }
+
     /**
      * @return array
      */
@@ -107,6 +356,16 @@ class PostPackageListControllerTest extends DatabaseTestCase
     {
         return [
             [''],
+            ['arm']
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function provideUnsupportedCpuArchitectures(): array
+    {
+        return [
             ['arm']
         ];
     }

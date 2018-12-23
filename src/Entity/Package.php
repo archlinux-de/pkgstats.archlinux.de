@@ -30,7 +30,7 @@ class Package
     private $month;
 
     /**
-     * @var integer
+     * @var integer|null
      *
      * @ORM\Column(name="count", type="integer", nullable=false)
      */
@@ -73,9 +73,9 @@ class Package
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getCount(): int
+    public function getCount(): ?int
     {
         return $this->count;
     }
