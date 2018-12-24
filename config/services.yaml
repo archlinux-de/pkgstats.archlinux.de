@@ -31,6 +31,9 @@ services:
     App\Request\ParamConverter\DatatablesRequestParamConverter:
         tags: ['request.param_converter']
 
+    App\Request\ParamConverter\PkgstatsParamConverter:
+        tags: ['request.param_converter']
+
     MaxMind\Db\Reader:
         arguments:
             - '%geoip.database%'
