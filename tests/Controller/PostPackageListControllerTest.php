@@ -45,6 +45,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertEquals('http://localhost', $user->getMirror());
         $this->assertEquals(1, $user->getPackages());
         $this->assertEquals(1, $user->getModules());
+        $this->assertNull($user->getCountrycode());
 
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getEntityManager()->getRepository(Package::class);

@@ -43,41 +43,23 @@ class PkgstatsParamConverter implements ParamConverterInterface
     public function apply(Request $request, ParamConverter $configuration)
     {
         $pkgstatsver = str_replace('pkgstats/', '', $request->server->get('HTTP_USER_AGENT'));
-
-        $packages = array_unique(explode("\n", trim($request->request->get('packages'))));
-        $packages = array_filter($packages);
-        $packageCount = count($packages);
-
-        $modules = array_unique(explode("\n", trim($request->request->get('modules'))));
-        $modules = array_filter($modules);
-        $moduleCount = count($modules);
-
+        $packages = $this->filterList($request->request->get('packages', ''));
+        $modules = $this->filterList($request->request->get('modules', ''));
         $arch = $request->request->get('arch');
         $cpuArch = $request->request->get('cpuarch', $arch);
-        $mirror = $request->request->get('mirror', '');
+        $mirror = $this->filterUrl($request->request->get('mirror', ''));
         $quiet = $request->request->get('quiet') == 'true';
 
-        if (!empty($mirror) && !preg_match('#^(?:https?|ftp)://\S+#', $mirror)) {
-            $mirror = null;
-        } elseif (empty($mirror)) {
-            $mirror = null;
-        }
-
         $clientIp = $request->getClientIp();
-        $countryCode = $this->geoIp->getCountryCode($clientIp);
-        if (empty($countryCode)) {
-            $countryCode = null;
-        }
-
         $user = (new User())
             ->setIp($this->clientIdGenerator->createClientId($clientIp))
             ->setTime(time())
             ->setArch($arch)
             ->setCpuarch($cpuArch)
-            ->setCountrycode($countryCode)
+            ->setCountrycode($this->geoIp->getCountryCode($clientIp))
             ->setMirror($mirror)
-            ->setPackages($packageCount)
-            ->setModules($moduleCount);
+            ->setPackages(count($packages))
+            ->setModules(count($modules));
 
         $pkgstatsRequest = new PkgstatsRequest($pkgstatsver, $user);
         $pkgstatsRequest->setQuiet($quiet);
@@ -109,6 +91,29 @@ class PkgstatsParamConverter implements ParamConverterInterface
         );
 
         return true;
+    }
+
+    /**
+     * @param string $string
+     * @return array
+     */
+    private function filterList(string $string): array
+    {
+        return array_filter(array_unique(explode("\n", trim($string))));
+    }
+
+    /**
+     * @param string $url
+     * @return string|null
+     */
+    private function filterUrl(string $url): ?string
+    {
+        if (!empty($url) && !preg_match('#^(?:https?|ftp)://\S+#', $url)) {
+            $url = null;
+        } elseif (empty($url)) {
+            $url = null;
+        }
+        return $url;
     }
 
     /**
