@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PkgstatsParamConverter implements ParamConverterInterface
 {
@@ -19,15 +20,19 @@ class PkgstatsParamConverter implements ParamConverterInterface
     private $geoIp;
     /** @var ClientIdGenerator */
     private $clientIdGenerator;
+    /** @var ValidatorInterface */
+    private $validator;
 
     /**
      * @param GeoIp $geoIp
      * @param ClientIdGenerator $clientIdGenerator
+     * @param ValidatorInterface $validator
      */
-    public function __construct(GeoIp $geoIp, ClientIdGenerator $clientIdGenerator)
+    public function __construct(GeoIp $geoIp, ClientIdGenerator $clientIdGenerator, ValidatorInterface $validator)
     {
         $this->geoIp = $geoIp;
         $this->clientIdGenerator = $clientIdGenerator;
+        $this->validator = $validator;
     }
 
     /**
@@ -38,10 +43,6 @@ class PkgstatsParamConverter implements ParamConverterInterface
     public function apply(Request $request, ParamConverter $configuration)
     {
         $pkgstatsver = str_replace('pkgstats/', '', $request->server->get('HTTP_USER_AGENT'));
-
-        if (!in_array($pkgstatsver, ['2.3'])) {
-            throw new BadRequestHttpException('Sorry, your version of pkgstats is not supported.');
-        }
 
         $packages = array_unique(explode("\n", trim($request->request->get('packages'))));
         $packages = array_filter($packages);
@@ -58,38 +59,8 @@ class PkgstatsParamConverter implements ParamConverterInterface
 
         if (!empty($mirror) && !preg_match('#^(?:https?|ftp)://\S+#', $mirror)) {
             $mirror = null;
-        } elseif (!empty($mirror) && strlen($mirror) > 255) {
-            throw new BadRequestHttpException($mirror . ' is too long.');
         } elseif (empty($mirror)) {
             $mirror = null;
-        }
-
-        if (!in_array($arch, ['x86_64'])) {
-            throw new BadRequestHttpException($arch . ' is not a known architecture.');
-        }
-        if (!in_array($cpuArch, ['x86_64'])) {
-            throw new BadRequestHttpException($cpuArch . ' is not a known architecture.');
-        }
-
-        if ($packageCount == 0) {
-            throw new BadRequestHttpException('Your package list is empty.');
-        }
-        if ($packageCount > 10000) {
-            throw new BadRequestHttpException('So, you have installed more than 10,000 packages?');
-        }
-        foreach ($packages as $package) {
-            if (strlen($package) > 255 || !preg_match('/^[^-]+\S*$/', $package)) {
-                throw new BadRequestHttpException($package . ' does not look like a valid package');
-            }
-        }
-
-        if ($moduleCount > 5000) {
-            throw new BadRequestHttpException('So, you have loaded more than 5,000 modules?');
-        }
-        foreach ($modules as $module) {
-            if (strlen($module) > 255 || !preg_match('/^[\w\-]+$/', $module)) {
-                throw new BadRequestHttpException($module . ' does not look like a valid module');
-            }
         }
 
         $clientIp = $request->getClientIp();
@@ -125,6 +96,11 @@ class PkgstatsParamConverter implements ParamConverterInterface
                     ->setName($module)
                     ->setMonth(date('Ym', $user->getTime()))
             );
+        }
+
+        $errors = $this->validator->validate($pkgstatsRequest);
+        if ($errors->count() > 0) {
+            throw new BadRequestHttpException((string)$errors);
         }
 
         $request->attributes->set(

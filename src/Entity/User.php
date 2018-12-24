@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +42,7 @@ class User
 
     /**
      * @var string
+     * @Assert\EqualTo("x86_64")
      *
      * @ORM\Column(name="arch", type="string", length=10, nullable=false)
      */
@@ -48,6 +50,7 @@ class User
 
     /**
      * @var string|null
+     * @Assert\EqualTo("x86_64")
      *
      * @ORM\Column(name="cpuarch", type="string", length=10, nullable=true)
      */
@@ -62,6 +65,8 @@ class User
 
     /**
      * @var string|null
+     * @Assert\Length(max=255)
+     * @Assert\Regex("/^[^-]+\S*$/")
      *
      * @ORM\Column(name="mirror", type="string", length=255, nullable=true)
      */

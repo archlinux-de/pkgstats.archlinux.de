@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +16,8 @@ class Package
 {
     /**
      * @var string
+     * @Assert\Length(max=255)
+     * @Assert\Regex("/^[^-]+\S*$/")
      *
      * @ORM\Column(name="pkgname", type="string", length=191)
      * @ORM\Id

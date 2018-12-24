@@ -5,22 +5,42 @@ namespace App\Request;
 use App\Entity\Module;
 use App\Entity\Package;
 use App\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class PkgstatsRequest
 {
-    /** @var string */
+    /**
+     * @var string
+     * @Assert\EqualTo("2.3")
+     */
     private $version;
-    /** @var User */
+
+    /**
+     * @var User
+     * @Assert\Valid()
+     */
     private $user;
-    /** @var Package[] */
+
+    /**
+     * @var Package[]
+     * @Assert\Valid()
+     * @Assert\Count(min=1, max=10000)
+     */
     private $packages = [];
-    /** @var Module[] */
+
+    /**
+     * @var Module[]
+     * @Assert\Valid()
+     * @Assert\Count(max=5000)
+     */
     private $modules = [];
-    /** @var bool */
+
+    /**
+     * @var bool
+     */
     private $quiet = false;
 
     /**
-     * PkgstatsRequest constructor.
      * @param string $version
      * @param User $user
      */
