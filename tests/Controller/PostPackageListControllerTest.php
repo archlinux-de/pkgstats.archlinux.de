@@ -2,25 +2,23 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Module;
 use App\Entity\Package;
 use App\Entity\User;
+use App\Repository\ModuleRepository;
 use App\Repository\PackageRepository;
 use App\Repository\UserRepository;
 use App\Tests\Util\DatabaseTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 /**
  * @covers \App\Controller\PostPackageListController
  */
 class PostPackageListControllerTest extends DatabaseTestCase
 {
-    /**
-     * @param string $version
-     * @dataProvider provideSupportedVersions
-     */
-    public function testPostPackageListIsSuccessful(string $version)
+    public function testPostPackageListIsSuccessful()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/' . $version);
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -46,11 +44,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertEquals('x86_64', $user->getCpuarch());
         $this->assertEquals('http://localhost', $user->getMirror());
         $this->assertEquals(1, $user->getPackages());
-        if (in_array($version, ['2.2', '2.3'])) {
-            $this->assertEquals(1, $user->getModules());
-        } else {
-            $this->assertEquals(0, $user->getModules());
-        }
+        $this->assertEquals(1, $user->getModules());
 
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getEntityManager()->getRepository(Package::class);
@@ -59,16 +53,25 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $package = $packageRepository->findAll()[0];
         $this->assertEquals('pkgstats', $package->getPkgname());
         $this->assertEquals(1, $package->getCount());
+
+        /** @var ModuleRepository $moduleRepository */
+        $moduleRepository = $this->getEntityManager()->getRepository(Module::class);
+        $this->assertCount(1, $moduleRepository->findAll());
+        /** @var Module $module */
+        $module = $moduleRepository->findAll()[0];
+        $this->assertEquals('snd', $module->getName());
+        $this->assertEquals(1, $module->getCount());
     }
 
     /**
-     * @return array
+     * @param string $version
+     * @return Client
      */
-    public function provideSupportedVersions(): array
+    private function createPkgstatsClient(string $version = '2.3'): Client
     {
-        return [
-            ['2.3']
-        ];
+        $client = $this->getClient();
+        $client->setServerParameter('HTTP_USER_AGENT', sprintf('pkgstats/%s', $version));
+        return $client;
     }
 
     /**
@@ -95,8 +98,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      */
     public function testUnsupportedVersionFails(string $version)
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/' . $version);
+        $client = $this->createPkgstatsClient($version);
 
         $client->request(
             'POST',
@@ -113,8 +115,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      */
     public function testPostPackageListWithArchitectureIsSuccessful(string $architecture)
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -127,8 +128,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testLocalMirrorGetsIgnored()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -141,8 +141,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testLongMirrorGetsRejected()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -163,8 +162,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      */
     public function testPostPackageListWithUnsupportedArchitectureFails(string $architecture)
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -181,8 +179,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      */
     public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $architecture)
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -200,8 +197,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testEmptyPackageListGetsRejected()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -217,8 +213,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testLongPackageListGetsRejected()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -240,8 +235,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testInvalidPackageListGetsRejected()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -257,8 +251,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testLongPackageGetsRejected()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -274,8 +267,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testLongModuleListGetsRejected()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -298,8 +290,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testLongModuleGetsRejected()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -316,8 +307,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testQuietMode()
     {
-        $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $client = $this->createPkgstatsClient();
 
         $client->request(
             'POST',
@@ -337,8 +327,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testSubmissionsAreLimitedPerUser()
     {
         for ($i = 1; $i <= 11; $i++) {
-            $client = $this->getClient();
-            $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/2.3');
+            $client = $this->createPkgstatsClient();
             $client->request(
                 'POST',
                 '/post',
