@@ -42,7 +42,7 @@ class PostPackageListController extends AbstractController
     }
 
     /**
-     * @Route("/post", methods={"POST"})
+     * @Route("/post", methods={"POST"}, defaults={"_format": "text"}, requirements={"_format": "text"})
      * @param PkgstatsRequest $pkgstatsRequest
      * @return Response
      */

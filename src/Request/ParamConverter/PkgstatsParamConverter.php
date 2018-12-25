@@ -11,7 +11,6 @@ use App\Service\GeoIp;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PkgstatsParamConverter implements ParamConverterInterface
@@ -82,7 +81,7 @@ class PkgstatsParamConverter implements ParamConverterInterface
 
         $errors = $this->validator->validate($pkgstatsRequest);
         if ($errors->count() > 0) {
-            throw new BadRequestHttpException((string)$errors);
+            throw new PkgstatsRequestException($errors);
         }
 
         $request->attributes->set(
