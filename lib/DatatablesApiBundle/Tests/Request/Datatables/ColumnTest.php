@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Request\Datatables;
+namespace DatatablesApiBundle\Tests\Request\Datatables;
 
-use App\Request\Datatables\Column;
-use App\Request\Datatables\Search;
+use DatatablesApiBundle\Request\Datatables\Column;
+use DatatablesApiBundle\Request\Datatables\Search;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \App\Request\Datatables\Column
+ * @covers \DatatablesApiBundle\Request\Datatables\Column
  */
 class ColumnTest extends TestCase
 {

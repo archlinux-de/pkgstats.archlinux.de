@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Request\ParamConverter;
+namespace DatatablesApiBundle\Tests\Request\ParamConverter;
 
-use App\Request\Datatables\Request as DatatablesRequest;
-use App\Request\ParamConverter\DatatablesRequestParamConverter;
+use DatatablesApiBundle\Request\Datatables\Request as DatatablesRequest;
+use DatatablesApiBundle\Request\ParamConverter\DatatablesRequestParamConverter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Request\Datatables;
+namespace DatatablesApiBundle\Request\Datatables;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

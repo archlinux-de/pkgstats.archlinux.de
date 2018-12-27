@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Response\Datatables;
+namespace DatatablesApiBundle\Tests\Response\Datatables;
 
-use App\Response\Datatables\Response;
+use DatatablesApiBundle\Response\Datatables\Response;
 use PHPUnit\Framework\TestCase;
 
 class ResponseTest extends TestCase
