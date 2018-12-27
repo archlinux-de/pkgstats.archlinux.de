@@ -1,11 +1,11 @@
 <?php
 
-namespace DatatablesApiBundle\Request\ParamConverter;
+namespace DatatablesApiBundle\ParamConverter;
 
-use DatatablesApiBundle\Request\Datatables\Column;
-use DatatablesApiBundle\Request\Datatables\Order;
-use DatatablesApiBundle\Request\Datatables\Request as DatatablesRequest;
-use DatatablesApiBundle\Request\Datatables\Search;
+use DatatablesApiBundle\DatatablesRequest;
+use DatatablesApiBundle\Request\Column;
+use DatatablesApiBundle\Request\Order;
+use DatatablesApiBundle\Request\Search;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;

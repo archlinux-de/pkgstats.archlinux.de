@@ -1,10 +1,13 @@
 <?php
 
-namespace DatatablesApiBundle\Request\Datatables;
+namespace DatatablesApiBundle;
 
+use DatatablesApiBundle\Request\Column;
+use DatatablesApiBundle\Request\Order;
+use DatatablesApiBundle\Request\Search;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class Request implements \JsonSerializable
+class DatatablesRequest implements \JsonSerializable
 {
     /**
      * @var int
@@ -52,9 +55,9 @@ class Request implements \JsonSerializable
 
     /**
      * @param Search $search
-     * @return Request
+     * @return DatatablesRequest
      */
-    public function setSearch(Search $search): Request
+    public function setSearch(Search $search): DatatablesRequest
     {
         $this->search = $search;
         return $this;
@@ -62,9 +65,9 @@ class Request implements \JsonSerializable
 
     /**
      * @param Order $order
-     * @return Request
+     * @return DatatablesRequest
      */
-    public function addOrder(Order $order): Request
+    public function addOrder(Order $order): DatatablesRequest
     {
         $this->order[] = $order;
         return $this;
@@ -72,9 +75,9 @@ class Request implements \JsonSerializable
 
     /**
      * @param Column $column
-     * @return Request
+     * @return DatatablesRequest
      */
-    public function addColumn(Column $column): Request
+    public function addColumn(Column $column): DatatablesRequest
     {
         $this->columns[$column->getId()] = $column;
         return $this;

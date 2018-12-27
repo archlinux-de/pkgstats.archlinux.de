@@ -1,8 +1,8 @@
 <?php
 
-namespace DatatablesApiBundle\Response\Datatables;
+namespace DatatablesApiBundle;
 
-class Response implements \JsonSerializable
+class DatatablesResponse implements \JsonSerializable
 {
     /** @var int */
     private $draw = 0;
@@ -31,9 +31,9 @@ class Response implements \JsonSerializable
 
     /**
      * @param int $draw
-     * @return Response
+     * @return DatatablesResponse
      */
-    public function setDraw(int $draw): Response
+    public function setDraw(int $draw): DatatablesResponse
     {
         $this->draw = $draw;
         return $this;
@@ -49,9 +49,9 @@ class Response implements \JsonSerializable
 
     /**
      * @param int $recordsTotal
-     * @return Response
+     * @return DatatablesResponse
      */
-    public function setRecordsTotal(int $recordsTotal): Response
+    public function setRecordsTotal(int $recordsTotal): DatatablesResponse
     {
         $this->recordsTotal = $recordsTotal;
         return $this;
@@ -67,9 +67,9 @@ class Response implements \JsonSerializable
 
     /**
      * @param int $recordsFiltered
-     * @return Response
+     * @return DatatablesResponse
      */
-    public function setRecordsFiltered(int $recordsFiltered): Response
+    public function setRecordsFiltered(int $recordsFiltered): DatatablesResponse
     {
         $this->recordsFiltered = $recordsFiltered;
         return $this;
@@ -85,9 +85,9 @@ class Response implements \JsonSerializable
 
     /**
      * @param array $data
-     * @return Response
+     * @return DatatablesResponse
      */
-    public function setData(array $data): Response
+    public function setData(array $data): DatatablesResponse
     {
         $this->data = $data;
         return $this;

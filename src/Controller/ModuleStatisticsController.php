@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Repository\ModuleRepository;
 use App\Repository\UserRepository;
-use DatatablesApiBundle\Request\Datatables\Request as DatatablesRequest;
-use DatatablesApiBundle\Response\Datatables\Response as DatatablesResponse;
+use DatatablesApiBundle\DatatablesRequest;
+use DatatablesApiBundle\DatatablesResponse;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Psr\Cache\CacheItemPoolInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
