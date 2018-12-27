@@ -337,7 +337,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
             if ($i <= 10) {
                 $this->assertTrue($client->getResponse()->isSuccessful());
             } else {
-                $this->assertTrue($client->getResponse()->isClientError());
+                $this->assertTrue($client->getResponse()->isForbidden());
             }
         }
     }

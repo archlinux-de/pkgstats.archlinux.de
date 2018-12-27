@@ -34,6 +34,11 @@ services:
     App\Request\ParamConverter\PkgstatsParamConverter:
         tags: ['request.param_converter']
 
+    App\EventSubscriber\RateLimitSubscriber:
+        bind:
+            $delay: '%app.post.delay%'
+            $count: '%app.post.max_count%'
+
     MaxMind\Db\Reader:
         arguments:
             - '%geoip.database%'
@@ -52,11 +57,6 @@ services:
     App\Controller\PackageStatisticsController:
         bind:
             $rangeMonths: '%app.range_months%'
-
-    App\Controller\PostPackageListController:
-        bind:
-            $delay: '%app.post.delay%'
-            $count: '%app.post.max_count%'
 
     App\Repository\PackageRepository:
         factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
