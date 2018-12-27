@@ -33,6 +33,8 @@ class PostPackageListControllerTest extends DatabaseTestCase
         );
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals('UTF-8', $client->getResponse()->getCharset());
+        $this->assertContains('text/plain', $client->getResponse()->headers->get('Content-Type'));
         $this->assertContains('Thanks for your submission. :-)', $client->getResponse()->getContent());
 
         /** @var UserRepository $userRepository */

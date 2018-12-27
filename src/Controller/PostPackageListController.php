@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PostPackageListController extends AbstractController
 {
@@ -47,14 +46,6 @@ class PostPackageListController extends AbstractController
             }
         );
 
-        if (!$pkgstatsRequest->isQuiet()) {
-            $body = 'Thanks for your submission. :-)' . "\n" . 'See results at '
-                . $this->generateUrl('app_start_index', [], UrlGeneratorInterface::ABSOLUTE_URL)
-                . "\n";
-        } else {
-            $body = '';
-        }
-
-        return new Response($body, Response::HTTP_OK, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        return $this->render('post.text.twig', ['quiet' => $pkgstatsRequest->isQuiet()]);
     }
 }
