@@ -1,14 +1,12 @@
 <?php
 
-namespace DatatablesApiBundle\Tests\Request\Datatables;
+namespace DatatablesApiBundle\Tests\Request;
 
-use DatatablesApiBundle\Request\Datatables\Column;
-use DatatablesApiBundle\Request\Datatables\Order;
-use DatatablesApiBundle\Request\Datatables\Search;
+use DatatablesApiBundle\Request\Column;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \DatatablesApiBundle\Request\Datatables\Order
+ * @covers \DatatablesApiBundle\Request\Order
  */
 class OrderTest extends TestCase
 {
@@ -24,12 +22,12 @@ class OrderTest extends TestCase
             '',
             false,
             false,
-            new Search(
+            new \DatatablesApiBundle\Request\Search(
                 '',
                 false
             )
         );
-        $order = new Order(
+        $order = new \DatatablesApiBundle\Request\Order(
             $column,
             $direction
         );

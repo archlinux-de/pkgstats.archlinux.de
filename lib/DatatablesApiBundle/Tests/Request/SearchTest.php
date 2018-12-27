@@ -1,12 +1,12 @@
 <?php
 
-namespace DatatablesApiBundle\Tests\Request\Datatables;
+namespace DatatablesApiBundle\Tests\Request;
 
-use DatatablesApiBundle\Request\Datatables\Search;
+use DatatablesApiBundle\Request\Search;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \DatatablesApiBundle\Request\Datatables\Search
+ * @covers \DatatablesApiBundle\Request\Search
  */
 class SearchTest extends TestCase
 {

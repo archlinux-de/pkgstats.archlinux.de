@@ -1,22 +1,22 @@
 <?php
 
-namespace DatatablesApiBundle\Tests\Response\Datatables;
+namespace DatatablesApiBundle\Tests;
 
-use DatatablesApiBundle\Response\Datatables\Response;
+use DatatablesApiBundle\DatatablesResponse;
 use PHPUnit\Framework\TestCase;
 
-class ResponseTest extends TestCase
+class DatatablesResponseTest extends TestCase
 {
     public function testInitialization()
     {
-        $response = new Response(['foo' => 'bar']);
+        $response = new DatatablesResponse(['foo' => 'bar']);
 
         $this->assertEquals(['foo' => 'bar'], $response->getData());
     }
 
     public function testSerialization()
     {
-        $response = new Response();
+        $response = new DatatablesResponse();
         $response->setData(['foo' => 'bar']);
         $response->setDraw(12);
         $response->setRecordsFiltered(34);

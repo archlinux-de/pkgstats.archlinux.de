@@ -1,15 +1,15 @@
 <?php
 
-namespace DatatablesApiBundle\Tests\Request\Datatables;
+namespace DatatablesApiBundle\Tests;
 
-use DatatablesApiBundle\Request\Datatables\Request;
-use DatatablesApiBundle\Request\Datatables\Search;
+use DatatablesApiBundle\DatatablesRequest;
+use DatatablesApiBundle\Request\Search;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \DatatablesApiBundle\Request\Datatables\Request
+ * @covers \DatatablesApiBundle\DatatablesRequest
  */
-class RequestTest extends TestCase
+class DatatablesRequestTest extends TestCase
 {
     /**
      * @param Search|null $search
@@ -18,7 +18,7 @@ class RequestTest extends TestCase
      */
     public function testHasSearch(?Search $search, bool $hasSearch)
     {
-        $request = new Request(1, 2, 3);
+        $request = new DatatablesRequest(1, 2, 3);
         if (!is_null($search)) {
             $request->setSearch($search);
         }
@@ -45,7 +45,7 @@ class RequestTest extends TestCase
 
     public function testJsonSerialize()
     {
-        $request = new Request(1, 2, 3);
+        $request = new DatatablesRequest(1, 2, 3);
 
         $json = json_encode($request);
         $this->assertJson($json);
@@ -64,8 +64,8 @@ class RequestTest extends TestCase
 
     public function testGetId()
     {
-        $requestA = new Request(1, 2, 3);
-        $requestB = new Request(1, 2, 4);
+        $requestA = new DatatablesRequest(1, 2, 3);
+        $requestB = new DatatablesRequest(1, 2, 4);
         $this->assertNotEquals($requestA->getId(), $requestB->getId());
     }
 }

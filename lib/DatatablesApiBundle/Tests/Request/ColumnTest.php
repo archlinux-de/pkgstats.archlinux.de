@@ -1,13 +1,12 @@
 <?php
 
-namespace DatatablesApiBundle\Tests\Request\Datatables;
+namespace DatatablesApiBundle\Tests\Request;
 
-use DatatablesApiBundle\Request\Datatables\Column;
-use DatatablesApiBundle\Request\Datatables\Search;
+use DatatablesApiBundle\Request\Column;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \DatatablesApiBundle\Request\Datatables\Column
+ * @covers \DatatablesApiBundle\Request\Column
  */
 class ColumnTest extends TestCase
 {
@@ -24,7 +23,7 @@ class ColumnTest extends TestCase
             'FooName',
             $searchable,
             $orderable,
-            new Search(
+            new \DatatablesApiBundle\Request\Search(
                 '',
                 false
             )

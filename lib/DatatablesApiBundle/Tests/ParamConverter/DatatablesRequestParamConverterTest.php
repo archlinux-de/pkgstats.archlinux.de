@@ -1,9 +1,9 @@
 <?php
 
-namespace DatatablesApiBundle\Tests\Request\ParamConverter;
+namespace DatatablesApiBundle\Tests\ParamConverter;
 
-use DatatablesApiBundle\Request\Datatables\Request as DatatablesRequest;
-use DatatablesApiBundle\Request\ParamConverter\DatatablesRequestParamConverter;
+use DatatablesApiBundle\DatatablesRequest;
+use DatatablesApiBundle\ParamConverter\DatatablesRequestParamConverter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -193,7 +193,7 @@ class DatatablesRequestParamConverterTest extends TestCase
             ]
         );
         $this->assertTrue($this->paramConverter->apply($request, $this->configuration));
-        /** @var DatatablesRequest $datatablesRequest */
+        /** @var \DatatablesApiBundle\DatatablesRequest $datatablesRequest */
         $datatablesRequest = $request->attributes->get(DatatablesRequest::class);
         $orders = $datatablesRequest->getOrders();
         $this->assertCount(1, $orders);
