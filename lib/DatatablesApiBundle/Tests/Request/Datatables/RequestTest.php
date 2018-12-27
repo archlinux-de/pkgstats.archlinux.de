@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Request\Datatables;
+namespace DatatablesApiBundle\Tests\Request\Datatables;
 
-use App\Request\Datatables\Request;
-use App\Request\Datatables\Search;
+use DatatablesApiBundle\Request\Datatables\Request;
+use DatatablesApiBundle\Request\Datatables\Search;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \App\Request\Datatables\Request
+ * @covers \DatatablesApiBundle\Request\Datatables\Request
  */
 class RequestTest extends TestCase
 {

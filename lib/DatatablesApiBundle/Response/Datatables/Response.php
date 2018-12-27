@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Response\Datatables;
+namespace DatatablesApiBundle\Response\Datatables;
 
 class Response implements \JsonSerializable
 {
