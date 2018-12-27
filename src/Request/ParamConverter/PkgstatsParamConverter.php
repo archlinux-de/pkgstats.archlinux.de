@@ -41,10 +41,10 @@ class PkgstatsParamConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverter $configuration)
     {
-        $pkgstatsver = str_replace('pkgstats/', '', $request->server->get('HTTP_USER_AGENT'));
+        $pkgstatsver = str_replace('pkgstats/', '', $request->server->get('HTTP_USER_AGENT', ''));
         $packages = $this->filterList($request->request->get('packages', ''));
         $modules = $this->filterList($request->request->get('modules', ''));
-        $arch = $request->request->get('arch');
+        $arch = $request->request->get('arch', '');
         $cpuArch = $request->request->get('cpuarch', $arch);
         $mirror = $this->filterUrl($request->request->get('mirror', ''));
         $quiet = $request->request->get('quiet') == 'true';
