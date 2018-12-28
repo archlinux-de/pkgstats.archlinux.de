@@ -2,3 +2,5 @@ services:
     DatatablesApiBundle\ParamConverter\DatatablesRequestParamConverter:
         arguments: ['@validator']
         tags: ['request.param_converter']
+
+    DatatablesApiBundle\DatatablesQuery:
