@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Repository\PackageRepository;
 use App\Repository\UserRepository;
-use Psr\Cache\CacheItemPoolInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +13,6 @@ class FunStatisticsController extends AbstractController
 {
     /** @var int */
     private $rangeMonths;
-    /** @var CacheItemPoolInterface */
-    private $cache;
     /** @var PackageRepository */
     private $packageRepository;
     /** @var UserRepository */
@@ -25,20 +22,17 @@ class FunStatisticsController extends AbstractController
 
     /**
      * @param int $rangeMonths
-     * @param CacheItemPoolInterface $cache
      * @param PackageRepository $packageRepository
      * @param UserRepository $userRepository
      * @param array $funConfiguration
      */
     public function __construct(
         int $rangeMonths,
-        CacheItemPoolInterface $cache,
         PackageRepository $packageRepository,
         UserRepository $userRepository,
         array $funConfiguration
     ) {
         $this->rangeMonths = $rangeMonths;
-        $this->cache = $cache;
         $this->packageRepository = $packageRepository;
         $this->userRepository = $userRepository;
         $this->funConfiguration = $funConfiguration;
@@ -46,23 +40,12 @@ class FunStatisticsController extends AbstractController
 
     /**
      * @Route("/fun", methods={"GET"})
-     * @Cache(smaxage="900")
+     * @Cache(smaxage="86400")
      * @return Response
-     * @throws \Psr\Cache\InvalidArgumentException
      */
     public function funAction(): Response
     {
-        $cachedData = $this->cache->getItem('fun.statistics');
-        if ($cachedData->isHit()) {
-            $data = $cachedData->get();
-        } else {
-            $data = $this->getData();
-            $cachedData->expiresAt(new \DateTime('24 hour'));
-            $cachedData->set($data);
-
-            $this->cache->save($cachedData);
-        }
-
+        $data = $this->getData();
         return $this->render('fun.html.twig', $data);
     }
 
