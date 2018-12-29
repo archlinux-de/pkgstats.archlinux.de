@@ -17,7 +17,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,Request,Repository}'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,Request}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
@@ -51,15 +51,3 @@ services:
     App\Controller\PackageStatisticsController:
         bind:
             $rangeMonths: '%app.range_months%'
-
-    App\Repository\PackageRepository:
-        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
-        arguments: ['\App\Entity\Package']
-
-    App\Repository\UserRepository:
-        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
-        arguments: ['\App\Entity\User']
-
-    App\Repository\ModuleRepository:
-        factory: 'Doctrine\ORM\EntityManagerInterface:getRepository'
-        arguments: ['\App\Entity\Module']

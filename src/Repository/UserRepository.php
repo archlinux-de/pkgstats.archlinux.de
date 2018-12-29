@@ -2,11 +2,21 @@
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use App\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NoResultException;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class UserRepository extends EntityRepository
+class UserRepository extends ServiceEntityRepository
 {
+    /**
+     * @param RegistryInterface $registry
+     */
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, User::class);
+    }
+
     /**
      * @param int $startTime
      * @return int
