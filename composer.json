@@ -15,6 +15,7 @@
         "doctrine/orm": "^2.6",
         "geertw/ip-anonymizer": "^1.1",
         "geoip2/geoip2": "^2.9",
+        "pierres/datatables-api-bundle": "^1.0",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",
@@ -29,6 +30,7 @@
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {
+        "ext-pdo_sqlite": "*",
         "phpunit/phpunit": "^7",
         "sensiolabs/security-checker": "^5.0",
         "squizlabs/php_codesniffer": "^3.3",
@@ -47,8 +49,7 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/",
-            "DatatablesApiBundle\\": "lib/DatatablesApiBundle/"
+            "App\\": "src/"
         }
     },
     "autoload-dev": {
