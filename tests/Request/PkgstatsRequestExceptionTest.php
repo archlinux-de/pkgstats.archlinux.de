@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Request\ParamConverter;
+namespace App\Tests\Request;
 
-use App\Request\ParamConverter\PkgstatsRequestException;
+use App\Request\PkgstatsRequestException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\ConstraintViolationInterface;

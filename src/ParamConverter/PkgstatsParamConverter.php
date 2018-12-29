@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Request\ParamConverter;
+namespace App\ParamConverter;
 
 use App\Entity\Module;
 use App\Entity\Package;
 use App\Entity\User;
 use App\Request\PkgstatsRequest;
+use App\Request\PkgstatsRequestException;
 use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;

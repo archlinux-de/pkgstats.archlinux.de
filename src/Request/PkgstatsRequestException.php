@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Request\ParamConverter;
+namespace App\Request;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\ConstraintViolationInterface;

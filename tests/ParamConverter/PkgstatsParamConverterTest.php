@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Request\ParamConverter;
+namespace App\Tests\ParamConverter;
 
-use App\Request\ParamConverter\PkgstatsParamConverter;
-use App\Request\ParamConverter\PkgstatsRequestException;
+use App\ParamConverter\PkgstatsParamConverter;
+use App\Request\PkgstatsRequestException;
 use App\Request\PkgstatsRequest;
 use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
