@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e539b76ef4b01bce515e98fff131daa",
+    "content-hash": "51573d5868c3c751c831a6db12b0a301",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1413,6 +1413,55 @@
                 "psr-3"
             ],
             "time": "2018-11-05T09:00:11+00:00"
+        },
+        {
+            "name": "pierres/datatables-api-bundle",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pierres/datatables-api-bundle.git",
+                "reference": "55ecb05d083c2795168d52c87f0a3f065f355aeb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pierres/datatables-api-bundle/zipball/55ecb05d083c2795168d52c87f0a3f065f355aeb",
+                "reference": "55ecb05d083c2795168d52c87f0a3f065f355aeb",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "^2.6",
+                "ext-json": "*",
+                "php": "^7.1",
+                "sensio/framework-extra-bundle": "^5.0",
+                "symfony/validator": "^4.0",
+                "symfony/yaml": "^4.0"
+            },
+            "require-dev": {
+                "ext-pdo_sqlite": "*",
+                "phpunit/phpunit": "^7",
+                "squizlabs/php_codesniffer": "^3"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "DatatablesApiBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pierre Schmitz",
+                    "email": "mail@pierre-schmitz.com"
+                }
+            ],
+            "description": "Symfony bundle to simplify a DataTables server side API",
+            "time": "2018-12-29T06:56:42+00:00"
         },
         {
             "name": "psr/cache",
@@ -5505,5 +5554,7 @@
         "ext-mbstring": "*",
         "ext-pdo_mysql": "*"
     },
-    "platform-dev": []
+    "platform-dev": {
+        "ext-pdo_sqlite": "*"
+    }
 }
