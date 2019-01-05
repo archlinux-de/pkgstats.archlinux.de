@@ -1,5 +1,5 @@
 .EXPORT_ALL_VARIABLES:
-.PHONY: all init start stop clean rebuild install shell-php shell-node test test-db test-coverage test-ci ci-build ci-update ci-update-commit deploy
+.PHONY: all init start start-db stop clean rebuild install shell-php shell-node test test-db test-coverage test-ci ci-build ci-update ci-update-commit deploy
 
 UID!=id -u
 GID!=id -g
@@ -19,6 +19,10 @@ init: start
 
 start:
 	${COMPOSE} up -d
+	${MARIADB-RUN} mysqladmin -uroot --wait=10 ping
+
+start-db:
+	${COMPOSE} up -d mariadb
 	${MARIADB-RUN} mysqladmin -uroot --wait=10 ping
 
 stop:
@@ -52,7 +56,7 @@ test:
 	${PHP-RUN} bin/console lint:twig templates
 	${PHP-RUN} vendor/bin/phpunit
 
-test-db: start
+test-db: start-db
 	${PHP-DB-RUN} vendor/bin/phpunit -c phpunit-db.xml
 
 test-coverage:
