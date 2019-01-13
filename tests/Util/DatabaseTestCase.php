@@ -26,7 +26,7 @@ class DatabaseTestCase extends KernelTestCase
     /**
      * @return bool
      */
-    private function isPersistentDatabase(): bool
+    protected function isPersistentDatabase(): bool
     {
         $params = $this->getEntityManager()->getConnection()->getParams();
         return (isset($params['path']) && $params['path']) || (isset($params['dbname']) && $params['dbname']);
@@ -40,7 +40,7 @@ class DatabaseTestCase extends KernelTestCase
         return static::$container->get('doctrine.orm.entity_manager');
     }
 
-    private function dropDatabase()
+    protected function dropDatabase()
     {
         $this->runCommand(new ArrayInput([
             'command' => 'doctrine:database:drop',
@@ -52,7 +52,7 @@ class DatabaseTestCase extends KernelTestCase
     /**
      * @param ArrayInput $input
      */
-    private function runCommand(ArrayInput $input)
+    protected function runCommand(ArrayInput $input)
     {
         $application = new Application(static::$kernel);
         $application->setAutoExit(false);
@@ -62,17 +62,17 @@ class DatabaseTestCase extends KernelTestCase
 
         $outputResult = $output->fetch();
         $this->assertEmpty($outputResult, $outputResult);
-        $this->assertEquals(0, $result);
+        $this->assertEquals(0, $result, sprintf('Command %s failed', $input));
     }
 
-    private function createDatabase(): void
+    protected function createDatabase(): void
     {
         $this->runCommand(new ArrayInput([
             'command' => 'doctrine:database:create'
         ]));
     }
 
-    private function createDatabaseSchema()
+    protected function createDatabaseSchema()
     {
         $this->runCommand(new ArrayInput([
             'command' => 'doctrine:schema:create'

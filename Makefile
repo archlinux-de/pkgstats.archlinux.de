@@ -1,5 +1,5 @@
 .EXPORT_ALL_VARIABLES:
-.PHONY: all init start start-db stop clean rebuild install shell-php shell-node test test-db test-coverage test-ci ci-build ci-update ci-update-commit deploy
+.PHONY: all init start start-db stop clean rebuild install shell-php shell-node test test-db test-db-migrations test-coverage test-db-coverage test-ci ci-build ci-update ci-update-commit deploy
 
 UID!=id -u
 GID!=id -g
@@ -16,6 +16,7 @@ init: start
 	${PHP-DB-RUN} bin/console cache:warmup
 	${PHP-DB-RUN} bin/console doctrine:database:create
 	${PHP-DB-RUN} bin/console doctrine:schema:create
+	${PHP-DB-RUN} bin/console doctrine:migrations:version --add --all --no-interaction
 
 start:
 	${COMPOSE} up -d
@@ -59,8 +60,14 @@ test:
 test-db: start-db
 	${PHP-DB-RUN} vendor/bin/phpunit -c phpunit-db.xml
 
+test-db-migrations: start-db
+	${PHP-DB-RUN} vendor/bin/phpunit -c phpunit-db.xml tests/Migrations/
+
 test-coverage:
 	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage
+
+test-db-coverage: start-db
+	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage -c phpunit-db.xml
 
 test-ci:
 	${NODE-RUN} node_modules/.bin/encore production
@@ -95,4 +102,5 @@ deploy:
 	bin/console cache:clear --no-debug --no-warmup
 	yarn run encore production
 	bin/console cache:warmup
+	bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 	chmod o+x .

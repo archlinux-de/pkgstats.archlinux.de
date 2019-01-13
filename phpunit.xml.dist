@@ -17,12 +17,16 @@
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory>tests</directory>
+            <exclude>tests/Migrations</exclude>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
             <directory>src</directory>
+            <exclude>
+                <directory>src/Migrations</directory>
+            </exclude>
         </whitelist>
     </filter>
 
