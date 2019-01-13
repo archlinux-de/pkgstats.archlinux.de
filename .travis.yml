@@ -6,4 +6,6 @@ services:
   - docker
 
 script:
+  - export UID
+  - export GID=$(id -g)
   - make ci-build
