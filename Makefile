@@ -55,6 +55,7 @@ test:
 	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css'
 	${PHP-RUN} bin/console lint:yaml config
 	${PHP-RUN} bin/console lint:twig templates
+	${PHP-RUN} vendor/bin/phpstan analyse
 	${PHP-RUN} vendor/bin/phpunit
 
 test-db: start-db

@@ -19,7 +19,9 @@ class FunStatisticsControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $tableHeads = $crawler->filter('th');
+        $this->assertNotNull($this->getClient()->getContainer());
         $funConfiguration = $this->getClient()->getContainer()->getParameter('app.fun');
+        /** @var string $funCategory */
         foreach (array_keys($funConfiguration) as $funCategory) {
             $this->assertNodeContainsText($tableHeads, $funCategory);
         }

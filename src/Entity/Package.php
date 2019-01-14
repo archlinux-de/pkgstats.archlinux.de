@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table()
@@ -108,6 +108,8 @@ class Package
      */
     public function setCountOnPersist(LifecycleEventArgs $args): void
     {
-        $args->getEntity()->setCount(1);
+        /** @var Package $package */
+        $package = $args->getEntity();
+        $package->setCount(1);
     }
 }

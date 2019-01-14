@@ -72,7 +72,7 @@ class FunStatisticsController extends AbstractController
      */
     private function getRangeTime(): int
     {
-        return strtotime(date('1-m-Y', strtotime('now -' . $this->rangeMonths . ' months')));
+        return (int)strtotime(date('1-m-Y', (int)strtotime('now -' . $this->rangeMonths . ' months')));
     }
 
     /**
@@ -108,6 +108,6 @@ class FunStatisticsController extends AbstractController
      */
     private function getRangeYearMonth(): int
     {
-        return date('Ym', $this->getRangeTime());
+        return (int)date('Ym', $this->getRangeTime());
     }
 }

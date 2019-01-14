@@ -43,7 +43,7 @@ class RateLimitSubscriberTest extends TestCase
     }
 
     /**
-     * @param $controller
+     * @param mixed $controller
      * @dataProvider provideInvalidControllers
      */
     public function testSubscriberIsDisabledByDefault($controller)
@@ -125,7 +125,7 @@ class RateLimitSubscriberTest extends TestCase
     {
         return [
             [[]],
-            [[new \StdClass()]],
+            [[new \stdClass()]],
             [
                 function () {
                 }

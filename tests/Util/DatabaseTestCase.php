@@ -101,7 +101,9 @@ class DatabaseTestCase extends KernelTestCase
      */
     protected function getClient(): Client
     {
-        return static::$container->get('test.client');
+        /** @var Client $client */
+        $client = static::$container->get('test.client');
+        return $client;
     }
 
     /**

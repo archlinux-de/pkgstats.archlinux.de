@@ -91,7 +91,7 @@ class ModuleStatisticsController extends AbstractController
      */
     private function getRangeTime(): int
     {
-        return strtotime(date('1-m-Y', strtotime('now -' . $this->rangeMonths . ' months')));
+        return (int)strtotime(date('1-m-Y', (int)strtotime('now -' . $this->rangeMonths . ' months')));
     }
 
     /**

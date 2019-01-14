@@ -60,7 +60,7 @@ class RateLimitSubscriber implements EventSubscriberInterface
 
         if (isset($controller[0]) && $controller[0] instanceof PostPackageListController) {
             $submissionCount = $this->userRepository->getSubmissionCountSince(
-                $this->clientIdGenerator->createClientId($event->getRequest()->getClientIp()),
+                $this->clientIdGenerator->createClientId($event->getRequest()->getClientIp() ?? '127.0.0.1'),
                 time() - $this->delay
             );
             if ($submissionCount >= $this->count) {

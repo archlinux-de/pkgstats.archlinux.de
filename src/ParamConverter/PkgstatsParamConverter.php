@@ -50,7 +50,7 @@ class PkgstatsParamConverter implements ParamConverterInterface
         $mirror = $this->filterUrl($request->request->get('mirror', ''));
         $quiet = $request->request->get('quiet') == 'true';
 
-        $clientIp = $request->getClientIp();
+        $clientIp = $request->getClientIp() ?? '127.0.0.1';
         $user = (new User())
             ->setIp($this->clientIdGenerator->createClientId($clientIp))
             ->setTime(time())
@@ -68,7 +68,7 @@ class PkgstatsParamConverter implements ParamConverterInterface
             $pkgstatsRequest->addPackage(
                 (new Package())
                     ->setPkgname($package)
-                    ->setMonth(date('Ym', $user->getTime()))
+                    ->setMonth((int)date('Ym', $user->getTime()))
             );
         }
 
@@ -76,7 +76,7 @@ class PkgstatsParamConverter implements ParamConverterInterface
             $pkgstatsRequest->addModule(
                 (new Module())
                     ->setName($module)
-                    ->setMonth(date('Ym', $user->getTime()))
+                    ->setMonth((int)date('Ym', $user->getTime()))
             );
         }
 
