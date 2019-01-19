@@ -1682,20 +1682,20 @@
         },
         {
             "name": "pierres/datatables-api-bundle",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/datatables-api-bundle.git",
-                "reference": "55ecb05d083c2795168d52c87f0a3f065f355aeb"
+                "reference": "975c511f046f67ff0a9d40e66cfd8f480dbd8285"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/datatables-api-bundle/zipball/55ecb05d083c2795168d52c87f0a3f065f355aeb",
-                "reference": "55ecb05d083c2795168d52c87f0a3f065f355aeb",
+                "url": "https://api.github.com/repos/pierres/datatables-api-bundle/zipball/975c511f046f67ff0a9d40e66cfd8f480dbd8285",
+                "reference": "975c511f046f67ff0a9d40e66cfd8f480dbd8285",
                 "shasum": ""
             },
             "require": {
-                "doctrine/orm": "^2.6",
+                "doctrine/orm": "^2.6.3",
                 "ext-json": "*",
                 "php": "^7.1",
                 "sensio/framework-extra-bundle": "^5.0",
@@ -1704,8 +1704,11 @@
             },
             "require-dev": {
                 "ext-pdo_sqlite": "*",
+                "phpstan/phpstan": "^0.11",
+                "phpstan/phpstan-deprecation-rules": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
                 "phpunit/phpunit": "^7",
-                "squizlabs/php_codesniffer": "^3"
+                "squizlabs/php_codesniffer": "^3.4"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -1727,7 +1730,7 @@
                 }
             ],
             "description": "Symfony bundle to simplify a DataTables server side API",
-            "time": "2018-12-29T06:56:42+00:00"
+            "time": "2019-01-18T16:39:25+00:00"
         },
         {
             "name": "psr/cache",
