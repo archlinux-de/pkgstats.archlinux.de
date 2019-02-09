@@ -3,8 +3,8 @@
 namespace App\Tests\ParamConverter;
 
 use App\ParamConverter\PkgstatsParamConverter;
-use App\Request\PkgstatsRequestException;
 use App\Request\PkgstatsRequest;
+use App\Request\PkgstatsRequestException;
 use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -26,7 +26,7 @@ class PkgstatsParamConverterTest extends TestCase
     /** @var PkgstatsParamConverter */
     private $paramConverter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->geoIp = $this->createMock(GeoIp::class);
         $this->clientIdGenerator = $this->createMock(ClientIdGenerator::class);

@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 
 class MigrationsTest extends DatabaseTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         static::bootKernel();
         if ($this->isPersistentDatabase()) {

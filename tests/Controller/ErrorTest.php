@@ -10,17 +10,17 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class ErrorTest extends WebTestCase
 {
     /**
-     * @param string $code
+     * @param int $code
      * @dataProvider provideErrorCodes
      */
-    public function testErrorPages(string $code)
+    public function testErrorPages(int $code)
     {
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/_error/' . $code);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertContains($code, $crawler->filter('h2')->text());
+        $this->assertStringContainsString((string)$code, $crawler->filter('h2')->text());
     }
 
     /**

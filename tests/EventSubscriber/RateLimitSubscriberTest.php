@@ -22,7 +22,7 @@ class RateLimitSubscriberTest extends TestCase
     /** @var UserRepository|MockObject */
     private $userRepository;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->clientIdGenerator = $this->createMock(ClientIdGenerator::class);
         $this->userRepository = $this->createMock(UserRepository::class);

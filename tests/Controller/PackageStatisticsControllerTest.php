@@ -53,7 +53,10 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
         $crawler = $client->request('GET', '/package');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertContains('/package/datatables', $crawler->filter('#pkgstats')->attr('data-ajax'));
+        $this->assertStringContainsString(
+            '/package/datatables',
+            (string)$crawler->filter('#pkgstats')->attr('data-ajax')
+        );
     }
 
     public function testPackageJsonAction()

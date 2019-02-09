@@ -17,7 +17,7 @@ class GeoIpTest extends TestCase
     /** @var GeoIp */
     private $geoIp;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->reader = $this->getMockBuilder(Reader::class)->disableOriginalConstructor()->getMock();
         $this->logger = $this->createMock(LoggerInterface::class);

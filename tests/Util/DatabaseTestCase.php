@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 
 class DatabaseTestCase extends KernelTestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         static::bootKernel();
@@ -79,7 +79,7 @@ class DatabaseTestCase extends KernelTestCase
         ]));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         if ($this->isPersistentDatabase()) {
             $this->dropDatabase();

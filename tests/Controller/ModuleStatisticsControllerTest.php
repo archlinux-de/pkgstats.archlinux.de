@@ -53,7 +53,10 @@ class ModuleStatisticsControllerTest extends DatabaseTestCase
         $crawler = $client->request('GET', '/module');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertContains('/module/datatables', $crawler->filter('#modules')->attr('data-ajax'));
+        $this->assertStringContainsString(
+            '/module/datatables',
+            (string)$crawler->filter('#modules')->attr('data-ajax')
+        );
     }
 
     public function testModuleJsonAction()
