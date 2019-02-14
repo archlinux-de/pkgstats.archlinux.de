@@ -5145,26 +5145,28 @@
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "0.11",
+            "version": "0.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "acada9010d3cf9f2896ed78c2375d11e5a9488d3"
+                "reference": "977df27bbd8b0c1de02f70b3086f057bf500a941"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/acada9010d3cf9f2896ed78c2375d11e5a9488d3",
-                "reference": "acada9010d3cf9f2896ed78c2375d11e5a9488d3",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/977df27bbd8b0c1de02f70b3086f057bf500a941",
+                "reference": "977df27bbd8b0c1de02f70b3086f057bf500a941",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "^4.0",
                 "php": "~7.1",
+                "phpstan/phpdoc-parser": "^0.3",
                 "phpstan/phpstan": "^0.11"
             },
             "conflict": {
                 "doctrine/collections": "<1.0",
                 "doctrine/common": "<2.7",
+                "doctrine/mongodb-odm": "<1.2",
                 "doctrine/orm": "<2.5"
             },
             "require-dev": {
@@ -5172,6 +5174,7 @@
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
                 "doctrine/collections": "^1.0",
                 "doctrine/common": "^2.7",
+                "doctrine/mongodb-odm": "^1.2",
                 "doctrine/orm": "^2.5",
                 "jakub-onderka/php-parallel-lint": "^1.0",
                 "phing/phing": "^2.16.0",
@@ -5196,7 +5199,7 @@
                 "MIT"
             ],
             "description": "Doctrine extensions for PHPStan",
-            "time": "2018-11-23T11:16:25+00:00"
+            "time": "2019-02-13T13:06:29+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -5251,23 +5254,23 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "0.11",
+            "version": "0.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "6f200b03f1dff57291e8fcb7c23d3d8cec92d151"
+                "reference": "c5f7d3d7fe9b599ac083f481fc082af166926cf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/6f200b03f1dff57291e8fcb7c23d3d8cec92d151",
-                "reference": "6f200b03f1dff57291e8fcb7c23d3d8cec92d151",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/c5f7d3d7fe9b599ac083f481fc082af166926cf8",
+                "reference": "c5f7d3d7fe9b599ac083f481fc082af166926cf8",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*",
                 "nikic/php-parser": "^4.0",
                 "php": "^7.1",
-                "phpstan/phpstan": "^0.11"
+                "phpstan/phpstan": "^0.11.1"
             },
             "conflict": {
                 "symfony/framework-bundle": "<3.0"
@@ -5282,7 +5285,8 @@
                 "phpunit/phpunit": "^7.0",
                 "slevomat/coding-standard": "^4.5.2",
                 "squizlabs/php_codesniffer": "^3.3.2",
-                "symfony/framework-bundle": "^3.0 || ^4.0"
+                "symfony/framework-bundle": "^3.0 || ^4.0",
+                "symfony/serializer": "^3|^4"
             },
             "type": "library",
             "extra": {
@@ -5307,7 +5311,7 @@
                 }
             ],
             "description": "Symfony Framework extensions and rules for PHPStan",
-            "time": "2019-01-16T09:15:02+00:00"
+            "time": "2019-02-13T19:42:11+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
