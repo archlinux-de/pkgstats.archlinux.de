@@ -10,6 +10,7 @@ $(document).ready(function () {
     'serverSide': true,
     'order': [[1, 'desc']],
     'searchDelay': 1000,
+    'pagingType': 'numbers',
     'columns': [
       {
         'data': 'name',

@@ -4,23 +4,24 @@
     <meta charset="{{ _charset }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="{{ absolute_url(asset('build/images/archicon.svg')) }}" sizes="any" type="image/svg+xml">
+    <link rel="icon" href="{{ absolute_url(asset('favicon.ico')) }}" type="image/x-icon">
     <title>Error: {{ status_text }}</title>
     {{ encore_entry_link_tags('css/app') }}
+    <meta name="robots" content="noindex,nofollow"/>
 </head>
 <body>
-<div class="container">
-    <div class="alert alert-warning mt-5" role="alert">
-        <div class="row">
-            <div class="d-none d-lg-block col-lg-2 align-self-center">
-                <img src="{{ absolute_url(asset('build/images/archicon.svg')) }}" width="120" height="120" alt="Arch Linux">
-            </div>
-            <div class="col-lg-10">
-                <h1 class="alert-heading">An Error occurred</h1>
-                <h2>The server responded: "{{ status_code }} {{ status_text }}".</h2>
-                <p>Something went wrong. Contact us if the problem persists. We will resolve it as soon as possible.</p>
-            </div>
+<div role="alert" class="container alert alert-warning mt-5">
+    <div class="row">
+        <div class="d-none d-lg-block col-lg-2 align-self-center">
+            <img src="{{ absolute_url(asset('build/images/archicon.svg')) }}" width="120" height="120" alt="Arch Linux">
+        </div>
+        <div class="col-lg-10">
+            <h1 class="alert-heading">An Error occurred</h1>
+            <h2>The server responded: "{{ status_code }} {{ status_text }}".</h2>
+            <p>Something went wrong. Contact us if the problem persists. We will resolve it as soon as possible.</p>
         </div>
     </div>
 </div>
+{{ encore_entry_script_tags('js/app') }}
 </body>
 </html>

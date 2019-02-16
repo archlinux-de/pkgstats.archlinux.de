@@ -3,10 +3,12 @@
 {% block title %}Statistics{% endblock %}
 
 {% block body %}
-    <h1 class="mb-4">Statistics</h1>
-    <ul class="list-unstyled">
-        <li><a href="{{ path('app_packagestatistics_package') }}">Package statistics</a></li>
-        <li><a href="{{ path('app_modulestatistics_module') }}">Module statistics</a></li>
-        <li><a href="{{ path('app_funstatistics_fun') }}">Fun statistics</a></li>
-    </ul>
+    <main role="main" class="container-fluid">
+        <h1 class="mb-4">Statistics</h1>
+        <ul class="list-unstyled">
+            <li><a href="{{ path('app_packagestatistics_package') }}">Package statistics</a></li>
+            <li><a href="{{ path('app_modulestatistics_module') }}">Module statistics</a></li>
+            <li><a href="{{ path('app_funstatistics_fun') }}">Fun statistics</a></li>
+        </ul>
+    </main>
 {% endblock %}

@@ -10,17 +10,12 @@
         {{ encore_entry_link_tags('css/app') }}
     {% endblock %}
     <meta name="robots" content="{% block robots %}index,follow{% endblock %}"/>
-    <link rel="canonical" href="{% block canonical %}{{ absolute_url(path(app.request.attributes.get('_route'),
-    app.request.attributes.get('_route_params'))) }}{% endblock %}"/>
+    <link rel="canonical" href="{% block canonical %}{{ absolute_url(path(
+        app.request.attributes.get('_route'),
+        app.request.attributes.get('_route_params')
+    )) }}{% endblock %}"/>
 </head>
 <body>
-{% macro nav_item(route, name) %}
-    <li class="nav-item ml-3{% if app.request.attributes.get('_route') == route %} active{% endif %}">
-        <a class="nav-link font-weight-bold"
-           href="{% if route starts with 'https://' %}{{ route }}{% else %}{{ path(route) }}{% endif %}">{{ name }}</a>
-    </li>
-{% endmacro %}
-{% import _self as macro %}
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbar-border-brand mb-4">
     <a class="navbar-brand" href="{{ path('app_start_index') }}">
         <picture>
@@ -30,30 +25,32 @@
         </picture>
     </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar"
-            aria-expanded="false" aria-label="Navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+            aria-controls="navbar" aria-expanded="false" aria-label="Navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbar">
         <ul class="navbar-nav ml-auto mr-4">
-            {{ macro.nav_item('app_start_index', 'Start') }}
-            {{ macro.nav_item('app_packagestatistics_package', 'Packages') }}
-            {{ macro.nav_item('app_modulestatistics_module', 'Modules') }}
-            {{ macro.nav_item('app_funstatistics_fun', 'Fun') }}
+            {% for route, name in {
+                app_start_index: 'Start',
+                app_packagestatistics_package: 'Packages',
+                app_modulestatistics_module: 'Modules',
+                app_funstatistics_fun: 'Fun'
+            } %}
+                <li class="nav-item ml-3{% if app.request.attributes.get('_route') == route %} active{% endif %}">
+                    <a class="nav-link font-weight-bold" href="{{ path(route) }}">{{ name }}</a>
+                </li>
+            {% endfor %}
         </ul>
     </div>
 </nav>
 
-<div class="container-fluid pl-1 pr-1 pl-xl-5 pr-xl-5">
-    {% block body %}{% endblock %}
-</div>
+{% block body %}{% endblock %}
 
-<footer class="footer pt-5 pb-4 pr-1 pr-xl-5">
-    <div class="container-fluid text-right">
-        <span class="text-muted"><a href="{{ path('app_legal_privacy') }}">Privacy policy</a></span>
-        <span class="text-muted"><a href="{{ path('app_legal_impressum') }}">Impressum</a></span>
-    </div>
+<footer class="container-fluid mt-auto py-3 text-right">
+    <a href="{{ path('app_legal_privacy') }}">Privacy policy</a>
+    <a href="{{ path('app_legal_impressum') }}">Impressum</a>
 </footer>
 
 {% block javascripts %}
