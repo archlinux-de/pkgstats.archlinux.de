@@ -75,11 +75,10 @@ test-ci:
 	${NODE-RUN} node_modules/.bin/encore production
 	${MAKE} test
 	${MAKE} test-db
+	${PHP-RUN} bin/console security:check
 
 ci-build: install
-	${MAKE} test-ci
-	if [ "$${TRAVIS_EVENT_TYPE}" = "cron" ]; then ${MAKE} ci-update; fi
-	${PHP-RUN} bin/console security:check
+	if [ "$${TRAVIS_EVENT_TYPE}" = "cron" ]; then ${MAKE} ci-update; else ${MAKE} test-ci; fi
 
 ci-update-commit:
 	git config --local user.name "$${GH_NAME}"
