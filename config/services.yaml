@@ -47,3 +47,7 @@ services:
     App\Controller\PackageStatisticsController:
         bind:
             $rangeMonths: '%app.range_months%'
+
+    App\ParamConverter\StatisticsRangeParamConverter:
+        bind:
+            $rangeMonths: '%app.range_months%'

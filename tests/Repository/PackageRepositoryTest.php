@@ -72,4 +72,66 @@ class PackageRepositoryTest extends DatabaseTestCase
 
         $this->assertEquals(2, $persistedPackage->getCount());
     }
+
+    public function testGetCountByNameAndRange()
+    {
+        $packageA = (new Package())->setPkgname('a')->setMonth(201810);
+        $packageB = (new Package())->setPkgname('a')->setMonth(201811);
+        $packageC = (new Package())->setPkgname('a')->setMonth(201812);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->merge($packageC);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $count = $packageRepository->getCountByNameAndRange('a', 201811, 201812);
+
+        $this->assertEquals(2, $count);
+    }
+
+    public function testGetCountByNameAndRangeOfUnknownPackage()
+    {
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $count = $packageRepository->getCountByNameAndRange('a', 201811, 201812);
+
+        $this->assertEquals(0, $count);
+    }
+
+    public function testFindPackagesCountByRange()
+    {
+        $packageA = (new Package())->setPkgname('a')->setMonth(201810);
+        $packageB = (new Package())->setPkgname('a')->setMonth(201811);
+        $packageC = (new Package())->setPkgname('aa')->setMonth(201812);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->merge($packageC);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $count = $packageRepository->findPackagesCountByRange('a', 201810, 201812, 1, 1);
+
+        $this->assertEquals(
+            [
+                'total' => 2,
+                'packages' => [
+                    [
+                        'name' => 'aa',
+                        'count' => 1
+                    ]
+                ]
+            ],
+            $count
+        );
+    }
 }

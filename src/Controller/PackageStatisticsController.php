@@ -55,46 +55,6 @@ class PackageStatisticsController extends AbstractController
     }
 
     /**
-     * @Route("/package.json", methods={"GET"})
-     * @Cache(smaxage="86400")
-     * @return Response
-     */
-    public function packageJsonAction(): Response
-    {
-        $packages = $this->packageRepository
-            ->createQueryBuilder('package')
-            ->select('package.pkgname AS pkgname')
-            ->addSelect('SUM(package.count) AS count')
-            ->where('package.month >= :month')
-            ->setParameter('month', $this->getRangeYearMonth())
-            ->groupBy('package.pkgname')
-            ->getQuery()
-            ->getScalarResult();
-
-        array_walk($packages, function (&$item) {
-            $item['count'] = (int)$item['count'];
-        });
-
-        return $this->json($packages);
-    }
-
-    /**
-     * @return string
-     */
-    private function getRangeYearMonth(): string
-    {
-        return date('Ym', $this->getRangeTime());
-    }
-
-    /**
-     * @return int
-     */
-    private function getRangeTime(): int
-    {
-        return (int)strtotime(date('1-m-Y', (int)strtotime('now -' . $this->rangeMonths . ' months')));
-    }
-
-    /**
      * @Route("/package/datatables", methods={"GET"})
      * @param DatatablesRequest $request
      * @return Response
@@ -128,5 +88,21 @@ class PackageStatisticsController extends AbstractController
         );
 
         return $this->json($response);
+    }
+
+    /**
+     * @return string
+     */
+    private function getRangeYearMonth(): string
+    {
+        return date('Ym', $this->getRangeTime());
+    }
+
+    /**
+     * @return int
+     */
+    private function getRangeTime(): int
+    {
+        return (int)strtotime(date('1-m-Y', (int)strtotime('now -' . $this->rangeMonths . ' months')));
     }
 }
