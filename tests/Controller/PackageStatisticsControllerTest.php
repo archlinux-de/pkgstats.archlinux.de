@@ -13,10 +13,10 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
     public function testDatatablesAction()
     {
         $entityManager = $this->getEntityManager();
-        $pacakge = (new Package())
+        $package = (new Package())
             ->setPkgname('foo')
-            ->setMonth(201812);
-        $entityManager->persist($pacakge);
+            ->setMonth((int)(new \DateTime())->format('Ym'));
+        $entityManager->persist($package);
         $entityManager->flush();
 
         $client = $this->getClient();
@@ -57,22 +57,5 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
             '/package/datatables',
             (string)$crawler->filter('#pkgstats')->attr('data-ajax')
         );
-    }
-
-    public function testPackageJsonAction()
-    {
-        $entityManager = $this->getEntityManager();
-        $pacakge = (new Package())
-            ->setPkgname('foo')
-            ->setMonth(201812);
-        $entityManager->persist($pacakge);
-        $entityManager->flush();
-
-        $client = $this->getClient();
-
-        $client->request('GET', '/package.json');
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertJson($client->getResponse()->getContent());
     }
 }

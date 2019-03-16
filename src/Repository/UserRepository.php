@@ -32,6 +32,23 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $startTime
+     * @param int $endTime
+     * @return int
+     */
+    public function getCountByRange(int $startTime, int $endTime): int
+    {
+        return $this->createQueryBuilder('user')
+            ->select('COUNT(user)')
+            ->where('user.time >= :startTime')
+            ->andWhere('user.time <= :endTime')
+            ->setParameter('startTime', $startTime)
+            ->setParameter('endTime', $endTime)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
      * @param string $ip
      * @param int $startTime
      * @return int
