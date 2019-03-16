@@ -58,11 +58,39 @@ class PostPackageListControllerTest extends DatabaseTestCase
      * @param string $version
      * @return Client
      */
-    private function createPkgstatsClient(string $version = '2.3'): Client
+    private function createPkgstatsClient(string $version = '2.4'): Client
     {
         $client = $this->getClient();
         $client->setServerParameter('HTTP_USER_AGENT', sprintf('pkgstats/%s', $version));
         return $client;
+    }
+
+    /**
+     * @param string $version
+     * @dataProvider provideSupportedVserions
+     */
+    public function testSupportedVersions(string $version)
+    {
+        $client = $this->createPkgstatsClient($version);
+
+        $client->request(
+            'POST',
+            '/post',
+            ['arch' => 'x86_64', 'packages' => 'pkgstats']
+        );
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+    }
+
+    /**
+     * @return array
+     */
+    public function provideSupportedVserions(): array
+    {
+        return [
+            ['2.3'],
+            ['2.4']
+        ];
     }
 
     /**
