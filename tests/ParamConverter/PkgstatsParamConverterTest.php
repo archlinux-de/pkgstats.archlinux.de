@@ -207,36 +207,6 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertEquals('bar', $packages[1]->getPkgname());
     }
 
-    public function testApplyModules()
-    {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getName')
-            ->willReturn(PkgstatsRequest::class);
-
-        $request = Request::create('/post');
-        $request->request->set('modules', implode("\n", ['foo', 'bar']));
-
-        $this->validator
-            ->expects($this->once())
-            ->method('validate')
-            ->willReturnCallback(function (PkgstatsRequest $_) {
-                return new ConstraintViolationList();
-            });
-
-        $this->assertTrue($this->paramConverter->apply($request, $configuration));
-
-        $this->assertInstanceOf(PkgstatsRequest::class, $request->attributes->get(PkgstatsRequest::class));
-        /** @var PkgstatsRequest $pkgstatsRequest */
-        $pkgstatsRequest = $request->attributes->get(PkgstatsRequest::class);
-        $modules = $pkgstatsRequest->getModules();
-        $this->assertCount(2, $modules);
-        $this->assertEquals('foo', $modules[0]->getName());
-        $this->assertEquals('bar', $modules[1]->getName());
-    }
-
     public function testApplyFailsOnValidationErrors()
     {
         /** @var ParamConverter|MockObject $configuration */

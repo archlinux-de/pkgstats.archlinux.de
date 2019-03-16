@@ -35,7 +35,6 @@
             {% for route, name in {
                 app_start_index: 'Start',
                 app_packagestatistics_package: 'Packages',
-                app_modulestatistics_module: 'Modules',
                 app_funstatistics_fun: 'Fun'
             } %}
                 <li class="nav-item ml-3{% if app.request.attributes.get('_route') == route %} active{% endif %}">

@@ -2,7 +2,6 @@
 
 namespace App\Request;
 
-use App\Entity\Module;
 use App\Entity\Package;
 use App\Entity\User;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,13 +26,6 @@ class PkgstatsRequest
      * @Assert\Count(min=1, max=10000)
      */
     private $packages = [];
-
-    /**
-     * @var Module[]
-     * @Assert\Valid()
-     * @Assert\Count(max=5000)
-     */
-    private $modules = [];
 
     /**
      * @var bool
@@ -93,30 +85,12 @@ class PkgstatsRequest
     }
 
     /**
-     * @return Module[]
-     */
-    public function getModules(): array
-    {
-        return $this->modules;
-    }
-
-    /**
      * @param Package $package
      * @return PkgstatsRequest
      */
     public function addPackage(Package $package): PkgstatsRequest
     {
         $this->packages[] = $package;
-        return $this;
-    }
-
-    /**
-     * @param Module $module
-     * @return PkgstatsRequest
-     */
-    public function addModule(Module $module): PkgstatsRequest
-    {
-        $this->modules[] = $module;
         return $this;
     }
 }

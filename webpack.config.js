@@ -7,7 +7,6 @@ Encore
   .cleanupOutputBeforeBuild()
   .addEntry('js/app', './assets/js/app.js')
   .addEntry('js/package', './assets/js/package.js')
-  .addEntry('js/module', './assets/js/module.js')
   .addStyleEntry('css/app', './assets/css/app.scss')
   .copyFiles({
     from: 'assets/images',

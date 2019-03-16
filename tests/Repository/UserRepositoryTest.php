@@ -11,7 +11,6 @@ class UserRepositoryTest extends DatabaseTestCase
     public function testGetCountSince()
     {
         $userA = (new User())
-            ->setModules(1)
             ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
@@ -20,7 +19,6 @@ class UserRepositoryTest extends DatabaseTestCase
             ->setTime(1234)
             ->setIp('localhost');
         $userB = (new User())
-            ->setModules(1)
             ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
@@ -44,7 +42,6 @@ class UserRepositoryTest extends DatabaseTestCase
     public function testGetSubmissionCountSince()
     {
         $userA = (new User())
-            ->setModules(1)
             ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
@@ -53,7 +50,6 @@ class UserRepositoryTest extends DatabaseTestCase
             ->setTime(1234)
             ->setIp('localhost');
         $userB = (new User())
-            ->setModules(1)
             ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
@@ -62,7 +58,6 @@ class UserRepositoryTest extends DatabaseTestCase
             ->setTime(12)
             ->setIp('localhost');
         $userC = (new User())
-            ->setModules(1)
             ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
