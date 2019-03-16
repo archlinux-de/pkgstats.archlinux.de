@@ -73,7 +73,7 @@ class PkgstatsParamConverterTest extends TestCase
             ->willReturn(PkgstatsRequest::class);
 
         $request = Request::create('/post');
-        $request->server->set('HTTP_USER_AGENT', 'pkgstats/2.3');
+        $request->server->set('HTTP_USER_AGENT', 'pkgstats/2.4');
 
         $this->validator
             ->expects($this->once())
@@ -87,7 +87,7 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertInstanceOf(PkgstatsRequest::class, $request->attributes->get(PkgstatsRequest::class));
         /** @var PkgstatsRequest $pkgstatsRequest */
         $pkgstatsRequest = $request->attributes->get(PkgstatsRequest::class);
-        $this->assertEquals(2.3, $pkgstatsRequest->getVersion());
+        $this->assertEquals(2.4, $pkgstatsRequest->getVersion());
     }
 
     public function testApplyQuiet()

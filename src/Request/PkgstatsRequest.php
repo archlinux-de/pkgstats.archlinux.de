@@ -10,7 +10,7 @@ class PkgstatsRequest
 {
     /**
      * @var string
-     * @Assert\EqualTo("2.3")
+     * @Assert\Choice(choices={"2.3", "2.4"})
      */
     private $version;
 
