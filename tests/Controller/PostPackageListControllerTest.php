@@ -2,10 +2,8 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\Module;
 use App\Entity\Package;
 use App\Entity\User;
-use App\Repository\ModuleRepository;
 use App\Repository\PackageRepository;
 use App\Repository\UserRepository;
 use App\Tests\Util\DatabaseTestCase;
@@ -27,7 +25,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
                 'arch' => 'x86_64',
                 'cpuarch' => 'x86_64',
                 'packages' => 'pkgstats',
-                'modules' => 'snd',
                 'mirror' => 'http://localhost'
             ]
         );
@@ -46,7 +43,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertEquals('x86_64', $user->getCpuarch());
         $this->assertEquals('http://localhost', $user->getMirror());
         $this->assertEquals(1, $user->getPackages());
-        $this->assertEquals(1, $user->getModules());
         $this->assertNull($user->getCountrycode());
 
         /** @var PackageRepository $packageRepository */
@@ -56,14 +52,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $package = $packageRepository->findAll()[0];
         $this->assertEquals('pkgstats', $package->getPkgname());
         $this->assertEquals(1, $package->getCount());
-
-        /** @var ModuleRepository $moduleRepository */
-        $moduleRepository = $this->getEntityManager()->getRepository(Module::class);
-        $this->assertCount(1, $moduleRepository->findAll());
-        /** @var Module $module */
-        $module = $moduleRepository->findAll()[0];
-        $this->assertEquals('snd', $module->getName());
-        $this->assertEquals(1, $module->getCount());
     }
 
     /**
@@ -106,7 +94,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $client->request(
             'POST',
             '/post',
-            ['arch' => 'x86_64', 'packages' => 'pkgstats', 'modules' => 'snd']
+            ['arch' => 'x86_64', 'packages' => 'pkgstats']
         );
 
         $this->assertTrue($client->getResponse()->isClientError());
@@ -123,7 +111,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $client->request(
             'POST',
             '/post',
-            ['arch' => $architecture, 'packages' => 'pkgstats', 'modules' => 'snd']
+            ['arch' => $architecture, 'packages' => 'pkgstats']
         );
 
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -170,7 +158,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $client->request(
             'POST',
             '/post',
-            ['arch' => $architecture, 'packages' => 'pkgstats', 'modules' => 'snd']
+            ['arch' => $architecture, 'packages' => 'pkgstats']
         );
 
         $this->assertTrue($client->getResponse()->isClientError());
@@ -190,8 +178,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
             [
                 'arch' => 'x86_64',
                 'cpuarch' => $architecture,
-                'packages' => 'pkgstats',
-                'modules' => 'snd'
+                'packages' => 'pkgstats'
             ]
         );
 
@@ -268,46 +255,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    public function testLongModuleListGetsRejected()
-    {
-        $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'packages' => 'pkgstats',
-                'modules' => (function () {
-                    $result = '';
-                    for ($i = 0; $i < 10002; $i++) {
-                        $result .= 'module-' . $i . "\n";
-                    }
-                    return $result;
-                })()
-            ]
-        );
-
-        $this->assertTrue($client->getResponse()->isClientError());
-    }
-
-    public function testLongModuleGetsRejected()
-    {
-        $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'packages' => 'pkgstats',
-                'modules' => str_repeat('a', 256)
-            ]
-        );
-
-        $this->assertTrue($client->getResponse()->isClientError());
-    }
-
     public function testQuietMode()
     {
         $client = $this->createPkgstatsClient();
@@ -318,7 +265,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
             [
                 'arch' => 'x86_64',
                 'packages' => 'pkgstats',
-                'modules' => 'snd',
                 'quiet' => 'true'
             ]
         );
@@ -334,7 +280,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
             $client->request(
                 'POST',
                 '/post',
-                ['arch' => 'x86_64', 'packages' => 'pkgstats', 'modules' => 'snd']
+                ['arch' => 'x86_64', 'packages' => 'pkgstats']
             );
             if ($i <= 10) {
                 $this->assertTrue($client->getResponse()->isSuccessful());

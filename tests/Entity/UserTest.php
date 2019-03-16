@@ -10,7 +10,6 @@ class UserTest extends TestCase
     public function testSettersAndGetters()
     {
         $user = (new User())
-            ->setModules(1)
             ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
@@ -19,7 +18,6 @@ class UserTest extends TestCase
             ->setTime(1234)
             ->setIp('localhost');
 
-        $this->assertEquals(1, $user->getModules());
         $this->assertEquals(2, $user->getPackages());
         $this->assertEquals('https://mirror.archlinux.de', $user->getMirror());
         $this->assertEquals('DE', $user->getCountrycode());

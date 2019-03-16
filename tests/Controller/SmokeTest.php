@@ -39,11 +39,8 @@ class SmokeTest extends DatabaseTestCase
         return [
             ['/'],
             ['/fun'],
-            ['/module'],
             ['/package'],
-            ['/module/datatables?draw=1&length=1'],
             ['/package/datatables?draw=1&length=1'],
-            ['/module.json'],
             ['/package.json'],
             ['/sitemap.xml'],
             ['/impressum'],

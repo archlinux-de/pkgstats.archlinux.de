@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(
@@ -78,13 +78,6 @@ class User
      * @ORM\Column(name="packages", type="smallint", nullable=false)
      */
     private $packages;
-
-    /**
-     * @var integer|null
-     *
-     * @ORM\Column(name="modules", type="smallint", nullable=true)
-     */
-    private $modules;
 
     /**
      * @return string
@@ -209,24 +202,6 @@ class User
     public function setPackages(int $packages): User
     {
         $this->packages = $packages;
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getModules(): ?int
-    {
-        return $this->modules;
-    }
-
-    /**
-     * @param int|null $modules
-     * @return User
-     */
-    public function setModules(?int $modules): User
-    {
-        $this->modules = $modules;
         return $this;
     }
 }

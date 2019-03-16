@@ -2,7 +2,6 @@
 
 namespace App\ParamConverter;
 
-use App\Entity\Module;
 use App\Entity\Package;
 use App\Entity\User;
 use App\Request\PkgstatsRequest;
@@ -44,7 +43,6 @@ class PkgstatsParamConverter implements ParamConverterInterface
     {
         $pkgstatsver = str_replace('pkgstats/', '', $request->server->get('HTTP_USER_AGENT', ''));
         $packages = $this->filterList($request->request->get('packages', ''));
-        $modules = $this->filterList($request->request->get('modules', ''));
         $arch = $request->request->get('arch', '');
         $cpuArch = $request->request->get('cpuarch', $arch);
         $mirror = $this->filterUrl($request->request->get('mirror', ''));
@@ -58,8 +56,7 @@ class PkgstatsParamConverter implements ParamConverterInterface
             ->setCpuarch($cpuArch)
             ->setCountrycode($this->geoIp->getCountryCode($clientIp))
             ->setMirror($mirror)
-            ->setPackages(count($packages))
-            ->setModules(count($modules));
+            ->setPackages(count($packages));
 
         $pkgstatsRequest = new PkgstatsRequest($pkgstatsver, $user);
         $pkgstatsRequest->setQuiet($quiet);
@@ -68,14 +65,6 @@ class PkgstatsParamConverter implements ParamConverterInterface
             $pkgstatsRequest->addPackage(
                 (new Package())
                     ->setPkgname($package)
-                    ->setMonth((int)date('Ym', $user->getTime()))
-            );
-        }
-
-        foreach ($modules as $module) {
-            $pkgstatsRequest->addModule(
-                (new Module())
-                    ->setName($module)
                     ->setMonth((int)date('Ym', $user->getTime()))
             );
         }

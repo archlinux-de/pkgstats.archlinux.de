@@ -30,18 +30,13 @@ class PostPackageListController extends AbstractController
     {
         $user = $pkgstatsRequest->getUser();
         $packages = $pkgstatsRequest->getPackages();
-        $modules = $pkgstatsRequest->getModules();
 
         $this->entityManager->transactional(
-            function (EntityManagerInterface $entityManager) use ($user, $packages, $modules) {
+            function (EntityManagerInterface $entityManager) use ($user, $packages) {
                 $entityManager->persist($user);
 
                 foreach ($packages as $package) {
                     $entityManager->merge($package);
-                }
-
-                foreach ($modules as $module) {
-                    $entityManager->merge($module);
                 }
             }
         );
