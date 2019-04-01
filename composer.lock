@@ -5259,16 +5259,16 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "0.11.2",
+            "version": "0.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "6b4d9f1719a67b733f0c0e9ae55f7612ccd2f17b"
+                "reference": "9c7e936759b284f710e77fbb18ca1da1257dcdd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/6b4d9f1719a67b733f0c0e9ae55f7612ccd2f17b",
-                "reference": "6b4d9f1719a67b733f0c0e9ae55f7612ccd2f17b",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/9c7e936759b284f710e77fbb18ca1da1257dcdd6",
+                "reference": "9c7e936759b284f710e77fbb18ca1da1257dcdd6",
                 "shasum": ""
             },
             "require": {
@@ -5291,6 +5291,7 @@
                 "slevomat/coding-standard": "^4.5.2",
                 "squizlabs/php_codesniffer": "^3.3.2",
                 "symfony/framework-bundle": "^3.0 || ^4.0",
+                "symfony/messenger": "^4.2",
                 "symfony/serializer": "^3|^4"
             },
             "type": "library",
@@ -5316,7 +5317,7 @@
                 }
             ],
             "description": "Symfony Framework extensions and rules for PHPStan",
-            "time": "2019-03-03T21:38:03+00:00"
+            "time": "2019-04-01T08:02:03+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
