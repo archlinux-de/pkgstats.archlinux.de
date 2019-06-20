@@ -20,7 +20,7 @@
                 'app_funstatistics_fun': 'Fun',
                 'app.swagger_ui': 'API'
             } %}
-                <li class="nav-item ml-3{% if app.request.attributes.get('_route') == route %} active{% endif %}">
+                <li class="nav-item ml-3{% if app.request and app.request.attributes.get('_route') == route %} active{% endif %}">
                     <a class="nav-link font-weight-bold" href="{{ path(route) }}">{{ name }}</a>
                 </li>
             {% endfor %}

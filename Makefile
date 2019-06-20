@@ -103,6 +103,7 @@ deploy:
 	bin/console cache:clear --no-debug --no-warmup
 	yarn run encore production
 	bin/console cache:warmup
-	bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 	bin/console assets:install --symlink --relative
+	bin/console app:swagger:warmup
+	bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 	chmod o+x .

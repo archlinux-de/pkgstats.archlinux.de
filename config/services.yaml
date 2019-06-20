@@ -51,3 +51,8 @@ services:
     App\ParamConverter\StatisticsRangeParamConverter:
         bind:
             $rangeMonths: '%app.range_months%'
+
+    App\Command\SwaggerCacheWarmupCommand:
+        bind:
+            $swaggerUiController: '@nelmio_api_doc.controller.swagger_ui'
+            $documentationController: '@nelmio_api_doc.controller.swagger'
