@@ -32,7 +32,7 @@ class PackagePopularityList implements \JsonSerializable
         return [
             'total' => $this->getTotal(),
             'count' => $this->getCount(),
-            'packages' => $this->getPackagePopularities()
+            'packagePopularities' => $this->getPackagePopularities()
         ];
     }
 

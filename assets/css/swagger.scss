@@ -1,0 +1,20 @@
+@import "bootstrap";
+
+header::before {
+  display: none;
+}
+
+#swagger-ui {
+  .scheme-container,
+  .information-container {
+    display: none;
+  }
+
+  .col {
+    width: unset;
+  }
+
+  &.api-platform .wrapper {
+    padding: unset;
+  }
+}
