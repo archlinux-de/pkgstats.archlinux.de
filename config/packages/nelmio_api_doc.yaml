@@ -7,3 +7,4 @@ nelmio_api_doc:
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
             - ^/post
+            - ^/package.json

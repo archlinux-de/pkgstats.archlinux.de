@@ -58,4 +58,23 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
             (string)$crawler->filter('#pkgstats')->attr('data-ajax')
         );
     }
+
+    public function testPackageJsonAction()
+    {
+        $entityManager = $this->getEntityManager();
+        $package = (new Package())
+            ->setPkgname('foo')
+            ->setMonth((int)(new \DateTime())->format('Ym'));
+        $entityManager->persist($package);
+        $entityManager->flush();
+
+        $client = $this->getClient();
+
+        $client->request('GET', '/package.json');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertJson($client->getResponse()->getContent());
+        $jsondData = json_decode($client->getResponse()->getContent(), true);
+        $this->assertCount(1, $jsondData);
+        $this->assertEquals([['pkgname' => 'foo', 'count' => 1]], $jsondData);
+    }
 }
