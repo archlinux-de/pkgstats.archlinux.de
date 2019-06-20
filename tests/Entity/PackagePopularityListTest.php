@@ -28,7 +28,7 @@ class PackagePopularityListTest extends TestCase
             [
                 'total' => 34,
                 'count' => 1,
-                'packages' => [$packagePopularity]
+                'packagePopularities' => [$packagePopularity]
             ],
             $packagePopularityList->jsonSerialize()
         );

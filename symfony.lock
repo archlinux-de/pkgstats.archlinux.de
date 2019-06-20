@@ -71,6 +71,9 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "exsyst/swagger": {
+        "version": "v0.4.1"
+    },
     "geertw/ip-anonymizer": {
         "version": "v1.1.0"
     },
@@ -94,6 +97,19 @@
     },
     "myclabs/deep-copy": {
         "version": "1.7.0"
+    },
+    "nelmio/api-doc-bundle": {
+        "version": "3.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "c8e0c38e1a280ab9e37587a8fa32b251d5bc1c94"
+        },
+        "files": [
+            "config/packages/nelmio_api_doc.yaml",
+            "config/routes/nelmio_api_doc.yaml"
+        ]
     },
     "nette/bootstrap": {
         "version": "v2.4.6"
@@ -338,6 +354,9 @@
     "symfony/http-kernel": {
         "version": "v4.0.0"
     },
+    "symfony/inflector": {
+        "version": "v4.2.9"
+    },
     "symfony/monolog-bridge": {
         "version": "v4.0.0"
     },
@@ -350,6 +369,9 @@
             "ref": "c24944bd87dacf0bb8fa218dc21e4a70fff56882"
         }
     },
+    "symfony/options-resolver": {
+        "version": "v4.2.9"
+    },
     "symfony/phpunit-bridge": {
         "version": "3.3",
         "recipe": {
@@ -361,6 +383,9 @@
     },
     "symfony/process": {
         "version": "v4.1.0"
+    },
+    "symfony/property-info": {
+        "version": "v4.2.9"
     },
     "symfony/routing": {
         "version": "3.3",
@@ -439,5 +464,8 @@
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.1"
+    },
+    "zircote/swagger-php": {
+        "version": "2.0.14"
     }
 }

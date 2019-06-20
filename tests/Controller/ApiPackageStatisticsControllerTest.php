@@ -50,10 +50,10 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $this->assertIsInt($packageList['total']);
         $this->assertArrayHasKey('count', $packageList);
         $this->assertIsInt($packageList['count']);
-        $this->assertArrayHasKey('packages', $packageList);
-        $this->assertIsArray($packageList['packages']);
+        $this->assertArrayHasKey('packagePopularities', $packageList);
+        $this->assertIsArray($packageList['packagePopularities']);
 
-        foreach ($packageList['packages'] as $package) {
+        foreach ($packageList['packagePopularities'] as $package) {
             $this->assertPackagePupularity((string)json_encode($package));
         }
 
@@ -155,8 +155,8 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
-        $this->assertCount(1, $pupularityList['packages']);
-        $this->assertEquals('pacman', $pupularityList['packages'][0]['name']);
+        $this->assertCount(1, $pupularityList['packagePopularities']);
+        $this->assertEquals('pacman', $pupularityList['packagePopularities'][0]['name']);
     }
 
     public function testFilterByDate()
@@ -187,8 +187,8 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
-        $this->assertCount(1, $pupularityList['packages']);
-        $this->assertEquals('php', $pupularityList['packages'][0]['name']);
+        $this->assertCount(1, $pupularityList['packagePopularities']);
+        $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
     }
 
     public function testLimitResults()
@@ -225,7 +225,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
         $this->assertEquals(2, $pupularityList['total']);
         $this->assertEquals(1, $pupularityList['count']);
-        $this->assertCount(1, $pupularityList['packages']);
-        $this->assertEquals('php', $pupularityList['packages'][0]['name']);
+        $this->assertCount(1, $pupularityList['packagePopularities']);
+        $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
     }
 }
