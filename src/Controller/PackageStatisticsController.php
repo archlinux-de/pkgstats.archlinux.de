@@ -8,6 +8,7 @@ use DatatablesApiBundle\DatatablesColumnConfiguration;
 use DatatablesApiBundle\DatatablesQuery;
 use DatatablesApiBundle\DatatablesRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -104,5 +105,45 @@ class PackageStatisticsController extends AbstractController
     private function getRangeTime(): int
     {
         return (int)strtotime(date('1-m-Y', (int)strtotime('now -' . $this->rangeMonths . ' months')));
+    }
+
+    /**
+     * @Route("/package.json", methods={"GET"})
+     * @Cache(smaxage="86400")
+     * @return Response
+     *
+     * @SWG\Tag(name="packages")
+     * @SWG\Get(
+     *     deprecated=true
+     * )
+     * @SWG\Response(
+     *     description="Returns count based on popularity of all packages",
+     *     response=200,
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(
+     *             type="object",
+     *             @SWG\Property(property="pkgname", type="string"),
+     *             @SWG\Property(property="count", type="integer")
+     *         ),
+     *    )
+     * )
+     * @deprecated
+     */
+    public function packageJsonAction(): Response
+    {
+        $packages = $this->packageRepository
+            ->createQueryBuilder('package')
+            ->select('package.pkgname AS pkgname')
+            ->addSelect('SUM(package.count) AS count')
+            ->where('package.month >= :month')
+            ->setParameter('month', $this->getRangeYearMonth())
+            ->groupBy('package.pkgname')
+            ->getQuery()
+            ->getScalarResult();
+        array_walk($packages, function (&$item) {
+            $item['count'] = (int)$item['count'];
+        });
+        return $this->json($packages);
     }
 }
