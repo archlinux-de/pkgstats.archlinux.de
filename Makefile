@@ -104,4 +104,5 @@ deploy:
 	yarn run encore production
 	bin/console cache:warmup
 	bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+	bin/console assets:install --symlink --relative
 	chmod o+x .
