@@ -8,6 +8,7 @@ use App\Request\PkgstatsRequest;
 use App\Request\PkgstatsRequestException;
 use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
+use App\Service\MirrorUrlFilter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,21 +18,32 @@ class PkgstatsParamConverter implements ParamConverterInterface
 {
     /** @var GeoIp */
     private $geoIp;
+
     /** @var ClientIdGenerator */
     private $clientIdGenerator;
+
     /** @var ValidatorInterface */
     private $validator;
+
+    /** @var MirrorUrlFilter */
+    private $mirrorUrlFilter;
 
     /**
      * @param GeoIp $geoIp
      * @param ClientIdGenerator $clientIdGenerator
      * @param ValidatorInterface $validator
+     * @param MirrorUrlFilter $mirrorUrlFilter
      */
-    public function __construct(GeoIp $geoIp, ClientIdGenerator $clientIdGenerator, ValidatorInterface $validator)
-    {
+    public function __construct(
+        GeoIp $geoIp,
+        ClientIdGenerator $clientIdGenerator,
+        ValidatorInterface $validator,
+        MirrorUrlFilter $mirrorUrlFilter
+    ) {
         $this->geoIp = $geoIp;
         $this->clientIdGenerator = $clientIdGenerator;
         $this->validator = $validator;
+        $this->mirrorUrlFilter = $mirrorUrlFilter;
     }
 
     /**
@@ -45,7 +57,7 @@ class PkgstatsParamConverter implements ParamConverterInterface
         $packages = $this->filterList($request->request->get('packages', ''));
         $arch = $request->request->get('arch', '');
         $cpuArch = $request->request->get('cpuarch', $arch);
-        $mirror = $this->filterUrl($request->request->get('mirror', ''));
+        $mirror = $this->mirrorUrlFilter->filter($request->request->get('mirror', ''));
         $quiet = $request->request->get('quiet') == 'true';
 
         $clientIp = $request->getClientIp() ?? '127.0.0.1';
@@ -89,20 +101,6 @@ class PkgstatsParamConverter implements ParamConverterInterface
     private function filterList(string $string): array
     {
         return array_filter(array_unique(explode("\n", trim($string))));
-    }
-
-    /**
-     * @param string $url
-     * @return string|null
-     */
-    private function filterUrl(string $url): ?string
-    {
-        if (!empty($url) && !preg_match('#^(?:https?|ftp)://\S+#', $url)) {
-            $url = null;
-        } elseif (empty($url)) {
-            $url = null;
-        }
-        return $url;
     }
 
     /**

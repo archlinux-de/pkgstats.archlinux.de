@@ -25,7 +25,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
                 'arch' => 'x86_64',
                 'cpuarch' => 'x86_64',
                 'packages' => 'pkgstats',
-                'mirror' => 'http://localhost'
+                'mirror' => 'https://mirror.archlinux.de/'
             ]
         );
 
@@ -41,7 +41,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $user = $userRepository->findAll()[0];
         $this->assertEquals('x86_64', $user->getArch());
         $this->assertEquals('x86_64', $user->getCpuarch());
-        $this->assertEquals('http://localhost', $user->getMirror());
+        $this->assertEquals('https://mirror.archlinux.de/', $user->getMirror());
         $this->assertEquals(1, $user->getPackages());
         $this->assertNull($user->getCountrycode());
 
@@ -168,7 +168,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
             [
                 'arch' => 'x86_64',
                 'packages' => 'pkgstats',
-                'mirror' => 'https://' . str_repeat('a', 255)
+                'mirror' => 'https://' . str_repeat('a', 255) . '.com/'
             ]
         );
 

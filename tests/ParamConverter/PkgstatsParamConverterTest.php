@@ -7,6 +7,7 @@ use App\Request\PkgstatsRequest;
 use App\Request\PkgstatsRequestException;
 use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
+use App\Service\MirrorUrlFilter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -19,23 +20,31 @@ class PkgstatsParamConverterTest extends TestCase
 {
     /** @var GeoIp|MockObject */
     private $geoIp;
+
     /** @var ClientIdGenerator|MockObject */
     private $clientIdGenerator;
+
     /** @var ValidatorInterface|MockObject */
     private $validator;
+
     /** @var PkgstatsParamConverter */
     private $paramConverter;
+
+    /** @var MirrorUrlFilter|MockObject */
+    private $mirrorUrlFilter;
 
     public function setUp(): void
     {
         $this->geoIp = $this->createMock(GeoIp::class);
         $this->clientIdGenerator = $this->createMock(ClientIdGenerator::class);
         $this->validator = $this->createMock(ValidatorInterface::class);
+        $this->mirrorUrlFilter = $this->createMock(MirrorUrlFilter::class);
 
         $this->paramConverter = new PkgstatsParamConverter(
             $this->geoIp,
             $this->clientIdGenerator,
-            $this->validator
+            $this->validator,
+            $this->mirrorUrlFilter
         );
     }
 
@@ -126,6 +135,8 @@ class PkgstatsParamConverterTest extends TestCase
             ->method('getName')
             ->willReturn(PkgstatsRequest::class);
 
+        $this->mirrorUrlFilter->expects($this->once())->method('filter')->willReturnArgument(0);
+
         $request = Request::create('/post');
         $request->request->set('arch', 'x86_64');
         $request->request->set('cpuarch', 'x86_64');
@@ -147,34 +158,6 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertEquals('x86_64', $user->getArch());
         $this->assertEquals('x86_64', $user->getCpuarch());
         $this->assertEquals('https://mirror.archlinux.de/', $user->getMirror());
-    }
-
-    public function testApplyFiltersInvalidMirror()
-    {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getName')
-            ->willReturn(PkgstatsRequest::class);
-
-        $request = Request::create('/post');
-        $request->request->set('mirror', 'file:///mnt/mirror/');
-
-        $this->validator
-            ->expects($this->once())
-            ->method('validate')
-            ->willReturnCallback(function (PkgstatsRequest $_) {
-                return new ConstraintViolationList();
-            });
-
-        $this->assertTrue($this->paramConverter->apply($request, $configuration));
-
-        $this->assertInstanceOf(PkgstatsRequest::class, $request->attributes->get(PkgstatsRequest::class));
-        /** @var PkgstatsRequest $pkgstatsRequest */
-        $pkgstatsRequest = $request->attributes->get(PkgstatsRequest::class);
-        $user = $pkgstatsRequest->getUser();
-        $this->assertNull($user->getMirror());
     }
 
     public function testApplyPackages()
