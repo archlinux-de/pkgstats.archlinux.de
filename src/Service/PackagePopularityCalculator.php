@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\PackagePopularity;
 use App\Entity\PackagePopularityList;
 use App\Repository\PackageRepository;
-use App\Repository\UserRepository;
 use App\Request\PackageQueryRequest;
 use App\Request\PaginationRequest;
 use App\Request\StatisticsRangeRequest;
@@ -15,19 +14,12 @@ class PackagePopularityCalculator
     /** @var PackageRepository */
     private $packageRepository;
 
-    /** @var UserRepository */
-    private $userRepository;
-
     /**
      * @param PackageRepository $packageRepository
-     * @param UserRepository $userRepository
      */
-    public function __construct(
-        PackageRepository $packageRepository,
-        UserRepository $userRepository
-    ) {
+    public function __construct(PackageRepository $packageRepository)
+    {
         $this->packageRepository = $packageRepository;
-        $this->userRepository = $userRepository;
     }
 
     /**
@@ -55,15 +47,9 @@ class PackagePopularityCalculator
      */
     private function getRangeCount(StatisticsRangeRequest $statisticsRangeRequest): int
     {
-        return $this->userRepository->getCountByRange(
-            (int)strtotime(
-                $statisticsRangeRequest->getStartMonth() .
-                '01 00:00:00'
-            ),
-            (int)strtotime(
-                $statisticsRangeRequest->getEndMonth() .
-                date('t', $statisticsRangeRequest->getEndMonth()) . ' 23:59:59'
-            )
+        return $this->packageRepository->getMaximumCountByRange(
+            $statisticsRangeRequest->getStartMonth(),
+            $statisticsRangeRequest->getEndMonth()
         );
     }
 

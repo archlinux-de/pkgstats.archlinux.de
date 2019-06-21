@@ -41,6 +41,27 @@ class PackageRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $startMonth
+     * @return int
+     */
+    public function getMaximumCountSince(int $startMonth): int
+    {
+        try {
+            return $this->createQueryBuilder('package')
+                ->select('SUM(package.count) AS c')
+                ->where('package.month >= :month')
+                ->groupBy('package.pkgname')
+                ->orderBy('c', 'DESC')
+                ->setMaxResults(1)
+                ->setParameter('month', $startMonth)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            return 0;
+        }
+    }
+
+    /**
      * @param string $name
      * @param int $startMonth
      * @param int $endMonth
@@ -54,10 +75,34 @@ class PackageRepository extends ServiceEntityRepository
                 ->where('package.pkgname = :name')
                 ->andWhere('package.month >= :startMonth')
                 ->andWhere('package.month <= :endMonth')
+                ->groupBy('package.pkgname')
                 ->setParameter('name', $name)
                 ->setParameter('startMonth', $startMonth)
                 ->setParameter('endMonth', $endMonth)
+                ->getQuery()
+                ->getSingleScalarResult();
+        } catch (NoResultException $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * @param int $startMonth
+     * @param int $endMonth
+     * @return int
+     */
+    public function getMaximumCountByRange(int $startMonth, int $endMonth): int
+    {
+        try {
+            return $this->createQueryBuilder('package')
+                ->select('SUM(package.count) AS c')
+                ->where('package.month >= :startMonth')
+                ->andWhere('package.month <= :endMonth')
                 ->groupBy('package.pkgname')
+                ->orderBy('c', 'DESC')
+                ->setMaxResults(1)
+                ->setParameter('startMonth', $startMonth)
+                ->setParameter('endMonth', $endMonth)
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NoResultException $e) {

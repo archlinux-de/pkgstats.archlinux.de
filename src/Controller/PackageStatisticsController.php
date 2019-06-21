@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\PackageRepository;
-use App\Repository\UserRepository;
 use DatatablesApiBundle\DatatablesColumnConfiguration;
 use DatatablesApiBundle\DatatablesQuery;
 use DatatablesApiBundle\DatatablesRequest;
@@ -21,27 +20,21 @@ class PackageStatisticsController extends AbstractController
     /** @var PackageRepository */
     private $packageRepository;
 
-    /** @var UserRepository */
-    private $userRepository;
-
     /** @var DatatablesQuery */
     private $datatablesQuery;
 
     /**
      * @param int $rangeMonths
      * @param PackageRepository $packageRepository
-     * @param UserRepository $userRepository
      * @param DatatablesQuery $datatablesQuery
      */
     public function __construct(
         int $rangeMonths,
         PackageRepository $packageRepository,
-        UserRepository $userRepository,
         DatatablesQuery $datatablesQuery
     ) {
         $this->rangeMonths = $rangeMonths;
         $this->packageRepository = $packageRepository;
-        $this->userRepository = $userRepository;
         $this->datatablesQuery = $datatablesQuery;
     }
 
@@ -75,7 +68,7 @@ class PackageStatisticsController extends AbstractController
                 ->where('package.month >= :month')
                 ->setParameter('month', $this->getRangeYearMonth())
                 ->groupBy('package.pkgname'),
-            $this->userRepository->getCountSince($this->getRangeTime())
+            $this->packageRepository->getMaximumCountSince($this->getRangeYearMonth())
         );
 
         $response->setData(
@@ -92,11 +85,11 @@ class PackageStatisticsController extends AbstractController
     }
 
     /**
-     * @return string
+     * @return int
      */
-    private function getRangeYearMonth(): string
+    private function getRangeYearMonth(): int
     {
-        return date('Ym', $this->getRangeTime());
+        return (int)date('Ym', $this->getRangeTime());
     }
 
     /**

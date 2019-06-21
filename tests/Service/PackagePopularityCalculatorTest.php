@@ -3,7 +3,6 @@
 namespace App\Tests\Service;
 
 use App\Repository\PackageRepository;
-use App\Repository\UserRepository;
 use App\Request\PackageQueryRequest;
 use App\Request\PaginationRequest;
 use App\Request\StatisticsRangeRequest;
@@ -16,20 +15,13 @@ class PackagePopularityCalculatorTest extends TestCase
     /** @var PackageRepository|MockObject */
     private $packageRepository;
 
-    /** @var UserRepository|MockObject */
-    private $userRepository;
-
     /** @var PackagePopularityCalculator */
     private $packagePopularityCalculator;
 
     public function setUp(): void
     {
         $this->packageRepository = $this->createMock(PackageRepository::class);
-        $this->userRepository = $this->createMock(UserRepository::class);
-        $this->packagePopularityCalculator = new PackagePopularityCalculator(
-            $this->packageRepository,
-            $this->userRepository
-        );
+        $this->packagePopularityCalculator = new PackagePopularityCalculator($this->packageRepository);
     }
 
     public function testGetPackagePopularity()
@@ -41,10 +33,10 @@ class PackagePopularityCalculatorTest extends TestCase
             ->with('foo', 201801, 201812)
             ->willReturn(42);
         $this
-            ->userRepository
+            ->packageRepository
             ->expects($this->once())
-            ->method('getCountByRange')
-            ->with(1514764800, 1546300799)
+            ->method('getMaximumCountByRange')
+            ->with(201801, 201812)
             ->willReturn(12);
 
         $packagePopularity = $this->packagePopularityCalculator->getPackagePopularity(

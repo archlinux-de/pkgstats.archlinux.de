@@ -134,4 +134,64 @@ class PackageRepositoryTest extends DatabaseTestCase
             $count
         );
     }
+
+    public function testGetMaximumCountSince()
+    {
+        $packageA = (new Package())->setPkgname('a')->setMonth(201810);
+        $packageB = (new Package())->setPkgname('a')->setMonth(201811);
+        $packageC = (new Package())->setPkgname('a')->setMonth(201812);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->merge($packageC);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $count = $packageRepository->getMaximumCountSince(201811);
+
+        $this->assertEquals(2, $count);
+    }
+
+    public function testGetMaximumCountIsInitiallyZero()
+    {
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $count = $packageRepository->getMaximumCountSince(201811);
+
+        $this->assertEquals(0, $count);
+    }
+
+    public function testGetMaximumCountByRange()
+    {
+        $packageA = (new Package())->setPkgname('a')->setMonth(201810);
+        $packageB = (new Package())->setPkgname('a')->setMonth(201811);
+        $packageC = (new Package())->setPkgname('a')->setMonth(201812);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->merge($packageC);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $count = $packageRepository->getMaximumCountByRange(201811, 201812);
+
+        $this->assertEquals(2, $count);
+    }
+
+    public function testGetMaximumCountByRangeIsInitiallyZero()
+    {
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $count = $packageRepository->getMaximumCountByRange(201811, 201812);
+
+        $this->assertEquals(0, $count);
+    }
 }

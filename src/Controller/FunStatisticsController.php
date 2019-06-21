@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\PackageRepository;
-use App\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,28 +12,22 @@ class FunStatisticsController extends AbstractController
 {
     /** @var int */
     private $rangeMonths;
+
     /** @var PackageRepository */
     private $packageRepository;
-    /** @var UserRepository */
-    private $userRepository;
+
     /** @var array */
     private $funConfiguration;
 
     /**
      * @param int $rangeMonths
      * @param PackageRepository $packageRepository
-     * @param UserRepository $userRepository
      * @param array $funConfiguration
      */
-    public function __construct(
-        int $rangeMonths,
-        PackageRepository $packageRepository,
-        UserRepository $userRepository,
-        array $funConfiguration
-    ) {
+    public function __construct(int $rangeMonths, PackageRepository $packageRepository, array $funConfiguration)
+    {
         $this->rangeMonths = $rangeMonths;
         $this->packageRepository = $packageRepository;
-        $this->userRepository = $userRepository;
         $this->funConfiguration = $funConfiguration;
     }
 
@@ -54,7 +47,7 @@ class FunStatisticsController extends AbstractController
      */
     private function getData(): array
     {
-        $total = $this->userRepository->getCountSince($this->getRangeTime());
+        $total = $this->packageRepository->getMaximumCountSince($this->getRangeYearMonth());
 
         $stats = [];
         foreach ($this->funConfiguration as $funCategory => $funPackages) {
@@ -65,6 +58,14 @@ class FunStatisticsController extends AbstractController
         }
 
         return ['total' => $total, 'stats' => $stats];
+    }
+
+    /**
+     * @return int
+     */
+    private function getRangeYearMonth(): int
+    {
+        return (int)date('Ym', $this->getRangeTime());
     }
 
     /**
@@ -101,13 +102,5 @@ class FunStatisticsController extends AbstractController
 
         arsort($packageArray);
         return $packageArray;
-    }
-
-    /**
-     * @return int
-     */
-    private function getRangeYearMonth(): int
-    {
-        return (int)date('Ym', $this->getRangeTime());
     }
 }

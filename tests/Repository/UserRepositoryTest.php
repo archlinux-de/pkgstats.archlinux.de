@@ -8,46 +8,6 @@ use App\Tests\Util\DatabaseTestCase;
 
 class UserRepositoryTest extends DatabaseTestCase
 {
-    public function testGetCountSince()
-    {
-        $userA = (new User())
-            ->setPackages(2)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime(1234)
-            ->setIp('localhost');
-        $userB = (new User())
-            ->setPackages(2)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime(12)
-            ->setIp('localhost');
-        $entityManager = $this->getEntityManager();
-        $entityManager->merge($userA);
-        $entityManager->merge($userB);
-        $entityManager->flush();
-        $entityManager->clear();
-
-        /** @var UserRepository $userRepository */
-        $userRepository = $this->getRepository(User::class);
-        $count = $userRepository->getCountSince(1234);
-
-        $this->assertEquals(1, $count);
-    }
-
-    public function testGetCountSinceeDefaultsToZero()
-    {
-        /** @var UserRepository $userRepository */
-        $userRepository = $this->getRepository(User::class);
-        $count = $userRepository->getCountSince(1234);
-
-        $this->assertEquals(0, $count);
-    }
-
     public function testGetSubmissionCountSince()
     {
         $userA = (new User())
@@ -93,46 +53,6 @@ class UserRepositoryTest extends DatabaseTestCase
         /** @var UserRepository $userRepository */
         $userRepository = $this->getRepository(User::class);
         $count = $userRepository->getSubmissionCountSince('localhost', 12);
-
-        $this->assertEquals(0, $count);
-    }
-
-    public function testGetCountByRange()
-    {
-        $userA = (new User())
-            ->setPackages(2)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime(201804)
-            ->setIp('localhost');
-        $userB = (new User())
-            ->setPackages(2)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime(201901)
-            ->setIp('localhost');
-        $entityManager = $this->getEntityManager();
-        $entityManager->merge($userA);
-        $entityManager->merge($userB);
-        $entityManager->flush();
-        $entityManager->clear();
-
-        /** @var UserRepository $userRepository */
-        $userRepository = $this->getRepository(User::class);
-        $count = $userRepository->getCountByRange(201801, 201812);
-
-        $this->assertEquals(1, $count);
-    }
-
-    public function testGetCountByRangeDefaultsToZero()
-    {
-        /** @var UserRepository $userRepository */
-        $userRepository = $this->getRepository(User::class);
-        $count = $userRepository->getCountByRange(201801, 201812);
 
         $this->assertEquals(0, $count);
     }
