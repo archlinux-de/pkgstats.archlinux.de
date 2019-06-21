@@ -52,7 +52,8 @@ services:
         bind:
             $rangeMonths: '%app.range_months%'
 
-    App\Command\SwaggerCacheWarmupCommand:
-        bind:
-            $swaggerUiController: '@nelmio_api_doc.controller.swagger_ui'
-            $documentationController: '@nelmio_api_doc.controller.swagger'
+    Nelmio\ApiDocBundle\Controller\SwaggerUiController: '@nelmio_api_doc.controller.swagger_ui'
+
+    App\Cache\ApiDocCacheWarmer:
+        tags:
+            - { name: kernel.cache_warmer, priority: -1 }
