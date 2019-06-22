@@ -17,7 +17,7 @@ class Package
     /**
      * @var string
      * @Assert\Length(max=255)
-     * @Assert\Regex("/^[^-]+\S*$/")
+     * @Assert\Regex("/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/")
      *
      * @ORM\Column(name="pkgname", type="string", length=191)
      * @ORM\Id

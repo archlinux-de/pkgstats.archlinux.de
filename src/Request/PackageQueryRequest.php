@@ -9,7 +9,7 @@ class PackageQueryRequest
     /**
      * @var string
      * @Assert\Length(max=255)
-     * @Assert\Regex("/^[^-]+\S*$/")
+     * @Assert\Regex("/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/")
      */
     private $query;
 

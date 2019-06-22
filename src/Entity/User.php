@@ -66,7 +66,7 @@ class User
     /**
      * @var string|null
      * @Assert\Length(max=255)
-     * @Assert\Regex("/^[^-]+\S*$/")
+     * @Assert\Url(protocols={"http", "https", "ftp"})
      *
      * @ORM\Column(name="mirror", type="string", length=255, nullable=true)
      */
