@@ -4,14 +4,17 @@ parameters:
     app.post.max_count: 10
     app.fun:
         Browsers:
-            Mozilla Firefox: firefox
-            Chromium: chromium
+            Mozilla Firefox: [firefox, firefox-developer-edition]
+            Chromium: [chromium, google-chrome]
             Konqueror: [kdebase-konqueror, konqueror]
             Midori: midori
-            Epiphany: epiphany
+            GNOME Web: epiphany
             Opera: opera
+            Vivaldi: vivaldi
+            Brave: brave-bin
+            surf: surf
         Editors:
-            Vim: [vim, gvim]
+            Vim: [vim, gvim, neovim]
             Emacs: [emacs, xemacs]
             Nano: nano
             Gedit: gedit
@@ -30,23 +33,21 @@ parameters:
             Enlightenment: [enlightenment, enlightenment16]
             MATE: mate-panel
             Cinnamon: cinnamon
+            Deepin: deepin-wm
         File Managers:
             Dolphin: [kdebase-dolphin, dolphin]
             Konqueror: [kdebase-konqueror, konqueror]
             MC: mc
-            Nautilus: nautilus
-            Pcmanfm: pcmanfm
+            GNOME Files: nautilus
+            PCManFM: pcmanfm
             Thunar: thunar
             Caja: caja
+            Nemo: nemo
         Window Managers:
             Openbox: openbox
             Fluxbox: fluxbox
             I3: i3-wm
             awesome: awesome
-        Media Players:
-            Mplayer: mplayer
-            Xine: xine-lib
-            VLC: vlc
         Shells:
             Bash: bash
             Dash: dash
@@ -54,6 +55,15 @@ parameters:
             Fish: fish
             Tcsh: tcsh
         Graphic Chipsets:
-            ATI: [xf86-video-ati, xf86-video-r128, xf86-video-mach64]
-            NVIDIA: [nvidia-304xx-utils, nvidia-utils, xf86-video-nouveau, xf86-video-nv]
+            AMD: [xf86-video-ati, xf86-video-r128, xf86-video-mach64, xf86-video-amdgpu]
+            NVIDIA: [nvidia-utils, nvidia-390xx-utils, nvidia-304xx-utils, xf86-video-nouveau, xf86-video-nv]
             Intel: [xf86-video-intel, xf86-video-i740]
+        Runtime Environment:
+            PHP: php
+            Ruby: ruby
+            Perl: perl
+            Java: java-environment-common
+            Python: python
+            Node.js: nodejs
+            Lua: lua
+            Bash: bash
