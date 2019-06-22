@@ -16,6 +16,6 @@ class StartControllerTest extends DatabaseTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertStringContainsString('Statistics', $crawler->filter('h1')->text());
+        $this->assertStringContainsString('Arch Linux package statistics', $crawler->filter('h1')->text());
     }
 }
