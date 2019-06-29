@@ -9,7 +9,7 @@ use App\Service\ClientIdGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
+use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -17,8 +17,10 @@ class RateLimitSubscriberTest extends TestCase
 {
     /** @var RateLimitSubscriber */
     private $rateLimitSubscriber;
+
     /** @var ClientIdGenerator|MockObject */
     private $clientIdGenerator;
+
     /** @var UserRepository|MockObject */
     private $userRepository;
 
@@ -48,8 +50,8 @@ class RateLimitSubscriberTest extends TestCase
      */
     public function testSubscriberIsDisabledByDefault($controller)
     {
-        /** @var FilterControllerEvent|MockObject $event */
-        $event = $this->createMock(FilterControllerEvent::class);
+        /** @var ControllerEvent|MockObject $event */
+        $event = $this->createMock(ControllerEvent::class);
         $event
             ->expects($this->once())
             ->method('getController')
@@ -78,9 +80,9 @@ class RateLimitSubscriberTest extends TestCase
     }
 
     /**
-     * @return MockObject|FilterControllerEvent
+     * @return MockObject|ControllerEvent
      */
-    private function createEvent(): FilterControllerEvent
+    private function createEvent(): ControllerEvent
     {
         /** @var Request|MockObject $request */
         $request = $this->createMock(Request::class);
@@ -89,8 +91,8 @@ class RateLimitSubscriberTest extends TestCase
             ->method('getClientIp')
             ->willReturn('127.0.0.1');
 
-        /** @var FilterControllerEvent|MockObject $event */
-        $event = $this->createMock(FilterControllerEvent::class);
+        /** @var ControllerEvent|MockObject $event */
+        $event = $this->createMock(ControllerEvent::class);
         $event
             ->expects($this->once())
             ->method('getController')

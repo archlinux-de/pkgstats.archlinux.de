@@ -9,7 +9,7 @@ class MigrationsTest extends DatabaseTestCase
 {
     public function setUp(): void
     {
-        static::bootKernel();
+        static::$client = static::createClient();
         if ($this->isPersistentDatabase()) {
             $this->dropDatabase();
             $this->createDatabase();
@@ -70,9 +70,9 @@ class MigrationsTest extends DatabaseTestCase
     public function testMigration(string $version)
     {
         $this->migrateDatabase($version);
-        static::bootKernel();
+        static::$client = static::createClient();
         $this->migrateDatabase('prev');
-        static::bootKernel();
+        static::$client = static::createClient();
         $this->migrateDatabase('next');
     }
 

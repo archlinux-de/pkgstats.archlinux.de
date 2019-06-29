@@ -6,8 +6,9 @@ use App\Entity\Package;
 use App\Entity\User;
 use App\Repository\PackageRepository;
 use App\Repository\UserRepository;
+use App\Service\ClientIdGenerator;
 use App\Tests\Util\DatabaseTestCase;
-use Symfony\Bundle\FrameworkBundle\Client;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 /**
  * @covers \App\Controller\PostPackageListController
@@ -56,9 +57,9 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     /**
      * @param string $version
-     * @return Client
+     * @return KernelBrowser
      */
-    private function createPkgstatsClient(string $version = '2.4'): Client
+    private function createPkgstatsClient(string $version = '2.4'): KernelBrowser
     {
         $client = $this->getClient();
         $client->setServerParameter('HTTP_USER_AGENT', sprintf('pkgstats/%s', $version));
@@ -303,19 +304,23 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testSubmissionsAreLimitedPerUser()
     {
-        for ($i = 1; $i <= 11; $i++) {
-            $client = $this->createPkgstatsClient();
-            $client->request(
-                'POST',
-                '/post',
-                ['arch' => 'x86_64', 'packages' => 'pkgstats']
-            );
-            if ($i <= 10) {
-                $this->assertTrue($client->getResponse()->isSuccessful());
-            } else {
-                $this->assertTrue($client->getResponse()->isForbidden());
-            }
+        $clientIdGenerator = static::$container->get(ClientIdGenerator::class);
+        for ($i = 1; $i <= 10; $i++) {
+            $this->getEntityManager()->persist((new User())
+                ->setIp($clientIdGenerator->createClientId('127.0.0.1'))
+                ->setArch('x86_64')
+                ->setPackages(1)
+                ->setTime(time()));
         }
+        $this->getEntityManager()->flush();
+
+        $client = $this->createPkgstatsClient();
+        $client->request(
+            'POST',
+            '/post',
+            ['arch' => 'x86_64', 'packages' => 'pkgstats']
+        );
+        $this->assertTrue($client->getResponse()->isForbidden());
     }
 
     /**

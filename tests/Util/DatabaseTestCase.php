@@ -4,113 +4,111 @@ namespace App\Tests\Util;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 
-class DatabaseTestCase extends KernelTestCase
+class DatabaseTestCase extends WebTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-        static::bootKernel();
-        if ($this->isPersistentDatabase()) {
-            $this->dropDatabase();
-            $this->createDatabase();
-        }
-        $this->createDatabaseSchema();
-    }
+    /** @var KernelBrowser */
+    protected static $client;
 
     /**
-     * @return bool
+     * @param string $className
+     * @return ObjectRepository
      */
-    protected function isPersistentDatabase(): bool
+    protected static function getRepository(string $className): ObjectRepository
     {
-        $params = $this->getEntityManager()->getConnection()->getParams();
-        return (isset($params['path']) && $params['path']) || (isset($params['dbname']) && $params['dbname']);
+        return static::getEntityManager()->getRepository($className);
     }
 
     /**
      * @return EntityManagerInterface
      */
-    protected function getEntityManager(): EntityManagerInterface
+    protected static function getEntityManager(): EntityManagerInterface
     {
-        return static::$container->get('doctrine.orm.entity_manager');
+        $container = static::getClient()->getContainer();
+        static::assertNotNull($container);
+        return $container->get('doctrine.orm.entity_manager');
     }
 
-    protected function dropDatabase()
+    /**
+     * @return KernelBrowser
+     */
+    protected static function getClient(): KernelBrowser
     {
-        $this->runCommand(new ArrayInput([
+        return static::$client;
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        static::$client = static::createClient();
+
+        if (static::isPersistentDatabase()) {
+            static::dropDatabase();
+            static::createDatabase();
+        }
+        static::createDatabaseSchema();
+    }
+
+    /**
+     * @return bool
+     */
+    protected static function isPersistentDatabase(): bool
+    {
+        $params = static::getEntityManager()->getConnection()->getParams();
+        return !empty($params['path']) || !empty($params['dbname']);
+    }
+
+    protected static function dropDatabase(): void
+    {
+        static::runCommand(new ArrayInput([
             'command' => 'doctrine:database:drop',
             '--force' => true,
-            '--if-exists' => true
+            '--if-exists' => true,
+            '--quiet' => true
         ]));
     }
 
     /**
      * @param ArrayInput $input
      */
-    protected function runCommand(ArrayInput $input)
+    protected static function runCommand(ArrayInput $input): void
     {
-        $application = new Application(static::$kernel);
+        $application = new Application(static::getClient()->getKernel());
         $application->setAutoExit(false);
 
         $output = new BufferedOutput();
         $result = $application->run($input, $output);
 
         $outputResult = $output->fetch();
-        $this->assertEmpty($outputResult, $outputResult);
-        $this->assertEquals(0, $result, sprintf('Command %s failed', $input));
+        static::assertEmpty($outputResult, $outputResult);
+        static::assertEquals(0, $result, sprintf('Command %s failed', $input));
     }
 
-    protected function createDatabase(): void
+    protected static function createDatabase(): void
     {
-        $this->runCommand(new ArrayInput([
+        static::runCommand(new ArrayInput([
             'command' => 'doctrine:database:create'
         ]));
     }
 
-    protected function createDatabaseSchema()
+    protected static function createDatabaseSchema(): void
     {
-        $this->runCommand(new ArrayInput([
-            'command' => 'doctrine:schema:create'
+        static::runCommand(new ArrayInput([
+            'command' => 'doctrine:schema:create',
+            '--quiet' => true
         ]));
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
-        if ($this->isPersistentDatabase()) {
-            $this->dropDatabase();
+        if (static::isPersistentDatabase()) {
+            static::dropDatabase();
         }
         parent::tearDown();
-    }
-
-    /**
-     * @param string $className
-     * @return ObjectRepository
-     */
-    protected function getRepository(string $className): ObjectRepository
-    {
-        return $this->getEntityManager()->getRepository($className);
-    }
-
-    /**
-     * @return Client
-     */
-    protected function getClient(): Client
-    {
-        /** @var Client $client */
-        $client = static::$container->get('test.client');
-        return $client;
-    }
-
-    /**
-     * @return Application
-     */
-    protected function createApplication(): Application
-    {
-        return new Application(static::$kernel);
     }
 }

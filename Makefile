@@ -98,10 +98,10 @@ ci-update:
 
 deploy:
 	chmod o-x .
-	yarn install
-	yarn run encore production
 	composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
+	yarn install
 	bin/console cache:clear --no-debug --no-warmup
+	yarn run encore production
 	bin/console cache:warmup
 	bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 	chmod o+x .
