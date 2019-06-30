@@ -6,7 +6,7 @@ use App\Entity\Package;
 use App\Entity\User;
 use App\Repository\PackageRepository;
 use App\Repository\UserRepository;
-use App\Tests\Util\DatabaseTestCase;
+use SymfonyDatabaseTest\DatabaseTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
 /**

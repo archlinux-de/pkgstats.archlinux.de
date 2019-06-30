@@ -4,7 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\Package;
 use App\Entity\User;
-use App\Tests\Util\DatabaseTestCase;
+use SymfonyDatabaseTest\DatabaseTestCase;
 
 /**
  * @covers \App\Controller\ApiPackageStatisticsController

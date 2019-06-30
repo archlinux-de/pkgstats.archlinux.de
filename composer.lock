@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d88f1bb17e447fc879e6c80561b5630d",
+    "content-hash": "483bd7d8d1c0bd5375b1d81cc3822d5a",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -6382,6 +6382,56 @@
             ],
             "description": "Test cases to verify Doctrine Migrations",
             "time": "2019-06-30T08:34:31+00:00"
+        },
+        {
+            "name": "pierres/symfony-database-test",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pierres/symfony-database-test.git",
+                "reference": "06af041cf3e3bb18f3f7e3705d767e7c714639ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/06af041cf3e3bb18f3f7e3705d767e7c714639ce",
+                "reference": "06af041cf3e3bb18f3f7e3705d767e7c714639ce",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": " ^1.11",
+                "doctrine/orm": "^2.6.3",
+                "php": "^7.2",
+                "symfony/browser-kit": "^4.3",
+                "symfony/framework-bundle": "^4.3"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.11",
+                "phpstan/phpstan-deprecation-rules": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpunit/phpunit": "^8",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SymfonyDatabaseTest\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pierre Schmitz",
+                    "email": "mail@pierre-schmitz.com"
+                }
+            ],
+            "description": "Symfony WebTestCase with database support",
+            "time": "2019-06-30T09:17:50+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

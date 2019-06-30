@@ -4,7 +4,7 @@ namespace App\Tests\Repository;
 
 use App\Entity\Package;
 use App\Repository\PackageRepository;
-use App\Tests\Util\DatabaseTestCase;
+use SymfonyDatabaseTest\DatabaseTestCase;
 
 class PackageRepositoryTest extends DatabaseTestCase
 {

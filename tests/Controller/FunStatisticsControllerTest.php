@@ -2,7 +2,7 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Util\DatabaseTestCase;
+use SymfonyDatabaseTest\DatabaseTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**

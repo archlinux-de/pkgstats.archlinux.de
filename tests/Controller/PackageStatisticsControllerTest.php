@@ -3,7 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Package;
-use App\Tests\Util\DatabaseTestCase;
+use SymfonyDatabaseTest\DatabaseTestCase;
 
 /**
  * @covers \App\Controller\PackageStatisticsController
