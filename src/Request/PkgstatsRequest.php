@@ -10,7 +10,8 @@ class PkgstatsRequest
 {
     /**
      * @var string
-     * @Assert\Choice(choices={"2.3", "2.4"})
+     * @Assert\NotBlank()
+     * @Assert\Regex(pattern="/^2\.[34](\.[0-9]+)?$/")
      */
     private $version;
 
