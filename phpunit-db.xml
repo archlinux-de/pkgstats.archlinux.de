@@ -19,6 +19,9 @@
         <testsuite name="Project Test Suite">
             <directory>tests</directory>
         </testsuite>
+        <testsuite name="Doctrine Migrations Test">
+            <directory>vendor/pierres/doctrine-migrations-test</directory>
+        </testsuite>
     </testsuites>
 
     <filter>

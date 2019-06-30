@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "98378a5eed04354ca189f3c465d76e7e",
+    "content-hash": "d88f1bb17e447fc879e6c80561b5630d",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -6332,6 +6332,56 @@
                 "xunit"
             ],
             "time": "2019-06-19T12:03:56+00:00"
+        },
+        {
+            "name": "pierres/doctrine-migrations-test",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pierres/doctrine-migrations-test.git",
+                "reference": "b75e92d59ba8ff6c648cba2ef405308bb0ee8474"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pierres/doctrine-migrations-test/zipball/b75e92d59ba8ff6c648cba2ef405308bb0ee8474",
+                "reference": "b75e92d59ba8ff6c648cba2ef405308bb0ee8474",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-migrations-bundle": "^2.0",
+                "doctrine/orm": "^2.6.3",
+                "php": "^7.2",
+                "symfony/browser-kit": "^4.3",
+                "symfony/framework-bundle": "^4.3"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.11",
+                "phpstan/phpstan-deprecation-rules": "^0.11",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpunit/phpunit": "^8",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DoctrineMigrationsTest\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pierre Schmitz",
+                    "email": "mail@pierre-schmitz.com"
+                }
+            ],
+            "description": "Test cases to verify Doctrine Migrations",
+            "time": "2019-06-30T08:34:31+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

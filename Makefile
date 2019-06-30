@@ -63,7 +63,7 @@ test-db: start-db
 	${PHP-DB-RUN} vendor/bin/phpunit -c phpunit-db.xml
 
 test-db-migrations: start-db
-	${PHP-DB-RUN} vendor/bin/phpunit -c phpunit-db.xml tests/Migrations/
+	${PHP-DB-RUN} vendor/bin/phpunit -c phpunit-db.xml --testsuite 'Doctrine Migrations Test'
 
 test-coverage:
 	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage
