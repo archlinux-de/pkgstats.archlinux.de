@@ -42,10 +42,21 @@ class DatabaseTestCase extends WebTestCase
         return static::$client;
     }
 
+    /**
+     * @param array $options
+     * @param array $server
+     * @return KernelBrowser
+     */
+    protected static function createClient(array $options = [], array $server = []): KernelBrowser
+    {
+        return static::getClient();
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
-        static::$client = static::createClient();
+        static::$client = parent::createClient();
+        static::$client->disableReboot();
 
         if (static::isPersistentDatabase()) {
             static::dropDatabase();
@@ -57,13 +68,13 @@ class DatabaseTestCase extends WebTestCase
     /**
      * @return bool
      */
-    protected static function isPersistentDatabase(): bool
+    private static function isPersistentDatabase(): bool
     {
         $params = static::getEntityManager()->getConnection()->getParams();
         return !empty($params['path']) || !empty($params['dbname']);
     }
 
-    protected static function dropDatabase(): void
+    private static function dropDatabase(): void
     {
         static::runCommand(new ArrayInput([
             'command' => 'doctrine:database:drop',
@@ -76,7 +87,7 @@ class DatabaseTestCase extends WebTestCase
     /**
      * @param ArrayInput $input
      */
-    protected static function runCommand(ArrayInput $input): void
+    private static function runCommand(ArrayInput $input): void
     {
         $application = new Application(static::getClient()->getKernel());
         $application->setAutoExit(false);
@@ -89,14 +100,14 @@ class DatabaseTestCase extends WebTestCase
         static::assertEquals(0, $result, sprintf('Command %s failed', $input));
     }
 
-    protected static function createDatabase(): void
+    private static function createDatabase(): void
     {
         static::runCommand(new ArrayInput([
             'command' => 'doctrine:database:create'
         ]));
     }
 
-    protected static function createDatabaseSchema(): void
+    private static function createDatabaseSchema(): void
     {
         static::runCommand(new ArrayInput([
             'command' => 'doctrine:schema:create',

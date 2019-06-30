@@ -304,7 +304,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testSubmissionsAreLimitedPerUser()
     {
         $client = $this->createPkgstatsClient();
-        $client->disableReboot();
 
         for ($i = 1; $i <= 11; $i++) {
             $client->request(
