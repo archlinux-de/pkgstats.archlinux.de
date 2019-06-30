@@ -6,7 +6,6 @@ use App\Entity\Package;
 use App\Entity\User;
 use App\Repository\PackageRepository;
 use App\Repository\UserRepository;
-use App\Service\ClientIdGenerator;
 use App\Tests\Util\DatabaseTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 
@@ -304,23 +303,21 @@ class PostPackageListControllerTest extends DatabaseTestCase
 
     public function testSubmissionsAreLimitedPerUser()
     {
-        $clientIdGenerator = static::$container->get(ClientIdGenerator::class);
-        for ($i = 1; $i <= 10; $i++) {
-            $this->getEntityManager()->persist((new User())
-                ->setIp($clientIdGenerator->createClientId('127.0.0.1'))
-                ->setArch('x86_64')
-                ->setPackages(1)
-                ->setTime(time()));
-        }
-        $this->getEntityManager()->flush();
-
         $client = $this->createPkgstatsClient();
-        $client->request(
-            'POST',
-            '/post',
-            ['arch' => 'x86_64', 'packages' => 'pkgstats']
-        );
-        $this->assertTrue($client->getResponse()->isForbidden());
+        $client->disableReboot();
+
+        for ($i = 1; $i <= 11; $i++) {
+            $client->request(
+                'POST',
+                '/post',
+                ['arch' => 'x86_64', 'packages' => 'pkgstats']
+            );
+            if ($i <= 10) {
+                $this->assertTrue($client->getResponse()->isSuccessful());
+            } else {
+                $this->assertTrue($client->getResponse()->isForbidden());
+            }
+        }
     }
 
     /**
