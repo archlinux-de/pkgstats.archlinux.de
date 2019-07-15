@@ -5,20 +5,20 @@ import 'datatables.net-bs4'
 $(document).ready(function () {
   const jqueryTable = $('#pkgstats')
   const dataTable = jqueryTable.DataTable({
-    'lengthMenu': [25, 50, 100],
-    'pageLength': 25,
-    'processing': false,
-    'serverSide': true,
-    'order': [[1, 'desc']],
-    'searchDelay': 1000,
-    'pagingType': 'numbers',
-    'columns': [
+    lengthMenu: [25, 50, 100],
+    pageLength: 25,
+    processing: false,
+    serverSide: true,
+    order: [[1, 'desc']],
+    searchDelay: 1000,
+    pagingType: 'numbers',
+    columns: [
       {
-        'data': 'pkgname',
-        'orderable': false,
-        'searchable': true,
-        'className': 'text-nowrap',
-        'render': function (data, type) {
+        data: 'pkgname',
+        orderable: false,
+        searchable: true,
+        className: 'text-nowrap',
+        render: function (data, type) {
           if (type === 'display') {
             return `<a href="${jqueryTable.data('searchUrl')}?search=${encodeURI(data)}">${data}</a>`
           }
@@ -26,10 +26,10 @@ $(document).ready(function () {
         }
       },
       {
-        'data': 'count',
-        'orderable': true,
-        'searchable': false,
-        'render': function (data, type, row) {
+        data: 'count',
+        orderable: true,
+        searchable: false,
+        render: function (data, type, row) {
           if (type === 'display') {
             let total = dataTable.page.info().recordsTotal
             if (data > total) {
@@ -44,7 +44,7 @@ $(document).ready(function () {
           }
           return data
         },
-        'className': 'w-75'
+        className: 'w-75'
       }
     ]
   })
