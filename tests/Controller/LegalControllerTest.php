@@ -17,6 +17,7 @@ class LegalControllerTest extends WebTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $response = $client->getResponse()->getContent();
+        $this->assertIsString($response);
         $this->assertStringContainsString('Pierre Schmitz', $response);
         $this->assertStringContainsString('+49 228 9716608', $response);
         $this->assertStringContainsString('pierre@archlinux.de', $response);

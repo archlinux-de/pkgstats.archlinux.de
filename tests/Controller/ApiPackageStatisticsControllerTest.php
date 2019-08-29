@@ -34,6 +34,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertPackagePupularityList($client->getResponse()->getContent());
     }
 
@@ -88,6 +89,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertPackagePupularityList($client->getResponse()->getContent());
     }
 
@@ -98,6 +100,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages/foo');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertPackagePupularity($client->getResponse()->getContent());
     }
 
@@ -124,6 +127,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages/pacman');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertPackagePupularity($client->getResponse()->getContent());
     }
 
@@ -154,6 +158,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages', ['query' => 'pac']);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
         $this->assertCount(1, $pupularityList['packagePopularities']);
         $this->assertEquals('pacman', $pupularityList['packagePopularities'][0]['name']);
@@ -186,6 +191,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages', ['startMonth' => '201801', 'endMonth' => '201812']);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
         $this->assertCount(1, $pupularityList['packagePopularities']);
         $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
@@ -222,6 +228,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages', ['limit' => '1']);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
         $this->assertEquals(2, $pupularityList['total']);
         $this->assertEquals(1, $pupularityList['count']);

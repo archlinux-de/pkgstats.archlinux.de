@@ -17,6 +17,7 @@ class SitemapControllerTest extends DatabaseTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $response = $client->getResponse()->getContent();
+        $this->assertIsString($response);
         $this->assertNotFalse(\simplexml_load_string($response));
         $this->assertEmpty(\libxml_get_errors());
         $this->assertStringContainsString('<url><loc>http://localhost/</loc></url>', $response);

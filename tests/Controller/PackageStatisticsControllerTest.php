@@ -42,7 +42,8 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
             ]
         ]);
 
-        $this->assertTrue($client->getResponse()->isSuccessful(), $client->getResponse()->getContent());
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertJson($client->getResponse()->getContent());
     }
 
@@ -72,6 +73,7 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
 
         $client->request('GET', '/package.json');
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertJson($client->getResponse()->getContent());
         $jsondData = json_decode($client->getResponse()->getContent(), true);
         $this->assertCount(1, $jsondData);
