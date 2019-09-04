@@ -97,11 +97,8 @@ ci-update:
 	if ! git diff-index --quiet HEAD; then ${MAKE} ci-update-commit; fi
 
 deploy:
-	chmod o-x .
-	composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
 	yarn install
-	bin/console cache:clear --no-debug --no-warmup
 	yarn run encore production
-	bin/console cache:warmup
+	composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
+	bin/console cache:clear
 	bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
-	chmod o+x .
