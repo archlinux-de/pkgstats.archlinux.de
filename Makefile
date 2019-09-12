@@ -78,23 +78,23 @@ test-ci:
 	${PHP-RUN} bin/console security:check
 
 ci-build: install
-	if [ "$${TRAVIS_EVENT_TYPE}" = "cron" ]; then ${MAKE} ci-update; else ${MAKE} test-ci; fi
+	${MAKE} test-ci
 
 ci-update-commit:
-	git config --local user.name "$${GH_NAME}"
-	git config --local user.email "$${GH_EMAIL}"
 	git add -A
+	git config --local user.name "Maintenance Bob"
+	git config --local user.email "bob@archlinux.de"
 	git commit -m"Update dependencies"
-	git remote add origin-push https://$${GH_USER}:$${GH_TOKEN}@github.com/$${TRAVIS_REPO_SLUG}.git
-	git push --set-upstream origin-push "$${TRAVIS_BRANCH}"
+	git remote add origin-push https://$${GITHUB_ACTOR}:$${GITHUB_TOKEN}@github.com/$${GITHUB_REPOSITORY}.git
+	[ -n "$${GITHUB_TOKEN}" ] && git push --set-upstream origin-push $$(git rev-parse --abbrev-ref HEAD)
 
 ci-update:
+	git checkout $$(git rev-parse --abbrev-ref HEAD)
 	${PHP-RUN} composer --no-interaction update
 	${PHP-RUN} rm -rf var/cache/*
 	${NODE-RUN} yarn upgrade --latest
 	${MAKE} test-ci
-	git checkout "$${TRAVIS_BRANCH}"
-	if ! git diff-index --quiet HEAD; then ${MAKE} ci-update-commit; fi
+	git diff-index --quiet HEAD || ${MAKE} ci-update-commit
 
 deploy:
 	yarn install

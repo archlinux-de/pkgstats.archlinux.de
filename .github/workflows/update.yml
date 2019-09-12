@@ -1,0 +1,14 @@
+name: update
+
+on:
+  schedule:
+    - cron: '2 2 */1 * *'
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: make ci-update
