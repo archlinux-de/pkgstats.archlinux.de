@@ -1,5 +1,5 @@
 .EXPORT_ALL_VARIABLES:
-.PHONY: all init start start-db stop clean rebuild install shell-php shell-node test test-db test-db-migrations test-coverage test-db-coverage test-ci ci-build ci-update ci-update-commit deploy
+.PHONY: all init start start-db stop clean rebuild install shell-php shell-node test test-db test-db-migrations test-coverage test-db-coverage test-security update deploy
 
 UID!=id -u
 GID!=id -g
@@ -56,6 +56,7 @@ test:
 	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css'
 	${PHP-RUN} bin/console lint:yaml config
 	${PHP-RUN} bin/console lint:twig templates
+	${NODE-RUN} sh -c "PUBLIC_PATH=/tmp node_modules/.bin/encore prod"
 	${PHP-RUN} vendor/bin/phpstan analyse
 	${PHP-RUN} vendor/bin/phpunit
 
@@ -71,30 +72,13 @@ test-coverage:
 test-db-coverage: start-db
 	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage -c phpunit-db.xml
 
-test-ci:
-	${NODE-RUN} node_modules/.bin/encore production
-	${MAKE} test
-	${MAKE} test-db
+test-security:
 	${PHP-RUN} bin/console security:check
 
-ci-build: install
-	${MAKE} test-ci
-
-ci-update-commit:
-	git add -A
-	git config --local user.name "Maintenance Bob"
-	git config --local user.email "bob@archlinux.de"
-	git commit -m"Update dependencies"
-	git remote add origin-push https://$${GITHUB_ACTOR}:$${GITHUB_TOKEN}@github.com/$${GITHUB_REPOSITORY}.git
-	[ -n "$${GITHUB_TOKEN}" ] && git push --set-upstream origin-push $$(git rev-parse --abbrev-ref HEAD)
-
-ci-update:
-	git checkout $$(git rev-parse --abbrev-ref HEAD)
+update:
 	${PHP-RUN} composer --no-interaction update
 	${PHP-RUN} rm -rf var/cache/*
 	${NODE-RUN} yarn upgrade --latest
-	${MAKE} test-ci
-	git diff-index --quiet HEAD || ${MAKE} ci-update-commit
 
 deploy:
 	yarn install

@@ -2,7 +2,7 @@ const Encore = require('@symfony/webpack-encore')
 const CompressionPlugin = require('compression-webpack-plugin')
 
 Encore
-  .setOutputPath('public/build')
+  .setOutputPath((process.env.PUBLIC_PATH || 'public') + '/build')
   .setPublicPath('/build')
   .cleanupOutputBeforeBuild()
   .addEntry('js/app', './assets/js/app.js')

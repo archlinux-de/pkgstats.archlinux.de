@@ -1,15 +1,13 @@
-name: test
+name: security
 
 on:
-  push:
   schedule:
-    - cron: '0 1 */1 * *'
+    - cron: '0 5 */1 * *'
 
 jobs:
-  test:
+  security:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - run: make install
-      - run: make test
-      - run: make test-db
+      - run: make test-security

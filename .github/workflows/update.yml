@@ -2,13 +2,21 @@ name: update
 
 on:
   schedule:
-    - cron: '2 2 */1 * *'
+    - cron: '0 2 */1 * *'
 
 jobs:
   update:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - env:
+      - run: make update
+      - run: make test
+      - run: make test-db
+      - name: Run auto commit
+        uses: stefanzweifel/git-auto-commit-action@v2.0.0
+        with:
+          commit_author_email: bob@archlinux.de
+          commit_author_name: Maintenance Bob
+          commit_message: Update dependencies
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: make ci-update
