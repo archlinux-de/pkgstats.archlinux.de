@@ -52,7 +52,7 @@ services:
         bind:
             $rangeMonths: '%app.range_months%'
 
-    Nelmio\ApiDocBundle\Controller\SwaggerUiController: '@nelmio_api_doc.controller.swagger_ui'
+    Nelmio\ApiDocBundle\Controller\DocumentationController: '@nelmio_api_doc.controller.swagger'
 
     App\Cache\ApiDocCacheWarmer:
         tags:

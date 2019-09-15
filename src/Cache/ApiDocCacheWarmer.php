@@ -2,7 +2,7 @@
 
 namespace App\Cache;
 
-use Nelmio\ApiDocBundle\Controller\SwaggerUiController;
+use Nelmio\ApiDocBundle\Controller\DocumentationController;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
@@ -12,19 +12,19 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
  */
 class ApiDocCacheWarmer implements CacheWarmerInterface
 {
-    /** @var SwaggerUiController */
-    private $swaggerUiController;
+    /** @var DocumentationController */
+    private $documentationController;
 
     /** @var LoggerInterface */
     private $logger;
 
     /**
-     * @param SwaggerUiController $swaggerUiController
+     * @param DocumentationController $documentationController
      * @param LoggerInterface $logger
      */
-    public function __construct(SwaggerUiController $swaggerUiController, LoggerInterface $logger)
+    public function __construct(DocumentationController $documentationController, LoggerInterface $logger)
     {
-        $this->swaggerUiController = $swaggerUiController;
+        $this->documentationController = $documentationController;
         $this->logger = $logger;
     }
 
@@ -42,7 +42,7 @@ class ApiDocCacheWarmer implements CacheWarmerInterface
     public function warmUp($cacheDir)
     {
         try {
-            $this->swaggerUiController->__invoke(Request::createFromGlobals());
+            $this->documentationController->__invoke(Request::createFromGlobals());
         } catch (\Throwable $e) {
             $this->logger->warning($e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);
         }
