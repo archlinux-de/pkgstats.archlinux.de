@@ -24,6 +24,10 @@ Encore
   .autoProvideVariables({
     Popper: 'popper.js'
   })
+  .configureBabel(() => {}, {
+    useBuiltIns: 'usage',
+    corejs: 3
+  })
 
 if (Encore.isProduction()) {
   Encore.addPlugin(new CompressionPlugin())
