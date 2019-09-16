@@ -27,7 +27,7 @@ services:
     working_dir: /app
     environment:
       - HOME=/tmp
-    command: node_modules/.bin/encore dev-server --host 0.0.0.0 --port 8180 --disable-host-check --inline=false
+    command: node_modules/.bin/encore dev-server --host 0.0.0.0 --port 8180 --disable-host-check --inline=false --output-public-path=/build/
     user: "${UID}:${GID}"
     restart: always
     volumes:
