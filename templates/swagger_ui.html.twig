@@ -9,11 +9,6 @@
     {{ encore_entry_script_tags('js/swagger_ui') }}
 {% endblock %}
 
-{% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('css/swagger_ui') }}
-{% endblock %}
-
 {% block body %}
-    <div id="swagger-ui" data-swagger-url="{{ path('app.swagger') }}"></div>
+    <div id="swagger-ui" data-url="{{ path('app.swagger') }}"></div>
 {% endblock %}
