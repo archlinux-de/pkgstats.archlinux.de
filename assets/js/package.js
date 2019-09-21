@@ -7,10 +7,10 @@ $(document).ready(function () {
   const dataTable = jqueryTable.DataTable({
     lengthMenu: [25, 50, 100],
     pageLength: 25,
-    processing: false,
+    processing: true,
     serverSide: true,
     order: [[1, 'desc']],
-    searchDelay: 1000,
+    searchDelay: 2000,
     pagingType: 'numbers',
     columns: [
       {
