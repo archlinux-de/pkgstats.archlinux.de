@@ -194,4 +194,83 @@ class PackageRepositoryTest extends DatabaseTestCase
 
         $this->assertEquals(0, $count);
     }
+
+    public function testFindMonthlyByNameAndRange()
+    {
+        $packageA = (new Package())->setPkgname('a')->setMonth(201810);
+        $packageB = (new Package())->setPkgname('a')->setMonth(201811);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $count = $packageRepository->findMonthlyByNameAndRange('a', 201810, 201812, 1, 1);
+
+        $this->assertEquals(
+            [
+                'total' => 2,
+                'packages' => [
+                    [
+                        'pkgname' => 'a',
+                        'count' => 1,
+                        'month' => 201811
+                    ]
+                ]
+            ],
+            $count
+        );
+    }
+
+    public function testGetMonthlyMaximumCountByRange()
+    {
+        $packageA = (new Package())->setPkgname('a')->setMonth(201810);
+        $packageB = (new Package())->setPkgname('a')->setMonth(201810);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $monthlyCount = $packageRepository->getMonthlyMaximumCountByRange(201810, 201811);
+        $this->assertEquals([['count' => 2, 'month' => 201810]], $monthlyCount);
+    }
+
+    public function testGetFirstMonthByName()
+    {
+        $packageA = (new Package())->setPkgname('a')->setMonth(201810);
+        $packageB = (new Package())->setPkgname('a')->setMonth(201811);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $this->assertEquals(201810, $packageRepository->getFirstMonthByName('a'));
+    }
+
+    public function testGetLatestMonthByName()
+    {
+        $packageA = (new Package())->setPkgname('a')->setMonth(201810);
+        $packageB = (new Package())->setPkgname('a')->setMonth(201811);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $this->assertEquals(201811, $packageRepository->getLatestMonthByName('a'));
+    }
 }

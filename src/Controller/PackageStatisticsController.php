@@ -139,4 +139,29 @@ class PackageStatisticsController extends AbstractController
         });
         return $this->json($packages);
     }
+
+    /**
+     * @Route(path="/packages/{package}", methods={"GET"})
+     * @Cache(smaxage="900")
+     * @param string $package
+     * @return Response
+     */
+    public function packagesDetailAction(string $package): Response
+    {
+        $startMonth = $this->packageRepository->getFirstMonthByName($package);
+        if (!$startMonth) {
+            throw $this->createNotFoundException(sprintf('Package %s was not found', $package));
+        }
+        $endMonth = $this->packageRepository->getLatestMonthByName($package);
+
+        return $this->render(
+            'packages_detail.html.twig',
+            [
+                'package' => $package,
+                'startMonth' => $startMonth,
+                'endMonth' => $endMonth,
+                'limit' => 0
+            ]
+        );
+    }
 }

@@ -20,7 +20,7 @@ $(document).ready(function () {
         className: 'text-nowrap',
         render: function (data, type) {
           if (type === 'display') {
-            return `<a href="${jqueryTable.data('searchUrl')}?search=${encodeURI(data)}">${data}</a>`
+            return `<a href="${jqueryTable.data('packageUrlTemplate').replace('_package_', encodeURI(data))}">${data}</a>`
           }
           return data
         }

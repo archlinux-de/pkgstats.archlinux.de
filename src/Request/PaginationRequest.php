@@ -6,6 +6,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class PaginationRequest
 {
+    /** @var int */
+    public const MAX_LIMIT = 10000;
+
     /**
      * @var int
      * @Assert\Range(min=0, max=100000)
@@ -14,7 +17,7 @@ class PaginationRequest
 
     /**
      * @var int
-     * @Assert\Range(min=1, max=10000)
+     * @Assert\Range(min=1, max=PaginationRequest::MAX_LIMIT)
      */
     private $limit;
 
@@ -25,7 +28,7 @@ class PaginationRequest
     public function __construct(int $offset, int $limit)
     {
         $this->offset = $offset;
-        $this->limit = $limit;
+        $this->limit = $limit == 0 ? self::MAX_LIMIT : $limit;
     }
 
     /**

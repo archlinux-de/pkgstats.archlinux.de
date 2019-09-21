@@ -79,4 +79,31 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
         $this->assertCount(1, $jsondData);
         $this->assertEquals([['pkgname' => 'foo', 'count' => 1]], $jsondData);
     }
+
+    public function testPackagesDetailAction()
+    {
+        $entityManager = $this->getEntityManager();
+        $package = (new Package())
+            ->setPkgname('foo')
+            ->setMonth((int)(new \DateTime())->format('Ym'));
+        $entityManager->persist($package);
+        $entityManager->flush();
+
+        $client = $this->getClient();
+
+        $crawler = $client->request('GET', '/packages/foo');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertStringContainsString(
+            'foo',
+            (string)$crawler->filter('h1')->text()
+        );
+    }
+
+    public function testPackagesDetailActionReturns404OnUnknownPackage()
+    {
+        $client = $this->getClient();
+
+        $client->request('GET', '/packages/foo');
+        $this->assertTrue($client->getResponse()->isNotFound());
+    }
 }
