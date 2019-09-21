@@ -62,6 +62,8 @@ class SmokeTest extends DatabaseTestCase
             ['/package.json'],
             ['/api/packages?startMonth=201812'],
             ['/api/packages/pacman?startMonth=201812'],
+            ['/api/packages/pacman/series?startMonth=201812'],
+            ['/packages/pacman'],
             ['/api/doc'],
             ['/api/doc.json'],
             ['/sitemap.xml'],

@@ -14,4 +14,11 @@ class PaginationRequestTest extends TestCase
         $this->assertEquals(2, $paginationRequest->getOffset());
         $this->assertEquals(100, $paginationRequest->getLimit());
     }
+
+    public function testZeroLimitWillSetMaximum()
+    {
+        $paginationRequest = new PaginationRequest(0, 0);
+
+        $this->assertEquals(PaginationRequest::MAX_LIMIT, $paginationRequest->getLimit());
+    }
 }

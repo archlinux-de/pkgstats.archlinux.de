@@ -102,13 +102,10 @@ class PackageRepository extends ServiceEntityRepository
         int $limit
     ): array {
         $queryBuilder = $this->createQueryBuilder('package')
-            ->addSelect('package.pkgname AS name')
-            ->addSelect('package.count AS count')
-            ->addSelect('package.month AS month')
             ->where('package.pkgname = :name')
             ->andWhere('package.month >= :startMonth')
             ->andWhere('package.month <= :endMonth')
-            ->orderBy('month', 'asc')
+            ->orderBy('package.month', 'asc')
             ->setParameter('name', $name)
             ->setParameter('startMonth', $startMonth)
             ->setParameter('endMonth', $endMonth)
@@ -117,7 +114,7 @@ class PackageRepository extends ServiceEntityRepository
 
         $pagination = new Paginator($queryBuilder, false);
         $total = $pagination->count();
-        $packages = $pagination->getQuery()->getScalarResult();
+        $packages = $pagination->getQuery()->getArrayResult();
 
         return [
             'total' => $total,
@@ -209,5 +206,33 @@ class PackageRepository extends ServiceEntityRepository
             ->setParameter('endMonth', $endMonth)
             ->getQuery()
             ->getScalarResult();
+    }
+
+    /**
+     * @param string $name
+     * @return int|null
+     */
+    public function getFirstMonthByName(string $name): ?int
+    {
+        return $this->createQueryBuilder('package')
+            ->select('MIN(package.month) AS month')
+            ->where('package.pkgname = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @param string $name
+     * @return int|null
+     */
+    public function getLatestMonthByName(string $name): ?int
+    {
+        return $this->createQueryBuilder('package')
+            ->select('MAX(package.month) AS month')
+            ->where('package.pkgname = :name')
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

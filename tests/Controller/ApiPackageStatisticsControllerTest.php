@@ -235,4 +235,35 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
         $this->assertCount(1, $pupularityList['packagePopularities']);
         $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
     }
+
+    public function testPackagesSeries()
+    {
+        $entityManager = $this->getEntityManager();
+        $package = (new Package())
+            ->setPkgname('pacman')
+            ->setMonth((int)(new \DateTime())->format('Ym'));
+        $user = (new User())
+            ->setPackages(1)
+            ->setMirror('https://mirror.archlinux.de')
+            ->setCountrycode('DE')
+            ->setCpuarch('x86_64')
+            ->setArch('x86_64')
+            ->setTime((new \DateTime())->getTimestamp())
+            ->setIp('localhost');
+        $entityManager->persist($package);
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $client = $this->getClient();
+
+        $client->request('GET', '/api/packages/pacman/series');
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
+        $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
+        $this->assertEquals(1, $pupularityList['total']);
+        $this->assertEquals(1, $pupularityList['count']);
+        $this->assertCount(1, $pupularityList['packagePopularities']);
+        $this->assertEquals('pacman', $pupularityList['packagePopularities'][0]['name']);
+    }
 }

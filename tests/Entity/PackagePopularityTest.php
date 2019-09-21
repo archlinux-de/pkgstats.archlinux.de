@@ -15,6 +15,8 @@ class PackagePopularityTest extends TestCase
         $this->assertEquals(22, $packagePopularity->getSamples());
         $this->assertEquals(13, $packagePopularity->getCount());
         $this->assertEquals(59.09, $packagePopularity->getPopularity());
+        $this->assertEquals(201901, $packagePopularity->getStartMonth());
+        $this->assertEquals(201902, $packagePopularity->getEndMonth());
     }
 
     public function testJsonSerialize()

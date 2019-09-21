@@ -74,4 +74,43 @@ class PackagePopularityCalculatorTest extends TestCase
 
         $this->assertEquals(1, $packagePopularityList->getCount());
     }
+
+    public function testGetPackagePopularitySeries()
+    {
+        $this
+            ->packageRepository
+            ->expects($this->once())
+            ->method('getMonthlyMaximumCountByRange')
+            ->with(201801, 201812)
+            ->willReturn([
+                [
+                    'month' => 201801,
+                    'count' => 1
+                ]
+            ]);
+
+        $this
+            ->packageRepository
+            ->expects($this->once())
+            ->method('findMonthlyByNameAndRange')
+            ->with('foo', 201801, 201812, 2, 12)
+            ->willReturn([
+                'packages' => [
+                    [
+                        'pkgname' => 'foo',
+                        'count' => 43,
+                        'month' => 201801
+                    ]
+                ],
+                'total' => 13
+            ]);
+
+        $packagePopularitySeries = $this->packagePopularityCalculator->getPackagePopularitySeries(
+            'foo',
+            new StatisticsRangeRequest(201801, 201812),
+            new PaginationRequest(2, 12)
+        );
+
+        $this->assertEquals(1, $packagePopularitySeries->getCount());
+    }
 }

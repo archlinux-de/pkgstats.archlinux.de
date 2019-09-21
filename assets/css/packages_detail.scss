@@ -1,0 +1,12 @@
+@import "bootstrap";
+
+$ct-series-names: (a, b, c, d, e);
+$ct-series-colors: (
+  $primary,
+  $danger,
+  $success,
+  $warning,
+  $info
+);
+
+@import "~chartist/dist/scss/chartist";
