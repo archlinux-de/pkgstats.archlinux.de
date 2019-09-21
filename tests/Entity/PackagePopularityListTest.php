@@ -10,7 +10,7 @@ class PackagePopularityListTest extends TestCase
 {
     public function testSettersAndGetters()
     {
-        $packagePopularity = new PackagePopularity('pacman', 22, 13);
+        $packagePopularity = new PackagePopularity('pacman', 22, 13, 201901, 201902);
         $packagePopularityList = new PackagePopularityList([$packagePopularity], 34);
 
         $this->assertEquals(1, $packagePopularityList->getCount());
@@ -21,7 +21,7 @@ class PackagePopularityListTest extends TestCase
 
     public function testJsonSerialize()
     {
-        $packagePopularity = new PackagePopularity('pacman', 22, 13);
+        $packagePopularity = new PackagePopularity('pacman', 22, 13, 201901, 201902);
         $packagePopularityList = new PackagePopularityList([$packagePopularity], 34);
 
         $this->assertEquals(

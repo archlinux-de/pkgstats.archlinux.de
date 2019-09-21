@@ -29,7 +29,7 @@ class ApiPackageStatisticsController extends AbstractController
     }
 
     /**
-     * @Route("/api/packages/{name}", methods={"GET"}, requirements={"name"="^([^-]+\S*){1,255}$"})
+     * @Route("/api/packages/{name}", methods={"GET"}, requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"})
      * @Cache(smaxage="86400")
      * @param string $name
      * @param StatisticsRangeRequest $statisticsRangeRequest
@@ -66,6 +66,75 @@ class ApiPackageStatisticsController extends AbstractController
     {
         return $this->json(
             $this->packagePopularityCalculator->getPackagePopularity($name, $statisticsRangeRequest)
+        );
+    }
+
+    /**
+     * @Route("/api/packages/{name}/series", methods={"GET"}, requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"})
+     * @Cache(smaxage="86400")
+     * @param string $name
+     * @param StatisticsRangeRequest $statisticsRangeRequest
+     * @param PaginationRequest $paginationRequest
+     * @return Response
+     *
+     * @SWG\Tag(name="packages")
+     * @SWG\Response(
+     *     description="Returns popularities of given package in a monthly series",
+     *     response=200,
+     *     @Model(type=PackagePopularityList::class)
+     * )
+     * @SWG\Parameter(
+     *     in="path",
+     *     name="name",
+     *     description="Name of the package",
+     *     type="string"
+     * )
+     * @SWG\Parameter(
+     *     name="startMonth",
+     *     required=false,
+     *     in="query",
+     *     description="Specify start month in the form of 'Ym', e.g. 201901. Defaults to a range of 3 months.",
+     *     type="integer"
+     * )
+     * @SWG\Parameter(
+     *     name="endMonth",
+     *     required=false,
+     *     in="query",
+     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to current month.",
+     *     type="integer"
+     * )
+     * @SWG\Parameter(
+     *     name="limit",
+     *     required=false,
+     *     default=100,
+     *     minimum=1,
+     *     maximum=10000,
+     *     in="query",
+     *     description="Limit the result set",
+     *     type="integer"
+     * )
+     * @SWG\Parameter(
+     *     name="offset",
+     *     required=false,
+     *     default=0,
+     *     minimum=0,
+     *     maximum=100000,
+     *     in="query",
+     *     description="Offset the result set",
+     *     type="integer"
+     * )
+     */
+    public function packageSeriesAction(
+        string $name,
+        StatisticsRangeRequest $statisticsRangeRequest,
+        PaginationRequest $paginationRequest
+    ): Response {
+        return $this->json(
+            $this->packagePopularityCalculator->getPackagePopularitySeries(
+                $name,
+                $statisticsRangeRequest,
+                $paginationRequest
+            )
         );
     }
 
