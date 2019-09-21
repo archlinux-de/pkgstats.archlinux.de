@@ -87,6 +87,45 @@ class PackageRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param string $name
+     * @param int $startMonth
+     * @param int $endMonth
+     * @param int $offset
+     * @param int $limit
+     * @return array
+     */
+    public function findMonthlyByNameAndRange(
+        string $name,
+        int $startMonth,
+        int $endMonth,
+        int $offset,
+        int $limit
+    ): array {
+        $queryBuilder = $this->createQueryBuilder('package')
+            ->addSelect('package.pkgname AS name')
+            ->addSelect('package.count AS count')
+            ->addSelect('package.month AS month')
+            ->where('package.pkgname = :name')
+            ->andWhere('package.month >= :startMonth')
+            ->andWhere('package.month <= :endMonth')
+            ->orderBy('month', 'asc')
+            ->setParameter('name', $name)
+            ->setParameter('startMonth', $startMonth)
+            ->setParameter('endMonth', $endMonth)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit);
+
+        $pagination = new Paginator($queryBuilder, false);
+        $total = $pagination->count();
+        $packages = $pagination->getQuery()->getScalarResult();
+
+        return [
+            'total' => $total,
+            'packages' => $packages
+        ];
+    }
+
+    /**
      * @param int $startMonth
      * @param int $endMonth
      * @return int
@@ -150,5 +189,25 @@ class PackageRepository extends ServiceEntityRepository
             'total' => $total,
             'packages' => $packages
         ];
+    }
+
+    /**
+     * @param int $startMonth
+     * @param int $endMonth
+     * @return array
+     */
+    public function getMonthlyMaximumCountByRange(int $startMonth, int $endMonth): array
+    {
+        return $this->createQueryBuilder('package')
+            ->select('MAX(package.count) AS count')
+            ->addSelect('package.month AS month')
+            ->where('package.month >= :startMonth')
+            ->andWhere('package.month <= :endMonth')
+            ->groupBy('package.month')
+            ->orderBy('package.month', 'asc')
+            ->setParameter('startMonth', $startMonth)
+            ->setParameter('endMonth', $endMonth)
+            ->getQuery()
+            ->getScalarResult();
     }
 }

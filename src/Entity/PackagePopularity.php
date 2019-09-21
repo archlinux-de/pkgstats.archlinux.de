@@ -13,16 +13,26 @@ class PackagePopularity implements \JsonSerializable
     /** @var int */
     private $count;
 
+    /** @var int */
+    private $startMonth;
+
+    /** @var int */
+    private $endMonth;
+
     /**
      * @param string $name
      * @param int $samples
      * @param int $count
+     * @param int $startMonth
+     * @param int $endMonth
      */
-    public function __construct(string $name, int $samples, int $count)
+    public function __construct(string $name, int $samples, int $count, int $startMonth, int $endMonth)
     {
         $this->name = $name;
         $this->samples = $samples;
         $this->count = $count;
+        $this->startMonth = $startMonth;
+        $this->endMonth = $endMonth;
     }
 
     /**
@@ -34,7 +44,9 @@ class PackagePopularity implements \JsonSerializable
             'name' => $this->getName(),
             'samples' => $this->getSamples(),
             'count' => $this->getCount(),
-            'popularity' => $this->getPopularity()
+            'popularity' => $this->getPopularity(),
+            'startMonth' => $this->getStartMonth(),
+            'endMonth' => $this->getEndMonth()
         ];
     }
 
@@ -68,5 +80,21 @@ class PackagePopularity implements \JsonSerializable
     public function getPopularity(): float
     {
         return round($this->getCount() / ($this->getSamples() ?: 1) * 100, 2);
+    }
+
+    /**
+     * @return int
+     */
+    public function getStartMonth(): int
+    {
+        return $this->startMonth;
+    }
+
+    /**
+     * @return int
+     */
+    public function getEndMonth(): int
+    {
+        return $this->endMonth;
     }
 }
