@@ -56,18 +56,18 @@ class PackageStatisticsController extends AbstractController
     public function datatablesAction(DatatablesRequest $request): Response
     {
         $columnConfiguration = (new DatatablesColumnConfiguration())
-            ->addTextSearchableColumn('pkgname', 'package.pkgname')
+            ->addTextSearchableColumn('name', 'package.name')
             ->addOrderableColumn('count', 'count');
         $response = $this->datatablesQuery->getResult(
             $request,
             $columnConfiguration,
             $this->packageRepository
                 ->createQueryBuilder('package')
-                ->select('package.pkgname AS pkgname')
+                ->select('package.name')
                 ->addSelect('SUM(package.count) AS count')
                 ->where('package.month >= :month')
                 ->setParameter('month', $this->getRangeYearMonth())
-                ->groupBy('package.pkgname'),
+                ->groupBy('package.name'),
             $this->packageRepository->getMaximumCountSince($this->getRangeYearMonth())
         );
 
@@ -116,7 +116,7 @@ class PackageStatisticsController extends AbstractController
      *         type="array",
      *         @SWG\Items(
      *             type="object",
-     *             @SWG\Property(property="pkgname", type="string"),
+     *             @SWG\Property(property="name", type="string"),
      *             @SWG\Property(property="count", type="integer")
      *         ),
      *    )
@@ -127,11 +127,11 @@ class PackageStatisticsController extends AbstractController
     {
         $packages = $this->packageRepository
             ->createQueryBuilder('package')
-            ->select('package.pkgname AS pkgname')
+            ->select('package.name AS pkgname')
             ->addSelect('SUM(package.count) AS count')
             ->where('package.month >= :month')
             ->setParameter('month', $this->getRangeYearMonth())
-            ->groupBy('package.pkgname')
+            ->groupBy('package.name')
             ->getQuery()
             ->getScalarResult();
         array_walk($packages, function (&$item) {

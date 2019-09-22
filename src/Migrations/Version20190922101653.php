@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20190316174119 extends AbstractMigration
+final class Version20190922101653 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
@@ -16,8 +16,9 @@ final class Version20190316174119 extends AbstractMigration
             'Migration can only be executed safely on \'mysql\'.'
         );
 
-        $this->addSql('DROP TABLE module');
-        $this->addSql('ALTER TABLE user DROP modules');
+        $this->addSql('ALTER TABLE package DROP PRIMARY KEY');
+        $this->addSql('ALTER TABLE package CHANGE pkgname name VARCHAR(191) NOT NULL');
+        $this->addSql('ALTER TABLE package ADD PRIMARY KEY (name, month)');
     }
 
     public function down(Schema $schema): void
@@ -27,9 +28,8 @@ final class Version20190316174119 extends AbstractMigration
             'Migration can only be executed safely on \'mysql\'.'
         );
 
-        // phpcs:disable
-        $this->addSql('CREATE TABLE module (name VARCHAR(50) NOT NULL COLLATE utf8mb4_unicode_ci, month INT NOT NULL, count INT NOT NULL, PRIMARY KEY(name, month)) DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE = InnoDB COMMENT = \'\' ');
-        $this->addSql('ALTER TABLE user ADD modules SMALLINT DEFAULT NULL');
-        // phpcs:enable
+        $this->addSql('ALTER TABLE package DROP PRIMARY KEY');
+        $this->addSql('ALTER TABLE package CHANGE name pkgname VARCHAR(191) NOT NULL COLLATE utf8_unicode_ci');
+        $this->addSql('ALTER TABLE package ADD PRIMARY KEY (pkgname, month)');
     }
 }

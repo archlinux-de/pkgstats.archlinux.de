@@ -14,7 +14,7 @@ $(document).ready(function () {
     pagingType: 'numbers',
     columns: [
       {
-        data: 'pkgname',
+        data: 'name',
         orderable: false,
         searchable: true,
         className: 'text-nowrap',

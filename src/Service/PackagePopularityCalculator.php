@@ -123,7 +123,7 @@ class PackagePopularityCalculator
         ) {
             foreach ($packages['packages'] as $package) {
                 $packagePopularity = new PackagePopularity(
-                    $package['pkgname'],
+                    $package['name'],
                     $rangeCountSeries[$package['month']],
                     $package['count'],
                     $package['month'],

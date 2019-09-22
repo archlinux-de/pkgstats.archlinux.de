@@ -15,7 +15,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setPkgname('pacman')
+            ->setName('pacman')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $user = (new User())
             ->setPackages(1)
@@ -108,7 +108,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setPkgname('pacman')
+            ->setName('pacman')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $user = (new User())
             ->setPackages(1)
@@ -135,10 +135,10 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $pacman = (new Package())
-            ->setPkgname('pacman')
+            ->setName('pacman')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $php = (new Package())
-            ->setPkgname('php')
+            ->setName('php')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $user = (new User())
             ->setPackages(2)
@@ -168,10 +168,10 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $pacman = (new Package())
-            ->setPkgname('pacman')
+            ->setName('pacman')
             ->setMonth(201901);
         $php = (new Package())
-            ->setPkgname('php')
+            ->setName('php')
             ->setMonth(201801);
         $user = (new User())
             ->setPackages(2)
@@ -201,13 +201,13 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $pacman = (new Package())
-            ->setPkgname('pacman')
+            ->setName('pacman')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $php = (new Package())
-            ->setPkgname('php')
+            ->setName('php')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $anotherPhp = (new Package())
-            ->setPkgname('php')
+            ->setName('php')
             ->setMonth((int)(new \DateTime('-1 month'))->format('Ym'));
         $user = (new User())
             ->setPackages(2)
@@ -240,7 +240,7 @@ class ApiPackageStatisticsControllerTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setPkgname('pacman')
+            ->setName('pacman')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $user = (new User())
             ->setPackages(1)

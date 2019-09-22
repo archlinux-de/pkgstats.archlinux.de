@@ -84,14 +84,14 @@ class FunStatisticsController extends AbstractController
     private function getPackageStatistics(array $packages): array
     {
         $packageArray = [];
-        foreach ($packages as $package => $pkgnames) {
-            if (!is_array($pkgnames)) {
-                $pkgnames = [
-                    $pkgnames,
+        foreach ($packages as $package => $names) {
+            if (!is_array($names)) {
+                $names = [
+                    $names,
                 ];
             }
-            foreach ($pkgnames as $pkgname) {
-                $count = $this->packageRepository->getCountByNameSince($pkgname, $this->getRangeYearMonth());
+            foreach ($names as $name) {
+                $count = $this->packageRepository->getCountByNameSince($name, $this->getRangeYearMonth());
                 if (isset($packageArray[$package])) {
                     $packageArray[$package] += $count;
                 } else {

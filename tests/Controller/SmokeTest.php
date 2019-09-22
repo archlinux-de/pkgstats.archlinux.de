@@ -19,7 +19,7 @@ class SmokeTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setPkgname('pacman')
+            ->setName('pacman')
             ->setMonth(201812);
         $user = (new User())
             ->setPackages(1)

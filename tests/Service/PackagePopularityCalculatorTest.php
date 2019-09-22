@@ -97,7 +97,7 @@ class PackagePopularityCalculatorTest extends TestCase
             ->willReturn([
                 'packages' => [
                     [
-                        'pkgname' => 'foo',
+                        'name' => 'foo',
                         'count' => 43,
                         'month' => 201801
                     ]
