@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/packages') }}
+{% endblock %}
+
+{% block title %}Package statistics{% endblock %}
+
+{% block body %}
+    <main role="main" class="container-fluid">
+        <h1 class="mb-4">Package statistics</h1>
+        <table id="pkgstats" class="table table-striped table-bordered table-sm" width="100%"
+               data-ajax="{{ path('app_api_datatables_packages') }}"
+               data-package-url-template="{{ path('app_package', {'package': '_package_'}) }}">
+            <thead>
+            <tr>
+                <th>Package</th>
+                <th>Usage</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+{% endblock %}

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 
-class ApiPackageStatisticsController extends AbstractController
+class ApiPackagesController extends AbstractController
 {
     /** @var PackagePopularityCalculator */
     private $packagePopularityCalculator;
@@ -29,7 +29,12 @@ class ApiPackageStatisticsController extends AbstractController
     }
 
     /**
-     * @Route("/api/packages/{name}", methods={"GET"}, requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"})
+     * @Route(
+     *     "/api/packages/{name}",
+     *      methods={"GET"},
+     *      requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"},
+     *      name="app_api_package"
+     * )
      * @Cache(smaxage="86400")
      * @param string $name
      * @param StatisticsRangeRequest $statisticsRangeRequest
@@ -70,7 +75,12 @@ class ApiPackageStatisticsController extends AbstractController
     }
 
     /**
-     * @Route("/api/packages/{name}/series", methods={"GET"}, requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"})
+     * @Route(
+     *     "/api/packages/{name}/series",
+     *      methods={"GET"},
+     *      requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"},
+     *      name="app_api_package_series"
+     * )
      * @Cache(smaxage="86400")
      * @param string $name
      * @param StatisticsRangeRequest $statisticsRangeRequest
@@ -139,7 +149,11 @@ class ApiPackageStatisticsController extends AbstractController
     }
 
     /**
-     * @Route("/api/packages", methods={"GET"})
+     * @Route(
+     *     "/api/packages",
+     *      methods={"GET"},
+     *      name="app_api_packages"
+     * )
      * @Cache(smaxage="86400")
      * @param StatisticsRangeRequest $statisticsRangeRequest
      * @param PaginationRequest $paginationRequest

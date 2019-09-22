@@ -50,6 +50,20 @@ class SmokeTest extends DatabaseTestCase
     }
 
     /**
+     * @param string $legacyUrl
+     * @param string $targetUrl
+     * @dataProvider provideLegacyUrls
+     */
+    public function testLegacyRedirects(string $legacyUrl, string $targetUrl)
+    {
+        $client = $this->getClient();
+
+        $client->request('GET', $legacyUrl);
+
+        $this->assertTrue($client->getResponse()->isRedirect(sprintf('http://localhost%s', $targetUrl)));
+    }
+
+    /**
      * @return array
      */
     public function provideUrls(): array
@@ -57,8 +71,8 @@ class SmokeTest extends DatabaseTestCase
         return [
             ['/'],
             ['/fun'],
-            ['/package'],
-            ['/package/datatables?draw=1&length=1'],
+            ['/packages'],
+            ['/api/datatables/packages?draw=1&length=1'],
             ['/package.json'],
             ['/api/packages?startMonth=201812'],
             ['/api/packages/pacman?startMonth=201812'],
@@ -69,6 +83,17 @@ class SmokeTest extends DatabaseTestCase
             ['/sitemap.xml'],
             ['/impressum'],
             ['/privacy-policy']
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function provideLegacyUrls(): array
+    {
+        return [
+            ['/package', '/packages'],
+            ['/package/datatables?draw=1&length=1', '/api/datatables/packages?draw=1&length=1']
         ];
     }
 }

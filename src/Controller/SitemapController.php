@@ -11,7 +11,7 @@ class SitemapController extends AbstractController
 {
 
     /**
-     * @Route("/sitemap.xml", methods={"GET"})
+     * @Route("/sitemap.xml", methods={"GET"}, name="app_sitemap")
      * @Cache(smaxage="600")
      * @return Response
      */

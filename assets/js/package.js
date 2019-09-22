@@ -1,51 +1,52 @@
-import $ from 'jquery'
-import 'datatables.net'
-import 'datatables.net-bs4'
+/* eslint-env browser */
+import Chartist from 'chartist'
+// support IE 11
+import 'whatwg-fetch'
 
-$(document).ready(function () {
-  const jqueryTable = $('#pkgstats')
-  const dataTable = jqueryTable.DataTable({
-    lengthMenu: [25, 50, 100],
-    pageLength: 25,
-    processing: true,
-    serverSide: true,
-    order: [[1, 'desc']],
-    searchDelay: 2000,
-    pagingType: 'numbers',
-    columns: [
-      {
-        data: 'name',
-        orderable: false,
-        searchable: true,
-        className: 'text-nowrap',
-        render: function (data, type) {
-          if (type === 'display') {
-            return `<a href="${jqueryTable.data('packageUrlTemplate').replace('_package_', encodeURI(data))}">${data}</a>`
-          }
-          return data
+const ChartElement = document.querySelector('#series')
+const url = ChartElement.dataset.url
+
+fetch(url)
+  .then(response => response.json()
+  )
+  .then(json => {
+    const data = {
+      labels: [],
+      series: [[]]
+    }
+
+    if (json && json.packagePopularities) {
+      json.packagePopularities.forEach((packagePopularity) => {
+        if (packagePopularity.startMonth && packagePopularity.popularity) {
+          data.labels.push(packagePopularity.startMonth)
+          data.series[0].push(packagePopularity.popularity)
         }
+      })
+    }
+
+    // Remove the spinner
+    ChartElement.innerHTML = ''
+
+    Chartist.Line(ChartElement, data, {
+      showPoint: false,
+      showArea: true,
+      chartPadding: {
+        right: 35
       },
-      {
-        data: 'count',
-        orderable: true,
-        searchable: false,
-        render: function (data, type, row) {
-          if (type === 'display') {
-            let total = dataTable.page.info().recordsTotal
-            if (data > total) {
-              total = data
-            }
-            const percent = Math.ceil(data / total * 100)
-            return `<div class="progress bg-transparent" title="${percent}%">
-                    <div class="progress-bar bg-primary" role="progressbar"
-                     style="width: ${percent}%" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100">
-                    ${percent > 5 ? percent + ' %' : ''}
-                    </div></div>`
-          }
-          return data
-        },
-        className: 'w-75'
+      axisX: {
+        showGrid: false,
+        labelInterpolationFnc: value => value.toString().endsWith('09') ? value.toString().slice(0, -2) : null
       }
-    ]
+    })
   })
-})
+  .catch(e => {
+    // Remove the spinner
+    ChartElement.innerHTML = ''
+
+    const error = document.createElement('div')
+    error.classList.add('alert')
+    error.classList.add('alert-danger')
+    error.setAttribute('role', 'alert')
+    error.innerText = e.toString()
+    ChartElement.appendChild(error)
+  })

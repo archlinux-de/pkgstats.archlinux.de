@@ -7,9 +7,9 @@ use App\Entity\User;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
 /**
- * @covers \App\Controller\ApiPackageStatisticsController
+ * @covers \App\Controller\ApiPackagesController
  */
-class ApiPackageStatisticsControllerTest extends DatabaseTestCase
+class ApiPackagesControllerTest extends DatabaseTestCase
 {
     public function testFetchAllPackages()
     {

@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PackageStatisticsController extends AbstractController
+class PackageController extends AbstractController
 {
     /** @var int */
     private $rangeMonths;
@@ -39,17 +39,17 @@ class PackageStatisticsController extends AbstractController
     }
 
     /**
-     * @Route("/package", methods={"GET"})
+     * @Route("/packages", methods={"GET"}, name="app_packages")
      * @Cache(smaxage="900")
      * @return Response
      */
-    public function packageAction(): Response
+    public function packagesAction(): Response
     {
-        return $this->render('package.html.twig');
+        return $this->render('packages.html.twig');
     }
 
     /**
-     * @Route("/package/datatables", methods={"GET"})
+     * @Route("/api/datatables/packages", methods={"GET"}, name="app_api_datatables_packages")
      * @param DatatablesRequest $request
      * @return Response
      */
@@ -101,7 +101,7 @@ class PackageStatisticsController extends AbstractController
     }
 
     /**
-     * @Route("/package.json", methods={"GET"})
+     * @Route("/package.json", methods={"GET"}, name="app_package_json")
      * @Cache(smaxage="86400")
      * @return Response
      *
@@ -141,12 +141,12 @@ class PackageStatisticsController extends AbstractController
     }
 
     /**
-     * @Route(path="/packages/{package}", methods={"GET"})
+     * @Route(path="/packages/{package}", methods={"GET"}, name="app_package")
      * @Cache(smaxage="900")
      * @param string $package
      * @return Response
      */
-    public function packagesDetailAction(string $package): Response
+    public function packageAction(string $package): Response
     {
         $startMonth = $this->packageRepository->getFirstMonthByName($package);
         if (!$startMonth) {
@@ -155,7 +155,7 @@ class PackageStatisticsController extends AbstractController
         $endMonth = $this->packageRepository->getLatestMonthByName($package);
 
         return $this->render(
-            'packages_detail.html.twig',
+            'package.html.twig',
             [
                 'package' => $package,
                 'startMonth' => $startMonth,

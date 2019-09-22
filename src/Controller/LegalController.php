@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LegalController extends AbstractController
 {
     /**
-     * @Route("/impressum", methods={"GET"})
+     * @Route("/impressum", methods={"GET"}, name="app_impressum")
      * @Cache(smaxage="900")
      * @return Response
      */
@@ -20,7 +20,7 @@ class LegalController extends AbstractController
     }
 
     /**
-     * @Route("/privacy-policy", methods={"GET"})
+     * @Route("/privacy-policy", methods={"GET"}, name="app_privacy")
      * @Cache(smaxage="900")
      * @return Response
      */
