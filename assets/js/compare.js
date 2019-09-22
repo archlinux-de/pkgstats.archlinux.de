@@ -7,7 +7,12 @@ import 'whatwg-fetch'
 const ChartElement = document.querySelector('#series')
 const urlTemplate = ChartElement.dataset.urlTemplate
 
-let packages = location.hash.replace(/^#+packages=/, '').split(',')
+let packages = location.hash
+  .replace(/^#+packages=/, '')
+  .split(',')
+  .filter(pkg => {
+    return pkg.length > 0
+  })
 
 packages.sort()
 // limit the number of line graphs
@@ -41,10 +46,13 @@ Promise.all(packages.map(packageName => {
     }
   })
 
+  if (!tempLabels.length) {
+    throw new Error('No package data found')
+  }
+
   tempLabels.forEach((_, key) => {
     data.labels.push(key)
   })
-
   data.labels.sort()
 
   data.labels.forEach(label => {
