@@ -116,7 +116,7 @@ class PackageController extends AbstractController
      *         type="array",
      *         @SWG\Items(
      *             type="object",
-     *             @SWG\Property(property="name", type="string"),
+     *             @SWG\Property(property="pkgname", type="string"),
      *             @SWG\Property(property="count", type="integer")
      *         ),
      *    )
