@@ -51,7 +51,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertCount(1, $packageRepository->findAll());
         /** @var Package $package */
         $package = $packageRepository->findAll()[0];
-        $this->assertEquals('pkgstats', $package->getPkgname());
+        $this->assertEquals('pkgstats', $package->getName());
         $this->assertEquals(1, $package->getCount());
     }
 

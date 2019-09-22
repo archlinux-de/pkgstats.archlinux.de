@@ -14,7 +14,7 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setPkgname('foo')
+            ->setName('foo')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $entityManager->persist($package);
         $entityManager->flush();
@@ -26,8 +26,8 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
             'length' => 2,
             'columns' => [
                 [
-                    'data' => 'pkgname',
-                    'name' => 'pkgname',
+                    'data' => 'name',
+                    'name' => 'name',
                     'orderable' => false,
                     'searchable' => true,
                     'search' => [
@@ -64,7 +64,7 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setPkgname('foo')
+            ->setName('foo')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $entityManager->persist($package);
         $entityManager->flush();
@@ -84,7 +84,7 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setPkgname('foo')
+            ->setName('foo')
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $entityManager->persist($package);
         $entityManager->flush();

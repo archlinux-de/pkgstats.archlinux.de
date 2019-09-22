@@ -186,8 +186,8 @@ class PkgstatsParamConverterTest extends TestCase
         $pkgstatsRequest = $request->attributes->get(PkgstatsRequest::class);
         $packages = $pkgstatsRequest->getPackages();
         $this->assertCount(2, $packages);
-        $this->assertEquals('foo', $packages[0]->getPkgname());
-        $this->assertEquals('bar', $packages[1]->getPkgname());
+        $this->assertEquals('foo', $packages[0]->getName());
+        $this->assertEquals('bar', $packages[1]->getName());
     }
 
     public function testApplyFailsOnValidationErrors()

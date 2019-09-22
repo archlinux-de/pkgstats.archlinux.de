@@ -29,8 +29,8 @@ class PackageRepository extends ServiceEntityRepository
             return $this->createQueryBuilder('package')
                 ->select('SUM(package.count)')
                 ->where('package.month >= :month')
-                ->andWhere('package.pkgname = :name')
-                ->groupBy('package.pkgname')
+                ->andWhere('package.name = :name')
+                ->groupBy('package.name')
                 ->setParameter('month', $startMonth)
                 ->setParameter('name', $name)
                 ->getQuery()
@@ -48,10 +48,10 @@ class PackageRepository extends ServiceEntityRepository
     {
         try {
             return $this->createQueryBuilder('package')
-                ->select('SUM(package.count) AS c')
+                ->select('SUM(package.count) AS count')
                 ->where('package.month >= :month')
-                ->groupBy('package.pkgname')
-                ->orderBy('c', 'DESC')
+                ->groupBy('package.name')
+                ->orderBy('count', 'DESC')
                 ->setMaxResults(1)
                 ->setParameter('month', $startMonth)
                 ->getQuery()
@@ -72,10 +72,10 @@ class PackageRepository extends ServiceEntityRepository
         try {
             return $this->createQueryBuilder('package')
                 ->select('SUM(package.count)')
-                ->where('package.pkgname = :name')
+                ->where('package.name = :name')
                 ->andWhere('package.month >= :startMonth')
                 ->andWhere('package.month <= :endMonth')
-                ->groupBy('package.pkgname')
+                ->groupBy('package.name')
                 ->setParameter('name', $name)
                 ->setParameter('startMonth', $startMonth)
                 ->setParameter('endMonth', $endMonth)
@@ -102,7 +102,7 @@ class PackageRepository extends ServiceEntityRepository
         int $limit
     ): array {
         $queryBuilder = $this->createQueryBuilder('package')
-            ->where('package.pkgname = :name')
+            ->where('package.name = :name')
             ->andWhere('package.month >= :startMonth')
             ->andWhere('package.month <= :endMonth')
             ->orderBy('package.month', 'asc')
@@ -131,11 +131,11 @@ class PackageRepository extends ServiceEntityRepository
     {
         try {
             return $this->createQueryBuilder('package')
-                ->select('SUM(package.count) AS c')
+                ->select('SUM(package.count) AS count')
                 ->where('package.month >= :startMonth')
                 ->andWhere('package.month <= :endMonth')
-                ->groupBy('package.pkgname')
-                ->orderBy('c', 'DESC')
+                ->groupBy('package.name')
+                ->orderBy('count', 'DESC')
                 ->setMaxResults(1)
                 ->setParameter('startMonth', $startMonth)
                 ->setParameter('endMonth', $endMonth)
@@ -162,11 +162,11 @@ class PackageRepository extends ServiceEntityRepository
         int $limit
     ): array {
         $queryBuilder = $this->createQueryBuilder('package')
-            ->select('package.pkgname AS name')
+            ->select('package.name')
             ->addSelect('SUM(package.count) AS count')
             ->where('package.month >= :startMonth')
             ->andWhere('package.month <= :endMonth')
-            ->groupBy('package.pkgname')
+            ->groupBy('package.name')
             ->orderBy('count', 'desc')
             ->setParameter('startMonth', $startMonth)
             ->setParameter('endMonth', $endMonth)
@@ -174,7 +174,7 @@ class PackageRepository extends ServiceEntityRepository
             ->setMaxResults($limit);
         if (!empty($query)) {
             $queryBuilder
-                ->andWhere('package.pkgname LIKE :query')
+                ->andWhere('package.name LIKE :query')
                 ->setParameter('query', $query . '%');
         }
 
@@ -197,7 +197,7 @@ class PackageRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('package')
             ->select('MAX(package.count) AS count')
-            ->addSelect('package.month AS month')
+            ->addSelect('package.month')
             ->where('package.month >= :startMonth')
             ->andWhere('package.month <= :endMonth')
             ->groupBy('package.month')
@@ -216,7 +216,7 @@ class PackageRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('package')
             ->select('MIN(package.month) AS month')
-            ->where('package.pkgname = :name')
+            ->where('package.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
             ->getSingleScalarResult();
@@ -230,7 +230,7 @@ class PackageRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('package')
             ->select('MAX(package.month) AS month')
-            ->where('package.pkgname = :name')
+            ->where('package.name = :name')
             ->setParameter('name', $name)
             ->getQuery()
             ->getSingleScalarResult();

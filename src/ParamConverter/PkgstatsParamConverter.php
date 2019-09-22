@@ -76,7 +76,7 @@ class PkgstatsParamConverter implements ParamConverterInterface
         foreach ($packages as $package) {
             $pkgstatsRequest->addPackage(
                 (new Package())
-                    ->setPkgname($package)
+                    ->setName($package)
                     ->setMonth((int)date('Ym', $user->getTime()))
             );
         }

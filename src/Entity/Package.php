@@ -19,10 +19,10 @@ class Package
      * @Assert\Length(max=255)
      * @Assert\Regex("/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/")
      *
-     * @ORM\Column(name="pkgname", type="string", length=191)
+     * @ORM\Column(name="name", type="string", length=191)
      * @ORM\Id
      */
-    private $pkgname;
+    private $name;
 
     /**
      * @var integer
@@ -42,18 +42,18 @@ class Package
     /**
      * @return string
      */
-    public function getPkgname(): string
+    public function getName(): string
     {
-        return $this->pkgname;
+        return $this->name;
     }
 
     /**
-     * @param string $pkgname
+     * @param string $name
      * @return Package
      */
-    public function setPkgname(string $pkgname): Package
+    public function setName(string $name): Package
     {
-        $this->pkgname = $pkgname;
+        $this->name = $name;
         return $this;
     }
 
