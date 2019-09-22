@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FunStatisticsController extends AbstractController
+class FunController extends AbstractController
 {
     /** @var int */
     private $rangeMonths;
@@ -32,7 +32,7 @@ class FunStatisticsController extends AbstractController
     }
 
     /**
-     * @Route("/fun", methods={"GET"})
+     * @Route("/fun", methods={"GET"}, name="app_fun")
      * @Cache(smaxage="86400")
      * @return Response
      */

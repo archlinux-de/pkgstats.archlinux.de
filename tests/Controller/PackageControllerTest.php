@@ -6,9 +6,9 @@ use App\Entity\Package;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
 /**
- * @covers \App\Controller\PackageStatisticsController
+ * @covers \App\Controller\PackageController
  */
-class PackageStatisticsControllerTest extends DatabaseTestCase
+class PackageControllerTest extends DatabaseTestCase
 {
     public function testDatatablesAction()
     {
@@ -21,7 +21,7 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
 
         $client = $this->getClient();
 
-        $client->request('GET', '/package/datatables', [
+        $client->request('GET', '/api/datatables/packages', [
             'draw' => 1,
             'length' => 2,
             'columns' => [
@@ -51,11 +51,11 @@ class PackageStatisticsControllerTest extends DatabaseTestCase
     {
         $client = $this->getClient();
 
-        $crawler = $client->request('GET', '/package');
+        $crawler = $client->request('GET', '/packages');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertStringContainsString(
-            '/package/datatables',
+            '/api/datatables/packages',
             (string)$crawler->filter('#pkgstats')->attr('data-ajax')
         );
     }

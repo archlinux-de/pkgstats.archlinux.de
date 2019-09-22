@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StartController extends AbstractController
 {
     /**
-     * @Route("/", methods={"GET"})
+     * @Route("/", methods={"GET"}, name="app_start")
      * @Cache(smaxage="900")
      * @return Response
      */

@@ -32,13 +32,13 @@ Thanks for your submission. :-)
 See results at https://pkgstats.archlinux.de/</code></pre>
                     <h4>Gathering statistics</h4>
                     <ul class="pl-4">
-                        <li>Browse the <a href="{{ path('app_packagestatistics_package') }}">package statistics</a> and
+                        <li>Browse the <a href="{{ path('app_packages') }}">package statistics</a> and
                             lookup the popularity of packages.
                         </li>
-                        <li>See some <a href="{{ path('app_funstatistics_fun') }}">fun statistics</a> and see which
+                        <li>See some <a href="{{ path('app_fun') }}">fun statistics</a> and see which
                             packages are the most popular in their category.
                         </li>
-                        <li>Use the <a href="{{ path('app.swagger_ui') }}">API</a> to write your own clients:
+                        <li>Use the <a href="{{ path('app_swagger_ui') }}">API</a> to write your own clients:
                             <pre class="text-light bg-dark p-2"><code><strong>$ curl -s 'https://pkgstats.archlinux.de/api/packages/php' | jq</strong>
 {
   "name": "php",
@@ -56,7 +56,7 @@ See results at https://pkgstats.archlinux.de/</code></pre>
                 <ul class="pl-4">
                     <li>See <code>pkgstats -h</code></li>
                     <li><a rel="nofollow" href="https://wiki.archlinux.org/index.php/Pkgstats">Arch Linux Wiki</a></li>
-                    <li><a href="{{ path('app.swagger_ui') }}">pkgstats server API documentation</a></li>
+                    <li><a href="{{ path('app_swagger_ui') }}">pkgstats server API documentation</a></li>
                 </ul>
 
                 <h4>Development</h4>

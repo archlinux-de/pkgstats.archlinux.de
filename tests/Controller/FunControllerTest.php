@@ -6,9 +6,9 @@ use SymfonyDatabaseTest\DatabaseTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 /**
- * @covers \App\Controller\FunStatisticsController
+ * @covers \App\Controller\FunController
  */
-class FunStatisticsControllerTest extends DatabaseTestCase
+class FunControllerTest extends DatabaseTestCase
 {
     public function testFunAction()
     {

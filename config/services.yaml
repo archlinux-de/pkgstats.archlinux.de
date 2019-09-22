@@ -39,12 +39,12 @@ services:
 
     geertw\IpAnonymizer\IpAnonymizer:
 
-    App\Controller\FunStatisticsController:
+    App\Controller\FunController:
         bind:
             $rangeMonths: '%app.range_months%'
             $funConfiguration: '%app.fun%'
 
-    App\Controller\PackageStatisticsController:
+    App\Controller\PackageController:
         bind:
             $rangeMonths: '%app.range_months%'
 
