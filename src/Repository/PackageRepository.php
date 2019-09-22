@@ -235,4 +235,26 @@ class PackageRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * @return int
+     */
+    public function getFirstMonth(): ?int
+    {
+        return $this->createQueryBuilder('package')
+            ->select('MIN(package.month) AS month')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * @return int
+     */
+    public function getLatestMonth(): ?int
+    {
+        return $this->createQueryBuilder('package')
+            ->select('MAX(package.month) AS month')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

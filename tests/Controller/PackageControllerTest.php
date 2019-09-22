@@ -106,4 +106,31 @@ class PackageControllerTest extends DatabaseTestCase
         $client->request('GET', '/packages/foo');
         $this->assertTrue($client->getResponse()->isNotFound());
     }
+
+    public function testComparePackagesAction()
+    {
+        $entityManager = $this->getEntityManager();
+        $package = (new Package())
+            ->setName('foo')
+            ->setMonth(201801);
+        $entityManager->persist($package);
+        $entityManager->flush();
+
+        $client = $this->getClient();
+
+        $crawler = $client->request('GET', '/compare/packages');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertStringContainsString(
+            '201801',
+            (string)$crawler->filter('#series')->attr('data-url-template')
+        );
+    }
+
+    public function testComparePackagesActionReturns404OnUnknownPackage()
+    {
+        $client = $this->getClient();
+
+        $client->request('GET', '/compare/packages');
+        $this->assertTrue($client->getResponse()->isNotFound());
+    }
 }

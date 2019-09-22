@@ -164,4 +164,27 @@ class PackageController extends AbstractController
             ]
         );
     }
+
+    /**
+     * @Route(path="/compare/packages", methods={"GET"}, name="app_compare_packages")
+     * @Cache(smaxage="900")
+     * @return Response
+     */
+    public function compareAction(): Response
+    {
+        $startMonth = $this->packageRepository->getFirstMonth();
+        if (!$startMonth) {
+            throw $this->createNotFoundException('No packages were found');
+        }
+        $endMonth = $this->packageRepository->getLatestMonth();
+
+        return $this->render(
+            'compare.html.twig',
+            [
+                'startMonth' => $startMonth,
+                'endMonth' => $endMonth,
+                'limit' => 0
+            ]
+        );
+    }
 }

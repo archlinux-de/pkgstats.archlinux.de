@@ -273,4 +273,36 @@ class PackageRepositoryTest extends DatabaseTestCase
         $packageRepository = $this->getRepository(Package::class);
         $this->assertEquals(201811, $packageRepository->getLatestMonthByName('a'));
     }
+
+    public function testGetFirstMonth()
+    {
+        $packageA = (new Package())->setName('a')->setMonth(201810);
+        $packageB = (new Package())->setName('b')->setMonth(201811);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $this->assertEquals(201810, $packageRepository->getFirstMonth());
+    }
+
+    public function testGetLatestMonth()
+    {
+        $packageA = (new Package())->setName('a')->setMonth(201810);
+        $packageB = (new Package())->setName('b')->setMonth(201811);
+        $entityManager = $this->getEntityManager();
+        $entityManager->merge($packageA);
+        $entityManager->flush();
+        $entityManager->merge($packageB);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $this->assertEquals(201811, $packageRepository->getLatestMonth());
+    }
 }

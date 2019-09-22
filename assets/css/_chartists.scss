@@ -1,0 +1,28 @@
+$ct-series-names: (a, b, c, d, e);
+$ct-series-colors: (
+  $primary,
+  $danger,
+  $success,
+  $warning,
+  $info
+);
+
+@import "~chartist/dist/scss/chartist";
+
+.ct-legend {
+  list-style: none;
+
+  li {
+    padding-left: 10px;
+    margin-bottom: 5px;
+    float: left;
+    font-weight: bold;
+  }
+
+  /* stylelint-disable-next-line at-rule-no-unknown */
+  @for $i from 0 to length($ct-series-colors) {
+    .ct-series-#{$i} {
+      color: nth($ct-series-colors, $i + 1);
+    }
+  }
+}
