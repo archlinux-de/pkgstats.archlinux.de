@@ -11,7 +11,7 @@
     <main role="main" class="container-fluid">
         <h1 class="mb-4">Package statistics</h1>
         <table id="pkgstats" class="table table-striped table-bordered table-sm" width="100%"
-               data-ajax="{{ path('app_api_datatables_packages') }}"
+               data-ajax-url="{{ path('app_api_datatables_packages') }}"
                data-package-url-template="{{ path('app_package', {'package': '_package_'}) }}">
             <thead>
             <tr>

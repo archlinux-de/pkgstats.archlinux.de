@@ -10,8 +10,12 @@ $(document).ready(function () {
     processing: true,
     serverSide: true,
     order: [[1, 'desc']],
-    searchDelay: 2000,
+    searchDelay: 200,
     pagingType: 'numbers',
+    ajax: {
+      cache: true,
+      url: jqueryTable.data('ajaxUrl')
+    },
     columns: [
       {
         data: 'name',

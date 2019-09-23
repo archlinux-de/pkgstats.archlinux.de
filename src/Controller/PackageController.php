@@ -50,6 +50,7 @@ class PackageController extends AbstractController
 
     /**
      * @Route("/api/datatables/packages", methods={"GET"}, name="app_api_datatables_packages")
+     * @Cache(smaxage="+1 hour", maxage="+5 minutes")
      * @param DatatablesRequest $request
      * @return Response
      */
