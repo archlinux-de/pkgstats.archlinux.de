@@ -9,10 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SitemapController extends AbstractController
 {
-
     /**
      * @Route("/sitemap.xml", methods={"GET"}, name="app_sitemap")
-     * @Cache(smaxage="600")
+     * @Cache(smaxage="+1 hour", maxage="+5 minutes")
      * @return Response
      */
     public function indexAction(): Response

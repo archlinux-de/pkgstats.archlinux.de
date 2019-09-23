@@ -14,10 +14,13 @@ class RateLimitSubscriber implements EventSubscriberInterface
 {
     /** @var int */
     private $delay;
+
     /** @var int */
     private $count;
+
     /** @var ClientIdGenerator */
     private $clientIdGenerator;
+
     /** @var UserRepository */
     private $userRepository;
 

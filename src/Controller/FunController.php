@@ -33,7 +33,7 @@ class FunController extends AbstractController
 
     /**
      * @Route("/fun", methods={"GET"}, name="app_fun")
-     * @Cache(smaxage="86400")
+     * @Cache(smaxage="+1 day", maxage="+5 minutes")
      * @return Response
      */
     public function funAction(): Response

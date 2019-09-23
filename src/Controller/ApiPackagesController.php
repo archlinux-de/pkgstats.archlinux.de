@@ -15,6 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 
+/**
+ * @Cache(smaxage="first day of next month", maxage="+5 minutes")
+ */
 class ApiPackagesController extends AbstractController
 {
     /** @var PackagePopularityCalculator */
@@ -35,7 +38,6 @@ class ApiPackagesController extends AbstractController
      *      requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"},
      *      name="app_api_package"
      * )
-     * @Cache(smaxage="86400")
      * @param string $name
      * @param StatisticsRangeRequest $statisticsRangeRequest
      * @return Response
@@ -81,7 +83,6 @@ class ApiPackagesController extends AbstractController
      *      requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"},
      *      name="app_api_package_series"
      * )
-     * @Cache(smaxage="86400")
      * @param string $name
      * @param StatisticsRangeRequest $statisticsRangeRequest
      * @param PaginationRequest $paginationRequest
@@ -154,7 +155,6 @@ class ApiPackagesController extends AbstractController
      *      methods={"GET"},
      *      name="app_api_packages"
      * )
-     * @Cache(smaxage="86400")
      * @param StatisticsRangeRequest $statisticsRangeRequest
      * @param PaginationRequest $paginationRequest
      * @param PackageQueryRequest $packageQueryRequest
