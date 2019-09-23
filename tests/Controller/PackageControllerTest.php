@@ -56,7 +56,7 @@ class PackageControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertStringContainsString(
             '/api/datatables/packages',
-            (string)$crawler->filter('#pkgstats')->attr('data-ajax')
+            (string)$crawler->filter('#pkgstats')->attr('data-ajax-url')
         );
     }
 

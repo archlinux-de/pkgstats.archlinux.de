@@ -50,7 +50,6 @@ class PackageController extends AbstractController
 
     /**
      * @Route("/api/datatables/packages", methods={"GET"}, name="app_api_datatables_packages")
-     * @Cache(smaxage="+1 hour", maxage="+5 minutes")
      * @param DatatablesRequest $request
      * @return Response
      */
@@ -82,7 +81,13 @@ class PackageController extends AbstractController
             )
         );
 
-        return $this->json($response);
+        $jsonResponse = $this->json($response);
+        // Only cache the first draw
+        if ($response->getDraw() == 1) {
+            $jsonResponse->setMaxAge(300);
+            $jsonResponse->setSharedMaxAge(3600);
+        }
+        return $jsonResponse;
     }
 
     /**
