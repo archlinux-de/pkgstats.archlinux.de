@@ -158,7 +158,7 @@ class PackageController extends AbstractController
         if (!$startMonth) {
             throw $this->createNotFoundException(sprintf('Package %s was not found', $package));
         }
-        $endMonth = $this->packageRepository->getLatestMonthByName($package);
+        $endMonth = max($startMonth, $this->packageRepository->getLatestMonthByName($package) - 1);
 
         return $this->render(
             'package.html.twig',
@@ -182,7 +182,7 @@ class PackageController extends AbstractController
         if (!$startMonth) {
             throw $this->createNotFoundException('No packages were found');
         }
-        $endMonth = $this->packageRepository->getLatestMonth();
+        $endMonth = max($startMonth, $this->packageRepository->getLatestMonth() - 1);
 
         return $this->render(
             'compare.html.twig',
