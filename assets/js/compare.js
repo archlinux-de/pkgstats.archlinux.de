@@ -8,7 +8,7 @@ const ChartElement = document.querySelector('#series')
 const urlTemplate = ChartElement.dataset.urlTemplate
 
 let packages = location.hash
-  .replace(/^#+packages=/, '')
+  .replace(/^#packages=/, '')
   .split(',')
   .filter(pkg => {
     return pkg.length > 0
@@ -68,12 +68,11 @@ Promise.all(packages.map(packageName => {
     showPoint: false,
     showArea: packages.length < 4,
     chartPadding: {
-      right: 35,
-      bottom: 120
+      top: 24
     },
     axisX: {
       showGrid: false,
-      labelInterpolationFnc: value => value.toString().endsWith('09') ? value.toString().slice(0, -2) : null
+      labelInterpolationFnc: value => value.toString().endsWith('01') && value.toString().slice(0, -2) % 2 === 0 ? value.toString().slice(0, -2) : null
     },
     plugins: [
       Chartist.plugins.legend({
@@ -81,7 +80,21 @@ Promise.all(packages.map(packageName => {
         clickable: false
       })
     ]
-  })
+  }, [
+    ['screen and (min-width: 576px)', {
+      chartPadding: {
+        top: 36
+      },
+      axisX: {
+        labelInterpolationFnc: value => value.toString().endsWith('01') ? value.toString().slice(0, -2) : null
+      }
+    }],
+    ['screen and (min-width: 768px)', {
+      chartPadding: {
+        top: 48
+      }
+    }]
+  ])
 }).catch(e => {
   // Remove the spinner
   ChartElement.innerHTML = ''

@@ -30,14 +30,17 @@ fetch(url)
     Chartist.Line(ChartElement, data, {
       showPoint: false,
       showArea: true,
-      chartPadding: {
-        right: 35
-      },
       axisX: {
         showGrid: false,
-        labelInterpolationFnc: value => value.toString().endsWith('09') ? value.toString().slice(0, -2) : null
+        labelInterpolationFnc: value => value.toString().endsWith('01') && value.toString().slice(0, -2) % 2 === 0 ? value.toString().slice(0, -2) : null
       }
-    })
+    }, [
+      ['screen and (min-width: 576px)', {
+        axisX: {
+          labelInterpolationFnc: value => value.toString().endsWith('01') ? value.toString().slice(0, -2) : null
+        }
+      }]
+    ])
   })
   .catch(e => {
     // Remove the spinner
