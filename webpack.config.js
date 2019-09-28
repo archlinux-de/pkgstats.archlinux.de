@@ -22,6 +22,7 @@ Encore
   .enableSourceMaps(!Encore.isProduction())
   .enableVersioning(Encore.isProduction())
   .enablePostCssLoader()
+  .enableVueLoader()
   .autoProvidejQuery()
   .autoProvideVariables({
     Popper: 'popper.js'
