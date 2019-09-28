@@ -14,9 +14,9 @@ let packages = location.hash
     return pkg.length > 0
   })
 
-packages.sort()
+Array.from(new Set(packages)).sort()
 // limit the number of line graphs
-packages = packages.slice(0, 5)
+packages = packages.slice(0, 10)
 location.hash = 'packages=' + packages.join(',')
 
 const urls = packages.map(packageName => urlTemplate.replace('_package_', packageName))

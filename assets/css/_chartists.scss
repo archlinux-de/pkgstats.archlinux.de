@@ -1,10 +1,15 @@
-$ct-series-names: (a, b, c, d, e);
+$ct-series-names: (a, b, c, d, e, f, g, h, i, j);
 $ct-series-colors: (
   $primary,
   $danger,
   $success,
   $warning,
-  $info
+  $info,
+  $pink,
+  $orange,
+  $secondary,
+  $purple,
+  $gray-500
 );
 
 @import "~chartist/dist/scss/chartist";
