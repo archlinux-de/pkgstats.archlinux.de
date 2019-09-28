@@ -1,55 +1,16 @@
-/* eslint-env browser */
-import Chartist from 'chartist'
-// support IE 11
-import 'whatwg-fetch'
+import Vue from 'vue'
+import Chart from './components/Chart'
 
-const ChartElement = document.querySelector('#series')
-const url = ChartElement.dataset.url
+Vue.config.productionTip = false
 
-fetch(url)
-  .then(response => response.json()
-  )
-  .then(json => {
-    const data = {
-      labels: [],
-      series: [[]]
-    }
+const AppElement = document.querySelector('#app')
+const url = AppElement.dataset.url
 
-    if (json && json.packagePopularities) {
-      json.packagePopularities.forEach((packagePopularity) => {
-        if (packagePopularity.startMonth && packagePopularity.popularity) {
-          data.labels.push(packagePopularity.startMonth)
-          data.series[0].push(packagePopularity.popularity)
-        }
-      })
-    }
-
-    // Remove the spinner
-    ChartElement.innerHTML = ''
-
-    Chartist.Line(ChartElement, data, {
-      showPoint: false,
-      showArea: true,
-      axisX: {
-        showGrid: false,
-        labelInterpolationFnc: value => value.toString().endsWith('01') && value.toString().slice(0, -2) % 2 === 0 ? value.toString().slice(0, -2) : null
-      }
-    }, [
-      ['screen and (min-width: 576px)', {
-        axisX: {
-          labelInterpolationFnc: value => value.toString().endsWith('01') ? value.toString().slice(0, -2) : null
-        }
-      }]
-    ])
-  })
-  .catch(e => {
-    // Remove the spinner
-    ChartElement.innerHTML = ''
-
-    const error = document.createElement('div')
-    error.classList.add('alert')
-    error.classList.add('alert-danger')
-    error.setAttribute('role', 'alert')
-    error.innerText = e.toString()
-    ChartElement.appendChild(error)
-  })
+new Vue({
+  components: {
+    'pkgstats-chart': Chart
+  },
+  data: {
+    urls: [url]
+  }
+}).$mount(AppElement)
