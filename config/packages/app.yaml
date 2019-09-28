@@ -6,37 +6,30 @@ parameters:
         Browsers:
             Mozilla Firefox: [firefox, firefox-developer-edition]
             Chromium: [chromium, google-chrome]
-            Konqueror: [kdebase-konqueror, konqueror]
+            Konqueror: konqueror
             Midori: midori
             GNOME Web: epiphany
-            Opera: opera
-            Vivaldi: vivaldi
-            Brave: brave-bin
-            surf: surf
         Editors:
-            Vim: [vim, gvim, neovim]
-            Emacs: [emacs, xemacs]
+            Vim: vim
+            Emacs: emacs
             Nano: nano
             Gedit: gedit
-            Kate: [kdesdk-kate, kate]
-            Kwrite: [kdebase-kwrite, kwrite]
+            Kate: kate
+            Kwrite: kwrite
             Vi: vi
             Mousepad: mousepad
             Leafpad: leafpad
             Geany: geany
-            Pluma: pluma
         Desktop Environments:
-            KDE SC: [kdebase-workspace, plasma-workspace]
+            KDE SC: plasma-workspace
             GNOME: gnome-shell
             LXDE: lxde-common
             Xfce: xfdesktop
-            Enlightenment: [enlightenment, enlightenment16]
             MATE: mate-panel
             Cinnamon: cinnamon
-            Deepin: deepin-wm
         File Managers:
-            Dolphin: [kdebase-dolphin, dolphin]
-            Konqueror: [kdebase-konqueror, konqueror]
+            Dolphin: dolphin
+            Konqueror: konqueror
             MC: mc
             GNOME Files: nautilus
             PCManFM: pcmanfm
@@ -55,9 +48,9 @@ parameters:
             Fish: fish
             Tcsh: tcsh
         Graphic Chipsets:
-            AMD: [xf86-video-ati, xf86-video-r128, xf86-video-mach64, xf86-video-amdgpu]
-            NVIDIA: [nvidia-utils, nvidia-390xx-utils, nvidia-304xx-utils, xf86-video-nouveau, xf86-video-nv]
-            Intel: [xf86-video-intel, xf86-video-i740]
+            AMD: [xf86-video-ati, xf86-video-amdgpu]
+            NVIDIA: [nvidia-utils, nvidia-390xx-utils, xf86-video-nouveau]
+            Intel: xf86-video-intel
         Runtime Environment:
             PHP: php
             Ruby: ruby
