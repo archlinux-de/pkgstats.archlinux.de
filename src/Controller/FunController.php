@@ -53,7 +53,8 @@ class FunController extends AbstractController
         foreach ($this->funConfiguration as $funCategory => $funPackages) {
             $stats[] = [
                 'name' => $funCategory,
-                'data' => $this->getPackageStatistics($funPackages)
+                'data' => $this->getPackageStatistics($funPackages),
+                'packages' => $this->getPackageNames($funPackages)
             ];
         }
 
@@ -86,9 +87,7 @@ class FunController extends AbstractController
         $packageArray = [];
         foreach ($packages as $package => $names) {
             if (!is_array($names)) {
-                $names = [
-                    $names,
-                ];
+                $names = [$names];
             }
             foreach ($names as $name) {
                 $count = $this->packageRepository->getCountByNameSince($name, $this->getRangeYearMonth());
@@ -101,6 +100,23 @@ class FunController extends AbstractController
         }
 
         arsort($packageArray);
+        return $packageArray;
+    }
+
+    /**
+     * @param array $packages
+     * @return array
+     */
+    private function getPackageNames(array $packages): array
+    {
+        $packageArray = [];
+        foreach ($packages as $names) {
+            if (!is_array($names)) {
+                $names = [$names];
+            }
+            $packageArray = array_merge($packageArray, $names);
+        }
+
         return $packageArray;
     }
 }

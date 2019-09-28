@@ -12,7 +12,7 @@
             </colgroup>
             {% for stat in stats %}
                 <tr>
-                    <th colspan="2" class="text-center">{{ stat.name }}</th>
+                    <th colspan="2" class="text-center"><a href="{{ path('app_compare_packages') }}#packages={{ stat.packages | join(',') }}">{{ stat.name }}</a></th>
                 </tr>
                 {% for package, count in stat.data %}
                     {% if total == 0 %}

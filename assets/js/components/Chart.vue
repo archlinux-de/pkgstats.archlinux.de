@@ -32,7 +32,10 @@
             fetchData: function () {
                 this.loading = true
                 Promise.all(this.urls.map(url => {
-                    return fetch(url).then(response => response.json())
+                    return fetch(url, {
+                        credentials: 'omit',
+                        headers: new Headers({Accept: 'application/json'})
+                    }).then(response => response.json())
                 }))
                     .then(dataArray => {
                         dataArray.forEach(data => {
