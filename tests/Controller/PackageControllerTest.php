@@ -122,7 +122,7 @@ class PackageControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertStringContainsString(
             '201801',
-            (string)$crawler->filter('#series')->attr('data-url-template')
+            (string)$crawler->filter('#app')->attr('data-url-template')
         );
     }
 
