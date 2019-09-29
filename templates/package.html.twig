@@ -18,7 +18,7 @@
             to {{ endMonth | slice(0, -2) }}</p>
         <div id="app"
              data-url="{{ path('app_api_package_series', {'name': package, 'startMonth': startMonth, 'endMonth': endMonth, 'limit': limit}) }}">
-            <pkgstats-chart></pkgstats-chart>
+            <package-chart></package-chart>
         </div>
     </main>
 {% endblock %}

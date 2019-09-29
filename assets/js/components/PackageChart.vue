@@ -16,7 +16,7 @@
   import { convertToDataSeries } from '../services/DataSeriesConverter'
 
   export default {
-    name: 'Chart',
+    name: 'PackageChart',
     data () {
       return {
         loading: true,
