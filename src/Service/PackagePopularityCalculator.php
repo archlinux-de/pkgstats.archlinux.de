@@ -94,7 +94,12 @@ class PackagePopularityCalculator
             }
         })());
 
-        return new PackagePopularityList($packagePopularities, $packages['total']);
+        return new PackagePopularityList(
+            $packagePopularities,
+            $packages['total'],
+            $paginationRequest->getLimit(),
+            $paginationRequest->getOffset()
+        );
     }
 
     /**
@@ -135,7 +140,12 @@ class PackagePopularityCalculator
             }
         })());
 
-        return new PackagePopularityList($packagePopularities, $packages['total']);
+        return new PackagePopularityList(
+            $packagePopularities,
+            $packages['total'],
+            $paginationRequest->getLimit(),
+            $paginationRequest->getOffset()
+        );
     }
 
     /**

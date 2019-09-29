@@ -42,7 +42,7 @@ class PackageController extends AbstractController
             [
                 'startMonth' => $lastMonth,
                 'endMonth' => $lastMonth,
-                'limit' => 25
+                'limit' => 20
             ]
         );
     }
