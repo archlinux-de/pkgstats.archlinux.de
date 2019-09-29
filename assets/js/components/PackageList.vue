@@ -3,12 +3,13 @@
     <div class="package-list-header">
       The top {{ data.count }} of {{ data.total }} total packages
       <form class="form-group">
-        <input class="form-control" pattern="^[^-/]{1}[^/\s]{1,255}$" type="text" v-model="query"/>
+        <input class="form-control" pattern="^[^-/]{1}[^/\s]{1,255}$" placeholder="Package name" type="text"
+               v-model="query"/>
       </form>
-    </div>
-    <div class="spinner-container" v-if="loading">
-      <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Loading...</span>
+      <div class="spinner-container" v-if="loading">
+        <div class="spinner-border text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
     </div>
     <table class="table table-striped table-bordered table-sm">
