@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Chart from './components/Chart'
+import PackageChart from './components/PackageChart'
 
 Vue.config.productionTip = false
 
@@ -8,7 +8,7 @@ const url = AppElement.dataset.url
 
 new Vue({
   components: {
-    'pkgstats-chart': Chart
+    PackageChart
   },
   data: {
     urls: [url]
