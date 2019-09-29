@@ -65,7 +65,8 @@
           showPoint: false,
           showArea: this.data.series.length < 4,
           chartPadding: {
-            top: 24
+            top: 24,
+            bottom: 12
           },
           axisX: {
             showGrid: false,
