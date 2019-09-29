@@ -5,11 +5,3 @@ app_legacy_package:
         route: app_packages
         permanent: true
         keepQueryParams: true
-
-app_legacy_package_datatables:
-    path: /package/datatables
-    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
-    defaults:
-        route: app_api_datatables_packages
-        permanent: true
-        keepQueryParams: true

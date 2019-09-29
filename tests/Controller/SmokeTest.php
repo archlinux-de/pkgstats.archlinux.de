@@ -72,7 +72,6 @@ class SmokeTest extends DatabaseTestCase
             ['/'],
             ['/fun'],
             ['/packages'],
-            ['/api/datatables/packages?draw=1&length=1'],
             ['/package.json'],
             ['/api/packages?startMonth=201812'],
             ['/api/packages/pacman?startMonth=201812'],
@@ -93,8 +92,7 @@ class SmokeTest extends DatabaseTestCase
     public function provideLegacyUrls(): array
     {
         return [
-            ['/package', '/packages'],
-            ['/package/datatables?draw=1&length=1', '/api/datatables/packages?draw=1&length=1']
+            ['/package', '/packages']
         ];
     }
 }

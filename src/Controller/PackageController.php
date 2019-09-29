@@ -3,9 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\PackageRepository;
-use DatatablesApiBundle\DatatablesColumnConfiguration;
-use DatatablesApiBundle\DatatablesQuery;
-use DatatablesApiBundle\DatatablesRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,22 +17,16 @@ class PackageController extends AbstractController
     /** @var PackageRepository */
     private $packageRepository;
 
-    /** @var DatatablesQuery */
-    private $datatablesQuery;
-
     /**
      * @param int $rangeMonths
      * @param PackageRepository $packageRepository
-     * @param DatatablesQuery $datatablesQuery
      */
     public function __construct(
         int $rangeMonths,
-        PackageRepository $packageRepository,
-        DatatablesQuery $datatablesQuery
+        PackageRepository $packageRepository
     ) {
         $this->rangeMonths = $rangeMonths;
         $this->packageRepository = $packageRepository;
-        $this->datatablesQuery = $datatablesQuery;
     }
 
     /**
@@ -45,65 +36,15 @@ class PackageController extends AbstractController
      */
     public function packagesAction(): Response
     {
-        return $this->render('packages.html.twig');
-    }
-
-    /**
-     * @Route("/api/datatables/packages", methods={"GET"}, name="app_api_datatables_packages")
-     * @param DatatablesRequest $request
-     * @return Response
-     */
-    public function datatablesAction(DatatablesRequest $request): Response
-    {
-        $columnConfiguration = (new DatatablesColumnConfiguration())
-            ->addTextSearchableColumn('name', 'package.name')
-            ->addOrderableColumn('count', 'count');
-        $response = $this->datatablesQuery->getResult(
-            $request,
-            $columnConfiguration,
-            $this->packageRepository
-                ->createQueryBuilder('package')
-                ->select('package.name')
-                ->addSelect('SUM(package.count) AS count')
-                ->where('package.month >= :month')
-                ->setParameter('month', $this->getRangeYearMonth())
-                ->groupBy('package.name'),
-            $this->packageRepository->getMaximumCountSince($this->getRangeYearMonth())
+        $lastMonth = $this->packageRepository->getLatestMonth() - 1;
+        return $this->render(
+            'packages.html.twig',
+            [
+                'startMonth' => $lastMonth,
+                'endMonth' => $lastMonth,
+                'limit' => 25
+            ]
         );
-
-        $response->setData(
-            array_map(
-                function ($item) {
-                    $item['count'] = (int)$item['count'];
-                    return $item;
-                },
-                $response->getData()
-            )
-        );
-
-        $jsonResponse = $this->json($response);
-        // Only cache the first draw
-        if ($response->getDraw() == 1) {
-            $jsonResponse->setMaxAge(300);
-            $jsonResponse->setSharedMaxAge(3600);
-        }
-        return $jsonResponse;
-    }
-
-    /**
-     * @return int
-     */
-    private function getRangeYearMonth(): int
-    {
-        return (int)date('Ym', $this->getRangeTime());
-    }
-
-    /**
-     * @return int
-     */
-    private function getRangeTime(): int
-    {
-        return (int)strtotime(date('1-m-Y', (int)strtotime('now -' . $this->rangeMonths . ' months')));
     }
 
     /**
@@ -144,6 +85,22 @@ class PackageController extends AbstractController
             $item['count'] = (int)$item['count'];
         });
         return $this->json($packages);
+    }
+
+    /**
+     * @return int
+     */
+    private function getRangeYearMonth(): int
+    {
+        return (int)date('Ym', $this->getRangeTime());
+    }
+
+    /**
+     * @return int
+     */
+    private function getRangeTime(): int
+    {
+        return (int)strtotime(date('1-m-Y', (int)strtotime('now -' . $this->rangeMonths . ' months')));
     }
 
     /**
