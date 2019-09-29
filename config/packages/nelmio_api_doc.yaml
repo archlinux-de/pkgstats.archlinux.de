@@ -5,6 +5,6 @@ nelmio_api_doc:
             version: 1.0.0
     areas: # to filter documented areas
         path_patterns:
-            - ^/api(?!(/doc|/datatables/packages)$) # Accepts routes under /api except /api/doc
+            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
             - ^/post
             - ^/package.json

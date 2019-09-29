@@ -10,43 +10,6 @@ use SymfonyDatabaseTest\DatabaseTestCase;
  */
 class PackageControllerTest extends DatabaseTestCase
 {
-    public function testDatatablesAction()
-    {
-        $entityManager = $this->getEntityManager();
-        $package = (new Package())
-            ->setName('foo')
-            ->setMonth((int)(new \DateTime())->format('Ym'));
-        $entityManager->persist($package);
-        $entityManager->flush();
-
-        $client = $this->getClient();
-
-        $client->request('GET', '/api/datatables/packages', [
-            'draw' => 1,
-            'length' => 2,
-            'columns' => [
-                [
-                    'data' => 'name',
-                    'name' => 'name',
-                    'orderable' => false,
-                    'searchable' => true,
-                    'search' => [
-                        'regex' => false,
-                        'value' => ''
-                    ]
-                ]
-            ],
-            'search' => [
-                'regex' => false,
-                'value' => 'foo'
-            ]
-        ]);
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertIsString($client->getResponse()->getContent());
-        $this->assertJson($client->getResponse()->getContent());
-    }
-
     public function testPackageAction()
     {
         $client = $this->getClient();
@@ -55,8 +18,8 @@ class PackageControllerTest extends DatabaseTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertStringContainsString(
-            '/api/datatables/packages',
-            (string)$crawler->filter('#pkgstats')->attr('data-ajax-url')
+            'Package statistics',
+            (string)$crawler->filter('h1')->text()
         );
     }
 
