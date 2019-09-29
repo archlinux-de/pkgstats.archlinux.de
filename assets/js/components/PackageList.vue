@@ -58,8 +58,8 @@
         this.fetchData()
       },
       query: function () {
-        if (this.packagesUrl.match(/query=/)) {
-          this.packagesUrl = this.packagesUrl.replace(/query=.*/, '')
+        if (this.packagesUrl.match(/&query=/)) {
+          this.packagesUrl = this.packagesUrl.replace(/&query=.*/, '')
         }
         this.packagesUrl += `&query=${this.query}`
       }
