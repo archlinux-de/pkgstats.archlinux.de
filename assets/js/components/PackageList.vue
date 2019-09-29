@@ -50,7 +50,8 @@
         data: {},
         packagesUrl: this.$parent.$data.packagesUrl,
         packageUrlTemplate: this.$parent.$data.packageUrlTemplate,
-        query: ''
+        query: '',
+        missedQuery: false
       }
     },
     watch: {
@@ -58,10 +59,17 @@
         this.fetchData()
       },
       query: function () {
-        if (this.packagesUrl.match(/&query=/)) {
-          this.packagesUrl = this.packagesUrl.replace(/&query=.*/, '')
+        if (!this.loading) {
+          this.updateUrl()
+        } else {
+          this.missedQuery = true
         }
-        this.packagesUrl += `&query=${this.query}`
+      },
+      loading: function () {
+        if (!this.loading && this.missedQuery) {
+          this.missedQuery = false
+          this.updateUrl()
+        }
       }
     },
     methods: {
@@ -85,6 +93,12 @@
             error.innerText = e.toString()
             this.$el.appendChild(error)
           })
+      },
+      updateUrl: function () {
+        if (this.packagesUrl.match(/&query=/)) {
+          this.packagesUrl = this.packagesUrl.replace(/&query=.*/, '')
+        }
+        this.packagesUrl += `&query=${this.query}`
       }
     },
     mounted () {
