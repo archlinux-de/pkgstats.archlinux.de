@@ -1,6 +1,10 @@
 <template>
   <div class="ct-chart ct-minor-seventh">
-    <slot v-if="loading"></slot>
+    <div v-if="loading" class="spinner-container">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
   </div>
 </template>
 
