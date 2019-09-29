@@ -15,13 +15,27 @@ class PackagePopularityList implements \JsonSerializable
     private $total = 0;
 
     /**
+     * @var int
+     */
+    private $limit = 0;
+
+    /**
+     * @var int
+     */
+    private $offset = 0;
+
+    /**
      * @param PackagePopularity[] $packagePopularities
      * @param int $total
+     * @param int $limit
+     * @param int $offset
      */
-    public function __construct(array $packagePopularities, int $total)
+    public function __construct(array $packagePopularities, int $total, int $limit, int $offset)
     {
         $this->packagePopularities = $packagePopularities;
         $this->total = $total;
+        $this->limit = $limit;
+        $this->offset = $offset;
     }
 
     /**
@@ -32,6 +46,8 @@ class PackagePopularityList implements \JsonSerializable
         return [
             'total' => $this->getTotal(),
             'count' => $this->getCount(),
+            'limit' => $this->getLimit(),
+            'offset' => $this->getOffset(),
             'packagePopularities' => $this->getPackagePopularities()
         ];
     }
@@ -58,5 +74,21 @@ class PackagePopularityList implements \JsonSerializable
     public function getPackagePopularities(): array
     {
         return $this->packagePopularities;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLimit(): int
+    {
+        return $this->limit;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOffset(): int
+    {
+        return $this->offset;
     }
 }

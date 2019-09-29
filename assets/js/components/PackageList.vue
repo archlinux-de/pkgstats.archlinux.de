@@ -1,5 +1,16 @@
 <template>
   <div>
+    <div class="package-list-header">
+      The top {{ data.count }} of {{ data.total }} total packages
+      <form class="form-group">
+        <input class="form-control" pattern="^[^-/]{1}[^/\s]{1,255}$" type="text" v-model="query"/>
+      </form>
+    </div>
+    <div class="spinner-container" v-if="loading">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
     <table class="table table-striped table-bordered table-sm">
       <thead>
       <tr>
@@ -8,13 +19,6 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-if="loading">
-        <td class="text-center" colspan="2">
-          <div class="spinner-border text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-          </div>
-        </td>
-      </tr>
       <tr v-for="pkg in data.packagePopularities">
         <td class="text-nowrap"><a :href="packageUrlTemplate.replace('_package_', encodeURI(pkg.name))">{{ pkg.name
           }}</a></td>
@@ -42,14 +46,21 @@
     data () {
       return {
         loading: true,
-        data: [],
+        data: {},
         packagesUrl: this.$parent.$data.packagesUrl,
         packageUrlTemplate: this.$parent.$data.packageUrlTemplate,
+        query: ''
       }
     },
     watch: {
       packagesUrl: function () {
         this.fetchData()
+      },
+      query: function () {
+        if (this.packagesUrl.match(/query=/)) {
+          this.packagesUrl = this.packagesUrl.replace(/query=.*/, '')
+        }
+        this.packagesUrl += `&query=${this.query}`
       }
     },
     methods: {
@@ -61,9 +72,6 @@
         })
           .then(response => response.json())
           .then(data => {
-            if (!data.count) {
-              throw new Error('No package data found')
-            }
             this.data = data
             this.loading = false
           })
