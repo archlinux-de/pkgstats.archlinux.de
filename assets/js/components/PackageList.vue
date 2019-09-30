@@ -3,7 +3,9 @@
     <div class="package-list-header">
       The top {{ data.count }} of {{ data.total }} total packages
       <form class="form-group">
-        <input class="form-control" pattern="^[^-/]{1}[^/\s]{1,255}$" placeholder="Package name" type="text"
+        <input class="form-control"
+               max="255" min="0" pattern="^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$"
+               placeholder="Package name" type="text"
                v-model="query"/>
       </form>
       <div class="spinner-container" v-if="loading">
@@ -59,6 +61,10 @@
         this.fetchData()
       },
       query: function () {
+        if (this.query.length > 255) {
+          this.query = this.query.substring(0, 255)
+        }
+        this.query = this.query.replace(/(^[^a-zA-Z0-9]|[^a-zA-Z0-9@:\.+_-]+)/, '')
         if (!this.loading) {
           this.updateUrl()
         } else {
