@@ -44,10 +44,6 @@ services:
             $rangeMonths: '%app.range_months%'
             $funConfiguration: '%app.fun%'
 
-    App\Controller\PackageController:
-        bind:
-            $rangeMonths: '%app.range_months%'
-
     App\ParamConverter\StatisticsRangeParamConverter:
         bind:
             $rangeMonths: '%app.range_months%'
