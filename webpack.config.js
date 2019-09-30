@@ -10,8 +10,8 @@ Encore
   .addEntry('js/package', './assets/js/package.js')
   .addEntry('js/compare', './assets/js/compare.js')
   .addStyleEntry('css/app', './assets/css/app.scss')
-  .addStyleEntry('css/package', './assets/css/package.scss')
-  .addStyleEntry('css/compare', './assets/css/compare.scss')
+  .addStyleEntry('css/chartist', './assets/css/chartist.scss')
+  .addStyleEntry('css/swagger_ui', './assets/css/swagger_ui.scss')
   .copyFiles({
     from: 'assets/images',
     to: 'images/[path][name].[hash:8].[ext]'
