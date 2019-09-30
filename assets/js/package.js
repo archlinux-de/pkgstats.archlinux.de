@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import PackageChart from './components/PackageChart'
 
-Vue.config.productionTip = false
-
 const AppElement = document.querySelector('#app')
 const url = AppElement.dataset.url
 
