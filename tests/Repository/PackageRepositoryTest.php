@@ -8,36 +8,6 @@ use SymfonyDatabaseTest\DatabaseTestCase;
 
 class PackageRepositoryTest extends DatabaseTestCase
 {
-    public function testGetCountByNameSince()
-    {
-        $packageA = (new Package())->setName('a')->setMonth(201810);
-        $packageB = (new Package())->setName('a')->setMonth(201811);
-        $packageC = (new Package())->setName('a')->setMonth(201812);
-        $entityManager = $this->getEntityManager();
-        $entityManager->merge($packageA);
-        $entityManager->flush();
-        $entityManager->merge($packageB);
-        $entityManager->flush();
-        $entityManager->merge($packageC);
-        $entityManager->flush();
-        $entityManager->clear();
-
-        /** @var PackageRepository $packageRepository */
-        $packageRepository = $this->getRepository(Package::class);
-        $count = $packageRepository->getCountByNameSince('a', 201811);
-
-        $this->assertEquals(2, $count);
-    }
-
-    public function testGetCountOfUnknownPackage()
-    {
-        /** @var PackageRepository $packageRepository */
-        $packageRepository = $this->getRepository(Package::class);
-        $count = $packageRepository->getCountByNameSince('a', 201811);
-
-        $this->assertEquals(0, $count);
-    }
-
     public function testInitialCount()
     {
         $package = (new Package())->setName('a')->setMonth(201812);
@@ -133,36 +103,6 @@ class PackageRepositoryTest extends DatabaseTestCase
             ],
             $count
         );
-    }
-
-    public function testGetMaximumCountSince()
-    {
-        $packageA = (new Package())->setName('a')->setMonth(201810);
-        $packageB = (new Package())->setName('a')->setMonth(201811);
-        $packageC = (new Package())->setName('a')->setMonth(201812);
-        $entityManager = $this->getEntityManager();
-        $entityManager->merge($packageA);
-        $entityManager->flush();
-        $entityManager->merge($packageB);
-        $entityManager->flush();
-        $entityManager->merge($packageC);
-        $entityManager->flush();
-        $entityManager->clear();
-
-        /** @var PackageRepository $packageRepository */
-        $packageRepository = $this->getRepository(Package::class);
-        $count = $packageRepository->getMaximumCountSince(201811);
-
-        $this->assertEquals(2, $count);
-    }
-
-    public function testGetMaximumCountIsInitiallyZero()
-    {
-        /** @var PackageRepository $packageRepository */
-        $packageRepository = $this->getRepository(Package::class);
-        $count = $packageRepository->getMaximumCountSince(201811);
-
-        $this->assertEquals(0, $count);
     }
 
     public function testGetMaximumCountByRange()

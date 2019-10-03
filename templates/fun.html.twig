@@ -2,38 +2,16 @@
 
 {% block title %}Fun statistics{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('js/fun') }}
+{% endblock %}
+
 {% block body %}
     <main role="main" class="container-fluid">
         <h1 class="mb-4">Fun statistics</h1>
-        <table class="table table-sm">
-            <colgroup>
-                <col class="w-25">
-                <col class="w-75">
-            </colgroup>
-            {% for stat in stats %}
-                <tr>
-                    <th colspan="2" class="text-center"><a href="{{ path('app_compare_packages') }}#packages={{ stat.packages | join(',') }}">{{ stat.name }}</a></th>
-                </tr>
-                {% for package, count in stat.data %}
-                    {% if total == 0 %}
-                        {% set percent = 0 %}
-                    {% else %}
-                        {% set percent = min(count / total * 100, 100) %}
-                    {% endif %}
-                    <tr>
-                        <td>{{ package }}</td>
-                        <td>
-                            <div class="progress">
-                                <div class="progress-bar bg-primary" role="progressbar"
-                                     style="width: {{ percent | round }}%"
-                                     aria-valuenow="{{ percent | round(2) }}" aria-valuemin="0" aria-valuemax="100">
-                                    {{ percent | round(2) }}%
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% endfor %}
-        </table>
+        <div id="app">
+            <fun-statistics compare-packages-url="{{ path('app_compare_packages') }}"></fun-statistics>
+        </div>
     </main>
 {% endblock %}

@@ -9,6 +9,7 @@ Encore
   .addEntry('js/packages', './assets/js/packages.js')
   .addEntry('js/package', './assets/js/package.js')
   .addEntry('js/compare', './assets/js/compare.js')
+  .addEntry('js/fun', './assets/js/fun.js')
   .addStyleEntry('css/app', './assets/css/app.scss')
   .addStyleEntry('css/chartist', './assets/css/chartist.scss')
   .addStyleEntry('css/swagger_ui', './assets/css/swagger_ui.scss')

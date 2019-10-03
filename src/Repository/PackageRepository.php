@@ -21,49 +21,6 @@ class PackageRepository extends ServiceEntityRepository
     /**
      * @param string $name
      * @param int $startMonth
-     * @return int
-     */
-    public function getCountByNameSince(string $name, int $startMonth): int
-    {
-        try {
-            return $this->createQueryBuilder('package')
-                ->select('SUM(package.count)')
-                ->where('package.month >= :month')
-                ->andWhere('package.name = :name')
-                ->groupBy('package.name')
-                ->setParameter('month', $startMonth)
-                ->setParameter('name', $name)
-                ->getQuery()
-                ->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            return 0;
-        }
-    }
-
-    /**
-     * @param int $startMonth
-     * @return int
-     */
-    public function getMaximumCountSince(int $startMonth): int
-    {
-        try {
-            return $this->createQueryBuilder('package')
-                ->select('SUM(package.count) AS count')
-                ->where('package.month >= :month')
-                ->groupBy('package.name')
-                ->orderBy('count', 'DESC')
-                ->setMaxResults(1)
-                ->setParameter('month', $startMonth)
-                ->getQuery()
-                ->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            return 0;
-        }
-    }
-
-    /**
-     * @param string $name
-     * @param int $startMonth
      * @param int $endMonth
      * @return int
      */

@@ -39,11 +39,6 @@ services:
 
     geertw\IpAnonymizer\IpAnonymizer:
 
-    App\Controller\FunController:
-        bind:
-            $rangeMonths: '%app.range_months%'
-            $funConfiguration: '%app.fun%'
-
     App\ParamConverter\StatisticsRangeParamConverter:
         bind:
             $rangeMonths: '%app.range_months%'
