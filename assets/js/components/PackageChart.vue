@@ -1,6 +1,6 @@
 <template>
   <div class="ct-chart ct-minor-seventh">
-    <div v-if="loading" class="spinner-container">
+    <div class="spinner-container" v-if="loading">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
       </div>
@@ -11,21 +11,37 @@
 <script>
   import Chartist from 'chartist'
   import 'chartist-plugin-legend'
-  // support IE 11
-  import 'whatwg-fetch'
+  import ApiPackagesService from '../services/ApiPackagesService'
   import { convertToDataSeries } from '../services/DataSeriesConverter'
 
   export default {
     name: 'PackageChart',
+    props: {
+      packages: {
+        type: Array,
+        required: true
+      },
+      startMonth: {
+        type: Number,
+        required: false
+      },
+      endMonth: {
+        type: Number,
+        required: false
+      },
+      limit: {
+        type: Number,
+        required: false
+      }
+    },
     data () {
       return {
         loading: true,
-        data: [],
-        urls: this.$parent.$data.urls
+        data: []
       }
     },
     watch: {
-      urls: function () {
+      packages: function () {
         this.fetchData()
       },
       data: function () {
@@ -35,12 +51,11 @@
     methods: {
       fetchData: function () {
         this.loading = true
-        Promise.all(this.urls.map(url => {
-          return fetch(url, {
-            credentials: 'omit',
-            headers: new Headers({ Accept: 'application/json' })
-          }).then(response => response.json())
-        }))
+        Promise.all(this.packages.map(pkg => ApiPackagesService.fetchPackageSeries(pkg, {
+          startMonth: this.startMonth,
+          endMonth: this.endMonth,
+          limit: this.limit
+        })))
           .then(dataArray => {
             dataArray.forEach(data => {
               if (!data.count) {
@@ -48,17 +63,9 @@
               }
             })
             this.data = convertToDataSeries(dataArray)
-            this.loading = false
           })
-          .catch(e => {
-            this.loading = false
-            const error = document.createElement('div')
-            error.classList.add('alert')
-            error.classList.add('alert-danger')
-            error.setAttribute('role', 'alert')
-            error.innerText = e.toString()
-            this.$el.appendChild(error)
-          })
+          .catch(error => console.error(error))
+          .finally(() => {this.loading = false})
       },
       drawChart: function () {
         Chartist.Line(this.$el, this.data, {

@@ -21,10 +21,12 @@
             Relative usage of packages from {{ startMonth | slice(0, -2) }} to {{ endMonth | slice(0, -2) }}
         </p>
         <div class="embed-responsive embed-responsive-16by9">
-            <div class="embed-responsive-item" id="app"
-                 data-url-template="{{ path('app_api_package_series', {'name': '_package_', 'startMonth': startMonth, 'endMonth': endMonth, 'limit': limit}) }}"
-            >
-                <package-chart></package-chart>
+            <div class="embed-responsive-item" id="app">
+                <package-chart :packages="packages"
+                               :start-month="{{ startMonth }}"
+                               :end-month="{{ endMonth }}"
+                               :limit="{{ limit }}">
+                </package-chart>
             </div>
         </div>
     </main>

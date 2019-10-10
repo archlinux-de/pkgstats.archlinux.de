@@ -27,35 +27,31 @@
 </template>
 
 <script>
-  // support IE 11
-  import 'whatwg-fetch'
   import FunConfig from '../config/fun'
+  import ApiPackagesService from '../services/ApiPackagesService'
 
   export default {
     name: 'FunStatistics',
     props: {
-      comparePackagesUrl: String
+      startMonth: {
+        type: Number,
+        required: false
+      },
+      endMonth: {
+        type: Number,
+        required: false
+      }
     },
     data () {
       return {
         data: {},
-        packageUrlTemplate: '/api/packages/${package}'
+        comparePackagesUrl: '/compare/packages'
       }
     },
     methods: {
       fetchPackagePopularity: function (pkg) {
-        return fetch(this.packageUrlTemplate.replace('${package}', pkg), {
-          credentials: 'omit',
-          headers: new Headers({ Accept: 'application/json' })
-        })
-          .then(response => response.json())
-          .then(data => {
-            return data.popularity
-          })
-          .catch(e => {
-            console.error(e)
-            return 0
-          })
+        return ApiPackagesService.fetchPackagePopularity(pkg, { startMonth: this.startMonth, endMonth: this.endMonth })
+          .catch(error => console.error(error))
       },
       fetchData: function () {
         Object.entries(FunConfig).forEach(([statTitle, statPkgs]) => {

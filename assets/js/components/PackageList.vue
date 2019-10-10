@@ -2,12 +2,12 @@
   <div>
     <div class="package-list-header">
       The top {{ data.count }} of {{ data.total }} total packages
-      <form class="form-group">
+      <div class="form-group">
         <input class="form-control"
                max="255" min="0" pattern="^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$"
                placeholder="Package name" type="text"
                v-model="query"/>
-      </form>
+      </div>
       <div class="spinner-container" v-if="loading">
         <div class="spinner-border text-primary" role="status">
           <span class="sr-only">Loading...</span>
@@ -23,7 +23,7 @@
       </thead>
       <tbody>
       <tr v-for="pkg in data.packagePopularities">
-        <td class="text-nowrap"><a :href="packageUrlTemplate.replace('_package_', encodeURI(pkg.name))">{{ pkg.name
+        <td class="text-nowrap"><a :href="packageUrlTemplate.replace('{package}', encodeURI(pkg.name))">{{ pkg.name
           }}</a></td>
         <td class="w-75">
           <div :title="pkg.popularity+'%'" class="progress bg-transparent">
@@ -41,32 +41,45 @@
 </template>
 
 <script>
-  // support IE 11
-  import 'whatwg-fetch'
+  import ApiPackagesService from '../services/ApiPackagesService'
 
   export default {
     name: 'PackageList',
+    props: {
+      initialQuery: {
+        type: String,
+        required: false
+      },
+      startMonth: {
+        type: Number,
+        required: false
+      },
+      endMonth: {
+        type: Number,
+        required: false
+      },
+      limit: {
+        type: Number,
+        required: false
+      }
+    },
     data () {
       return {
         loading: true,
         data: {},
-        packagesUrl: this.$parent.$data.packagesUrl,
-        packageUrlTemplate: this.$parent.$data.packageUrlTemplate,
-        query: '',
-        missedQuery: false
+        packageUrlTemplate: '/packages/{package}',
+        missedQuery: false,
+        query: this.initialQuery
       }
     },
     watch: {
-      packagesUrl: function () {
-        this.fetchData()
-      },
       query: function () {
         if (this.query.length > 255) {
           this.query = this.query.substring(0, 255)
         }
         this.query = this.query.replace(/(^[^a-zA-Z0-9]|[^a-zA-Z0-9@:\.+_-]+)/, '')
         if (!this.loading) {
-          this.updateUrl()
+          this.fetchData()
         } else {
           this.missedQuery = true
         }
@@ -74,37 +87,23 @@
       loading: function () {
         if (!this.loading && this.missedQuery) {
           this.missedQuery = false
-          this.updateUrl()
+          this.fetchData()
         }
       }
     },
     methods: {
       fetchData: function () {
         this.loading = true
-        fetch(this.packagesUrl, {
-          credentials: 'omit',
-          headers: new Headers({ Accept: 'application/json' })
-        })
-          .then(response => response.json())
-          .then(data => {
-            this.data = data
-            this.loading = false
+        ApiPackagesService
+          .fetchPackageList({
+            query: this.query,
+            startMonth: this.startMonth,
+            endMonth: this.endMonth,
+            limit: this.limit
           })
-          .catch(e => {
-            this.loading = false
-            const error = document.createElement('div')
-            error.classList.add('alert')
-            error.classList.add('alert-danger')
-            error.setAttribute('role', 'alert')
-            error.innerText = e.toString()
-            this.$el.appendChild(error)
-          })
-      },
-      updateUrl: function () {
-        if (this.packagesUrl.match(/&query=/)) {
-          this.packagesUrl = this.packagesUrl.replace(/&query=.*/, '')
-        }
-        this.packagesUrl += `&query=${this.query}`
+          .then(data => { this.data = data })
+          .catch(error => console.error(error))
+          .finally(() => {this.loading = false})
       }
     },
     mounted () {

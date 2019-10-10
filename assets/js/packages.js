@@ -1,16 +1,19 @@
+/* eslint-env browser */
 import Vue from 'vue'
 import PackageList from './components/PackageList'
 
-const AppElement = document.querySelector('#app')
-const packagesUrl = AppElement.dataset.packagesUrl
-const packageUrlTemplate = AppElement.dataset.packageUrlTemplate
-
-new Vue({
+const vue = new Vue({
   components: {
     PackageList
   },
   data: {
-    packagesUrl: packagesUrl,
-    packageUrlTemplate: packageUrlTemplate
+    initialQuery: location.hash.replace(/^#query=/, '')
   }
-}).$mount(AppElement)
+}).$mount('#app')
+
+// @TODO: Find a better way to bind our event to the PackageList component
+vue.$children.forEach(child => {
+  if (child.$vnode.componentOptions.tag === 'package-list') {
+    child.$watch('query', query => { location.hash = 'query=' + query })
+  }
+})

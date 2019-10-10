@@ -28,7 +28,7 @@ Encore
   .autoProvideVariables({
     Popper: 'popper.js'
   })
-  .configureBabel(() => {}, {
+  .configureBabel(() => { }, {
     useBuiltIns: 'usage',
     corejs: 3
   })

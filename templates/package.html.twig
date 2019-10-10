@@ -17,9 +17,12 @@
         <h1 class="mb-3">{{ package }}</h1>
         <p class="mb-3">Relative usage of {{ package }} from {{ startMonth | slice(0, -2) }}
             to {{ endMonth | slice(0, -2) }}</p>
-        <div id="app"
-             data-url="{{ path('app_api_package_series', {'name': package, 'startMonth': startMonth, 'endMonth': endMonth, 'limit': limit}) }}">
-            <package-chart></package-chart>
+        <div id="app">
+            <package-chart :packages="['{{ package }}']"
+                           :start-month="{{ startMonth }}"
+                           :end-month="{{ endMonth }}"
+                           :limit="{{ limit }}">
+            </package-chart>
         </div>
     </main>
 {% endblock %}

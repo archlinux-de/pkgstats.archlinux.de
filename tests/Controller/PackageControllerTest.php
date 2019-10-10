@@ -61,12 +61,8 @@ class PackageControllerTest extends DatabaseTestCase
 
         $client = $this->getClient();
 
-        $crawler = $client->request('GET', '/compare/packages');
+        $client->request('GET', '/compare/packages');
         $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertStringContainsString(
-            '201801',
-            (string)$crawler->filter('#app')->attr('data-url-template')
-        );
     }
 
     public function testComparePackagesActionReturns404OnUnknownPackage()

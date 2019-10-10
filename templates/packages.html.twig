@@ -10,10 +10,12 @@
 {% block body %}
     <main role="main" class="container-fluid">
         <h1 class="mb-4">Package statistics</h1>
-        <div id="app"
-             data-packages-url="{{ path('app_api_packages', {'startMonth': startMonth, 'endMonth': endMonth, 'limit': limit}) }}"
-             data-package-url-template="{{ path('app_package', {'package': '_package_'}) }}">
-            <package-list></package-list>
+        <div id="app">
+            <package-list :initial-query="initialQuery"
+                          :start-month="{{ startMonth }}"
+                          :end-month="{{ endMonth }}"
+                          :limit="{{ limit }}">
+            </package-list>
         </div>
     </main>
 {% endblock %}

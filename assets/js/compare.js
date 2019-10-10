@@ -2,9 +2,6 @@
 import Vue from 'vue'
 import PackageChart from './components/PackageChart'
 
-const AppElement = document.querySelector('#app')
-const urlTemplate = AppElement.dataset.urlTemplate
-
 let packages = location.hash
   .replace(/^#packages=/, '')
   .split(',')
@@ -17,13 +14,11 @@ Array.from(new Set(packages)).sort()
 packages = packages.slice(0, 10)
 location.hash = 'packages=' + packages.join(',')
 
-const urls = packages.map(packageName => urlTemplate.replace('_package_', packageName))
-
 new Vue({
   components: {
     PackageChart
   },
   data: {
-    urls: urls
+    packages
   }
-}).$mount(AppElement)
+}).$mount('#app')
