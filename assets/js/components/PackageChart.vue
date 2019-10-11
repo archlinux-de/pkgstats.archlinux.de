@@ -1,5 +1,6 @@
 <template>
   <div class="ct-chart ct-minor-seventh">
+    <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
     <div class="spinner-container" v-if="loading">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
@@ -37,7 +38,8 @@
     data () {
       return {
         loading: true,
-        data: []
+        data: [],
+        error: ''
       }
     },
     watch: {
@@ -64,7 +66,7 @@
             })
             this.data = convertToDataSeries(dataArray)
           })
-          .catch(error => console.error(error))
+          .catch(error => {this.error = error})
           .finally(() => {this.loading = false})
       },
       drawChart: function () {
