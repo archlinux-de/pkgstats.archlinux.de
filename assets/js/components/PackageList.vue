@@ -50,14 +50,6 @@
         type: String,
         required: false
       },
-      startMonth: {
-        type: Number,
-        required: false
-      },
-      endMonth: {
-        type: Number,
-        required: false
-      },
       limit: {
         type: Number,
         required: false
@@ -97,8 +89,6 @@
         ApiPackagesService
           .fetchPackageList({
             query: this.query,
-            startMonth: this.startMonth,
-            endMonth: this.endMonth,
             limit: this.limit
           })
           .then(data => { this.data = data })

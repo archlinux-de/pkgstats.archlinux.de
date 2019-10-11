@@ -32,16 +32,6 @@
 
   export default {
     name: 'FunStatistics',
-    props: {
-      startMonth: {
-        type: Number,
-        required: false
-      },
-      endMonth: {
-        type: Number,
-        required: false
-      }
-    },
     data () {
       return {
         data: {},
@@ -50,7 +40,7 @@
     },
     methods: {
       fetchPackagePopularity: function (pkg) {
-        return ApiPackagesService.fetchPackagePopularity(pkg, { startMonth: this.startMonth, endMonth: this.endMonth })
+        return ApiPackagesService.fetchPackagePopularity(pkg)
           .catch(error => console.error(error))
       },
       fetchData: function () {

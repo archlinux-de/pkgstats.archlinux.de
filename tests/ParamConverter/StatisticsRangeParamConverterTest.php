@@ -16,7 +16,7 @@ class StatisticsRangeParamConverterTest extends TestCase
 
     public function setUp(): void
     {
-        $this->paramConverter = new StatisticsRangeParamConverter(0);
+        $this->paramConverter = new StatisticsRangeParamConverter();
     }
 
     public function testSupports()
@@ -50,8 +50,8 @@ class StatisticsRangeParamConverterTest extends TestCase
         );
         /** @var StatisticsRangeRequest $statisticsRangeRequest */
         $statisticsRangeRequest = $request->attributes->get(StatisticsRangeRequest::class);
-        $this->assertEquals(date('Ym'), $statisticsRangeRequest->getStartMonth());
-        $this->assertEquals(date('Ym'), $statisticsRangeRequest->getEndMonth());
+        $this->assertEquals(date('Ym', strtotime('-1 month')), $statisticsRangeRequest->getStartMonth());
+        $this->assertEquals(date('Ym', strtotime('-1 month')), $statisticsRangeRequest->getEndMonth());
     }
 
     public function testApply()

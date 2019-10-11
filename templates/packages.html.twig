@@ -11,11 +11,7 @@
     <main role="main" class="container-fluid">
         <h1 class="mb-4">Package statistics</h1>
         <div id="app">
-            <package-list :initial-query="initialQuery"
-                          :start-month="{{ startMonth }}"
-                          :end-month="{{ endMonth }}"
-                          :limit="{{ limit }}">
-            </package-list>
+            <package-list :initial-query="initialQuery" :limit="20"></package-list>
         </div>
     </main>
 {% endblock %}

@@ -42,14 +42,6 @@ class PackageControllerTest extends DatabaseTestCase
         );
     }
 
-    public function testPackagesDetailActionReturns404OnUnknownPackage()
-    {
-        $client = $this->getClient();
-
-        $client->request('GET', '/packages/foo');
-        $this->assertTrue($client->getResponse()->isNotFound());
-    }
-
     public function testComparePackagesAction()
     {
         $entityManager = $this->getEntityManager();
@@ -63,13 +55,5 @@ class PackageControllerTest extends DatabaseTestCase
 
         $client->request('GET', '/compare/packages');
         $this->assertTrue($client->getResponse()->isSuccessful());
-    }
-
-    public function testComparePackagesActionReturns404OnUnknownPackage()
-    {
-        $client = $this->getClient();
-
-        $client->request('GET', '/compare/packages');
-        $this->assertTrue($client->getResponse()->isNotFound());
     }
 }

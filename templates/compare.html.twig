@@ -18,15 +18,11 @@
     <main role="main" class="container">
         <h1 class="mb-3">Compare Packages</h1>
         <p class="mb-3">
-            Relative usage of packages from {{ startMonth | slice(0, -2) }} to {{ endMonth | slice(0, -2) }}
+            Relative usage of packages
         </p>
         <div class="embed-responsive embed-responsive-16by9">
             <div class="embed-responsive-item" id="app">
-                <package-chart :packages="packages"
-                               :start-month="{{ startMonth }}"
-                               :end-month="{{ endMonth }}"
-                               :limit="{{ limit }}">
-                </package-chart>
+                <package-chart :packages="packages" :start-month="0" :limit="0"></package-chart>
             </div>
         </div>
     </main>

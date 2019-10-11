@@ -136,10 +136,10 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $entityManager = $this->getEntityManager();
         $pacman = (new Package())
             ->setName('pacman')
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+            ->setMonth(201901);
         $php = (new Package())
             ->setName('php')
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+            ->setMonth(201901);
         $user = (new User())
             ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
@@ -155,7 +155,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
 
         $client = $this->getClient();
 
-        $client->request('GET', '/api/packages', ['query' => 'pac']);
+        $client->request('GET', '/api/packages', ['query' => 'pac', 'startMonth' => 0]);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertIsString($client->getResponse()->getContent());
@@ -202,13 +202,13 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $entityManager = $this->getEntityManager();
         $pacman = (new Package())
             ->setName('pacman')
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+            ->setMonth(201901);
         $php = (new Package())
             ->setName('php')
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+            ->setMonth(201901);
         $anotherPhp = (new Package())
             ->setName('php')
-            ->setMonth((int)(new \DateTime('-1 month'))->format('Ym'));
+            ->setMonth(201902);
         $user = (new User())
             ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
@@ -225,7 +225,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
 
         $client = $this->getClient();
 
-        $client->request('GET', '/api/packages', ['limit' => '1']);
+        $client->request('GET', '/api/packages', ['limit' => '1', 'startMonth' => 0]);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertIsString($client->getResponse()->getContent());
@@ -241,7 +241,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $entityManager = $this->getEntityManager();
         $package = (new Package())
             ->setName('pacman')
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+            ->setMonth(201901);
         $user = (new User())
             ->setPackages(1)
             ->setMirror('https://mirror.archlinux.de')
@@ -256,7 +256,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
 
         $client = $this->getClient();
 
-        $client->request('GET', '/api/packages/pacman/series');
+        $client->request('GET', '/api/packages/pacman/series', ['startMonth' => 0]);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertIsString($client->getResponse()->getContent());

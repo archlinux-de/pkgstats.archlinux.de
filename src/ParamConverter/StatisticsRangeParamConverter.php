@@ -9,17 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class StatisticsRangeParamConverter implements ParamConverterInterface
 {
-    /** @var int */
-    private $rangeMonths;
-
-    /**
-     * @param int $rangeMonths
-     */
-    public function __construct(int $rangeMonths)
-    {
-        $this->rangeMonths = $rangeMonths;
-    }
-
     /**
      * @param Request $request
      * @param ParamConverter $configuration
@@ -27,20 +16,17 @@ class StatisticsRangeParamConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverter $configuration)
     {
-        $defaultStartMonth = $this->formatYearMonth(
+        $defaultMonth = (int)date(
+            'Ym',
             (int)strtotime(date(
                 '1-m-Y',
-                (int)strtotime('now -' . $this->rangeMonths . ' months')
+                (int)strtotime('now -1 months')
             ))
         );
 
-        $defaultEndMonth = $this->formatYearMonth(
-            (int)strtotime(date('1-m-Y'))
-        );
-
         $statisticsRangeRequest = new StatisticsRangeRequest(
-            $request->get('startMonth', $defaultStartMonth),
-            $request->get('endMonth', $defaultEndMonth)
+            (int)$request->get('startMonth', $defaultMonth),
+            (int)$request->get('endMonth', $defaultMonth)
         );
 
         $request->attributes->set(
@@ -49,15 +35,6 @@ class StatisticsRangeParamConverter implements ParamConverterInterface
         );
 
         return true;
-    }
-
-    /**
-     * @param int $time
-     * @return string
-     */
-    private function formatYearMonth(int $time): string
-    {
-        return date('Ym', $time);
     }
 
     /**

@@ -18,10 +18,12 @@ export default (() => {
    * @param {Object} options
    * @returns {string}
    */
-  const createUrl = (path, options) => {
+  const createUrl = (path, options = {}) => {
     const url = new URL(path, location.toString())
     Object.entries(options).forEach(entry => {
-      url.searchParams.set(entry[0], entry[1])
+      if (typeof entry[1] !== 'undefined' && entry[1].toString().length > 0) {
+        url.searchParams.set(entry[0], entry[1])
+      }
     })
     url.searchParams.sort()
     return url.toString()
@@ -30,13 +32,11 @@ export default (() => {
   return {
     /**
      * @param {string} pkg
-     * @param {startMonth, endMonth} options
      * @returns {Promise<number>}
      */
-    fetchPackagePopularity (pkg, options = {}) {
+    fetchPackagePopularity (pkg) {
       return fetchJson(createUrl(
-        packageUrlTemplate.replace('{package}', pkg),
-        options
+        packageUrlTemplate.replace('{package}', pkg)
       )).then(data => data.popularity)
     },
 
@@ -53,7 +53,7 @@ export default (() => {
     },
 
     /**
-     * @param {query, startMonth, endMonth, limit} options
+     * @param {query, limit} options
      * @returns {Promise<any>}
      */
     fetchPackageList (options) {

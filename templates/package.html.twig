@@ -15,14 +15,9 @@
 {% block body %}
     <main role="main" class="container">
         <h1 class="mb-3">{{ package }}</h1>
-        <p class="mb-3">Relative usage of {{ package }} from {{ startMonth | slice(0, -2) }}
-            to {{ endMonth | slice(0, -2) }}</p>
+        <p class="mb-3">Relative usage of {{ package }}</p>
         <div id="app">
-            <package-chart :packages="['{{ package }}']"
-                           :start-month="{{ startMonth }}"
-                           :end-month="{{ endMonth }}"
-                           :limit="{{ limit }}">
-            </package-chart>
+            <package-chart :packages="['{{ package }}']" :start-month="0" :limit="0"></package-chart>
         </div>
     </main>
 {% endblock %}

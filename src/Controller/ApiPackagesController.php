@@ -58,14 +58,14 @@ class ApiPackagesController extends AbstractController
      *     name="startMonth",
      *     required=false,
      *     in="query",
-     *     description="Specify start month in the form of 'Ym', e.g. 201901. Defaults to a range of 3 months.",
+     *     description="Specify start month in the form of 'Ym', e.g. 201901. Defaults to last month.",
      *     type="integer"
      * )
      * @SWG\Parameter(
      *     name="endMonth",
      *     required=false,
      *     in="query",
-     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to current month.",
+     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
      *     type="integer"
      * )
      */
@@ -104,14 +104,14 @@ class ApiPackagesController extends AbstractController
      *     name="startMonth",
      *     required=false,
      *     in="query",
-     *     description="Specify start month in the form of 'Ym', e.g. 201901. Defaults to a range of 3 months.",
+     *     description="Specify start month in the form of 'Ym', e.g. 201901. Defaults to last month.",
      *     type="integer"
      * )
      * @SWG\Parameter(
      *     name="endMonth",
      *     required=false,
      *     in="query",
-     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to current month.",
+     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
      *     type="integer"
      * )
      * @SWG\Parameter(
@@ -170,7 +170,7 @@ class ApiPackagesController extends AbstractController
      *     name="startMonth",
      *     required=false,
      *     in="query",
-     *     description="Specify start month in the format of 'Ym', e.g. 201901. Defaults to a range of 3 months.",
+     *     description="Specify start month in the format of 'Ym', e.g. 201901. Defaults to last month.",
      *     format="Ym",
      *     type="integer"
      * )
@@ -178,7 +178,7 @@ class ApiPackagesController extends AbstractController
      *     name="endMonth",
      *     required=false,
      *     in="query",
-     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to current month.",
+     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
      *     type="integer"
      * )
      * @SWG\Parameter(
