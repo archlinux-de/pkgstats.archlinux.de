@@ -10,19 +10,6 @@ use SymfonyDatabaseTest\DatabaseTestCase;
  */
 class PackageControllerTest extends DatabaseTestCase
 {
-    public function testPackageAction()
-    {
-        $client = $this->getClient();
-
-        $crawler = $client->request('GET', '/packages');
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertStringContainsString(
-            'Package statistics',
-            (string)$crawler->filter('h1')->text()
-        );
-    }
-
     public function testPackagesDetailAction()
     {
         $entityManager = $this->getEntityManager();
@@ -40,20 +27,5 @@ class PackageControllerTest extends DatabaseTestCase
             'foo',
             (string)$crawler->filter('h1')->text()
         );
-    }
-
-    public function testComparePackagesAction()
-    {
-        $entityManager = $this->getEntityManager();
-        $package = (new Package())
-            ->setName('foo')
-            ->setMonth(201801);
-        $entityManager->persist($package);
-        $entityManager->flush();
-
-        $client = $this->getClient();
-
-        $client->request('GET', '/compare/packages');
-        $this->assertTrue($client->getResponse()->isSuccessful());
     }
 }

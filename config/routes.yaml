@@ -5,3 +5,57 @@ app_legacy_package:
         route: app_packages
         permanent: true
         keepQueryParams: true
+
+app_start:
+    path: /
+    methods: GET
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+        template: 'start.html.twig'
+        sharedAge: 3600
+        maxAge: 300
+
+app_fun:
+    path: /fun
+    methods: GET
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+        template: 'fun.html.twig'
+        sharedAge: 3600
+        maxAge: 300
+
+app_impressum:
+    path: /impressum
+    methods: GET
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+        template: 'impressum.html.twig'
+        sharedAge: 3600
+        maxAge: 300
+
+app_privacy:
+    path: /privacy-policy
+    methods: GET
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+        template: 'privacy_policy.html.twig'
+        sharedAge: 3600
+        maxAge: 300
+
+app_packages:
+    path: /packages
+    methods: GET
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+        template: 'packages.html.twig'
+        sharedAge: 3600
+        maxAge: 300
+
+app_compare_packages:
+    path: /compare/packages
+    methods: GET
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+        template: 'compare.html.twig'
+        sharedAge: 3600
+        maxAge: 300
