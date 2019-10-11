@@ -4,54 +4,60 @@ export default (() => {
   const packageSeriesUrlTemplate = '/api/packages/{package}/series'
   const packagesUrl = '/api/packages'
 
+  /**
+   * @param {string} url
+   * @returns {Promise<any>}
+   */
   const fetchJson = url => fetch(url, {
     credentials: 'omit',
     headers: new Headers({ Accept: 'application/json' })
   }).then(response => response.json())
 
+  /**
+   * @param {string} path
+   * @param {Object} options
+   * @returns {string}
+   */
+  const createUrl = (path, options) => {
+    const url = new URL(path, location.toString())
+    Object.entries(options).forEach(entry => {
+      url.searchParams.set(entry[0], entry[1])
+    })
+    url.searchParams.sort()
+    return url.toString()
+  }
+
   return {
-    fetchPackagePopularity: (pkg, options = {}) => {
-      const { startMonth, endMonth } = options
-
-      const packagePopularityQueryParameters = new URLSearchParams()
-      startMonth && packagePopularityQueryParameters.set('startMonth', startMonth)
-      endMonth && packagePopularityQueryParameters.set('endMonth', endMonth)
-      packagePopularityQueryParameters.sort()
-      const packagePopularityQueryString = packagePopularityQueryParameters.toString()
-
-      return fetchJson(
-        packageUrlTemplate.replace('{package}', pkg) +
-        (packagePopularityQueryString ? '?' + packagePopularityQueryString : '')
-      )
-        .then(data => data.popularity)
+    /**
+     * @param {string} pkg
+     * @param {startMonth, endMonth} options
+     * @returns {Promise<number>}
+     */
+    fetchPackagePopularity (pkg, options = {}) {
+      return fetchJson(createUrl(
+        packageUrlTemplate.replace('{package}', pkg),
+        options
+      )).then(data => data.popularity)
     },
-    fetchPackageSeries: (pkg, options = {}) => {
-      const { startMonth, endMonth, limit } = options
 
-      const packageSeriesQueryParameters = new URLSearchParams()
-      startMonth && packageSeriesQueryParameters.set('startMonth', startMonth)
-      endMonth && packageSeriesQueryParameters.set('endMonth', endMonth)
-      limit >= 0 && packageSeriesQueryParameters.set('limit', limit)
-      packageSeriesQueryParameters.sort()
-      const packageSeriesQueryString = packageSeriesQueryParameters.toString()
-
-      return fetchJson(
-        packageSeriesUrlTemplate.replace('{package}', pkg) +
-        (packageSeriesQueryString ? '?' + packageSeriesQueryString : '')
-      )
+    /**
+     * @param {string} pkg
+     * @param {startMonth, endMonth, limit} options
+     * @returns {Promise<any>}
+     */
+    fetchPackageSeries (pkg, options = {}) {
+      return fetchJson(createUrl(
+        packageSeriesUrlTemplate.replace('{package}', pkg),
+        options
+      ))
     },
-    fetchPackageList: options => {
-      const { query, startMonth, endMonth, limit } = options
 
-      const packagesQueryParameters = new URLSearchParams()
-      query && packagesQueryParameters.set('query', query)
-      startMonth && packagesQueryParameters.set('startMonth', startMonth)
-      endMonth && packagesQueryParameters.set('endMonth', endMonth)
-      limit >= 0 && packagesQueryParameters.set('limit', limit)
-      packagesQueryParameters.sort()
-      const packagesQueryString = packagesQueryParameters.toString()
-
-      return fetchJson(packagesUrl + (packagesQueryString ? '?' + packagesQueryString : ''))
+    /**
+     * @param {query, startMonth, endMonth, limit} options
+     * @returns {Promise<any>}
+     */
+    fetchPackageList (options) {
+      return fetchJson(createUrl(packagesUrl, options))
     }
   }
 })()
