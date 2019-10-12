@@ -1,6 +1,10 @@
 <template>
   <div class="ct-chart ct-minor-seventh">
-    <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
+    <div class="alert alert-danger text-left" role="alert" v-if="errors.length > 0">
+      <ul class="list-group list-unstyled" v-for="error in errors">
+        <li>{{ error }}</li>
+      </ul>
+    </div>
     <div class="spinner-container" v-if="loading">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
@@ -38,6 +42,12 @@
       margin-bottom: 5px;
       float: left;
       font-weight: bold;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      clear: left;
     }
 
     /* stylelint-disable-next-line at-rule-no-unknown */
@@ -88,7 +98,7 @@
       return {
         loading: true,
         data: [],
-        error: ''
+        errors: []
       }
     },
     watch: {
@@ -103,20 +113,14 @@
       fetchData () {
         this.loading = true
         Promise.all(this.packages.map(pkg => ApiPackagesService.fetchPackageSeries(pkg, {
-          startMonth: this.startMonth,
-          endMonth: this.endMonth,
-          limit: this.limit
-        })))
-          .then(dataArray => {
-            dataArray.forEach(data => {
-              if (!data.count) {
-                throw new Error('No package found')
-              }
-            })
-            this.data = convertToDataSeries(dataArray)
-          })
-          .catch(error => {this.error = error})
-          .finally(() => {this.loading = false})
+            startMonth: this.startMonth,
+            endMonth: this.endMonth,
+            limit: this.limit
+          }).catch(error => { this.errors.push(error) })
+        ))
+          .then(dataArray => { this.data = convertToDataSeries(dataArray) })
+          .catch(error => { this.errors.push(error) })
+          .finally(() => { this.loading = false })
       },
       drawChart () {
         Chartist.Line(this.$el, this.data, {

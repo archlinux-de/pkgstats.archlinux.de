@@ -1,9 +1,7 @@
 <template>
   <main class="container-fluid" role="main">
     <h1 class="mb-4">Package statistics</h1>
-    <div id="app">
-      <package-list :initial-query="initialQuery" :limit="20"></package-list>
-    </div>
+    <package-list :initial-query="initialQuery" :limit="20"></package-list>
   </main>
 </template>
 

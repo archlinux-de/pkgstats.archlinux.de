@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div class="alert alert-danger text-left" role="alert" v-if="errors.length > 0">
+      <ul class="list-group list-unstyled" v-for="error in errors">
+        <li>{{ error }}</li>
+      </ul>
+    </div>
     <table class="table table-sm">
       <colgroup>
         <col class="w-25">
@@ -11,7 +16,7 @@
             <router-link :to="{name: 'compare', hash: createComparePackagesHash(pkgs)}">{{ title }}</router-link>
           </th>
         </tr>
-        <tr v-for="(pkgdata, pkg) in pkgs" :key="pkgdata.name">
+        <tr :key="pkgdata.name" v-for="(pkgdata, pkg) in pkgs">
           <td>{{ pkg }}</td>
           <td>
             <div class="progress">
@@ -36,13 +41,17 @@
     name: 'FunStatistics',
     data () {
       return {
-        data: {}
+        data: {},
+        errors: []
       }
     },
     methods: {
       fetchPackagePopularity (pkg) {
         return ApiPackagesService.fetchPackagePopularity(pkg)
-          .catch(error => console.error(error))
+          .catch(error => {
+            this.errors.push(error)
+            return 0
+          })
       },
       fetchData () {
         Object.entries(FunConfig).forEach(([statTitle, statPkgs]) => {

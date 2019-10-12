@@ -1,7 +1,7 @@
 /* eslint-env browser */
 export default (() => {
-  const packageUrlTemplate = '/api/packages/{package}'
-  const packageSeriesUrlTemplate = '/api/packages/{package}/series'
+  const packageUrlTemplate = '/api/packages/:package'
+  const packageSeriesUrlTemplate = '/api/packages/:package/series'
   const packagesUrl = '/api/packages'
 
   /**
@@ -11,7 +11,12 @@ export default (() => {
   const fetchJson = url => fetch(url, {
     credentials: 'omit',
     headers: new Headers({ Accept: 'application/json' })
-  }).then(response => response.json())
+  }).then(response => {
+    if (response.ok) {
+      return response.json()
+    }
+    throw new Error(`Fetching URL "${url}" failed with "${response.statusText}"`)
+  })
 
   /**
    * @param {string} path
@@ -36,8 +41,13 @@ export default (() => {
      */
     fetchPackagePopularity (pkg) {
       return fetchJson(createUrl(
-        packageUrlTemplate.replace('{package}', pkg)
-      )).then(data => data.popularity)
+        packageUrlTemplate.replace(':package', pkg)
+      )).then(data => {
+        if (data.count === 0) {
+          throw new Error(`No data found for package "${pkg}"`)
+        }
+        return data.popularity
+      })
     },
 
     /**
@@ -47,9 +57,14 @@ export default (() => {
      */
     fetchPackageSeries (pkg, options = {}) {
       return fetchJson(createUrl(
-        packageSeriesUrlTemplate.replace('{package}', pkg),
+        packageSeriesUrlTemplate.replace(':package', pkg),
         options
-      ))
+      )).then(data => {
+        if (data.count === 0) {
+          throw new Error(`No data found for package "${pkg}" with ${JSON.stringify(options)}`)
+        }
+        return data
+      })
     },
 
     /**

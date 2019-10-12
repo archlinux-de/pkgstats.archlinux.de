@@ -1,14 +1,8 @@
 <template>
   <main class="container" role="main">
     <h1 class="mb-3">Compare Packages</h1>
-    <p class="mb-3">
-      Relative usage of packages
-    </p>
-    <div class="embed-responsive embed-responsive-16by9">
-      <div class="embed-responsive-item" id="app">
-        <package-chart :limit="0" :packages="packages" :start-month="0"></package-chart>
-      </div>
-    </div>
+    <p class="mb-3">Relative usage of packages</p>
+    <package-chart :limit="0" :packages="packages" :start-month="0"></package-chart>
   </main>
 </template>
 

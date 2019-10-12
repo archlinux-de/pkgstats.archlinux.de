@@ -38,7 +38,8 @@
       </tr>
       </tbody>
     </table>
-    <div class="alert alert-warning" role="alert" v-else>No packages found</div>
+    <div class="alert alert-warning" role="alert" v-else-if="!error && !loading">No packages found</div>
+    <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
   </div>
 </template>
 
@@ -72,7 +73,8 @@
         loading: true,
         data: { packagePopularities: [] },
         missedQuery: false,
-        query: this.initialQuery
+        query: this.initialQuery,
+        error: ''
       }
     },
     watch: {
@@ -103,8 +105,8 @@
             limit: this.limit
           })
           .then(data => { this.data = data })
-          .catch(error => console.error(error))
-          .finally(() => {this.loading = false})
+          .catch(error => { this.error = error })
+          .finally(() => { this.loading = false })
       }
     },
     mounted () {
