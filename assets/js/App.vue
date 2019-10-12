@@ -34,9 +34,9 @@
 
     <router-view/>
 
-    <footer class="container-fluid mt-auto py-3 text-right">
-      <router-link :to="{name: 'privacy-policy'}">Privacy policy</router-link>
-      <router-link :to="{name: 'impressum'}">Impressum</router-link>
+    <footer class="nav justify-content-end">
+      <router-link :to="{name: 'privacy-policy'}" class="nav-link">Privacy policy</router-link>
+      <router-link :to="{name: 'impressum'}" class="nav-link">Impressum</router-link>
     </footer>
   </div>
 </template>
@@ -48,6 +48,7 @@
     border-bottom: 0.313rem solid $primary;
   }
 
+  .navbar-brand,
   .nav-link {
     outline: 0;
   }
