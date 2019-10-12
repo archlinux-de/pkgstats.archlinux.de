@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbar-border-brand mb-4">
-      <router-link :to="{name: 'start'}" class="navbar-brand" href="">
+      <router-link :to="{name: 'start'}" class="navbar-brand" tabindex="-1">
         <picture>
           <source media="(min-width: 576px) and (max-width: 768px)"
                   srcset="@/images/archicon.svg 190w">
@@ -48,8 +48,9 @@
     border-bottom: 0.313rem solid $primary;
   }
 
-  .navbar-brand,
-  .nav-link {
+  a.navbar-brand:focus,
+  button.navbar-toggler:focus,
+  a.nav-link:focus {
     outline: 0;
   }
 
