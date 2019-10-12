@@ -6,12 +6,12 @@
         <col class="w-75">
       </colgroup>
       <template v-for="(pkgs, title) in data">
-        <tr>
+        <tr :key="title">
           <th class="text-center" colspan="2">
             <router-link :to="{name: 'compare', hash: createComparePackagesHash(pkgs)}">{{ title }}</router-link>
           </th>
         </tr>
-        <tr v-for="(pkgdata, pkg) in pkgs">
+        <tr v-for="(pkgdata, pkg) in pkgs" :key="pkgdata.name">
           <td>{{ pkg }}</td>
           <td>
             <div class="progress">
