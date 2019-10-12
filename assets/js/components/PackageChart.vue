@@ -9,11 +9,60 @@
   </div>
 </template>
 
+<style lang="scss">
+  @import "@/css/archlinux-bootstrap";
+  @import "~bootstrap/scss/functions";
+  @import "~bootstrap/scss/variables";
+
+  $ct-series-names: (a, b, c, d, e, f, g, h, i, j);
+  $ct-series-colors: (
+    $primary,
+    $danger,
+    $success,
+    $warning,
+    $info,
+    $pink,
+    $orange,
+    $secondary,
+    $purple,
+    $gray-500
+  );
+
+  @import "~chartist/dist/scss/chartist";
+
+  .ct-legend {
+    list-style: none;
+
+    li {
+      padding-left: 10px;
+      margin-bottom: 5px;
+      float: left;
+      font-weight: bold;
+    }
+
+    /* stylelint-disable-next-line at-rule-no-unknown */
+    @for $i from 0 to length($ct-series-colors) {
+      .ct-series-#{$i} {
+        color: nth($ct-series-colors, $i + 1);
+      }
+    }
+  }
+
+  .ct-chart {
+    .spinner-container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+</style>
+
 <script>
   import Chartist from 'chartist'
   import 'chartist-plugin-legend'
-  import ApiPackagesService from '../services/ApiPackagesService'
-  import { convertToDataSeries } from '../services/DataSeriesConverter'
+  import ApiPackagesService from '@/js/services/ApiPackagesService'
+  import { convertToDataSeries } from '@/js/services/DataSeriesConverter'
 
   export default {
     name: 'PackageChart',
@@ -51,7 +100,7 @@
       }
     },
     methods: {
-      fetchData: function () {
+      fetchData () {
         this.loading = true
         Promise.all(this.packages.map(pkg => ApiPackagesService.fetchPackageSeries(pkg, {
           startMonth: this.startMonth,
@@ -69,7 +118,7 @@
           .catch(error => {this.error = error})
           .finally(() => {this.loading = false})
       },
-      drawChart: function () {
+      drawChart () {
         Chartist.Line(this.$el, this.data, {
           showPoint: false,
           showArea: this.data.series.length < 4,

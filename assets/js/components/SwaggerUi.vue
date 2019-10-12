@@ -2,11 +2,21 @@
   <div id="swagger-ui"></div>
 </template>
 
+<style lang="scss">
+  @import "~swagger-ui/dist/swagger-ui.css";
+
+  .swagger-ui {
+    .information-container {
+      display: none;
+    }
+  }
+</style>
+
 <script>
   import SwaggerUI from 'swagger-ui'
 
   export default {
-    name: 'ApiDoc',
+    name: 'swagger-ui',
     props: {
       url: {
         type: String,

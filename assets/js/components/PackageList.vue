@@ -23,8 +23,9 @@
       </thead>
       <tbody>
       <tr v-for="pkg in data.packagePopularities">
-        <td class="text-nowrap"><a :href="packageUrlTemplate.replace('{package}', encodeURI(pkg.name))">{{ pkg.name
-          }}</a></td>
+        <td class="text-nowrap">
+          <router-link :to="{name: 'package', params: {package: pkg.name}}">{{ pkg.name }}</router-link>
+        </td>
         <td class="w-75">
           <div :title="pkg.popularity+'%'" class="progress bg-transparent">
             <div :aria-valuenow="pkg.popularity" :style="'width:'+pkg.popularity+'%'"
@@ -40,8 +41,18 @@
   </div>
 </template>
 
+<style lang="scss">
+  .package-list-header {
+    .spinner-container {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 150%);
+    }
+  }
+</style>
+
 <script>
-  import ApiPackagesService from '../services/ApiPackagesService'
+  import ApiPackagesService from '@/js/services/ApiPackagesService'
 
   export default {
     name: 'PackageList',
@@ -59,13 +70,12 @@
       return {
         loading: true,
         data: {},
-        packageUrlTemplate: '/packages/{package}',
         missedQuery: false,
         query: this.initialQuery
       }
     },
     watch: {
-      query: function () {
+      query () {
         if (this.query.length > 255) {
           this.query = this.query.substring(0, 255)
         }
@@ -76,7 +86,7 @@
           this.missedQuery = true
         }
       },
-      loading: function () {
+      loading () {
         if (!this.loading && this.missedQuery) {
           this.missedQuery = false
           this.fetchData()
@@ -84,7 +94,7 @@
       }
     },
     methods: {
-      fetchData: function () {
+      fetchData () {
         this.loading = true
         ApiPackagesService
           .fetchPackageList({

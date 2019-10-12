@@ -1,22 +1,12 @@
 const Encore = require('@symfony/webpack-encore')
 const CompressionPlugin = require('compression-webpack-plugin')
+const path = require('path')
 
 Encore
   .setOutputPath((process.env.PUBLIC_PATH || 'public') + '/build')
   .setPublicPath('/build')
-  .addEntry('js/app', './assets/js/app.js')
-  .addEntry('js/swagger_ui', './assets/js/swagger_ui.js')
-  .addEntry('js/packages', './assets/js/packages.js')
-  .addEntry('js/package', './assets/js/package.js')
-  .addEntry('js/compare', './assets/js/compare.js')
-  .addEntry('js/fun', './assets/js/fun.js')
-  .addStyleEntry('css/app', './assets/css/app.scss')
-  .addStyleEntry('css/chartist', './assets/css/chartist.scss')
-  .addStyleEntry('css/swagger_ui', './assets/css/swagger_ui.scss')
-  .copyFiles({
-    from: 'assets/images',
-    to: 'images/[path][name].[hash:8].[ext]'
-  })
+  .addAliases({ '@': path.resolve(__dirname, 'assets') })
+  .addEntry('js/main', '@/js/main.js')
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
   .enableSassLoader()

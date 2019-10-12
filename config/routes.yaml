@@ -11,7 +11,7 @@ app_start:
     methods: GET
     defaults:
         _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
-        template: 'start.html.twig'
+        template: 'index.html.twig'
         sharedAge: 3600
         maxAge: 300
 
@@ -20,7 +20,7 @@ app_fun:
     methods: GET
     defaults:
         _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
-        template: 'fun.html.twig'
+        template: 'index.html.twig'
         sharedAge: 3600
         maxAge: 300
 
@@ -29,7 +29,7 @@ app_impressum:
     methods: GET
     defaults:
         _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
-        template: 'impressum.html.twig'
+        template: 'index.html.twig'
         sharedAge: 3600
         maxAge: 300
 
@@ -38,7 +38,7 @@ app_privacy:
     methods: GET
     defaults:
         _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
-        template: 'privacy_policy.html.twig'
+        template: 'index.html.twig'
         sharedAge: 3600
         maxAge: 300
 
@@ -47,7 +47,16 @@ app_packages:
     methods: GET
     defaults:
         _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
-        template: 'packages.html.twig'
+        template: 'index.html.twig'
+        sharedAge: 3600
+        maxAge: 300
+
+app_package:
+    path: /packages/{package}
+    methods: GET
+    defaults:
+        _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+        template: 'index.html.twig'
         sharedAge: 3600
         maxAge: 300
 
@@ -56,6 +65,6 @@ app_compare_packages:
     methods: GET
     defaults:
         _controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
-        template: 'compare.html.twig'
+        template: 'index.html.twig'
         sharedAge: 3600
         maxAge: 300

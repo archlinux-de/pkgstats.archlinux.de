@@ -7,7 +7,9 @@
       </colgroup>
       <template v-for="(pkgs, title) in data">
         <tr>
-          <th class="text-center" colspan="2"><a :href="createComparePackagesLink(pkgs)">{{ title }}</a></th>
+          <th class="text-center" colspan="2">
+            <router-link :to="{name: 'compare', hash: createComparePackagesHash(pkgs)}">{{ title }}</router-link>
+          </th>
         </tr>
         <tr v-for="(pkgdata, pkg) in pkgs">
           <td>{{ pkg }}</td>
@@ -27,23 +29,22 @@
 </template>
 
 <script>
-  import FunConfig from '../config/fun'
-  import ApiPackagesService from '../services/ApiPackagesService'
+  import FunConfig from '@/js/config/fun'
+  import ApiPackagesService from '@/js/services/ApiPackagesService'
 
   export default {
     name: 'FunStatistics',
     data () {
       return {
-        data: {},
-        comparePackagesUrl: '/compare/packages'
+        data: {}
       }
     },
     methods: {
-      fetchPackagePopularity: function (pkg) {
+      fetchPackagePopularity (pkg) {
         return ApiPackagesService.fetchPackagePopularity(pkg)
           .catch(error => console.error(error))
       },
-      fetchData: function () {
+      fetchData () {
         Object.entries(FunConfig).forEach(([statTitle, statPkgs]) => {
           this.$set(this.data, statTitle, {})
           Object.entries(statPkgs).forEach(([pkgTitle, pkgnames]) => {
@@ -72,12 +73,12 @@
           })
         })
       },
-      createComparePackagesLink: function (pkgs) {
+      createComparePackagesHash (pkgs) {
         const ps = []
         Object.entries(pkgs).forEach(p => {
           p[1].packages.forEach(v => ps.push(v))
         })
-        return this.comparePackagesUrl + '#packages=' + ps.sort().join(',')
+        return '#packages=' + ps.sort().join(',')
       }
     },
     mounted () {
