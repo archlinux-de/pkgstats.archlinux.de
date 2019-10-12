@@ -111,6 +111,11 @@
     },
     mounted () {
       this.fetchData()
+    },
+    metaInfo () {
+      if (this.data.packagePopularities.length < 1 || this.error) {
+        return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
+      }
     }
   }
 </script>

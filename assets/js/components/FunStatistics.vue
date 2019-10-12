@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="alert alert-danger text-left" role="alert" v-if="errors.length > 0">
-      <ul class="list-group list-unstyled" v-for="(error, id) in errors" :key="id">
+      <ul :key="id" class="list-group list-unstyled" v-for="(error, id) in errors">
         <li>{{ error }}</li>
       </ul>
     </div>
@@ -92,6 +92,11 @@
     },
     mounted () {
       this.fetchData()
+    },
+    metaInfo () {
+      if (this.errors.length > 0) {
+        return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
+      }
     }
   }
 </script>

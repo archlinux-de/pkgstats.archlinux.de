@@ -1,7 +1,7 @@
 <template>
   <div class="ct-chart ct-minor-seventh">
     <div class="alert alert-danger text-left" role="alert" v-if="errors.length > 0">
-      <ul class="list-group list-unstyled" v-for="(error, id) in errors" :key="id">
+      <ul :key="id" class="list-group list-unstyled" v-for="(error, id) in errors">
         <li>{{ error }}</li>
       </ul>
     </div>
@@ -97,7 +97,10 @@
     data () {
       return {
         loading: true,
-        data: [],
+        data: {
+          labels: [],
+          series: []
+        },
         errors: []
       }
     },
@@ -106,7 +109,9 @@
         this.fetchData()
       },
       data: function () {
-        this.drawChart()
+        if (this.data.series.length > 0) {
+          this.drawChart()
+        }
       }
     },
     methods: {
@@ -158,6 +163,11 @@
     },
     mounted () {
       this.fetchData()
+    },
+    metaInfo () {
+      if (this.errors.length > 0 || this.data.series.length < 1) {
+        return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
+      }
     }
   }
 </script>
