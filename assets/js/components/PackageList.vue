@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <table class="table table-striped table-bordered table-sm">
+    <table class="table table-striped table-bordered table-sm" v-if="data.packagePopularities.length > 0">
       <thead>
       <tr>
         <th scope="col">Package</th>
@@ -22,7 +22,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="pkg in data.packagePopularities" :key="pkg.name">
+      <tr :key="id" v-for="(pkg, id) in data.packagePopularities">
         <td class="text-nowrap">
           <router-link :to="{name: 'package', params: {package: pkg.name}}">{{ pkg.name }}</router-link>
         </td>
@@ -38,6 +38,7 @@
       </tr>
       </tbody>
     </table>
+    <div class="alert alert-warning" role="alert" v-else>No packages found</div>
   </div>
 </template>
 
@@ -69,7 +70,7 @@
     data () {
       return {
         loading: true,
-        data: {},
+        data: { packagePopularities: [] },
         missedQuery: false,
         query: this.initialQuery
       }

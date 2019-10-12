@@ -110,7 +110,7 @@
           .then(dataArray => {
             dataArray.forEach(data => {
               if (!data.count) {
-                throw new Error('No package data found')
+                throw new Error('No package found')
               }
             })
             this.data = convertToDataSeries(dataArray)
