@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="alert alert-danger text-left" role="alert" v-if="errors.length > 0">
-      <ul class="list-group list-unstyled" v-for="error in errors">
+      <ul class="list-group list-unstyled" v-for="(error, id) in errors" :key="id">
         <li>{{ error }}</li>
       </ul>
     </div>
