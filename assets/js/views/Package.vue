@@ -7,13 +7,13 @@
 </template>
 
 <script>
-  import PackageChart from '@/js/components/PackageChart'
+import PackageChart from '@/js/components/PackageChart'
 
-  export default {
-    name: 'Package',
-    components: {
-      PackageChart
-    },
-    metaInfo () { return { title: this.$route.params.package } }
-  }
+export default {
+  name: 'Package',
+  components: {
+    PackageChart
+  },
+  metaInfo () { return { title: this.$route.params.package } }
+}
 </script>

@@ -30,11 +30,11 @@
 </template>
 
 <script>
-  export default {
-    name: 'Impressum',
-    metaInfo: {
-      title: 'Impressum',
-      meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }]
-    }
+export default {
+  name: 'Impressum',
+  metaInfo: {
+    title: 'Impressum',
+    meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }]
   }
+}
 </script>

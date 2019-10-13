@@ -58,18 +58,18 @@
 </style>
 
 <script>
-  import 'bootstrap'
-  import 'popper.js'
+import 'bootstrap'
+import 'popper.js'
 
-  export default {
-    name: 'App',
-    metaInfo () {
-      return {
-        title: 'Statistics',
-        titleTemplate: '%s - pkgstats',
-        meta: [{ vmid: 'robots', name: 'robots', content: 'index,follow' }],
-        link: [{ rel: 'icon', href: require('@/images/archicon.svg'), sizes: 'any', type: 'image/svg+xml' }]
-      }
+export default {
+  name: 'App',
+  metaInfo () {
+    return {
+      title: 'Statistics',
+      titleTemplate: '%s - pkgstats',
+      meta: [{ vmid: 'robots', name: 'robots', content: 'index,follow' }],
+      link: [{ rel: 'icon', href: require('@/images/archicon.svg'), sizes: 'any', type: 'image/svg+xml' }]
     }
   }
+}
 </script>

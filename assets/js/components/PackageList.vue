@@ -4,7 +4,7 @@
       The top {{ data.count }} of {{ data.total }} total packages
       <div class="form-group">
         <input class="form-control"
-               max="255" min="0" pattern="^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$"
+               max="255" min="0" pattern="^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]*$"
                placeholder="Package name" type="text"
                v-model="query"/>
       </div>
@@ -54,68 +54,68 @@
 </style>
 
 <script>
-  import ApiPackagesService from '@/js/services/ApiPackagesService'
+import ApiPackagesService from '@/js/services/ApiPackagesService'
 
-  export default {
-    name: 'PackageList',
-    props: {
-      initialQuery: {
-        type: String,
-        required: false
-      },
-      limit: {
-        type: Number,
-        required: false
+export default {
+  name: 'PackageList',
+  props: {
+    initialQuery: {
+      type: String,
+      required: false
+    },
+    limit: {
+      type: Number,
+      required: false
+    }
+  },
+  data () {
+    return {
+      loading: true,
+      data: { packagePopularities: [] },
+      missedQuery: false,
+      query: this.initialQuery,
+      error: ''
+    }
+  },
+  watch: {
+    query () {
+      if (this.query.length > 255) {
+        this.query = this.query.substring(0, 255)
+      }
+      this.query = this.query.replace(/(^[^a-zA-Z0-9]|[^a-zA-Z0-9@:.+_-]+)/, '')
+      if (!this.loading) {
+        this.fetchData()
+      } else {
+        this.missedQuery = true
       }
     },
-    data () {
-      return {
-        loading: true,
-        data: { packagePopularities: [] },
-        missedQuery: false,
-        query: this.initialQuery,
-        error: ''
-      }
-    },
-    watch: {
-      query () {
-        if (this.query.length > 255) {
-          this.query = this.query.substring(0, 255)
-        }
-        this.query = this.query.replace(/(^[^a-zA-Z0-9]|[^a-zA-Z0-9@:\.+_-]+)/, '')
-        if (!this.loading) {
-          this.fetchData()
-        } else {
-          this.missedQuery = true
-        }
-      },
-      loading () {
-        if (!this.loading && this.missedQuery) {
-          this.missedQuery = false
-          this.fetchData()
-        }
-      }
-    },
-    methods: {
-      fetchData () {
-        this.loading = true
-        ApiPackagesService
-          .fetchPackageList({
-            query: this.query,
-            limit: this.limit
-          })
-          .then(data => { this.data = data })
-          .catch(error => { this.error = error })
-          .finally(() => { this.loading = false })
-      }
-    },
-    mounted () {
-      this.fetchData()
-    },
-    metaInfo () {
-      if (this.data.packagePopularities.length < 1 || this.error) {
-        return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
+    loading () {
+      if (!this.loading && this.missedQuery) {
+        this.missedQuery = false
+        this.fetchData()
       }
     }
+  },
+  methods: {
+    fetchData () {
+      this.loading = true
+      ApiPackagesService
+        .fetchPackageList({
+          query: this.query,
+          limit: this.limit
+        })
+        .then(data => { this.data = data })
+        .catch(error => { this.error = error })
+        .finally(() => { this.loading = false })
+    }
+  },
+  mounted () {
+    this.fetchData()
+  },
+  metaInfo () {
+    if (this.data.packagePopularities.length < 1 || this.error) {
+      return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
+    }
   }
+}
 </script>

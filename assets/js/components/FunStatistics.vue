@@ -34,69 +34,69 @@
 </template>
 
 <script>
-  import FunConfig from '@/js/config/fun'
-  import ApiPackagesService from '@/js/services/ApiPackagesService'
+import FunConfig from '@/js/config/fun'
+import ApiPackagesService from '@/js/services/ApiPackagesService'
 
-  export default {
-    name: 'FunStatistics',
-    data () {
-      return {
-        data: {},
-        errors: []
-      }
+export default {
+  name: 'FunStatistics',
+  data () {
+    return {
+      data: {},
+      errors: []
+    }
+  },
+  methods: {
+    fetchPackagePopularity (pkg) {
+      return ApiPackagesService.fetchPackagePopularity(pkg)
+        .catch(error => {
+          this.errors.push(error)
+          return 0
+        })
     },
-    methods: {
-      fetchPackagePopularity (pkg) {
-        return ApiPackagesService.fetchPackagePopularity(pkg)
-          .catch(error => {
-            this.errors.push(error)
-            return 0
+    fetchData () {
+      Object.entries(FunConfig).forEach(([statTitle, statPkgs]) => {
+        this.$set(this.data, statTitle, {})
+        Object.entries(statPkgs).forEach(([pkgTitle, pkgnames]) => {
+          if (!Array.isArray(pkgnames)) {
+            pkgnames = [pkgnames]
+          }
+          this.$set(this.data[statTitle], pkgTitle, {
+            popularity: 0,
+            packages: pkgnames
           })
-      },
-      fetchData () {
-        Object.entries(FunConfig).forEach(([statTitle, statPkgs]) => {
-          this.$set(this.data, statTitle, {})
-          Object.entries(statPkgs).forEach(([pkgTitle, pkgnames]) => {
-            if (!Array.isArray(pkgnames)) {
-              pkgnames = [pkgnames]
-            }
-            this.$set(this.data[statTitle], pkgTitle, {
-              popularity: 0,
+          Promise.all(
+            pkgnames.map(pkgname => this.fetchPackagePopularity(pkgname))
+          ).then(dataArray => {
+            this.data[statTitle][pkgTitle] = {
+              popularity: Math.round(dataArray.reduce((total, value) => total + value)),
               packages: pkgnames
+            }
+            const rankedPackages = {}
+            Object.keys(this.data[statTitle]).sort((a, b) => {
+              return Math.sign(this.data[statTitle][b].popularity - this.data[statTitle][a].popularity)
+            }).forEach(key => {
+              rankedPackages[key] = this.data[statTitle][key]
             })
-            Promise.all(
-              pkgnames.map(pkgname => this.fetchPackagePopularity(pkgname))
-            ).then(dataArray => {
-              this.data[statTitle][pkgTitle] = {
-                popularity: Math.round(dataArray.reduce((total, value) => total + value)),
-                packages: pkgnames
-              }
-              const rankedPackages = {}
-              Object.keys(this.data[statTitle]).sort((a, b) => {
-                return Math.sign(this.data[statTitle][b].popularity - this.data[statTitle][a].popularity)
-              }).forEach(key => {
-                rankedPackages[key] = this.data[statTitle][key]
-              })
-              this.$set(this.data, statTitle, rankedPackages)
-            })
+            this.$set(this.data, statTitle, rankedPackages)
           })
         })
-      },
-      createComparePackagesHash (pkgs) {
-        const ps = []
-        Object.entries(pkgs).forEach(p => {
-          p[1].packages.forEach(v => ps.push(v))
-        })
-        return '#packages=' + ps.sort().join(',')
-      }
+      })
     },
-    mounted () {
-      this.fetchData()
-    },
-    metaInfo () {
-      if (this.errors.length > 0) {
-        return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
-      }
+    createComparePackagesHash (pkgs) {
+      const ps = []
+      Object.entries(pkgs).forEach(p => {
+        p[1].packages.forEach(v => ps.push(v))
+      })
+      return '#packages=' + ps.sort().join(',')
+    }
+  },
+  mounted () {
+    this.fetchData()
+  },
+  metaInfo () {
+    if (this.errors.length > 0) {
+      return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
     }
   }
+}
 </script>

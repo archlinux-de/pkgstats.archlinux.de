@@ -94,8 +94,8 @@ See results at https://pkgstats.archlinux.de/</code></pre>
 </template>
 
 <script>
-  export default {
-    name: 'Start',
-    metaInfo: { title: 'Arch Linux package statistics' }
-  }
+export default {
+  name: 'Start',
+  metaInfo: { title: 'Arch Linux package statistics' }
+}
 </script>

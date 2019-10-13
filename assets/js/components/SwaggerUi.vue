@@ -13,22 +13,22 @@
 </style>
 
 <script>
-  import SwaggerUI from 'swagger-ui'
+import SwaggerUI from 'swagger-ui'
 
-  export default {
-    name: 'swagger-ui',
-    props: {
-      url: {
-        type: String,
-        required: true
-      }
-    },
-    mounted () {
-      SwaggerUI({
-        domNode: this.$el,
-        url: this.url,
-        defaultModelsExpandDepth: 0
-      })
+export default {
+  name: 'swagger-ui',
+  props: {
+    url: {
+      type: String,
+      required: true
     }
+  },
+  mounted () {
+    SwaggerUI({
+      domNode: this.$el,
+      url: this.url,
+      defaultModelsExpandDepth: 0
+    })
   }
+}
 </script>

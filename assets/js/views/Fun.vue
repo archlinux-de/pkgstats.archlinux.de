@@ -6,15 +6,15 @@
 </template>
 
 <script>
-  import FunStatistics from '@/js/components/FunStatistics'
+import FunStatistics from '@/js/components/FunStatistics'
 
-  export default {
-    name: 'Fun',
-    components: {
-      FunStatistics
-    },
-    metaInfo: {
-      title: 'Fun statistics'
-    }
+export default {
+  name: 'Fun',
+  components: {
+    FunStatistics
+  },
+  metaInfo: {
+    title: 'Fun statistics'
   }
+}
 </script>

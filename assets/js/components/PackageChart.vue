@@ -69,105 +69,106 @@
 </style>
 
 <script>
-  import Chartist from 'chartist'
-  import 'chartist-plugin-legend'
-  import ApiPackagesService from '@/js/services/ApiPackagesService'
-  import { convertToDataSeries } from '@/js/services/DataSeriesConverter'
+import Chartist from 'chartist'
+import 'chartist-plugin-legend'
+import ApiPackagesService from '@/js/services/ApiPackagesService'
+import { convertToDataSeries } from '@/js/services/DataSeriesConverter'
 
-  export default {
-    name: 'PackageChart',
-    props: {
-      packages: {
-        type: Array,
-        required: true
-      },
-      startMonth: {
-        type: Number,
-        required: false
-      },
-      endMonth: {
-        type: Number,
-        required: false
-      },
-      limit: {
-        type: Number,
-        required: false
-      }
+export default {
+  name: 'PackageChart',
+  props: {
+    packages: {
+      type: Array,
+      required: true
     },
-    data () {
-      return {
-        loading: true,
-        data: {
-          labels: [],
-          series: []
-        },
-        errors: []
-      }
+    startMonth: {
+      type: Number,
+      required: false
     },
-    watch: {
-      packages: function () {
-        this.fetchData()
+    endMonth: {
+      type: Number,
+      required: false
+    },
+    limit: {
+      type: Number,
+      required: false
+    }
+  },
+  data () {
+    return {
+      loading: true,
+      data: {
+        labels: [],
+        series: []
       },
-      data: function () {
-        if (this.data.series.length > 0) {
-          this.drawChart()
-        }
-      }
-    },
-    methods: {
-      fetchData () {
-        this.loading = true
-        Promise.all(this.packages.map(pkg => ApiPackagesService.fetchPackageSeries(pkg, {
-            startMonth: this.startMonth,
-            endMonth: this.endMonth,
-            limit: this.limit
-          }).catch(error => { this.errors.push(error) })
-        ))
-          .then(dataArray => { this.data = convertToDataSeries(dataArray) })
-          .catch(error => { this.errors.push(error) })
-          .finally(() => { this.loading = false })
-      },
-      drawChart () {
-        Chartist.Line(this.$el, this.data, {
-          showPoint: false,
-          showArea: this.data.series.length < 4,
-          chartPadding: {
-            top: 24,
-            bottom: 12
-          },
-          axisX: {
-            showGrid: false,
-            labelInterpolationFnc: value => value.toString().endsWith('01') && value.toString().slice(0, -2) % 2 === 0 ? value.toString().slice(0, -2) : null
-          },
-          plugins: this.data.series.length > 1 ? [
-            Chartist.plugins.legend({
-              clickable: false
-            })
-          ] : []
-        }, [
-          ['screen and (min-width: 576px)', {
-            chartPadding: {
-              top: 36
-            },
-            axisX: {
-              labelInterpolationFnc: value => value.toString().endsWith('01') ? value.toString().slice(0, -2) : null
-            }
-          }],
-          ['screen and (min-width: 768px)', {
-            chartPadding: {
-              top: 48
-            }
-          }]
-        ])
-      }
-    },
-    mounted () {
+      errors: []
+    }
+  },
+  watch: {
+    packages: function () {
       this.fetchData()
     },
-    metaInfo () {
-      if (this.errors.length > 0 || this.data.series.length < 1) {
-        return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
+    data: function () {
+      if (this.data.series.length > 0) {
+        this.drawChart()
       }
     }
+  },
+  methods: {
+    fetchData () {
+      this.loading = true
+      Promise.all(this.packages.map(pkg => ApiPackagesService.fetchPackageSeries(pkg,
+        {
+          startMonth: this.startMonth,
+          endMonth: this.endMonth,
+          limit: this.limit
+        }).catch(error => { this.errors.push(error) })
+      ))
+        .then(dataArray => { this.data = convertToDataSeries(dataArray) })
+        .catch(error => { this.errors.push(error) })
+        .finally(() => { this.loading = false })
+    },
+    drawChart () {
+      Chartist.Line(this.$el, this.data, {
+        showPoint: false,
+        showArea: this.data.series.length < 4,
+        chartPadding: {
+          top: 24,
+          bottom: 12
+        },
+        axisX: {
+          showGrid: false,
+          labelInterpolationFnc: value => value.toString().endsWith('01') && value.toString().slice(0, -2) % 2 === 0 ? value.toString().slice(0, -2) : null
+        },
+        plugins: this.data.series.length > 1 ? [
+          Chartist.plugins.legend({
+            clickable: false
+          })
+        ] : []
+      }, [
+        ['screen and (min-width: 576px)', {
+          chartPadding: {
+            top: 36
+          },
+          axisX: {
+            labelInterpolationFnc: value => value.toString().endsWith('01') ? value.toString().slice(0, -2) : null
+          }
+        }],
+        ['screen and (min-width: 768px)', {
+          chartPadding: {
+            top: 48
+          }
+        }]
+      ])
+    }
+  },
+  mounted () {
+    this.fetchData()
+  },
+  metaInfo () {
+    if (this.errors.length > 0 || this.data.series.length < 1) {
+      return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
+    }
   }
+}
 </script>
