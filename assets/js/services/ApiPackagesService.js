@@ -1,4 +1,4 @@
-export default (() => {
+const createApiPackagesService = fetch => {
   const packageUrlTemplate = '/api/packages/:package'
   const packageSeriesUrlTemplate = '/api/packages/:package/series'
   const packagesUrl = '/api/packages'
@@ -9,7 +9,7 @@ export default (() => {
    */
   const fetchJson = url => fetch(url, {
     credentials: 'omit',
-    headers: new Headers({ Accept: 'application/json' })
+    headers: { Accept: 'application/json' }
   }).then(response => {
     if (response.ok) {
       return response.json()
@@ -25,7 +25,7 @@ export default (() => {
   const createUrl = (path, options = {}) => {
     const url = new URL(path, location.toString())
     Object.entries(options).forEach(entry => {
-      if (typeof entry[1] !== 'undefined' && entry[1].toString().length > 0) {
+      if (entry[1] !== null && entry[1].toString().length > 0) {
         url.searchParams.set(entry[0], entry[1])
       }
     })
@@ -39,14 +39,13 @@ export default (() => {
      * @returns {Promise<number>}
      */
     fetchPackagePopularity (pkg) {
-      return fetchJson(createUrl(
-        packageUrlTemplate.replace(':package', pkg)
-      )).then(data => {
-        if (data.count === 0) {
-          throw new Error(`No data found for package "${pkg}"`)
-        }
-        return data.popularity
-      })
+      return fetchJson(createUrl(packageUrlTemplate.replace(':package', pkg)))
+        .then(data => {
+          if (data.count === 0) {
+            throw new Error(`No data found for package "${pkg}"`)
+          }
+          return data.popularity
+        })
     },
 
     /**
@@ -55,15 +54,13 @@ export default (() => {
      * @returns {Promise<any>}
      */
     fetchPackageSeries (pkg, options = {}) {
-      return fetchJson(createUrl(
-        packageSeriesUrlTemplate.replace(':package', pkg),
-        options
-      )).then(data => {
-        if (data.count === 0) {
-          throw new Error(`No data found for package "${pkg}" with ${JSON.stringify(options)}`)
-        }
-        return data
-      })
+      return fetchJson(createUrl(packageSeriesUrlTemplate.replace(':package', pkg), options))
+        .then(data => {
+          if (data.count === 0) {
+            throw new Error(`No data found for package "${pkg}" with ${JSON.stringify(options)}`)
+          }
+          return data
+        })
     },
 
     /**
@@ -74,4 +71,6 @@ export default (() => {
       return fetchJson(createUrl(packagesUrl, options))
     }
   }
-})()
+}
+
+export default createApiPackagesService

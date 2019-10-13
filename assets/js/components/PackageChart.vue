@@ -71,11 +71,10 @@
 <script>
 import Chartist from 'chartist'
 import 'chartist-plugin-legend'
-import ApiPackagesService from '@/js/services/ApiPackagesService'
-import { convertToDataSeries } from '@/js/services/DataSeriesConverter'
 
 export default {
   name: 'PackageChart',
+  inject: ['apiPackagesService', 'convertToDataSeries'],
   props: {
     packages: {
       type: Array,
@@ -117,14 +116,14 @@ export default {
   methods: {
     fetchData () {
       this.loading = true
-      Promise.all(this.packages.map(pkg => ApiPackagesService.fetchPackageSeries(pkg,
+      Promise.all(this.packages.map(pkg => this.apiPackagesService.fetchPackageSeries(pkg,
         {
           startMonth: this.startMonth,
           endMonth: this.endMonth,
           limit: this.limit
         }).catch(error => { this.errors.push(error) })
       ))
-        .then(dataArray => { this.data = convertToDataSeries(dataArray) })
+        .then(dataArray => { this.data = this.convertToDataSeries(dataArray) })
         .catch(error => { this.errors.push(error) })
         .finally(() => { this.loading = false })
     },

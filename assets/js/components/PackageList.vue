@@ -54,10 +54,9 @@
 </style>
 
 <script>
-import ApiPackagesService from '@/js/services/ApiPackagesService'
-
 export default {
   name: 'PackageList',
+  inject: ['apiPackagesService'],
   props: {
     initialQuery: {
       type: String,
@@ -99,7 +98,7 @@ export default {
   methods: {
     fetchData () {
       this.loading = true
-      ApiPackagesService
+      this.apiPackagesService
         .fetchPackageList({
           query: this.query,
           limit: this.limit

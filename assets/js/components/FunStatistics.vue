@@ -35,10 +35,10 @@
 
 <script>
 import FunConfig from '@/js/config/fun'
-import ApiPackagesService from '@/js/services/ApiPackagesService'
 
 export default {
   name: 'FunStatistics',
+  inject: ['apiPackagesService'],
   data () {
     return {
       data: {},
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     fetchPackagePopularity (pkg) {
-      return ApiPackagesService.fetchPackagePopularity(pkg)
+      return this.apiPackagesService.fetchPackagePopularity(pkg)
         .catch(error => {
           this.errors.push(error)
           return 0

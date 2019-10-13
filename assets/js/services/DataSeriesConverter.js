@@ -1,23 +1,19 @@
-export function convertToDataSeries (PackagepopularitiesArray) {
+export default function convertToDataSeries (PackagepopularitiesArray) {
   const tempSeries = new Map()
   const tempLabels = new Set()
 
   PackagepopularitiesArray.forEach(result => {
-    if (result && result.packagePopularities) {
-      result.packagePopularities.forEach((packagePopularity) => {
-        if (packagePopularity.startMonth && packagePopularity.popularity) {
-          tempLabels.add(packagePopularity.startMonth)
-          let tempData
-          if (tempSeries.has(packagePopularity.name)) {
-            tempData = tempSeries.get(packagePopularity.name)
-          } else {
-            tempData = new Map()
-            tempSeries.set(packagePopularity.name, tempData)
-          }
-          tempData.set(packagePopularity.startMonth, packagePopularity.popularity)
-        }
-      })
-    }
+    result.packagePopularities.forEach((packagePopularity) => {
+      tempLabels.add(packagePopularity.startMonth)
+      let tempData
+      if (tempSeries.has(packagePopularity.name)) {
+        tempData = tempSeries.get(packagePopularity.name)
+      } else {
+        tempData = new Map()
+        tempSeries.set(packagePopularity.name, tempData)
+      }
+      tempData.set(packagePopularity.startMonth, packagePopularity.popularity)
+    })
   })
 
   const data = {
