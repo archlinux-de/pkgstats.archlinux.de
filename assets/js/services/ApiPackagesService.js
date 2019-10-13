@@ -1,4 +1,3 @@
-/* eslint-env browser */
 export default (() => {
   const packageUrlTemplate = '/api/packages/:package'
   const packageSeriesUrlTemplate = '/api/packages/:package/series'

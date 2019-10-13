@@ -54,6 +54,7 @@ test:
 	${PHP-RUN} vendor/bin/phpcs
 	${NODE-RUN} node_modules/.bin/eslint 'assets/js/**/*.js' '*.js' 'assets/js/**/*.vue'
 	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css' 'assets/js/**/*.vue'
+	${NODE-RUN} node_modules/.bin/jest
 	${PHP-RUN} bin/console lint:yaml config
 	${PHP-RUN} bin/console lint:twig templates
 	${NODE-RUN} sh -c "PUBLIC_PATH=/tmp node_modules/.bin/encore prod"
@@ -67,7 +68,8 @@ test-db-migrations: start-db
 	${PHP-DB-RUN} vendor/bin/phpunit -c phpunit-db.xml --testsuite 'Doctrine Migrations Test'
 
 test-coverage:
-	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage
+	${NODE-RUN} node_modules/.bin/jest --coverage --coverageDirectory var/coverage/jest
+	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage/phpunit
 
 test-db-coverage: start-db
 	${PHP-RUN} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage -c phpunit-db.xml

@@ -13,6 +13,7 @@
     "core-js": "^3.2.1",
     "eslint": "^6.5.1",
     "eslint-plugin-vue": "^5.2.3",
+    "jest": "^24.9.0",
     "jquery": "^3.4.1",
     "node-sass": "^4.12.0",
     "popper.js": "^1.15.0",
@@ -32,7 +33,8 @@
     "dev-server": "encore dev-server",
     "dev": "encore dev",
     "watch": "encore dev --watch",
-    "build": "encore production"
+    "build": "encore production",
+    "test": "jest"
   },
   "browserslist": [
     ">= 1%"
