@@ -53,7 +53,7 @@ test:
 	${PHP-RUN} composer validate
 	${PHP-RUN} vendor/bin/phpcs
 	${NODE-RUN} node_modules/.bin/standard 'assets/js/**/*.js' '*.js'
-	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css'
+	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css' 'assets/js/**/*.vue'
 	${PHP-RUN} bin/console lint:yaml config
 	${PHP-RUN} bin/console lint:twig templates
 	${NODE-RUN} sh -c "PUBLIC_PATH=/tmp node_modules/.bin/encore prod"
