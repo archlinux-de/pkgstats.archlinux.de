@@ -1,11 +1,14 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    browser: true
   },
-  'extends': [
+  extends: [
+    'eslint:recommended',
     'plugin:vue/essential',
-    '@vue/standard'
+    '@vue/standard',
+    'plugin:compat/recommended'
   ],
   parserOptions: {
     parser: 'babel-eslint'
@@ -19,5 +22,10 @@ module.exports = {
         jest: true
       }
     }
-  ]
+  ],
+  settings: {
+    polyfills: [
+      'fetch'
+    ]
+  }
 }

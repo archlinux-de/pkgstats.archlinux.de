@@ -52,7 +52,7 @@ shell-node:
 test:
 	${PHP-RUN} composer validate
 	${PHP-RUN} vendor/bin/phpcs
-	${NODE-RUN} node_modules/.bin/eslint 'assets/js/**/*.js' '*.js' 'assets/js/**/*.vue'
+	${NODE-RUN} node_modules/.bin/eslint assets --ext js --ext vue
 	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css' 'assets/js/**/*.vue'
 	${NODE-RUN} node_modules/.bin/jest
 	${PHP-RUN} bin/console lint:yaml config
