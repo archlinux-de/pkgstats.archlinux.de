@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueMeta from 'vue-meta'
 import App from './App'
 import router from './router'
-import 'whatwg-fetch' // support IE 11
 import createApiPackagesService from './services/ApiPackagesService'
 import convertToDataSeries from './services/DataSeriesConverter'
 
