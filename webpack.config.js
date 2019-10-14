@@ -6,6 +6,7 @@ Encore
   .setOutputPath((process.env.PUBLIC_PATH || 'public') + '/build')
   .setPublicPath('/build')
   .addAliases({ '@': path.resolve(__dirname, 'assets') })
+  .addAliases({ 'jquery': 'jquery/dist/jquery.slim' })
   .addEntry('js/main', '@/js/main.js')
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
@@ -14,10 +15,6 @@ Encore
   .enableVersioning(Encore.isProduction())
   .enablePostCssLoader()
   .enableVueLoader()
-  .autoProvidejQuery()
-  .autoProvideVariables({
-    Popper: 'popper.js'
-  })
   .configureBabel(() => { }, {
     useBuiltIns: 'usage',
     corejs: 3

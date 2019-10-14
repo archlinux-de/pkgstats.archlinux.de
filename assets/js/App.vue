@@ -54,12 +54,11 @@
     outline: 0;
   }
 
-  @import "~bootstrap/scss/bootstrap";
+  @import "bootstrap";
 </style>
 
 <script>
 import 'bootstrap'
-import 'popper.js'
 
 export default {
   name: 'App',
