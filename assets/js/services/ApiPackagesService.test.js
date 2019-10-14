@@ -71,6 +71,29 @@ describe('Testing fetchPackageSeries', () => {
       })
   })
 
+  it('Fetching default package series', () => {
+    const fetchMock = jest.fn().mockReturnValue(Promise.resolve({
+      ok: true,
+      json: () => Promise.resolve({ count: 1 })
+    }))
+
+    createApiPackagesService(fetchMock).fetchPackageSeries('nodejs', {
+      startMonth: 0,
+      endMonth: undefined,
+      limit: 0
+    })
+      .then(result => {
+        expect(fetchMock).toBeCalledWith(
+          'http://localhost/api/packages/nodejs/series?limit=0&startMonth=0',
+          {
+            'credentials': 'omit',
+            'headers': { 'Accept': 'application/json' }
+          }
+        )
+        expect(result).toStrictEqual({ count: 1 })
+      })
+  })
+
   it('Fetching complete package series', () => {
     const fetchMock = jest.fn().mockReturnValue(Promise.resolve({
       ok: true,

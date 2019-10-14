@@ -24,11 +24,9 @@ const createApiPackagesService = fetch => {
    */
   const createUrl = (path, options = {}) => {
     const url = new URL(path, location.toString())
-    Object.entries(options).forEach(entry => {
-      if (entry[1] !== null && entry[1].toString().length > 0) {
-        url.searchParams.set(entry[0], entry[1])
-      }
-    })
+    Object.entries(options)
+      .filter((entry) => typeof entry[1] !== 'undefined' && entry[1] !== null && entry[1].toString().length > 0)
+      .forEach(entry => { url.searchParams.set(entry[0], entry[1]) })
     url.searchParams.sort()
     return url.toString()
   }
