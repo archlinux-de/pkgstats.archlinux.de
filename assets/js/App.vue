@@ -2,11 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbar-border-brand mb-4">
       <router-link :to="{name: 'start'}" class="navbar-brand" tabindex="-1">
-        <picture>
-          <source media="(min-width: 576px) and (max-width: 768px)"
-                  srcset="@/images/archicon.svg 190w">
-          <img alt="Arch Linux" height="40" src="@/images/archlogo.svg">
-        </picture>
+        <img alt="Arch Linux" height="40" src="@/images/archlogo.svg" >
       </router-link>
 
       <button aria-controls="navbar" aria-expanded="false" aria-label="Navigation" class="navbar-toggler"
