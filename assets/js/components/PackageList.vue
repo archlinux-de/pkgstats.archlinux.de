@@ -70,7 +70,7 @@ export default {
   data () {
     return {
       loading: true,
-      data: { packagePopularities: [] },
+      data: { packagePopularities: this.createInitialPackagePopularities() },
       missedQuery: false,
       query: this.initialQuery,
       error: ''
@@ -106,6 +106,12 @@ export default {
         .then(data => { this.data = data })
         .catch(error => { this.error = error })
         .finally(() => { this.loading = false })
+    },
+    createInitialPackagePopularities () {
+      return Array.from({ length: this.initialQuery ? 0 : this.limit }, () => ({
+        name: String.fromCharCode(8239),
+        popularity: 0
+      }))
     }
   },
   mounted () {
