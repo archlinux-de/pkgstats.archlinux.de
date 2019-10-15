@@ -6,7 +6,6 @@ Encore
   .setOutputPath((process.env.PUBLIC_PATH || 'public') + '/build')
   .setPublicPath('/build')
   .addAliases({ '@': path.resolve(__dirname, 'assets') })
-  .addAliases({ 'jquery': 'jquery/dist/jquery.slim' })
   .addEntry('main', '@/js/main.js')
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
@@ -15,7 +14,11 @@ Encore
   .enableVersioning(Encore.isProduction())
   .enablePostCssLoader()
   .enableVueLoader()
-  .configureBabel(() => { }, { useBuiltIns: 'usage', corejs: 3 })
+  .addLoader({
+    test: /bootstrap\.native/,
+    use: { loader: 'bootstrap.native-loader', options: { only: ['collapse'], autoInitDataAPI: false } }
+  })
+  .configureBabel(() => {}, { useBuiltIns: 'usage', corejs: 3 })
 
 if (Encore.isProduction()) {
   Encore.addPlugin(new CompressionPlugin())
