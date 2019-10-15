@@ -54,6 +54,8 @@
 </style>
 
 <script>
+import { Collapse } from 'bootstrap.native'
+
 export default {
   name: 'App',
   metaInfo () {
@@ -65,7 +67,7 @@ export default {
     }
   },
   mounted () {
-    import(/* webpackChunkName: "bootstrap.native" */'bootstrap.native/dist/bootstrap-native-v4')
+    const navbarToggle = new Collapse(this.$el.querySelector('.navbar-toggler'))
   }
 }
 </script>
