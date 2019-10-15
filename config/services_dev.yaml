@@ -1,3 +1,6 @@
 services:
     cache.adapter.array:
         class: Symfony\Component\Cache\Adapter\ArrayAdapter
+
+    App\Debug\ApiProfilerSubscriber:
+        tags: ['kernel.event_subscriber']
