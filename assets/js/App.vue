@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbar-border-brand mb-4">
       <router-link :to="{name: 'start'}" class="navbar-brand" tabindex="-1">
-        <img alt="Arch Linux" height="40" src="@/images/archlogo.svg" >
+        <img alt="Arch Linux" height="40" src="@/images/archlogo.svg">
       </router-link>
 
       <button aria-controls="navbar" aria-expanded="false" aria-label="Navigation" class="navbar-toggler"
@@ -54,8 +54,6 @@
 </style>
 
 <script>
-import 'bootstrap'
-
 export default {
   name: 'App',
   metaInfo () {
@@ -65,6 +63,9 @@ export default {
       meta: [{ vmid: 'robots', name: 'robots', content: 'index,follow' }],
       link: [{ rel: 'icon', href: require('@/images/archicon.svg'), sizes: 'any', type: 'image/svg+xml' }]
     }
+  },
+  mounted () {
+    import(/* webpackChunkName: "bootstrap.native" */'bootstrap.native/dist/bootstrap-native-v4')
   }
 }
 </script>
