@@ -20,9 +20,7 @@ export default {
         let packages = this.$route.hash
           .replace(/^#packages=/, '')
           .split(',')
-          .filter(pkg => {
-            return pkg.length > 0
-          })
+          .filter(pkg => pkg.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]+$/))
 
         packages = Array.from(new Set(packages)).sort()
         // limit the number of line graphs

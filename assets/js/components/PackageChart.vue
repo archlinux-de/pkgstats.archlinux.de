@@ -106,6 +106,17 @@ export default {
   },
   methods: {
     fetchData () {
+      if (this.packages.length < 1) {
+        this.loading = false
+        this.errors.push('No packages defined')
+        return
+      }
+      if (this.packages.length > 10) {
+        this.loading = false
+        this.errors.push('Too many packages defined')
+        return
+      }
+
       this.loading = true
       Promise.all(this.packages.map(pkg => this.apiPackagesService.fetchPackageSeries(pkg,
         {
