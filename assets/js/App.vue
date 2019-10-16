@@ -67,10 +67,10 @@ export default {
     }
   },
   methods: {
-    navbarToggle: null
+    createCollapse: element => new Collapse(element)
   },
   mounted () {
-    this.navbarToggle = new Collapse(this.$el.querySelector('.navbar-toggler'))
+    this.createCollapse(this.$el.querySelector('.navbar-toggler'))
   }
 }
 </script>
