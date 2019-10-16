@@ -85,7 +85,7 @@ update:
 
 deploy:
 	npm ci
-	npm run encore prod
+	node_modules/.bin/encore prod
 	find public/build -type f -mtime +30 -delete
 	find public/build -type d -empty -delete
 	composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
