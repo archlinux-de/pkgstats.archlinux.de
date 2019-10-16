@@ -1,3 +1,3 @@
 FROM archlinux/base
 
-RUN pacman -Syu --noconfirm --needed yarn python2 base-devel git
+RUN pacman -Syu --noconfirm --needed npm npm-check-updates

@@ -41,7 +41,7 @@ rebuild: clean
 
 install:
 	${PHP-RUN} composer --no-interaction install
-	${NODE-RUN} yarn install
+	${NODE-RUN} npm ci
 
 shell-php:
 	${PHP-DB-RUN} bash
@@ -76,14 +76,16 @@ test-db-coverage: start-db
 
 test-security:
 	${PHP-RUN} bin/console security:check
+	${NODE-RUN} npm audit
 
 update:
 	${PHP-RUN} composer --no-interaction update
-	${NODE-RUN} yarn upgrade --latest
+	${NODE-RUN} ncu -u
+	${NODE-RUN} npm update
 
 deploy:
-	yarn install
-	yarn run encore prod
+	npm ci
+	npm run encore prod
 	find public/build -type f -mtime +30 -delete
 	find public/build -type d -empty -delete
 	composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
