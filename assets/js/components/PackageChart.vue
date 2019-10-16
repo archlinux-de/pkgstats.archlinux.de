@@ -5,11 +5,7 @@
         <li>{{ error }}</li>
       </ul>
     </div>
-    <div class="spinner-container" v-if="loading">
-      <div class="spinner-border text-primary" role="status">
-        <span class="sr-only">Loading...</span>
-      </div>
-    </div>
+    <loading-spinner v-if="loading"></loading-spinner>
   </div>
 </template>
 
@@ -57,20 +53,12 @@
       }
     }
   }
-
-  .ct-chart {
-    .spinner-container {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
-  }
 </style>
 
 <script>
 import Chartist from 'chartist'
 import 'chartist-plugin-legend'
+import LoadingSpinner from './LoadingSpinner'
 
 export default {
   name: 'PackageChart',
@@ -102,6 +90,9 @@ export default {
       },
       errors: []
     }
+  },
+  components: {
+    LoadingSpinner
   },
   watch: {
     packages: function () {
