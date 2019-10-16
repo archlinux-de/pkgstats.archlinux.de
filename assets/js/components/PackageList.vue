@@ -8,11 +8,7 @@
                placeholder="Package name" type="text"
                v-model="query"/>
       </div>
-      <div class="spinner-container" v-if="loading">
-        <div class="spinner-border text-primary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-      </div>
+      <loading-spinner v-if="loading"></loading-spinner>
     </div>
     <table class="table table-striped table-bordered table-sm" v-if="data.packagePopularities.length > 0">
       <thead>
@@ -43,17 +39,9 @@
   </div>
 </template>
 
-<style lang="scss">
-  .package-list-header {
-    .spinner-container {
-      position: absolute;
-      left: 50%;
-      transform: translate(-50%, 150%);
-    }
-  }
-</style>
-
 <script>
+import LoadingSpinner from './LoadingSpinner'
+
 export default {
   name: 'PackageList',
   inject: ['apiPackagesService'],
@@ -66,6 +54,9 @@ export default {
       type: Number,
       required: false
     }
+  },
+  components: {
+    LoadingSpinner
   },
   data () {
     return {

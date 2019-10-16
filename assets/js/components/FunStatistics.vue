@@ -5,6 +5,7 @@
         <li>{{ error }}</li>
       </ul>
     </div>
+    <loading-spinner v-if="loading"></loading-spinner>
     <table class="table table-sm">
       <colgroup>
         <col class="w-25">
@@ -35,6 +36,7 @@
 
 <script>
 import FunConfig from '@/js/config/fun'
+import LoadingSpinner from './LoadingSpinner'
 
 export default {
   name: 'FunStatistics',
@@ -42,8 +44,12 @@ export default {
   data () {
     return {
       data: {},
-      errors: []
+      errors: [],
+      loading: true
     }
+  },
+  components: {
+    LoadingSpinner
   },
   methods: {
     fetchPackagePopularity (pkg) {
@@ -79,6 +85,7 @@ export default {
             })
             this.$set(this.data, statTitle, rankedPackages)
           })
+            .finally(() => { this.loading = false })
         })
       })
     },
