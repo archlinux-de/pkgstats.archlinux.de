@@ -66,8 +66,11 @@ export default {
       link: [{ rel: 'icon', href: require('@/images/archicon.svg'), sizes: 'any', type: 'image/svg+xml' }]
     }
   },
+  methods: {
+    navbarToggle: null
+  },
   mounted () {
-    const navbarToggle = new Collapse(this.$el.querySelector('.navbar-toggler'))
+    this.navbarToggle = new Collapse(this.$el.querySelector('.navbar-toggler'))
   }
 }
 </script>
