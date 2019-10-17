@@ -34,7 +34,7 @@ const createApiPackagesService = fetch => {
   return {
     /**
      * @param {string} pkg
-     * @returns {Promise<number>}
+     * @returns {Promise<any>}
      */
     fetchPackagePopularity (pkg) {
       return fetchJson(createUrl(packageUrlTemplate.replace(':package', pkg)))
@@ -42,7 +42,7 @@ const createApiPackagesService = fetch => {
           if (data.count === 0) {
             throw new Error(`No data found for package "${pkg}"`)
           }
-          return data.popularity
+          return data
         })
     },
 

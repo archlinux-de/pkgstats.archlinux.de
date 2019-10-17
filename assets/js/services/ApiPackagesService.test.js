@@ -7,7 +7,8 @@ describe('Testing fetchPackagePopularity', () => {
       json: () => Promise.resolve({ count: 1, popularity: 42 })
     }))
 
-    expect(await createApiPackagesService(fetchMock).fetchPackagePopularity('nodejs')).toEqual(42)
+    expect(await createApiPackagesService(fetchMock).fetchPackagePopularity('nodejs'))
+      .toEqual({ 'count': 1, 'popularity': 42 })
 
     expect(fetchMock).toBeCalledWith(
       'http://localhost/api/packages/nodejs',

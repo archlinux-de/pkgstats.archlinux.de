@@ -1,107 +1,27 @@
 <template>
   <div>
-    <div class="alert alert-danger text-left" role="alert" v-if="errors.length > 0">
-      <ul :key="id" class="list-group list-unstyled" v-for="(error, id) in errors">
-        <li>{{ error }}</li>
-      </ul>
-    </div>
-    <loading-spinner v-if="loading"></loading-spinner>
-    <template v-for="(pkgs, title) in data">
-      <h2 :key="title">
-        <router-link :to="{name: 'compare', hash: createComparePackagesHash(pkgs)}">{{ title }}</router-link>
+    <div :key="title" v-for="(pkgs, title) in config">
+      <h2>
+        <router-link :to="{ name: 'compare', hash: '#packages=' + Array.from(pkgs).sort() }">{{ title }}</router-link>
       </h2>
-      <table :key="title" class="table table-sm">
-        <colgroup>
-          <col class="w-25">
-          <col class="w-75">
-        </colgroup>
-        <tr :key="pkgdata.name" v-for="(pkgdata, pkg) in pkgs">
-          <td>{{ pkg }}</td>
-          <td>
-            <div class="progress">
-              <div :aria-valuenow="pkgdata.popularity" :style="`width: ${pkgdata.popularity}%`"
-                   aria-valuemax="100"
-                   aria-valuemin="0" class="progress-bar bg-primary" role="progressbar">
-                {{ pkgdata.popularity > 5 ? pkgdata.popularity + '%' : ''}}
-              </div>
-            </div>
-          </td>
-        </tr>
-      </table>
-    </template>
+      <packages-bar-chart :packages="pkgs"></packages-bar-chart>
+    </div>
   </div>
 </template>
 
 <script>
 import FunConfig from '@/js/config/fun'
-import LoadingSpinner from './LoadingSpinner'
+import PackagesBarChart from './PackagesBarChart'
 
 export default {
   name: 'FunStatistics',
-  inject: ['apiPackagesService'],
   data () {
     return {
-      data: {},
-      errors: [],
-      loading: true
+      config: FunConfig
     }
   },
   components: {
-    LoadingSpinner
-  },
-  methods: {
-    fetchPackagePopularity (pkg) {
-      return this.apiPackagesService.fetchPackagePopularity(pkg)
-        .catch(error => {
-          this.errors.push(error)
-          return 0
-        })
-    },
-    fetchData () {
-      Object.entries(FunConfig).forEach(([statTitle, statPkgs]) => {
-        this.$set(this.data, statTitle, {})
-        Object.entries(statPkgs).forEach(([pkgTitle, pkgnames]) => {
-          if (!Array.isArray(pkgnames)) {
-            pkgnames = [pkgnames]
-          }
-          this.$set(this.data[statTitle], pkgTitle, {
-            popularity: 0,
-            packages: pkgnames
-          })
-          Promise.all(
-            pkgnames.map(pkgname => this.fetchPackagePopularity(pkgname))
-          ).then(dataArray => {
-            this.data[statTitle][pkgTitle] = {
-              popularity: Math.round(dataArray.reduce((total, value) => total + value)),
-              packages: pkgnames
-            }
-            const rankedPackages = {}
-            Object.keys(this.data[statTitle]).sort((a, b) => {
-              return Math.sign(this.data[statTitle][b].popularity - this.data[statTitle][a].popularity)
-            }).forEach(key => {
-              rankedPackages[key] = this.data[statTitle][key]
-            })
-            this.$set(this.data, statTitle, rankedPackages)
-          })
-            .finally(() => { this.loading = false })
-        })
-      })
-    },
-    createComparePackagesHash (pkgs) {
-      const ps = []
-      Object.entries(pkgs).forEach(p => {
-        p[1].packages.forEach(v => ps.push(v))
-      })
-      return '#packages=' + ps.sort().join(',')
-    }
-  },
-  mounted () {
-    this.fetchData()
-  },
-  metaInfo () {
-    if (this.errors.length > 0) {
-      return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
-    }
+    PackagesBarChart
   }
 }
 </script>
