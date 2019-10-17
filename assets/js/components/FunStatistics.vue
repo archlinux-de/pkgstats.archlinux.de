@@ -6,17 +6,15 @@
       </ul>
     </div>
     <loading-spinner v-if="loading"></loading-spinner>
-    <table class="table table-sm">
-      <colgroup>
-        <col class="w-25">
-        <col class="w-75">
-      </colgroup>
-      <template v-for="(pkgs, title) in data">
-        <tr :key="title">
-          <th class="text-center" colspan="2">
-            <router-link :to="{name: 'compare', hash: createComparePackagesHash(pkgs)}">{{ title }}</router-link>
-          </th>
-        </tr>
+    <template v-for="(pkgs, title) in data">
+      <h2 :key="title">
+        <router-link :to="{name: 'compare', hash: createComparePackagesHash(pkgs)}">{{ title }}</router-link>
+      </h2>
+      <table :key="title" class="table table-sm">
+        <colgroup>
+          <col class="w-25">
+          <col class="w-75">
+        </colgroup>
         <tr :key="pkgdata.name" v-for="(pkgdata, pkg) in pkgs">
           <td>{{ pkg }}</td>
           <td>
@@ -29,8 +27,8 @@
             </div>
           </td>
         </tr>
-      </template>
-    </table>
+      </table>
+    </template>
   </div>
 </template>
 
