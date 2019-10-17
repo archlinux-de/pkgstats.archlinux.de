@@ -2,7 +2,7 @@
   <div>
     <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
     <loading-spinner v-if="loading"></loading-spinner>
-    <table class="table table-sm">
+    <table class="table table-sm" v-observe-visibility="{ callback: visibilityChanged, once: true }">
       <colgroup>
         <col class="w-25">
         <col class="w-75">
@@ -49,6 +49,11 @@ export default {
     LoadingSpinner
   },
   methods: {
+    visibilityChanged (isVisible) {
+      if (isVisible) {
+        this.fetchData()
+      }
+    },
     sortPackagesByPopularity (pkgs) {
       return pkgs.sort((a, b) => Math.sign(b.popularity - a.popularity))
     },
@@ -58,9 +63,6 @@ export default {
         .catch(error => { this.error = error })
         .finally(() => { this.loading = false })
     }
-  },
-  mounted () {
-    this.fetchData()
   },
   metaInfo () {
     if (this.error) {
