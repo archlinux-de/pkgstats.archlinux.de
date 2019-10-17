@@ -10,6 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - run: make update
+      - run: make fix-code-style
       - run: make test
       - run: make test-db
       - name: Run auto commit

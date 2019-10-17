@@ -1,5 +1,5 @@
 .EXPORT_ALL_VARIABLES:
-.PHONY: all init start start-db stop clean rebuild install shell-php shell-node test test-db test-db-migrations test-coverage test-db-coverage test-security update deploy
+.PHONY: all init start start-db stop clean rebuild install shell-php shell-node test test-db test-db-migrations test-coverage test-db-coverage test-security fix-code-style update deploy
 
 UID!=id -u
 GID!=id -g
@@ -77,6 +77,11 @@ test-db-coverage: start-db
 test-security:
 	${PHP-RUN} bin/console security:check
 	${NODE-RUN} npm audit
+
+fix-code-style:
+	${PHP-RUN} vendor/bin/phpcbf || true
+	${NODE-RUN} node_modules/.bin/eslint assets --fix --ext js --ext vue
+	${NODE-RUN} node_modules/.bin/stylelint --fix 'assets/css/**/*.scss' 'assets/css/**/*.css' 'assets/js/**/*.vue'
 
 update:
 	${PHP-RUN} composer --no-interaction update
