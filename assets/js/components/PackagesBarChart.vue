@@ -28,6 +28,7 @@
 
 <script>
 import LoadingSpinner from './LoadingSpinner'
+import { ObserveVisibility } from 'vue-observe-visibility'
 
 export default {
   name: 'PackagesBarChart',
@@ -47,6 +48,9 @@ export default {
   },
   components: {
     LoadingSpinner
+  },
+  directives: {
+    'observe-visibility': ObserveVisibility
   },
   methods: {
     visibilityChanged (isVisible) {
