@@ -62,7 +62,7 @@ const createApiPackagesService = fetch => {
     },
 
     /**
-     * @param {query, limit} options
+     * @param {query, limit, offset} options
      * @returns {Promise<any>}
      */
     fetchPackageList (options) {

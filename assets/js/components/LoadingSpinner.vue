@@ -1,5 +1,5 @@
-<template functional>
-  <div id="spinner">
+<template>
+  <div :class="{ 'loading-spinner--absolute': absolute }" class="loading-spinner">
     <div class="spinner-border text-primary" role="status">
       <span class="sr-only">Loading...</span>
     </div>
@@ -7,13 +7,17 @@
 </template>
 
 <style lang="scss" scoped>
-  #spinner {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 150%);
+  .loading-spinner {
+    text-align: center;
     opacity: 0;
     animation: delay-opacity ease-in 1.2s forwards;
     animation-delay: 0.2s;
+
+    &--absolute {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, 150%);
+    }
   }
 
   @keyframes delay-opacity {
@@ -22,3 +26,16 @@
     }
   }
 </style>
+
+<script>
+export default {
+  name: 'LoadingSpinner',
+  props: {
+    absolute: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  }
+}
+</script>
