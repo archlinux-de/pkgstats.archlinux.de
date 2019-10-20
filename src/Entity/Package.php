@@ -8,7 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table()
+ * @ORM\Table(
+ *     indexes={
+ *          @ORM\Index(name="month_name", columns={"month", "name"}),
+ *          @ORM\Index(name="month", columns={"month"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="App\Repository\PackageRepository")
  * @ORM\HasLifecycleCallbacks
  */
