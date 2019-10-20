@@ -85,6 +85,7 @@ fix-code-style:
 
 update:
 	${PHP-RUN} composer --no-interaction update
+	${PHP-RUN} composer --no-interaction update --lock
 	${NODE-RUN} ncu -u
 	${NODE-RUN} npm install
 	${NODE-RUN} npm update
