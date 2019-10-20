@@ -97,6 +97,7 @@ class PackageRepository extends ServiceEntityRepository
                 ->setParameter('startMonth', $startMonth)
                 ->setParameter('endMonth', $endMonth)
                 ->getQuery()
+                ->useResultCache(true, 60 * 60 * 24 * 30)
                 ->getSingleScalarResult();
         } catch (NoResultException $e) {
             return 0;
@@ -162,6 +163,7 @@ class PackageRepository extends ServiceEntityRepository
             ->setParameter('startMonth', $startMonth)
             ->setParameter('endMonth', $endMonth)
             ->getQuery()
+            ->useResultCache(true, 60 * 60 * 24 * 30)
             ->getScalarResult();
     }
 }
