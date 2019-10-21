@@ -6,6 +6,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ApiProfilerSubscriber implements EventSubscriberInterface
 {
     /**
