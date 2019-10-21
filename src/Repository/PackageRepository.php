@@ -26,16 +26,27 @@ class PackageRepository extends ServiceEntityRepository
      */
     public function getCountByNameAndRange(string $name, int $startMonth, int $endMonth): int
     {
-        try {
-            return $this->createQueryBuilder('package')
+        $queryBuilder = $this->createQueryBuilder('package')
+            ->where('package.name = :name')
+            ->setParameter('name', $name);
+
+        if ($startMonth == $endMonth) {
+            $queryBuilder
+                ->select('package.count')
+                ->andWhere('package.month = :month')
+                ->setParameter('month', $startMonth);
+        } else {
+            $queryBuilder
                 ->select('SUM(package.count)')
-                ->where('package.name = :name')
                 ->andWhere('package.month >= :startMonth')
                 ->andWhere('package.month <= :endMonth')
                 ->groupBy('package.name')
-                ->setParameter('name', $name)
                 ->setParameter('startMonth', $startMonth)
-                ->setParameter('endMonth', $endMonth)
+                ->setParameter('endMonth', $endMonth);
+        }
+
+        try {
+            return $queryBuilder
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NoResultException $e) {
@@ -86,8 +97,17 @@ class PackageRepository extends ServiceEntityRepository
      */
     public function getMaximumCountByRange(int $startMonth, int $endMonth): int
     {
-        try {
-            return $this->createQueryBuilder('package')
+        $queryBuilder = $this->createQueryBuilder('package');
+
+        if ($startMonth == $endMonth) {
+            $queryBuilder
+                ->select('package.count')
+                ->where('package.month = :month')
+                ->orderBy('package.count', 'DESC')
+                ->setMaxResults(1)
+                ->setParameter('month', $startMonth);
+        } else {
+            $queryBuilder
                 ->select('SUM(package.count) AS count')
                 ->where('package.month >= :startMonth')
                 ->andWhere('package.month <= :endMonth')
@@ -95,7 +115,11 @@ class PackageRepository extends ServiceEntityRepository
                 ->orderBy('count', 'DESC')
                 ->setMaxResults(1)
                 ->setParameter('startMonth', $startMonth)
-                ->setParameter('endMonth', $endMonth)
+                ->setParameter('endMonth', $endMonth);
+        }
+
+        try {
+            return $queryBuilder
                 ->getQuery()
                 ->useResultCache(true, 60 * 60 * 24 * 30)
                 ->getSingleScalarResult();
@@ -120,17 +144,25 @@ class PackageRepository extends ServiceEntityRepository
         int $limit
     ): array {
         $queryBuilder = $this->createQueryBuilder('package')
-            ->select('package.name')
-            ->addSelect('SUM(package.count) AS count')
-            ->where('package.month >= :startMonth')
-            ->andWhere('package.month <= :endMonth')
-            ->groupBy('package.name')
-            ->orderBy('count', 'desc')
-            ->setParameter('startMonth', $startMonth)
-            ->setParameter('endMonth', $endMonth)
             ->setFirstResult($offset)
             ->setMaxResults($limit);
-        if (!empty($query)) {
+        if ($startMonth == $endMonth) {
+            $queryBuilder
+                ->where('package.month = :month')
+                ->orderBy('package.count', 'desc')
+                ->setParameter('month', $startMonth);
+        } else {
+            $queryBuilder
+                ->select('package.name AS package_name')
+                ->addSelect('SUM(package.count) AS package_count')
+                ->where('package.month >= :startMonth')
+                ->andWhere('package.month <= :endMonth')
+                ->groupBy('package.name')
+                ->orderBy('package_count', 'desc')
+                ->setParameter('startMonth', $startMonth)
+                ->setParameter('endMonth', $endMonth);
+        }
+        if (!empty($query)) {//@TODO: testen, ob das greift
             $queryBuilder
                 ->andWhere('package.name LIKE :query')
                 ->setParameter('query', $query . '%');
@@ -139,6 +171,13 @@ class PackageRepository extends ServiceEntityRepository
         $pagination = new Paginator($queryBuilder, false);
         $total = $pagination->count();
         $packages = $pagination->getQuery()->getScalarResult();
+
+        $packages = array_map(function ($package) {
+            return [
+                'name' => $package['package_name'],
+                'count' => $package['package_count']
+            ];
+        }, $packages);
 
         return [
             'total' => $total,

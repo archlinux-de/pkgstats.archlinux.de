@@ -43,11 +43,16 @@ class PackageRepositoryTest extends DatabaseTestCase
         $this->assertEquals(2, $persistedPackage->getCount());
     }
 
-    public function testGetCountByNameAndRange()
+    /**
+     * @dataProvider provideMonthRange
+     * @param int $startMonth
+     * @param int $endMonth
+     */
+    public function testGetCountByNameAndRange(int $startMonth, int $endMonth)
     {
-        $packageA = (new Package())->setName('a')->setMonth(201810);
-        $packageB = (new Package())->setName('a')->setMonth(201811);
-        $packageC = (new Package())->setName('a')->setMonth(201812);
+        $packageA = (new Package())->setName('a')->setMonth($startMonth);
+        $packageB = (new Package())->setName('a')->setMonth($startMonth);
+        $packageC = (new Package())->setName('a')->setMonth($endMonth + 1);
         $entityManager = $this->getEntityManager();
         $entityManager->merge($packageA);
         $entityManager->flush();
@@ -59,25 +64,35 @@ class PackageRepositoryTest extends DatabaseTestCase
 
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getRepository(Package::class);
-        $count = $packageRepository->getCountByNameAndRange('a', 201811, 201812);
+        $count = $packageRepository->getCountByNameAndRange('a', $startMonth, $endMonth);
 
         $this->assertEquals(2, $count);
     }
 
-    public function testGetCountByNameAndRangeOfUnknownPackage()
+    /**
+     * @dataProvider provideMonthRange
+     * @param int $startMonth
+     * @param int $endMonth
+     */
+    public function testGetCountByNameAndRangeOfUnknownPackage(int $startMonth, int $endMonth)
     {
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getRepository(Package::class);
-        $count = $packageRepository->getCountByNameAndRange('a', 201811, 201812);
+        $count = $packageRepository->getCountByNameAndRange('a', $startMonth, $endMonth);
 
         $this->assertEquals(0, $count);
     }
 
-    public function testFindPackagesCountByRange()
+    /**
+     * @dataProvider provideMonthRange
+     * @param int $startMonth
+     * @param int $endMonth
+     */
+    public function testFindPackagesCountByRange(int $startMonth, int $endMonth)
     {
-        $packageA = (new Package())->setName('a')->setMonth(201810);
-        $packageB = (new Package())->setName('a')->setMonth(201811);
-        $packageC = (new Package())->setName('aa')->setMonth(201812);
+        $packageA = (new Package())->setName('a')->setMonth($startMonth);
+        $packageB = (new Package())->setName('a')->setMonth($startMonth);
+        $packageC = (new Package())->setName('aa')->setMonth($endMonth);
         $entityManager = $this->getEntityManager();
         $entityManager->merge($packageA);
         $entityManager->flush();
@@ -89,7 +104,7 @@ class PackageRepositoryTest extends DatabaseTestCase
 
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getRepository(Package::class);
-        $count = $packageRepository->findPackagesCountByRange('a', 201810, 201812, 1, 1);
+        $count = $packageRepository->findPackagesCountByRange('a', $startMonth, $endMonth, 1, 1);
 
         $this->assertEquals(
             [
@@ -105,11 +120,16 @@ class PackageRepositoryTest extends DatabaseTestCase
         );
     }
 
-    public function testGetMaximumCountByRange()
+    /**
+     * @dataProvider provideMonthRange
+     * @param int $startMonth
+     * @param int $endMonth
+     */
+    public function testGetMaximumCountByRange(int $startMonth, int $endMonth)
     {
-        $packageA = (new Package())->setName('a')->setMonth(201810);
-        $packageB = (new Package())->setName('a')->setMonth(201811);
-        $packageC = (new Package())->setName('a')->setMonth(201812);
+        $packageA = (new Package())->setName('a')->setMonth($startMonth - 1);
+        $packageB = (new Package())->setName('a')->setMonth($startMonth);
+        $packageC = (new Package())->setName('a')->setMonth($endMonth);
         $entityManager = $this->getEntityManager();
         $entityManager->merge($packageA);
         $entityManager->flush();
@@ -121,16 +141,21 @@ class PackageRepositoryTest extends DatabaseTestCase
 
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getRepository(Package::class);
-        $count = $packageRepository->getMaximumCountByRange(201811, 201812);
+        $count = $packageRepository->getMaximumCountByRange($startMonth, $endMonth);
 
         $this->assertEquals(2, $count);
     }
 
-    public function testGetMaximumCountByRangeIsInitiallyZero()
+    /**
+     * @dataProvider provideMonthRange
+     * @param int $startMonth
+     * @param int $endMonth
+     */
+    public function testGetMaximumCountByRangeIsInitiallyZero(int $startMonth, int $endMonth)
     {
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getRepository(Package::class);
-        $count = $packageRepository->getMaximumCountByRange(201811, 201812);
+        $count = $packageRepository->getMaximumCountByRange($startMonth, $endMonth);
 
         $this->assertEquals(0, $count);
     }
@@ -180,5 +205,17 @@ class PackageRepositoryTest extends DatabaseTestCase
         $packageRepository = $this->getRepository(Package::class);
         $monthlyCount = $packageRepository->getMonthlyMaximumCountByRange(201810, 201811);
         $this->assertEquals([['count' => 2, 'month' => 201810]], $monthlyCount);
+    }
+
+    /**
+     * @return array
+     */
+    public function provideMonthRange(): array
+    {
+        return [
+            [201810, 201811],
+            [201810, 201810],
+            [201811, 201811]
+        ];
     }
 }
