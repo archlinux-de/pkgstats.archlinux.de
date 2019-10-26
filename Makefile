@@ -89,6 +89,7 @@ update:
 	${NODE-RUN} ncu -u
 	${NODE-RUN} npm install
 	${NODE-RUN} npm update
+	${NODE-RUN} npm audit fix
 
 deploy:
 	npm ci
