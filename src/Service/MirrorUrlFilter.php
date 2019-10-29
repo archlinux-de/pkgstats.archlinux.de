@@ -27,9 +27,9 @@ class MirrorUrlFilter
             || preg_match('/^[0-9\.]+$/', $parsedUrl['host'])
             || preg_match('/^\[[0-9a-f:]+\]$/', $parsedUrl['host'])
             || preg_match(
-            '/(?:^|\.)(?:localhost|local|box|lan|home|onion|internal|intranet|private)$/',
-            $parsedUrl['host']
-        )) {
+                '/(?:^|\.)(?:localhost|local|box|lan|home|onion|internal|intranet|private)$/',
+                $parsedUrl['host']
+            )) {
             return null;
         }
 
