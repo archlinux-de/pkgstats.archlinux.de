@@ -8,13 +8,13 @@ describe('Testing fetchPackagePopularity', () => {
     }))
 
     expect(await createApiPackagesService(fetchMock).fetchPackagePopularity('nodejs'))
-      .toEqual({ 'count': 1, 'popularity': 42 })
+      .toEqual({ count: 1, popularity: 42 })
 
     expect(fetchMock).toBeCalledWith(
       'http://localhost/api/packages/nodejs',
       {
-        'credentials': 'omit',
-        'headers': { 'Accept': 'application/json' }
+        credentials: 'omit',
+        headers: { Accept: 'application/json' }
       }
     )
   })
@@ -61,8 +61,8 @@ describe('Testing fetchPackageSeries', () => {
     expect(fetchMock).toBeCalledWith(
       'http://localhost/api/packages/nodejs/series?endMonth=202012&limit=100&offset=10&startMonth=202001',
       {
-        'credentials': 'omit',
-        'headers': { 'Accept': 'application/json' }
+        credentials: 'omit',
+        headers: { Accept: 'application/json' }
       }
     )
   })
@@ -82,8 +82,8 @@ describe('Testing fetchPackageSeries', () => {
     expect(fetchMock).toBeCalledWith(
       'http://localhost/api/packages/nodejs/series?limit=0&startMonth=0',
       {
-        'credentials': 'omit',
-        'headers': { 'Accept': 'application/json' }
+        credentials: 'omit',
+        headers: { Accept: 'application/json' }
       }
     )
   })
@@ -100,8 +100,8 @@ describe('Testing fetchPackageSeries', () => {
     expect(fetchMock).toBeCalledWith(
       'http://localhost/api/packages/nodejs/series?limit=0&startMonth=0',
       {
-        'credentials': 'omit',
-        'headers': { 'Accept': 'application/json' }
+        credentials: 'omit',
+        headers: { Accept: 'application/json' }
       }
     )
   })
@@ -138,8 +138,8 @@ describe('Testing fetchPackageList', () => {
     expect(fetchMock).toBeCalledWith(
       'http://localhost/api/packages?endMonth=202012&limit=100&offset=10&query=nodejs&startMonth=202001',
       {
-        'credentials': 'omit',
-        'headers': { 'Accept': 'application/json' }
+        credentials: 'omit',
+        headers: { Accept: 'application/json' }
       }
     )
   })
@@ -155,8 +155,8 @@ describe('Testing fetchPackageList', () => {
     expect(fetchMock).toBeCalledWith(
       'http://localhost/api/packages',
       {
-        'credentials': 'omit',
-        'headers': { 'Accept': 'application/json' }
+        credentials: 'omit',
+        headers: { Accept: 'application/json' }
       }
     )
   })
