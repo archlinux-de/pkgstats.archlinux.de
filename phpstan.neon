@@ -17,3 +17,5 @@ parameters:
 		- public
 		- config
 		- bin
+	ignoreErrors:
+		- '#Call to deprecated method merge\(\) of class Doctrine\\Common\\Persistence\\ObjectManager.*#'
