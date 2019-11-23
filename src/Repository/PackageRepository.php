@@ -4,16 +4,16 @@ namespace App\Repository;
 
 use App\Entity\Package;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class PackageRepository extends ServiceEntityRepository
 {
     /**
-     * @param RegistryInterface $registry
+     * @param ManagerRegistry $registry
      */
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Package::class);
     }
@@ -121,7 +121,7 @@ class PackageRepository extends ServiceEntityRepository
         try {
             return $queryBuilder
                 ->getQuery()
-                ->useResultCache(true, 60 * 60 * 24 * 30)
+                ->enableResultCache(60 * 60 * 24 * 30)
                 ->getSingleScalarResult();
         } catch (NoResultException $e) {
             return 0;
@@ -202,7 +202,7 @@ class PackageRepository extends ServiceEntityRepository
             ->setParameter('startMonth', $startMonth)
             ->setParameter('endMonth', $endMonth)
             ->getQuery()
-            ->useResultCache(true, 60 * 60 * 24 * 30)
+            ->enableResultCache(60 * 60 * 24 * 30)
             ->getScalarResult();
     }
 }
