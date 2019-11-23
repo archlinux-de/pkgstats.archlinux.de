@@ -37,8 +37,6 @@ services:
         arguments:
             - '%geoip.database%'
 
-    geertw\IpAnonymizer\IpAnonymizer:
-
     Nelmio\ApiDocBundle\Controller\DocumentationController: '@nelmio_api_doc.controller.swagger'
 
     App\Cache\ApiDocCacheWarmer:

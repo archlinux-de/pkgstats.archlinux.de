@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e81ea9c5fd3d41cac4fa137849ba98a",
+    "content-hash": "979383f59fec5932248a92f07cf6c0cd",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1289,39 +1289,6 @@
                 "rest"
             ],
             "time": "2016-10-17T18:31:11+00:00"
-        },
-        {
-            "name": "geertw/ip-anonymizer",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/geertw/php-ip-anonymizer.git",
-                "reference": "6610b85b119de3bb505fd9a484bac67066e4a62f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/geertw/php-ip-anonymizer/zipball/6610b85b119de3bb505fd9a484bac67066e4a62f",
-                "reference": "6610b85b119de3bb505fd9a484bac67066e4a62f",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "geertw\\IpAnonymizer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Geert Wirken",
-                    "email": "geert@gwirken.nl"
-                }
-            ],
-            "description": "IPv4 and IPv6 address anonymizer",
-            "time": "2017-06-24T13:15:14+00:00"
         },
         {
             "name": "geoip2/geoip2",
