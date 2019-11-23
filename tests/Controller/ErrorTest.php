@@ -19,7 +19,7 @@ class ErrorTest extends WebTestCase
 
         $crawler = $client->request('GET', '/_error/' . $code);
 
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertEquals($code, $client->getResponse()->getStatusCode());
         $this->assertStringContainsString((string)$code, $crawler->filter('h2')->text());
     }
 

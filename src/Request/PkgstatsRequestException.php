@@ -23,7 +23,7 @@ class PkgstatsRequestException extends BadRequestHttpException
                             yield sprintf(
                                 'Validation of %s failed. %s',
                                 json_encode($constraintViolation->getInvalidValue()),
-                                $constraintViolation->getMessage()
+                                (string)$constraintViolation->getMessage()
                             );
                         }
                     })()
