@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Package;
 use App\Request\PkgstatsRequest;
+use Doctrine\DBAL\LockMode;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -101,11 +104,20 @@ class PostPackageListController extends AbstractController
         $packages = $pkgstatsRequest->getPackages();
 
         $this->entityManager->transactional(
-            function (EntityManagerInterface $entityManager) use ($user, $packages) {
+            function (EntityManager $entityManager) use ($user, $packages) {
                 $entityManager->persist($user);
 
                 foreach ($packages as $package) {
-                    $entityManager->merge($package);
+                    $persistedPackage = $entityManager->find(
+                        Package::class,
+                        ['name' => $package->getName(), 'month' => $package->getMonth()],
+                        LockMode::PESSIMISTIC_WRITE
+                    );
+                    if ($persistedPackage) {
+                        $persistedPackage->incrementCount();
+                        $package = $persistedPackage;
+                    }
+                    $entityManager->persist($package);
                 }
             }
         );

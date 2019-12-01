@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -15,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     }
  * )
  * @ORM\Entity(repositoryClass="App\Repository\PackageRepository")
- * @ORM\HasLifecycleCallbacks
  */
 class Package
 {
@@ -38,11 +35,11 @@ class Package
     private $month;
 
     /**
-     * @var integer|null
+     * @var integer
      *
      * @ORM\Column(name="count", type="integer", nullable=false)
      */
-    private $count;
+    private $count = 1;
 
     /**
      * @return string
@@ -81,40 +78,19 @@ class Package
     }
 
     /**
+     * @return Package
+     */
+    public function incrementCount(): Package
+    {
+        $this->count++;
+        return $this;
+    }
+
+    /**
      * @return int|null
      */
     public function getCount(): ?int
     {
         return $this->count;
-    }
-
-    /**
-     * @param int $count
-     * @return Package
-     */
-    protected function setCount(int $count): Package
-    {
-        $this->count = $count;
-        return $this;
-    }
-
-    /**
-     * @ORM\PreUpdate
-     * @param PreUpdateEventArgs $args
-     */
-    public function incrementCountOnUpdate(PreUpdateEventArgs $args): void
-    {
-        $args->setNewValue('count', $args->getOldValue('count') + 1);
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @param LifecycleEventArgs $args
-     */
-    public function setCountOnPersist(LifecycleEventArgs $args): void
-    {
-        /** @var Package $package */
-        $package = $args->getEntity();
-        $package->setCount(1);
     }
 }

@@ -35,9 +35,9 @@ class UserRepositoryTest extends DatabaseTestCase
             ->setTime(1234)
             ->setIp('localhorst');
         $entityManager = $this->getEntityManager();
-        $entityManager->merge($userA);
-        $entityManager->merge($userB);
-        $entityManager->merge($userC);
+        $entityManager->persist($userA);
+        $entityManager->persist($userB);
+        $entityManager->persist($userC);
         $entityManager->flush();
         $entityManager->clear();
 

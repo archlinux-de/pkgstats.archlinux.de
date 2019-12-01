@@ -6,8 +6,8 @@ use App\Entity\Package;
 use App\Entity\User;
 use App\Repository\PackageRepository;
 use App\Repository\UserRepository;
-use SymfonyDatabaseTest\DatabaseTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use SymfonyDatabaseTest\DatabaseTestCase;
 
 /**
  * @covers \App\Controller\PostPackageListController
@@ -322,6 +322,38 @@ class PostPackageListControllerTest extends DatabaseTestCase
                 $this->assertTrue($client->getResponse()->isForbidden());
             }
         }
+    }
+
+    public function testPostPackageListIncrementsPackageCount()
+    {
+        $this->getEntityManager()->persist(
+            (new Package())
+                ->setName('pkgstats')
+                ->setMonth((int)date('Ym'))
+        );
+
+        $client = $this->createPkgstatsClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'arch' => 'x86_64',
+                'cpuarch' => 'x86_64',
+                'packages' => 'pkgstats',
+                'mirror' => 'https://mirror.archlinux.de/'
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getEntityManager()->getRepository(Package::class);
+        $this->assertCount(1, $packageRepository->findAll());
+        /** @var Package $package */
+        $package = $packageRepository->findAll()[0];
+        $this->assertEquals('pkgstats', $package->getName());
+        $this->assertEquals(2, $package->getCount());
     }
 
     /**

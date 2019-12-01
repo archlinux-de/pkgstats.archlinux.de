@@ -13,6 +13,13 @@ class PackageTest extends TestCase
 
         $this->assertEquals('a', $package->getName());
         $this->assertEquals(201812, $package->getMonth());
-        $this->assertNull($package->getCount());
+        $this->assertEquals(1, $package->getCount());
+    }
+
+    public function testIncrementCount()
+    {
+        $package = (new Package())->setName('a')->setMonth(201812)
+            ->incrementCount();
+        $this->assertEquals(2, $package->getCount());
     }
 }
