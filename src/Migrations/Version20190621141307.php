@@ -22,7 +22,7 @@ final class Version20190621141307 extends AbstractMigration
                     ['mirror' => $mirror],
                     ['mirror' => $row['mirror']]
                 );
-                if (is_null($mirror)) {
+                if ($mirror === null) {
                     $this->write(sprintf('Removing mirror "%s"', $row['mirror']));
                 } else {
                     $this->write(sprintf('Updating mirror "%s" to "%s"', $row['mirror'], $mirror));
