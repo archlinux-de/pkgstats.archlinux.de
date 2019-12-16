@@ -36,7 +36,7 @@ class PackagePopularity implements \JsonSerializable
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function jsonSerialize(): array
     {

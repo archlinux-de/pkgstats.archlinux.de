@@ -40,7 +40,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
 
     /**
      * @param string $json
-     * @return array
+     * @return array<mixed>
      */
     private function assertPackagePupularityList(string $json): array
     {
@@ -63,7 +63,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
 
     /**
      * @param string $json
-     * @return array
+     * @return array<mixed>
      */
     private function assertPackagePupularity(string $json): array
     {

@@ -168,7 +168,7 @@ class PackageRepositoryTest extends DatabaseTestCase
     }
 
     /**
-     * @return array
+     * @return array<array>
      */
     public function provideMonthRange(): array
     {

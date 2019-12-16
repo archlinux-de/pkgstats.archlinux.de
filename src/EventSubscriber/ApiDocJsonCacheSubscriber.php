@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ApiDocJsonCacheSubscriber implements EventSubscriberInterface
 {
     /**
-     * @return array
+     * @return array<mixed>
      */
     public static function getSubscribedEvents()
     {

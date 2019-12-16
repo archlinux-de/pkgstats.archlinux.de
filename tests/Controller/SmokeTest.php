@@ -64,7 +64,7 @@ class SmokeTest extends DatabaseTestCase
     }
 
     /**
-     * @return array
+     * @return array<array>
      */
     public function provideUrls(): array
     {
@@ -86,7 +86,7 @@ class SmokeTest extends DatabaseTestCase
     }
 
     /**
-     * @return array
+     * @return array<array>
      */
     public function provideLegacyUrls(): array
     {

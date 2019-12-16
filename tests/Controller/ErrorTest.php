@@ -24,7 +24,7 @@ class ErrorTest extends WebTestCase
     }
 
     /**
-     * @return array
+     * @return array<array>
      */
     public function provideErrorCodes(): array
     {

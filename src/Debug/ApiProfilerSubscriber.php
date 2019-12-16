@@ -12,9 +12,9 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ApiProfilerSubscriber implements EventSubscriberInterface
 {
     /**
-     * @return array
+     * @return array<mixed>
      */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [KernelEvents::RESPONSE => ['onKernelResponse']];
     }

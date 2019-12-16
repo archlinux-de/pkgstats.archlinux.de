@@ -150,7 +150,7 @@ class PackagePopularityCalculator
 
     /**
      * @param StatisticsRangeRequest $statisticsRangeRequest
-     * @return array
+     * @return array<int>
      */
     private function getRangeCountSeries(StatisticsRangeRequest $statisticsRangeRequest): array
     {

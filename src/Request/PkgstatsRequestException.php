@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
 class PkgstatsRequestException extends BadRequestHttpException
 {
     /**
-     * @param ConstraintViolationListInterface $constraintViolationList
+     * @param ConstraintViolationListInterface<ConstraintViolationInterface> $constraintViolationList
      */
     public function __construct(ConstraintViolationListInterface $constraintViolationList)
     {

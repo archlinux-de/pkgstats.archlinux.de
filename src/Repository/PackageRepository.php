@@ -60,7 +60,7 @@ class PackageRepository extends ServiceEntityRepository
      * @param int $endMonth
      * @param int $offset
      * @param int $limit
-     * @return array
+     * @return array<mixed>
      */
     public function findMonthlyByNameAndRange(
         string $name,
@@ -134,7 +134,7 @@ class PackageRepository extends ServiceEntityRepository
      * @param int $endMonth
      * @param int $offset
      * @param int $limit
-     * @return array
+     * @return array<mixed>
      */
     public function findPackagesCountByRange(
         string $query,
@@ -188,7 +188,7 @@ class PackageRepository extends ServiceEntityRepository
     /**
      * @param int $startMonth
      * @param int $endMonth
-     * @return array
+     * @return array<mixed>
      */
     public function getMonthlyMaximumCountByRange(int $startMonth, int $endMonth): array
     {

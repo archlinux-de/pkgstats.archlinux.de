@@ -96,7 +96,7 @@ class PkgstatsParamConverter implements ParamConverterInterface
 
     /**
      * @param string $string
-     * @return array
+     * @return string[]
      */
     private function filterList(string $string): array
     {

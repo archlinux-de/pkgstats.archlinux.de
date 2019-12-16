@@ -14,7 +14,7 @@ class MirrorUrlFilter
             return null;
         }
 
-        /** @var array $parsedUrl */
+        /** @var string[] $parsedUrl */
         $parsedUrl = parse_url($url);
 
         if (empty($parsedUrl['scheme'])
