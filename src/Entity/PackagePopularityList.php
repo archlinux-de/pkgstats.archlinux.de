@@ -12,17 +12,17 @@ class PackagePopularityList implements \JsonSerializable
     /**
      * @var int
      */
-    private $total = 0;
+    private $total;
 
     /**
      * @var int
      */
-    private $limit = 0;
+    private $limit;
 
     /**
      * @var int
      */
-    private $offset = 0;
+    private $offset;
 
     /**
      * @param PackagePopularity[] $packagePopularities
