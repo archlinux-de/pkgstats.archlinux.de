@@ -17,3 +17,8 @@ parameters:
 		- public
 		- config
 		- bin
+	checkMissingIterableValueType: false
+	ignoreErrors:
+		-
+			message: '#has no return typehint specified\.#'
+			path: .
