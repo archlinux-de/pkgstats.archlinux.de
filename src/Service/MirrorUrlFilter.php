@@ -25,8 +25,8 @@ class MirrorUrlFilter
             || !empty($parsedUrl['user'])
             || !empty($parsedUrl['pass'])
             || substr_count($parsedUrl['host'], '.') < 1
-            || preg_match('/^[0-9\.]+$/', $parsedUrl['host'])
-            || preg_match('/^\[[0-9a-f:]+\]$/', $parsedUrl['host'])
+            || preg_match('/^[0-9.]+$/', $parsedUrl['host'])
+            || preg_match('/^\[[0-9a-f:]+]$/', $parsedUrl['host'])
             || preg_match(
                 '/(?:^|\.)(?:localhost|local|box|lan|home|onion|internal|intranet|private)$/',
                 $parsedUrl['host']
@@ -41,7 +41,7 @@ class MirrorUrlFilter
         $parsedUrl['path'] = preg_replace(
             [
                 '#^(.+?)(?:extra|core)/(?:os/)?.*#',
-                '#^(.+?)pkgstats-[0-9\.]+-[0-9]+-.+?\.pkg\.tar\.(?:g|x)z$#'
+                '#^(.+?)pkgstats-[0-9.]+-[0-9]+-.+?\.pkg\.tar\.[gx]z$#'
             ],
             '$1',
             $parsedUrl['path']
