@@ -17,7 +17,8 @@ class MirrorUrlFilter
         /** @var string[] $parsedUrl */
         $parsedUrl = parse_url($url);
 
-        if (empty($parsedUrl['scheme'])
+        if (
+            empty($parsedUrl['scheme'])
             || empty($parsedUrl['host'])
             || !in_array($parsedUrl['scheme'], ['http', 'https', 'ftp'])
             || !empty($parsedUrl['port'])
@@ -29,7 +30,8 @@ class MirrorUrlFilter
             || preg_match(
                 '/(?:^|\.)(?:localhost|local|box|lan|home|onion|internal|intranet|private)$/',
                 $parsedUrl['host']
-            )) {
+            )
+        ) {
             return null;
         }
 
