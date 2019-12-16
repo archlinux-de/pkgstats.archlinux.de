@@ -49,7 +49,8 @@ class MirrorUrlFilterTest extends TestCase
                 'http://mirror.archlinux.de/pub/archlinux/pkgstats-2.3-6-any.pkg.tar.xz',
                 'http://mirror.archlinux.de/pub/archlinux/'
             ],
-            ['https://foo:bar@mirror.archlinux.de/', null]
+            ['https://foo:bar@mirror.archlinux.de/', null],
+            ['http://mirror.archlinux.de/pkgstats-3.11-1-x86_64.pkg.tar.zst', 'http://mirror.archlinux.de/']
         ];
     }
 }

@@ -41,7 +41,7 @@ class MirrorUrlFilter
         $parsedUrl['path'] = preg_replace(
             [
                 '#^(.+?)(?:extra|core)/(?:os/)?.*#',
-                '#^(.+?)pkgstats-[0-9.]+-[0-9]+-.+?\.pkg\.tar\.[gx]z$#'
+                '#^(.+?)pkgstats-[0-9.]+-[0-9]+-.+?\.pkg\.tar\.(?:gz|xz|zst)$#'
             ],
             '$1',
             $parsedUrl['path']
