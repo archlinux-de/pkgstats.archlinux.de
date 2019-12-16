@@ -108,6 +108,7 @@ class PostPackageListController extends AbstractController
                 $entityManager->persist($user);
 
                 foreach ($packages as $package) {
+                    /** @var Package|null $persistedPackage */
                     $persistedPackage = $entityManager->find(
                         Package::class,
                         ['name' => $package->getName(), 'month' => $package->getMonth()],
