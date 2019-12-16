@@ -12,14 +12,14 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ApiDocJsonCacheSubscriberTest extends TestCase
 {
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         $events = (new ApiDocJsonCacheSubscriber())->getSubscribedEvents();
 
         $this->assertArrayHasKey(KernelEvents::RESPONSE, $events);
     }
 
-    public function testSubscriberIsDisabledForOtherRoutes()
+    public function testSubscriberIsDisabledForOtherRoutes(): void
     {
         /** @var Response|MockObject $response */
         $response = $this->createMock(Response::class);
@@ -48,7 +48,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
         (new ApiDocJsonCacheSubscriber())->onKernelResponse($event);
     }
 
-    public function testSubscriberIsDisabledOnError()
+    public function testSubscriberIsDisabledOnError(): void
     {
         /** @var Response|MockObject $response */
         $response = $this->createMock(Response::class);
@@ -81,7 +81,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
         (new ApiDocJsonCacheSubscriber())->onKernelResponse($event);
     }
 
-    public function testSubscriberWillSetCacheHeader()
+    public function testSubscriberWillSetCacheHeader(): void
     {
         /** @var Response|MockObject $response */
         $response = $this->createMock(Response::class);

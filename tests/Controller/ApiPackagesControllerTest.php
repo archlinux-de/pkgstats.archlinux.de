@@ -11,7 +11,7 @@ use SymfonyDatabaseTest\DatabaseTestCase;
  */
 class ApiPackagesControllerTest extends DatabaseTestCase
 {
-    public function testFetchAllPackages()
+    public function testFetchAllPackages(): void
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
@@ -82,7 +82,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         return $package;
     }
 
-    public function testFetchEmptyList()
+    public function testFetchEmptyList(): void
     {
         $client = $this->getClient();
 
@@ -93,7 +93,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertPackagePupularityList($client->getResponse()->getContent());
     }
 
-    public function testFetchEmptyPackage()
+    public function testFetchEmptyPackage(): void
     {
         $client = $this->getClient();
 
@@ -104,7 +104,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertPackagePupularity($client->getResponse()->getContent());
     }
 
-    public function testFetchSinglePackage()
+    public function testFetchSinglePackage(): void
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
@@ -131,7 +131,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertPackagePupularity($client->getResponse()->getContent());
     }
 
-    public function testQueryRequest()
+    public function testQueryRequest(): void
     {
         $entityManager = $this->getEntityManager();
         $pacman = (new Package())
@@ -164,7 +164,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals('pacman', $pupularityList['packagePopularities'][0]['name']);
     }
 
-    public function testFilterByDate()
+    public function testFilterByDate(): void
     {
         $entityManager = $this->getEntityManager();
         $pacman = (new Package())
@@ -197,7 +197,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
     }
 
-    public function testLimitResults()
+    public function testLimitResults(): void
     {
         $entityManager = $this->getEntityManager();
         $pacman = (new Package())
@@ -236,7 +236,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
     }
 
-    public function testPackagesSeries()
+    public function testPackagesSeries(): void
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())

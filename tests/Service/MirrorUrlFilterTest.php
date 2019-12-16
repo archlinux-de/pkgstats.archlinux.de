@@ -12,7 +12,7 @@ class MirrorUrlFilterTest extends TestCase
      * @param string|null $expected
      * @dataProvider provideUrls
      */
-    public function testFilter(string $input, ?string $expected)
+    public function testFilter(string $input, ?string $expected): void
     {
         $mirrorUrlFilter = new MirrorUrlFilter();
         $this->assertEquals($expected, $mirrorUrlFilter->filter($input));

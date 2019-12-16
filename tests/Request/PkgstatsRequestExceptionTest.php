@@ -10,7 +10,7 @@ use Symfony\Component\Validator\ConstraintViolationList;
 
 class PkgstatsRequestExceptionTest extends TestCase
 {
-    public function testMessageIsRendered()
+    public function testMessageIsRendered(): void
     {
         /** @var ConstraintViolationInterface|MockObject $violationA */
         $violationA = $this->createMock(ConstraintViolationInterface::class);

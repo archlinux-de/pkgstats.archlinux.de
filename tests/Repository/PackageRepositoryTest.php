@@ -13,7 +13,7 @@ class PackageRepositoryTest extends DatabaseTestCase
      * @param int $startMonth
      * @param int $endMonth
      */
-    public function testGetCountByNameAndRange(int $startMonth, int $endMonth)
+    public function testGetCountByNameAndRange(int $startMonth, int $endMonth): void
     {
         $package = (new Package())->setName('a')->setMonth($startMonth)->incrementCount();
         $entityManager = $this->getEntityManager();
@@ -33,7 +33,7 @@ class PackageRepositoryTest extends DatabaseTestCase
      * @param int $startMonth
      * @param int $endMonth
      */
-    public function testGetCountByNameAndRangeOfUnknownPackage(int $startMonth, int $endMonth)
+    public function testGetCountByNameAndRangeOfUnknownPackage(int $startMonth, int $endMonth): void
     {
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getRepository(Package::class);
@@ -47,7 +47,7 @@ class PackageRepositoryTest extends DatabaseTestCase
      * @param int $startMonth
      * @param int $endMonth
      */
-    public function testFindPackagesCountByRange(int $startMonth, int $endMonth)
+    public function testFindPackagesCountByRange(int $startMonth, int $endMonth): void
     {
         $packageA = (new Package())->setName('a')->setMonth($startMonth)->incrementCount();
         $packageAA = (new Package())->setName('aa')->setMonth($endMonth);
@@ -81,7 +81,7 @@ class PackageRepositoryTest extends DatabaseTestCase
      * @param int $startMonth
      * @param int $endMonth
      */
-    public function testGetMaximumCountByRange(int $startMonth, int $endMonth)
+    public function testGetMaximumCountByRange(int $startMonth, int $endMonth): void
     {
         $packageA = (new Package())->setName('a')->setMonth($startMonth - 1);
         $packageB = (new Package())->setName('a')->setMonth($startMonth);
@@ -114,7 +114,7 @@ class PackageRepositoryTest extends DatabaseTestCase
      * @param int $startMonth
      * @param int $endMonth
      */
-    public function testGetMaximumCountByRangeIsInitiallyZero(int $startMonth, int $endMonth)
+    public function testGetMaximumCountByRangeIsInitiallyZero(int $startMonth, int $endMonth): void
     {
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getRepository(Package::class);
@@ -123,7 +123,7 @@ class PackageRepositoryTest extends DatabaseTestCase
         $this->assertEquals(0, $count);
     }
 
-    public function testFindMonthlyByNameAndRange()
+    public function testFindMonthlyByNameAndRange(): void
     {
         $packageA = (new Package())->setName('a')->setMonth(201810);
         $packageB = (new Package())->setName('a')->setMonth(201811);
@@ -153,7 +153,7 @@ class PackageRepositoryTest extends DatabaseTestCase
         );
     }
 
-    public function testGetMonthlyMaximumCountByRange()
+    public function testGetMonthlyMaximumCountByRange(): void
     {
         $package = (new Package())->setName('a')->setMonth(201810)->incrementCount();
         $entityManager = $this->getEntityManager();

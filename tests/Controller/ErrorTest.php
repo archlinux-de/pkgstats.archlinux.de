@@ -13,7 +13,7 @@ class ErrorTest extends WebTestCase
      * @param int $code
      * @dataProvider provideErrorCodes
      */
-    public function testErrorPages(int $code)
+    public function testErrorPages(int $code): void
     {
         $client = static::createClient();
 

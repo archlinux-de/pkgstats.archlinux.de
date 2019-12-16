@@ -53,7 +53,7 @@ class RateLimitSubscriber implements EventSubscriberInterface
     /**
      * @param ControllerEvent $event
      */
-    public function onKernelController(ControllerEvent $event)
+    public function onKernelController(ControllerEvent $event): void
     {
         $controller = $event->getController();
 

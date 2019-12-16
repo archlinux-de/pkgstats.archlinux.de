@@ -8,7 +8,7 @@ use SymfonyDatabaseTest\DatabaseTestCase;
 
 class UserRepositoryTest extends DatabaseTestCase
 {
-    public function testGetSubmissionCountSince()
+    public function testGetSubmissionCountSince(): void
     {
         $userA = (new User())
             ->setPackages(2)
@@ -48,7 +48,7 @@ class UserRepositoryTest extends DatabaseTestCase
         $this->assertEquals(2, $count);
     }
 
-    public function testGetSubmissionCountSinceDefaultsToZero()
+    public function testGetSubmissionCountSinceDefaultsToZero(): void
     {
         /** @var UserRepository $userRepository */
         $userRepository = $this->getRepository(User::class);

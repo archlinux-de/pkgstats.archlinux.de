@@ -37,7 +37,7 @@ class RateLimitSubscriberTest extends TestCase
         );
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         $events = $this->rateLimitSubscriber->getSubscribedEvents();
 
@@ -48,7 +48,7 @@ class RateLimitSubscriberTest extends TestCase
      * @param mixed $controller
      * @dataProvider provideInvalidControllers
      */
-    public function testSubscriberIsDisabledByDefault($controller)
+    public function testSubscriberIsDisabledByDefault($controller): void
     {
         /** @var ControllerEvent|MockObject $event */
         $event = $this->createMock(ControllerEvent::class);
@@ -62,7 +62,7 @@ class RateLimitSubscriberTest extends TestCase
         $this->rateLimitSubscriber->onKernelController($event);
     }
 
-    public function testOnKernelController()
+    public function testOnKernelController(): void
     {
         $event = $this->createEvent();
         $this->clientIdGenerator
@@ -105,7 +105,7 @@ class RateLimitSubscriberTest extends TestCase
         return $event;
     }
 
-    public function testRateLimit()
+    public function testRateLimit(): void
     {
         $event = $this->createEvent();
         $this->clientIdGenerator

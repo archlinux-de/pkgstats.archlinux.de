@@ -22,7 +22,7 @@ class ApiProfilerSubscriber implements EventSubscriberInterface
     /**
      * @param ResponseEvent $event
      */
-    public function onKernelResponse(ResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event): void
     {
         if (!$event->isMasterRequest()) {
             return;

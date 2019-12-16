@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class PaginationRequestTest extends TestCase
 {
-    public function testGettersAndSetters()
+    public function testGettersAndSetters(): void
     {
         $paginationRequest = new PaginationRequest(2, 100);
 
@@ -15,7 +15,7 @@ class PaginationRequestTest extends TestCase
         $this->assertEquals(100, $paginationRequest->getLimit());
     }
 
-    public function testZeroLimitWillSetMaximum()
+    public function testZeroLimitWillSetMaximum(): void
     {
         $paginationRequest = new PaginationRequest(0, 0);
 

@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class PkgstatsRequestTest extends TestCase
 {
-    public function testGettersAndSetters()
+    public function testGettersAndSetters(): void
     {
         /** @var User $user */
         $user = $this->createMock(User::class);

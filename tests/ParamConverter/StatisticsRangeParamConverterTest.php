@@ -19,7 +19,7 @@ class StatisticsRangeParamConverterTest extends TestCase
         $this->paramConverter = new StatisticsRangeParamConverter();
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -31,7 +31,7 @@ class StatisticsRangeParamConverterTest extends TestCase
         $this->assertTrue($this->paramConverter->supports($configuration));
     }
 
-    public function testDefault()
+    public function testDefault(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -54,7 +54,7 @@ class StatisticsRangeParamConverterTest extends TestCase
         $this->assertEquals(date('Ym', strtotime('-1 month')), $statisticsRangeRequest->getEndMonth());
     }
 
-    public function testApply()
+    public function testApply(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);

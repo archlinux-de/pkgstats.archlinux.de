@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class UserTest extends TestCase
 {
-    public function testSettersAndGetters()
+    public function testSettersAndGetters(): void
     {
         $user = (new User())
             ->setPackages(2)

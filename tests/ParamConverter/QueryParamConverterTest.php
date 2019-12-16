@@ -27,7 +27,7 @@ class QueryParamConverterTest extends TestCase
         $this->paramConverter = new QueryParamConverter($this->validator);
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -39,7 +39,7 @@ class QueryParamConverterTest extends TestCase
         $this->assertTrue($this->paramConverter->supports($configuration));
     }
 
-    public function testApply()
+    public function testApply(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -65,7 +65,7 @@ class QueryParamConverterTest extends TestCase
         $this->assertEquals('foo', $packageQueryRequest->getQuery());
     }
 
-    public function testDefault()
+    public function testDefault(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -91,7 +91,7 @@ class QueryParamConverterTest extends TestCase
         $this->assertEquals('', $packageQueryRequest->getQuery());
     }
 
-    public function testApplyFailsOnValidationErrors()
+    public function testApplyFailsOnValidationErrors(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);

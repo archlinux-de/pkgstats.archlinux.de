@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class PackagePopularityListTest extends TestCase
 {
-    public function testSettersAndGetters()
+    public function testSettersAndGetters(): void
     {
         $packagePopularity = new PackagePopularity('pacman', 22, 13, 201901, 201902);
         $packagePopularityList = new PackagePopularityList([$packagePopularity], 34, 10, 0);
@@ -19,7 +19,7 @@ class PackagePopularityListTest extends TestCase
         $this->assertEquals($packagePopularity, $packagePopularityList->getPackagePopularities()[0]);
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $packagePopularity = new PackagePopularity('pacman', 22, 13, 201901, 201902);
         $packagePopularityList = new PackagePopularityList([$packagePopularity], 34, 10, 0);

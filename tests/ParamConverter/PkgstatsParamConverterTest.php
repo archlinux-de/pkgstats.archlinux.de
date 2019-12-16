@@ -48,7 +48,7 @@ class PkgstatsParamConverterTest extends TestCase
         );
     }
 
-    public function testSupportsPkgStatsRequest()
+    public function testSupportsPkgStatsRequest(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -60,7 +60,7 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertTrue($this->paramConverter->supports($configuration));
     }
 
-    public function testRejectUnsupportedRequest()
+    public function testRejectUnsupportedRequest(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -72,7 +72,7 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertFalse($this->paramConverter->supports($configuration));
     }
 
-    public function testApplyVersion()
+    public function testApplyVersion(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -99,7 +99,7 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertEquals(2.4, $pkgstatsRequest->getVersion());
     }
 
-    public function testApplyQuiet()
+    public function testApplyQuiet(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -126,7 +126,7 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertTrue($pkgstatsRequest->isQuiet());
     }
 
-    public function testApplyUser()
+    public function testApplyUser(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -160,7 +160,7 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertEquals('https://mirror.archlinux.de/', $user->getMirror());
     }
 
-    public function testApplyPackages()
+    public function testApplyPackages(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -190,7 +190,7 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertEquals('bar', $packages[1]->getName());
     }
 
-    public function testApplyFailsOnValidationErrors()
+    public function testApplyFailsOnValidationErrors(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);

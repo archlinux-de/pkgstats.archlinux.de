@@ -39,7 +39,7 @@ class ApiDocCacheWarmer implements CacheWarmerInterface
     /**
      * @param string $cacheDir
      */
-    public function warmUp($cacheDir)
+    public function warmUp($cacheDir): void
     {
         try {
             $this->documentationController->__invoke(Request::createFromGlobals());

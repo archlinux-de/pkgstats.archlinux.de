@@ -15,7 +15,7 @@ class SmokeTest extends DatabaseTestCase
      * @param string $url
      * @dataProvider provideUrls
      */
-    public function testRequestIsSuccessful(string $url)
+    public function testRequestIsSuccessful(string $url): void
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
@@ -40,7 +40,7 @@ class SmokeTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
-    public function testUnknownUrlFails()
+    public function testUnknownUrlFails(): void
     {
         $client = $this->getClient();
 
@@ -54,7 +54,7 @@ class SmokeTest extends DatabaseTestCase
      * @param string $targetUrl
      * @dataProvider provideLegacyUrls
      */
-    public function testLegacyRedirects(string $legacyUrl, string $targetUrl)
+    public function testLegacyRedirects(string $legacyUrl, string $targetUrl): void
     {
         $client = $this->getClient();
 

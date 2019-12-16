@@ -27,7 +27,7 @@ class PaginationParamConverterTest extends TestCase
         $this->paramConverter = new PaginationParamConverter($this->validator);
     }
 
-    public function testApply()
+    public function testApply(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -54,7 +54,7 @@ class PaginationParamConverterTest extends TestCase
         $this->assertEquals(42, $paginationRequest->getLimit());
     }
 
-    public function testDefaults()
+    public function testDefaults(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -81,7 +81,7 @@ class PaginationParamConverterTest extends TestCase
         $this->assertEquals(100, $paginationRequest->getLimit());
     }
 
-    public function testSupports()
+    public function testSupports(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -93,7 +93,7 @@ class PaginationParamConverterTest extends TestCase
         $this->assertTrue($this->paramConverter->supports($configuration));
     }
 
-    public function testApplyFailsOnValidationErrors()
+    public function testApplyFailsOnValidationErrors(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);

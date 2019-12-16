@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class PackageTest extends TestCase
 {
-    public function testSettersAndGetters()
+    public function testSettersAndGetters(): void
     {
         $package = (new Package())->setName('a')->setMonth(201812);
 
@@ -16,7 +16,7 @@ class PackageTest extends TestCase
         $this->assertEquals(1, $package->getCount());
     }
 
-    public function testIncrementCount()
+    public function testIncrementCount(): void
     {
         $package = (new Package())->setName('a')->setMonth(201812)
             ->incrementCount();

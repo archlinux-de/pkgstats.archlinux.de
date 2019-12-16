@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class PackagePopularityTest extends TestCase
 {
-    public function testSettersAndGetters()
+    public function testSettersAndGetters(): void
     {
         $packagePopularity = new PackagePopularity('pacman', 22, 13, 201901, 201902);
 
@@ -19,7 +19,7 @@ class PackagePopularityTest extends TestCase
         $this->assertEquals(201902, $packagePopularity->getEndMonth());
     }
 
-    public function testJsonSerialize()
+    public function testJsonSerialize(): void
     {
         $packagePopularity = new PackagePopularity('pacman', 22, 13, 201901, 201902);
 

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class ClientIdGeneratorTest extends TestCase
 {
-    public function testCreateClientId()
+    public function testCreateClientId(): void
     {
         $clientIdGenerator = new ClientIdGenerator();
         $clientId = $clientIdGenerator->createClientId('127.0.0.1');

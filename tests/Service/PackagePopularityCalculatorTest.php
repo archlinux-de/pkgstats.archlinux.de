@@ -24,7 +24,7 @@ class PackagePopularityCalculatorTest extends TestCase
         $this->packagePopularityCalculator = new PackagePopularityCalculator($this->packageRepository);
     }
 
-    public function testGetPackagePopularity()
+    public function testGetPackagePopularity(): void
     {
         $this
             ->packageRepository
@@ -49,7 +49,7 @@ class PackagePopularityCalculatorTest extends TestCase
         $this->assertEquals(12, $packagePopularity->getSamples());
     }
 
-    public function testFindPackagesPopularity()
+    public function testFindPackagesPopularity(): void
     {
         $this
             ->packageRepository
@@ -75,7 +75,7 @@ class PackagePopularityCalculatorTest extends TestCase
         $this->assertEquals(1, $packagePopularityList->getCount());
     }
 
-    public function testGetPackagePopularitySeries()
+    public function testGetPackagePopularitySeries(): void
     {
         $this
             ->packageRepository

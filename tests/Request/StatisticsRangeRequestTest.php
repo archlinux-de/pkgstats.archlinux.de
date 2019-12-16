@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class StatisticsRangeRequestTest extends TestCase
 {
-    public function testGettersAndSetters()
+    public function testGettersAndSetters(): void
     {
         $statisticsRangeRequest = new StatisticsRangeRequest(201801, 201812);
 

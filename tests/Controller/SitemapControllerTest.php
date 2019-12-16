@@ -9,7 +9,7 @@ use SymfonyDatabaseTest\DatabaseTestCase;
  */
 class SitemapControllerTest extends DatabaseTestCase
 {
-    public function testIndexAction()
+    public function testIndexAction(): void
     {
         $client = $this->getClient();
 

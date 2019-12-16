@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class PackageQueryRequestTest extends TestCase
 {
-    public function testGettersAndSetters()
+    public function testGettersAndSetters(): void
     {
         $packageQueryRequest = new PackageQueryRequest('foo');
 

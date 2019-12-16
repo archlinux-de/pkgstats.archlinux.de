@@ -14,7 +14,7 @@ use SymfonyDatabaseTest\DatabaseTestCase;
  */
 class PostPackageListControllerTest extends DatabaseTestCase
 {
-    public function testPostPackageListIsSuccessful()
+    public function testPostPackageListIsSuccessful(): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -70,7 +70,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      * @param string $version
      * @dataProvider provideSupportedVserions
      */
-    public function testSupportedVersions(string $version)
+    public function testSupportedVersions(string $version): void
     {
         $client = $this->createPkgstatsClient($version);
 
@@ -119,7 +119,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      * @param string $version
      * @dataProvider provideUnsupportedVersions
      */
-    public function testUnsupportedVersionFails(string $version)
+    public function testUnsupportedVersionFails(string $version): void
     {
         $client = $this->createPkgstatsClient($version);
 
@@ -136,7 +136,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      * @param string $architecture
      * @dataProvider provideSupportedArchitectures
      */
-    public function testPostPackageListWithArchitectureIsSuccessful(string $architecture)
+    public function testPostPackageListWithArchitectureIsSuccessful(string $architecture): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -149,7 +149,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
-    public function testLocalMirrorGetsIgnored()
+    public function testLocalMirrorGetsIgnored(): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -162,7 +162,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
-    public function testLongMirrorGetsRejected()
+    public function testLongMirrorGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -183,7 +183,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      * @param string $architecture
      * @dataProvider provideUnsupportedArchitectures
      */
-    public function testPostPackageListWithUnsupportedArchitectureFails(string $architecture)
+    public function testPostPackageListWithUnsupportedArchitectureFails(string $architecture): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -200,7 +200,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      * @param string $architecture
      * @dataProvider provideUnsupportedCpuArchitectures
      */
-    public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $architecture)
+    public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $architecture): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -217,7 +217,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    public function testEmptyPackageListGetsRejected()
+    public function testEmptyPackageListGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -233,7 +233,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    public function testLongPackageListGetsRejected()
+    public function testLongPackageListGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -255,7 +255,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    public function testInvalidPackageListGetsRejected()
+    public function testInvalidPackageListGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -271,7 +271,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    public function testLongPackageGetsRejected()
+    public function testLongPackageGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -287,7 +287,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    public function testQuietMode()
+    public function testQuietMode(): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -306,7 +306,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertEquals('', $client->getResponse()->getContent());
     }
 
-    public function testSubmissionsAreLimitedPerUser()
+    public function testSubmissionsAreLimitedPerUser(): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -324,7 +324,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         }
     }
 
-    public function testPostPackageListIncrementsPackageCount()
+    public function testPostPackageListIncrementsPackageCount(): void
     {
         $this->getEntityManager()->persist(
             (new Package())
