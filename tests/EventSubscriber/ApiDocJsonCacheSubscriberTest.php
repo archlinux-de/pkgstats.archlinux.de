@@ -39,6 +39,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
 
     /**
      * @param Request $request
+     * @param Response $response
      * @return ResponseEvent
      */
     private function createEvent(Request $request, Response $response): ResponseEvent
