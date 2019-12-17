@@ -11,7 +11,9 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class RateLimitSubscriberTest extends TestCase
 {
@@ -50,16 +52,17 @@ class RateLimitSubscriberTest extends TestCase
      */
     public function testSubscriberIsDisabledByDefault($controller): void
     {
-        /** @var ControllerEvent|MockObject $event */
-        $event = $this->createMock(ControllerEvent::class);
-        $event
-            ->expects($this->once())
-            ->method('getController')
-            ->willReturn($controller);
+        /** @var KernelInterface|MockObject $kernel */
+        $kernel = $this->createMock(KernelInterface::class);
+
+        /** @var Request|MockObject $request */
+        $request = $this->createMock(Request::class);
 
         $this->userRepository->expects($this->never())->method('getSubmissionCountSince');
 
-        $this->rateLimitSubscriber->onKernelController($event);
+        $this->rateLimitSubscriber->onKernelController(
+            new ControllerEvent($kernel, $controller, $request, HttpKernelInterface::MASTER_REQUEST)
+        );
     }
 
     public function testOnKernelController(): void
@@ -80,10 +83,16 @@ class RateLimitSubscriberTest extends TestCase
     }
 
     /**
-     * @return MockObject|ControllerEvent
+     * @return ControllerEvent
      */
     private function createEvent(): ControllerEvent
     {
+        /** @var KernelInterface|MockObject $kernel */
+        $kernel = $this->createMock(KernelInterface::class);
+
+        /** @var PostPackageListController|MockObject $controller */
+        $controller = $this->createMock(PostPackageListController::class);
+
         /** @var Request|MockObject $request */
         $request = $this->createMock(Request::class);
         $request
@@ -91,18 +100,12 @@ class RateLimitSubscriberTest extends TestCase
             ->method('getClientIp')
             ->willReturn('127.0.0.1');
 
-        /** @var ControllerEvent|MockObject $event */
-        $event = $this->createMock(ControllerEvent::class);
-        $event
-            ->expects($this->once())
-            ->method('getController')
-            ->willReturn([$this->createMock(PostPackageListController::class)]);
-        $event
-            ->expects($this->once())
-            ->method('getRequest')
-            ->willReturn($request);
-
-        return $event;
+        return new ControllerEvent(
+            $kernel,
+            [$controller, 'postAction'],
+            $request,
+            HttpKernelInterface::MASTER_REQUEST
+        );
     }
 
     public function testRateLimit(): void
@@ -126,12 +129,8 @@ class RateLimitSubscriberTest extends TestCase
     public function provideInvalidControllers(): array
     {
         return [
-            [[]],
-            [[new \stdClass()]],
-            [
-                function () {
-                }
-            ]
+            [[$this->createMock(\stdClass::class), 'expects']],
+            [fn() => null]
         ];
     }
 }

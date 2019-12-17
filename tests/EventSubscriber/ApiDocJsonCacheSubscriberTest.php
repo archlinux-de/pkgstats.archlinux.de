@@ -8,7 +8,9 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class ApiDocJsonCacheSubscriberTest extends TestCase
 {
@@ -30,22 +32,26 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
             ->expects($this->never())
             ->method('setSharedMaxAge');
 
-        /** @var ResponseEvent|MockObject $event */
-        $event = $this->createMock(ResponseEvent::class);
-        $event
-            ->expects($this->once())
-            ->method('isMasterRequest')
-            ->willReturn(true);
-        $event
-            ->expects($this->once())
-            ->method('getRequest')
-            ->willReturn(new Request());
-        $event
-            ->expects($this->never())
-            ->method('getResponse')
-            ->willReturn($response);
+        $event = $this->createEvent(new Request(), $response);
 
         (new ApiDocJsonCacheSubscriber())->onKernelResponse($event);
+    }
+
+    /**
+     * @param Request $request
+     * @return ResponseEvent
+     */
+    private function createEvent(Request $request, Response $response): ResponseEvent
+    {
+        /** @var KernelInterface|MockObject $kernel */
+        $kernel = $this->createMock(KernelInterface::class);
+
+        return new ResponseEvent(
+            $kernel,
+            $request,
+            HttpKernelInterface::MASTER_REQUEST,
+            $response
+        );
     }
 
     public function testSubscriberIsDisabledOnError(): void
@@ -63,20 +69,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
             ->method('isOK')
             ->willReturn(false);
 
-        /** @var ResponseEvent|MockObject $event */
-        $event = $this->createMock(ResponseEvent::class);
-        $event
-            ->expects($this->once())
-            ->method('isMasterRequest')
-            ->willReturn(true);
-        $event
-            ->expects($this->once())
-            ->method('getRequest')
-            ->willReturn(new Request([], [], ['_route' => 'app_swagger']));
-        $event
-            ->expects($this->once())
-            ->method('getResponse')
-            ->willReturn($response);
+        $event = $this->createEvent(new Request([], [], ['_route' => 'app_swagger']), $response);
 
         (new ApiDocJsonCacheSubscriber())->onKernelResponse($event);
     }
@@ -96,20 +89,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
             ->method('isOK')
             ->willReturn(true);
 
-        /** @var ResponseEvent|MockObject $event */
-        $event = $this->createMock(ResponseEvent::class);
-        $event
-            ->expects($this->once())
-            ->method('isMasterRequest')
-            ->willReturn(true);
-        $event
-            ->expects($this->once())
-            ->method('getRequest')
-            ->willReturn(new Request([], [], ['_route' => 'app_swagger']));
-        $event
-            ->expects($this->atLeastOnce())
-            ->method('getResponse')
-            ->willReturn($response);
+        $event = $this->createEvent(new Request([], [], ['_route' => 'app_swagger']), $response);
 
         (new ApiDocJsonCacheSubscriber())->onKernelResponse($event);
     }
