@@ -8,7 +8,7 @@ includes:
 parameters:
 	level: max
 	symfony:
-		container_xml_path: '%rootDir%/../../../var/cache/dev/srcApp_KernelDevDebugContainer.xml'
+		container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
 	autoload_directories:
 		- %rootDir%/../../../src/Migrations
 	paths:
