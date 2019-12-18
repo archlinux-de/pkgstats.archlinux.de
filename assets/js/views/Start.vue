@@ -1,14 +1,14 @@
 <template>
-  <main class="container-fluid" role="main">
-    <div class="row">
-      <div class="col-12 col-xl-9">
-        <div class="jumbotron jumbotron-fluid p-2 p-xl-3">
+  <b-container fluid role="main" tag="main">
+    <b-row>
+      <b-col cols="12" xl="9">
+        <b-jumbotron class="p-2 p-xl-3">
           <h1>Arch Linux package statistics</h1>
-          <p> Contributing is as easy as installing the package - a weekly cron job will take care of the
+          <p>Contributing is as easy as installing the package - a weekly cron job will take care of the
             rest. You will be sending us a list of packages installed on your system, along with the
             architecture and mirror you use. This information is anonymous and cannot be used to identify
             you, but it will help us prioritize our efforts and make Arch even better.</p>
-        </div>
+        </b-jumbotron>
 
         <div>
           <h4>Getting started</h4>
@@ -51,9 +51,9 @@ See results at https://pkgstats.archlinux.de/</code></pre>
             </li>
           </ul>
         </div>
-      </div>
+      </b-col>
 
-      <div class="col-12 col-xl-3">
+      <b-col cols="12" xl="3">
         <h4>Dokumentation</h4>
         <ul class="pl-4">
           <li>See <code>pkgstats -h</code></li>
@@ -88,9 +88,9 @@ See results at https://pkgstats.archlinux.de/</code></pre>
               pkgstats now collects modules usage </a>
           </li>
         </ul>
-      </div>
-    </div>
-  </main>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>

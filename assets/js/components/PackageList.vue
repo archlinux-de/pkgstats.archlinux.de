@@ -1,12 +1,14 @@
 <template>
   <div>
-    <div class="form-group">
-      <input class="form-control"
-             max="255" min="0" pattern="^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]*$"
-             placeholder="Package name" type="text"
-             v-model="query"/>
-    </div>
-    <loading-spinner v-if="loading && offset === 0" absolute></loading-spinner>
+    <b-form-group>
+      <b-form-input
+        autofocus
+        debounce="250"
+        placeholder="Package name"
+        type="search"
+        v-model="query"></b-form-input>
+    </b-form-group>
+    <loading-spinner absolute v-if="loading && offset === 0"></loading-spinner>
     <table class="table table-striped table-bordered table-sm" v-show="data.packagePopularities.length > 0">
       <thead>
       <tr>
@@ -20,19 +22,19 @@
           <router-link :to="{name: 'package', params: {package: pkg.name}}">{{ pkg.name }}</router-link>
         </td>
         <td class="w-75">
-          <div :title="pkg.popularity+'%'" class="progress bg-transparent">
-            <div :aria-valuenow="pkg.popularity" :style="'width:'+pkg.popularity+'%'"
-                 aria-valuemax="100" aria-valuemin="0" class="progress-bar bg-primary"
-                 role="progressbar">
-              {{ pkg.popularity > 5 ? pkg.popularity + '%' : ''}}
-            </div>
-          </div>
+          <b-progress
+            :max="100"
+            :precision="2"
+            :value="pkg.popularity"
+            class="bg-transparent"
+            height="2em"
+            show-progress></b-progress>
         </td>
       </tr>
       </tbody>
     </table>
-    <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
-    <div class="alert alert-info" role="alert" v-if="data.total === data.count">{{ data.total }} packages found</div>
+    <b-alert :show="error != ''" variant="danger">{{ error }}</b-alert>
+    <b-alert :show="data.total === data.count" variant="info">{{ data.total }} packages found</b-alert>
     <loading-spinner v-if="loading && offset > 0"></loading-spinner>
     <div v-observe-visibility="visibilityChanged"></div>
   </div>
@@ -41,7 +43,6 @@
 <script>
 import LoadingSpinner from './LoadingSpinner'
 import { ObserveVisibility } from 'vue-observe-visibility'
-import { debounce } from 'lodash-es'
 
 export default {
   name: 'PackageList',
@@ -88,7 +89,7 @@ export default {
     }
   },
   methods: {
-    fetchData: debounce(function () {
+    fetchData () {
       this.loading = true
       const query = this.query
       const offset = this.offset
@@ -110,7 +111,7 @@ export default {
         })
         .catch(error => { this.error = error })
         .finally(() => { this.loading = false })
-    }, 250, { leading: true }),
+    },
     createInitialPackagePopularities () {
       return Array.from({ length: this.limit }, () => ({
         name: String.fromCharCode(8239),

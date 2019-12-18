@@ -1,5 +1,5 @@
 <template>
-  <main class="container-fluid" role="main">
+  <b-container fluid role="main" tag="main">
     <h1 class="mb-4">Fun statistics</h1>
     <div :key="title" v-for="(pkgs, title) in config">
       <h2>
@@ -7,7 +7,7 @@
       </h2>
       <packages-bar-chart :packages="pkgs"></packages-bar-chart>
     </div>
-  </main>
+  </b-container>
 </template>
 
 <script>

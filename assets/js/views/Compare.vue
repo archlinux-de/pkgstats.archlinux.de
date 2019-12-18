@@ -1,9 +1,9 @@
 <template>
-  <main class="container" role="main">
+  <b-container role="main" tag="main">
     <h1 class="mb-3">Compare Packages</h1>
     <p class="mb-3">Relative usage of packages</p>
     <package-chart :limit="0" :packages="packages" :start-month="0"></package-chart>
-  </main>
+  </b-container>
 </template>
 
 <script>

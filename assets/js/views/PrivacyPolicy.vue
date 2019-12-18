@@ -1,8 +1,8 @@
 <template>
-  <main class="container-fluid" role="main">
+  <b-container fluid role="main" tag="main">
     <h1 class="mb-4">Privacy policy</h1>
-    <div class="row">
-      <div class="col-lg-6">
+    <b-row>
+      <b-col lg="6">
         <h2>Server logs</h2>
         <p>Requests to this website are logged. The following data are stored:</p>
         <ul>
@@ -17,8 +17,8 @@
         <p>These information are used to generate anonymous statistics and to prevent attacks against this
           website.
           The log entries are stored for one month.</p>
-      </div>
-      <div class="col-lg-6 pl-lg-5">
+      </b-col>
+      <b-col class="pl-lg-5" lg="6">
         <h2>pkgstats command line tool</h2>
         <p>The data send by the pkgstats command line tool is stored anonymously on the server. See
           <code>pkgstats -s</code> for a list of the data to be transferred.</p>
@@ -32,9 +32,9 @@
           <router-link :to="{name: 'impressum'}">Impressum</router-link>
           for ways to contact us.
         </p>
-      </div>
-    </div>
-  </main>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>

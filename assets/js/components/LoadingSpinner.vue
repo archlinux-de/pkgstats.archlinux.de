@@ -1,8 +1,6 @@
 <template>
   <div :class="{ 'loading-spinner--absolute': absolute }" class="loading-spinner">
-    <div class="spinner-border text-primary" role="status">
-      <span class="sr-only">Loading...</span>
-    </div>
+    <b-spinner variant="primary" label="Loading..."></b-spinner>
   </div>
 </template>
 

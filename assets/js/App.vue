@@ -1,38 +1,29 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark navbar-border-brand mb-4">
-      <router-link :to="{name: 'start'}" class="navbar-brand" tabindex="-1">
-        <img alt="Arch Linux" height="40" src="@/images/archlogo.svg">
-      </router-link>
+    <b-navbar class="navbar-border-brand navbar-no-outline mb-4" toggleable="sm" type="dark" variant="dark">
+      <b-navbar-brand :to="{name: 'start'}">
+        <img alt="Arch Linux" height="40" src="@/images/archlogo.svg"/>
+      </b-navbar-brand>
 
-      <button aria-controls="navbar" aria-expanded="false" aria-label="Navigation" class="navbar-toggler"
-              data-target="#navbar" data-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-      <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav ml-auto mr-4">
-          <li class="nav-item ml-3">
-            <router-link :to="{name: 'start'}" class="nav-link font-weight-bold" exact>Start</router-link>
-          </li>
-          <li class="nav-item ml-3">
-            <router-link :to="{name: 'packages'}" class="nav-link font-weight-bold">Packages</router-link>
-          </li>
-          <li class="nav-item ml-3">
-            <router-link :to="{name: 'fun'}" class="nav-link font-weight-bold">Fun</router-link>
-          </li>
-          <li class="nav-item ml-3">
-            <router-link :to="{name: 'api-doc'}" class="nav-link font-weight-bold">API</router-link>
-          </li>
-        </ul>
-      </div>
-    </nav>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav class="ml-auto mr-4">
+          <b-nav-item :to="{name: 'start'}" class="ml-3 font-weight-bold" exact>Start</b-nav-item>
+          <b-nav-item :to="{name: 'packages'}" class="ml-3 font-weight-bold">Packages</b-nav-item>
+          <b-nav-item :to="{name: 'fun'}" class="ml-3 font-weight-bold">Fun</b-nav-item>
+          <b-nav-item :to="{name: 'api-doc'}" class="ml-3 font-weight-bold">API</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
 
     <router-view/>
 
-    <footer class="nav justify-content-end">
-      <router-link :to="{name: 'privacy-policy'}" class="nav-link">Privacy policy</router-link>
-      <router-link :to="{name: 'impressum'}" class="nav-link">Impressum</router-link>
+    <footer>
+      <b-nav align="right">
+        <b-nav-item :to="{name: 'privacy-policy'}">Privacy policy</b-nav-item>
+        <b-nav-item :to="{name: 'impressum'}">Impressum</b-nav-item>
+      </b-nav>
     </footer>
   </div>
 </template>
@@ -44,18 +35,18 @@
     border-bottom: 0.313rem solid $primary;
   }
 
-  a.navbar-brand:focus,
-  button.navbar-toggler:focus,
-  a.nav-link:focus {
-    outline: 0;
+  .navbar-no-outline {
+    a:focus,
+    button:focus {
+      outline: 0;
+    }
   }
 
-  @import "bootstrap";
+  @import "~bootstrap";
+  @import "~bootstrap-vue";
 </style>
 
 <script>
-import { Collapse } from 'bootstrap.native'
-
 export default {
   name: 'App',
   metaInfo () {
@@ -65,12 +56,6 @@ export default {
       meta: [{ vmid: 'robots', name: 'robots', content: 'index,follow' }],
       link: [{ rel: 'icon', href: require('@/images/archicon.svg'), sizes: 'any', type: 'image/svg+xml' }]
     }
-  },
-  methods: {
-    createCollapse: element => new Collapse(element)
-  },
-  mounted () {
-    this.createCollapse(this.$el.querySelector('.navbar-toggler'))
   }
 }
 </script>

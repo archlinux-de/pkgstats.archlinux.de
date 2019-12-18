@@ -1,10 +1,10 @@
 <template>
   <div class="ct-chart ct-minor-seventh">
-    <div class="alert alert-danger text-left" role="alert" v-if="errors.length > 0">
+    <b-alert variant="danger" class="text-left" :show="errors.length > 0">
       <ul :key="id" class="list-group list-unstyled" v-for="(error, id) in errors">
         <li>{{ error }}</li>
       </ul>
-    </div>
+    </b-alert>
     <loading-spinner v-if="loading"></loading-spinner>
   </div>
 </template>

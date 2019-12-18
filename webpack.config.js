@@ -14,10 +14,6 @@ Encore
   .enableVersioning(Encore.isProduction())
   .enablePostCssLoader()
   .enableVueLoader()
-  .addLoader({
-    test: /bootstrap\.native/,
-    use: { loader: 'bootstrap.native-loader', options: { only: ['collapse'], autoInitDataAPI: false } }
-  })
   .configureBabel(() => {}, { useBuiltIns: 'usage', corejs: 3 })
 
 if (Encore.isProduction()) {

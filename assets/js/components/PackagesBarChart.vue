@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
+    <b-alert :show="error != ''" variant="danger">{{ error }}</b-alert>
     <loading-spinner v-if="loading" absolute></loading-spinner>
     <table class="table table-sm" v-observe-visibility="{ callback: visibilityChanged, once: true }">
       <colgroup>
