@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar class="navbar-border-brand navbar-no-outline mb-4" toggleable="sm" type="dark" variant="dark">
+    <b-navbar class="navbar-border-brand nav-no-outline mb-4" toggleable="sm" type="dark" variant="dark">
       <b-navbar-brand :to="{name: 'start'}">
         <img alt="Arch Linux" height="40" src="@/images/archlogo.svg"/>
       </b-navbar-brand>
@@ -20,7 +20,7 @@
     <router-view/>
 
     <footer>
-      <b-nav align="right">
+      <b-nav align="right" class="nav-no-outline">
         <b-nav-item :to="{name: 'privacy-policy'}">Privacy policy</b-nav-item>
         <b-nav-item :to="{name: 'impressum'}">Impressum</b-nav-item>
       </b-nav>
@@ -35,7 +35,7 @@
     border-bottom: 0.313rem solid $primary;
   }
 
-  .navbar-no-outline {
+  .nav-no-outline {
     a:focus,
     button:focus {
       outline: 0;
