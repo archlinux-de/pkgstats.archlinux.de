@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-alert :show="error != ''" variant="danger">{{ error }}</b-alert>
-    <loading-spinner v-if="loading" absolute></loading-spinner>
+    <loading-spinner absolute v-if="loading"></loading-spinner>
     <table class="table table-sm" v-observe-visibility="{ callback: visibilityChanged, once: true }">
       <colgroup>
         <col class="w-25">
@@ -13,13 +13,16 @@
           </router-link>
         </td>
         <td>
-          <div class="progress">
-            <div :aria-valuenow="packagePopularity.popularity" :style="`width: ${packagePopularity.popularity}%`"
-                 aria-valuemax="100"
-                 aria-valuemin="0" class="progress-bar bg-primary" role="progressbar">
-              {{ packagePopularity.popularity > 5 ? packagePopularity.popularity + '%' : ''}}
-            </div>
-          </div>
+          <b-progress
+            :title="packagePopularity.popularity + '%'"
+            class="bg-transparent"
+            height="2em">
+            <b-progress-bar
+              :label="(packagePopularity.popularity > 5 ? packagePopularity.popularity + '%' : '')"
+              :precision="2"
+              :value="packagePopularity.popularity"
+            />
+          </b-progress>
         </td>
       </tr>
     </table>

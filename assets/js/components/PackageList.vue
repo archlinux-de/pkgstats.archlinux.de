@@ -23,12 +23,15 @@
         </td>
         <td class="w-75">
           <b-progress
-            :max="100"
-            :precision="2"
-            :value="pkg.popularity"
+            :title="pkg.popularity + '%'"
             class="bg-transparent"
-            height="2em"
-            show-progress></b-progress>
+            height="2em">
+            <b-progress-bar
+              :label="(pkg.popularity > 5 ? pkg.popularity + '%' : '')"
+              :precision="2"
+              :value="pkg.popularity"
+            />
+          </b-progress>
         </td>
       </tr>
       </tbody>
