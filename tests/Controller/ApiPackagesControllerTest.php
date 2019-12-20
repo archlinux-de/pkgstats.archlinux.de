@@ -11,11 +11,15 @@ use SymfonyDatabaseTest\DatabaseTestCase;
  */
 class ApiPackagesControllerTest extends DatabaseTestCase
 {
-    public function testFetchAllPackages(): void
+    /**
+     * @param string $packageName
+     * @dataProvider providePackageNames
+     */
+    public function testFetchAllPackages(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setName('pacman')
+            ->setName($packageName)
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $user = (new User())
             ->setPackages(1)
@@ -104,11 +108,15 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertPackagePupularity($client->getResponse()->getContent());
     }
 
-    public function testFetchSinglePackage(): void
+    /**
+     * @param string $packageName
+     * @dataProvider providePackageNames
+     */
+    public function testFetchSinglePackage(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setName('pacman')
+            ->setName($packageName)
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $user = (new User())
             ->setPackages(1)
@@ -124,7 +132,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
 
         $client = $this->getClient();
 
-        $client->request('GET', '/api/packages/pacman');
+        $client->request('GET', '/api/packages/' . $packageName);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertIsString($client->getResponse()->getContent());
@@ -236,11 +244,15 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
     }
 
-    public function testPackagesSeries(): void
+    /**
+     * @param string $packageName
+     * @dataProvider providePackageNames
+     */
+    public function testPackagesSeries(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
         $package = (new Package())
-            ->setName('pacman')
+            ->setName($packageName)
             ->setMonth(201901);
         $user = (new User())
             ->setPackages(1)
@@ -256,7 +268,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
 
         $client = $this->getClient();
 
-        $client->request('GET', '/api/packages/pacman/series', ['startMonth' => 0]);
+        $client->request('GET', '/api/packages/' . $packageName . '/series', ['startMonth' => 0]);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertIsString($client->getResponse()->getContent());
@@ -264,6 +276,19 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals(1, $pupularityList['total']);
         $this->assertEquals(1, $pupularityList['count']);
         $this->assertCount(1, $pupularityList['packagePopularities']);
-        $this->assertEquals('pacman', $pupularityList['packagePopularities'][0]['name']);
+        $this->assertEquals($packageName, $pupularityList['packagePopularities'][0]['name']);
+    }
+
+    /**
+     * @return array<array>
+     */
+    public function providePackageNames(): array
+    {
+        return [
+            ['pacman'],
+            ['r'],
+            ['foo@bar'],
+            [str_repeat('a', 191)]
+        ];
     }
 }

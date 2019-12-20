@@ -35,7 +35,7 @@ class ApiPackagesController extends AbstractController
      * @Route(
      *     "/api/packages/{name}",
      *      methods={"GET"},
-     *      requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"},
+     *      requirements={"name"="^[^-/]{1}[^/\s]{0,190}$"},
      *      name="app_api_package"
      * )
      * @param string $name
@@ -80,7 +80,7 @@ class ApiPackagesController extends AbstractController
      * @Route(
      *     "/api/packages/{name}/series",
      *      methods={"GET"},
-     *      requirements={"name"="^[^-/]{1}[^/\s]{1,255}$"},
+     *      requirements={"name"="^[^-/]{1}[^/\s]{0,190}$"},
      *      name="app_api_package_series"
      * )
      * @param string $name
@@ -204,7 +204,7 @@ class ApiPackagesController extends AbstractController
      * @SWG\Parameter(
      *     name="query",
      *     required=false,
-     *     maxLength=255,
+     *     maxLength=191,
      *     in="query",
      *     description="Search by package name",
      *     type="string"

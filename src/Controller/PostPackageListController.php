@@ -94,7 +94,7 @@ class PostPackageListController extends AbstractController
      *         description="List of package names",
      *         type="array",
      *         required=true,
-     *         items={"type"="string", "minLength"=1, "maxLength"=255, "minimum"=1, "maximum"=10000}
+     *         items={"type"="string", "minLength"=1, "maxLength"=191, "minimum"=1, "maximum"=10000}
      *     )
      * )
      */
