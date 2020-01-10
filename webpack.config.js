@@ -17,7 +17,8 @@ Encore
   .configureBabel(() => {}, { useBuiltIns: 'usage', corejs: 3 })
 
 if (Encore.isProduction()) {
-  Encore.addPlugin(new CompressionPlugin())
+  Encore.addPlugin(new CompressionPlugin({ filename: '[path].gz[query]', algorithm: 'gzip' }))
+  Encore.addPlugin(new CompressionPlugin({ filename: '[path].br[query]', algorithm: 'brotliCompress' }))
 } else {
   Encore.cleanupOutputBeforeBuild()
 }
