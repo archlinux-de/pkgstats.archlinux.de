@@ -2,7 +2,6 @@
   <div>
     <b-form-group>
       <b-form-input
-        autofocus
         debounce="250"
         placeholder="Package name"
         type="search"
