@@ -22,10 +22,5 @@ module.exports = {
         jest: true
       }
     }
-  ],
-  settings: {
-    polyfills: [
-      'fetch'
-    ]
-  }
+  ]
 }
