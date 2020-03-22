@@ -7,7 +7,7 @@ COMPOSE=UID=${UID} GID=${GID} docker-compose -f docker/docker-compose.yml -p pkg
 COMPOSE-RUN=${COMPOSE} run --rm -u ${UID}:${GID}
 PHP-DB-RUN=${COMPOSE-RUN} php
 PHP-RUN=${COMPOSE-RUN} --no-deps php
-NODE-RUN=${COMPOSE-RUN} --no-deps encore
+NODE-RUN=${COMPOSE-RUN} --no-deps -e DISABLE_OPENCOLLECTIVE=true encore
 MARIADB-RUN=${COMPOSE-RUN} --no-deps mariadb
 
 all: install
