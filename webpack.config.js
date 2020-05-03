@@ -9,7 +9,14 @@ Encore
   .addEntry('main', '@/js/main.js')
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
-  .enableSassLoader()
+  .enableSassLoader((options) => {
+    options.sourceMap = true
+    options.sassOptions = {
+      outputStyle: options.outputStyle,
+      sourceComments: !Encore.isProduction()
+    }
+    delete options.outputStyle
+  }, {})
   .enableSourceMaps(!Encore.isProduction())
   .enableVersioning(Encore.isProduction())
   .enablePostCssLoader()
