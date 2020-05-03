@@ -1,3 +1,3 @@
 FROM archlinux/base
 
-RUN pacman -Syu --noconfirm --needed base-devel npm python
+RUN pacman -Syu --noconfirm --needed yarn python base-devel

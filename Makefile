@@ -41,7 +41,7 @@ rebuild: clean
 
 install:
 	${PHP-RUN} composer --no-interaction install
-	${NODE-RUN} npm ci
+	${NODE-RUN} yarn install --non-interactive --frozen-lockfile
 
 shell-php:
 	${PHP-DB-RUN} bash
@@ -76,7 +76,7 @@ test-db-coverage: start-db
 
 test-security:
 	${PHP-RUN} bin/console security:check
-	${NODE-RUN} npm audit
+	${NODE-RUN} yarn audit
 
 fix-code-style:
 	${PHP-RUN} vendor/bin/phpcbf || true
@@ -86,12 +86,10 @@ fix-code-style:
 update:
 	${PHP-RUN} composer --no-interaction update
 	${PHP-RUN} composer --no-interaction update --lock
-	${NODE-RUN} npm install
-	${NODE-RUN} npm update
-	${NODE-RUN} npm audit fix
+	${NODE-RUN} yarn upgrade --non-interactive
 
 deploy:
-	npm ci
+	yarn install --non-interactive --frozen-lockfile --prod
 	node_modules/.bin/encore prod
 	find public/build -type f -mtime +30 -delete
 	find public/build -type d -empty -delete
