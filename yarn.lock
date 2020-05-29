@@ -2632,9 +2632,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-db@^1.0.30001059:
-  version "1.0.30001067"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001067.tgz#2cefe72e07490f2737b537f88e0dc42cf83c3fd8"
-  integrity sha512-idoz9VRtF3ycVF7NdeOkyHhmGBLZq3i4ib54v5LGEp/gnt/Vo0A2VWwF5zIigb/pIMzeCMqOMx2ioFfNh3P3EQ==
+  version "1.0.30001068"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001068.tgz#79fa671a063f03485c663f4165252f039c312c36"
+  integrity sha512-FF4o1nUDSnYY8rPCldTJ1486rqcgSZasQtWIMvSC3WOllFJNvmwhuBcApuWC1CD2TKTRnIBXqM4d4lJsCdRJzQ==
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000887, caniuse-lite@^1.0.30001043, caniuse-lite@^1.0.30001061:
   version "1.0.30001066"
@@ -7243,9 +7243,9 @@ mdast-util-compact@^2.0.0:
     unist-util-visit "^2.0.0"
 
 mdn-browser-compat-data@^1.0.21:
-  version "1.0.22"
-  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-1.0.22.tgz#17035cdb182bb72223f0feb9c12f6b77b4ee32fb"
-  integrity sha512-huoiqBhPzjuOx6pg9bbY0MiqXz+pKWWLxY8IsAIlS76lSY2ignepP8BGANst2P0VIekepnvC9oRGZkBHyxAiEQ==
+  version "1.0.23"
+  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-1.0.23.tgz#52e21d74e52d40bacf1cc3377755897ef1639033"
+  integrity sha512-qzabBf9lN1UG6Ju6am5j4bsy8PJSxlE8zQEyDXzKqD+nAQsAnA8apvbkgTSIA/ZpKgz/7qOtpJgtgGN00MEsIg==
   dependencies:
     extend "3.0.2"
 
@@ -7438,9 +7438,9 @@ mimic-fn@^2.0.0, mimic-fn@^2.1.0:
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
 
 min-indent@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/min-indent/-/min-indent-1.0.0.tgz#cfc45c37e9ec0d8f0a0ec3dd4ef7f7c3abe39256"
-  integrity sha1-z8RcN+nsDY8KDsPdTvf3w6vjklY=
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/min-indent/-/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
+  integrity sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==
 
 "mini-css-extract-plugin@>=0.4.0 <0.4.3":
   version "0.4.2"
@@ -10014,9 +10014,11 @@ serialize-javascript@^2.1.2:
   integrity sha512-rs9OggEUF0V4jUSecXazOYsLfu7OGK2qIn3c7IPBiffz32XniEp/TX9Xmc9LQfK2nQ2QKHvZ2oygKUGU0lG4jQ==
 
 serialize-javascript@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-3.0.0.tgz#492e489a2d77b7b804ad391a5f5d97870952548e"
-  integrity sha512-skZcHYw2vEX4bw90nAr2iTTsz6x2SrHEnfxgKYmZlvJYBEZrvbKtobJWlQ20zczKb3bsHHXXTYt48zBA7ni9cw==
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-3.1.0.tgz#8bf3a9170712664ef2561b44b691eafe399214ea"
+  integrity sha512-JIJT1DGiWmIKhzRsG91aS6Ze4sFUrYbltlkg2onR5OrnNM02Kl/hnY/T4FN2omvyeBbQmMJv+K4cPOpGzOTFBg==
+  dependencies:
+    randombytes "^2.1.0"
 
 serve-index@^1.9.1:
   version "1.9.1"
@@ -10813,10 +10815,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swagger-client@^3.10.4:
-  version "3.10.4"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.10.4.tgz#c16b455ff8b0d83fb1afab2ce6f25aa844548913"
-  integrity sha512-PhTvkghK1mWgeWiKIp8spOqEtVD82imtFARJQ4LfWoPfM9+QaJs5rUP/EJr0Wq5BHq5nr3VcSgY9JJ/lT7dM0Q==
+swagger-client@^3.10.5:
+  version "3.10.5"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.10.5.tgz#d1992e116a454dae5c9077e6033d70aaee6c0b06"
+  integrity sha512-7DRt7YxIa6hEHlm8GRDj87AfMhBRlrTXKklNjmuxkY6dNrr1TKwWnQUjuxmGXZ8JKuF4FlJTyJaN8BAr2ZvZpA==
   dependencies:
     "@babel/runtime-corejs2" "^7.0.0"
     "@kyleshockey/object-assign-deep" "^0.4.0"
@@ -10838,9 +10840,9 @@ swagger-client@^3.10.4:
     utfstring "^2.0.0"
 
 swagger-ui@^3.25.1:
-  version "3.25.4"
-  resolved "https://registry.yarnpkg.com/swagger-ui/-/swagger-ui-3.25.4.tgz#060c6d6470afa2a21c1b4a693522823b7fa2a693"
-  integrity sha512-71ZlH6Gr8sTVNA7TBrz6F+x6MF+9Jmdzq35Rdh61UBOsIp1IV81vtzqwXgj7D0h0t187IFEzBfklvYFa5vF/mA==
+  version "3.25.5"
+  resolved "https://registry.yarnpkg.com/swagger-ui/-/swagger-ui-3.25.5.tgz#2820a513293bd032f59a1927d56c483e01088fb3"
+  integrity sha512-YrklBccDuTgRm9FvF3E2ZbHfHMlE74k2wF8bW/peHnoQzjT0l6GsvTamO3J8/W7wPgLuWw/VCoNOoS+ySFf02g==
   dependencies:
     "@babel/runtime-corejs2" "^7.5.5"
     "@braintree/sanitize-url" "^4.0.0"
@@ -10874,7 +10876,7 @@ swagger-ui@^3.25.1:
     reselect "^4.0.0"
     serialize-error "^2.1.0"
     sha.js "^2.4.11"
-    swagger-client "^3.10.4"
+    swagger-client "^3.10.5"
     url-parse "^1.4.7"
     xml-but-prettier "^1.0.1"
     zenscroll "^4.0.2"
