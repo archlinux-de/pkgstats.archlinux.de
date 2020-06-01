@@ -9,18 +9,11 @@ Encore
   .addEntry('main', '@/js/main.js')
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
-  .enableSassLoader((options) => {
-    options.sourceMap = true
-    options.sassOptions = {
-      outputStyle: options.outputStyle,
-      sourceComments: !Encore.isProduction()
-    }
-    delete options.outputStyle
-  }, {})
+  .enableSassLoader()
   .enableSourceMaps(!Encore.isProduction())
   .enableVersioning(Encore.isProduction())
   .enablePostCssLoader()
-  .enableVueLoader()
+  .enableVueLoader(() => {}, { runtimeCompilerBuild: false })
   .configureBabel(() => {}, { useBuiltIns: 'usage', corejs: 3 })
 
 if (Encore.isProduction()) {
