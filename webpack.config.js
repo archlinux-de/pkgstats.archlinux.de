@@ -6,6 +6,7 @@ Encore
   .setOutputPath((process.env.PUBLIC_PATH || 'public') + '/build')
   .setPublicPath('/build')
   .addAliases({ '@': path.resolve(__dirname, 'assets') })
+  .addAliases({ 'bootstrap-vue$': 'bootstrap-vue/src/index.js' })
   .addEntry('main', '@/js/main.js')
   .splitEntryChunks()
   .enableSingleRuntimeChunk()
@@ -14,7 +15,7 @@ Encore
   .enableVersioning(Encore.isProduction())
   .enablePostCssLoader()
   .enableVueLoader(() => {}, { runtimeCompilerBuild: false })
-  .configureBabel(() => {}, { useBuiltIns: 'usage', corejs: 3 })
+  .configureBabel(() => {}, { useBuiltIns: 'usage', corejs: 3, includeNodeModules: ['bootstrap-vue'] })
 
 if (Encore.isProduction()) {
   Encore.addPlugin(new CompressionPlugin({ filename: '[path].gz[query]', algorithm: 'gzip' }))
