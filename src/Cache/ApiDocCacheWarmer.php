@@ -38,13 +38,15 @@ class ApiDocCacheWarmer implements CacheWarmerInterface
 
     /**
      * @param string $cacheDir
+     * @return string[]
      */
-    public function warmUp($cacheDir): void
+    public function warmUp($cacheDir): array
     {
         try {
             $this->documentationController->__invoke(Request::createFromGlobals());
         } catch (\Throwable $e) {
             $this->logger->warning($e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);
         }
+        return [];
     }
 }

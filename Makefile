@@ -76,7 +76,7 @@ test-db-coverage: start-db
 
 test-security:
 	${PHP-RUN} bin/console security:check
-	${NODE-RUN} yarn audit
+	${NODE-RUN} yarn audit --groups dependencies
 
 fix-code-style:
 	${PHP-RUN} vendor/bin/phpcbf || true
