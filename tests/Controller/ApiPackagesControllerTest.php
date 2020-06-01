@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Entity\Package;
 use App\Entity\User;
+use Symfony\Component\HttpFoundation\Response;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
 /**
@@ -38,8 +39,18 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
         $this->assertPackagePupularityList($client->getResponse()->getContent());
+    }
+
+    /**
+     * @param Response $response
+     */
+    private function assertAllowsCrossOriginAccess(Response $response): void
+    {
+        $this->assertTrue($response->headers->has('Access-Control-Allow-Origin'));
+        $this->assertEquals('*', $response->headers->get('Access-Control-Allow-Origin'));
     }
 
     /**
@@ -93,6 +104,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
         $this->assertPackagePupularityList($client->getResponse()->getContent());
     }
@@ -104,6 +116,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages/foo');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
         $this->assertPackagePupularity($client->getResponse()->getContent());
     }
@@ -135,6 +148,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages/' . $packageName);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
         $this->assertPackagePupularity($client->getResponse()->getContent());
     }
@@ -166,6 +180,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages', ['query' => 'pac', 'startMonth' => 0]);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
         $this->assertCount(1, $pupularityList['packagePopularities']);
@@ -199,6 +214,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages', ['startMonth' => '201801', 'endMonth' => '201812']);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
         $this->assertCount(1, $pupularityList['packagePopularities']);
@@ -236,6 +252,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages', ['limit' => '1', 'startMonth' => 0]);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
         $this->assertEquals(2, $pupularityList['total']);
@@ -271,6 +288,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $client->request('GET', '/api/packages/' . $packageName . '/series', ['startMonth' => 0]);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
         $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
         $this->assertEquals(1, $pupularityList['total']);
