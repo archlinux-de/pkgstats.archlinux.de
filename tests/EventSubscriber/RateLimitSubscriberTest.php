@@ -124,7 +124,7 @@ class RateLimitSubscriberTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array
      */
     public function provideInvalidControllers(): array
     {

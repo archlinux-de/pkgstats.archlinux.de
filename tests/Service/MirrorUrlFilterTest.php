@@ -19,7 +19,7 @@ class MirrorUrlFilterTest extends TestCase
     }
 
     /**
-     * @return array<array>
+     * @return array
      */
     public function provideUrls(): array
     {

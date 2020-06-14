@@ -84,7 +84,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @return array<array>
+     * @return array
      */
     public function provideSupportedVserions(): array
     {
@@ -98,7 +98,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @return array<array>
+     * @return array
      */
     public function provideUnsupportedVersions(): array
     {
@@ -357,7 +357,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @return array<array>
+     * @return array
      */
     public function provideSupportedArchitectures(): array
     {
@@ -367,7 +367,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @return array<array>
+     * @return array
      */
     public function provideUnsupportedArchitectures(): array
     {
@@ -379,7 +379,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @return array<array>
+     * @return array
      */
     public function provideUnsupportedCpuArchitectures(): array
     {

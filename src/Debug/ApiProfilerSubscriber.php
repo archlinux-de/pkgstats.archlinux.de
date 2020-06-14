@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ApiProfilerSubscriber implements EventSubscriberInterface
 {
     /**
-     * @return array<mixed>
+     * @return array
      */
     public static function getSubscribedEvents(): array
     {

@@ -11,7 +11,7 @@ use Symfony\Component\String\ByteString;
 class ApiCorsSubscriber implements EventSubscriberInterface
 {
     /**
-     * @return array<mixed>
+     * @return array
      */
     public static function getSubscribedEvents()
     {

@@ -43,7 +43,7 @@ class RateLimitSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @return array<mixed>
+     * @return array
      */
     public static function getSubscribedEvents()
     {
