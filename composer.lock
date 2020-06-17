@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "215cafb130f9db47c3229c279cb646ea",
+    "content-hash": "d1fae8e168485153e352d42998c21f48",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -3582,16 +3582,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.8.2",
+            "version": "v1.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "44c7de554df78da0a635a215a9d604e5e4ecc462"
+                "reference": "a91f5e9fa705bb5e3dd1de77fda1438b160af6d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/44c7de554df78da0a635a215a9d604e5e4ecc462",
-                "reference": "44c7de554df78da0a635a215a9d604e5e4ecc462",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/a91f5e9fa705bb5e3dd1de77fda1438b160af6d5",
+                "reference": "a91f5e9fa705bb5e3dd1de77fda1438b160af6d5",
                 "shasum": ""
             },
             "require": {
@@ -3641,7 +3641,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-06-15T15:14:13+00:00"
+            "time": "2020-06-16T14:17:10+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -5561,16 +5561,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6"
+                "reference": "9dc4f203e36f2b486149058bade43c851dd97451"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
-                "reference": "ab2cb0b3b559010b75981b1bdce728da3ee90ad6",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/9dc4f203e36f2b486149058bade43c851dd97451",
+                "reference": "9dc4f203e36f2b486149058bade43c851dd97451",
                 "shasum": ""
             },
             "require": {
@@ -5578,6 +5578,7 @@
                 "symfony/polyfill-ctype": "^1.8"
             },
             "conflict": {
+                "phpstan/phpstan": "<0.12.20",
                 "vimeo/psalm": "<3.9.1"
             },
             "require-dev": {
@@ -5605,7 +5606,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2020-04-18T12:12:48+00:00"
+            "time": "2020-06-16T10:16:42+00:00"
         },
         {
             "name": "zircote/swagger-php",
@@ -6528,16 +6529,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "4.0.1",
+            "version": "4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "cdc0db5aed8fbfaf475fbd95bfd7bab83c7a779c"
+                "reference": "e61c593e9734b47ef462340c24fca8d6a57da14e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/cdc0db5aed8fbfaf475fbd95bfd7bab83c7a779c",
-                "reference": "cdc0db5aed8fbfaf475fbd95bfd7bab83c7a779c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/e61c593e9734b47ef462340c24fca8d6a57da14e",
+                "reference": "e61c593e9734b47ef462340c24fca8d6a57da14e",
                 "shasum": ""
             },
             "require": {
@@ -6579,7 +6580,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-05-06T09:56:31+00:00"
+            "time": "2020-06-16T07:00:44+00:00"
         },
         {
             "name": "phpunit/phpunit",
