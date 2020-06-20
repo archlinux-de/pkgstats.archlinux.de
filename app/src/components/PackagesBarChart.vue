@@ -2,7 +2,7 @@
   <div>
     <b-alert :show="error != ''" variant="danger">{{ error }}</b-alert>
     <loading-spinner absolute v-if="loading"></loading-spinner>
-    <table class="table table-sm" v-b-visible="{ callback: visibilityChanged, once: true }">
+    <table class="table table-sm" v-b-visible.once="visibilityChanged">
       <colgroup>
         <col class="w-25">
         <col class="w-75">
