@@ -1,0 +1,15 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+app_start:
+    path: /
+    methods: GET
+
+app_fun:
+    path: /fun
+    methods: GET
+
+app_packages:
+    path: /packages
+    methods: GET

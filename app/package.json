@@ -1,0 +1,47 @@
+{
+  "name": "pkgstats.archlinux.de",
+  "license": "GPL-3.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "bootstrap-vue": "^2.15.0",
+    "chartist": "^0.11.4",
+    "chartist-plugin-legend": "^0.6.2",
+    "core-js": "^3.6.5",
+    "intersection-observer": "^0.10.0",
+    "swagger-ui": "^3.27.0",
+    "vue": "^2.6.11",
+    "vue-meta": "^2.4.0",
+    "vue-router": "^3.3.4",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.4.4",
+    "@vue/cli-plugin-eslint": "^4.4.4",
+    "@vue/cli-plugin-router": "~4.4.4",
+    "@vue/cli-plugin-unit-jest": "~4.4.4",
+    "@vue/cli-service": "~4.4.4",
+    "@vue/eslint-config-standard": "^5.1.2",
+    "@vue/test-utils": "^1.0.3",
+    "babel-eslint": "^10.1.0",
+    "compression-webpack-plugin": "^4.0.0",
+    "eslint": "^7.2.0",
+    "eslint-plugin-compat": "^3.7.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "sass": "^1.26.8",
+    "sass-loader": "^8.0.2",
+    "stylelint": "^13.6.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-no-unsupported-browser-features": "^4.0.0",
+    "vue-template-compiler": "^2.6.11"
+  }
+}

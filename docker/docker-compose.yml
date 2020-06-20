@@ -6,15 +6,15 @@ volumes:
   php-fpm-socket:
 
 services:
-  php:
+  api:
     build: php
-    working_dir: /app
+    working_dir: /app/api
     environment:
       - HOME=/tmp
     command: php-fpm -F
     user: "${UID}:${GID}"
     volumes:
-      - ../:/app
+      - ../api:/app/api
       - mariadb-socket:/run/mysqld
       - php-fpm-socket:/run/php-fpm
     tmpfs:
@@ -22,15 +22,15 @@ services:
     depends_on:
       - mariadb
 
-  encore:
+  app:
     build: node
-    working_dir: /app
+    working_dir: /app/app
     environment:
       - HOME=/tmp
-    command: node_modules/.bin/encore dev-server --host 0.0.0.0 --port 8180 --disable-host-check --inline=false --output-public-path=/build/
+    command: yarn serve
     user: "${UID}:${GID}"
     volumes:
-      - ../:/app
+      - ../app:/app/app
     tmpfs:
       - /tmp
 
@@ -48,7 +48,8 @@ services:
       - /tmp
       - /var/lib/nginx
     depends_on:
-      - php
+      - api
+      - app
 
   mariadb:
     build: mariadb

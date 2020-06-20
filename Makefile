@@ -5,9 +5,9 @@ UID!=id -u
 GID!=id -g
 COMPOSE=UID=${UID} GID=${GID} docker-compose -f docker/docker-compose.yml -p pkgstats_archlinux_de
 COMPOSE-RUN=${COMPOSE} run --rm -u ${UID}:${GID}
-PHP-DB-RUN=${COMPOSE-RUN} php
-PHP-RUN=${COMPOSE-RUN} --no-deps php
-NODE-RUN=${COMPOSE-RUN} --no-deps -e DISABLE_OPENCOLLECTIVE=true encore
+PHP-DB-RUN=${COMPOSE-RUN} api
+PHP-RUN=${COMPOSE-RUN} --no-deps api
+NODE-RUN=${COMPOSE-RUN} --no-deps -e DISABLE_OPENCOLLECTIVE=true app
 MARIADB-RUN=${COMPOSE-RUN} --no-deps mariadb
 
 all: install
@@ -52,12 +52,12 @@ shell-node:
 test:
 	${PHP-RUN} composer validate
 	${PHP-RUN} vendor/bin/phpcs
-	${NODE-RUN} node_modules/.bin/eslint assets --ext js --ext vue
-	${NODE-RUN} node_modules/.bin/stylelint 'assets/css/**/*.scss' 'assets/css/**/*.css' 'assets/js/**/*.vue'
+	${NODE-RUN} node_modules/.bin/eslint src --ext js --ext vue
+	${NODE-RUN} node_modules/.bin/stylelint 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
 	${NODE-RUN} node_modules/.bin/jest
 	${PHP-RUN} bin/console lint:yaml config
 	${PHP-RUN} bin/console lint:twig templates
-	${NODE-RUN} sh -c "PUBLIC_PATH=/tmp node_modules/.bin/encore prod"
+	${NODE-RUN} yarn build --modern --dest $(shell mktemp -d)
 	${PHP-RUN} vendor/bin/phpstan analyse
 	${PHP-RUN} vendor/bin/phpunit
 
@@ -80,19 +80,19 @@ test-security:
 
 fix-code-style:
 	${PHP-RUN} vendor/bin/phpcbf || true
-	${NODE-RUN} node_modules/.bin/eslint assets --fix --ext js --ext vue
-	${NODE-RUN} node_modules/.bin/stylelint --fix 'assets/css/**/*.scss' 'assets/css/**/*.css' 'assets/js/**/*.vue'
+	${NODE-RUN} node_modules/.bin/eslint src --fix --ext js --ext vue
+	${NODE-RUN} node_modules/.bin/stylelint --fix 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
 
 update:
 	${PHP-RUN} composer --no-interaction update
-	${PHP-RUN} composer --no-interaction update --lock
+	${PHP-RUN} composer --no-interaction update --lock --no-scripts
 	${NODE-RUN} yarn upgrade --non-interactive
 
 deploy:
-	yarn install --non-interactive --frozen-lockfile --prod
-	node_modules/.bin/encore prod
-	find public/build -type f -mtime +30 -delete
-	find public/build -type d -empty -delete
-	composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
-	composer dump-env prod
-	bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+	cd app && yarn install --non-interactive --frozen-lockfile
+	cd app && yarn build --modern --no-clean
+	cd app && find dist -type f -mtime +30 -delete
+	cd app && find dist -type d -empty -delete
+	cd api && composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
+	cd api && composer dump-env prod
+	cd api && bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
