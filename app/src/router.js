@@ -8,6 +8,7 @@ import Package from './views/Package'
 import Packages from './views/Packages'
 import PrivacyPolicy from './views/PrivacyPolicy'
 import Start from './views/Start'
+import NotFound from './views/NotFound'
 
 Vue.use(Router)
 
@@ -23,6 +24,7 @@ export default new Router({
     { path: '/packages', name: 'packages', component: Packages },
     { path: '/privacy-policy', name: 'privacy-policy', component: PrivacyPolicy },
     { path: '/', name: 'start', component: Start },
-    { path: '/api/doc', name: 'api-doc', component: () => import(/* webpackChunkName: "api-doc" */ '@/views/ApiDoc') }
+    { path: '/api/doc', name: 'api-doc', component: () => import(/* webpackChunkName: "api-doc" */ '@/views/ApiDoc') },
+    { path: '*', component: NotFound }
   ]
 })
