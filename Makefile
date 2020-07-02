@@ -16,6 +16,7 @@ init: start
 	${PHP-DB-RUN} bin/console cache:warmup
 	${PHP-DB-RUN} bin/console doctrine:database:create
 	${PHP-DB-RUN} bin/console doctrine:schema:create
+	${PHP-DB-RUN} bin/console doctrine:migrations:sync-metadata-storage --no-interaction
 	${PHP-DB-RUN} bin/console doctrine:migrations:version --add --all --no-interaction
 
 start:
@@ -58,7 +59,7 @@ test:
 	${PHP-RUN} bin/console lint:yaml config
 	${PHP-RUN} bin/console lint:twig templates
 	${NODE-RUN} yarn build --modern --dest $(shell mktemp -d)
-	${PHP-RUN} vendor/bin/phpstan analyse
+	${PHP-RUN} php -dmemory_limit=-1 vendor/bin/phpstan analyse
 	${PHP-RUN} vendor/bin/phpunit
 
 test-db: start-db
@@ -95,4 +96,5 @@ deploy:
 	cd app && find dist -type d -empty -delete
 	cd api && composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
 	cd api && composer dump-env prod
+	cd api && bin/console doctrine:migrations:sync-metadata-storage --no-interaction
 	cd api && bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
