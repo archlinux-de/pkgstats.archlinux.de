@@ -19,6 +19,12 @@ module.exports = {
   },
   chainWebpack: config => {
     config.resolve.alias.set('bootstrap-vue$', 'bootstrap-vue/src/index.js')
+
+    config.plugin('prefetch').tap(options => {
+      options[0].fileBlacklist = options[0].fileBlacklist || []
+      options[0].fileBlacklist.push(/api-doc(.)+?\.js$/)
+      return options
+    })
   },
   transpileDependencies: ['bootstrap-vue']
 }

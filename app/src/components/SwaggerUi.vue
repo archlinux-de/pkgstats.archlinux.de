@@ -1,19 +1,11 @@
 <template>
-  <div id="swagger-ui"></div>
+  <div></div>
 </template>
-
-<style lang="scss">
-  @import "~swagger-ui/dist/swagger-ui.css";
-
-  .swagger-ui {
-    .information-container {
-      display: none;
-    }
-  }
-</style>
 
 <script>
 import SwaggerUI from 'swagger-ui'
+import retargetEvents from 'react-shadow-dom-retarget-events'
+import Styles from '!css-loader!swagger-ui/dist/swagger-ui.css' // eslint-disable-line
 
 export default {
   name: 'swagger-ui',
@@ -24,8 +16,22 @@ export default {
     }
   },
   mounted () {
+    let rootNode = this.$el
+
+    if (HTMLElement.prototype.attachShadow) {
+      rootNode = rootNode.attachShadow({ mode: 'open' })
+      retargetEvents(rootNode)
+    }
+
+    const styleNode = document.createElement('style')
+    styleNode.innerHTML = Styles + '.information-container { display: none;}'
+    rootNode.appendChild(styleNode)
+
+    const swaggerNode = document.createElement('div')
+    rootNode.appendChild(swaggerNode)
+
     SwaggerUI({
-      domNode: this.$el,
+      domNode: swaggerNode,
       url: this.url,
       defaultModelsExpandDepth: 0
     })
