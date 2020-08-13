@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a55fc6374d07ebc2701830df45f15e7",
+    "content-hash": "092a9546604d7326e9dc815e87597a85",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1759,16 +1759,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v3.6.1",
+            "version": "v3.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "ab014fe032beb1a7875939ff4162e8d05ad778ab"
+                "reference": "d9f1611f729782fe12a849748813eac27e45eef9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/ab014fe032beb1a7875939ff4162e8d05ad778ab",
-                "reference": "ab014fe032beb1a7875939ff4162e8d05ad778ab",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/d9f1611f729782fe12a849748813eac27e45eef9",
+                "reference": "d9f1611f729782fe12a849748813eac27e45eef9",
                 "shasum": ""
             },
             "require": {
@@ -1787,7 +1787,7 @@
                 "api-platform/core": "^2.1.2",
                 "doctrine/annotations": "^1.2",
                 "doctrine/common": "^2.4",
-                "friendsofsymfony/rest-bundle": "^2.0",
+                "friendsofsymfony/rest-bundle": "^2.0|^3.0@beta",
                 "jms/serializer": "^1.14|^3.0",
                 "jms/serializer-bundle": "^2.3|^3.0",
                 "sensio/framework-extra-bundle": "^3.0.13|^4.0|^5.0",
@@ -1800,7 +1800,7 @@
                 "symfony/form": "^3.4|^4.0|^5.0",
                 "symfony/phpunit-bridge": "^3.4.24|^4.0|^5.0",
                 "symfony/property-access": "^3.4|^4.0|^5.0",
-                "symfony/routing": "^3.4|^4.0|^5.0",
+                "symfony/routing": "^3.4.42|^4.0|^5.0",
                 "symfony/stopwatch": "^3.4|^4.0|^5.0",
                 "symfony/templating": "^3.4|^4.0|^5.0",
                 "symfony/twig-bundle": "^3.4|^4.0|^5.0",
@@ -1814,13 +1814,16 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.6.x-dev"
+                    "dev-3.x": "3.7.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
                     "Nelmio\\ApiDocBundle\\": ""
-                }
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1843,7 +1846,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2020-03-31T10:05:08+00:00"
+            "time": "2020-08-12T09:06:17+00:00"
         },
         {
             "name": "ocramius/package-versions",
