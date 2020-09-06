@@ -96,6 +96,6 @@ deploy:
 	cd app && find dist -type d -empty -delete
 	cd api && composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
 	cd api && composer dump-env prod
-	sudo systemctl restart php-fpm@pkgstats.service
+	systemctl restart php-fpm@pkgstats.service
 	cd api && bin/console doctrine:migrations:sync-metadata-storage --no-interaction
 	cd api && bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
