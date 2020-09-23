@@ -14,7 +14,11 @@ final class Version20190621141307 extends AbstractMigration
     {
         $mirrorUrlFilter = new MirrorUrlFilter();
 
-        foreach ($this->connection->fetchAll('SELECT DISTINCT mirror FROM `user` WHERE mirror IS NOT NULL ') as $row) {
+        foreach (
+            $this->connection->fetchAllAssociative(
+                'SELECT DISTINCT mirror FROM `user` WHERE mirror IS NOT NULL '
+            ) as $row
+        ) {
             $mirror = $mirrorUrlFilter->filter($row['mirror']);
             if ($mirror != $row['mirror']) {
                 $this->connection->update(
