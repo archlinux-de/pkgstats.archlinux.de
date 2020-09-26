@@ -14,10 +14,9 @@ jobs:
       - run: make test
       - run: make test-db
       - name: Run auto commit
-        uses: stefanzweifel/git-auto-commit-action@v2.0.0
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_author_email: bob@archlinux.de
-          commit_author_name: Maintenance Bob
           commit_message: Update dependencies
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commit_user_name: Maintenance Bob
+          commit_user_email: bob@archlinux.de
+          commit_author: Maintenance Bob <bob@archlinux.de>
