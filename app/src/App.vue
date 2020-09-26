@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="page">
     <b-navbar class="navbar-border-brand nav-no-outline mb-4" toggleable="sm" type="dark" variant="dark">
       <b-navbar-brand :to="{name: 'start'}">
         <img alt="Arch Linux" height="40" :src="logo"/>
@@ -17,9 +17,9 @@
       </b-collapse>
     </b-navbar>
 
-    <router-view/>
+    <router-view id="content"/>
 
-    <footer>
+    <footer id="footer">
       <b-nav align="right" class="nav-no-outline">
         <b-nav-item :to="{name: 'privacy-policy'}">Privacy policy</b-nav-item>
         <b-nav-item :to="{name: 'impressum'}">Impressum</b-nav-item>
@@ -40,6 +40,22 @@
     button:focus {
       outline: 0;
     }
+  }
+
+  #page {
+    position: relative;
+    min-height: 100vh;
+  }
+
+  #content {
+    padding-bottom: 2.3rem;
+  }
+
+  #footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.3rem;
   }
 
   @import "~bootstrap/scss/bootstrap.scss";
@@ -66,14 +82,27 @@ export default {
     return {
       title: 'Statistics',
       titleTemplate: '%s - pkgstats',
-      meta: [{ vmid: 'robots', name: 'robots', content: 'index,follow' }],
-      link: [{ rel: 'icon', href: this.icon, sizes: 'any', type: 'image/svg+xml' }]
+      meta: [
+        { vmid: 'robots', name: 'robots', content: 'index,follow' },
+        { name: 'theme-color', content: '#333' }
+      ],
+      link: [
+        { rel: 'icon', href: this.icon, sizes: 'any', type: 'image/svg+xml' },
+        { rel: 'manifest', href: '/manifest.webmanifest' }
+      ]
     }
   },
   data () {
     return {
       logo: LogoImage,
       icon: IconImage
+    }
+  },
+  mounted () {
+    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register(`${process.env.BASE_URL}service-worker.js`)
+      })
     }
   }
 }

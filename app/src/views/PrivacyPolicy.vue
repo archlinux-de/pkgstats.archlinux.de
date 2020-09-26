@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid role="main" tag="main">
+  <b-container role="main" tag="main">
     <h1 class="mb-4">Privacy policy</h1>
     <b-row>
       <b-col lg="6">

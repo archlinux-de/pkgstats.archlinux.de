@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid role="main" tag="main">
+  <b-container role="main" tag="main">
     <b-row>
       <b-col cols="12" xl="9">
         <b-jumbotron class="p-2 p-xl-3">

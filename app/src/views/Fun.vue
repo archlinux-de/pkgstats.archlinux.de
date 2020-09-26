@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid role="main" tag="main">
+  <b-container role="main" tag="main">
     <h1 class="mb-4">Fun statistics</h1>
     <div :key="title" v-for="(pkgs, title) in config">
       <h2>

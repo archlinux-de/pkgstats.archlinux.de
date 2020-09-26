@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid role="main" tag="main">
+  <b-container role="main" tag="main">
     <h1 class="mb-4">Impressum</h1>
     <div class="d-inline-flex">
       <table class="table table-sm">

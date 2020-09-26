@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid role="main" tag="main">
+  <b-container role="main" tag="main">
     <h1 class="mb-4">Package statistics</h1>
     <package-list :initial-query="initialQuery" :limit="40"></package-list>
   </b-container>
