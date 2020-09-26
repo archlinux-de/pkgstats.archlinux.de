@@ -1,5 +1,3 @@
-FROM archlinux/base
+FROM nginx:stable-alpine
 
-RUN pacman -Syu --noconfirm --needed nginx
-RUN chmod -R 1777 /var/lib/nginx /run
-ADD etc/ /etc
+ADD default.conf /etc/nginx/conf.d/

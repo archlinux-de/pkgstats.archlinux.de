@@ -1,29 +1,21 @@
 version: "3.4"
 
-volumes:
-  mariadb-socket:
-  mariadb-data:
-  php-fpm-socket:
-
 services:
   api:
     build: php
     working_dir: /app/api
     environment:
       - HOME=/tmp
-    command: php-fpm -F
     user: "${UID}:${GID}"
     volumes:
       - ../api:/app/api
-      - mariadb-socket:/run/mysqld
-      - php-fpm-socket:/run/php-fpm
     tmpfs:
       - /tmp
     depends_on:
       - mariadb
 
   app:
-    build: node
+    image: node:alpine
     working_dir: /app/app
     environment:
       - HOME=/tmp
@@ -36,42 +28,32 @@ services:
 
   nginx:
     build: nginx
-    working_dir: /app
-    command: nginx -g "daemon off;"
-    user: "${UID}:${GID}"
     ports:
-      - "8180:8180"
+      - "8180:80"
     volumes:
       - ../:/app:ro
-      - php-fpm-socket:/run/php-fpm
     tmpfs:
       - /tmp
-      - /var/lib/nginx
     depends_on:
       - api
       - app
 
   mariadb:
-    build: mariadb
-    command: mysqld
-    user: mysql
-    network_mode: none
-    volumes:
-      - mariadb-data:/var/lib/mysql
-      - mariadb-socket:/run/mysqld
+    image: mariadb:10
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     tmpfs:
       - /tmp
 
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:4.7.7-1
+    image: phpmyadmin/phpmyadmin
     environment:
-      - PMA_HOST=localhost
+      - PMA_HOST=mariadb
       - PMA_USER=root
       - PMA_PASSWORD=
     ports:
       - "8190:80"
-    volumes:
-      - mariadb-socket:/run/mysqld
     tmpfs:
       - /tmp
     depends_on:

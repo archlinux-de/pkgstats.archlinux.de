@@ -21,11 +21,11 @@ init: start
 
 start:
 	${COMPOSE} up -d
-	${MARIADB-RUN} mysqladmin -uroot --wait=10 ping
+	${MARIADB-RUN} mysqladmin -uroot -hmariadb --wait=10 ping
 
 start-db:
 	${COMPOSE} up -d mariadb
-	${MARIADB-RUN} mysqladmin -uroot --wait=10 ping
+	${MARIADB-RUN} mysqladmin -uroot -hmariadb --wait=10 ping
 
 stop:
 	${COMPOSE} stop
@@ -45,10 +45,10 @@ install:
 	${NODE-RUN} yarn install --non-interactive --frozen-lockfile
 
 shell-php:
-	${PHP-DB-RUN} bash
+	${PHP-DB-RUN} sh
 
 shell-node:
-	${NODE-RUN} bash
+	${NODE-RUN} sh
 
 test:
 	${PHP-RUN} composer validate
@@ -99,3 +99,7 @@ deploy:
 	systemctl restart php-fpm@pkgstats.service
 	cd api && bin/console doctrine:migrations:sync-metadata-storage --no-interaction
 	cd api && bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+
+deploy-permissions:
+	cd api && sudo setfacl -dR -m u:php-pkgstats:rwX -m u:deployer:rwX var
+	cd api && sudo setfacl -R -m u:php-pkgstats:rwX -m u:deployer:rwX var
