@@ -14,8 +14,9 @@ module.exports = {
       'URL',
       'Object.entries',
       'Array.from',
-      'Promise.all',
-      'Math.sign'
+      'Promise',
+      'Math.sign',
+      'AbortController'
     ]
   },
   parserOptions: {

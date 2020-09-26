@@ -7,15 +7,23 @@ const createApiPackagesService = fetch => {
    * @param {string} url
    * @returns {Promise<any>}
    */
-  const fetchJson = url => fetch(url, {
-    credentials: 'omit',
-    headers: { Accept: 'application/json' }
-  }).then(response => {
-    if (response.ok) {
-      return response.json()
-    }
-    throw new Error(`Fetching URL "${url}" failed with "${response.statusText}"`)
-  })
+  const fetchJson = url => {
+    const controller = new AbortController()
+    setTimeout(() => { controller.abort() }, 5000)
+
+    return fetch(url, {
+      credentials: 'omit',
+      headers: { Accept: 'application/json' },
+      signal: controller.signal
+    }).then(response => {
+      if (response.ok) {
+        return response.json()
+      }
+      throw new Error(response.statusText)
+    }).catch(error => {
+      throw new Error(`Fetching URL "${url}" failed with "${error.message}"`)
+    })
+  }
 
   /**
    * @param {string} path

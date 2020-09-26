@@ -14,7 +14,8 @@ describe('Testing fetchPackagePopularity', () => {
       'http://localhost/api/packages/nodejs',
       {
         credentials: 'omit',
-        headers: { Accept: 'application/json' }
+        headers: { Accept: 'application/json' },
+        signal: (new AbortController()).signal
       }
     )
   })
@@ -62,7 +63,8 @@ describe('Testing fetchPackageSeries', () => {
       'http://localhost/api/packages/nodejs/series?endMonth=202012&limit=100&offset=10&startMonth=202001',
       {
         credentials: 'omit',
-        headers: { Accept: 'application/json' }
+        headers: { Accept: 'application/json' },
+        signal: (new AbortController()).signal
       }
     )
   })
@@ -83,7 +85,8 @@ describe('Testing fetchPackageSeries', () => {
       'http://localhost/api/packages/nodejs/series?limit=0&startMonth=0',
       {
         credentials: 'omit',
-        headers: { Accept: 'application/json' }
+        headers: { Accept: 'application/json' },
+        signal: (new AbortController()).signal
       }
     )
   })
@@ -101,7 +104,8 @@ describe('Testing fetchPackageSeries', () => {
       'http://localhost/api/packages/nodejs/series?limit=0&startMonth=0',
       {
         credentials: 'omit',
-        headers: { Accept: 'application/json' }
+        headers: { Accept: 'application/json' },
+        signal: (new AbortController()).signal
       }
     )
   })
@@ -139,7 +143,8 @@ describe('Testing fetchPackageList', () => {
       'http://localhost/api/packages?endMonth=202012&limit=100&offset=10&query=nodejs&startMonth=202001',
       {
         credentials: 'omit',
-        headers: { Accept: 'application/json' }
+        headers: { Accept: 'application/json' },
+        signal: (new AbortController()).signal
       }
     )
   })
@@ -156,7 +161,8 @@ describe('Testing fetchPackageList', () => {
       'http://localhost/api/packages',
       {
         credentials: 'omit',
-        headers: { Accept: 'application/json' }
+        headers: { Accept: 'application/json' },
+        signal: (new AbortController()).signal
       }
     )
   })
