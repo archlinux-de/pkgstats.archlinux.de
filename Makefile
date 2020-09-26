@@ -99,6 +99,8 @@ deploy:
 	systemctl restart php-fpm@pkgstats.service
 	cd api && bin/console doctrine:migrations:sync-metadata-storage --no-interaction
 	cd api && bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+	# warmup doctrine app cache
+	curl -s -o /dev/null 'https://pkgstats.archlinux.de/api/packages/pkgstats/series?limit=0&startMonth=0'
 
 deploy-permissions:
 	cd api && sudo setfacl -dR -m u:php-pkgstats:rwX -m u:deployer:rwX var
