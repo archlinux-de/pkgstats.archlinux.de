@@ -11,7 +11,7 @@ class PkgstatsRequest
     /**
      * @var string
      * @Assert\NotBlank()
-     * @Assert\Regex(pattern="/^2\.[34](\.[0-9]+)?$/")
+     * @Assert\Regex(pattern="/^2\.[345](\.[0-9]+(-[\w-]+)?)?$/")
      */
     private $version;
 
