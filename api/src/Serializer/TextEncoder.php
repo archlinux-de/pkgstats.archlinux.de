@@ -14,10 +14,12 @@ class TextEncoder implements EncoderInterface
 
         $result = '';
         if (isset($data['trace']) && isset($context['exception']) && $context['exception'] instanceof \Exception) {
+            $data['message'] =  $context['exception']->getMessage();
             $data['trace'] = "\n" . $context['exception']->getTraceAsString();
         }
+        ksort($data);
         foreach ($data as $key => $value) {
-            $result .= $key . ":\t" . print_r($value, true) . "\n";
+            $result .= $key . ": " . print_r($value, true) . "\n";
         }
         return $result;
     }
