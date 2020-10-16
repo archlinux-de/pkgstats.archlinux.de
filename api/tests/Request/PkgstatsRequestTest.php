@@ -17,12 +17,10 @@ class PkgstatsRequestTest extends TestCase
         $package = $this->createMock(Package::class);
 
         $request = new PkgstatsRequest('1.0', $user);
-        $request->setQuiet(true);
         $request->addPackage($package);
 
         $this->assertEquals('1.0', $request->getVersion());
         $this->assertSame($user, $request->getUser());
-        $this->assertTrue($request->isQuiet());
 
         $packages = $request->getPackages();
         $this->assertCount(1, $packages);

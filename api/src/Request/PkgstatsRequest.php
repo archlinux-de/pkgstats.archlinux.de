@@ -11,7 +11,7 @@ class PkgstatsRequest
     /**
      * @var string
      * @Assert\NotBlank()
-     * @Assert\Regex(pattern="/^2\.[345](\.[0-9]+(-[\w-]+)?)?$/")
+     * @Assert\Regex(pattern="/^(2\.[345]|3(\.[0-9]+)?)(\.[0-9]+(-[\w-]+)?)?$/")
      */
     private $version;
 
@@ -29,11 +29,6 @@ class PkgstatsRequest
     private $packages = [];
 
     /**
-     * @var bool
-     */
-    private $quiet = false;
-
-    /**
      * @param string $version
      * @param User $user
      */
@@ -41,24 +36,6 @@ class PkgstatsRequest
     {
         $this->version = $version;
         $this->user = $user;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isQuiet(): bool
-    {
-        return $this->quiet;
-    }
-
-    /**
-     * @param bool $quiet
-     * @return PkgstatsRequest
-     */
-    public function setQuiet(bool $quiet): PkgstatsRequest
-    {
-        $this->quiet = $quiet;
-        return $this;
     }
 
     /**

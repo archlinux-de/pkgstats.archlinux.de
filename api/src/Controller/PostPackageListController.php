@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Swagger\Annotations as SWG;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,6 +27,7 @@ class PostPackageListController extends AbstractController
     }
 
     /**
+     * @deprecated
      * @Route(
      *     "/post",
      *      methods={"POST"},
@@ -34,11 +36,13 @@ class PostPackageListController extends AbstractController
      *      name="app_pkgstats_post"
      * )
      * @param PkgstatsRequest $pkgstatsRequest
+     * @param Request $request
      * @return Response
      *
      * @SWG\Tag(name="pkgstats")
      * @SWG\Post(
      *     description="POST endpoint for the pkgstats cli tool",
+     *     deprecated=true,
      *     produces={"text/plain"},
      *     @SWG\Response(
      *         response=200,
@@ -49,7 +53,7 @@ class PostPackageListController extends AbstractController
      *         description="Validation failed"
      *     ),
      *     @SWG\Response(
-     *         response=403,
+     *         response=429,
      *         description="Rate limit was reached"
      *     ),
      *     @SWG\Parameter(
@@ -98,7 +102,112 @@ class PostPackageListController extends AbstractController
      *     )
      * )
      */
-    public function postAction(PkgstatsRequest $pkgstatsRequest): Response
+    public function postAction(PkgstatsRequest $pkgstatsRequest, Request $request): Response
+    {
+        $this->persistSubmission($pkgstatsRequest);
+
+        return $this->render('post.text.twig', ['quiet' => $request->get('quiet') === 'true']);
+    }
+
+    /**
+     * @Route(
+     *     "/api/submit",
+     *      methods={"POST"},
+     *      condition="request.headers.get('Content-Type') === 'application/json'",
+     *      name="app_api_submit"
+     * )
+     *
+     * @SWG\Tag(name="pkgstats")
+     * @SWG\Post(
+     *     description="POST endpoint for the pkgstats cli tool",
+     *     consumes={"application/json"},
+     *     produces={"application/json"},
+     *     @SWG\Response(
+     *         response=204,
+     *         description="Submission was successful"
+     *     ),
+     *     @SWG\Response(
+     *         response=400,
+     *         description="Validation failed"
+     *     ),
+     *     @SWG\Response(
+     *         response=429,
+     *         description="Rate limit was reached"
+     *     ),
+     *     @SWG\Parameter(
+     *         in="header",
+     *         name="User-Agent",
+     *         description="",
+     *         type="string",
+     *         required=true,
+     *         enum={"pkgstats/3.0.0"}
+     *     ),
+     *      @SWG\Parameter(
+     *         in="body",
+     *         name="PkgstatsRequest",
+     *         required=true,
+     *         @SWG\Schema(
+     *            type="object",
+     *            @SWG\Property(
+     *               property="version",
+     *               type="string",
+     *               example="3"
+     *            ),
+     *            @SWG\Property (
+     *               type="object",
+     *               property="system",
+     *                  @SWG\Property(
+     *                     property="architecture",
+     *                     type="string",
+     *                     description="Architecture of the CPU",
+     *                     example="x86_64"
+     *                  ),
+     *           ),
+     *            @SWG\Property (
+     *               type="object",
+     *               property="os",
+     *                  @SWG\Property(
+     *                     property="architecture",
+     *                     type="string",
+     *                     description="Architecture of the distribution",
+     *                     example="x86_64"
+     *                  ),
+     *           ),
+     *            @SWG\Property (
+     *               type="object",
+     *               property="pacman",
+     *                  @SWG\Property(
+     *                     property="mirror",
+     *                     type="string",
+     *                     description="Package mirror",
+     *                     example="https://mirror.pkgbuild.com/"
+     *                  ),
+     *                  @SWG\Property(
+     *                     property="packages",
+     *                     type="array",
+     *                     items={"type"="string", "minLength"=1, "maxLength"=191, "minimum"=1, "maximum"=10000},
+     *                     description="List of package names",
+     *                     example={"pacman", "linux", "pkgstats"}
+     *                  )
+     *           )
+     *         )
+     *     )
+     * )
+     *
+     * @param PkgstatsRequest $pkgstatsRequest
+     * @return Response
+     */
+    public function submitAction(PkgstatsRequest $pkgstatsRequest): Response
+    {
+        $this->persistSubmission($pkgstatsRequest);
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @param PkgstatsRequest $pkgstatsRequest
+     */
+    private function persistSubmission(PkgstatsRequest $pkgstatsRequest): void
     {
         $user = $pkgstatsRequest->getUser();
         $packages = $pkgstatsRequest->getPackages();
@@ -122,7 +231,5 @@ class PostPackageListController extends AbstractController
                 }
             }
         );
-
-        return $this->render('post.text.twig', ['quiet' => $pkgstatsRequest->isQuiet()]);
     }
 }

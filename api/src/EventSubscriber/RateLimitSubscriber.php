@@ -4,10 +4,10 @@ namespace App\EventSubscriber;
 
 use App\Controller\PostPackageListController;
 use App\Repository\UserRepository;
-use App\Service\ClientIdGenerator;
+use App\Request\PkgstatsRequest;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class RateLimitSubscriber implements EventSubscriberInterface
@@ -18,27 +18,18 @@ class RateLimitSubscriber implements EventSubscriberInterface
     /** @var int */
     private $count;
 
-    /** @var ClientIdGenerator */
-    private $clientIdGenerator;
-
     /** @var UserRepository */
     private $userRepository;
 
     /**
      * @param int $delay
      * @param int $count
-     * @param ClientIdGenerator $clientIdGenerator
      * @param UserRepository $userRepository
      */
-    public function __construct(
-        int $delay,
-        int $count,
-        ClientIdGenerator $clientIdGenerator,
-        UserRepository $userRepository
-    ) {
+    public function __construct(int $delay, int $count, UserRepository $userRepository)
+    {
         $this->delay = $delay;
         $this->count = $count;
-        $this->clientIdGenerator = $clientIdGenerator;
         $this->userRepository = $userRepository;
     }
 
@@ -62,13 +53,25 @@ class RateLimitSubscriber implements EventSubscriberInterface
         }
 
         if (isset($controller[0]) && $controller[0] instanceof PostPackageListController) {
+            /** @var PkgstatsRequest $pkgStatsRequest */
+            $pkgStatsRequest = $event->getRequest()->attributes->get('pkgstatsRequest');
+            if (!$pkgStatsRequest instanceof PkgstatsRequest) {
+                throw new \RuntimeException('Missing ' . PkgstatsRequest::class);
+            }
+
             $submissionCount = $this->userRepository->getSubmissionCountSince(
-                $this->clientIdGenerator->createClientId($event->getRequest()->getClientIp() ?? '127.0.0.1'),
+                $pkgStatsRequest->getUser()->getIp(),
                 time() - $this->delay
             );
+
             if ($submissionCount >= $this->count) {
-                throw new AccessDeniedHttpException(
-                    sprintf('You already submitted your data %d times.', $this->count)
+                throw new TooManyRequestsHttpException(
+                    $this->delay,
+                    sprintf(
+                        'You already submitted your data %d times. Retry after %d seconds',
+                        $this->count,
+                        $this->delay
+                    )
                 );
             }
         }

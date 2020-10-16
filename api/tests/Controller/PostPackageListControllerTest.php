@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\PackageRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Component\HttpFoundation\Response;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
 /**
@@ -14,6 +15,60 @@ use SymfonyDatabaseTest\DatabaseTestCase;
  */
 class PostPackageListControllerTest extends DatabaseTestCase
 {
+    public function testSubmitPackageListIsSuccessful(): void
+    {
+        $client = $this->createPkgstatsClient();
+
+        $client->request(
+            'POST',
+            '/api/submit',
+            [],
+            [],
+            [
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_ACCEPT' => 'application/json'
+            ],
+            (string)json_encode(
+                [
+                    'version' => '3',
+                    'system' => [
+                        'architecture' => 'x86_64'
+                    ],
+                    'os' => [
+                        'architecture' => 'x86_64'
+                    ],
+                    'pacman' => [
+                        'mirror' => 'https://mirror.archlinux.de/',
+                        'packages' => ['pkgstats', 'pacman']
+                    ]
+                ]
+            )
+        );
+
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $client->getResponse()->getStatusCode());
+        $this->assertEmpty($client->getResponse()->getContent());
+
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->getEntityManager()->getRepository(User::class);
+        $this->assertCount(1, $userRepository->findAll());
+        /** @var User $user */
+        $user = $userRepository->findAll()[0];
+        $this->assertEquals('x86_64', $user->getArch());
+        $this->assertEquals('x86_64', $user->getCpuarch());
+        $this->assertEquals('https://mirror.archlinux.de/', $user->getMirror());
+        $this->assertEquals(2, $user->getPackages());
+        $this->assertNull($user->getCountrycode());
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getEntityManager()->getRepository(Package::class);
+        /** @var Package[] $packages */
+        $packages = $packageRepository->findAll();
+        $this->assertCount(2, $packages);
+        $packagesArray = array_map(fn($package) => $package->getName(), $packages);
+        $this->assertTrue(in_array('pkgstats', $packagesArray));
+        $this->assertTrue(in_array('pacman', $packagesArray));
+    }
+
     public function testPostPackageListIsSuccessful(): void
     {
         $client = $this->createPkgstatsClient();
@@ -63,6 +118,8 @@ class PostPackageListControllerTest extends DatabaseTestCase
     {
         $client = $this->getClient();
         $client->setServerParameter('HTTP_USER_AGENT', sprintf('pkgstats/%s', $version));
+        $client->setServerParameter('CONTENT_TYPE', 'application/x-www-form-urlencoded');
+        $client->setServerParameter('HTTP_ACCEPT', 'text/plain');
         return $client;
     }
 
@@ -95,7 +152,9 @@ class PostPackageListControllerTest extends DatabaseTestCase
             ['2.4.2'],
             ['2.4.9999'],
             ['2.4.2-5-g163d6c2'],
-            ['2.5.0']
+            ['2.5.0'],
+            ['3'],
+            ['3.0.0']
         ];
     }
 
@@ -109,7 +168,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
             ['2.0'],
             ['2.1'],
             ['2.2'],
-            ['3.0'],
             ['0.1'],
             [''],
             ['a'],
@@ -322,7 +380,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
             if ($i <= 10) {
                 $this->assertTrue($client->getResponse()->isSuccessful());
             } else {
-                $this->assertTrue($client->getResponse()->isForbidden());
+                $this->assertEquals(429, $client->getResponse()->getStatusCode());
             }
         }
     }
