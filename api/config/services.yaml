@@ -44,5 +44,11 @@ services:
     Nelmio\ApiDocBundle\Controller\DocumentationController: '@nelmio_api_doc.controller.swagger'
 
     App\Cache\ApiDocCacheWarmer:
+        bind:
+            $environment: '%kernel.environment'
         tags:
             - { name: kernel.cache_warmer, priority: -1 }
+
+    App\Cache\PackageRepositoryCacheWarmer:
+        bind:
+            $environment: '%kernel.environment'

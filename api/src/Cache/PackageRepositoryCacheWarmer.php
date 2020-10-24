@@ -2,18 +2,17 @@
 
 namespace App\Cache;
 
-use Nelmio\ApiDocBundle\Controller\DocumentationController;
+use App\Repository\PackageRepository;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
 /**
  * @codeCoverageIgnore
  */
-class ApiDocCacheWarmer implements CacheWarmerInterface
+class PackageRepositoryCacheWarmer implements CacheWarmerInterface
 {
-    /** @var DocumentationController */
-    private $documentationController;
+    /** @var PackageRepository */
+    private $packageRepository;
 
     /** @var LoggerInterface */
     private $logger;
@@ -22,16 +21,16 @@ class ApiDocCacheWarmer implements CacheWarmerInterface
     private $environment;
 
     /**
-     * @param DocumentationController $documentationController
-     * @param LoggerInterface $logger
+     * @param PackageRepository $packageRepository
      * @param string $environment
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        DocumentationController $documentationController,
+        PackageRepository $packageRepository,
         LoggerInterface $logger,
         string $environment
     ) {
-        $this->documentationController = $documentationController;
+        $this->packageRepository = $packageRepository;
         $this->logger = $logger;
         $this->environment = $environment;
     }
@@ -53,9 +52,19 @@ class ApiDocCacheWarmer implements CacheWarmerInterface
         if ($this->environment != 'prod') {
             return [];
         }
-
         try {
-            $this->documentationController->__invoke(Request::createFromGlobals());
+            $defaultMonth = (int)date(
+                'Ym',
+                (int)strtotime(
+                    date(
+                        '1-m-Y',
+                        (int)strtotime('now -1 months')
+                    )
+                )
+            );
+
+            $this->packageRepository->getMonthlyMaximumCountByRange($defaultMonth, $defaultMonth);
+            $this->packageRepository->getMaximumCountByRange($defaultMonth, $defaultMonth);
         } catch (\Throwable $e) {
             $this->logger->warning($e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);
         }
