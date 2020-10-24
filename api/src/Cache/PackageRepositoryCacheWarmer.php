@@ -52,6 +52,7 @@ class PackageRepositoryCacheWarmer implements CacheWarmerInterface
         if ($this->environment != 'prod') {
             return [];
         }
+
         try {
             $defaultMonth = (int)date(
                 'Ym',
@@ -65,6 +66,8 @@ class PackageRepositoryCacheWarmer implements CacheWarmerInterface
 
             $this->packageRepository->getMonthlyMaximumCountByRange($defaultMonth, $defaultMonth);
             $this->packageRepository->getMaximumCountByRange($defaultMonth, $defaultMonth);
+
+            $this->logger->info('Package repository cache warmed up');
         } catch (\Throwable $e) {
             $this->logger->warning($e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);
         }

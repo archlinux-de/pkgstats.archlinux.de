@@ -56,6 +56,8 @@ class ApiDocCacheWarmer implements CacheWarmerInterface
 
         try {
             $this->documentationController->__invoke(Request::createFromGlobals());
+
+            $this->logger->info('API Doc cache warmed up');
         } catch (\Throwable $e) {
             $this->logger->warning($e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);
         }
