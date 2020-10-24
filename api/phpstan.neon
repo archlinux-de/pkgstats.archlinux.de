@@ -1,10 +1,3 @@
-includes:
-	- vendor/phpstan/phpstan-doctrine/extension.neon
-	- vendor/phpstan/phpstan-doctrine/rules.neon
-	- vendor/phpstan/phpstan-phpunit/extension.neon
-	- vendor/phpstan/phpstan-phpunit/rules.neon
-	- vendor/phpstan/phpstan-symfony/extension.neon
-	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
 parameters:
 	level: max
 	symfony:
@@ -15,5 +8,6 @@ parameters:
 		- public
 		- config
 		- bin
+		- migrations
 	checkMissingIterableValueType: false
 	checkGenericClassInNonGenericObjectType: false
