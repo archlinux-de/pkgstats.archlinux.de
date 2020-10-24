@@ -8,6 +8,11 @@ jobs:
   security:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - run: make install
-      - run: make test-security
+      - name: Install Just
+        run: curl -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: just install
+      - name: Check security issues
+        run: just test-security

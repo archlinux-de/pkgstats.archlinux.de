@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=mariadb
+      - PMA_USER=root
+      - PMA_PASSWORD=
+    ports:
+      - "${PHPMYADMIN_PORT}:80"
+    tmpfs:
+      - /tmp
+    depends_on:
+      - mariadb
+
+  rector:
+    image: rector/rector
+    working_dir: /project
+    user: "${UID}:${GID}"
+    userns_mode: host
+    volumes:
+      - ../api:/project
+    tmpfs:
+      - /tmp

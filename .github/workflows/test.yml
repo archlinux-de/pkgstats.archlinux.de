@@ -8,8 +8,27 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: ['test', 'test-db', 'test-e2e']
     steps:
-      - uses: actions/checkout@master
-      - run: make install
-      - run: make test
-      - run: make test-db
+      - name: Install Just
+        run: curl -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Maintain Composer cache
+        uses: actions/cache@v2
+        with:
+          path: api/vendor
+          key: composer-${{ hashFiles('api/composer.lock') }}
+          restore-keys: composer-
+      - name: Maintain Yarn cache
+        uses: actions/cache@v2
+        with:
+          path: app/node_modules
+          key: yarn-${{ hashFiles('app/yarn.lock') }}
+          restore-keys: yarn-
+      - name: Install dependencies
+        run: just install
+      - name: Run ${{ matrix.type }}
+        run: just ${{ matrix.type }}

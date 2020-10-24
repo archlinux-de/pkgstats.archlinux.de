@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  cypress:
+    image: cypress/included:5.4.0
+    depends_on:
+      - nginx
+    environment:
+      - CYPRESS_baseUrl=http://nginx
+    ipc: host
+    userns_mode: host
+    working_dir: /app
+    volumes:
+      - ../app:/app:ro
+      - ../app/tests/e2e:/app/tests/e2e:rw
+    tmpfs:
+      - /tmp
