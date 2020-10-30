@@ -2,9 +2,7 @@ nelmio_api_doc:
     documentation:
         info:
             title: pkgstats API documentation
-            version: 1.0.0
+            version: 3.0.0
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
-            - ^/post
-            - ^/package.json

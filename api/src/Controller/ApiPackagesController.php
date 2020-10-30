@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Swagger\Annotations as SWG;
+use OpenApi\Annotations as OA;
 
 /**
  * @Cache(smaxage="first day of next month", maxage="+5 minutes")
@@ -42,31 +42,37 @@ class ApiPackagesController extends AbstractController
      * @param StatisticsRangeRequest $statisticsRangeRequest
      * @return Response
      *
-     * @SWG\Tag(name="packages")
-     * @SWG\Response(
+     * @OA\Tag(name="packages")
+     * @OA\Response(
      *     description="Returns popularity of given package",
      *     response=200,
      *     @Model(type=PackagePopularity::class)
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     in="path",
      *     name="name",
      *     description="Name of the package",
-     *     type="string"
+     *     @OA\Schema(
+     *         type="string"
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="startMonth",
      *     required=false,
      *     in="query",
      *     description="Specify start month in the form of 'Ym', e.g. 201901. Defaults to last month.",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer"
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="endMonth",
      *     required=false,
      *     in="query",
      *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer"
+     *     )
      * )
      */
     public function packageAction(string $name, StatisticsRangeRequest $statisticsRangeRequest): Response
@@ -88,51 +94,61 @@ class ApiPackagesController extends AbstractController
      * @param PaginationRequest $paginationRequest
      * @return Response
      *
-     * @SWG\Tag(name="packages")
-     * @SWG\Response(
+     * @OA\Tag(name="packages")
+     * @OA\Response(
      *     description="Returns popularities of given package in a monthly series",
      *     response=200,
      *     @Model(type=PackagePopularityList::class)
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     in="path",
      *     name="name",
      *     description="Name of the package",
-     *     type="string"
+     *     @OA\Schema(
+     *         type="string"
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="startMonth",
      *     required=false,
      *     in="query",
      *     description="Specify start month in the form of 'Ym', e.g. 201901. Defaults to last month.",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer"
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="endMonth",
      *     required=false,
      *     in="query",
      *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer"
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="limit",
      *     required=false,
-     *     default=100,
-     *     minimum=1,
-     *     maximum=10000,
      *     in="query",
      *     description="Limit the result set",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer",
+     *         default=100,
+     *         minimum=1,
+     *         maximum=10000
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="offset",
      *     required=false,
-     *     default=0,
-     *     minimum=0,
-     *     maximum=100000,
      *     in="query",
      *     description="Offset the result set",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer",
+     *         default=0,
+     *         minimum=0,
+     *         maximum=100000
+     *     )
      * )
      */
     public function packageSeriesAction(
@@ -160,54 +176,64 @@ class ApiPackagesController extends AbstractController
      * @param PackageQueryRequest $packageQueryRequest
      * @return Response
      *
-     * @SWG\Tag(name="packages")
-     * @SWG\Response(
+     * @OA\Tag(name="packages")
+     * @OA\Response(
      *     description="Returns list of package popularities",
      *     response=200,
      *     @Model(type=PackagePopularityList::class)
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="startMonth",
      *     required=false,
      *     in="query",
      *     description="Specify start month in the format of 'Ym', e.g. 201901. Defaults to last month.",
-     *     format="Ym",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer",
+     *         format="Ym"
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="endMonth",
      *     required=false,
      *     in="query",
      *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer"
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="limit",
      *     required=false,
-     *     default=100,
-     *     minimum=1,
-     *     maximum=10000,
      *     in="query",
      *     description="Limit the result set",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer",
+     *         default=100,
+     *         minimum=1,
+     *         maximum=10000
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="offset",
      *     required=false,
-     *     default=0,
-     *     minimum=0,
-     *     maximum=100000,
      *     in="query",
      *     description="Offset the result set",
-     *     type="integer"
+     *     @OA\Schema(
+     *         type="integer",
+     *         default=0,
+     *         minimum=0,
+     *         maximum=100000
+     *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="query",
      *     required=false,
-     *     maxLength=191,
      *     in="query",
      *     description="Search by package name",
-     *     type="string"
+     *     @OA\Schema(
+     *         type="string",
+     *         maxLength=191
+     *     )
      * )
      */
     public function packageJsonAction(
