@@ -9,7 +9,7 @@ const createApiPackagesService = fetch => {
    */
   const fetchJson = url => {
     const controller = new AbortController()
-    setTimeout(() => { controller.abort() }, 5000)
+    setTimeout(() => { controller.abort() }, 30000)
 
     return fetch(url, {
       credentials: 'omit',
