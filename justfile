@@ -30,6 +30,14 @@ start-db:
 stop:
 	{{COMPOSE}} stop
 
+# Load a (gzipped) database backup for local testing
+import-db-dump file name='pkgstats_archlinux_de': start
+	{{MARIADB-RUN}} mysqladmin -uroot -hmariadb drop -f {{name}} || true
+	{{MARIADB-RUN}} mysqladmin -uroot -hmariadb create {{name}}
+	zcat {{file}} | {{MARIADB-RUN}} mysql -uroot -hmariadb {{name}}
+	{{PHP-DB-RUN}} bin/console doctrine:migrations:sync-metadata-storage --no-interaction
+	{{PHP-DB-RUN}} bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+
 clean:
 	{{COMPOSE}} down -v
 	git clean -fdqx -e .idea
