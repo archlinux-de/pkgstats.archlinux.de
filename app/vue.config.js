@@ -9,42 +9,36 @@ module.exports = {
     disableHostCheck: true
   },
   configureWebpack: config => {
-    if (!process.env.VUE_CLI_MODERN_BUILD) {
-      config.entry.app.unshift('whatwg-fetch', 'abortcontroller-polyfill', 'intersection-observer')
-    }
-
     config.plugins.push(new CopyWebpackPlugin({
       patterns: [
         { from: 'src/assets/images/arch(icon|logo).svg', to: 'img/[name].[ext]' }
       ]
     }))
 
-    if ((process.env.VUE_CLI_MODERN_MODE && process.env.VUE_CLI_MODERN_BUILD) || !process.env.VUE_CLI_MODERN_MODE) {
-      config.plugins.push(new WorkboxPlugin.GenerateSW({
-        cacheId: 'app',
-        exclude: [/robots\.txt$/],
-        cleanupOutdatedCaches: true,
-        dontCacheBustURLsMatching: /\.[a-f0-9]+\./,
-        navigateFallback: '/index.html',
-        navigateFallbackAllowlist: [
-          new RegExp('^/compare/packages$'),
-          new RegExp('^/fun$'),
-          new RegExp('^/impressum$'),
-          new RegExp('^/packages/[^/]+$'),
-          new RegExp('^/packages$'),
-          new RegExp('^/privacy-policy$'),
-          new RegExp('^/$'),
-          new RegExp('^/api/doc$')
-        ],
-        runtimeCaching: [
-          {
-            urlPattern: new RegExp('^https?://[^/]+/api/'),
-            handler: 'StaleWhileRevalidate',
-            options: { cacheName: 'api', expiration: { maxAgeSeconds: 24 * 60 * 60, maxEntries: 512 } }
-          }
-        ]
-      }))
-    }
+    config.plugins.push(new WorkboxPlugin.GenerateSW({
+      cacheId: 'app',
+      exclude: [/robots\.txt$/],
+      cleanupOutdatedCaches: true,
+      dontCacheBustURLsMatching: /\.[a-f0-9]+\./,
+      navigateFallback: '/index.html',
+      navigateFallbackAllowlist: [
+        new RegExp('^/compare/packages$'),
+        new RegExp('^/fun$'),
+        new RegExp('^/impressum$'),
+        new RegExp('^/packages/[^/]+$'),
+        new RegExp('^/packages$'),
+        new RegExp('^/privacy-policy$'),
+        new RegExp('^/$'),
+        new RegExp('^/api/doc$')
+      ],
+      runtimeCaching: [
+        {
+          urlPattern: new RegExp('^https?://[^/]+/api/'),
+          handler: 'StaleWhileRevalidate',
+          options: { cacheName: 'api', expiration: { maxAgeSeconds: 24 * 60 * 60, maxEntries: 512 } }
+        }
+      ]
+    }))
 
     if (process.env.NODE_ENV === 'production') {
       config.plugins.push(new CompressionPlugin({ filename: '[path][base].gz', algorithm: 'gzip' }))

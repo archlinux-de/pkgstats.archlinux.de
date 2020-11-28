@@ -102,7 +102,7 @@ test:
 	{{NODE-RUN}} node_modules/.bin/jest
 	{{PHP-RUN}} bin/console lint:yaml config
 	{{PHP-RUN}} bin/console lint:twig templates
-	{{NODE-RUN}} yarn build --modern --dest $(mktemp -d)
+	{{NODE-RUN}} yarn build --dest $(mktemp -d)
 	{{PHP-RUN}} php -dmemory_limit=-1 vendor/bin/phpstan analyse
 	{{PHP-RUN}} vendor/bin/phpunit
 
@@ -145,7 +145,7 @@ update:
 
 deploy:
 	cd app && yarn install --non-interactive --frozen-lockfile
-	cd app && yarn build --modern --no-clean
+	cd app && yarn build --no-clean
 	cd app && find dist -type f -mtime +30 -delete
 	cd app && find dist -type d -empty -delete
 	cd api && composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
