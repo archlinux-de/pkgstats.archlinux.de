@@ -141,6 +141,8 @@ update:
 	{{PHP-RUN}} composer --no-interaction update
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
 	{{NODE-RUN}} yarn upgrade --non-interactive --latest
+	# Downgrade plugin as it would require Webpack 5
+	{{NODE-RUN}} yarn upgrade "compression-webpack-plugin@~6.1.1"
 	just _update-cypress-image
 
 deploy:
