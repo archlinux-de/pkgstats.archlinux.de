@@ -141,11 +141,7 @@ export default {
           showGrid: false,
           labelInterpolationFnc: value => value.toString().endsWith('01') && value.toString().slice(0, -2) % 2 === 0 ? value.toString().slice(0, -2) : null
         },
-        plugins: this.data.series.length > 1 ? [
-          Chartist.plugins.legend({
-            clickable: false
-          })
-        ] : []
+        plugins: this.data.series.length > 1 ? [Chartist.plugins.legend({ clickable: false })] : []
       }, [
         ['screen and (min-width: 576px)', {
           chartPadding: {
