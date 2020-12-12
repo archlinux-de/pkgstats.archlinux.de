@@ -100,6 +100,7 @@ test:
 	{{NODE-RUN}} node_modules/.bin/eslint src --ext js --ext vue
 	{{NODE-RUN}} node_modules/.bin/stylelint 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
 	{{NODE-RUN}} node_modules/.bin/jest
+	{{PHP-RUN}} bin/console lint:container
 	{{PHP-RUN}} bin/console lint:yaml config
 	{{PHP-RUN}} bin/console lint:twig templates
 	{{NODE-RUN}} yarn build --dest $(mktemp -d)
@@ -142,7 +143,7 @@ update:
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
 	{{NODE-RUN}} yarn upgrade --non-interactive --latest
 	# Downgrade plugin as it would require Webpack 5
-	{{NODE-RUN}} yarn upgrade "compression-webpack-plugin@~6.1.1"
+	{{NODE-RUN}} yarn upgrade "compression-webpack-plugin@~6.1.1" "copy-webpack-plugin@~6.4.0"
 	just _update-cypress-image
 
 deploy:

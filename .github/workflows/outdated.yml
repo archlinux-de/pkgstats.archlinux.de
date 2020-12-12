@@ -5,7 +5,7 @@ on:
     - cron: '0 7 */1 * *'
 
 jobs:
-  security:
+  outdated:
     runs-on: ubuntu-latest
     steps:
       - name: Install Just

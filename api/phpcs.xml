@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<ruleset name="pkgstats.archlinux.de">
-    <file>src</file>
-    <exclude-pattern>src/Kernel.php</exclude-pattern>
-    <exclude-pattern>tests/bootstrap.php</exclude-pattern>
-    <file>tests</file>
-    <file>migrations</file>
-    <rule ref="PSR12"/>
-</ruleset>
