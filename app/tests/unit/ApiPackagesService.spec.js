@@ -1,4 +1,4 @@
-import createApiPackagesService from '@/services/ApiPackagesService'
+import createApiPackagesService from '../../src/services/ApiPackagesService'
 
 describe('Testing fetchPackagePopularity', () => {
   it('Popularity can be fetched', async () => {

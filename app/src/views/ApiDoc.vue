@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import SwaggerUi from '@/components/SwaggerUi'
+import SwaggerUi from '../components/SwaggerUi'
 
 export default {
   name: 'ApiDoc',

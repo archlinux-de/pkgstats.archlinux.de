@@ -14,7 +14,6 @@ Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  base: process.env.BASE_URL,
   linkActiveClass: 'active',
   routes: [
     { path: '/compare/packages', name: 'compare', component: Compare },
@@ -24,7 +23,7 @@ export default new Router({
     { path: '/packages', name: 'packages', component: Packages },
     { path: '/privacy-policy', name: 'privacy-policy', component: PrivacyPolicy },
     { path: '/', name: 'start', component: Start },
-    { path: '/api/doc', name: 'api-doc', component: () => import(/* webpackChunkName: "api-doc" */ '@/views/ApiDoc') },
+    { path: '/api/doc', name: 'api-doc', component: () => import(/* webpackChunkName: "api-doc" */ './views/ApiDoc') },
     { path: '*', component: NotFound }
   ]
 })

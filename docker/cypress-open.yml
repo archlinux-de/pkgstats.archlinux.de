@@ -6,7 +6,7 @@ services:
     depends_on:
       - nginx
     environment:
-      - CYPRESS_baseUrl=http://nginx
+      - CYPRESS_baseUrl=${CYPRESS_baseUrl:-http://nginx}
       - CYPRESS_numTestsKeptInMemory=100
       - DISPLAY
     entrypoint: cypress

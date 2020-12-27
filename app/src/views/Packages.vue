@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import PackageList from '@/components/PackageList'
+import PackageList from '../components/PackageList'
 
 export default {
   name: 'Packages',

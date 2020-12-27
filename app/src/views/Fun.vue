@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import FunConfig from '@/config/fun'
-import PackagesBarChart from '@/components/PackagesBarChart'
+import FunConfig from '../config/fun.json'
+import PackagesBarChart from '../components/PackagesBarChart'
 
 export default {
   name: 'Fun',

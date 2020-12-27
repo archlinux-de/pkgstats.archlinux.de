@@ -1,4 +1,4 @@
-import convertToDataSeries from '@/services/DataSeriesConverter'
+import convertToDataSeries from '../../src/services/DataSeriesConverter'
 
 it('Converting an Array to a data series', () =>
   expect(convertToDataSeries([

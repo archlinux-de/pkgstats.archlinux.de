@@ -10,7 +10,7 @@
 </template>
 
 <style lang="scss">
-  @import "@/assets/css/archlinux-bootstrap";
+  @import "../assets/css/archlinux-bootstrap";
   @import "~bootstrap/scss/functions";
   @import "~bootstrap/scss/variables";
 

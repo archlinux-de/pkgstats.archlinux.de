@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import PackageChart from '@/components/PackageChart'
+import PackageChart from '../components/PackageChart'
 
 export default {
   name: 'Compare',

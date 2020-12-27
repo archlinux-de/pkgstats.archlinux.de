@@ -2,7 +2,7 @@
   <div id="page">
     <b-navbar class="navbar-border-brand nav-no-outline mb-4" toggleable="sm" type="dark" variant="dark">
       <b-navbar-brand :to="{name: 'start'}">
-        <img alt="Arch Linux" height="40" :src="logo"/>
+        <img alt="Arch Linux" height="40" width="190" :src="logo"/>
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -29,7 +29,7 @@
 </template>
 
 <style lang="scss">
-  @import "@/assets/css/archlinux-bootstrap";
+  @import "./assets/css/archlinux-bootstrap";
 
   .navbar-border-brand {
     border-bottom: 0.313rem solid $primary;
@@ -64,8 +64,8 @@
 
 <script>
 import { BCollapse, BNav, BNavbar, BNavbarBrand, BNavbarNav, BNavbarToggle, BNavItem } from 'bootstrap-vue'
-import LogoImage from '@/assets/images/archlogo.svg'
-import IconImage from '@/assets/images/archicon.svg'
+import LogoImage from './assets/images/archlogo.svg'
+import IconImage from './assets/images/archicon.svg'
 
 export default {
   name: 'App',
@@ -101,7 +101,7 @@ export default {
   mounted () {
     if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register(`${process.env.BASE_URL}service-worker.js`)
+        navigator.serviceWorker.register('/service-worker.js')
       })
     }
   }
