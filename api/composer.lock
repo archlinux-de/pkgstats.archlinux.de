@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1194922c1b3dae08a8878b38083e9607",
+    "content-hash": "1402363949da6d8ea44513ee53f7424d",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1843,16 +1843,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.1.0",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "a9e8db4af0522588c40b0f52992995efc7beaa62"
+                "reference": "42365c71ccce25b3ab722fb736e1c733b26beb8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/a9e8db4af0522588c40b0f52992995efc7beaa62",
-                "reference": "a9e8db4af0522588c40b0f52992995efc7beaa62",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/42365c71ccce25b3ab722fb736e1c733b26beb8c",
+                "reference": "42365c71ccce25b3ab722fb736e1c733b26beb8c",
                 "shasum": ""
             },
             "require": {
@@ -1871,7 +1871,7 @@
                 "api-platform/core": "^2.4",
                 "doctrine/annotations": "^1.11",
                 "doctrine/common": "^2.4",
-                "friendsofsymfony/rest-bundle": "^2.8|^3.0@dev",
+                "friendsofsymfony/rest-bundle": "^2.8|^3.0",
                 "jms/serializer": "^1.14|^3.0",
                 "jms/serializer-bundle": "^2.3|^3.0",
                 "sensio/framework-extra-bundle": "^4.4|^5.0",
@@ -1932,9 +1932,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.1.0"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v4.1.1"
             },
-            "time": "2020-12-10T22:00:21+00:00"
+            "time": "2020-12-27T18:14:14+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
