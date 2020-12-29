@@ -32,4 +32,9 @@ final class Version20190316174119 extends AbstractMigration
         $this->addSql('ALTER TABLE user ADD modules SMALLINT DEFAULT NULL');
         // phpcs:enable
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

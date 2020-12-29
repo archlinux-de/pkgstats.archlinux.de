@@ -30,4 +30,9 @@ final class Version20191020113255 extends AbstractMigration
         $this->addSql('DROP INDEX month_name ON package');
         $this->addSql('DROP INDEX month ON package');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
