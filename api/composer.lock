@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1402363949da6d8ea44513ee53f7424d",
+    "content-hash": "4750879f77a36c748305871efab50123",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -1401,20 +1401,20 @@
         },
         {
             "name": "friendsofphp/proxy-manager-lts",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/proxy-manager-lts.git",
-                "reference": "352d7fbb045f8ce2a0e740704b2cc6cb306f1e15"
+                "reference": "aa76978a8feaf7ddffaf346ba4f409efbfe5f9a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/proxy-manager-lts/zipball/352d7fbb045f8ce2a0e740704b2cc6cb306f1e15",
-                "reference": "352d7fbb045f8ce2a0e740704b2cc6cb306f1e15",
+                "url": "https://api.github.com/repos/FriendsOfPHP/proxy-manager-lts/zipball/aa76978a8feaf7ddffaf346ba4f409efbfe5f9a9",
+                "reference": "aa76978a8feaf7ddffaf346ba4f409efbfe5f9a9",
                 "shasum": ""
             },
             "require": {
-                "laminas/laminas-code": "^3.4.1",
+                "laminas/laminas-code": "^3.4.1|^4.0",
                 "php": ">=7.1",
                 "symfony/filesystem": "^4.4.17|^5.0"
             },
@@ -1467,7 +1467,7 @@
             ],
             "support": {
                 "issues": "https://github.com/FriendsOfPHP/proxy-manager-lts/issues",
-                "source": "https://github.com/FriendsOfPHP/proxy-manager-lts/tree/v1.0.0"
+                "source": "https://github.com/FriendsOfPHP/proxy-manager-lts/tree/v1.0.1"
             },
             "funding": [
                 {
@@ -1479,7 +1479,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-22T15:47:11+00:00"
+            "time": "2020-12-28T10:50:10+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -6728,31 +6728,32 @@
         },
         {
             "name": "pierres/doctrine-migrations-test",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/doctrine-migrations-test.git",
-                "reference": "33dab6e6b1e167403a2a0de48f09ee89c040b714"
+                "reference": "a701a7ecf609b96b84525e75368a79d2f9f7559a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/doctrine-migrations-test/zipball/33dab6e6b1e167403a2a0de48f09ee89c040b714",
-                "reference": "33dab6e6b1e167403a2a0de48f09ee89c040b714",
+                "url": "https://api.github.com/repos/pierres/doctrine-migrations-test/zipball/a701a7ecf609b96b84525e75368a79d2f9f7559a",
+                "reference": "a701a7ecf609b96b84525e75368a79d2f9f7559a",
                 "shasum": ""
             },
             "require": {
-                "doctrine/doctrine-bundle": "^2.1",
+                "doctrine/doctrine-bundle": "^2.2",
                 "doctrine/doctrine-migrations-bundle": "^3.0",
-                "doctrine/orm": "^2.7",
-                "php": "^7.3",
-                "symfony/browser-kit": "^5.0",
-                "symfony/framework-bundle": "^5.0"
+                "doctrine/orm": "^2.8",
+                "php": "^7.4|^8.0",
+                "symfony/browser-kit": "^5.2",
+                "symfony/framework-bundle": "^5.2"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-deprecation-rules": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpunit/phpunit": "^9.3",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^0.12.64",
+                "phpstan/phpstan-deprecation-rules": "^0.12.6",
+                "phpstan/phpstan-phpunit": "^0.12.17",
+                "phpunit/phpunit": "^9.5",
                 "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
@@ -6777,38 +6778,38 @@
             "description": "Test cases to verify Doctrine Migrations",
             "support": {
                 "issues": "https://github.com/pierres/doctrine-migrations-test/issues",
-                "source": "https://github.com/pierres/doctrine-migrations-test/tree/1.2.0"
+                "source": "https://github.com/pierres/doctrine-migrations-test/tree/1.3.0"
             },
-            "time": "2020-10-24T13:09:23+00:00"
+            "time": "2020-12-28T09:15:24+00:00"
         },
         {
             "name": "pierres/symfony-database-test",
-            "version": "1.0.6",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/symfony-database-test.git",
-                "reference": "c81b6d50a315a726fa26812a5f49b7b4b9a0c5ad"
+                "reference": "0da5d7e1c945b9afa4910b13f1edf385a4277730"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/c81b6d50a315a726fa26812a5f49b7b4b9a0c5ad",
-                "reference": "c81b6d50a315a726fa26812a5f49b7b4b9a0c5ad",
+                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/0da5d7e1c945b9afa4910b13f1edf385a4277730",
+                "reference": "0da5d7e1c945b9afa4910b13f1edf385a4277730",
                 "shasum": ""
             },
             "require": {
-                "doctrine/doctrine-bundle": "^2.0.3",
-                "doctrine/orm": "^2.6.3",
-                "php": "^7.2",
-                "symfony/browser-kit": "^4.3|^5.0",
-                "symfony/framework-bundle": "^4.3|^5.0",
-                "symfony/proxy-manager-bridge": "^4.3|^5.0"
+                "doctrine/doctrine-bundle": "^2.2",
+                "doctrine/orm": "^2.8",
+                "php": "^7.4|^8.0",
+                "symfony/browser-kit": "^5.2",
+                "symfony/framework-bundle": "^5.2"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12",
-                "phpstan/phpstan-deprecation-rules": "^0.12",
-                "phpstan/phpstan-phpunit": "^0.12",
-                "phpunit/phpunit": "^8.5",
-                "squizlabs/php_codesniffer": "^3.5"
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan": "^0.12.64",
+                "phpstan/phpstan-deprecation-rules": "^0.12.6",
+                "phpstan/phpstan-phpunit": "^0.12.17",
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3.5.8"
             },
             "type": "library",
             "autoload": {
@@ -6832,9 +6833,9 @@
             "description": "Symfony WebTestCase with database support",
             "support": {
                 "issues": "https://github.com/pierres/symfony-database-test/issues",
-                "source": "https://github.com/pierres/symfony-database-test/tree/master"
+                "source": "https://github.com/pierres/symfony-database-test/tree/1.1.0"
             },
-            "time": "2019-12-19T09:17:08+00:00"
+            "time": "2020-12-28T09:06:57+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -8301,76 +8302,6 @@
                 }
             ],
             "time": "2020-12-14T22:27:17+00:00"
-        },
-        {
-            "name": "symfony/proxy-manager-bridge",
-            "version": "v5.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/proxy-manager-bridge.git",
-                "reference": "fba051ee1cb00d1d40672ee2da842ba23c572576"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/proxy-manager-bridge/zipball/fba051ee1cb00d1d40672ee2da842ba23c572576",
-                "reference": "fba051ee1cb00d1d40672ee2da842ba23c572576",
-                "shasum": ""
-            },
-            "require": {
-                "composer/package-versions-deprecated": "^1.8",
-                "ocramius/proxy-manager": "~2.1",
-                "php": ">=7.2.5",
-                "symfony/dependency-injection": "^5.0"
-            },
-            "conflict": {
-                "zendframework/zend-eventmanager": "2.6.0"
-            },
-            "require-dev": {
-                "symfony/config": "^4.4|^5.0"
-            },
-            "type": "symfony-bridge",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Bridge\\ProxyManager\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony ProxyManager Bridge",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/proxy-manager-bridge/tree/v5.2.1"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-11-12T22:25:33+00:00"
         },
         {
             "name": "theseer/tokenizer",
