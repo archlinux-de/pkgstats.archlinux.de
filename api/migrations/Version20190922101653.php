@@ -32,4 +32,9 @@ final class Version20190922101653 extends AbstractMigration
         $this->addSql('ALTER TABLE package CHANGE name pkgname VARCHAR(191) NOT NULL COLLATE utf8_unicode_ci');
         $this->addSql('ALTER TABLE package ADD PRIMARY KEY (pkgname, month)');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

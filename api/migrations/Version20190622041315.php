@@ -18,4 +18,9 @@ final class Version20190622041315 extends AbstractMigration
     {
         $this->warnIf(true, 'Filtering of package names cannot be reverted');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

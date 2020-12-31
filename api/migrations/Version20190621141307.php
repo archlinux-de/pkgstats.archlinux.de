@@ -39,4 +39,9 @@ final class Version20190621141307 extends AbstractMigration
     {
         $this->warnIf(true, 'Filtering of mirror urls cannot be reverted');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
