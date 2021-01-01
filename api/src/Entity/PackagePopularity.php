@@ -79,7 +79,13 @@ class PackagePopularity implements \JsonSerializable
      */
     public function getPopularity(): float
     {
-        return round($this->getCount() / ($this->getSamples() ?: 1) * 100, 2);
+        if ($this->getSamples() < 1 || $this->getCount() < 0) {
+            return 0;
+        }
+        if ($this->getCount() >= $this->getSamples()) {
+            return 100;
+        }
+        return round($this->getCount() / $this->getSamples() * 100, 2);
     }
 
     /**

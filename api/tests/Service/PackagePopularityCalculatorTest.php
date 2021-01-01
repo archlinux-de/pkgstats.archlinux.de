@@ -37,7 +37,7 @@ class PackagePopularityCalculatorTest extends TestCase
             ->expects($this->once())
             ->method('getMaximumCountByRange')
             ->with(201801, 201812)
-            ->willReturn(12);
+            ->willReturn(43);
 
         $packagePopularity = $this->packagePopularityCalculator->getPackagePopularity(
             'foo',
@@ -46,7 +46,7 @@ class PackagePopularityCalculatorTest extends TestCase
 
         $this->assertEquals('foo', $packagePopularity->getName());
         $this->assertEquals(42, $packagePopularity->getCount());
-        $this->assertEquals(12, $packagePopularity->getSamples());
+        $this->assertEquals(43, $packagePopularity->getSamples());
     }
 
     public function testFindPackagesPopularity(): void
@@ -65,6 +65,12 @@ class PackagePopularityCalculatorTest extends TestCase
                 ],
                 'total' => 13
             ]);
+        $this
+            ->packageRepository
+            ->expects($this->once())
+            ->method('getMaximumCountByRange')
+            ->with(201801, 201812)
+            ->willReturn(44);
 
         $packagePopularityList = $this->packagePopularityCalculator->findPackagesPopularity(
             new StatisticsRangeRequest(201801, 201812),
@@ -85,7 +91,7 @@ class PackagePopularityCalculatorTest extends TestCase
             ->willReturn([
                 [
                     'month' => 201801,
-                    'count' => 1
+                    'count' => 100
                 ]
             ]);
 
