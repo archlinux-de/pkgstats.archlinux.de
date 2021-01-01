@@ -19,9 +19,9 @@ const createApiPackagesService = fetch => {
       if (response.ok) {
         return response.json()
       }
-      throw new Error(response.statusText)
+      throw new Error(`Response status is ${response.status}.`)
     }).catch(error => {
-      throw new Error(`Fetching URL "${url}" failed with "${error.message}"`)
+      throw new Error(`Fetching URL "${url}" failed. ${error.message}`)
     })
   }
 
