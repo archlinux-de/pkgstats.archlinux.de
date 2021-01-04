@@ -54,7 +54,15 @@ module.exports = {
       ]
     }),
     new CompressionPlugin({ filename: '[path][base].gz', algorithm: 'gzip' }),
-    new CompressionPlugin({ filename: '[path][base].br', algorithm: 'brotliCompress' })
+    new CompressionPlugin({ filename: '[path][base].br', algorithm: 'brotliCompress' }),
+    function () {
+      // Workaround to test for incompatible HtmlPlugin with WebPack 5
+      this.hooks.done.tapAsync('done', function (stats, callback) {
+        if (!stats.compilation.emittedAssets.has('index.html.br')) {
+          throw new Error('Error in HtmlPlugin')
+        }
+      })
+    }
   ],
 
   optimization: {
