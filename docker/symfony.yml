@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  symfony:
+    image: symfonycorp/cli
+    working_dir: /app/api
+    userns_mode: host
+    volumes:
+      - ../api:/app/api:ro
