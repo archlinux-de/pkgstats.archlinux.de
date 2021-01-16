@@ -79,9 +79,6 @@ phpunit *args:
 phpstan *args:
 	{{PHP-RUN}} php -dmemory_limit=-1 vendor/bin/phpstan {{args}}
 
-rector *args:
-	{{COMPOSE-RUN}} rector {{args}}
-
 node *args='-h':
 	{{NODE-RUN}} node {{args}}
 
