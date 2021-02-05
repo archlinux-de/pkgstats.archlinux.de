@@ -152,7 +152,6 @@ update:
 	{{PHP-RUN}} composer --no-interaction update
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
 	{{NODE-RUN}} yarn upgrade --non-interactive --latest
-	{{NODE-RUN}} yarn add --non-interactive --dev html-webpack-plugin@next
 	just _update-cypress-image
 
 deploy:
