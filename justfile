@@ -166,7 +166,7 @@ deploy:
 	cd api && bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
 deploy-permissions:
-	cd api && sudo setfacl -dR -m u:php-www:rwX -m u:deployer:rwX var
-	cd api && sudo setfacl -R -m u:php-www:rwX -m u:deployer:rwX var
+	cd api && sudo setfacl -dR -m u:php-pkgstats:rwX -m u:deployer:rwX var
+	cd api && sudo setfacl -R -m u:php-pkgstats:rwX -m u:deployer:rwX var
 
 # vim: set ft=make :
