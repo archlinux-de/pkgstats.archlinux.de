@@ -42,7 +42,7 @@ class User
 
     /**
      * @var string
-     * @Assert\EqualTo("x86_64")
+     * @Assert\Choice(callback="getValidArches")
      *
      * @ORM\Column(name="arch", type="string", length=10, nullable=false)
      */
@@ -50,7 +50,7 @@ class User
 
     /**
      * @var string|null
-     * @Assert\EqualTo("x86_64")
+     * @Assert\Choice(callback="getValidCpuArches")
      *
      * @ORM\Column(name="cpuarch", type="string", length=10, nullable=true)
      */
@@ -203,5 +203,69 @@ class User
     {
         $this->packages = $packages;
         return $this;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getValidArches(): array
+    {
+        switch ($this->getCpuarch()) {
+            case 'x86_64':
+            case 'x86_64_v2':
+            case 'x86_64_v3':
+            case 'x86_64_v4':
+                $validArches = ['x86_64', 'i686'];
+                break;
+            case 'i686':
+                $validArches = ['i686'];
+                break;
+            case 'aarch64':
+                $validArches = ['aarch64', 'armv7h', 'armv6h', 'arm'];
+                break;
+            case 'armv7':
+                $validArches = ['armv7h', 'armv6h', 'arm'];
+                break;
+            case 'armv6':
+                $validArches = ['armv6h', 'arm'];
+                break;
+            case 'armv5':
+                $validArches = ['arm'];
+                break;
+            default:
+                $validArches = [];
+        }
+        return $validArches;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getValidCpuArches(): array
+    {
+        switch ($this->getArch()) {
+            case 'x86_64':
+                $validCpuArches = ['x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4'];
+                break;
+            case 'i686':
+                $validCpuArches = ['i686', 'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4'];
+                break;
+            case 'aarch64':
+                $validCpuArches = ['aarch64'];
+                break;
+            case 'armv6h':
+                $validCpuArches = ['armv6', 'armv7', 'aarch64'];
+                break;
+            case 'armv7h':
+                $validCpuArches = ['armv7', 'aarch64'];
+                break;
+            case 'arm':
+                $validCpuArches = ['armv5', 'armv6', 'armv7', 'aarch64'];
+                break;
+            default:
+                $validCpuArches = [];
+        }
+
+        return $validCpuArches;
     }
 }

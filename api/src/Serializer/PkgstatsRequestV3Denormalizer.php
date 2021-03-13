@@ -43,7 +43,7 @@ class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableS
     {
         $packages = $this->filterList($data['pacman']['packages'] ?? []);
         $arch = ($data['os']['architecture'] ?? '');
-        $cpuArch = $data['system']['architecture'] ?? $arch;
+        $cpuArch = $data['system']['architecture'] ?? '';
         $mirror = $this->mirrorUrlFilter->filter(($data['pacman']['mirror'] ?? ''));
 
         $clientIp = $context['clientIp'] ?? '127.0.0.1';
