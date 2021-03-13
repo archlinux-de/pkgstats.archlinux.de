@@ -193,23 +193,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    /**
-     * @param string $architecture
-     * @dataProvider provideSupportedArchitectures
-     */
-    public function testPostPackageListWithArchitectureIsSuccessful(string $architecture): void
-    {
-        $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            ['arch' => $architecture, 'packages' => 'pkgstats']
-        );
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
-    }
-
     public function testLocalMirrorGetsIgnored(): void
     {
         $client = $this->createPkgstatsClient();
@@ -241,27 +224,11 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @param string $architecture
+     * @param string $arch
+     * @param string $cpuArch
      * @dataProvider provideUnsupportedArchitectures
      */
-    public function testPostPackageListWithUnsupportedArchitectureFails(string $architecture): void
-    {
-        $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            ['arch' => $architecture, 'packages' => 'pkgstats']
-        );
-
-        $this->assertTrue($client->getResponse()->isClientError());
-    }
-
-    /**
-     * @param string $architecture
-     * @dataProvider provideUnsupportedCpuArchitectures
-     */
-    public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $architecture): void
+    public function testPostPackageListWithUnsupportedArchitectureFails(string $arch, string $cpuArch): void
     {
         $client = $this->createPkgstatsClient();
 
@@ -269,13 +236,79 @@ class PostPackageListControllerTest extends DatabaseTestCase
             'POST',
             '/post',
             [
-                'arch' => 'x86_64',
-                'cpuarch' => $architecture,
+                'arch' => $arch,
+                'cpuarch' => $cpuArch,
                 'packages' => 'pkgstats'
             ]
         );
 
         $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    /**
+     * @param string $cpuArch
+     * @param string $arch
+     * @dataProvider provideUnsupportedCpuArchitectures
+     */
+    public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $cpuArch, string $arch): void
+    {
+        $client = $this->createPkgstatsClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'arch' => $arch,
+                'cpuarch' => $cpuArch,
+                'packages' => 'pkgstats'
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
+    /**
+     * @param string $cpuArch
+     * @param string $arch
+     * @dataProvider provideSupportedCpuArchitectures
+     */
+    public function testPostPackageListWithSupportedCpuArchitectureIsSuccessful(string $cpuArch, string $arch): void
+    {
+        $client = $this->createPkgstatsClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'arch' => $arch,
+                'cpuarch' => $cpuArch,
+                'packages' => 'pkgstats'
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+    }
+
+    /**
+     * @param string $arch
+     * @param string $cpuArch
+     * @dataProvider provideSupportedArchitectures
+     */
+    public function testPostPackageListWithSupportedArchitectureIsSuccessful(string $arch, string $cpuArch): void
+    {
+        $client = $this->createPkgstatsClient();
+
+        $client->request(
+            'POST',
+            '/post',
+            [
+                'arch' => $arch,
+                'cpuarch' => $cpuArch,
+                'packages' => 'pkgstats'
+            ]
+        );
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
     public function testEmptyPackageListGetsRejected(): void
@@ -422,9 +455,52 @@ class PostPackageListControllerTest extends DatabaseTestCase
      */
     public function provideSupportedArchitectures(): array
     {
-        return [
-            ['x86_64']
+        $result = [];
+        $entries = [
+            // arch -> cpuArch
+            ['x86_64', ['x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4']],
+            ['i686', ['i686', 'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4']],
+            ['arm', ['aarch64', 'armv5', 'armv6', 'armv7']],
+            ['armv6h', ['aarch64', 'armv6', 'armv7']],
+            ['armv7h', ['aarch64', 'armv7']],
+            ['aarch64', ['aarch64']]
         ];
+
+        foreach ($entries as $entry) {
+            foreach ($entry[1] as $cpuArch) {
+                $result[] = [$entry[0], $cpuArch];
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return array
+     */
+    public function provideSupportedCpuArchitectures(): array
+    {
+        $result = [];
+        $entries = [
+            // cpuArch -> arch
+            ['x86_64', ['x86_64', 'i686']],
+            ['x86_64_v2', ['x86_64', 'i686']],
+            ['x86_64_v3', ['x86_64', 'i686']],
+            ['x86_64_v4', ['x86_64', 'i686']],
+            ['i686', ['i686']],
+            ['aarch64', ['aarch64', 'armv7h', 'armv6h', 'arm']],
+            ['armv5', ['arm']],
+            ['armv6', ['armv6h', 'arm']],
+            ['armv7', ['armv7h', 'armv6h', 'arm']]
+        ];
+
+        foreach ($entries as $entry) {
+            foreach ($entry[1] as $arch) {
+                $result[] = [$entry[0], $arch];
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -432,11 +508,24 @@ class PostPackageListControllerTest extends DatabaseTestCase
      */
     public function provideUnsupportedArchitectures(): array
     {
-        return [
-            [''],
-            ['i686'],
-            ['arm']
+        $result = [];
+        $entries = [
+            // arch -> cpuArch
+            ['', ['']],
+            ['ppc', ['ppc']],
+            ['i486', ['i486']],
+            ['x86_64', ['i686']],
+            ['aarch64', ['x86_64']],
+            ['aarch64', ['armv5']]
         ];
+
+        foreach ($entries as $entry) {
+            foreach ($entry[1] as $cpuArch) {
+                $result[] = [$entry[0], $cpuArch];
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -444,9 +533,21 @@ class PostPackageListControllerTest extends DatabaseTestCase
      */
     public function provideUnsupportedCpuArchitectures(): array
     {
-        return [
-            ['i686'],
-            ['arm']
+        $result = [];
+        $entries = [
+            // cpuArch -> arch
+            ['', ['']],
+            ['ppc', ['ppc']],
+            ['i486', ['i486']],
+            ['aarch64', ['x86_64']]
         ];
+
+        foreach ($entries as $entry) {
+            foreach ($entry[1] as $arch) {
+                $result[] = [$entry[0], $arch];
+            }
+        }
+
+        return $result;
     }
 }
