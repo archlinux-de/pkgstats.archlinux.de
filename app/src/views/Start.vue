@@ -13,7 +13,7 @@
         <div>
           <h4>Getting started</h4>
           <ol class="pl-4">
-            <li>Install pkstats by <code>pacman -Syu <strong>pkgstats</strong></code></li>
+            <li>Install pkgstats by <code>pacman -Syu <strong>pkgstats</strong></code></li>
             <li>Ensure the weekly timer is started: <code>systemctl start
               <strong>pkgstats.timer</strong></code></li>
             <li>Check the timer status with <code>systemctl status <strong>pkgstats.timer</strong></code>
