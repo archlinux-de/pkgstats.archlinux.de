@@ -2,7 +2,6 @@
 
 namespace App\Tests\ParamConverter;
 
-use App\Entity\User;
 use App\ParamConverter\PkgstatsParamConverter;
 use App\Request\PkgstatsRequest;
 use App\Request\PkgstatsRequestException;
@@ -46,15 +45,14 @@ class PkgstatsParamConverterTest extends TestCase
         $this->serializer = $this->createMock(SerializerInterface::class);
         $this->denormalizer = $this->createMock(DenormalizerInterface::class);
 
-        $user = $this->createMock(User::class);
         $this->denormalizer
             ->expects($this->any())
             ->method('denormalize')
-            ->willReturn(new PkgstatsRequest('2.4', $user));
+            ->willReturn(new PkgstatsRequest('2.4'));
         $this->serializer
             ->expects($this->any())
             ->method('deserialize')
-            ->willReturn(new PkgstatsRequest('2.4', $user));
+            ->willReturn(new PkgstatsRequest('2.4'));
 
         $this->paramConverter = new PkgstatsParamConverter($this->validator, $this->serializer, $this->denormalizer);
     }

@@ -8,20 +8,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(
  *     indexes={
- *          @ORM\Index(name="package_month_name", columns={"month", "name"}),
- *          @ORM\Index(name="package_month", columns={"month"})
+ *          @ORM\Index(name="sytem_architecture_month_name", columns={"month", "name"}),
+ *          @ORM\Index(name="sytem_architecture_month", columns={"month"})
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\PackageRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\SystemArchitectureRepository")
  */
-class Package
+class SystemArchitecture
 {
     /**
      * @var string
-     * @Assert\Length(max=191)
-     * @Assert\Regex("/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/")
+     * @Assert\Choice({"x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4", "i686", "aarch64", "armv7", "armv6", "armv5"})
      *
-     * @ORM\Column(name="name", type="string", length=191)
+     * @ORM\Column(name="name", type="string", length=10)
      * @ORM\Id
      */
     private $name;
@@ -42,6 +41,14 @@ class Package
     private $count = 1;
 
     /**
+     * @param string $name
+     */
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -51,9 +58,9 @@ class Package
 
     /**
      * @param string $name
-     * @return Package
+     * @return SystemArchitecture
      */
-    public function setName(string $name): Package
+    public function setName(string $name): SystemArchitecture
     {
         $this->name = $name;
         return $this;
@@ -69,18 +76,18 @@ class Package
 
     /**
      * @param int $month
-     * @return Package
+     * @return SystemArchitecture
      */
-    public function setMonth(int $month): Package
+    public function setMonth(int $month): SystemArchitecture
     {
         $this->month = $month;
         return $this;
     }
 
     /**
-     * @return Package
+     * @return SystemArchitecture
      */
-    public function incrementCount(): Package
+    public function incrementCount(): SystemArchitecture
     {
         $this->count++;
         return $this;
@@ -92,5 +99,13 @@ class Package
     public function getCount(): ?int
     {
         return $this->count;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

@@ -8,20 +8,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(
  *     indexes={
- *          @ORM\Index(name="package_month_name", columns={"month", "name"}),
- *          @ORM\Index(name="package_month", columns={"month"})
+ *          @ORM\Index(name="operating_sytem_architecture_month_name", columns={"month", "name"}),
+ *          @ORM\Index(name="operating_sytem_architecture_month", columns={"month"})
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\PackageRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OperatingSystemArchitectureRepository")
  */
-class Package
+class OperatingSystemArchitecture
 {
     /**
      * @var string
-     * @Assert\Length(max=191)
-     * @Assert\Regex("/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/")
+     * @Assert\Choice({"x86_64", "i686", "aarch64", "armv7h", "armv6h", "arm"})
      *
-     * @ORM\Column(name="name", type="string", length=191)
+     * @ORM\Column(name="name", type="string", length=10)
      * @ORM\Id
      */
     private $name;
@@ -42,6 +41,14 @@ class Package
     private $count = 1;
 
     /**
+     * @param string $name
+     */
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -51,9 +58,9 @@ class Package
 
     /**
      * @param string $name
-     * @return Package
+     * @return OperatingSystemArchitecture
      */
-    public function setName(string $name): Package
+    public function setName(string $name): OperatingSystemArchitecture
     {
         $this->name = $name;
         return $this;
@@ -69,18 +76,18 @@ class Package
 
     /**
      * @param int $month
-     * @return Package
+     * @return OperatingSystemArchitecture
      */
-    public function setMonth(int $month): Package
+    public function setMonth(int $month): OperatingSystemArchitecture
     {
         $this->month = $month;
         return $this;
     }
 
     /**
-     * @return Package
+     * @return OperatingSystemArchitecture
      */
-    public function incrementCount(): Package
+    public function incrementCount(): OperatingSystemArchitecture
     {
         $this->count++;
         return $this;
@@ -92,5 +99,13 @@ class Package
     public function getCount(): ?int
     {
         return $this->count;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }
