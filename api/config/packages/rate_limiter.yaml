@@ -1,0 +1,6 @@
+framework:
+    rate_limiter:
+        pkgstats_request:
+            policy: 'fixed_window'
+            limit: 10
+            interval: '1 day'

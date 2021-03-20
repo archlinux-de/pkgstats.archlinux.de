@@ -375,6 +375,18 @@
     "symfony/http-kernel": {
         "version": "v4.0.0"
     },
+    "symfony/lock": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "5.2",
+            "ref": "13350583a83fa636bf45a5fb62da3bdc73be52a1"
+        },
+        "files": [
+            "config/packages/lock.yaml"
+        ]
+    },
     "symfony/monolog-bridge": {
         "version": "v4.0.0"
     },
@@ -404,6 +416,9 @@
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.0.1"
+    },
+    "symfony/rate-limiter": {
+        "version": "v5.2.4"
     },
     "symfony/routing": {
         "version": "3.3",

@@ -1,0 +1,7 @@
+services:
+    Symfony\Component\RateLimiter\Storage\InMemoryStorage:
+
+framework:
+    rate_limiter:
+        pkgstats_request:
+            storage_service: 'Symfony\Component\RateLimiter\Storage\InMemoryStorage'
