@@ -18,6 +18,7 @@ class Mirror
 {
     /**
      * @var string
+     * @Assert\NotBlank
      * @Assert\Length(max=255)
      * @Assert\Url(protocols={"http", "https", "ftp"})
      *
@@ -28,6 +29,8 @@ class Mirror
 
     /**
      * @var integer
+     * @Assert\NotBlank
+     * @Assert\DateTime("Ym")
      *
      * @ORM\Column(name="month", type="integer")
      * @ORM\Id
@@ -36,6 +39,7 @@ class Mirror
 
     /**
      * @var integer
+     * @Assert\Positive
      *
      * @ORM\Column(name="count", type="integer", nullable=false)
      */

@@ -18,39 +18,41 @@ class PkgstatsRequest
 {
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Regex(pattern="/^(2\.[345]|3(\.[0-9]+)?)(\.[0-9]+(-[\w-]+)?)?$/")
+     * @Assert\NotBlank
+     * @Assert\Regex("/^(2\.[345]|3(\.[0-9]+)?)(\.[0-9]+(-[\w-]+)?)?$/")
      */
     private $version;
 
     /**
      * @var Package[]
-     * @Assert\Valid()
+     * @Assert\Valid
      * @Assert\Count(min=1, max=10000)
      */
     private $packages = [];
 
     /**
      * @var Country|null
-     * @Assert\Valid()
+     * @Assert\Valid
      */
     private $country;
 
     /**
      * @var Mirror|null
-     * @Assert\Valid()
+     * @Assert\Valid
      */
     private $mirror;
 
     /**
      * @var OperatingSystemArchitecture
-     * @Assert\Valid()
+     * @Assert\NotBlank
+     * @Assert\Valid
      */
     private $operatingSystemArchitecture;
 
     /**
      * @var SystemArchitecture
-     * @Assert\Valid()
+     * @Assert\NotBlank
+     * @Assert\Valid
      */
     private $systemArchitecture;
 

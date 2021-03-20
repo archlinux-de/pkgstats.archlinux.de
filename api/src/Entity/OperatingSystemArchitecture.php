@@ -27,6 +27,8 @@ class OperatingSystemArchitecture
 
     /**
      * @var integer
+     * @Assert\NotBlank
+     * @Assert\DateTime("Ym")
      *
      * @ORM\Column(name="month", type="integer")
      * @ORM\Id
@@ -35,6 +37,7 @@ class OperatingSystemArchitecture
 
     /**
      * @var integer
+     * @Assert\Positive
      *
      * @ORM\Column(name="count", type="integer", nullable=false)
      */

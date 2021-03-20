@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(
@@ -17,6 +18,8 @@ class Country
 {
     /**
      * @var string
+     * @Assert\NotBlank
+     * @Assert\Country
      *
      * @ORM\Column(name="code", type="string", length=2)
      * @ORM\Id
@@ -25,6 +28,8 @@ class Country
 
     /**
      * @var integer
+     * @Assert\NotBlank
+     * @Assert\DateTime("Ym")
      *
      * @ORM\Column(name="month", type="integer")
      * @ORM\Id
@@ -33,6 +38,7 @@ class Country
 
     /**
      * @var integer
+     * @Assert\Positive
      *
      * @ORM\Column(name="count", type="integer", nullable=false)
      */
