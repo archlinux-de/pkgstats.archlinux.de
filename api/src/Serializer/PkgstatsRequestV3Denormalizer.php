@@ -58,7 +58,7 @@ class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableS
 
         $countryCode = $this->geoIp->getCountryCode($clientIp);
         if ($countryCode) {
-            $pkgstatsRequest->setCountry(new Country($countryCode));
+            $pkgstatsRequest->setCountry((new Country($countryCode))->setMonth((int)date('Ym')));
         }
 
         foreach ($packages as $package) {

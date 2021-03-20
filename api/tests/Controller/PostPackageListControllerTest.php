@@ -21,37 +21,13 @@ class PostPackageListControllerTest extends DatabaseTestCase
     {
         $client = $this->createPkgstatsClient();
 
-        $client->request(
-            'POST',
-            '/api/submit',
-            [],
-            [],
-            [
-                'CONTENT_TYPE' => 'application/json',
-                'HTTP_ACCEPT' => 'application/json'
-            ],
-            (string)json_encode(
-                [
-                    'version' => '3',
-                    'system' => [
-                        'architecture' => 'x86_64'
-                    ],
-                    'os' => [
-                        'architecture' => 'x86_64'
-                    ],
-                    'pacman' => [
-                        'mirror' => 'https://mirror.archlinux.de/',
-                        'packages' => ['pkgstats', 'pacman']
-                    ]
-                ]
-            )
-        );
+        $this->sendRequest($client);
 
         $this->assertEquals(Response::HTTP_NO_CONTENT, $client->getResponse()->getStatusCode());
         $this->assertEmpty($client->getResponse()->getContent());
 
         $countryRepository = $this->getEntityManager()->getRepository(Country::class);
-        $this->assertEmpty($countryRepository->findAll());
+        $this->assertCount(1, $countryRepository->findAll());
 
         $mirrorRepository = $this->getEntityManager()->getRepository(Mirror::class);
         $mirrors = $mirrorRepository->findAll();
@@ -144,19 +120,55 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
+     * @param KernelBrowser $client
+     * @param string $systemArchitecture
+     * @param string $osArchitecture
+     * @param string $mirror
+     * @param array|string[] $packages
+     */
+    private function sendRequest(
+        KernelBrowser $client,
+        string $systemArchitecture = 'x86_64',
+        string $osArchitecture = 'x86_64',
+        string $mirror = 'https://mirror.archlinux.de/',
+        array $packages = ['pkgstats', 'pacman']
+    ): void {
+        $client->request(
+            'POST',
+            '/api/submit',
+            [],
+            [],
+            [
+                'REMOTE_ADDR' => '2a02:fb00::1',
+                'CONTENT_TYPE' => 'application/json',
+                'HTTP_ACCEPT' => 'application/json'
+            ],
+            (string)json_encode(
+                [
+                    'version' => '3',
+                    'system' => [
+                        'architecture' => $systemArchitecture
+                    ],
+                    'os' => [
+                        'architecture' => $osArchitecture
+                    ],
+                    'pacman' => [
+                        'mirror' => $mirror,
+                        'packages' => $packages
+                    ]
+                ]
+            )
+        );
+    }
+
+    /**
      * @param string $version
      * @dataProvider provideSupportedVserions
      */
     public function testSupportedVersions(string $version): void
     {
         $client = $this->createPkgstatsClient($version);
-
-        $client->request(
-            'POST',
-            '/post',
-            ['arch' => 'x86_64', 'packages' => 'pkgstats']
-        );
-
+        $this->sendRequest($client);
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
@@ -216,30 +228,14 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testLocalMirrorGetsIgnored(): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            ['arch' => 'x86_64', 'packages' => 'pkgstats', 'mirror' => 'file://mirror/']
-        );
-
+        $this->sendRequest($client, mirror: 'file://mirror/');
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
     public function testLongMirrorGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'packages' => 'pkgstats',
-                'mirror' => 'https://' . str_repeat('a', 255) . '.com/'
-            ]
-        );
-
+        $this->sendRequest($client, mirror: 'https://' . str_repeat('a', 255) . '.com/');
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
@@ -251,17 +247,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testPostPackageListWithUnsupportedArchitectureFails(string $arch, string $cpuArch): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => $arch,
-                'cpuarch' => $cpuArch,
-                'packages' => 'pkgstats'
-            ]
-        );
-
+        $this->sendRequest($client, systemArchitecture: $cpuArch, osArchitecture: $arch);
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
@@ -273,17 +259,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $cpuArch, string $arch): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => $arch,
-                'cpuarch' => $cpuArch,
-                'packages' => 'pkgstats'
-            ]
-        );
-
+        $this->sendRequest($client, systemArchitecture: $cpuArch, osArchitecture: $arch);
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
@@ -295,17 +271,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testPostPackageListWithSupportedCpuArchitectureIsSuccessful(string $cpuArch, string $arch): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => $arch,
-                'cpuarch' => $cpuArch,
-                'packages' => 'pkgstats'
-            ]
-        );
-
+        $this->sendRequest($client, systemArchitecture: $cpuArch, osArchitecture: $arch);
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
@@ -317,53 +283,29 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testPostPackageListWithSupportedArchitectureIsSuccessful(string $arch, string $cpuArch): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => $arch,
-                'cpuarch' => $cpuArch,
-                'packages' => 'pkgstats'
-            ]
-        );
-
+        $this->sendRequest($client, systemArchitecture: $cpuArch, osArchitecture: $arch);
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
     public function testEmptyPackageListGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'packages' => ''
-            ]
-        );
-
+        $this->sendRequest($client, packages: []);
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
     public function testLongPackageListGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'packages' => (function () {
-                    $result = '';
+        $this->sendRequest(
+            $client,
+            packages: iterator_to_array(
+                (function () {
                     for ($i = 0; $i < 10002; $i++) {
-                        $result .= 'package-' . $i . "\n";
+                        yield 'package-' . $i;
                     }
-                    return $result;
                 })()
-            ]
+            )
         );
 
         $this->assertTrue($client->getResponse()->isClientError());
@@ -372,32 +314,14 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testInvalidPackageListGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'packages' => '-pkgstats'
-            ]
-        );
-
+        $this->sendRequest($client, packages: ['-pkgstats']);
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
     public function testLongPackageGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'packages' => str_repeat('a', 256)
-            ]
-        );
-
+        $this->sendRequest($client, packages: [str_repeat('a', 256)]);
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
@@ -425,11 +349,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $client = $this->createPkgstatsClient();
 
         for ($i = 1; $i <= 11; $i++) {
-            $client->request(
-                'POST',
-                '/post',
-                ['arch' => 'x86_64', 'packages' => 'pkgstats']
-            );
+            $this->sendRequest($client);
             if ($i <= 10) {
                 $this->assertTrue($client->getResponse()->isSuccessful());
             } else {
@@ -447,17 +367,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         );
 
         $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'cpuarch' => 'x86_64',
-                'packages' => 'pkgstats',
-                'mirror' => 'https://mirror.archlinux.de/'
-            ]
-        );
+        $this->sendRequest($client, packages: ['pkgstats']);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
 
