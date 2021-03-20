@@ -131,7 +131,8 @@ class PostPackageListControllerTest extends DatabaseTestCase
         string $systemArchitecture = 'x86_64',
         string $osArchitecture = 'x86_64',
         string $mirror = 'https://mirror.archlinux.de/',
-        array $packages = ['pkgstats', 'pacman']
+        array $packages = ['pkgstats', 'pacman'],
+        string $version = '3'
     ): void {
         $client->request(
             'POST',
@@ -145,7 +146,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
             ],
             (string)json_encode(
                 [
-                    'version' => '3',
+                    'version' => $version,
                     'system' => [
                         'architecture' => $systemArchitecture
                     ],
@@ -215,13 +216,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testUnsupportedVersionFails(string $version): void
     {
         $client = $this->createPkgstatsClient($version);
-
-        $client->request(
-            'POST',
-            '/post',
-            ['arch' => 'x86_64', 'packages' => 'pkgstats']
-        );
-
+        $this->sendRequest($client, version: $version);
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
