@@ -27,8 +27,7 @@ class SmokeTest extends DatabaseTestCase
             ->setCountrycode('DE')
             ->setCpuarch('x86_64')
             ->setArch('x86_64')
-            ->setTime((new \DateTime('2018-12-01'))->getTimestamp())
-            ->setIp('localhost');
+            ->setTime((new \DateTime('2018-12-01'))->getTimestamp());
         $entityManager->persist($package);
         $entityManager->persist($user);
         $entityManager->flush();

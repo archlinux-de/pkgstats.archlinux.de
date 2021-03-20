@@ -15,8 +15,7 @@ class UserTest extends TestCase
             ->setCountrycode('DE')
             ->setCpuarch('x86_64')
             ->setArch('x86_64')
-            ->setTime(1234)
-            ->setIp('localhost');
+            ->setTime(1234);
 
         $this->assertEquals(2, $user->getPackages());
         $this->assertEquals('https://mirror.archlinux.de', $user->getMirror());
@@ -24,6 +23,5 @@ class UserTest extends TestCase
         $this->assertEquals('x86_64', $user->getCpuarch());
         $this->assertEquals('x86_64', $user->getArch());
         $this->assertEquals(1234, $user->getTime());
-        $this->assertEquals('localhost', $user->getIp());
     }
 }

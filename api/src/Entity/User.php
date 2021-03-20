@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(
  *     indexes={
  *          @ORM\Index(name="mirror", columns={"mirror"}),
- *          @ORM\Index(name="ip", columns={"ip", "time"}),
  *          @ORM\Index(name="countryCode", columns={"countryCode"})
  *     }
  * )
@@ -25,13 +24,6 @@ class User
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ip", type="string", length=40, nullable=false)
-     */
-    private $ip;
 
     /**
      * @var integer
@@ -78,24 +70,6 @@ class User
      * @ORM\Column(name="packages", type="smallint", nullable=false)
      */
     private $packages;
-
-    /**
-     * @return string
-     */
-    public function getIp(): string
-    {
-        return $this->ip;
-    }
-
-    /**
-     * @param string $ip
-     * @return User
-     */
-    public function setIp(string $ip): User
-    {
-        $this->ip = $ip;
-        return $this;
-    }
 
     /**
      * @return int

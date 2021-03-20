@@ -79,7 +79,7 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
     }
 
     /**
-     * @return \string[][]
+     * @return array
      */
     public function provideRateLimitedRoutes(): array
     {
