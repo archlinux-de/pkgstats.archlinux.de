@@ -46,8 +46,7 @@ class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableS
             ->setArch($arch)
             ->setCpuarch($cpuArch)
             ->setCountrycode($this->geoIp->getCountryCode($clientIp))
-            ->setMirror($mirror)
-            ->setPackages(count($packages));
+            ->setMirror($mirror);
 
         $pkgstatsver = $data['version'] ?? '';
         $pkgstatsRequest = new PkgstatsRequest($pkgstatsver, $user);

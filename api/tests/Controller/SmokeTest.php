@@ -22,7 +22,6 @@ class SmokeTest extends DatabaseTestCase
             ->setName('pacman')
             ->setMonth(201812);
         $user = (new User())
-            ->setPackages(1)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
             ->setCpuarch('x86_64')

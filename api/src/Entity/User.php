@@ -65,13 +65,6 @@ class User
     private $mirror;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="packages", type="smallint", nullable=false)
-     */
-    private $packages;
-
-    /**
      * @return int
      */
     public function getTime(): int
@@ -158,24 +151,6 @@ class User
     public function setMirror(?string $mirror): User
     {
         $this->mirror = $mirror;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getPackages(): int
-    {
-        return $this->packages;
-    }
-
-    /**
-     * @param int $packages
-     * @return User
-     */
-    public function setPackages(int $packages): User
-    {
-        $this->packages = $packages;
         return $this;
     }
 

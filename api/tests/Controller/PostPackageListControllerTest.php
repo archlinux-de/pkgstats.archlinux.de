@@ -56,7 +56,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertEquals('x86_64', $user->getArch());
         $this->assertEquals('x86_64', $user->getCpuarch());
         $this->assertEquals('https://mirror.archlinux.de/', $user->getMirror());
-        $this->assertEquals(2, $user->getPackages());
         $this->assertNull($user->getCountrycode());
 
         /** @var PackageRepository $packageRepository */
@@ -98,7 +97,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertEquals('x86_64', $user->getArch());
         $this->assertEquals('x86_64', $user->getCpuarch());
         $this->assertEquals('https://mirror.archlinux.de/', $user->getMirror());
-        $this->assertEquals(1, $user->getPackages());
         $this->assertNull($user->getCountrycode());
 
         /** @var PackageRepository $packageRepository */

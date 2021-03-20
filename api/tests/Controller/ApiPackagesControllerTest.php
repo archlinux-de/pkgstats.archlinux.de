@@ -23,7 +23,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
             ->setName($packageName)
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $user = (new User())
-            ->setPackages(1)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
             ->setCpuarch('x86_64')
@@ -131,7 +130,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
             ->setName($packageName)
             ->setMonth((int)(new \DateTime())->format('Ym'));
         $user = (new User())
-            ->setPackages(1)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
             ->setCpuarch('x86_64')
@@ -161,7 +159,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
             ->setName('php')
             ->setMonth(201901);
         $user = (new User())
-            ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
             ->setCpuarch('x86_64')
@@ -194,7 +191,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
             ->setName('php')
             ->setMonth(201801);
         $user = (new User())
-            ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
             ->setCpuarch('x86_64')
@@ -230,7 +226,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
             ->setName('php')
             ->setMonth(201902);
         $user = (new User())
-            ->setPackages(2)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
             ->setCpuarch('x86_64')
@@ -267,7 +262,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
             ->setName($packageName)
             ->setMonth(201901);
         $user = (new User())
-            ->setPackages(1)
             ->setMirror('https://mirror.archlinux.de')
             ->setCountrycode('DE')
             ->setCpuarch('x86_64')
