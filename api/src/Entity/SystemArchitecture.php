@@ -60,16 +60,6 @@ class SystemArchitecture
     }
 
     /**
-     * @param string $name
-     * @return SystemArchitecture
-     */
-    public function setName(string $name): SystemArchitecture
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getMonth(): int

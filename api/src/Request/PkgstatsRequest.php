@@ -169,25 +169,25 @@ class PkgstatsRequest
     public function validateOperatingSystemArchitectures(ExecutionContextInterface $context): void
     {
         switch ($this->getSystemArchitecture()->getName()) {
-            case 'x86_64':
-            case 'x86_64_v2':
-            case 'x86_64_v3':
-            case 'x86_64_v4':
+            case 'x86_64': // @codeCoverageIgnore
+            case 'x86_64_v2': // @codeCoverageIgnore
+            case 'x86_64_v3': // @codeCoverageIgnore
+            case 'x86_64_v4': // @codeCoverageIgnore
                 $validArchitectures = ['x86_64', 'i686'];
                 break;
-            case 'i686':
+            case 'i686': // @codeCoverageIgnore
                 $validArchitectures = ['i686'];
                 break;
-            case 'aarch64':
+            case 'aarch64': // @codeCoverageIgnore
                 $validArchitectures = ['aarch64', 'armv7h', 'armv6h', 'arm'];
                 break;
-            case 'armv7':
+            case 'armv7': // @codeCoverageIgnore
                 $validArchitectures = ['armv7h', 'armv6h', 'arm'];
                 break;
-            case 'armv6':
+            case 'armv6': // @codeCoverageIgnore
                 $validArchitectures = ['armv6h', 'arm'];
                 break;
-            case 'armv5':
+            case 'armv5': // @codeCoverageIgnore
                 $validArchitectures = ['arm'];
                 break;
             default:
@@ -207,22 +207,22 @@ class PkgstatsRequest
     public function validateSystemArchitectures(ExecutionContextInterface $context): void
     {
         switch ($this->getOperatingSystemArchitecture()->getName()) {
-            case 'x86_64':
+            case 'x86_64': // @codeCoverageIgnore
                 $validSystemArchitectures = ['x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4'];
                 break;
-            case 'i686':
+            case 'i686': // @codeCoverageIgnore
                 $validSystemArchitectures = ['i686', 'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4'];
                 break;
-            case 'aarch64':
+            case 'aarch64': // @codeCoverageIgnore
                 $validSystemArchitectures = ['aarch64'];
                 break;
-            case 'armv6h':
+            case 'armv6h': // @codeCoverageIgnore
                 $validSystemArchitectures = ['armv6', 'armv7', 'aarch64'];
                 break;
-            case 'armv7h':
+            case 'armv7h': // @codeCoverageIgnore
                 $validSystemArchitectures = ['armv7', 'aarch64'];
                 break;
-            case 'arm':
+            case 'arm': // @codeCoverageIgnore
                 $validSystemArchitectures = ['armv5', 'armv6', 'armv7', 'aarch64'];
                 break;
             default:

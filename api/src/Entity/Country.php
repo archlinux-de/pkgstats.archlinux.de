@@ -61,16 +61,6 @@ class Country
     }
 
     /**
-     * @param string $code
-     * @return Country
-     */
-    public function setCode(string $code): Country
-    {
-        $this->code = $code;
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getMonth(): int

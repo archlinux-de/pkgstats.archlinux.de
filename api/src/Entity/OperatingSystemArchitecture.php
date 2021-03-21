@@ -60,16 +60,6 @@ class OperatingSystemArchitecture
     }
 
     /**
-     * @param string $name
-     * @return OperatingSystemArchitecture
-     */
-    public function setName(string $name): OperatingSystemArchitecture
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getMonth(): int

@@ -33,6 +33,10 @@ class PkgstatsRequestV2DenormalizerTest extends TestCase
     public function testDenormalizeUser(): void
     {
         $this->mirrorUrlFilter->expects($this->once())->method('filter')->willReturnArgument(0);
+        $this->geoIp
+            ->expects($this->once())
+            ->method('getCountryCode')
+            ->willReturn('DE');
         $context = [
             'clientIp' => 'abc',
             'userAgent' => 'pkgstats/2.4'

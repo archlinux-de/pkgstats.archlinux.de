@@ -62,16 +62,6 @@ class Mirror
     }
 
     /**
-     * @param string $url
-     * @return Mirror
-     */
-    public function setUrl(string $url): Mirror
-    {
-        $this->url = $url;
-        return $this;
-    }
-
-    /**
      * @return int
      */
     public function getMonth(): int
