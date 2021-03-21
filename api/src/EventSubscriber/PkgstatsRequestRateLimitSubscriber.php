@@ -45,8 +45,7 @@ class PkgstatsRequestRateLimitSubscriber implements EventSubscriberInterface
             throw new TooManyRequestsHttpException(
                 $limit->getRetryAfter()->format(\DateTimeInterface::RFC7231),
                 sprintf(
-                    'You already submitted your data %d times (of %d). Retry after %s.',
-                    $limit->getRemainingTokens(),
+                    'You already submitted your data %d times. Retry after %s.',
                     $limit->getLimit(),
                     $limit->getRetryAfter()->format(\DateTimeInterface::RFC3339)
                 )
