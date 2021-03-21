@@ -3,7 +3,6 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Package;
-use App\Entity\User;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
 /**
@@ -21,16 +20,7 @@ class SmokeTest extends DatabaseTestCase
         $package = (new Package())
             ->setName('pacman')
             ->setMonth(201812);
-        $user = (new User())
-            ->setPackages(1)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime((new \DateTime('2018-12-01'))->getTimestamp())
-            ->setIp('localhost');
         $entityManager->persist($package);
-        $entityManager->persist($user);
         $entityManager->flush();
 
         $client = $this->getClient();

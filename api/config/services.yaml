@@ -32,11 +32,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\EventSubscriber\RateLimitSubscriber:
-        bind:
-            $delay: '%app.post.delay%'
-            $count: '%app.post.max_count%'
-
     MaxMind\Db\Reader:
         arguments:
             - '%geoip.database%'

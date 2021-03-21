@@ -35,4 +35,16 @@ class PackagePopularityTest extends TestCase
             $packagePopularity->jsonSerialize()
         );
     }
+
+    public function testEmptyPopularity(): void
+    {
+        $packagePopularity = new PackagePopularity('pacman', 0, 1, 201901, 201902);
+        $this->assertEquals(0, $packagePopularity->getPopularity());
+    }
+
+    public function testInvalidPopularity(): void
+    {
+        $packagePopularity = new PackagePopularity('pacman', 1, 2, 201901, 201902);
+        $this->assertEquals(100, $packagePopularity->getPopularity());
+    }
 }

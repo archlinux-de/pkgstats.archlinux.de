@@ -8,23 +8,23 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(
  *     indexes={
- *          @ORM\Index(name="package_month_name", columns={"month", "name"}),
- *          @ORM\Index(name="package_month", columns={"month"})
+ *          @ORM\Index(name="country_month_code", columns={"month", "code"}),
+ *          @ORM\Index(name="country_month", columns={"month"})
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\PackageRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CountryRepository")
  */
-class Package
+class Country
 {
     /**
      * @var string
-     * @Assert\Length(max=191)
-     * @Assert\Regex("/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/")
+     * @Assert\NotBlank
+     * @Assert\Country
      *
-     * @ORM\Column(name="name", type="string", length=191)
+     * @ORM\Column(name="code", type="string", length=2)
      * @ORM\Id
      */
-    private $name;
+    private $code;
 
     /**
      * @var integer
@@ -45,21 +45,19 @@ class Package
     private $count = 1;
 
     /**
-     * @return string
+     * @param string $code
      */
-    public function getName(): string
+    public function __construct(string $code)
     {
-        return $this->name;
+        $this->code = $code;
     }
 
     /**
-     * @param string $name
-     * @return Package
+     * @return string
      */
-    public function setName(string $name): Package
+    public function getCode(): string
     {
-        $this->name = $name;
-        return $this;
+        return $this->code;
     }
 
     /**
@@ -72,18 +70,18 @@ class Package
 
     /**
      * @param int $month
-     * @return Package
+     * @return Country
      */
-    public function setMonth(int $month): Package
+    public function setMonth(int $month): Country
     {
         $this->month = $month;
         return $this;
     }
 
     /**
-     * @return Package
+     * @return Country
      */
-    public function incrementCount(): Package
+    public function incrementCount(): Country
     {
         $this->count++;
         return $this;

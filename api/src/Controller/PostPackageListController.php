@@ -2,7 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Country;
+use App\Entity\Mirror;
+use App\Entity\OperatingSystemArchitecture;
 use App\Entity\Package;
+use App\Entity\SystemArchitecture;
 use App\Request\PkgstatsRequest;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManager;
@@ -27,6 +31,9 @@ class PostPackageListController extends AbstractController
     }
 
     /**
+     * @param PkgstatsRequest $pkgstatsRequest
+     * @param Request $request
+     * @return Response
      * @deprecated
      * @Route(
      *     "/post",
@@ -35,9 +42,6 @@ class PostPackageListController extends AbstractController
      *      requirements={"_format": "text"},
      *      name="app_pkgstats_post"
      * )
-     * @param PkgstatsRequest $pkgstatsRequest
-     * @param Request $request
-     * @return Response
      */
     public function postAction(PkgstatsRequest $pkgstatsRequest, Request $request): Response
     {
@@ -134,27 +138,126 @@ class PostPackageListController extends AbstractController
      */
     private function persistSubmission(PkgstatsRequest $pkgstatsRequest): void
     {
-        $user = $pkgstatsRequest->getUser();
-        $packages = $pkgstatsRequest->getPackages();
-
         $this->entityManager->transactional(
-            function (EntityManager $entityManager) use ($user, $packages) {
-                $entityManager->persist($user);
-
-                foreach ($packages as $package) {
-                    /** @var Package|null $persistedPackage */
-                    $persistedPackage = $entityManager->find(
-                        Package::class,
-                        ['name' => $package->getName(), 'month' => $package->getMonth()],
-                        LockMode::PESSIMISTIC_WRITE
-                    );
-                    if ($persistedPackage) {
-                        $persistedPackage->incrementCount();
-                        $package = $persistedPackage;
-                    }
-                    $entityManager->persist($package);
-                }
+            function (EntityManager $entityManager) use ($pkgstatsRequest) {
+                $this->persistPackages($entityManager, $pkgstatsRequest->getPackages());
+                $this->persistCountry($entityManager, $pkgstatsRequest->getCountry());
+                $this->persistMirror($entityManager, $pkgstatsRequest->getMirror());
+                $this->persistOperatingSystemArchitecture(
+                    $entityManager,
+                    $pkgstatsRequest->getOperatingSystemArchitecture()
+                );
+                $this->persistSystemArchitecture($entityManager, $pkgstatsRequest->getSystemArchitecture());
             }
         );
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     * @param Package[] $packages
+     */
+    private function persistPackages(EntityManager $entityManager, array $packages): void
+    {
+        foreach ($packages as $package) {
+            /** @var Package|null $persistedPackage */
+            $persistedPackage = $entityManager->find(
+                Package::class,
+                ['name' => $package->getName(), 'month' => $package->getMonth()],
+                LockMode::PESSIMISTIC_WRITE
+            );
+            if ($persistedPackage) {
+                $persistedPackage->incrementCount();
+                $package = $persistedPackage;
+            }
+            $entityManager->persist($package);
+        }
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     * @param Country|null $country
+     */
+    private function persistCountry(EntityManager $entityManager, ?Country $country): void
+    {
+        if (!$country) {
+            return;
+        }
+
+        /** @var Country|null $persistedCountry */
+        $persistedCountry = $entityManager->find(
+            Country::class,
+            ['code' => $country->getCode(), 'month' => $country->getMonth()],
+            LockMode::PESSIMISTIC_WRITE
+        );
+        if ($persistedCountry) {
+            $persistedCountry->incrementCount();
+            $country = $persistedCountry;
+        }
+        $entityManager->persist($country);
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     * @param Mirror|null $mirror
+     */
+    private function persistMirror(EntityManager $entityManager, ?Mirror $mirror): void
+    {
+        if (!$mirror) {
+            return;
+        }
+
+        /** @var Mirror|null $persistedMirror */
+        $persistedMirror = $entityManager->find(
+            Mirror::class,
+            ['url' => $mirror->getUrl(), 'month' => $mirror->getMonth()],
+            LockMode::PESSIMISTIC_WRITE
+        );
+        if ($persistedMirror) {
+            $persistedMirror->incrementCount();
+            $mirror = $persistedMirror;
+        }
+        $entityManager->persist($mirror);
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     * @param OperatingSystemArchitecture $operatingSystemArchitecture
+     */
+    private function persistOperatingSystemArchitecture(
+        EntityManager $entityManager,
+        OperatingSystemArchitecture $operatingSystemArchitecture
+    ): void {
+        /** @var OperatingSystemArchitecture|null $persistedOperatingSystemArchitecture */
+        $persistedOperatingSystemArchitecture = $entityManager->find(
+            OperatingSystemArchitecture::class,
+            ['name' => $operatingSystemArchitecture->getName(), 'month' => $operatingSystemArchitecture->getMonth()],
+            LockMode::PESSIMISTIC_WRITE
+        );
+        if ($persistedOperatingSystemArchitecture) {
+            $persistedOperatingSystemArchitecture->incrementCount();
+            $operatingSystemArchitecture = $persistedOperatingSystemArchitecture;
+        }
+        $entityManager->persist($operatingSystemArchitecture);
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     * @param SystemArchitecture $systemArchitecture
+     */
+    private function persistSystemArchitecture(
+        EntityManager $entityManager,
+        SystemArchitecture $systemArchitecture
+    ): void {
+        /** @var SystemArchitecture|null $persistedSystemArchitecture */
+        $persistedSystemArchitecture = $entityManager->find(
+            SystemArchitecture::class,
+            ['name' => $systemArchitecture->getName(), 'month' => $systemArchitecture->getMonth()],
+            LockMode::PESSIMISTIC_WRITE
+        );
+        if ($persistedSystemArchitecture) {
+            $persistedSystemArchitecture->incrementCount();
+            $systemArchitecture = $persistedSystemArchitecture;
+        }
+        $entityManager->persist($systemArchitecture);
     }
 }

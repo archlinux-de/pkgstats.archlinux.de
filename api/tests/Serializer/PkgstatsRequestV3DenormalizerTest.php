@@ -4,7 +4,6 @@ namespace App\Tests\Serializer;
 
 use App\Request\PkgstatsRequest;
 use App\Serializer\PkgstatsRequestV3Denormalizer;
-use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
 use App\Service\MirrorUrlFilter;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -15,9 +14,6 @@ class PkgstatsRequestV3DenormalizerTest extends TestCase
     /** @var GeoIp|MockObject */
     private $geoIp;
 
-    /** @var ClientIdGenerator|MockObject */
-    private $clientIdGenerator;
-
     /** @var MirrorUrlFilter|MockObject */
     private $mirrorUrlFilter;
 
@@ -27,11 +23,9 @@ class PkgstatsRequestV3DenormalizerTest extends TestCase
     public function setUp(): void
     {
         $this->geoIp = $this->createMock(GeoIp::class);
-        $this->clientIdGenerator = $this->createMock(ClientIdGenerator::class);
         $this->mirrorUrlFilter = $this->createMock(MirrorUrlFilter::class);
         $this->denormalizer = new PkgstatsRequestV3Denormalizer(
             $this->geoIp,
-            $this->clientIdGenerator,
             $this->mirrorUrlFilter
         );
     }
@@ -39,6 +33,10 @@ class PkgstatsRequestV3DenormalizerTest extends TestCase
     public function testDenormalizeRequest(): void
     {
         $this->mirrorUrlFilter->expects($this->once())->method('filter')->willReturnArgument(0);
+        $this->geoIp
+            ->expects($this->once())
+            ->method('getCountryCode')
+            ->willReturn('DE');
         $context = [
             'clientIp' => 'abc',
             'userAgent' => 'pkgstats/2.4'
@@ -61,10 +59,10 @@ class PkgstatsRequestV3DenormalizerTest extends TestCase
         $pkgstatsRequest = $this->denormalizer->denormalize($data, PkgstatsRequest::class, 'form', $context);
 
         $this->assertInstanceOf(PkgstatsRequest::class, $pkgstatsRequest);
-        $user = $pkgstatsRequest->getUser();
-        $this->assertEquals('x86_64', $user->getArch());
-        $this->assertEquals('x86_64', $user->getCpuarch());
-        $this->assertEquals('https://mirror.archlinux.de/', $user->getMirror());
+        $this->assertEquals('x86_64', $pkgstatsRequest->getOperatingSystemArchitecture()->getName());
+        $this->assertEquals('x86_64', $pkgstatsRequest->getSystemArchitecture()->getName());
+        $this->assertNotNull($pkgstatsRequest->getMirror());
+        $this->assertEquals('https://mirror.archlinux.de/', $pkgstatsRequest->getMirror()->getUrl());
         $packages = $pkgstatsRequest->getPackages();
         $this->assertCount(2, $packages);
         $this->assertEquals('foo', $packages[0]->getName());

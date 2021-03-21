@@ -3,7 +3,6 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Package;
-use App\Entity\User;
 use Symfony\Component\HttpFoundation\Response;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
@@ -22,16 +21,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $package = (new Package())
             ->setName($packageName)
             ->setMonth((int)(new \DateTime())->format('Ym'));
-        $user = (new User())
-            ->setPackages(1)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime((new \DateTime())->getTimestamp())
-            ->setIp('localhost');
         $entityManager->persist($package);
-        $entityManager->persist($user);
         $entityManager->flush();
 
         $client = $this->getClient();
@@ -131,16 +121,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $package = (new Package())
             ->setName($packageName)
             ->setMonth((int)(new \DateTime())->format('Ym'));
-        $user = (new User())
-            ->setPackages(1)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime((new \DateTime())->getTimestamp())
-            ->setIp('localhost');
         $entityManager->persist($package);
-        $entityManager->persist($user);
         $entityManager->flush();
 
         $client = $this->getClient();
@@ -162,17 +143,8 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $php = (new Package())
             ->setName('php')
             ->setMonth(201901);
-        $user = (new User())
-            ->setPackages(2)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime((new \DateTime())->getTimestamp())
-            ->setIp('localhost');
         $entityManager->persist($pacman);
         $entityManager->persist($php);
-        $entityManager->persist($user);
         $entityManager->flush();
 
         $client = $this->getClient();
@@ -196,17 +168,8 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $php = (new Package())
             ->setName('php')
             ->setMonth(201801);
-        $user = (new User())
-            ->setPackages(2)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime((new \DateTime())->getTimestamp())
-            ->setIp('localhost');
         $entityManager->persist($pacman);
         $entityManager->persist($php);
-        $entityManager->persist($user);
         $entityManager->flush();
 
         $client = $this->getClient();
@@ -233,18 +196,9 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $anotherPhp = (new Package())
             ->setName('php')
             ->setMonth(201902);
-        $user = (new User())
-            ->setPackages(2)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime((new \DateTime())->getTimestamp())
-            ->setIp('localhost');
         $entityManager->persist($pacman);
         $entityManager->persist($php);
         $entityManager->persist($anotherPhp);
-        $entityManager->persist($user);
         $entityManager->flush();
 
         $client = $this->getClient();
@@ -271,16 +225,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $package = (new Package())
             ->setName($packageName)
             ->setMonth(201901);
-        $user = (new User())
-            ->setPackages(1)
-            ->setMirror('https://mirror.archlinux.de')
-            ->setCountrycode('DE')
-            ->setCpuarch('x86_64')
-            ->setArch('x86_64')
-            ->setTime((new \DateTime())->getTimestamp())
-            ->setIp('localhost');
         $entityManager->persist($package);
-        $entityManager->persist($user);
         $entityManager->flush();
 
         $client = $this->getClient();

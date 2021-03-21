@@ -8,23 +8,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(
  *     indexes={
- *          @ORM\Index(name="package_month_name", columns={"month", "name"}),
- *          @ORM\Index(name="package_month", columns={"month"})
+ *          @ORM\Index(name="mirror_month_url", columns={"month", "url"}),
+ *          @ORM\Index(name="mirror_month", columns={"month"})
  *     }
  * )
- * @ORM\Entity(repositoryClass="App\Repository\PackageRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\MirrorRepository")
  */
-class Package
+class Mirror
 {
     /**
      * @var string
-     * @Assert\Length(max=191)
-     * @Assert\Regex("/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/")
+     * @Assert\NotBlank
+     * @Assert\Length(max=255)
+     * @Assert\Url(protocols={"http", "https", "ftp"})
      *
-     * @ORM\Column(name="name", type="string", length=191)
+     * @ORM\Column(name="url", type="string", length=191)
      * @ORM\Id
      */
-    private $name;
+    private $url;
 
     /**
      * @var integer
@@ -45,21 +46,19 @@ class Package
     private $count = 1;
 
     /**
-     * @return string
+     * @param string $url
      */
-    public function getName(): string
+    public function __construct(string $url)
     {
-        return $this->name;
+        $this->url = $url;
     }
 
     /**
-     * @param string $name
-     * @return Package
+     * @return string
      */
-    public function setName(string $name): Package
+    public function getUrl(): string
     {
-        $this->name = $name;
-        return $this;
+        return $this->url;
     }
 
     /**
@@ -72,18 +71,18 @@ class Package
 
     /**
      * @param int $month
-     * @return Package
+     * @return Mirror
      */
-    public function setMonth(int $month): Package
+    public function setMonth(int $month): Mirror
     {
         $this->month = $month;
         return $this;
     }
 
     /**
-     * @return Package
+     * @return Mirror
      */
-    public function incrementCount(): Package
+    public function incrementCount(): Mirror
     {
         $this->count++;
         return $this;

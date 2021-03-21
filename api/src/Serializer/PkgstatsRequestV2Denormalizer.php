@@ -2,10 +2,12 @@
 
 namespace App\Serializer;
 
+use App\Entity\Country;
+use App\Entity\Mirror;
+use App\Entity\OperatingSystemArchitecture;
 use App\Entity\Package;
-use App\Entity\User;
+use App\Entity\SystemArchitecture;
 use App\Request\PkgstatsRequest;
-use App\Service\ClientIdGenerator;
 use App\Service\GeoIp;
 use App\Service\MirrorUrlFilter;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
@@ -16,21 +18,16 @@ class PkgstatsRequestV2Denormalizer implements DenormalizerInterface, CacheableS
     /** @var GeoIp */
     private $geoIp;
 
-    /** @var ClientIdGenerator */
-    private $clientIdGenerator;
-
     /** @var MirrorUrlFilter */
     private $mirrorUrlFilter;
 
     /**
      * @param GeoIp $geoIp
-     * @param ClientIdGenerator $clientIdGenerator
      * @param MirrorUrlFilter $mirrorUrlFilter
      */
-    public function __construct(GeoIp $geoIp, ClientIdGenerator $clientIdGenerator, MirrorUrlFilter $mirrorUrlFilter)
+    public function __construct(GeoIp $geoIp, MirrorUrlFilter $mirrorUrlFilter)
     {
         $this->geoIp = $geoIp;
-        $this->clientIdGenerator = $clientIdGenerator;
         $this->mirrorUrlFilter = $mirrorUrlFilter;
     }
 
@@ -47,23 +44,28 @@ class PkgstatsRequestV2Denormalizer implements DenormalizerInterface, CacheableS
         $mirror = $this->mirrorUrlFilter->filter((string)($data['mirror'] ?? ''));
 
         $clientIp = $context['clientIp'] ?? '127.0.0.1';
-        $user = (new User())
-            ->setIp($this->clientIdGenerator->createClientId($clientIp))
-            ->setTime(time())
-            ->setArch($arch)
-            ->setCpuarch($cpuArch)
-            ->setCountrycode($this->geoIp->getCountryCode($clientIp))
-            ->setMirror($mirror)
-            ->setPackages(count($packages));
 
         $pkgstatsver = str_replace('pkgstats/', '', $context['userAgent'] ?? '');
-        $pkgstatsRequest = new PkgstatsRequest($pkgstatsver, $user);
+        $pkgstatsRequest = new PkgstatsRequest($pkgstatsver);
+        $pkgstatsRequest->setOperatingSystemArchitecture(
+            (new OperatingSystemArchitecture($arch))->setMonth((int)date('Ym'))
+        );
+        $pkgstatsRequest->setSystemArchitecture((new SystemArchitecture($cpuArch))->setMonth((int)date('Ym')));
+
+        if ($mirror) {
+            $pkgstatsRequest->setMirror((new Mirror($mirror))->setMonth((int)date('Ym')));
+        }
+
+        $countryCode = $this->geoIp->getCountryCode($clientIp);
+        if ($countryCode) {
+            $pkgstatsRequest->setCountry((new Country($countryCode))->setMonth((int)date('Ym')));
+        }
 
         foreach ($packages as $package) {
             $pkgstatsRequest->addPackage(
                 (new Package())
                     ->setName($package)
-                    ->setMonth((int)date('Ym', $user->getTime()))
+                    ->setMonth((int)date('Ym'))
             );
         }
 

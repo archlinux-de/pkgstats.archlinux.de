@@ -2,12 +2,23 @@
 
 namespace App\Request;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class StatisticsRangeRequest
 {
-    /** @var int */
+    /**
+     * @var int
+     * @Assert\AtLeastOneOf({
+     *   @Assert\EqualTo(0),
+     *   @Assert\DateTime("Ym")
+     * })
+     */
     private $startMonth;
 
-    /** @var int */
+    /**
+     * @var int
+     * @Assert\DateTime("Ym")
+     */
     private $endMonth;
 
     /**
