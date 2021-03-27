@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "config:base",
+    "packages:linters",
+    "packages:test",
+    "docker:enableMajor",
+    "preview:dockerCompose",
+    "preview:dockerVersions",
+    ":automergeMinor",
+    ":automergeLinters",
+    ":automergeTesters",
+    ":automergeBranch",
+    "schedule:daily"
+  ],
+  "docker-compose": {
+    "fileMatch": [
+      "^docker/.*\\.yml$"
+    ]
+  },
+  "rangeStrategy": "bump",
+  "prBodyTemplate": "{{{table}}}{{{notes}}}{{{changelogs}}}",
+  "packageRules": [
+    {
+      "updateTypes": ["major"],
+      "labels": ["dependencies", "major"]
+    },
+    {
+      "updateTypes": ["minor"],
+      "labels": ["dependencies", "minor"]
+    },
+    {
+      "updateTypes": ["patch"],
+      "labels": ["dependencies", "patch"]
+    }
+  ]
+}
