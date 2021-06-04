@@ -1,0 +1,16 @@
+name: outdated
+
+on:
+  schedule:
+    - cron: '0 7 */1 * *'
+
+jobs:
+  outdated:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Just
+        run: curl -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Check for outdated Composer packages
+        run: just composer-outdated
