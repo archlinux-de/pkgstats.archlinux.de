@@ -62,7 +62,7 @@ class ApiCorsSubscriberTest extends TestCase
         $event = new ResponseEvent(
             $this->createMock(KernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $response
         );
 
@@ -90,7 +90,7 @@ class ApiCorsSubscriberTest extends TestCase
         $event = new ResponseEvent(
             $this->createMock(KernelInterface::class),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $response
         );
 

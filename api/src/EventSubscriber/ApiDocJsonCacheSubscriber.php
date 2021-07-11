@@ -22,7 +22,7 @@ class ApiDocJsonCacheSubscriber implements EventSubscriberInterface
     public function onKernelResponse(ResponseEvent $event): void
     {
         if (
-            !$event->isMasterRequest()
+            !$event->isMainRequest()
             || $event->getRequest()->attributes->get('_route') != 'app_swagger'
             || !$event->getResponse()->isOk()
         ) {
