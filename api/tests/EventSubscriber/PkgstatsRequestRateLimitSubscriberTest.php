@@ -54,7 +54,7 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
             ->willReturn('127.0.0.1');
         $request->attributes = new ParameterBag(['_route' => $route]);
 
-        return new RequestEvent($kernel, $request, HttpKernelInterface::MASTER_REQUEST);
+        return new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
     }
 
     /**

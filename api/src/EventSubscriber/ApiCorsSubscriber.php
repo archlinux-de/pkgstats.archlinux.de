@@ -23,7 +23,7 @@ class ApiCorsSubscriber implements EventSubscriberInterface
      */
     public function onKernelResponse(ResponseEvent $responseEvent): void
     {
-        if (!$responseEvent->isMasterRequest()) {
+        if (!$responseEvent->isMainRequest()) {
             return;
         }
 

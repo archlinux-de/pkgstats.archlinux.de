@@ -143,7 +143,7 @@ fix-code-style:
 	{{NODE-RUN}} node_modules/.bin/stylelint --fix 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
 
 update:
-	{{PHP-RUN}} composer --no-interaction update
+	{{PHP-RUN}} composer --no-interaction update --with-all-dependencies
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
 	{{NODE-RUN}} yarn upgrade --non-interactive --latest
 	# vue-loader >= 16 is not compatible with Vue 2

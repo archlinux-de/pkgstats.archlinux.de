@@ -50,7 +50,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
         return new ResponseEvent(
             $kernel,
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $response
         );
     }
