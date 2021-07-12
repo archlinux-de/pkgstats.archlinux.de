@@ -5,6 +5,10 @@
     "google-chrome",
     "epiphany",
     "konqueror",
+    "brave-bin",
+    "tor-browser",
+    "opera",
+    "vivaldi",
     "midori"
   ],
   "Editors": [
@@ -12,12 +16,16 @@
     "vi",
     "vim",
     "gedit",
+    "neovim",
     "kate",
     "emacs",
+    "code",
     "mousepad",
     "kwrite",
+    "atom",
     "geany",
-    "leafpad"
+    "leafpad",
+    "sublime"
   ],
   "Desktop Environments": [
     "plasma-workspace",
@@ -38,6 +46,7 @@
     "caja"
   ],
   "Window Managers": [
+    "i3-gaps",
     "openbox",
     "i3-wm",
     "awesome",
@@ -51,15 +60,16 @@
     "dash",
     "tcsh"
   ],
-  "Xorg GPU drivers": [
+  "Xorg GPU Drivers": [
     "xf86-video-intel",
     "nvidia-utils",
     "xf86-video-amdgpu",
     "xf86-video-nouveau",
     "xf86-video-ati",
-    "nvidia-390xx-utils"
+    "xf86-video-vmware",
+    "xf86-video-openchrome"
   ],
-  "Runtime Environment": [
+  "Runtime Environments": [
     "perl",
     "bash",
     "python",
@@ -68,5 +78,17 @@
     "nodejs",
     "java-environment-common",
     "php"
+  ],
+  "System Languages": [
+    "clang",
+    "gcc",
+    "ghc",
+    "go",
+    "nim",
+    "ocaml",
+    "rust",
+    "rustup",
+    "vala",
+    "zig"
   ]
 }
