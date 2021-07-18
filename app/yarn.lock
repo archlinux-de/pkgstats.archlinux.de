@@ -919,10 +919,10 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.3.tgz#90420f9f9c6d3987f176a19a7d8e764271a2f55d"
   integrity sha512-Fxt+AfXgjMoin2maPIYzFZnQjAXjAL0PHscM5pRTtatFqB+vZxAM9tLp2Optnuw3QOQC40jTNeGYFOMvyf7v9g==
 
-"@eslint/eslintrc@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.2.tgz#f63d0ef06f5c0c57d76c4ab5f63d3835c51b0179"
-  integrity sha512-8nmGq/4ycLpIwzvhI4tNDmQztZ8sp+hI7cyG8i1nQDhkAbRzHpXPidRAHlNvCZQpJTKw5ItIpMw9RSToGF00mg==
+"@eslint/eslintrc@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"
+  integrity sha512-J6KFFz5QCYUJq3pf0mjEcCJVERbzv71PUIDczuh9JkwGEzced6CO5ADLHB1rbf/+oPBtoPfMYNOpGDzCANlbXw==
   dependencies:
     ajv "^6.12.4"
     debug "^4.1.1"
@@ -2802,10 +2802,10 @@ css-declaration-sorter@^6.0.3:
   dependencies:
     timsort "^0.3.0"
 
-css-loader@~6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-6.0.0.tgz#e3f9131229df43e081876f434dc2f4605be9d5ae"
-  integrity sha512-xi3iTbHekvk5dWWdqfQKNsEm2g3Vr20uRwHzfXF+pHsaFGMuxTrqR1y8PY+st5G7wqid4/pBSiaqZsO6iaGN5g==
+css-loader@~6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-6.1.0.tgz#9f49a414103d3a43a7a5a0a0468ac71ab5132788"
+  integrity sha512-AcCb6ire7NgkrxJCtwEDa/y+xxBrPNXYWdlSpXNr+YwW2wTahSowSIxD9cHc9Uvc8Dbq+NQ/NQ6aDvJWik44vg==
   dependencies:
     icss-utils "^5.1.0"
     postcss "^8.2.15"
@@ -3609,13 +3609,13 @@ eslint-visitor-keys@^2.0.0:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-2.1.0.tgz#f65328259305927392c938ed44eb0a5c9b2bd303"
   integrity sha512-0rSmRBzXgDzIsD6mGdJgevzgezI534Cer5L/vyMX0kHzT/jiB43jRhd9YUlMGYLQy2zprNmoT8qasCGtY+QaKw==
 
-eslint@~7.30.0:
-  version "7.30.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.30.0.tgz#6d34ab51aaa56112fd97166226c9a97f505474f8"
-  integrity sha512-VLqz80i3as3NdloY44BQSJpFw534L9Oh+6zJOUaViV4JPd+DaHwutqP7tcpkW3YiXbK6s05RZl7yl7cQn+lijg==
+eslint@~7.31.0:
+  version "7.31.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-7.31.0.tgz#f972b539424bf2604907a970860732c5d99d3aca"
+  integrity sha512-vafgJpSh2ia8tnTkNUkwxGmnumgckLh5aAbLa1xRmIn9+owi8qBNGKL+B881kNKNTy7FFqTEkpNkUvmw0n6PkA==
   dependencies:
     "@babel/code-frame" "7.12.11"
-    "@eslint/eslintrc" "^0.4.2"
+    "@eslint/eslintrc" "^0.4.3"
     "@humanwhocodes/config-array" "^0.5.0"
     ajv "^6.10.0"
     chalk "^4.0.0"
@@ -8680,9 +8680,9 @@ svgo@^2.3.0:
     stable "^0.1.8"
 
 swagger-client@^3.13.5:
-  version "3.13.6"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.13.6.tgz#144a17348d2ad26e56186415ed89b8def8284bfb"
-  integrity sha512-hmE1qMqEw0C16pIiNlQAfUBO5s7tYLRq2/KPXr96V5BLXe5sAGeffBISuMX5l78wFgDMdAmctqBzEUM4eL3msg==
+  version "3.13.7"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.13.7.tgz#ba69ce18f0a0b79391bbfd6c35cb7a4fbd1c2cc9"
+  integrity sha512-mDN3exRoEB+oMdhJHNGqysmspS4wIITSrnVXcLMlrBNhgvt9HHnznUmICzJoiwycCu68GOMKjfitjXbgi/lA4Q==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     btoa "^1.2.1"
@@ -9280,9 +9280,9 @@ vfile@^4.0.0:
     vfile-message "^2.0.0"
 
 vue-eslint-parser@^7.8.0:
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.8.0.tgz#43850bf856c9a69d62c0e12769609c338423684b"
-  integrity sha512-ehmmrLZNYLUoKayvVW8l8HyPQIfuYZHiJoQLRP3dapDlTU7bGs4tqIKVGdAEpMuXS/b4R/PImCt7Tkj4UhX1SQ==
+  version "7.9.0"
+  resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.9.0.tgz#5eeedc71f22ebc7b18b957d1ab171acf29a41e64"
+  integrity sha512-QBlhZ5LteDRVy2dISfQhNEmmcqph+GTaD4SH41bYzXcVHFPJ9p34zCG6QAqOZVa8PKaVgbomFnoZpGJRZi14vg==
   dependencies:
     debug "^4.1.1"
     eslint-scope "^5.1.1"
