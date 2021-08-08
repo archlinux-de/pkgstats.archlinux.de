@@ -4056,10 +4056,15 @@ for-in@^1.0.2:
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
   integrity sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=
 
-form-data-encoder@1.4.0, form-data-encoder@^1.0.1:
+form-data-encoder@1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/form-data-encoder/-/form-data-encoder-1.4.0.tgz#41ce230b45a923543ffbf521d42170e026f6a09a"
   integrity sha512-H54s9sqy0YkwaTtiPjce9GmmpVCuM9gu09lx4hkEBna2zmEBwVUz8XCpoIC2lhTuM9grpNgUc4AiBXScDffMOQ==
+
+form-data-encoder@^1.0.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/form-data-encoder/-/form-data-encoder-1.4.1.tgz#4cda5f893426f2cb5f3c730b83984d181403e866"
+  integrity sha512-fP/K+x6Y7dRcB39JRxoomw4oo6MGOGAGiidX+q5tp98SMdlANqrgKhr5KbRMa7/nxFpTHiwNs3VxNaW5g+DfuA==
 
 form-data@^3.0.0:
   version "3.0.1"
