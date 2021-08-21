@@ -1400,9 +1400,9 @@
   integrity sha512-jhuKLIRrhvCPLqwPcx6INqmKeiA5EWrsCOPhrlFSrbrmU4ZMPjj5Ul/oLCMDO98XRUIwVm78xICz4EPCektzeQ==
 
 "@types/node@*":
-  version "16.6.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.6.2.tgz#331b7b9f8621c638284787c5559423822fdffc50"
-  integrity sha512-LSw8TZt12ZudbpHc6EkIyDM3nHVWKYrAvGy6EAJfNfjusbwnThqjqxUKKRwuV3iWYeW/LYMzNgaq3MaLffQ2xA==
+  version "16.7.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.7.1.tgz#c6b9198178da504dfca1fd0be9b2e1002f1586f0"
+  integrity sha512-ncRdc45SoYJ2H4eWU9ReDfp3vtFqDYhjOsKlFFUDEn8V1Bgr2RjYal8YT5byfadWIRluhPFU6JiDOl0H6Sl87A==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -3076,9 +3076,9 @@ ejs@^2.6.1:
   integrity sha512-7vmuyh5+kuUyJKePhQfRQBhXV5Ce+RnaeeQArKu1EAMpL3WbgMt5WG6uQZpEVvYSSsxMXRKOewtDk9RaTKXRlA==
 
 electron-to-chromium@^1.3.811:
-  version "1.3.813"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.813.tgz#751a007d71c00faed8b5e9edaf3634c14b9c5a1f"
-  integrity sha512-YcSRImHt6JZZ2sSuQ4Bzajtk98igQ0iKkksqlzZLzbh4p0OIyJRSvUbsgqfcR8txdfsoYCc4ym306t4p2kP/aw==
+  version "1.3.814"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.814.tgz#418fad80c3276a46103ca72a21a8290620d83c4a"
+  integrity sha512-0mH03cyjh6OzMlmjauGg0TLd87ErIJqWiYxMcOLKf5w6p0YEOl7DJAj7BDlXEFmCguY5CQaKVOiMjAMODO2XDw==
 
 emitter-component@^1.1.1:
   version "1.1.1"
@@ -3755,7 +3755,7 @@ follow-redirects@^1.0.0:
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.2.tgz#cecb825047c00f5e66b142f90fed4f515dec789b"
   integrity sha512-yLR6WaE2lbF0x4K2qE2p9PEXKLDjUjnR/xmjS3wHAYxtlsI9MLLBJUZirAHKzUZDGLxje7w/cXR49WOUo4rbsA==
 
-form-data-encoder@1.4.3, form-data-encoder@^1.0.1:
+form-data-encoder@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/form-data-encoder/-/form-data-encoder-1.4.3.tgz#b0975dbe5795676f211c0ff98e473eaf52b0db4a"
   integrity sha512-ARLR/jJaj3+tlKkO7h1uvvjQcD6xCiKyg42hcG5Q4jv8uDa1IMPs81bM3BwI8BrqVEQxF9pX6tx0iLIzAvr31Q==
@@ -3774,13 +3774,12 @@ format@^0.2.0:
   resolved "https://registry.yarnpkg.com/format/-/format-0.2.2.tgz#d6170107e9efdc4ed30c9dc39016df942b5cb58b"
   integrity sha1-1hcBB+nv3E7TDJ3DkBbflCtctYs=
 
-formdata-node@^3.6.2:
-  version "3.7.0"
-  resolved "https://registry.yarnpkg.com/formdata-node/-/formdata-node-3.7.0.tgz#b58942e617639a0ebea57227cfff8332a4020760"
-  integrity sha512-O3y7XoWwE4zRvI5e1yVPDHyDGtEgGEI10KxTbQeMbEEt+imR7uxbL5Z4BCaHz5M09d1pkrFaqeYc8beAce4VSw==
+formdata-node@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/formdata-node/-/formdata-node-4.0.0.tgz#17a0b3a2d95e5ba3d2b89402151d2870b5e26cd6"
+  integrity sha512-FGT02keIfJ5yy/PLZPwRw/LMXLvNmg6l1fbqQOW/K4bczXP9oAbKrTh6qugNwJYnqy5IrIS+teD+xWbseYmUZw==
   dependencies:
     fetch-blob "2.1.2"
-    form-data-encoder "1.4.3"
     node-domexception "1.0.0"
 
 forwarded@0.2.0:
@@ -7839,9 +7838,9 @@ svgo@^2.3.0:
     stable "^0.1.8"
 
 swagger-client@^3.15.0:
-  version "3.15.0"
-  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.15.0.tgz#ba9de5830a8baf40ec5a867e815fa4588d974fa3"
-  integrity sha512-8Ki4bVbT+bl8hGmy3vR89wktZhVLXKNUk8CoUvfwn7Rq45bZ15c9UQXVr4VU6hP3f9diWJGJs0bKZR9pPOq4ZA==
+  version "3.16.0"
+  resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.16.0.tgz#548f8b3dbd92a3a7d214c3e1cfbdfed9c0fe4923"
+  integrity sha512-fE+HPDla35+k9uXd9BmgZNvhUaM1oA8iCILOINYrziFK3+dkiSLG57h9Z4QOlcVMr/MjVHYy/1JbftlMt+sQ2A==
   dependencies:
     "@babel/runtime-corejs3" "^7.11.2"
     btoa "^1.2.1"
@@ -7850,8 +7849,8 @@ swagger-client@^3.15.0:
     cross-fetch "^3.1.4"
     deep-extend "~0.6.0"
     fast-json-patch "^3.0.0-1"
-    form-data-encoder "^1.0.1"
-    formdata-node "^3.6.2"
+    form-data-encoder "^1.4.3"
+    formdata-node "^4.0.0"
     js-yaml "^4.1.0"
     lodash "^4.17.19"
     qs "^6.9.4"
