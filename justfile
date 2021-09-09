@@ -1,3 +1,5 @@
+set dotenv-load := true
+
 export UID := `id -u`
 export GID := `id -g`
 
@@ -44,7 +46,7 @@ clean:
 	git clean -fdqx -e .idea
 
 rebuild: clean
-	{{COMPOSE}} build --pull --parallel
+	{{COMPOSE}} build --pull
 	just install
 	just init
 	just stop
@@ -152,16 +154,14 @@ update:
 	{{PHP-RUN}} composer --no-interaction update
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
 	{{NODE-RUN}} yarn upgrade --non-interactive --latest
-	# vue-loader >= 16 is not compatible with Vue 2
-	{{NODE-RUN}} yarn add --dev --non-interactive 'vue-loader@~15'
 	just _update-cypress-image
 
 deploy:
 	cd app && yarn install --non-interactive --frozen-lockfile
 	cd app && yarn build
-	cd app && find dist -type f -atime +30 -delete
+	cd app && find dist -type f -atime +512 -delete # needs to be above the highest TTL
 	cd app && find dist -type d -empty -delete
-	cd api && composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader
+	cd api && composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader --classmap-authoritative
 	cd api && composer dump-env prod
 	systemctl restart php-fpm@pkgstats.service
 	cd api && bin/console doctrine:migrations:sync-metadata-storage --no-interaction

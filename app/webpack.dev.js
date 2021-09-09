@@ -1,6 +1,5 @@
 module.exports = {
   mode: 'development',
-  target: 'web', // Workaround for https://github.com/webpack/webpack-dev-server/issues/2758
   devtool: 'inline-source-map',
 
   module: {
