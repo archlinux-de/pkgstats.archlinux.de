@@ -12,7 +12,6 @@ use SymfonyDatabaseTest\DatabaseTestCase;
 class ApiPackagesControllerTest extends DatabaseTestCase
 {
     /**
-     * @param string $packageName
      * @dataProvider providePackageNames
      */
     public function testFetchAllPackages(string $packageName): void
@@ -34,19 +33,12 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertPackagePupularityList($client->getResponse()->getContent());
     }
 
-    /**
-     * @param Response $response
-     */
     private function assertAllowsCrossOriginAccess(Response $response): void
     {
         $this->assertTrue($response->headers->has('Access-Control-Allow-Origin'));
         $this->assertEquals('*', $response->headers->get('Access-Control-Allow-Origin'));
     }
 
-    /**
-     * @param string $json
-     * @return array
-     */
     private function assertPackagePupularityList(string $json): array
     {
         $this->assertJson($json);
@@ -66,10 +58,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         return $packageList;
     }
 
-    /**
-     * @param string $json
-     * @return array
-     */
     private function assertPackagePupularity(string $json): array
     {
         $this->assertJson($json);
@@ -112,7 +100,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @param string $packageName
      * @dataProvider providePackageNames
      */
     public function testFetchSinglePackage(string $packageName): void
@@ -216,7 +203,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @param string $packageName
      * @dataProvider providePackageNames
      */
     public function testPackagesSeries(string $packageName): void
@@ -242,9 +228,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals($packageName, $pupularityList['packagePopularities'][0]['name']);
     }
 
-    /**
-     * @return array
-     */
     public function providePackageNames(): array
     {
         return [

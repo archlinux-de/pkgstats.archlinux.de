@@ -11,22 +11,10 @@ use App\Request\StatisticsRangeRequest;
 
 class PackagePopularityCalculator
 {
-    /** @var PackageRepository */
-    private $packageRepository;
-
-    /**
-     * @param PackageRepository $packageRepository
-     */
-    public function __construct(PackageRepository $packageRepository)
+    public function __construct(private PackageRepository $packageRepository)
     {
-        $this->packageRepository = $packageRepository;
     }
 
-    /**
-     * @param string $name
-     * @param StatisticsRangeRequest $statisticsRangeRequest
-     * @return PackagePopularity
-     */
     public function getPackagePopularity(
         string $name,
         StatisticsRangeRequest $statisticsRangeRequest
@@ -47,10 +35,6 @@ class PackagePopularityCalculator
         );
     }
 
-    /**
-     * @param StatisticsRangeRequest $statisticsRangeRequest
-     * @return int
-     */
     private function getRangeCount(StatisticsRangeRequest $statisticsRangeRequest): int
     {
         return $this->packageRepository->getMaximumCountByRange(
@@ -59,12 +43,6 @@ class PackagePopularityCalculator
         );
     }
 
-    /**
-     * @param StatisticsRangeRequest $statisticsRangeRequest
-     * @param PaginationRequest $paginationRequest
-     * @param PackageQueryRequest $packageQueryRequest
-     * @return PackagePopularityList
-     */
     public function findPackagesPopularity(
         StatisticsRangeRequest $statisticsRangeRequest,
         PaginationRequest $paginationRequest,
@@ -79,20 +57,22 @@ class PackagePopularityCalculator
             $paginationRequest->getLimit()
         );
 
-        $packagePopularities = iterator_to_array((function () use ($packages, $rangeCount, $statisticsRangeRequest) {
-            foreach ($packages['packages'] as $package) {
-                $packagePopularity = new PackagePopularity(
-                    $package['name'],
-                    $rangeCount,
-                    $package['count'],
-                    $statisticsRangeRequest->getStartMonth(),
-                    $statisticsRangeRequest->getEndMonth()
-                );
-                if ($packagePopularity->getPopularity() > 0) {
-                    yield $packagePopularity;
+        $packagePopularities = iterator_to_array(
+            (function () use ($packages, $rangeCount, $statisticsRangeRequest) {
+                foreach ($packages['packages'] as $package) {
+                    $packagePopularity = new PackagePopularity(
+                        $package['name'],
+                        $rangeCount,
+                        $package['count'],
+                        $statisticsRangeRequest->getStartMonth(),
+                        $statisticsRangeRequest->getEndMonth()
+                    );
+                    if ($packagePopularity->getPopularity() > 0) {
+                        yield $packagePopularity;
+                    }
                 }
-            }
-        })());
+            })()
+        );
 
         return new PackagePopularityList(
             $packagePopularities,
@@ -102,12 +82,6 @@ class PackagePopularityCalculator
         );
     }
 
-    /**
-     * @param string $name
-     * @param StatisticsRangeRequest $statisticsRangeRequest
-     * @param PaginationRequest $paginationRequest
-     * @return PackagePopularityList
-     */
     public function getPackagePopularitySeries(
         string $name,
         StatisticsRangeRequest $statisticsRangeRequest,
@@ -122,23 +96,25 @@ class PackagePopularityCalculator
             $paginationRequest->getLimit()
         );
 
-        $packagePopularities = iterator_to_array((function () use (
-            $packages,
-            $rangeCountSeries
-        ) {
-            foreach ($packages['packages'] as $package) {
-                $packagePopularity = new PackagePopularity(
-                    $package['name'],
-                    $rangeCountSeries[$package['month']],
-                    $package['count'],
-                    $package['month'],
-                    $package['month']
-                );
-                if ($packagePopularity->getPopularity() > 0) {
-                    yield $packagePopularity;
+        $packagePopularities = iterator_to_array(
+            (function () use (
+                $packages,
+                $rangeCountSeries
+            ) {
+                foreach ($packages['packages'] as $package) {
+                    $packagePopularity = new PackagePopularity(
+                        $package['name'],
+                        $rangeCountSeries[$package['month']],
+                        $package['count'],
+                        $package['month'],
+                        $package['month']
+                    );
+                    if ($packagePopularity->getPopularity() > 0) {
+                        yield $packagePopularity;
+                    }
                 }
-            }
-        })());
+            })()
+        );
 
         return new PackagePopularityList(
             $packagePopularities,
@@ -148,10 +124,6 @@ class PackagePopularityCalculator
         );
     }
 
-    /**
-     * @param StatisticsRangeRequest $statisticsRangeRequest
-     * @return array
-     */
     private function getRangeCountSeries(StatisticsRangeRequest $statisticsRangeRequest): array
     {
         $monthlyCount = $this->packageRepository->getMonthlyMaximumCountByRange(
@@ -159,10 +131,12 @@ class PackagePopularityCalculator
             $statisticsRangeRequest->getEndMonth()
         );
 
-        return iterator_to_array((function () use ($monthlyCount) {
-            foreach ($monthlyCount as $month) {
-                yield $month['month'] => $month['count'];
-            }
-        })());
+        return iterator_to_array(
+            (function () use ($monthlyCount) {
+                foreach ($monthlyCount as $month) {
+                    yield $month['month'] => $month['count'];
+                }
+            })()
+        );
     }
 }

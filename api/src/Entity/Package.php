@@ -2,96 +2,59 @@
 
 namespace App\Entity;
 
+use App\Repository\PackageRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(
- *     indexes={
- *          @ORM\Index(name="package_month_name", columns={"month", "name"}),
- *          @ORM\Index(name="package_month", columns={"month"})
- *     }
- * )
- * @ORM\Entity(repositoryClass="App\Repository\PackageRepository")
- */
+#[ORM\Entity(repositoryClass: PackageRepository::class)]
+#[ORM\Index(columns: ['month', 'name'], name: 'package_month_name')]
+#[ORM\Index(columns: ['month'], name: 'package_month')]
 class Package
 {
-    /**
-     * @var string
-     * @Assert\Length(max=191)
-     * @Assert\Regex("/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/")
-     *
-     * @ORM\Column(name="name", type="string", length=191)
-     * @ORM\Id
-     */
-    private $name;
+    #[ORM\Column(length: 191)]
+    #[ORM\Id]
+    #[Assert\Length(max: 191)]
+    #[Assert\Regex('/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/')]
+    private string $name;
 
-    /**
-     * @var integer
-     * @Assert\NotBlank
-     * @Assert\DateTime("Ym")
-     *
-     * @ORM\Column(name="month", type="integer")
-     * @ORM\Id
-     */
-    private $month;
+    #[ORM\Column(type: 'integer')]
+    #[ORM\Id]
+    #[Assert\NotBlank]
+    #[Assert\DateTime('Ym')]
+    private int $month;
 
-    /**
-     * @var integer
-     * @Assert\Positive
-     *
-     * @ORM\Column(name="count", type="integer", nullable=false)
-     */
-    private $count = 1;
+    #[ORM\Column(type: 'integer')]
+    #[Assert\Positive]
+    private int $count = 1;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return Package
-     */
     public function setName(string $name): Package
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getMonth(): int
     {
         return $this->month;
     }
 
-    /**
-     * @param int $month
-     * @return Package
-     */
     public function setMonth(int $month): Package
     {
         $this->month = $month;
         return $this;
     }
 
-    /**
-     * @return Package
-     */
     public function incrementCount(): Package
     {
         $this->count++;
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getCount(): ?int
     {
         return $this->count;

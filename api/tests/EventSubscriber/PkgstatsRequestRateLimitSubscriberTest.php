@@ -18,7 +18,7 @@ use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 class PkgstatsRequestRateLimitSubscriberTest extends TestCase
 {
     /** @var PkgstatsRequestRateLimitSubscriber */
-    private $rateLimitSubscriber;
+    private PkgstatsRequestRateLimitSubscriber $rateLimitSubscriber;
 
     public function setUp(): void
     {
@@ -37,10 +37,6 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
         $this->assertArrayHasKey(KernelEvents::REQUEST, $events);
     }
 
-    /**
-     * @param string $route
-     * @return RequestEvent
-     */
     private function createEvent(string $route): RequestEvent
     {
         /** @var KernelInterface|MockObject $kernel */
@@ -58,7 +54,6 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
     }
 
     /**
-     * @param string $route
      * @dataProvider provideRateLimitedRoutes
      */
     public function testRateLimit(string $route): void
@@ -78,9 +73,6 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
         $this->assertTrue(true);
     }
 
-    /**
-     * @return array
-     */
     public function provideRateLimitedRoutes(): array
     {
         return [

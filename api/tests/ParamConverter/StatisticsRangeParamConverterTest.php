@@ -16,10 +16,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class StatisticsRangeParamConverterTest extends TestCase
 {
     /** @var ValidatorInterface|MockObject */
-    private $validator;
+    private MockObject $validator;
 
-    /** @var StatisticsRangeParamConverter */
-    private $paramConverter;
+    private StatisticsRangeParamConverter $paramConverter;
 
     public function setUp(): void
     {

@@ -11,11 +11,12 @@ use Psr\Log\LoggerInterface;
 class GeoIpTest extends TestCase
 {
     /** @var Reader|MockObject */
-    private $reader;
+    private MockObject $reader;
+
     /** @var LoggerInterface|MockObject */
-    private $logger;
-    /** @var GeoIp */
-    private $geoIp;
+    private MockObject $logger;
+
+    private GeoIp $geoIp;
 
     public function setUp(): void
     {

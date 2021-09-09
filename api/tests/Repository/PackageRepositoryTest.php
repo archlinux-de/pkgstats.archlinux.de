@@ -10,8 +10,6 @@ class PackageRepositoryTest extends DatabaseTestCase
 {
     /**
      * @dataProvider provideMonthRange
-     * @param int $startMonth
-     * @param int $endMonth
      */
     public function testGetCountByNameAndRange(int $startMonth, int $endMonth): void
     {
@@ -30,8 +28,6 @@ class PackageRepositoryTest extends DatabaseTestCase
 
     /**
      * @dataProvider provideMonthRange
-     * @param int $startMonth
-     * @param int $endMonth
      */
     public function testGetCountByNameAndRangeOfUnknownPackage(int $startMonth, int $endMonth): void
     {
@@ -44,8 +40,6 @@ class PackageRepositoryTest extends DatabaseTestCase
 
     /**
      * @dataProvider provideMonthRange
-     * @param int $startMonth
-     * @param int $endMonth
      */
     public function testFindPackagesCountByRange(int $startMonth, int $endMonth): void
     {
@@ -78,8 +72,6 @@ class PackageRepositoryTest extends DatabaseTestCase
 
     /**
      * @dataProvider provideMonthRange
-     * @param int $startMonth
-     * @param int $endMonth
      */
     public function testGetMaximumCountByRange(int $startMonth, int $endMonth): void
     {
@@ -111,8 +103,6 @@ class PackageRepositoryTest extends DatabaseTestCase
 
     /**
      * @dataProvider provideMonthRange
-     * @param int $startMonth
-     * @param int $endMonth
      */
     public function testGetMaximumCountByRangeIsInitiallyZero(int $startMonth, int $endMonth): void
     {
@@ -167,9 +157,6 @@ class PackageRepositoryTest extends DatabaseTestCase
         $this->assertEquals([['count' => 2, 'month' => 201810]], $monthlyCount);
     }
 
-    /**
-     * @return array
-     */
     public function provideMonthRange(): array
     {
         return [

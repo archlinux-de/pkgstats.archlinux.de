@@ -9,11 +9,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SitemapController extends AbstractController
 {
-    /**
-     * @Route("/sitemap.xml", methods={"GET"}, name="app_sitemap")
-     * @Cache(smaxage="+1 hour", maxage="+5 minutes")
-     * @return Response
-     */
+    #[Route(path: '/sitemap.xml', name: 'app_sitemap', methods: ['GET'])]
+    #[Cache(maxage: '+5 minutes', smaxage: '+1 hour')]
     public function indexAction(): Response
     {
         $response = $this->render('sitemap.xml.twig');

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7dc84e6ab90f7582d87d399db9d5b853",
+    "content-hash": "41b5abfc4f6ecffbf1cb950c4a97024e",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -8408,7 +8408,9 @@
         "ext-sysvsem": "*"
     },
     "platform-dev": {
-        "ext-pdo_sqlite": "*"
+        "ext-pdo_sqlite": "*",
+        "ext-simplexml": "*",
+        "ext-libxml": "*"
     },
     "plugin-api-version": "2.1.0"
 }

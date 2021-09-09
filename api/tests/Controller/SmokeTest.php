@@ -11,7 +11,6 @@ use SymfonyDatabaseTest\DatabaseTestCase;
 class SmokeTest extends DatabaseTestCase
 {
     /**
-     * @param string $url
      * @dataProvider provideUrls
      */
     public function testRequestIsSuccessful(string $url): void
@@ -39,9 +38,6 @@ class SmokeTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isNotFound());
     }
 
-    /**
-     * @return array
-     */
     public function provideUrls(): array
     {
         return [

@@ -8,8 +8,6 @@ use PHPUnit\Framework\TestCase;
 class MirrorUrlFilterTest extends TestCase
 {
     /**
-     * @param string $input
-     * @param string|null $expected
      * @dataProvider provideUrls
      */
     public function testFilter(string $input, ?string $expected): void
@@ -18,9 +16,6 @@ class MirrorUrlFilterTest extends TestCase
         $this->assertEquals($expected, $mirrorUrlFilter->filter($input));
     }
 
-    /**
-     * @return array
-     */
     public function provideUrls(): array
     {
         return [

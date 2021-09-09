@@ -20,22 +20,21 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PkgstatsParamConverterTest extends TestCase
 {
     /** @var GeoIp|MockObject */
-    private $geoIp;
+    private MockObject $geoIp;
 
     /** @var ValidatorInterface|MockObject */
-    private $validator;
+    private MockObject $validator;
 
-    /** @var PkgstatsParamConverter */
-    private $paramConverter;
+    private PkgstatsParamConverter $paramConverter;
 
     /** @var MirrorUrlFilter|MockObject */
-    private $mirrorUrlFilter;
+    private MockObject $mirrorUrlFilter;
 
     /** @var MockObject|SerializerInterface */
-    private $serializer;
+    private MockObject $serializer;
 
     /** @var MockObject|DenormalizerInterface */
-    private $denormalizer;
+    private MockObject $denormalizer;
 
     public function setUp(): void
     {
@@ -82,7 +81,6 @@ class PkgstatsParamConverterTest extends TestCase
     }
 
     /**
-     * @param string $contentType
      * @dataProvider provideContentTypes
      */
     public function testApplyVersion(string $contentType): void
@@ -116,7 +114,6 @@ class PkgstatsParamConverterTest extends TestCase
     }
 
     /**
-     * @param string $contentType
      * @dataProvider provideContentTypes
      */
     public function testApplyFailsOnValidationErrors(string $contentType): void
@@ -141,9 +138,6 @@ class PkgstatsParamConverterTest extends TestCase
         $this->paramConverter->apply($request, $configuration);
     }
 
-    /**
-     * @return array
-     */
     public function provideContentTypes(): array
     {
         return [

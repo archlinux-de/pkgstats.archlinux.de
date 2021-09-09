@@ -12,43 +12,22 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
  */
 class ApiDocCacheWarmer implements CacheWarmerInterface
 {
-    /** @var DocumentationController */
-    private $documentationController;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var string */
-    private $environment;
-
-    /**
-     * @param DocumentationController $documentationController
-     * @param LoggerInterface $logger
-     * @param string $environment
-     */
     public function __construct(
-        DocumentationController $documentationController,
-        LoggerInterface $logger,
-        string $environment
+        private DocumentationController $documentationController,
+        private LoggerInterface $logger,
+        private string $environment
     ) {
-        $this->documentationController = $documentationController;
-        $this->logger = $logger;
-        $this->environment = $environment;
     }
 
-    /**
-     * @return bool
-     */
-    public function isOptional()
+    public function isOptional(): bool
     {
         return true;
     }
 
     /**
-     * @param string $cacheDir
      * @return string[]
      */
-    public function warmUp($cacheDir): array
+    public function warmUp(string $cacheDir): array
     {
         if ($this->environment != 'prod') {
             return [];

@@ -4,40 +4,15 @@ namespace App\Entity;
 
 class PackagePopularity implements \JsonSerializable
 {
-    /** @var string */
-    private $name;
-
-    /** @var int */
-    private $samples;
-
-    /** @var int */
-    private $count;
-
-    /** @var int */
-    private $startMonth;
-
-    /** @var int */
-    private $endMonth;
-
-    /**
-     * @param string $name
-     * @param int $samples
-     * @param int $count
-     * @param int $startMonth
-     * @param int $endMonth
-     */
-    public function __construct(string $name, int $samples, int $count, int $startMonth, int $endMonth)
-    {
-        $this->name = $name;
-        $this->samples = $samples;
-        $this->count = $count;
-        $this->startMonth = $startMonth;
-        $this->endMonth = $endMonth;
+    public function __construct(
+        private string $name,
+        private int $samples,
+        private int $count,
+        private int $startMonth,
+        private int $endMonth
+    ) {
     }
 
-    /**
-     * @return array
-     */
     public function jsonSerialize(): array
     {
         return [
@@ -50,33 +25,21 @@ class PackagePopularity implements \JsonSerializable
         ];
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return int
-     */
     public function getSamples(): int
     {
         return $this->samples;
     }
 
-    /**
-     * @return int
-     */
     public function getCount(): int
     {
         return $this->count;
     }
 
-    /**
-     * @return float
-     */
     public function getPopularity(): float
     {
         if ($this->getSamples() < 1 || $this->getCount() < 0) {
@@ -88,17 +51,11 @@ class PackagePopularity implements \JsonSerializable
         return round($this->getCount() / $this->getSamples() * 100, 2);
     }
 
-    /**
-     * @return int
-     */
     public function getStartMonth(): int
     {
         return $this->startMonth;
     }
 
-    /**
-     * @return int
-     */
     public function getEndMonth(): int
     {
         return $this->endMonth;

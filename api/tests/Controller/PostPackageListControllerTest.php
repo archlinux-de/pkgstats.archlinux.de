@@ -106,10 +106,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertEquals(1, $package->getCount());
     }
 
-    /**
-     * @param string $version
-     * @return KernelBrowser
-     */
     private function createPkgstatsClient(string $version = '2.4'): KernelBrowser
     {
         $client = $this->getClient();
@@ -119,13 +115,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         return $client;
     }
 
-    /**
-     * @param KernelBrowser $client
-     * @param string $systemArchitecture
-     * @param string $osArchitecture
-     * @param string $mirror
-     * @param array|string[] $packages
-     */
     private function sendRequest(
         KernelBrowser $client,
         string $systemArchitecture = 'x86_64',
@@ -163,7 +152,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @param string $version
      * @dataProvider provideSupportedVserions
      */
     public function testSupportedVersions(string $version): void
@@ -173,9 +161,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
-    /**
-     * @return array
-     */
     public function provideSupportedVserions(): array
     {
         return [
@@ -191,9 +176,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
     public function provideUnsupportedVersions(): array
     {
         return [
@@ -210,7 +192,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @param string $version
      * @dataProvider provideUnsupportedVersions
      */
     public function testUnsupportedVersionFails(string $version): void
@@ -235,8 +216,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @param string $arch
-     * @param string $cpuArch
      * @dataProvider provideUnsupportedArchitectures
      */
     public function testPostPackageListWithUnsupportedArchitectureFails(string $arch, string $cpuArch): void
@@ -247,8 +226,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @param string $cpuArch
-     * @param string $arch
      * @dataProvider provideUnsupportedCpuArchitectures
      */
     public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $cpuArch, string $arch): void
@@ -259,8 +236,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @param string $cpuArch
-     * @param string $arch
      * @dataProvider provideSupportedCpuArchitectures
      */
     public function testPostPackageListWithSupportedCpuArchitectureIsSuccessful(string $cpuArch, string $arch): void
@@ -271,8 +246,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
     }
 
     /**
-     * @param string $arch
-     * @param string $cpuArch
      * @dataProvider provideSupportedArchitectures
      */
     public function testPostPackageListWithSupportedArchitectureIsSuccessful(string $arch, string $cpuArch): void
@@ -375,9 +348,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertEquals(2, $package->getCount());
     }
 
-    /**
-     * @return array
-     */
     public function provideSupportedArchitectures(): array
     {
         $result = [];
@@ -400,9 +370,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         return $result;
     }
 
-    /**
-     * @return array
-     */
     public function provideSupportedCpuArchitectures(): array
     {
         $result = [];
@@ -428,9 +395,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         return $result;
     }
 
-    /**
-     * @return array
-     */
     public function provideUnsupportedArchitectures(): array
     {
         $result = [];
@@ -453,9 +417,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         return $result;
     }
 
-    /**
-     * @return array
-     */
     public function provideUnsupportedCpuArchitectures(): array
     {
         $result = [];

@@ -19,30 +19,20 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostPackageListController extends AbstractController
 {
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     /**
-     * @param PkgstatsRequest $pkgstatsRequest
-     * @param Request $request
-     * @return Response
      * @deprecated
-     * @Route(
-     *     "/post",
-     *      methods={"POST"},
-     *      defaults={"_format": "text"},
-     *      requirements={"_format": "text"},
-     *      name="app_pkgstats_post"
-     * )
      */
+    #[Route(
+        path: '/post',
+        name: 'app_pkgstats_post',
+        requirements: ['_format' => 'text'],
+        defaults: ['_format' => 'text'],
+        methods: ['POST']
+    )]
     public function postAction(PkgstatsRequest $pkgstatsRequest, Request $request): Response
     {
         $this->persistSubmission($pkgstatsRequest);
@@ -51,13 +41,6 @@ class PostPackageListController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/api/submit",
-     *      methods={"POST"},
-     *      condition="request.headers.get('Content-Type') === 'application/json'",
-     *      name="app_api_submit"
-     * )
-     *
      * @OA\Tag(name="pkgstats")
      * @OA\Post(
      *     description="POST endpoint for the pkgstats cli tool",
@@ -122,10 +105,13 @@ class PostPackageListController extends AbstractController
      *         )
      *     )
      * )
-     *
-     * @param PkgstatsRequest $pkgstatsRequest
-     * @return Response
      */
+    #[Route(
+        path: '/api/submit',
+        name: 'app_api_submit',
+        methods: ['POST'],
+        condition: 'request.headers.get("Content-Type") === "application/json"'
+    )]
     public function submitAction(PkgstatsRequest $pkgstatsRequest): Response
     {
         $this->persistSubmission($pkgstatsRequest);
@@ -133,9 +119,6 @@ class PostPackageListController extends AbstractController
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @param PkgstatsRequest $pkgstatsRequest
-     */
     private function persistSubmission(PkgstatsRequest $pkgstatsRequest): void
     {
         $this->entityManager->transactional(
@@ -153,7 +136,6 @@ class PostPackageListController extends AbstractController
     }
 
     /**
-     * @param EntityManager $entityManager
      * @param Package[] $packages
      */
     private function persistPackages(EntityManager $entityManager, array $packages): void
@@ -173,10 +155,6 @@ class PostPackageListController extends AbstractController
         }
     }
 
-    /**
-     * @param EntityManager $entityManager
-     * @param Country|null $country
-     */
     private function persistCountry(EntityManager $entityManager, ?Country $country): void
     {
         if (!$country) {
@@ -196,10 +174,6 @@ class PostPackageListController extends AbstractController
         $entityManager->persist($country);
     }
 
-    /**
-     * @param EntityManager $entityManager
-     * @param Mirror|null $mirror
-     */
     private function persistMirror(EntityManager $entityManager, ?Mirror $mirror): void
     {
         if (!$mirror) {
@@ -219,10 +193,6 @@ class PostPackageListController extends AbstractController
         $entityManager->persist($mirror);
     }
 
-    /**
-     * @param EntityManager $entityManager
-     * @param OperatingSystemArchitecture $operatingSystemArchitecture
-     */
     private function persistOperatingSystemArchitecture(
         EntityManager $entityManager,
         OperatingSystemArchitecture $operatingSystemArchitecture
@@ -240,10 +210,6 @@ class PostPackageListController extends AbstractController
         $entityManager->persist($operatingSystemArchitecture);
     }
 
-    /**
-     * @param EntityManager $entityManager
-     * @param SystemArchitecture $systemArchitecture
-     */
     private function persistSystemArchitecture(
         EntityManager $entityManager,
         SystemArchitecture $systemArchitecture

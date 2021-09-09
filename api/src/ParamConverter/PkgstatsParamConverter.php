@@ -13,36 +13,14 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PkgstatsParamConverter implements ParamConverterInterface
 {
-    /** @var ValidatorInterface */
-    private $validator;
-
-    /** @var SerializerInterface */
-    private $serializer;
-
-    /** @var DenormalizerInterface */
-    private $denormalizer;
-
-    /**
-     * @param ValidatorInterface $validator
-     * @param SerializerInterface $serializer
-     * @param DenormalizerInterface $denormalizer
-     */
     public function __construct(
-        ValidatorInterface $validator,
-        SerializerInterface $serializer,
-        DenormalizerInterface $denormalizer
+        private ValidatorInterface $validator,
+        private SerializerInterface $serializer,
+        private DenormalizerInterface $denormalizer
     ) {
-        $this->validator = $validator;
-        $this->serializer = $serializer;
-        $this->denormalizer = $denormalizer;
     }
 
-    /**
-     * @param Request $request
-     * @param ParamConverter $configuration
-     * @return bool
-     */
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): bool
     {
         $context = [
             'clientIp' => $request->getClientIp(),
@@ -77,11 +55,7 @@ class PkgstatsParamConverter implements ParamConverterInterface
         return true;
     }
 
-    /**
-     * @param ParamConverter $configuration
-     * @return bool
-     */
-    public function supports(ParamConverter $configuration)
+    public function supports(ParamConverter $configuration): bool
     {
         return $configuration->getClass() == PkgstatsRequest::class;
     }

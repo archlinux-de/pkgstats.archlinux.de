@@ -10,28 +10,15 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 class PkgstatsRequestRateLimitSubscriber implements EventSubscriberInterface
 {
-    /** @var RateLimiterFactory */
-    private $pkgstatsRequestLimiter;
-
-    /**
-     * @param RateLimiterFactory $pkgstatsRequestLimiter
-     */
-    public function __construct(RateLimiterFactory $pkgstatsRequestLimiter)
+    public function __construct(private RateLimiterFactory $pkgstatsRequestLimiter)
     {
-        $this->pkgstatsRequestLimiter = $pkgstatsRequestLimiter;
     }
 
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [KernelEvents::REQUEST => ['onKernelRequest']];
     }
 
-    /**
-     * @param RequestEvent $event
-     */
     public function onKernelRequest(RequestEvent $event): void
     {
         if (!in_array($event->getRequest()->attributes->get('_route'), ['app_api_submit', 'app_pkgstats_post'])) {

@@ -12,13 +12,12 @@ use PHPUnit\Framework\TestCase;
 class PkgstatsRequestV3DenormalizerTest extends TestCase
 {
     /** @var GeoIp|MockObject */
-    private $geoIp;
+    private MockObject $geoIp;
 
     /** @var MirrorUrlFilter|MockObject */
-    private $mirrorUrlFilter;
+    private MockObject $mirrorUrlFilter;
 
-    /** @var PkgstatsRequestV3Denormalizer */
-    private $denormalizer;
+    private PkgstatsRequestV3Denormalizer $denormalizer;
 
     public function setUp(): void
     {

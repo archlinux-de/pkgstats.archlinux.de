@@ -4,10 +4,6 @@ namespace App\Service;
 
 class MirrorUrlFilter
 {
-    /**
-     * @param string $url
-     * @return string|null
-     */
     public function filter(string $url): ?string
     {
         if (empty($url)) {

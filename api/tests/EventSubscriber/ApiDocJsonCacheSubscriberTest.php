@@ -37,11 +37,6 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
         (new ApiDocJsonCacheSubscriber())->onKernelResponse($event);
     }
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @return ResponseEvent
-     */
     private function createEvent(Request $request, Response $response): ResponseEvent
     {
         /** @var KernelInterface|MockObject $kernel */

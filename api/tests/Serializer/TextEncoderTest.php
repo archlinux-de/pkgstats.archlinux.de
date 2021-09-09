@@ -7,19 +7,15 @@ use PHPUnit\Framework\TestCase;
 
 class TextEncoderTest extends TestCase
 {
-
     public function testSupportsEncoding(): void
     {
         $this->assertTrue((new TextEncoder())->supportsEncoding('text'));
     }
 
     /**
-     * @param mixed $data
-     * @param string $expected
-     * @param array $context
      * @dataProvider provideData
      */
-    public function testEncode($data, string $expected, array $context): void
+    public function testEncode(mixed $data, string $expected, array $context): void
     {
         $encoder = new TextEncoder();
 
@@ -33,7 +29,7 @@ class TextEncoderTest extends TestCase
     public function testEncodeException(): void
     {
         $encoder = new TextEncoder();
-        $result = (string)$encoder->encode(['trace' => 'foo'], 'text', ['exception' => new \RuntimeException('bar')]);
+        $result = $encoder->encode(['trace' => 'foo'], 'text', ['exception' => new \RuntimeException('bar')]);
 
         $this->assertStringNotContainsString('foo', $result);
         $this->assertStringContainsString('bar', $result);

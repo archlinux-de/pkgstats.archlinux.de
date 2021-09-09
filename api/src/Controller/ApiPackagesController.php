@@ -15,33 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use OpenApi\Annotations as OA;
 
-/**
- * @Cache(smaxage="first day of next month", maxage="+5 minutes")
- */
+#[Cache(maxage: '+5 minutes', smaxage: 'first day of next month')]
 class ApiPackagesController extends AbstractController
 {
-    /** @var PackagePopularityCalculator */
-    private $packagePopularityCalculator;
-
-    /**
-     * @param PackagePopularityCalculator $packagePopularityCalculator
-     */
-    public function __construct(PackagePopularityCalculator $packagePopularityCalculator)
+    public function __construct(private PackagePopularityCalculator $packagePopularityCalculator)
     {
-        $this->packagePopularityCalculator = $packagePopularityCalculator;
     }
 
     /**
-     * @Route(
-     *     "/api/packages/{name}",
-     *      methods={"GET"},
-     *      requirements={"name"="^[^-/]{1}[^/\s]{0,190}$"},
-     *      name="app_api_package"
-     * )
-     * @param string $name
-     * @param StatisticsRangeRequest $statisticsRangeRequest
-     * @return Response
-     *
      * @OA\Tag(name="packages")
      * @OA\Response(
      *     description="Returns popularity of given package",
@@ -75,6 +56,12 @@ class ApiPackagesController extends AbstractController
      *     )
      * )
      */
+    #[Route(
+        path: '/api/packages/{name}',
+        name: 'app_api_package',
+        requirements: ['name' => '^[^-/]{1}[^/\s]{0,190}$'],
+        methods: ['GET']
+    )]
     public function packageAction(string $name, StatisticsRangeRequest $statisticsRangeRequest): Response
     {
         return $this->json(
@@ -83,17 +70,6 @@ class ApiPackagesController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/api/packages/{name}/series",
-     *      methods={"GET"},
-     *      requirements={"name"="^[^-/]{1}[^/\s]{0,190}$"},
-     *      name="app_api_package_series"
-     * )
-     * @param string $name
-     * @param StatisticsRangeRequest $statisticsRangeRequest
-     * @param PaginationRequest $paginationRequest
-     * @return Response
-     *
      * @OA\Tag(name="packages")
      * @OA\Response(
      *     description="Returns popularities of given package in a monthly series",
@@ -151,6 +127,12 @@ class ApiPackagesController extends AbstractController
      *     )
      * )
      */
+    #[Route(
+        path: '/api/packages/{name}/series',
+        name: 'app_api_package_series',
+        requirements: ['name' => '^[^-/]{1}[^/\s]{0,190}$'],
+        methods: ['GET']
+    )]
     public function packageSeriesAction(
         string $name,
         StatisticsRangeRequest $statisticsRangeRequest,
@@ -166,16 +148,6 @@ class ApiPackagesController extends AbstractController
     }
 
     /**
-     * @Route(
-     *     "/api/packages",
-     *      methods={"GET"},
-     *      name="app_api_packages"
-     * )
-     * @param StatisticsRangeRequest $statisticsRangeRequest
-     * @param PaginationRequest $paginationRequest
-     * @param PackageQueryRequest $packageQueryRequest
-     * @return Response
-     *
      * @OA\Tag(name="packages")
      * @OA\Response(
      *     description="Returns list of package popularities",
@@ -236,6 +208,11 @@ class ApiPackagesController extends AbstractController
      *     )
      * )
      */
+    #[Route(
+        path: '/api/packages',
+        name: 'app_api_packages',
+        methods: ['GET']
+    )]
     public function packageJsonAction(
         StatisticsRangeRequest $statisticsRangeRequest,
         PaginationRequest $paginationRequest,

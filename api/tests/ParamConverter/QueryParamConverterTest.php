@@ -16,10 +16,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class QueryParamConverterTest extends TestCase
 {
     /** @var ValidatorInterface|MockObject */
-    private $validator;
+    private MockObject $validator;
 
-    /** @var QueryParamConverter */
-    private $paramConverter;
+    private QueryParamConverter $paramConverter;
 
     public function setUp(): void
     {

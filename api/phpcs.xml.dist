@@ -21,4 +21,8 @@
     <exclude-pattern>tests/bootstrap.php</exclude-pattern>
     <exclude-pattern>config/preload.php</exclude-pattern>
     <exclude-pattern>public/index.php</exclude-pattern>
+
+    <rule ref="Generic.Files.LineLength">
+        <exclude-pattern>/migrations/*</exclude-pattern>
+    </rule>
 </ruleset>

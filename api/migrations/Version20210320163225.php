@@ -16,7 +16,6 @@ final class Version20210320163225 extends AbstractMigration
             'Migration can only be executed safely on \'mysql\'.'
         );
 
-        // phpcs:disable
         $this->addSql(
             'CREATE TABLE country (code VARCHAR(2) NOT NULL, month INT NOT NULL, count INT NOT NULL, INDEX country_month_code (month, code), INDEX country_month (month), PRIMARY KEY(code, month)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB'
         );
@@ -29,7 +28,6 @@ final class Version20210320163225 extends AbstractMigration
         $this->addSql(
             'CREATE TABLE system_architecture (name VARCHAR(10) NOT NULL, month INT NOT NULL, count INT NOT NULL, INDEX sytem_architecture_month_name (month, name), INDEX sytem_architecture_month (month), PRIMARY KEY(name, month)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB'
         );
-        // phpcs:enable
 
         $this->migrateUserData();
 
@@ -47,11 +45,9 @@ final class Version20210320163225 extends AbstractMigration
             'Migration can only be executed safely on \'mysql\'.'
         );
 
-        // phpcs:disable
         $this->addSql(
             'CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, ip VARCHAR(40) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, time INT NOT NULL, arch VARCHAR(10) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, cpuarch VARCHAR(10) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, countryCode VARCHAR(2) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, mirror VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, packages SMALLINT NOT NULL, INDEX countryCode (countryCode), INDEX mirror (mirror), INDEX ip (ip, time), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' '
         );
-        // phpcs:enable
         $this->addSql('DROP TABLE country');
         $this->addSql('DROP TABLE mirror');
         $this->addSql('DROP TABLE operating_system_architecture');

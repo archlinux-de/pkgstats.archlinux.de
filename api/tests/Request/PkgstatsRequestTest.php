@@ -41,8 +41,6 @@ class PkgstatsRequestTest extends TestCase
     }
 
     /**
-     * @param string $cpuArch
-     * @param string $osArch
      * @dataProvider provideValidArchitecutres
      */
     public function testValidOperatingSystemArchitectures(string $cpuArch, string $osArch): void
@@ -60,8 +58,6 @@ class PkgstatsRequestTest extends TestCase
     }
 
     /**
-     * @param string $cpuArch
-     * @param string $osArch
      * @dataProvider provideValidArchitecutres
      */
     public function testValidSystemArchitectures(string $cpuArch, string $osArch): void
@@ -79,8 +75,6 @@ class PkgstatsRequestTest extends TestCase
     }
 
     /**
-     * @param string $cpuArch
-     * @param string $osArch
      * @dataProvider provideInvalidArchitectures
      */
     public function testInvalidOperatingSystemArchitectures(string $cpuArch, string $osArch): void
@@ -108,8 +102,6 @@ class PkgstatsRequestTest extends TestCase
     }
 
     /**
-     * @param string $cpuArch
-     * @param string $osArch
      * @dataProvider provideInvalidArchitectures
      */
     public function testInvalidSystemArchitectures(string $cpuArch, string $osArch): void
@@ -136,9 +128,6 @@ class PkgstatsRequestTest extends TestCase
         $request->validateSystemArchitectures($context);
     }
 
-    /**
-     * @return array
-     */
     public function provideValidArchitecutres(): array
     {
         $result = [];
@@ -164,9 +153,6 @@ class PkgstatsRequestTest extends TestCase
         return $result;
     }
 
-    /**
-     * @return array
-     */
     public function provideInvalidArchitectures(): array
     {
         $result = [];

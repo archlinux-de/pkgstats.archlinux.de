@@ -16,10 +16,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PaginationParamConverterTest extends TestCase
 {
     /** @var ValidatorInterface|MockObject */
-    private $validator;
+    private MockObject $validator;
 
-    /** @var PaginationParamConverter */
-    private $paramConverter;
+    private PaginationParamConverter $paramConverter;
 
     public function setUp(): void
     {

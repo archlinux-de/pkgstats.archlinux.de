@@ -7,25 +7,10 @@ use Psr\Log\LoggerInterface;
 
 class GeoIp
 {
-    /** @var Reader */
-    private $reader;
-    /** @var LoggerInterface */
-    private $logger;
-
-    /**
-     * @param Reader $reader
-     * @param LoggerInterface $logger
-     */
-    public function __construct(Reader $reader, LoggerInterface $logger)
+    public function __construct(private Reader $reader, private LoggerInterface $logger)
     {
-        $this->reader = $reader;
-        $this->logger = $logger;
     }
 
-    /**
-     * @param string $clientIp
-     * @return null|string
-     */
     public function getCountryCode(string $clientIp): ?string
     {
         try {

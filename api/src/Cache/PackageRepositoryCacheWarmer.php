@@ -11,43 +11,22 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
  */
 class PackageRepositoryCacheWarmer implements CacheWarmerInterface
 {
-    /** @var PackageRepository */
-    private $packageRepository;
-
-    /** @var LoggerInterface */
-    private $logger;
-
-    /** @var string */
-    private $environment;
-
-    /**
-     * @param PackageRepository $packageRepository
-     * @param string $environment
-     * @param LoggerInterface $logger
-     */
     public function __construct(
-        PackageRepository $packageRepository,
-        LoggerInterface $logger,
-        string $environment
+        private PackageRepository $packageRepository,
+        private LoggerInterface $logger,
+        private string $environment
     ) {
-        $this->packageRepository = $packageRepository;
-        $this->logger = $logger;
-        $this->environment = $environment;
     }
 
-    /**
-     * @return bool
-     */
-    public function isOptional()
+    public function isOptional(): bool
     {
         return true;
     }
 
     /**
-     * @param string $cacheDir
      * @return string[]
      */
-    public function warmUp($cacheDir): array
+    public function warmUp(string $cacheDir): array
     {
         if ($this->environment != 'prod') {
             return [];

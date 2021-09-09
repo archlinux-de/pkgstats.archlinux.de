@@ -12,13 +12,12 @@ use PHPUnit\Framework\TestCase;
 class PkgstatsRequestV2DenormalizerTest extends TestCase
 {
     /** @var GeoIp|MockObject */
-    private $geoIp;
+    private MockObject $geoIp;
 
     /** @var MirrorUrlFilter|MockObject */
-    private $mirrorUrlFilter;
+    private MockObject $mirrorUrlFilter;
 
-    /** @var PkgstatsRequestV2Denormalizer */
-    private $denormalizer;
+    private PkgstatsRequestV2Denormalizer $denormalizer;
 
     public function setUp(): void
     {
@@ -71,7 +70,6 @@ class PkgstatsRequestV2DenormalizerTest extends TestCase
         $pkgstatsRequest = $this->denormalizer->denormalize($data, PkgstatsRequest::class, 'form', $context);
 
         $this->assertInstanceOf(PkgstatsRequest::class, $pkgstatsRequest);
-        /** @var PkgstatsRequest $pkgstatsRequest */
         $packages = $pkgstatsRequest->getPackages();
         $this->assertCount(2, $packages);
         $this->assertEquals('foo', $packages[0]->getName());

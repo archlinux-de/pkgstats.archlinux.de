@@ -10,17 +10,11 @@ use Symfony\Component\String\ByteString;
 
 class ApiCorsSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [KernelEvents::RESPONSE => 'onKernelResponse'];
     }
 
-    /**
-     * @param ResponseEvent $responseEvent
-     */
     public function onKernelResponse(ResponseEvent $responseEvent): void
     {
         if (!$responseEvent->isMainRequest()) {

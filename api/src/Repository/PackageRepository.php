@@ -10,20 +10,11 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class PackageRepository extends ServiceEntityRepository
 {
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Package::class);
     }
 
-    /**
-     * @param string $name
-     * @param int $startMonth
-     * @param int $endMonth
-     * @return int
-     */
     public function getCountByNameAndRange(string $name, int $startMonth, int $endMonth): int
     {
         $queryBuilder = $this->createQueryBuilder('package')
@@ -54,14 +45,6 @@ class PackageRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @param string $name
-     * @param int $startMonth
-     * @param int $endMonth
-     * @param int $offset
-     * @param int $limit
-     * @return array
-     */
     public function findMonthlyByNameAndRange(
         string $name,
         int $startMonth,
@@ -90,11 +73,6 @@ class PackageRepository extends ServiceEntityRepository
         ];
     }
 
-    /**
-     * @param int $startMonth
-     * @param int $endMonth
-     * @return int
-     */
     public function getMaximumCountByRange(int $startMonth, int $endMonth): int
     {
         $queryBuilder = $this->createQueryBuilder('package');
@@ -128,14 +106,6 @@ class PackageRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @param string $query
-     * @param int $startMonth
-     * @param int $endMonth
-     * @param int $offset
-     * @param int $limit
-     * @return array
-     */
     public function findPackagesCountByRange(
         string $query,
         int $startMonth,
@@ -185,11 +155,6 @@ class PackageRepository extends ServiceEntityRepository
         ];
     }
 
-    /**
-     * @param int $startMonth
-     * @param int $endMonth
-     * @return array
-     */
     public function getMonthlyMaximumCountByRange(int $startMonth, int $endMonth): array
     {
         return $this->createQueryBuilder('package')

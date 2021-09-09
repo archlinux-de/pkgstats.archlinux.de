@@ -11,23 +11,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class QueryParamConverter implements ParamConverterInterface
 {
-    /** @var ValidatorInterface */
-    private $validator;
-
-    /**
-     * @param ValidatorInterface $validator
-     */
-    public function __construct(ValidatorInterface $validator)
+    public function __construct(private ValidatorInterface $validator)
     {
-        $this->validator = $validator;
     }
 
-    /**
-     * @param Request $request
-     * @param ParamConverter $configuration
-     * @return bool
-     */
-    public function apply(Request $request, ParamConverter $configuration)
+    public function apply(Request $request, ParamConverter $configuration): bool
     {
         $packageQueryRequest = new PackageQueryRequest($request->get('query', ''));
 
@@ -44,11 +32,7 @@ class QueryParamConverter implements ParamConverterInterface
         return true;
     }
 
-    /**
-     * @param ParamConverter $configuration
-     * @return bool
-     */
-    public function supports(ParamConverter $configuration)
+    public function supports(ParamConverter $configuration): bool
     {
         return $configuration->getClass() == PackageQueryRequest::class;
     }

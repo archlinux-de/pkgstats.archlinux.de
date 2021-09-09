@@ -15,20 +15,8 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableSupportsMethodInterface
 {
-    /** @var GeoIp */
-    private $geoIp;
-
-    /** @var MirrorUrlFilter */
-    private $mirrorUrlFilter;
-
-    /**
-     * @param GeoIp $geoIp
-     * @param MirrorUrlFilter $mirrorUrlFilter
-     */
-    public function __construct(GeoIp $geoIp, MirrorUrlFilter $mirrorUrlFilter)
+    public function __construct(private GeoIp $geoIp, private MirrorUrlFilter $mirrorUrlFilter)
     {
-        $this->geoIp = $geoIp;
-        $this->mirrorUrlFilter = $mirrorUrlFilter;
     }
 
     public function hasCacheableSupportsMethod(): bool
@@ -36,7 +24,7 @@ class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableS
         return true;
     }
 
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): PkgstatsRequest
     {
         $packages = $this->filterList($data['pacman']['packages'] ?? []);
         $arch = ($data['os']['architecture'] ?? '');
@@ -72,7 +60,7 @@ class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableS
         return $pkgstatsRequest;
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null)
+    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
     {
         return $type === PkgstatsRequest::class && $format === 'json';
     }
