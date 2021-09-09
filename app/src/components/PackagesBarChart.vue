@@ -1,8 +1,8 @@
 <template>
   <div>
-    <b-alert :show="error != ''" variant="danger">{{ error }}</b-alert>
+    <div class="alert alert-danger" role="alert" v-if="error != ''">{{ error }}</div>
     <loading-spinner absolute v-if="loading"></loading-spinner>
-    <table class="table table-sm" v-b-visible.once="visibilityChanged">
+    <table class="table table-sm">
       <colgroup>
         <col class="w-25">
         <col class="w-75">
@@ -13,16 +13,13 @@
           </router-link>
         </td>
         <td>
-          <b-progress
-            :title="packagePopularity.popularity + '%'"
-            class="bg-transparent"
-            height="2em">
-            <b-progress-bar
-              :label="(packagePopularity.popularity > 5 ? packagePopularity.popularity + '%' : '')"
-              :precision="2"
-              :value="packagePopularity.popularity"
-            />
-          </b-progress>
+          <div class="progress bg-transparent progress--large"
+               :title="packagePopularity.popularity + '%'">
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                 :style="`width: ${packagePopularity.popularity}%`"
+                 :aria-valuenow="packagePopularity.popularity"
+                 v-text="(packagePopularity.popularity > 5 ? packagePopularity.popularity + '%' : '')"></div>
+          </div>
         </td>
       </tr>
     </table>
@@ -45,32 +42,52 @@ export default {
     return {
       loading: false,
       packagePopularities: this.packages.map(pkg => ({ name: pkg, popularity: 0 })),
-      error: ''
+      error: '',
+      observer: null
     }
   },
   components: {
     LoadingSpinner
   },
   methods: {
-    visibilityChanged (isVisible) {
-      if (isVisible) {
-        this.fetchData()
-      }
-    },
     sortPackagesByPopularity (pkgs) {
       return pkgs.sort((a, b) => Math.sign(b.popularity - a.popularity))
     },
     fetchData () {
       this.loading = true
       Promise.all(this.packages.map(pkg => this.apiPackagesService.fetchPackagePopularity(pkg)))
-        .then(dataArray => { this.packagePopularities = this.sortPackagesByPopularity(dataArray) })
-        .catch(error => { this.error = error })
-        .finally(() => { this.loading = false })
+        .then(dataArray => {
+          this.packagePopularities = this.sortPackagesByPopularity(dataArray)
+        })
+        .catch(error => {
+          this.error = error
+        })
+        .finally(() => {
+          this.loading = false
+        })
+    },
+    observe  () {
+      this.observer = new IntersectionObserver(entries => {
+        if (entries[0].intersectionRatio <= 0) {
+          return
+        }
+        this.fetchData()
+        this.observer.disconnect()
+      }, { rootMargin: '0px 0px 640px 0px' })
+      this.observer.observe(this.$el)
     }
   },
   metaInfo () {
     if (this.error) {
       return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
+    }
+  },
+  mounted () {
+    this.observe()
+  },
+  beforeDestroy () {
+    if (this.observer) {
+      this.observer.disconnect()
     }
   }
 }

@@ -10,16 +10,9 @@ module.exports = {
   mode: 'production',
   output: { path: path.resolve(__dirname, 'dist'), filename: 'js/[name].[contenthash].js' },
 
-  resolve: {
-    alias: {
-      vue$: 'vue/dist/vue.runtime.esm.js',
-      'bootstrap-vue$': 'bootstrap-vue/src/index.js'
-    }
-  },
-
   module: {
     rules: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules\/(?!bootstrap-vue\/src\/)/ },
+      { test: /\.js$/, loader: 'babel-loader' },
       { test: /\.s?css$/, use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'] }
     ]
   },

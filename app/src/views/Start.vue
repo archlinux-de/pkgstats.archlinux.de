@@ -1,18 +1,18 @@
 <template>
-  <b-container role="main" tag="main">
-    <b-row>
-      <b-col cols="12" xl="9">
-        <b-jumbotron class="p-2 p-xl-3">
+  <main class="container" role="main">
+    <div class="row">
+      <div class="col-12 col-xl-9">
+        <div class="mb-4">
           <h1>Arch Linux package statistics</h1>
           <p>Contributing is as easy as installing the package - a weekly cron job will take care of the
             rest. You will be sending us a list of packages installed on your system, along with the
             architecture and mirror you use. This information is anonymous and cannot be used to identify
             you, but it will help us prioritize our efforts and make Arch even better.</p>
-        </b-jumbotron>
+        </div>
 
         <div>
           <h4>Getting started</h4>
-          <ol class="pl-4">
+          <ol class="ps-4">
             <li>Install pkgstats by <code>pacman -Syu <strong>pkgstats</strong></code></li>
             <li>Ensure the weekly timer is started: <code>systemctl start
               <strong>pkgstats.timer</strong></code></li>
@@ -21,13 +21,13 @@
             <li>For additional help see <code>pkgstats <strong>-h</strong></code></li>
           </ol>
           <h4>Submitting your package data</h4>
-          <pre class="text-light bg-dark p-2 ml-4"><code><strong>$ pkgstats</strong>
+          <pre class="text-light bg-dark p-2 ms-4"><code><strong>$ pkgstats</strong>
 Collecting data...
 Submitting data...
 Thanks for your submission. :-)
 See results at https://pkgstats.archlinux.de/</code></pre>
           <h4>Gathering statistics</h4>
-          <ul class="pl-4">
+          <ul class="ps-4">
             <li>Browse the
               <router-link :to="{name: 'packages'}">package statistics</router-link>
               and
@@ -51,11 +51,11 @@ See results at https://pkgstats.archlinux.de/</code></pre>
             </li>
           </ul>
         </div>
-      </b-col>
+      </div>
 
-      <b-col cols="12" xl="3">
+      <div class="col-12 col-xl-3">
         <h4>Dokumentation</h4>
-        <ul class="pl-4">
+        <ul class="ps-4">
           <li>See <code>pkgstats -h</code></li>
           <li><a href="https://wiki.archlinux.org/index.php/Pkgstats" rel="nofollow">Arch Linux Wiki</a></li>
           <li>
@@ -64,7 +64,7 @@ See results at https://pkgstats.archlinux.de/</code></pre>
         </ul>
 
         <h4>Development</h4>
-        <ul class="pl-4">
+        <ul class="ps-4">
           <li><a href="https://github.com/archlinux-de/pkgstats-cli" rel="nofollow">
             pkgstats cli</a></li>
           <li><a href="https://github.com/archlinux-de/pkgstats.archlinux.de" rel="nofollow">
@@ -72,7 +72,7 @@ See results at https://pkgstats.archlinux.de/</code></pre>
         </ul>
 
         <h4>Announcements</h4>
-        <ul class="pl-4">
+        <ul class="ps-4">
           <li>
             <a href="https://www.archlinux.org/news/pkgstats-contribution-was-never-that-easy/"
                rel="nofollow">
@@ -88,9 +88,9 @@ See results at https://pkgstats.archlinux.de/</code></pre>
               pkgstats now collects modules usage </a>
           </li>
         </ul>
-      </b-col>
-    </b-row>
-  </b-container>
+      </div>
+    </div>
+  </main>
 </template>
 
 <script>

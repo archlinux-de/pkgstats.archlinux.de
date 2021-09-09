@@ -1,82 +1,85 @@
 <template>
   <div id="page">
-    <b-navbar class="navbar-border-brand nav-no-outline mb-4" toggleable="sm" type="dark" variant="dark">
-      <b-navbar-brand :to="{name: 'start'}">
-        <img alt="Arch Linux" height="40" width="190" :src="logo"/>
-      </b-navbar-brand>
+    <nav class="navbar navbar-expand-md navbar-dark navbar-border-brand bg-dark nav-no-outline mb-4">
+      <div class="container-fluid">
+        <router-link :to="{name: 'start'}" class="navbar-brand">
+          <img alt="Arch Linux" height="40" width="190" :src="logo" class="d-inline-block align-text-top"/>
+        </router-link>
 
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#archlinux-navbar"
+                aria-controls="archlinux-navbar" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav class="ml-auto mr-4">
-          <b-nav-item :to="{name: 'start'}" class="ml-3 font-weight-bold" exact>Start</b-nav-item>
-          <b-nav-item :to="{name: 'packages'}" class="ml-3 font-weight-bold">Packages</b-nav-item>
-          <b-nav-item :to="{name: 'fun'}" class="ml-3 font-weight-bold">Fun</b-nav-item>
-          <b-nav-item :to="{name: 'api-doc'}" class="ml-3 font-weight-bold">API</b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
+        <div class="collapse navbar-collapse" id="archlinux-navbar">
+          <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <router-link :to="{name: 'start'}" exact class="nav-link ms-3 fw-bold">Start</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="{name: 'packages'}" class="nav-link ms-3 fw-bold">Packages</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="{name: 'fun'}" class="nav-link ms-3 fw-bold">Fun</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="{name: 'api-doc'}" class="nav-link ms-3 fw-bold">API</router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <router-view id="content"/>
 
     <footer id="footer">
-      <b-nav align="right" class="nav-no-outline">
-        <b-nav-item :to="{name: 'privacy-policy'}">Privacy policy</b-nav-item>
-        <b-nav-item :to="{name: 'impressum'}">Impressum</b-nav-item>
-      </b-nav>
+      <nav class="nav nav-no-outline justify-content-end">
+        <router-link class="nav-link" :to="{name: 'privacy-policy'}">Privacy policy</router-link>
+        <router-link class="nav-link" :to="{name: 'impressum'}">Impressum</router-link>
+      </nav>
     </footer>
   </div>
 </template>
 
 <style lang="scss">
-  @import "./assets/css/archlinux-bootstrap";
-  @import "~bootstrap/scss/bootstrap.scss";
-  @import "~bootstrap-vue/src/index.scss";
+@import "./assets/css/archlinux-bootstrap";
+@import "./assets/css/import-bootstrap";
 
-  .navbar-border-brand {
-    border-bottom: 0.313rem solid $primary;
-  }
+.navbar-border-brand {
+  border-bottom: 0.313rem solid $primary;
+}
 
-  .nav-no-outline {
-    a:focus,
-    button:focus {
-      outline: 0;
-    }
-  }
+.nav-no-outline a:focus {
+  outline: 0;
+}
 
-  #page {
-    position: relative;
-    min-height: 100vh;
-  }
+#page {
+  position: relative;
+  min-height: 100vh;
+}
 
-  #content {
-    padding-bottom: 2.3rem;
-  }
+#content {
+  padding-bottom: 2.3rem;
+}
 
-  #footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 2.3rem;
-  }
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.3rem;
+}
+
+.progress--large {
+  height: 2em;
+}
 </style>
 
 <script>
-import { BCollapse, BNav, BNavbar, BNavbarBrand, BNavbarNav, BNavbarToggle, BNavItem } from 'bootstrap-vue'
+import 'bootstrap/js/src/collapse'
 import LogoImage from './assets/images/archlogo.svg'
 import IconImage from './assets/images/archicon.svg'
 
 export default {
-  name: 'App',
-  components: {
-    BNavbar,
-    BNavbarBrand,
-    BNavbarToggle,
-    BCollapse,
-    BNavbarNav,
-    BNavItem,
-    BNav
-  },
   metaInfo () {
     return {
       title: 'Statistics',
