@@ -1,5 +1,5 @@
 <template>
-  <b-container role="main" tag="main">
+  <div class="container" role="main">
     <h1 class="mb-4">Impressum</h1>
     <div class="d-inline-flex">
       <table class="table table-sm">
@@ -26,7 +26,7 @@
         </tbody>
       </table>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>

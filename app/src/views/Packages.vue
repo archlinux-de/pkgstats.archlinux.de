@@ -1,8 +1,8 @@
 <template>
-  <b-container role="main" tag="main">
+  <main class="container" role="main">
     <h1 class="mb-4">Package statistics</h1>
     <package-list :initial-query="initialQuery" :limit="40"></package-list>
-  </b-container>
+  </main>
 </template>
 
 <script>

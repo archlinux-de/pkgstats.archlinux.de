@@ -1,12 +1,12 @@
 <template>
-  <b-container role="main" tag="main">
-    <b-alert show variant="danger">
+  <main class="container" role="main">
+    <div class="alert alert-danger" role="alert">
       <h4 class="alert-heading">File not found</h4>
       <p>The requested file <strong>{{ currentUrl }}</strong> was not found.</p>
       <hr>
       <p class="mb-0">Contact us if the problem persists. We will resolve it as soon as possible.</p>
-    </b-alert>
-  </b-container>
+    </div>
+  </main>
 </template>
 
 <script>

@@ -1,12 +1,9 @@
 <template>
   <div>
-    <b-form-group>
-      <b-form-input
-        debounce="250"
-        placeholder="Package name"
-        type="search"
-        v-model="query"></b-form-input>
-    </b-form-group>
+    <div class="input-group mb-4">
+      <span class="input-group-text" id="package-search-label">Package name</span>
+      <input class="form-control" placeholder="e.g. pacman" type="search" aria-describedby="package-search-label" v-model="query">
+    </div>
     <loading-spinner absolute v-if="loading && offset === 0"></loading-spinner>
     <table class="table table-striped table-bordered table-sm" v-show="data.packagePopularities.length > 0">
       <thead>
@@ -21,24 +18,21 @@
           <router-link :to="{name: 'package', params: {package: pkg.name}}">{{ pkg.name }}</router-link>
         </td>
         <td class="w-75">
-          <b-progress
-            :title="pkg.popularity + '%'"
-            class="bg-transparent"
-            height="2em">
-            <b-progress-bar
-              :label="(pkg.popularity > 5 ? pkg.popularity + '%' : '')"
-              :precision="2"
-              :value="pkg.popularity"
-            />
-          </b-progress>
+          <div class="progress bg-transparent progress--large"
+               :title="pkg.popularity + '%'">
+            <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                 :style="`width: ${pkg.popularity}%`"
+                 :aria-valuenow="pkg.popularity"
+            v-text="(pkg.popularity > 5 ? pkg.popularity + '%' : '')"></div>
+          </div>
         </td>
       </tr>
       </tbody>
     </table>
-    <b-alert :show="error != ''" variant="danger">{{ error }}</b-alert>
-    <b-alert :show="data.total === data.count" variant="info">{{ data.total }} packages found</b-alert>
+    <div role="alert" class="alert alert-danger" v-if="error != ''">{{ error }}</div>
+    <div role="alert" v-if="data.total === data.count" class="alert alert-info">{{ data.total }} packages found</div>
     <loading-spinner v-if="loading && offset > 0"></loading-spinner>
-    <div v-b-visible.300="visibilityChanged"></div>
+    <div id="items-end"></div>
   </div>
 </template>
 
@@ -73,7 +67,8 @@ export default {
       },
       query: this.initialQuery,
       error: '',
-      offset: 0
+      offset: 0,
+      observer: null
     }
   },
   watch: {
@@ -107,8 +102,12 @@ export default {
             }
           }
         })
-        .catch(error => { this.error = error })
-        .finally(() => { this.loading = false })
+        .catch(error => {
+          this.error = error
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     createInitialPackagePopularities () {
       return Array.from({ length: this.limit }, () => ({
@@ -116,17 +115,32 @@ export default {
         popularity: 0
       }))
     },
-    visibilityChanged (isVisible) {
-      if (!this.loading && isVisible) {
+    visibilityChanged () {
+      if (!this.loading) {
         if (this.data.count < this.data.total) {
           this.offset += this.limit
           this.fetchData()
         }
       }
+    },
+    observeItemsEnd () {
+      const observer = new IntersectionObserver(entries => {
+        if (entries[0].intersectionRatio <= 0) {
+          return
+        }
+        this.visibilityChanged()
+      }, { rootMargin: '0px 0px 0px 0px' })
+      observer.observe(document.getElementById('items-end'))
     }
   },
   mounted () {
     this.fetchData()
+    this.observeItemsEnd()
+  },
+  beforeDestroy () {
+    if (this.observer) {
+      this.observer.disconnect()
+    }
   },
   metaInfo () {
     if (this.data.count < 1 || this.error) {
