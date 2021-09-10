@@ -4,7 +4,6 @@
 
 <script>
 import SwaggerUI from 'swagger-ui'
-import retargetEvents from 'react-shadow-dom-retarget-events'
 import Styles from '!css-loader!swagger-ui/dist/swagger-ui.css' // eslint-disable-line
 
 export default {
@@ -20,7 +19,6 @@ export default {
 
     if (HTMLElement.prototype.attachShadow) {
       rootNode = rootNode.attachShadow({ mode: 'open' })
-      retargetEvents(rootNode)
     }
 
     const styleNode = document.createElement('style')
