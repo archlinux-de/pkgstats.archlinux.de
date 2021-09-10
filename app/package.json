@@ -7,9 +7,8 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
-    "bootstrap": "^5.1.1",
-    "chartist": "~0.11.4",
-    "chartist-plugin-legend": "~0.6.2",
+    "bootstrap": "~5.1.1",
+    "chart.js": "~3.5.1",
     "core-js": "~3.17.3",
     "node-fetch": "~3.0.0",
     "react-shadow-dom-retarget-events": "~1.1.0",
@@ -29,13 +28,13 @@
     "eslint": "~7.32.0",
     "eslint-config-standard": "~16.0.2",
     "eslint-plugin-compat": "~3.13.0",
-    "eslint-plugin-cypress": "^2.11.2",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-cypress": "~2.11.2",
+    "eslint-plugin-import": "~2.24.2",
+    "eslint-plugin-node": "~11.1.0",
+    "eslint-plugin-promise": "~5.1.0",
     "eslint-plugin-vue": "~7.17.0",
     "file-loader": "~6.2.0",
-    "html-webpack-plugin": "^5.3.2",
+    "html-webpack-plugin": "~5.3.2",
     "jest": "~27.1.1",
     "mini-css-extract-plugin": "~2.2.2",
     "postcss-loader": "~6.1.1",
@@ -50,11 +49,12 @@
     "webpack": "~5.52.0",
     "webpack-cli": "~4.8.0",
     "webpack-dev-server": "~4.2.0",
-    "webpack-merge": "^5.8.0",
+    "webpack-merge": "~5.8.0",
     "workbox-webpack-plugin": "~6.3.0"
   },
   "resolutions": {
-    "node-fetch": "~2.6.1"
+    "node-fetch": "~2.6.2",
+    "core-js": "~3.17.3"
   },
   "engines": {
     "node": ">=16"

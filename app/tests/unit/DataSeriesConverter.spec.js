@@ -6,8 +6,8 @@ it('Converting an Array to a data series', () =>
   ]))
     .toStrictEqual({
       labels: [201909],
-      series: [
-        { data: [64.01], name: 'nodejs' }
+      datasets: [
+        { data: [64.01], label: 'nodejs' }
       ]
     })
 )
@@ -19,9 +19,9 @@ it('Converting multiple Arrays to data series', () =>
   ]))
     .toStrictEqual({
       labels: [201909],
-      series: [
-        { data: [64.01], name: 'nodejs' },
-        { data: [32.69], name: 'php' }
+      datasets: [
+        { data: [64.01], label: 'nodejs' },
+        { data: [32.69], label: 'php' }
       ]
     })
 )
@@ -38,14 +38,14 @@ it('Converting multiple incomplete Arrays to a consistent data series', () =>
   ]))
     .toStrictEqual({
       labels: [201908, 201909],
-      series: [
-        { data: [null, 64.01], name: 'nodejs' },
-        { data: [32.69, 12], name: 'php' }
+      datasets: [
+        { data: [null, 64.01], label: 'nodejs' },
+        { data: [32.69, 12], label: 'php' }
       ]
     })
 )
 
 it('Converting an incomplete Array to an empty data series', () =>
   expect(convertToDataSeries([{ packagePopularities: [] }]))
-    .toStrictEqual({ labels: [], series: [] })
+    .toStrictEqual({ labels: [], datasets: [] })
 )

@@ -18,12 +18,12 @@ export default function convertToDataSeries (PackagepopularitiesArray) {
 
   const data = {
     labels: Array.from(tempLabels).sort(),
-    series: []
+    datasets: []
   }
 
   tempSeries.forEach((series, name) => {
-    data.series.push({
-      name: name,
+    data.datasets.push({
+      label: name,
       data: (() => {
         const result = []
         data.labels.forEach(label => {

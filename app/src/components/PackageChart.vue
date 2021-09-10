@@ -1,63 +1,28 @@
 <template>
-  <div class="ct-chart ct-minor-seventh">
-    <div class="alert alert-danger text-left" role="alert" v-if="errors.length > 0">
+  <div>
+    <div class="alert alert-danger" role="alert" v-if="errors.length > 0">
       <ul :key="id" class="list-group list-unstyled" v-for="(error, id) in errors">
         <li>{{ error }}</li>
       </ul>
     </div>
     <loading-spinner v-if="loading"></loading-spinner>
+    <canvas id="package-chart" width="1280" height="720"></canvas>
   </div>
 </template>
 
-<style lang="scss">
-  @import "../assets/css/archlinux-bootstrap";
-  @import "~bootstrap/scss/functions";
-  @import "~bootstrap/scss/variables";
-
-  $ct-series-names: (a, b, c, d, e, f, g, h, i, j);
-  $ct-series-colors: (
-    $primary,
-    $danger,
-    $success,
-    $warning,
-    $info,
-    $pink,
-    $orange,
-    $secondary,
-    $purple,
-    $gray-500
-  );
-
-  @import "~chartist/dist/scss/chartist";
-
-  .ct-legend {
-    list-style: none;
-
-    li {
-      padding-left: 10px;
-      margin-bottom: 5px;
-      float: left;
-      font-weight: bold;
-    }
-
-    &::after {
-      content: '';
-      display: block;
-      clear: left;
-    }
-
-    /* stylelint-disable-next-line at-rule-no-unknown */
-    @for $i from 0 to length($ct-series-colors) {
-      .ct-series-#{$i} {
-        color: nth($ct-series-colors, $i + 1);
-      }
-    }
-  }
-</style>
-
 <script>
-import Chartist from 'chartist'
-import 'chartist-plugin-legend'
+
+import {
+  Chart,
+  LineElement,
+  PointElement,
+  LineController,
+  CategoryScale,
+  LinearScale,
+  Legend,
+  Tooltip
+} from 'chart.js'
+
 import LoadingSpinner from './LoadingSpinner'
 
 export default {
@@ -86,9 +51,10 @@ export default {
       loading: true,
       data: {
         labels: [],
-        series: []
+        datasets: []
       },
-      errors: []
+      errors: [],
+      chart: null
     }
   },
   components: {
@@ -99,7 +65,7 @@ export default {
       this.fetchData()
     },
     data: function () {
-      if (this.data.series.length > 0) {
+      if (this.data.datasets.length > 0) {
         this.drawChart()
       }
     }
@@ -123,47 +89,109 @@ export default {
           startMonth: this.startMonth,
           endMonth: this.endMonth,
           limit: this.limit
-        }).catch(error => { this.errors.push(error) })
+        }).catch(error => {
+        this.errors.push(error)
+      })
       ))
-        .then(dataArray => { this.data = this.convertToDataSeries(dataArray) })
-        .catch(error => { this.errors.push(error) })
-        .finally(() => { this.loading = false })
+        .then(dataArray => {
+          this.data = this.convertToDataSeries(dataArray)
+        })
+        .catch(error => {
+          this.errors.push(error)
+        })
+        .finally(() => {
+          this.loading = false
+        })
     },
     drawChart () {
-      Chartist.Line(this.$el, this.data, {
-        showPoint: false,
-        showArea: this.data.series.length < 4,
-        chartPadding: {
-          top: 24,
-          bottom: 12
-        },
-        axisX: {
-          showGrid: false,
-          labelInterpolationFnc: value => value.toString().endsWith('01') && value.toString().slice(0, -2) % 2 === 0 ? value.toString().slice(0, -2) : null
-        },
-        plugins: this.data.series.length > 1 ? [Chartist.plugins.legend({ clickable: false })] : []
-      }, [
-        ['screen and (min-width: 576px)', {
-          chartPadding: {
-            top: 36
+      const renderYearMonth = yearMonth => {
+        const yearMonthString = yearMonth.toString()
+        const year = yearMonthString.substr(0, 4)
+        const month = yearMonthString.substr(4, 2)
+        return `${year}-${month}`
+      }
+
+      const colors = ['#08c', '#dc3545', '#198754', '#ffc107', '#0dcaf0', '#d63384', '#fd7e14', '#333', '#6f42c1', '#adb5bd']
+      const textColor = '#333'
+
+      Chart.register(
+        LineElement,
+        PointElement,
+        LineController,
+        CategoryScale,
+        LinearScale,
+        Legend,
+        Tooltip
+      )
+
+      const ctx = this.$el.querySelector('#package-chart')
+      this.chart = new Chart(ctx, {
+        type: 'line',
+        data: this.data,
+        options: {
+          interaction: {
+            mode: 'index',
+            intersect: false
           },
-          axisX: {
-            labelInterpolationFnc: value => value.toString().endsWith('01') ? value.toString().slice(0, -2) : null
+          plugins: {
+            tooltip: {
+              displayColors: false,
+              itemSort: (a, b) => b.raw - a.raw,
+              callbacks: {
+                title: (title) => renderYearMonth(title[0].label)
+              }
+            },
+            legend: {
+              labels: {
+                color: textColor
+              }
+            }
+          },
+          normalized: true,
+          scales: {
+            x: {
+              ticks: {
+                callback: function (val) {
+                  const yearMonth = this.getLabelForValue(val)
+                  return renderYearMonth(yearMonth)
+                },
+                color: textColor,
+                autoSkipPadding: 30
+              },
+              grid: {
+                display: false
+              }
+            },
+            y: {
+              type: 'linear',
+              min: 0,
+              grid: {
+                borderDash: [1, 2]
+              },
+              ticks: {
+                color: textColor
+              }
+            }
+          },
+          elements: {
+            line: {
+              borderColor: colors
+            },
+            point: {
+              radius: 0,
+              hoverRadius: 4,
+              hoverBackgroundColor: textColor
+            }
           }
-        }],
-        ['screen and (min-width: 768px)', {
-          chartPadding: {
-            top: 48
-          }
-        }]
-      ])
+        }
+      })
     }
   },
   mounted () {
     this.fetchData()
   },
   metaInfo () {
-    if (this.errors.length > 0 || this.data.series.length < 1) {
+    if (this.errors.length > 0 || this.data.datasets.length < 1) {
       return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
     }
   }
