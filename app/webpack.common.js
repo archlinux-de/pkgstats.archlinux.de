@@ -21,7 +21,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: 'public', globOptions: { ignore: ['**/index.html'] } },
-        { from: 'src/assets/images/arch(icon|logo).svg', to: 'img/[name].[ext]' }
+        { from: 'src/assets/images/arch(icon|logo).svg', to: 'img/[name][ext]' }
       ]
     }),
     new HtmlPlugin({
