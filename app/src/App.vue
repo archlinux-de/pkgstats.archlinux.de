@@ -3,7 +3,7 @@
     <nav class="navbar navbar-expand-md navbar-dark navbar-border-brand bg-dark nav-no-outline mb-4">
       <div class="container-fluid">
         <router-link :to="{name: 'start'}" class="navbar-brand">
-          <img alt="Arch Linux" height="40" width="190" :src="logo" class="d-inline-block align-text-top"/>
+          <img alt="Arch Linux" height="40" width="190" :src="LogoImage" class="d-inline-block align-text-top"/>
         </router-link>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#archlinux-navbar"
@@ -74,38 +74,30 @@
 }
 </style>
 
-<script>
+<script setup>
 import 'bootstrap/js/src/collapse'
 import LogoImage from './assets/images/archlogo.svg'
 import IconImage from './assets/images/archicon.svg'
+import { onMounted } from 'vue'
+import { useHead } from '@vueuse/head'
 
-export default {
-  metaInfo () {
-    return {
-      title: 'Statistics',
-      titleTemplate: '%s - pkgstats',
-      meta: [
-        { vmid: 'robots', name: 'robots', content: 'index,follow' },
-        { name: 'theme-color', content: '#333' }
-      ],
-      link: [
-        { rel: 'icon', href: this.icon, sizes: 'any', type: 'image/svg+xml' },
-        { rel: 'manifest', href: '/manifest.webmanifest' }
-      ]
-    }
-  },
-  data () {
-    return {
-      logo: LogoImage,
-      icon: IconImage
-    }
-  },
-  mounted () {
-    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-      })
-    }
+useHead({
+  title: 'pkgstats',
+  meta: [
+    { name: 'robots', content: 'index,follow' },
+    { name: 'theme-color', content: '#333' }
+  ],
+  link: [
+    { rel: 'icon', href: IconImage, sizes: 'any', type: 'image/svg+xml' },
+    { rel: 'manifest', href: '/manifest.webmanifest' }
+  ]
+})
+
+onMounted(() => {
+  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+    })
   }
-}
+})
 </script>

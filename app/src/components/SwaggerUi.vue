@@ -2,37 +2,40 @@
   <div></div>
 </template>
 
-<script>
+<script setup>
 import SwaggerUI from 'swagger-ui'
 import Styles from '!css-loader!swagger-ui/dist/swagger-ui.css' // eslint-disable-line
+import { defineProps, onMounted, getCurrentInstance, toRefs } from 'vue'
 
-export default {
-  name: 'swagger-ui',
-  props: {
-    url: {
-      type: String,
-      required: true
-    }
-  },
-  mounted () {
-    let rootNode = this.$el
-
-    if (HTMLElement.prototype.attachShadow) {
-      rootNode = rootNode.attachShadow({ mode: 'open' })
-    }
-
-    const styleNode = document.createElement('style')
-    styleNode.innerHTML = Styles + '.information-container { display: none;}'
-    rootNode.appendChild(styleNode)
-
-    const swaggerNode = document.createElement('div')
-    rootNode.appendChild(swaggerNode)
-
-    SwaggerUI({
-      domNode: swaggerNode,
-      url: this.url,
-      defaultModelsExpandDepth: 0
-    })
+const props = defineProps({
+  url: {
+    type: String,
+    required: true
   }
-}
+})
+const { url } = toRefs(props)
+
+onMounted(() => {
+  let rootNode = getCurrentInstance().ctx.$el
+
+  if (HTMLElement.prototype.attachShadow) {
+    rootNode = rootNode.attachShadow({ mode: 'open' })
+  }
+
+  const styleNode = document.createElement('style')
+  styleNode.innerHTML = Styles +
+    '.information-container { display: none; }' +
+    '.swagger-ui .opblock .opblock-summary-path { max-width: calc(100% - 10rem); }'
+  rootNode.appendChild(styleNode)
+
+  const swaggerNode = document.createElement('div')
+  rootNode.appendChild(swaggerNode)
+
+  SwaggerUI({
+    domNode: swaggerNode,
+    url: url.value,
+    defaultModelsExpandDepth: 0
+  })
+})
+
 </script>

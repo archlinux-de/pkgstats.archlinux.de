@@ -2,17 +2,12 @@
   <swagger-ui url="/api/doc.json"></swagger-ui>
 </template>
 
-<script>
+<script setup>
 import SwaggerUi from '../components/SwaggerUi'
+import { useHead } from '@vueuse/head'
 
-export default {
-  name: 'ApiDoc',
-  components: {
-    SwaggerUi
-  },
-  metaInfo: {
-    title: 'API documentation',
-    meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }]
-  }
-}
+useHead({
+  title: 'API documentation',
+  meta: [{ name: 'robots', content: 'noindex' }]
+})
 </script>

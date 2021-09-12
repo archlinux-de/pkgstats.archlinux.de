@@ -1,19 +1,17 @@
 <template>
   <div class="container" role="main">
-    <h1 class="mb-3">{{ $route.params.package }}</h1>
-    <p class="mb-3">Relative usage of {{ $route.params.package }}</p>
-    <package-chart :limit="0" :packages="[$route.params.package]" :start-month="0"></package-chart>
+    <h1 class="mb-3">{{ packageParameter }}</h1>
+    <p class="mb-3">Relative usage of {{ packageParameter }}</p>
+    <package-chart :limit="0" :packages="[packageParameter]" :start-month="0"></package-chart>
   </div>
 </template>
 
-<script>
+<script setup>
+import { useHead } from '@vueuse/head'
+import { useRoute } from 'vue-router'
 import PackageChart from '../components/PackageChart'
 
-export default {
-  name: 'Package',
-  components: {
-    PackageChart
-  },
-  metaInfo () { return { title: this.$route.params.package } }
-}
+const packageParameter = useRoute().params.package
+
+useHead({ title: packageParameter })
 </script>

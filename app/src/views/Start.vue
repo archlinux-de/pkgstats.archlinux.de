@@ -93,9 +93,8 @@ See results at https://pkgstats.archlinux.de/</code></pre>
   </main>
 </template>
 
-<script>
-export default {
-  name: 'Start',
-  metaInfo: { title: 'Arch Linux package statistics' }
-}
+<script setup>
+import { useHead } from '@vueuse/head'
+
+useHead({ title: 'Arch Linux package statistics' })
 </script>

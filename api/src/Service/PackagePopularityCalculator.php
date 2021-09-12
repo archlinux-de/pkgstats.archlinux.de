@@ -78,7 +78,8 @@ class PackagePopularityCalculator
             $packagePopularities,
             $packages['total'],
             $paginationRequest->getLimit(),
-            $paginationRequest->getOffset()
+            $paginationRequest->getOffset(),
+            $packageQueryRequest->getQuery()
         );
     }
 
@@ -120,7 +121,8 @@ class PackagePopularityCalculator
             $packagePopularities,
             $packages['total'],
             $paginationRequest->getLimit(),
-            $paginationRequest->getOffset()
+            $paginationRequest->getOffset(),
+            null
         );
     }
 

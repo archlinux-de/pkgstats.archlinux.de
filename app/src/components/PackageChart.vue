@@ -11,7 +11,6 @@
 </template>
 
 <script>
-
 import {
   Chart,
   LineElement,
@@ -26,7 +25,6 @@ import {
 import LoadingSpinner from './LoadingSpinner'
 
 export default {
-  name: 'PackageChart',
   inject: ['apiPackagesService', 'convertToDataSeries'],
   props: {
     packages: {
@@ -189,11 +187,6 @@ export default {
   },
   mounted () {
     this.fetchData()
-  },
-  metaInfo () {
-    if (this.errors.length > 0 || this.data.datasets.length < 1) {
-      return { meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }] }
-    }
   }
 }
 </script>

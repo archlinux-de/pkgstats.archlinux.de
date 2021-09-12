@@ -1,7 +1,7 @@
 <template>
   <div class="container" role="main">
     <h1 class="mb-4">Fun statistics</h1>
-    <div :key="title" v-for="(pkgs, title) in config">
+    <div :key="title" v-for="(pkgs, title) in FunConfig">
       <h2>
         <router-link :to="{ name: 'compare', hash: '#packages=' + Array.from(pkgs).sort() }">{{ title }}</router-link>
       </h2>
@@ -10,16 +10,10 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useHead } from '@vueuse/head'
 import FunConfig from '../config/fun.json'
 import PackagesBarChart from '../components/PackagesBarChart'
 
-export default {
-  name: 'Fun',
-  components: { PackagesBarChart },
-  data () {
-    return { config: FunConfig }
-  },
-  metaInfo: { title: 'Fun statistics' }
-}
+useHead({ title: 'Fun statistics' })
 </script>
