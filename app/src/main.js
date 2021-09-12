@@ -1,18 +1,17 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
+import { createHead } from '@vueuse/head'
 import App from './App'
 import router from './router'
-import VueMeta from 'vue-meta'
 import createApiPackagesService from './services/ApiPackagesService'
 import convertToDataSeries from './services/DataSeriesConverter'
 
-Vue.use(VueMeta)
+const head = createHead()
+const app = createApp(App)
 
-Vue.config.productionTip = false
-new Vue({
-  router,
-  render: h => h(App),
-  provide: {
-    apiPackagesService: createApiPackagesService(fetch),
-    convertToDataSeries: convertToDataSeries
-  }
-}).$mount('#app')
+app.use(router)
+app.use(head)
+
+app.provide('apiPackagesService', createApiPackagesService(fetch))
+app.provide('convertToDataSeries', convertToDataSeries)
+
+app.mount('#app')

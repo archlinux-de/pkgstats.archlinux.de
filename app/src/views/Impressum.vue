@@ -29,12 +29,11 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'Impressum',
-  metaInfo: {
-    title: 'Impressum',
-    meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }]
-  }
-}
+<script setup>
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Impressum',
+  meta: [{ name: 'robots', content: 'noindex' }]
+})
 </script>

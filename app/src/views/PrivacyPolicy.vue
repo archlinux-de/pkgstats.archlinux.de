@@ -37,12 +37,11 @@
   </main>
 </template>
 
-<script>
-export default {
-  name: 'PrivacyPolicy',
-  metaInfo: {
-    title: 'Privacy policy',
-    meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }]
-  }
-}
+<script setup>
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Privacy policy',
+  meta: [{ name: 'robots', content: 'noindex' }]
+})
 </script>

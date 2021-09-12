@@ -27,15 +27,14 @@
   }
 </style>
 
-<script>
-export default {
-  name: 'LoadingSpinner',
-  props: {
-    absolute: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
+<script setup>
+import { defineProps } from 'vue'
+
+defineProps({
+  absolute: {
+    type: Boolean,
+    required: false,
+    default: false
   }
-}
+})
 </script>

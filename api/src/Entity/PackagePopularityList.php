@@ -11,7 +11,8 @@ class PackagePopularityList implements \JsonSerializable
         private array $packagePopularities,
         private int $total,
         private int $limit,
-        private int $offset
+        private int $offset,
+        private ?string $query
     ) {
     }
 
@@ -22,6 +23,7 @@ class PackagePopularityList implements \JsonSerializable
             'count' => $this->getCount(),
             'limit' => $this->getLimit(),
             'offset' => $this->getOffset(),
+            'query' => $this->getQuery(),
             'packagePopularities' => $this->getPackagePopularities()
         ];
     }
@@ -52,5 +54,10 @@ class PackagePopularityList implements \JsonSerializable
     public function getOffset(): int
     {
         return $this->offset;
+    }
+
+    public function getQuery(): ?string
+    {
+        return $this->query;
     }
 }

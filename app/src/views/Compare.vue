@@ -6,38 +6,28 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { useRoute, useRouter } from 'vue-router'
+import { useHead } from '@vueuse/head'
 import PackageChart from '../components/PackageChart'
 
-export default {
-  name: 'Compare',
-  components: {
-    PackageChart
-  },
-  data () {
-    return {
-      packages: (() => {
-        let packages = this.$route.hash
-          .replace(/^#packages=/, '')
-          .split(',')
-          .filter(pkg => pkg.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]+$/))
+const packages = (() => {
+  let packages = useRoute().hash
+    .replace(/^#packages=/, '')
+    .split(',')
+    .filter(pkg => pkg.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]+$/))
 
-        packages = Array.from(new Set(packages)).sort()
-        // limit the number of line graphs
-        packages = packages.slice(0, 10)
+  packages = Array.from(new Set(packages)).sort()
+  // limit the number of line graphs
+  packages = packages.slice(0, 10)
 
-        const canonicalHash = '#packages=' + packages.join(',')
-        if (this.$route.hash !== canonicalHash) {
-          this.$router.replace({ name: 'compare', hash: canonicalHash })
-        }
-
-        return packages
-      })()
-    }
-  },
-  metaInfo: {
-    title: 'Compare Packages',
-    meta: [{ vmid: 'robots', name: 'robots', content: 'noindex' }]
+  const canonicalHash = '#packages=' + packages.join(',')
+  if (useRoute().hash !== canonicalHash) {
+    useRouter().replace({ name: 'compare', hash: canonicalHash })
   }
-}
+
+  return packages
+})()
+
+useHead({ title: 'Compare Packages' })
 </script>

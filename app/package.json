@@ -7,17 +7,20 @@
     "build": "webpack --mode production"
   },
   "dependencies": {
+    "@vueuse/core": "^6.3.3",
+    "@vueuse/head": "~0.6.0",
+    "@vueuse/router": "^6.3.3",
     "bootstrap": "~5.1.1",
     "chart.js": "~3.5.1",
     "core-js": "~3.17.3",
     "swagger-ui": "beta",
-    "vue": "~2.6.12",
-    "vue-meta": "~2.4.0",
-    "vue-router": "~3.5.2"
+    "vue": "next",
+    "vue-router": "next"
   },
   "devDependencies": {
     "@babel/core": "~7.15.5",
     "@babel/preset-env": "~7.15.6",
+    "@vue/compiler-sfc": "~3.2.11",
     "babel-loader": "~8.2.2",
     "compression-webpack-plugin": "~9.0.0",
     "copy-webpack-plugin": "~9.0.1",
@@ -42,8 +45,7 @@
     "stylelint": "~13.13.1",
     "stylelint-config-standard": "~22.0.0",
     "stylelint-no-unsupported-browser-features": "~5.0.2",
-    "vue-loader": "~15",
-    "vue-template-compiler": "~2.6.12",
+    "vue-loader": "next",
     "webpack": "~5.52.1",
     "webpack-cli": "~4.8.0",
     "webpack-dev-server": "~4.2.1",

@@ -1,6 +1,4 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-
+import { createRouter, createWebHistory } from 'vue-router'
 import Fun from './views/Fun'
 import Impressum from './views/Impressum'
 import Packages from './views/Packages'
@@ -8,10 +6,8 @@ import PrivacyPolicy from './views/PrivacyPolicy'
 import Start from './views/Start'
 import NotFound from './views/NotFound'
 
-Vue.use(Router)
-
-export default new Router({
-  mode: 'history',
+export default createRouter({
+  history: createWebHistory(),
   linkActiveClass: 'active',
   routes: [
     { path: '/compare/packages', name: 'compare', component: () => import(/* webpackChunkName: "package-chart" */ './views/Compare') },
@@ -22,6 +18,6 @@ export default new Router({
     { path: '/privacy-policy', name: 'privacy-policy', component: PrivacyPolicy },
     { path: '/', name: 'start', component: Start },
     { path: '/api/doc', name: 'api-doc', component: () => import(/* webpackChunkName: "api-doc" */ './views/ApiDoc') },
-    { path: '*', component: NotFound }
+    { path: '/:pathMatch(.*)*', component: NotFound }
   ]
 })
