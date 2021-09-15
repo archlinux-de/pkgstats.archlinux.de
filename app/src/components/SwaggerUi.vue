@@ -1,11 +1,11 @@
 <template>
-  <div></div>
+  <div ref="root"></div>
 </template>
 
 <script setup>
 import SwaggerUI from 'swagger-ui'
 import Styles from '!css-loader!swagger-ui/dist/swagger-ui.css' // eslint-disable-line
-import { defineProps, onMounted, getCurrentInstance, toRefs } from 'vue'
+import { defineProps, onMounted, toRefs, ref } from 'vue'
 
 const props = defineProps({
   url: {
@@ -14,9 +14,10 @@ const props = defineProps({
   }
 })
 const { url } = toRefs(props)
+const root = ref(null)
 
 onMounted(() => {
-  let rootNode = getCurrentInstance().ctx.$el
+  let rootNode = root.value
 
   if (HTMLElement.prototype.attachShadow) {
     rootNode = rootNode.attachShadow({ mode: 'open' })
