@@ -58,7 +58,7 @@ import LoadingSpinner from '../components/LoadingSpinner'
 
 const query = useRouteQuery('query', '')
 const offset = ref(0)
-const limit = ref(40)
+const limit = ref(60)
 const url = useDebounce(computed(() => {
   const params = new URLSearchParams()
   params.set('offset', offset.value)
@@ -66,7 +66,7 @@ const url = useDebounce(computed(() => {
   params.set('query', encodeURIComponent(query.value))
   params.sort()
   return '/api/packages?' + params.toString()
-}), 500)
+}), 50)
 const loadMore = ref(null)
 
 const { isFetching, isFinished, error, data } = useFetch(url, {
@@ -94,8 +94,8 @@ const { isFetching, isFinished, error, data } = useFetch(url, {
   }
 }).json()
 
-watch(() => query.value, (currentQuery, prevviousQuery) => {
-  if (currentQuery !== prevviousQuery) {
+watch(() => query.value, (currentQuery, previousQuery) => {
+  if (currentQuery !== previousQuery) {
     offset.value = 0
   }
 })
