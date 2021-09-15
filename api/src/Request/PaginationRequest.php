@@ -8,14 +8,10 @@ class PaginationRequest
 {
     public const MAX_LIMIT = 10000;
 
-    /**
-     * @Assert\Range(min=0, max=100000)
-     */
+    #[Assert\Range(min:0, max:100000)]
     private int $offset;
 
-    /**
-     * @Assert\Range(min=1, max=PaginationRequest::MAX_LIMIT)
-     */
+    #[Assert\Range(min:1, max:PaginationRequest::MAX_LIMIT)]
     private int $limit;
 
     public function __construct(int $offset, int $limit)

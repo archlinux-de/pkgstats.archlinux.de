@@ -10,45 +10,33 @@ use App\Entity\SystemArchitecture;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-/**
- * @Assert\Callback("validateOperatingSystemArchitectures")
- * @Assert\Callback("validateSystemArchitectures")
- */
+#[Assert\Callback('validateOperatingSystemArchitectures')]
+#[Assert\Callback('validateSystemArchitectures')]
 class PkgstatsRequest
 {
-    /**
-     * @Assert\NotBlank
-     * @Assert\Regex("/^(2\.[345]|3(\.[0-9]+)?)(\.[0-9]+(-[\w-]+)?)?$/")
-     */
+    #[Assert\NotBlank]
+    #[Assert\Regex('/^(2\.[345]|3(\.[0-9]+)?)(\.[0-9]+(-[\w-]+)?)?$/')]
     private string $version;
 
     /**
      * @var Package[]
-     * @Assert\Valid
-     * @Assert\Count(min=1, max=10000)
      */
+    #[Assert\Valid]
+    #[Assert\Count(min:1, max:10000)]
     private array $packages = [];
 
-    /**
-     * @Assert\Valid
-     */
+    #[Assert\Valid]
     private ?Country $country = null;
 
-    /**
-     * @Assert\Valid
-     */
+    #[Assert\Valid]
     private ?Mirror $mirror = null;
 
-    /**
-     * @Assert\NotBlank
-     * @Assert\Valid
-     */
+    #[Assert\NotBlank]
+    #[Assert\Valid]
     private OperatingSystemArchitecture $operatingSystemArchitecture;
 
-    /**
-     * @Assert\NotBlank
-     * @Assert\Valid
-     */
+    #[Assert\NotBlank]
+    #[Assert\Valid]
     private SystemArchitecture $systemArchitecture;
 
     public function __construct(string $version)
