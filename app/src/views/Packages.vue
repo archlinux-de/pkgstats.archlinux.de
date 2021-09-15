@@ -98,7 +98,7 @@ watch(() => query.value, (currentQuery, prevviousQuery) => {
 })
 
 const { stop } = useIntersectionObserver(loadMore, ([{ isIntersecting }]) => {
-  if (!isIntersecting || isFetching.value || error.value || data.value.count === 0) {
+  if (!isIntersecting || isFetching.value || error.value || data.value.count === 0 || data.value.count >= data.value.total) {
     return
   }
 
