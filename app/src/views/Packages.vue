@@ -56,17 +56,17 @@ import { useHead } from '@vueuse/head'
 import { useRouteQuery } from '@vueuse/router'
 import LoadingSpinner from '../components/LoadingSpinner'
 
-const query = useDebounce(useRouteQuery('query', ''), 800)
+const query = useRouteQuery('query', '')
 const offset = ref(0)
 const limit = ref(40)
-const url = computed(() => {
+const url = useDebounce(computed(() => {
   const params = new URLSearchParams()
   params.set('offset', offset.value)
   params.set('limit', limit.value)
   params.set('query', encodeURIComponent(query.value))
   params.sort()
   return '/api/packages?' + params.toString()
-})
+}), 500)
 const loadMore = ref(null)
 
 const { isFetching, isFinished, error, data } = useFetch(url, {
