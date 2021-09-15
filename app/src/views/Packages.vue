@@ -73,6 +73,7 @@ const { isFetching, isFinished, error, data } = useFetch(url, {
   refetch: true,
   initialData: {
     count: 0,
+    lastCount: 0,
     total: 0,
     limit: 0,
     offset: 0,
@@ -82,6 +83,8 @@ const { isFetching, isFinished, error, data } = useFetch(url, {
   credentials: 'omit',
   headers: { Accept: 'application/json' },
   afterFetch (ctx) {
+    ctx.data.lastCount = ctx.data.count
+
     if (ctx.data.query === data.value.query && ctx.data.offset === data.value.offset + data.value.limit) {
       ctx.data.count += data.value.count
       ctx.data.packagePopularities = [...data.value.packagePopularities, ...ctx.data.packagePopularities]
@@ -98,7 +101,7 @@ watch(() => query.value, (currentQuery, prevviousQuery) => {
 })
 
 const { stop } = useIntersectionObserver(loadMore, ([{ isIntersecting }]) => {
-  if (!isIntersecting || isFetching.value || error.value || data.value.count === 0 || data.value.count >= data.value.total) {
+  if (!isIntersecting || isFetching.value || error.value || data.value.lastCount === 0 || data.value.count >= data.value.total) {
     return
   }
 
