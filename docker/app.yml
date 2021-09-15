@@ -57,3 +57,4 @@ services:
       - ./mariadb/conf.d:/etc/mysqld/conf.d:ro
     tmpfs:
       - /tmp
+      - /var/lib/mysql

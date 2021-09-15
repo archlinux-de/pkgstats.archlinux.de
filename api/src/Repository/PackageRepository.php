@@ -75,35 +75,11 @@ class PackageRepository extends ServiceEntityRepository
 
     public function getMaximumCountByRange(int $startMonth, int $endMonth): int
     {
-        $queryBuilder = $this->createQueryBuilder('package');
-
-        if ($startMonth == $endMonth) {
-            $queryBuilder
-                ->select('package.count')
-                ->where('package.month = :month')
-                ->orderBy('package.count', 'DESC')
-                ->setMaxResults(1)
-                ->setParameter('month', $startMonth);
-        } else {
-            $queryBuilder
-                ->select('SUM(package.count) AS count')
-                ->where('package.month >= :startMonth')
-                ->andWhere('package.month <= :endMonth')
-                ->groupBy('package.name')
-                ->orderBy('count', 'DESC')
-                ->setMaxResults(1)
-                ->setParameter('startMonth', $startMonth)
-                ->setParameter('endMonth', $endMonth);
-        }
-
-        try {
-            return $queryBuilder
-                ->getQuery()
-                ->enableResultCache(60 * 60 * 24 * 30)
-                ->getSingleScalarResult();
-        } catch (NoResultException $e) {
-            return 0;
-        }
+        return array_reduce(
+            $this->getMonthlyMaximumCountByRange($startMonth, $endMonth),
+            fn($carry, $item) => $carry + $item['count'],
+            0
+        );
     }
 
     public function findPackagesCountByRange(
@@ -157,17 +133,21 @@ class PackageRepository extends ServiceEntityRepository
 
     public function getMonthlyMaximumCountByRange(int $startMonth, int $endMonth): array
     {
-        return $this->createQueryBuilder('package')
+        $nextMonth = new \DateTime((new \DateTime('+1 month'))->format('Y-m-01'));
+        $lifetime = $nextMonth->getTimestamp() - time();
+
+        $maxMonthlyCount = $this->createQueryBuilder('package')
             ->select('MAX(package.count) AS count')
             ->addSelect('package.month')
-            ->where('package.month >= :startMonth')
-            ->andWhere('package.month <= :endMonth')
             ->groupBy('package.month')
             ->orderBy('package.month', 'asc')
-            ->setParameter('startMonth', $startMonth)
-            ->setParameter('endMonth', $endMonth)
             ->getQuery()
-            ->enableResultCache(60 * 60 * 24 * 30)
+            ->enableResultCache($lifetime)
             ->getScalarResult();
+
+        return array_filter(
+            $maxMonthlyCount,
+            fn($entry) => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
+        );
     }
 }
