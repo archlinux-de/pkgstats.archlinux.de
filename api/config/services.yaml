@@ -32,6 +32,12 @@ services:
 
     Nelmio\ApiDocBundle\Controller\DocumentationController: '@nelmio_api_doc.controller.swagger'
 
+    nelmio_api_doc.render_docs:
+        class: Nelmio\ApiDocBundle\Render\RenderOpenApi
+        arguments:
+            - "@nelmio_api_doc.generator_locator"
+            - "@nelmio_api_doc.render_docs.json"
+
     App\Cache\ApiDocCacheWarmer:
         bind:
             $environment: '%kernel.environment%'
