@@ -49,14 +49,14 @@
 </template>
 
 <script setup>
-import { ref, onUnmounted, computed, watch } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDebounce, useFetch, useIntersectionObserver } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
-import { useRouteQuery } from '@vueuse/router'
+import { useRouteHash, useRouteQuery } from '@vueuse/router'
 import LoadingSpinner from '../components/LoadingSpinner'
 
-const query = useRouteQuery('query', '')
+const query = useRouteQuery('query', useRouteHash('').value.replace(/^#query=/, ''))
 const offset = ref(0)
 const limit = ref(60)
 const url = useDebounce(computed(() => {
