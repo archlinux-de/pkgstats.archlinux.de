@@ -19,6 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostPackageListController extends AbstractController
 {
+    /**
+     * @param EntityManager $entityManager
+     */
     public function __construct(private EntityManagerInterface $entityManager)
     {
     }
@@ -121,7 +124,7 @@ class PostPackageListController extends AbstractController
 
     private function persistSubmission(PkgstatsRequest $pkgstatsRequest): void
     {
-        $this->entityManager->transactional(
+        $this->entityManager->wrapInTransaction(
             function (EntityManager $entityManager) use ($pkgstatsRequest) {
                 $this->persistPackages($entityManager, $pkgstatsRequest->getPackages());
                 $this->persistCountry($entityManager, $pkgstatsRequest->getCountry());
