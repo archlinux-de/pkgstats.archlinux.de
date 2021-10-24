@@ -22,7 +22,7 @@
           <router-link :to="{name: 'package', params: {package: pkg.name}}">{{ pkg.name }}</router-link>
         </td>
         <td class="w-75">
-          <div class="progress bg-transparent progress--large"
+          <div class="progress bg-transparent progress-large"
                :title="pkg.popularity + '%'">
             <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                  :style="`width: ${pkg.popularity}%`"

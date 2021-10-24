@@ -13,7 +13,7 @@
           </router-link>
         </td>
         <td>
-          <div class="progress bg-transparent progress--large"
+          <div class="progress bg-transparent progress-large"
                :title="packagePopularity.popularity + '%'">
             <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                  :style="`width: ${packagePopularity.popularity}%`"

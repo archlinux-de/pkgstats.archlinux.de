@@ -69,7 +69,7 @@
   height: 2.3rem;
 }
 
-.progress--large {
+.progress-large {
   height: 2em;
 }
 </style>
