@@ -5,8 +5,6 @@ namespace App\Tests\ParamConverter;
 use App\ParamConverter\PkgstatsParamConverter;
 use App\Request\PkgstatsRequest;
 use App\Request\PkgstatsRequestException;
-use App\Service\GeoIp;
-use App\Service\MirrorUrlFilter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -19,16 +17,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PkgstatsParamConverterTest extends TestCase
 {
-    /** @var GeoIp|MockObject */
-    private MockObject $geoIp;
-
     /** @var ValidatorInterface|MockObject */
     private MockObject $validator;
 
     private PkgstatsParamConverter $paramConverter;
-
-    /** @var MirrorUrlFilter|MockObject */
-    private MockObject $mirrorUrlFilter;
 
     /** @var MockObject|SerializerInterface */
     private MockObject $serializer;
@@ -38,9 +30,7 @@ class PkgstatsParamConverterTest extends TestCase
 
     public function setUp(): void
     {
-        $this->geoIp = $this->createMock(GeoIp::class);
         $this->validator = $this->createMock(ValidatorInterface::class);
-        $this->mirrorUrlFilter = $this->createMock(MirrorUrlFilter::class);
         $this->serializer = $this->createMock(SerializerInterface::class);
         $this->denormalizer = $this->createMock(DenormalizerInterface::class);
 
