@@ -1553,12 +1553,12 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.21.tgz#4cd80c0e62cf65a7adab2449e86b6f0cb33a130b"
   integrity sha512-5EQmIPK6gw4UVYUbM959B0uPsJ58+xoMESCZs3N89XyvJ9e+fX4pqEPrOGV8OroIk3SbEvJcC+eYc8BH9JQrHA==
 
-"@vueuse/core@^6.8.0":
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-6.8.0.tgz#dc004bc30031e053e9ef5011203c4a80f00986ed"
-  integrity sha512-C6KMBus29L/mVtA5eK26WAqj6tyPlugrKaPLi2uLtbV//BHjbxe1uo3gVXCc5SwouDEdc7zswlGPw/l0/++NRg==
+"@vueuse/core@^6.9.0":
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-6.9.0.tgz#f65057108bbd85cb593a3dfc78a94913c73d2a12"
+  integrity sha512-/KW3x63X+AlpgJIJxdZZFpZ0SorHv+UHv/i4BufZJwv0s8S1o7dqivDz0DcdD+BBlNwLiOu1mjoUl1rodWCLxw==
   dependencies:
-    "@vueuse/shared" "6.8.0"
+    "@vueuse/shared" "6.9.0"
     vue-demi "*"
 
 "@vueuse/head@~0.6.0":
@@ -1566,18 +1566,18 @@
   resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-0.6.0.tgz#5584b1f724327cfce941c42efec9e590f5799329"
   integrity sha512-fi7ZjkMpEAUtTT6iR5wgL2HkX1+3zbrmbpcwU//RgJIWEr5b42jk8E9yOheaC2dYAAHzelAllVpX0pDmhcTXuw==
 
-"@vueuse/router@^6.8.0":
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/@vueuse/router/-/router-6.8.0.tgz#c0724e02e8358d909f1d309339c10360a160add4"
-  integrity sha512-OtxwLuL4H+LE81nbs7vT8UTvLBcODryBoheL+Yc9tJ+vOgpsllCE6dGTXNSTNNrmTkRRlE3IrzFhZlnH6DcmcQ==
+"@vueuse/router@^6.9.0":
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/router/-/router-6.9.0.tgz#f03725fe53e330f3fe195db30f36cb3cefd879e7"
+  integrity sha512-Q7gEKJDcu90Vok+OAueT6RwLs5JL7Gxlr42DFzuQ5aTgYgWxWNesVtuwN+jiF26FfwpEn/oUQA/ADys5rvZqJw==
   dependencies:
-    "@vueuse/shared" "6.8.0"
+    "@vueuse/shared" "6.9.0"
     vue-demi "*"
 
-"@vueuse/shared@6.8.0":
-  version "6.8.0"
-  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-6.8.0.tgz#50713b770941293e557a4eae9424cad2aad44a85"
-  integrity sha512-+YjehQ8Qe4Qgyq8iTToVOzp4sZBAZvScv3AGJSMi6HYbe54+nyjrRfS8DN4fA0eUahyftHKZ00WKgMe7TS5N0w==
+"@vueuse/shared@6.9.0":
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-6.9.0.tgz#97d4529212e0155284badd89d27b4746815ae197"
+  integrity sha512-LyavYcibfrKO1PIYtJ+JjFwHNVRmxb/i7v4daKKTZv6iKVh/xBD6kpmO392atn1KaUa19m9aGrVNBv4t5lAzJA==
   dependencies:
     vue-demi "*"
 
@@ -4228,7 +4228,7 @@ ignore@^4.0.6:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
 
-ignore@^5.1.1, ignore@^5.1.4, ignore@^5.1.8:
+ignore@^5.1.1, ignore@^5.1.4, ignore@^5.1.9:
   version "5.1.9"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.1.9.tgz#9ec1a5cbe8e1446ec60d4420060d43aa6e7382fb"
   integrity sha512-2zeMQpbKz5dhZ9IwL0gbxSW5w0NK/MSAMtNuhgIHEPmaU3vPdKPL0UdvUCXs5SS4JAwsBxysK5sFMW8ocFiVjQ==
@@ -7210,9 +7210,9 @@ spdx-expression-parse@^3.0.0:
     spdx-license-ids "^3.0.0"
 
 spdx-license-ids@^3.0.0:
-  version "3.0.10"
-  resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.10.tgz#0d9becccde7003d6c658d487dd48a32f0bf3014b"
-  integrity sha512-oie3/+gKf7QtpitB0LYLETe+k8SifzsX4KixvpOsbI6S0kRiRQ5MKOio8eMSAKQ17N06+wdEOXRiId+zOxo0hA==
+  version "3.0.11"
+  resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.11.tgz#50c0d8c40a14ec1bf449bae69a0ea4685a9d9f95"
+  integrity sha512-Ctl2BrFiM0X3MANYgj3CkygxhRmr9mi6xhejbdO960nF6EDJApTYpn0BQnDKlnNBULKiCN1n3w9EBkHK8ZWg+g==
 
 spdy-transport@^3.0.0:
   version "3.0.0"
@@ -7458,10 +7458,10 @@ stylelint-scss@^4.0.0:
     postcss-selector-parser "^6.0.6"
     postcss-value-parser "^4.1.0"
 
-stylelint@~14.0.1:
-  version "14.0.1"
-  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-14.0.1.tgz#88e6c8bd3be61e666225ddb871826321f16661f6"
-  integrity sha512-ZcAkmFLVCultmwkQUjxKzxW/o5+CzNmDk6TPJj/d4Y7ipTGGrewIWmNm+InjdSr04PR5/yynsAJeYJY/wisdMg==
+stylelint@~14.1.0:
+  version "14.1.0"
+  resolved "https://registry.yarnpkg.com/stylelint/-/stylelint-14.1.0.tgz#8cefb64df6158b30f678c2d93a7052e2c1d8235b"
+  integrity sha512-IedkssuNVA11+v++2PIV2OHOU5A3SfRcXVi56vZVSsMhGrgtwmmit69jeM+08/Tun5DTBe7BuH1Zp1mMLmtKLA==
   dependencies:
     balanced-match "^2.0.0"
     cosmiconfig "^7.0.1"
@@ -7475,7 +7475,7 @@ stylelint@~14.0.1:
     globby "^11.0.4"
     globjoin "^0.1.4"
     html-tags "^3.1.0"
-    ignore "^5.1.8"
+    ignore "^5.1.9"
     import-lazy "^4.0.0"
     imurmurhash "^0.1.4"
     is-plain-object "^5.0.0"
@@ -7498,7 +7498,7 @@ stylelint@~14.0.1:
     strip-ansi "^6.0.1"
     style-search "^0.1.0"
     svg-tags "^1.0.0"
-    table "^6.7.2"
+    table "^6.7.3"
     v8-compile-cache "^2.3.0"
     write-file-atomic "^3.0.3"
 
@@ -7614,7 +7614,7 @@ symbol-tree@^3.2.4:
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
 
-table@^6.7.2:
+table@^6.7.3:
   version "6.7.3"
   resolved "https://registry.yarnpkg.com/table/-/table-6.7.3.tgz#255388439715a738391bd2ee4cbca89a4d05a9b7"
   integrity sha512-5DkIxeA7XERBqMwJq0aHZOdMadBx4e6eDoFRuyT5VR82J0Ycg2DwM6GfA/EQAhJ+toRTaS1lIdSQCqgrmhPnlw==
