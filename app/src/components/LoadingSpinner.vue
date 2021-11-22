@@ -9,7 +9,7 @@
 <style lang="scss" scoped>
   .loading-spinner {
     text-align: center;
-    opacity: 0%;
+    opacity: 0;
     animation: delay-opacity ease-in 1.2s forwards;
     animation-delay: 0.2s;
 
@@ -22,7 +22,7 @@
 
   @keyframes delay-opacity {
     to {
-      opacity: 100%;
+      opacity: 1;
     }
   }
 </style>
