@@ -11,11 +11,6 @@ final class Version20210320163225 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         $this->addSql(
             'CREATE TABLE country (code VARCHAR(2) NOT NULL, month INT NOT NULL, count INT NOT NULL, INDEX country_month_code (month, code), INDEX country_month (month), PRIMARY KEY(code, month)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB'
         );
@@ -40,11 +35,6 @@ final class Version20210320163225 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         $this->addSql(
             'CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, ip VARCHAR(40) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, time INT NOT NULL, arch VARCHAR(10) CHARACTER SET utf8 NOT NULL COLLATE `utf8_unicode_ci`, cpuarch VARCHAR(10) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, countryCode VARCHAR(2) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, mirror VARCHAR(255) CHARACTER SET utf8 DEFAULT NULL COLLATE `utf8_unicode_ci`, packages SMALLINT NOT NULL, INDEX countryCode (countryCode), INDEX mirror (mirror), INDEX ip (ip, time), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' '
         );

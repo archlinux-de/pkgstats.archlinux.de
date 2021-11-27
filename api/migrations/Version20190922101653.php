@@ -11,11 +11,6 @@ final class Version20190922101653 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         $this->addSql('ALTER TABLE package DROP PRIMARY KEY');
         $this->addSql('ALTER TABLE package CHANGE pkgname name VARCHAR(191) NOT NULL');
         $this->addSql('ALTER TABLE package ADD PRIMARY KEY (name, month)');
@@ -23,11 +18,6 @@ final class Version20190922101653 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->abortIf(
-            $this->connection->getDatabasePlatform()->getName() !== 'mysql',
-            'Migration can only be executed safely on \'mysql\'.'
-        );
-
         $this->addSql('ALTER TABLE package DROP PRIMARY KEY');
         $this->addSql('ALTER TABLE package CHANGE name pkgname VARCHAR(191) NOT NULL COLLATE utf8_unicode_ci');
         $this->addSql('ALTER TABLE package ADD PRIMARY KEY (pkgname, month)');
