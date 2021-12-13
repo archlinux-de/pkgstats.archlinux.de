@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3323ac4692819d3f88a2033cf4905f8a",
+    "content-hash": "f8b12d5415a35e5d2966e43f49900a8d",
     "packages": [
         {
             "name": "composer/package-versions-deprecated",
@@ -6989,16 +6989,16 @@
         },
         {
             "name": "pierres/doctrine-migrations-test",
-            "version": "1.4.0",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/doctrine-migrations-test.git",
-                "reference": "98d10c5920e117a25efe703722a6b2fbb81d6098"
+                "reference": "4e04fbaa17b2adb6ea23b9de0a2b13a97f1f9039"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/doctrine-migrations-test/zipball/98d10c5920e117a25efe703722a6b2fbb81d6098",
-                "reference": "98d10c5920e117a25efe703722a6b2fbb81d6098",
+                "url": "https://api.github.com/repos/pierres/doctrine-migrations-test/zipball/4e04fbaa17b2adb6ea23b9de0a2b13a97f1f9039",
+                "reference": "4e04fbaa17b2adb6ea23b9de0a2b13a97f1f9039",
                 "shasum": ""
             },
             "require": {
@@ -7006,15 +7006,15 @@
                 "doctrine/doctrine-bundle": "^2.4",
                 "doctrine/doctrine-migrations-bundle": "^3.0",
                 "doctrine/orm": "^2.8",
-                "php": "^7.4|^8.0",
-                "symfony/browser-kit": "^5.2",
-                "symfony/framework-bundle": "^5.2"
+                "php": "^8.0",
+                "symfony/browser-kit": "^5.2|^6.0",
+                "symfony/framework-bundle": "^5.2|^6.0"
             },
             "require-dev": {
                 "phpstan/extension-installer": "^1.1.0",
-                "phpstan/phpstan": "^0.12.98",
-                "phpstan/phpstan-deprecation-rules": "^0.12.6",
-                "phpstan/phpstan-phpunit": "^0.12.22",
+                "phpstan/phpstan": "^1.0.2",
+                "phpstan/phpstan-deprecation-rules": "^1.0.0",
+                "phpstan/phpstan-phpunit": "^1.0.0",
                 "phpunit/phpunit": "^9.5.9",
                 "squizlabs/php_codesniffer": "^3.6.0"
             },
@@ -7040,22 +7040,22 @@
             "description": "Test cases to verify Doctrine Migrations",
             "support": {
                 "issues": "https://github.com/pierres/doctrine-migrations-test/issues",
-                "source": "https://github.com/pierres/doctrine-migrations-test/tree/1.4.0"
+                "source": "https://github.com/pierres/doctrine-migrations-test/tree/1.4.2"
             },
-            "time": "2021-10-16T04:34:57+00:00"
+            "time": "2021-12-12T08:19:03+00:00"
         },
         {
             "name": "pierres/symfony-database-test",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/symfony-database-test.git",
-                "reference": "25f6a22c768d1f0b2ca08a0e1d959cd55d1882b7"
+                "reference": "a386aec764818e6a116896a1f76de8856e0a188a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/25f6a22c768d1f0b2ca08a0e1d959cd55d1882b7",
-                "reference": "25f6a22c768d1f0b2ca08a0e1d959cd55d1882b7",
+                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/a386aec764818e6a116896a1f76de8856e0a188a",
+                "reference": "a386aec764818e6a116896a1f76de8856e0a188a",
                 "shasum": ""
             },
             "require": {
@@ -7063,14 +7063,14 @@
                 "doctrine/doctrine-bundle": "^2.4",
                 "doctrine/orm": "^2.8",
                 "php": "^7.4|^8.0",
-                "symfony/browser-kit": "^5.2",
-                "symfony/framework-bundle": "^5.2"
+                "symfony/browser-kit": "^5.2|^6.0",
+                "symfony/framework-bundle": "^5.2|^6.0"
             },
             "require-dev": {
                 "phpstan/extension-installer": "^1.1.0",
-                "phpstan/phpstan": "^0.12.98",
-                "phpstan/phpstan-deprecation-rules": "^0.12.6",
-                "phpstan/phpstan-phpunit": "^0.12.22",
+                "phpstan/phpstan": "^1.0.2",
+                "phpstan/phpstan-deprecation-rules": "^1.0.0",
+                "phpstan/phpstan-phpunit": "^1.0.0",
                 "phpunit/phpunit": "^9.5.9",
                 "squizlabs/php_codesniffer": "^3.6.0"
             },
@@ -7096,9 +7096,9 @@
             "description": "Symfony WebTestCase with database support",
             "support": {
                 "issues": "https://github.com/pierres/symfony-database-test/issues",
-                "source": "https://github.com/pierres/symfony-database-test/tree/1.2.1"
+                "source": "https://github.com/pierres/symfony-database-test/tree/1.2.2"
             },
-            "time": "2021-10-16T05:36:04+00:00"
+            "time": "2021-12-12T08:07:52+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -8066,16 +8066,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.6.1",
+            "version": "3.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "f268ca40d54617c6e06757f83f699775c9b3ff2e"
+                "reference": "5e4e71592f69da17871dba6e80dd51bce74a351a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/f268ca40d54617c6e06757f83f699775c9b3ff2e",
-                "reference": "f268ca40d54617c6e06757f83f699775c9b3ff2e",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/5e4e71592f69da17871dba6e80dd51bce74a351a",
+                "reference": "5e4e71592f69da17871dba6e80dd51bce74a351a",
                 "shasum": ""
             },
             "require": {
@@ -8118,7 +8118,7 @@
                 "source": "https://github.com/squizlabs/PHP_CodeSniffer",
                 "wiki": "https://github.com/squizlabs/PHP_CodeSniffer/wiki"
             },
-            "time": "2021-10-11T04:00:11+00:00"
+            "time": "2021-12-12T21:44:58+00:00"
         },
         {
             "name": "symfony/browser-kit",
