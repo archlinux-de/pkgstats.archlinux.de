@@ -13,9 +13,22 @@ jobs:
         type: ['test', 'test-db', 'test-e2e']
     steps:
       - name: Install Just
-        run: curl -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/local/bin
+        uses: extractions/setup-just@v1
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Pulling Docker images
+        run: just compose pull
+      - name: Pulling Cypress Docker image
+        if: matrix.type == 'test-e2e'
+        run: just compose -f docker/cypress-open.yml pull
+      - name: Maintain Docker cache
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+        with:
+          key: docker-${{ hashFiles('docker/**') }}
+          restore-keys: docker-
+      - name: Building Docker images
+        run: just compose build
       - name: Maintain Composer cache
         uses: actions/cache@v2
         with:
@@ -32,3 +45,16 @@ jobs:
         run: just install
       - name: Run ${{ matrix.type }}
         run: just ${{ matrix.type }}
+
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deployment
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+          silent: true
+          webhook_type: json-extended

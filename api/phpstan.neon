@@ -1,5 +1,7 @@
 parameters:
 	level: 8
+	symfony:
+		container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
 	paths:
 		- src
 		- tests

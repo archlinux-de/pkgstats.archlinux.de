@@ -1,6 +1,6 @@
 FROM php:8.0-fpm-alpine
 
-RUN apk add git
+RUN apk add --no-cache git
 
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/bin/
 RUN install-php-extensions opcache apcu intl pdo_mysql sysvsem

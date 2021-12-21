@@ -16,6 +16,7 @@ default:
 
 init: start
 	{{PHP-DB-RUN}} bin/console cache:warmup
+	{{PHP-DB-RUN}} bin/console doctrine:database:drop --force --if-exists
 	{{PHP-DB-RUN}} bin/console doctrine:database:create
 	{{PHP-DB-RUN}} bin/console doctrine:schema:create
 	{{PHP-DB-RUN}} bin/console doctrine:migrations:sync-metadata-storage --no-interaction
@@ -97,18 +98,22 @@ cypress-open:
 	xhost +local:root
 	{{COMPOSE}} -f docker/cypress-open.yml run -d --rm --no-deps cypress open --project tests/e2e
 
-test:
+test-php:
 	{{PHP-RUN}} composer validate
 	{{PHP-RUN}} vendor/bin/phpcs
-	{{NODE-RUN}} node_modules/.bin/eslint '*.js' src tests --ext js --ext vue
-	{{NODE-RUN}} node_modules/.bin/stylelint 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
-	{{NODE-RUN}} node_modules/.bin/jest
 	{{PHP-RUN}} bin/console lint:container
 	{{PHP-RUN}} bin/console lint:yaml config
 	{{PHP-RUN}} bin/console lint:twig templates
-	{{NODE-RUN}} yarn build --output-path $(mktemp -d)
 	{{PHP-RUN}} php -dmemory_limit=-1 vendor/bin/phpstan analyse
 	{{PHP-RUN}} vendor/bin/phpunit
+
+test-js:
+	{{NODE-RUN}} node_modules/.bin/eslint '*.js' src tests --ext js --ext vue
+	{{NODE-RUN}} node_modules/.bin/stylelint 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
+	{{NODE-RUN}} node_modules/.bin/jest
+	{{NODE-RUN}} yarn build --output-path $(mktemp -d)
+
+test: test-php test-js
 
 test-e2e:
 	#!/usr/bin/env bash
