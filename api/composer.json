@@ -18,7 +18,7 @@
         "doctrine/orm": "^2.10.4",
         "maxmind-db/reader": "^1.11.0",
         "nelmio/api-doc-bundle": "^4.8.1",
-        "sensio/framework-extra-bundle": "^6.2.3",
+        "sensio/framework-extra-bundle": "^6.2.4",
         "symfony/console": "^5.4.1",
         "symfony/dotenv": "^5.4.0",
         "symfony/expression-language": "^5.4.0",
@@ -56,7 +56,14 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "phpstan/extension-installer": true,
+            "malukenho/mcbumpface": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {
