@@ -9,7 +9,7 @@
              v-model="query">
     </div>
 
-    <table class="table table-striped table-bordered table-sm" v-if="data.packagePopularities.length > 0">
+    <table class="table table-striped table-borderless table-sm" v-if="data.packagePopularities.length > 0">
       <thead>
       <tr>
         <th scope="col">Package</th>

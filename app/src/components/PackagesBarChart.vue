@@ -2,7 +2,7 @@
   <div>
     <div class="alert alert-danger" role="alert" v-if="error != ''">{{ error }}</div>
     <loading-spinner absolute v-if="loading"></loading-spinner>
-    <table class="table table-sm">
+    <table class="table table-sm table-borderless">
       <colgroup>
         <col class="w-25">
         <col class="w-75">
