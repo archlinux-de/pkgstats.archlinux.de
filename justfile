@@ -7,7 +7,7 @@ COMPOSE := 'docker-compose -f docker/app.yml ' + `[ "${CI-}" != "true" ] && echo
 COMPOSE-RUN := COMPOSE + ' run --rm'
 PHP-DB-RUN := COMPOSE-RUN + ' api'
 PHP-RUN := COMPOSE-RUN + ' --no-deps api'
-NODE-RUN := COMPOSE-RUN + ' --no-deps -e DISABLE_OPENCOLLECTIVE=true app'
+NODE-RUN := COMPOSE-RUN + ' --no-deps app'
 MARIADB-RUN := COMPOSE-RUN + ' --no-deps mariadb'
 SYMFONY-RUN := 'docker-compose -f docker/symfony.yml ' + ' -p ' + env_var('PROJECT_NAME') + ' run --rm symfony'
 
@@ -50,7 +50,6 @@ rebuild: clean
 	{{COMPOSE}} build --pull
 	just install
 	just init
-	just stop
 
 install:
 	{{PHP-RUN}} composer --no-interaction install
@@ -163,7 +162,7 @@ update:
 	just _update-cypress-image
 
 deploy:
-	cd app && yarn install --non-interactive --frozen-lockfile
+	cd app && yarn install --non-interactive --frozen-lockfile --production
 	cd app && yarn build
 	cd app && find dist -type f -atime +512 -delete # needs to be above the highest TTL
 	cd app && find dist -type d -empty -delete

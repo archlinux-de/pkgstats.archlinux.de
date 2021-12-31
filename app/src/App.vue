@@ -33,7 +33,7 @@
     <router-view id="content"/>
 
     <footer id="footer">
-      <nav class="nav nav-no-outline justify-content-end">
+      <nav class="nav nav-no-outline justify-content-end mt-4">
         <router-link class="nav-link" :to="{name: 'privacy-policy'}">Privacy policy</router-link>
         <router-link class="nav-link" :to="{name: 'impressum'}">Impressum</router-link>
       </nav>

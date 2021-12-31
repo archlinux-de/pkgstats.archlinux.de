@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { defineProps, toRefs, ref, inject, onMounted } from 'vue'
+import { toRefs, ref, inject, onMounted } from 'vue'
 import LoadingSpinner from './LoadingSpinner'
 
 const apiPackagesService = inject('apiPackagesService')

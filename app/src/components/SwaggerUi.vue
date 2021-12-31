@@ -5,7 +5,7 @@
 <script setup>
 import SwaggerUI from 'swagger-ui'
 import Styles from '!css-loader!swagger-ui/dist/swagger-ui.css' // eslint-disable-line
-import { defineProps, onMounted, toRefs, ref } from 'vue'
+import { onMounted, toRefs, ref } from 'vue'
 
 const props = defineProps({
   url: {

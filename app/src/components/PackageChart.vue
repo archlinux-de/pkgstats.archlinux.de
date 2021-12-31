@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { defineProps, toRefs, ref, inject, onMounted, reactive, watch, onBeforeUnmount } from 'vue'
+import { toRefs, ref, inject, onMounted, reactive, watch, onBeforeUnmount } from 'vue'
 import {
   Chart,
   LineElement,
