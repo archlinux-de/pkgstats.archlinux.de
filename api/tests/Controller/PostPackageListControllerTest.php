@@ -172,7 +172,9 @@ class PostPackageListControllerTest extends DatabaseTestCase
             ['2.4.2-5-g163d6c2'],
             ['2.5.0'],
             ['3'],
-            ['3.0.0']
+            ['3.0.0'],
+            ['3.1'],
+            ['3.2.0']
         ];
     }
 
