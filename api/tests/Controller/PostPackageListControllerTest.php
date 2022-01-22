@@ -32,6 +32,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $mirrorRepository = $this->getEntityManager()->getRepository(Mirror::class);
         $mirrors = $mirrorRepository->findAll();
         $this->assertCount(1, $mirrors);
+        $this->assertInstanceOf(Mirror::class, $mirrors[0]);
         $this->assertEquals('https://mirror.archlinux.de/', $mirrors[0]->getUrl());
 
         $operatingSystemArchitectureRepository = $this->getEntityManager()->getRepository(
@@ -39,11 +40,13 @@ class PostPackageListControllerTest extends DatabaseTestCase
         );
         $operatingSystemArchitectures = $operatingSystemArchitectureRepository->findAll();
         $this->assertCount(1, $operatingSystemArchitectures);
+        $this->assertInstanceOf(OperatingSystemArchitecture::class, $operatingSystemArchitectures[0]);
         $this->assertEquals('x86_64', $operatingSystemArchitectures[0]->getName());
 
         $systemArchitectureRepository = $this->getEntityManager()->getRepository(SystemArchitecture::class);
         $systemArchitectures = $systemArchitectureRepository->findAll();
         $this->assertCount(1, $systemArchitectures);
+        $this->assertInstanceOf(SystemArchitecture::class, $systemArchitectures[0]);
         $this->assertEquals('x86_64', $systemArchitectures[0]->getName());
 
         /** @var PackageRepository $packageRepository */
@@ -83,6 +86,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $mirrorRepository = $this->getEntityManager()->getRepository(Mirror::class);
         $mirrors = $mirrorRepository->findAll();
         $this->assertCount(1, $mirrors);
+        $this->assertInstanceOf(Mirror::class, $mirrors[0]);
         $this->assertEquals('https://mirror.archlinux.de/', $mirrors[0]->getUrl());
 
         $operatingSystemArchitectureRepository = $this->getEntityManager()->getRepository(
@@ -90,11 +94,13 @@ class PostPackageListControllerTest extends DatabaseTestCase
         );
         $operatingSystemArchitectures = $operatingSystemArchitectureRepository->findAll();
         $this->assertCount(1, $operatingSystemArchitectures);
+        $this->assertInstanceOf(OperatingSystemArchitecture::class, $operatingSystemArchitectures[0]);
         $this->assertEquals('x86_64', $operatingSystemArchitectures[0]->getName());
 
         $systemArchitectureRepository = $this->getEntityManager()->getRepository(SystemArchitecture::class);
         $systemArchitectures = $systemArchitectureRepository->findAll();
         $this->assertCount(1, $systemArchitectures);
+        $this->assertInstanceOf(SystemArchitecture::class, $systemArchitectures[0]);
         $this->assertEquals('x86_64', $systemArchitectures[0]->getName());
 
         /** @var PackageRepository $packageRepository */
