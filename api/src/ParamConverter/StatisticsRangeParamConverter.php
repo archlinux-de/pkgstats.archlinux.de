@@ -28,8 +28,8 @@ class StatisticsRangeParamConverter implements ParamConverterInterface
         );
 
         $statisticsRangeRequest = new StatisticsRangeRequest(
-            (int)$request->get('startMonth', $defaultMonth),
-            (int)$request->get('endMonth', $defaultMonth)
+            $request->query->getInt('startMonth', $defaultMonth),
+            $request->query->getInt('endMonth', $defaultMonth)
         );
 
         $errors = $this->validator->validate($statisticsRangeRequest);

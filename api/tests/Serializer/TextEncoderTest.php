@@ -19,7 +19,7 @@ class TextEncoderTest extends TestCase
     {
         $encoder = new TextEncoder();
 
-        if (isset($data['trace'])) {
+        if (is_array($data) && isset($data['trace'])) {
             $data['trace'] = 'trace-mock';
         }
 

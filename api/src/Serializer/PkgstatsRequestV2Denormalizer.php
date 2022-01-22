@@ -26,6 +26,10 @@ class PkgstatsRequestV2Denormalizer implements DenormalizerInterface, CacheableS
 
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): PkgstatsRequest
     {
+        assert(is_array($data));
+        assert(is_string($context['clientIp']) || is_null($context['clientIp']));
+        assert(is_string($context['userAgent']));
+
         $packages = $this->filterList((string)($data['packages'] ?? ''));
         $arch = (string)($data['arch'] ?? '');
         $cpuArch = $data['cpuarch'] ?? $arch;
@@ -60,16 +64,16 @@ class PkgstatsRequestV2Denormalizer implements DenormalizerInterface, CacheableS
         return $pkgstatsRequest;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
-    {
-        return $type === PkgstatsRequest::class && $format === 'form';
-    }
-
     /**
      * @return string[]
      */
     private function filterList(string $string): array
     {
         return array_filter(array_unique(explode("\n", trim($string))));
+    }
+
+    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
+    {
+        return $type === PkgstatsRequest::class && $format === 'form';
     }
 }

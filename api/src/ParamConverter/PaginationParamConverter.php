@@ -18,8 +18,8 @@ class PaginationParamConverter implements ParamConverterInterface
     public function apply(Request $request, ParamConverter $configuration): bool
     {
         $paginationRequest = new PaginationRequest(
-            $request->get('offset', 0),
-            $request->get('limit', 100)
+            $request->query->getInt('offset', 0),
+            $request->query->getInt('limit', 100)
         );
 
         $errors = $this->validator->validate($paginationRequest);

@@ -4,9 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Package;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 
 class PackageRepository extends ServiceEntityRepository
 {
@@ -82,6 +82,29 @@ class PackageRepository extends ServiceEntityRepository
         );
     }
 
+    public function getMonthlyMaximumCountByRange(int $startMonth, int $endMonth): array
+    {
+        $nextMonth = new \DateTime((new \DateTime('+1 month'))->format('Y-m-01'));
+        $lifetime = $nextMonth->getTimestamp() - time();
+
+        $maxMonthlyCount = $this->createQueryBuilder('package')
+            ->select('MAX(package.count) AS count')
+            ->addSelect('package.month')
+            ->groupBy('package.month')
+            ->orderBy('package.month', 'asc')
+            ->getQuery()
+            ->enableResultCache($lifetime)
+            ->getScalarResult();
+
+        return array_filter(
+            $maxMonthlyCount,
+            function ($entry) use ($startMonth, $endMonth) {
+                assert(is_array($entry));
+                return $entry['month'] >= $startMonth && $entry['month'] <= $endMonth;
+            }
+        );
+    }
+
     public function findPackagesCountByRange(
         string $query,
         int $startMonth,
@@ -119,6 +142,7 @@ class PackageRepository extends ServiceEntityRepository
         $packages = $pagination->getQuery()->getScalarResult();
 
         $packages = array_map(function ($package) {
+            assert(is_array($package));
             return [
                 'name' => $package['package_name'],
                 'count' => $package['package_count']
@@ -129,25 +153,5 @@ class PackageRepository extends ServiceEntityRepository
             'total' => $total,
             'packages' => $packages
         ];
-    }
-
-    public function getMonthlyMaximumCountByRange(int $startMonth, int $endMonth): array
-    {
-        $nextMonth = new \DateTime((new \DateTime('+1 month'))->format('Y-m-01'));
-        $lifetime = $nextMonth->getTimestamp() - time();
-
-        $maxMonthlyCount = $this->createQueryBuilder('package')
-            ->select('MAX(package.count) AS count')
-            ->addSelect('package.month')
-            ->groupBy('package.month')
-            ->orderBy('package.month', 'asc')
-            ->getQuery()
-            ->enableResultCache($lifetime)
-            ->getScalarResult();
-
-        return array_filter(
-            $maxMonthlyCount,
-            fn($entry) => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
-        );
     }
 }

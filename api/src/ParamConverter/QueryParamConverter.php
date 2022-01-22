@@ -7,6 +7,7 @@ use App\Request\PkgstatsRequestException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class QueryParamConverter implements ParamConverterInterface
@@ -17,7 +18,12 @@ class QueryParamConverter implements ParamConverterInterface
 
     public function apply(Request $request, ParamConverter $configuration): bool
     {
-        $packageQueryRequest = new PackageQueryRequest($request->get('query', ''));
+        $query = $request->get('query', '');
+        if (!is_string($query)) {
+            throw new BadRequestHttpException('Invalid request');
+        }
+
+        $packageQueryRequest = new PackageQueryRequest($query);
 
         $errors = $this->validator->validate($packageQueryRequest);
         if ($errors->count() > 0) {

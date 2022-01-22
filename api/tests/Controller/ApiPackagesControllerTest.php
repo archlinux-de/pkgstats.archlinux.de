@@ -44,6 +44,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertJson($json);
 
         $packageList = json_decode($json, true);
+        $this->assertIsArray($packageList);
         $this->assertArrayHasKey('total', $packageList);
         $this->assertIsInt($packageList['total']);
         $this->assertArrayHasKey('count', $packageList);
@@ -63,6 +64,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertJson($json);
 
         $package = json_decode($json, true);
+        $this->assertIsArray($package);
         $this->assertArrayHasKey('name', $package);
         $this->assertIsString($package['name']);
         $this->assertArrayHasKey('samples', $package);

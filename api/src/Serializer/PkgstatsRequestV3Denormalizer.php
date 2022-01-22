@@ -26,6 +26,9 @@ class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableS
 
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): PkgstatsRequest
     {
+        assert(is_array($data));
+        assert(is_string($context['clientIp']) || is_null($context['clientIp']));
+
         $packages = $this->filterList($data['pacman']['packages'] ?? []);
         $arch = ($data['os']['architecture'] ?? '');
         $cpuArch = $data['system']['architecture'] ?? '';

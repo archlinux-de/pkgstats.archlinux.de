@@ -19,6 +19,7 @@ final class Version20190621141307 extends AbstractMigration
                 'SELECT DISTINCT mirror FROM `user` WHERE mirror IS NOT NULL '
             ) as $row
         ) {
+            assert(is_string($row['mirror']));
             $mirror = $mirrorUrlFilter->filter($row['mirror']);
             if ($mirror != $row['mirror']) {
                 $this->connection->update(
