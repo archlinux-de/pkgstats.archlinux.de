@@ -157,7 +157,6 @@ _update-cypress-image:
 update:
 	{{PHP-RUN}} composer --no-interaction update
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
-	{{NODE-RUN}} yarn upgrade --non-interactive vue@next vue-router@next vue-loader@next
 	{{NODE-RUN}} yarn upgrade --non-interactive --latest
 	just _update-cypress-image
 
