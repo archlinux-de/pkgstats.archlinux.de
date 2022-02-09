@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "73ba91d768d4a1f7d2309962d095e2a1",
+    "content-hash": "0a41dd7fffa544a4efe5ca88b2c82e43",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -6109,16 +6109,16 @@
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "1.2.8",
+            "version": "1.2.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "c49475b7b5b8bf08a15114b86899099575bf7545"
+                "reference": "149cf71c3b470f815ad8ad658606e9217db22d9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/c49475b7b5b8bf08a15114b86899099575bf7545",
-                "reference": "c49475b7b5b8bf08a15114b86899099575bf7545",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/149cf71c3b470f815ad8ad658606e9217db22d9f",
+                "reference": "149cf71c3b470f815ad8ad658606e9217db22d9f",
                 "shasum": ""
             },
             "require": {
@@ -6174,9 +6174,9 @@
             "description": "Doctrine extensions for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.2.8"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.2.9"
             },
-            "time": "2022-01-28T11:06:16+00:00"
+            "time": "2022-02-08T09:51:33+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -6685,11 +6685,11 @@
                 }
             },
             "autoload": {
-                "classmap": [
-                    "src/"
-                ],
                 "files": [
                     "src/Framework/Assert/Functions.php"
+                ],
+                "classmap": [
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
