@@ -18,45 +18,70 @@
               <strong>pkgstats.timer</strong></code></li>
             <li>Check the timer status with <code>systemctl status <strong>pkgstats.timer</strong></code>
             </li>
-            <li>For additional help see <code>pkgstats <strong>-h</strong></code></li>
+            <li>For additional help see <code>pkgstats <strong>help</strong></code></li>
           </ol>
+
+          <h4>Searching for packages</h4>
+          <p>The cli client can be used to search for packages and show the most popular matches:</p>
+          <pre class="text-light bg-dark p-2"><code>$ pkgstats <strong>search</strong> firefox
+firefox                    63.53
+firefox-developer-edition  6.30
+firefox-i18n-de            3.32
+firefox-i18n-en-us         2.65
+firefox-ublock-origin      2.55
+firefox-adblock-plus       2.07
+firefox-i18n-fr            1.61
+firefox-i18n-en-gb         1.52
+firefox-nightly            1.35
+firefox-i18n-ru            1.22
+
+10 of 320 results
+
+See more results at <a class="code-link" href="https://pkgstats.archlinux.de/packages#query=firefox">https://pkgstats.archlinux.de/packages#query=firefox</a></code></pre>
+
+          <h4>Comparing package statistics</h4>
+          <p>The popularity of one or more packages can be queried:</p>
+          <pre
+            class="text-light bg-dark p-2"><code>$ pkgstats <strong>show</strong> firefox chromium epiphany konqueror
+firefox        63.53
+chromium       48.80
+epiphany       16.33
+konqueror      10.62
+
+See more results at <a class="code-link"
+                       href="https://pkgstats.archlinux.de/compare/packages#packages=chromium,epiphany,firefox,konqueror">https://pkgstats.archlinux.de/compare/packages#packages=chromium,epiphany,firefox,konqueror</a></code></pre>
+
           <h4>Submitting your package data</h4>
-          <pre class="text-light bg-dark p-2 ms-4"><code><strong>$ pkgstats</strong>
-Collecting data...
-Submitting data...
-Thanks for your submission. :-)
-See results at https://pkgstats.archlinux.de/</code></pre>
-          <h4>Gathering statistics</h4>
-          <ul class="ps-4">
-            <li>Browse the
-              <router-link :to="{name: 'packages'}">package statistics</router-link>
-              and
-              lookup the popularity of packages.
-            </li>
-            <li>See some
-              <router-link :to="{name: 'fun'}">fun statistics</router-link>
-              and see which
-              packages are the most popular in their category.
-            </li>
-            <li>Use the
-              <router-link :to="{name: 'api-doc'}">API</router-link>
-              to write your own clients:
-              <pre class="text-light bg-dark p-2"><code><strong>$ curl -s 'https://pkgstats.archlinux.de/api/packages/php' | jq</strong>
+          <p>While the systemd timer automatically submits your data, you may want to inspect the data that are being
+            sent:</p>
+          <pre class="text-light bg-dark p-2"><code>$ pkgstats <strong>submit --dump-json</strong>
 {
-  "name": "php",
-  "samples": 23463,
-  "count": 8102,
-  "popularity": 34.53
+  "version": "3",
+  "system": {
+    "architecture": "x86_64_v3"
+  },
+  "os": {
+    "architecture": "x86_64"
+  },
+  "pacman": {
+    "mirror": "https://repos.archlinux.org/",
+    "packages": [
+      "a52dec",
+      ...
+      "zziplib"
+    ]
+  }
 }</code></pre>
-            </li>
-          </ul>
+          <p>If you are just curious about the CPU architecture that pkgstats detects, simply run:</p>
+          <pre class="text-light bg-dark p-2"><code>$ pkgstats <strong>arch cpu</strong>
+x86_64_v3</code></pre>
         </div>
       </div>
 
       <div class="col-12 col-xl-3">
         <h4>Dokumentation</h4>
         <ul class="ps-4">
-          <li>See <code>pkgstats -h</code></li>
+          <li>See <code>pkgstats help</code></li>
           <li><a href="https://wiki.archlinux.org/index.php/Pkgstats" rel="nofollow">Arch Linux Wiki</a></li>
           <li>
             <router-link :to="{name: 'api-doc'}">pkgstats server API documentation</router-link>
@@ -88,10 +113,36 @@ See results at https://pkgstats.archlinux.de/</code></pre>
               pkgstats now collects modules usage </a>
           </li>
         </ul>
+
+        <h4>Explore</h4>
+        <ul class="ps-4">
+          <li>Browse the
+            <router-link :to="{name: 'packages'}">package statistics</router-link>
+            and lookup the popularity of packages.
+          </li>
+          <li>See some
+            <router-link :to="{name: 'fun'}">fun statistics</router-link>
+            and see which packages are the most popular in their category.
+          </li>
+          <li>Use the
+            <router-link :to="{name: 'api-doc'}">API</router-link>
+            to write your own clients
+          </li>
+        </ul>
       </div>
     </div>
   </main>
 </template>
+
+<style lang="scss">
+.code-link {
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+  }
+}
+</style>
 
 <script setup>
 import { useHead } from '@vueuse/head'
