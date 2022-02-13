@@ -8,7 +8,7 @@ COMPOSE-RUN := COMPOSE + ' run --rm'
 PHP-DB-RUN := COMPOSE-RUN + ' api'
 PHP-RUN := COMPOSE-RUN + ' --no-deps api'
 NODE-RUN := COMPOSE-RUN + ' --no-deps app'
-MARIADB-RUN := COMPOSE-RUN + ' --no-deps mariadb'
+MARIADB-RUN := COMPOSE-RUN + ' -T --no-deps mariadb'
 SYMFONY-RUN := 'docker-compose -f docker/symfony.yml ' + ' -p ' + env_var('PROJECT_NAME') + ' run --rm symfony'
 
 default:
