@@ -15,7 +15,7 @@ jobs:
       - name: Install Just
         uses: extractions/setup-just@v1
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Pulling Docker images
         run: just compose pull
       - name: Pulling Cypress Docker image
