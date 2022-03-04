@@ -7,7 +7,11 @@ module.exports = {
   entry: { app: ['./src/main.js'] },
   output: { publicPath: '/' },
   resolve: {
-    extensions: ['.js', '.vue']
+    extensions: ['.js', '.vue'],
+    fallback: {
+      buffer: require.resolve('buffer/'),
+      stream: require.resolve('stream-browserify')
+    }
   },
 
   module: {
@@ -32,6 +36,9 @@ module.exports = {
     new HtmlPlugin({
       template: 'public/index.html',
       title: process.env.npm_package_name
+    }),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer']
     })
   ]
 }
