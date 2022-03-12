@@ -152,7 +152,7 @@ _update-cypress-image:
 	#!/usr/bin/env bash
 	set -e
 	CYPRESS_VERSION=$(curl -sSf 'https://hub.docker.com/v2/repositories/cypress/included/tags/?page_size=1' | jq -r '."results"[]["name"]')
-	sed -E "s#(cypress/included:)[0-9.]+#\1${CYPRESS_VERSION}#g" -i docker/cypress-*.yml
+	sed -E "s#(cypress/included:).+#\1${CYPRESS_VERSION}#g" -i docker/cypress-*.yml
 
 update:
 	{{PHP-RUN}} composer --no-interaction update
