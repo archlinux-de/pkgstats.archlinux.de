@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b11f2a11c68f6bc002f3e3bc9dfb8684",
+    "content-hash": "8dafab31374230b68c031fd029c94600",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -6785,23 +6785,23 @@
         },
         {
             "name": "pierres/symfony-database-test",
-            "version": "1.2.2",
+            "version": "1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/symfony-database-test.git",
-                "reference": "a386aec764818e6a116896a1f76de8856e0a188a"
+                "reference": "e5a1defd9499af086cd8cb6c7b7218f044886cf1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/a386aec764818e6a116896a1f76de8856e0a188a",
-                "reference": "a386aec764818e6a116896a1f76de8856e0a188a",
+                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/e5a1defd9499af086cd8cb6c7b7218f044886cf1",
+                "reference": "e5a1defd9499af086cd8cb6c7b7218f044886cf1",
                 "shasum": ""
             },
             "require": {
                 "doctrine/dbal": "^3.0",
                 "doctrine/doctrine-bundle": "^2.4",
                 "doctrine/orm": "^2.8",
-                "php": "^7.4|^8.0",
+                "php": "^8.0",
                 "symfony/browser-kit": "^5.2|^6.0",
                 "symfony/framework-bundle": "^5.2|^6.0"
             },
@@ -6835,9 +6835,9 @@
             "description": "Symfony WebTestCase with database support",
             "support": {
                 "issues": "https://github.com/pierres/symfony-database-test/issues",
-                "source": "https://github.com/pierres/symfony-database-test/tree/1.2.2"
+                "source": "https://github.com/pierres/symfony-database-test/tree/1.2.4"
             },
-            "time": "2021-12-12T08:07:52+00:00"
+            "time": "2022-03-20T06:47:57+00:00"
         },
         {
             "name": "sebastian/cli-parser",
