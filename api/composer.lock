@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c707b57a8e5b941ce06cc8e86aeb27f",
+    "content-hash": "75e5eab900965ff566fd00f1c62346c1",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -492,16 +492,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.5.7",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "1e0d1d7a5982eeebc37dcb4d77bb1a5c5961d96d"
+                "reference": "eca20633225fde77d042ecdac222bc9a5cb20f6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/1e0d1d7a5982eeebc37dcb4d77bb1a5c5961d96d",
-                "reference": "1e0d1d7a5982eeebc37dcb4d77bb1a5c5961d96d",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/eca20633225fde77d042ecdac222bc9a5cb20f6a",
+                "reference": "eca20633225fde77d042ecdac222bc9a5cb20f6a",
                 "shasum": ""
             },
             "require": {
@@ -521,12 +521,12 @@
                 "symfony/service-contracts": "^1.1.1|^2.0|^3"
             },
             "conflict": {
-                "doctrine/orm": "<2.9|>=3.0",
+                "doctrine/orm": "<2.10|>=3.0",
                 "twig/twig": "<1.34|>=2.0,<2.4"
             },
             "require-dev": {
                 "doctrine/coding-standard": "^9.0",
-                "doctrine/orm": "^2.9 || ^3.0",
+                "doctrine/orm": "^2.10 || ^3.0",
                 "friendsofphp/proxy-manager-lts": "^1.0",
                 "phpunit/phpunit": "^7.5 || ^8.0 || ^9.3 || ^10.0",
                 "psalm/plugin-phpunit": "^0.16.1",
@@ -585,7 +585,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.5.7"
+                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.6.0"
             },
             "funding": [
                 {
@@ -601,7 +601,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-05T10:29:13+00:00"
+            "time": "2022-03-05T10:43:39+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -5998,16 +5998,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.5.2",
+            "version": "1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "f32e95f571c9587b4e14be05253ae56fedd00b2c"
+                "reference": "39953ac1452a8843702ee41a35b4861d3e8207a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f32e95f571c9587b4e14be05253ae56fedd00b2c",
-                "reference": "f32e95f571c9587b4e14be05253ae56fedd00b2c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/39953ac1452a8843702ee41a35b4861d3e8207a7",
+                "reference": "39953ac1452a8843702ee41a35b4861d3e8207a7",
                 "shasum": ""
             },
             "require": {
@@ -6033,7 +6033,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.5.2"
+                "source": "https://github.com/phpstan/phpstan/tree/1.5.3"
             },
             "funding": [
                 {
@@ -6053,7 +6053,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-03-29T07:34:36+00:00"
+            "time": "2022-03-30T21:55:08+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -6107,16 +6107,16 @@
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "17ad9bcd472d67881480e2ca7f915d360d1f3c6b"
+                "reference": "88a26a2dabf5f47e7fd9b1c74a2537eca48c0578"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/17ad9bcd472d67881480e2ca7f915d360d1f3c6b",
-                "reference": "17ad9bcd472d67881480e2ca7f915d360d1f3c6b",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/88a26a2dabf5f47e7fd9b1c74a2537eca48c0578",
+                "reference": "88a26a2dabf5f47e7fd9b1c74a2537eca48c0578",
                 "shasum": ""
             },
             "require": {
@@ -6169,9 +6169,9 @@
             "description": "Doctrine extensions for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.3.0"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.3.1"
             },
-            "time": "2022-03-29T07:00:35+00:00"
+            "time": "2022-03-30T19:59:19+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
