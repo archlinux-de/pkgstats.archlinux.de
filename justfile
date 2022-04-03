@@ -3,13 +3,13 @@ set dotenv-load := true
 export UID := `id -u`
 export GID := `id -g`
 
-COMPOSE := 'docker-compose -f docker/app.yml ' + `[ "${CI-}" != "true" ] && echo '-f docker/dev.yml' || echo ''` + ' -p ' + env_var('PROJECT_NAME')
+COMPOSE := 'docker compose -f docker/app.yml ' + `[ "${CI-}" != "true" ] && echo '-f docker/dev.yml' || echo ''` + ' -p ' + env_var('PROJECT_NAME')
 COMPOSE-RUN := COMPOSE + ' run --rm'
 PHP-DB-RUN := COMPOSE-RUN + ' api'
 PHP-RUN := COMPOSE-RUN + ' --no-deps api'
 NODE-RUN := COMPOSE-RUN + ' --no-deps app'
 MARIADB-RUN := COMPOSE-RUN + ' -T --no-deps mariadb'
-SYMFONY-RUN := 'docker-compose -f docker/symfony.yml ' + ' -p ' + env_var('PROJECT_NAME') + ' run --rm symfony'
+SYMFONY-RUN := 'docker compose -f docker/symfony.yml ' + ' -p ' + env_var('PROJECT_NAME') + ' run --rm symfony'
 
 default:
 	just --list
@@ -167,7 +167,7 @@ deploy:
 	cd app && find dist -type d -empty -delete
 	cd api && composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader --classmap-authoritative
 	cd api && composer dump-env prod
-	sudo systemctl restart php-fpm@pkgstats.service
+	systemctl restart php-fpm@pkgstats.service
 	cd api && bin/console doctrine:migrations:sync-metadata-storage --no-interaction
 	cd api && bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 

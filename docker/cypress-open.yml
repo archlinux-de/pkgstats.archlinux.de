@@ -6,11 +6,12 @@ services:
     depends_on:
       - nginx
     environment:
-      - CYPRESS_baseUrl=${CYPRESS_baseUrl:-http://nginx}
+      - CYPRESS_baseUrl=${CYPRESS_baseUrl:-http://localhost:${PORT}}
       - CYPRESS_numTestsKeptInMemory=100
       - DISPLAY
     entrypoint: cypress
     ipc: host
+    network_mode: host
     userns_mode: host
     working_dir: /app
     volumes:
