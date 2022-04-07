@@ -7,12 +7,12 @@
     "serve": "webpack serve --mode development --host 0.0.0.0 --port 8180 --allowed-hosts all --hot"
   },
   "dependencies": {
-    "@babel/core": "^7.17.8",
+    "@babel/core": "^7.17.9",
     "@babel/preset-env": "^7.16.11",
     "@vue/compiler-sfc": "^3.2.31",
-    "@vueuse/core": "^8.2.4",
+    "@vueuse/core": "^8.2.5",
     "@vueuse/head": "^0.7.5",
-    "@vueuse/router": "^8.2.4",
+    "@vueuse/router": "^8.2.5",
     "autoprefixer": "^10.4.4",
     "babel-loader": "^8.2.4",
     "bootstrap": "^5.1.3",
@@ -29,7 +29,7 @@
     "postcss": "^8.4.12",
     "postcss-html": "^1.3.0",
     "postcss-loader": "^6.2.1",
-    "sass": "^1.49.11",
+    "sass": "^1.50.0",
     "sass-loader": "^12.6.0",
     "stream-browserify": "^3.0.0",
     "style-loader": "^3.3.1",
@@ -50,13 +50,13 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-vue": "^8.5.0",
+    "eslint-plugin-vue": "^8.6.0",
     "jest": "^27.5.1",
     "stylelint": "^14.6.1",
     "stylelint-config-recommended-vue": "^1.4.0",
     "stylelint-config-standard-scss": "^3.0.0",
     "stylelint-no-unsupported-browser-features": "^5.0.3",
-    "webpack-dev-server": "^4.8.0"
+    "webpack-dev-server": "^4.8.1"
   },
   "engines": {
     "node": ">=17"
