@@ -9,7 +9,7 @@
              v-model="query">
     </div>
 
-    <table class="table table-striped table-borderless table-sm" v-if="data && data.packagePopularities.length > 0">
+    <table class="table table-striped table-borderless table-sm" v-if="data.packagePopularities?.length > 0">
       <thead>
       <tr>
         <th scope="col">Package</th>
@@ -37,12 +37,12 @@
     <loading-spinner v-if="isFetching"></loading-spinner>
     <div role="alert" class="alert alert-danger" v-if="error">{{ error }}</div>
 
-    <div role="alert" v-if="isFinished && data && data.total === data.count" class="alert alert-info mb-4">
+    <div role="alert" v-if="isFinished && !error && data.total === data.count" class="alert alert-info mb-4">
       {{ data.total }} packages found
     </div>
 
     <div class="d-flex justify-content-center mb-4"
-         ref="loadMore" v-if="isFinished && !isFetching && data && data.count < data.total">
+         ref="loadMore" v-if="isFinished && !isFetching && !error && data.count < data.total">
       <button class="btn btn-primary" @click="offset+=limit">Load more</button>
     </div>
   </main>
@@ -69,30 +69,34 @@ const url = useDebounce(computed(() => {
 }), 50)
 const loadMore = ref(null)
 
-const { isFetching, isFinished, error, data } = useFetch(url, {
-  refetch: true,
-  initialData: {
-    count: 0,
-    lastCount: 0,
-    total: 0,
-    limit: 0,
-    offset: 0,
-    query: '',
-    packagePopularities: []
+const { isFetching, isFinished, error, data } = useFetch(
+  url,
+  {
+    credentials: 'omit',
+    headers: { Accept: 'application/json' }
   },
-  credentials: 'omit',
-  headers: { Accept: 'application/json' },
-  afterFetch (ctx) {
-    ctx.data.lastCount = ctx.data.count
+  {
+    refetch: true,
+    initialData: {
+      count: 0,
+      lastCount: 0,
+      total: 0,
+      limit: 0,
+      offset: 0,
+      query: '',
+      packagePopularities: []
+    },
+    afterFetch (ctx) {
+      ctx.data.lastCount = ctx.data.count
 
-    if (ctx.data.query === data.value.query && ctx.data.offset === data.value.offset + data.value.limit) {
-      ctx.data.count += data.value.count
-      ctx.data.packagePopularities = [...data.value.packagePopularities, ...ctx.data.packagePopularities]
+      if (ctx.data.query === data.value.query && ctx.data.offset === data.value.offset + data.value.limit) {
+        ctx.data.count += data.value.count
+        ctx.data.packagePopularities = [...data.value.packagePopularities, ...ctx.data.packagePopularities]
+      }
+
+      return ctx
     }
-
-    return ctx
-  }
-}).json()
+  }).json()
 
 watch(() => query.value, (currentQuery, previousQuery) => {
   if (currentQuery !== previousQuery) {
