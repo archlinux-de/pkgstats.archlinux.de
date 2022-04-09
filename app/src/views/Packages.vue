@@ -9,7 +9,7 @@
              v-model="query">
     </div>
 
-    <table class="table table-striped table-borderless table-sm" v-if="data.packagePopularities.length > 0">
+    <table class="table table-striped table-borderless table-sm" v-if="data && data.packagePopularities.length > 0">
       <thead>
       <tr>
         <th scope="col">Package</th>
@@ -37,12 +37,12 @@
     <loading-spinner v-if="isFetching"></loading-spinner>
     <div role="alert" class="alert alert-danger" v-if="error">{{ error }}</div>
 
-    <div role="alert" v-if="isFinished && data.total === data.count" class="alert alert-info mb-4">
+    <div role="alert" v-if="isFinished && data && data.total === data.count" class="alert alert-info mb-4">
       {{ data.total }} packages found
     </div>
 
     <div class="d-flex justify-content-center mb-4"
-         ref="loadMore" v-if="isFinished && !isFetching && data.count < data.total">
+         ref="loadMore" v-if="isFinished && !isFetching && data && data.count < data.total">
       <button class="btn btn-primary" @click="offset+=limit">Load more</button>
     </div>
   </main>
@@ -117,7 +117,7 @@ useHead({
   link: [{ rel: 'canonical', href: window.location.orient + useRoute().path }],
   meta: [{
     name: 'robots',
-    content: computed(() => (data.value.count === 0 || error.value ? 'noindex' : 'index') + ',follow')
+    content: computed(() => (data.value?.count === 0 || error.value ? 'noindex' : 'index') + ',follow')
   }]
 })
 </script>
