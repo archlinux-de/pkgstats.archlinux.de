@@ -11,9 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['month'], name: 'sytem_architecture_month')]
 class SystemArchitecture
 {
+    public const ARCHITECTURES = [
+        'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4', 'i686', 'aarch64', 'armv7', 'armv6', 'armv5'
+    ];
+
     #[ORM\Column(length: 10)]
     #[ORM\Id]
-    #[Assert\Choice(['x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4', 'i686', 'aarch64', 'armv7', 'armv6', 'armv5'])]
+    #[Assert\Choice(self::ARCHITECTURES)]
     private string $name;
 
     #[ORM\Column(type: 'integer')]

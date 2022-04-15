@@ -21,6 +21,7 @@ init: start
 	{{PHP-DB-RUN}} bin/console doctrine:schema:create
 	{{PHP-DB-RUN}} bin/console doctrine:migrations:sync-metadata-storage --no-interaction
 	{{PHP-DB-RUN}} bin/console doctrine:migrations:version --add --all --no-interaction
+	{{PHP-DB-RUN}} bin/console doctrine:fixtures:load -n
 
 start:
 	{{COMPOSE}} up -d

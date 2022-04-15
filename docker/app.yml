@@ -10,6 +10,7 @@ services:
     userns_mode: host
     volumes:
       - ../api:/app/api
+      - ../app/src/config:/app/app/src/config:ro
       - ~/.cache/composer:/tmp/.composer/cache
     tmpfs:
       - /tmp

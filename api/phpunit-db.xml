@@ -8,6 +8,7 @@
     </include>
     <exclude>
       <file>src/Kernel.php</file>
+      <directory suffix=".php">src/DataFixtures</directory>
     </exclude>
   </coverage>
   <php>
