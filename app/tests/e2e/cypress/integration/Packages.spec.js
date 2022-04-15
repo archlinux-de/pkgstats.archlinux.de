@@ -8,8 +8,10 @@ describe('Packages', () => {
   })
 
   it('searches', () => {
-    cy.get('input[type=search]').type('foo')
+    cy.get('input[type=search]').type('firefox')
+    cy.get('[role=progressbar]').should('be.visible')
     cy.contains('[role=alert]', 'packages found')
+    cy.contains('a', 'firefox')
   })
 
   it('handles invalid input', () => {
