@@ -17,11 +17,7 @@ const { url } = toRefs(props)
 const root = ref(null)
 
 onMounted(() => {
-  let rootNode = root.value
-
-  if (HTMLElement.prototype.attachShadow) {
-    rootNode = rootNode.attachShadow({ mode: 'open' })
-  }
+  const rootNode = root.value.attachShadow({ mode: 'open' })
 
   const styleNode = document.createElement('style')
   styleNode.innerHTML = Styles +
@@ -38,5 +34,4 @@ onMounted(() => {
     defaultModelsExpandDepth: 0
   })
 })
-
 </script>
