@@ -84,7 +84,7 @@ class PackageRepository extends ServiceEntityRepository
 
     public function getMonthlyMaximumCountByRange(int $startMonth, int $endMonth): array
     {
-        $nextMonth = new \DateTime((new \DateTime('+1 month'))->format('Y-m-01'));
+        $nextMonth = new \DateTime((new \DateTime('first day of this month +1 month'))->format('Y-m-01'));
         $lifetime = $nextMonth->getTimestamp() - time();
 
         $maxMonthlyCount = $this->createQueryBuilder('package')

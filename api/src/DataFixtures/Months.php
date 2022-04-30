@@ -12,7 +12,7 @@ class Months implements \IteratorAggregate
     public function getIterator(): Traversable
     {
         for ($i = 0; $i < 50; $i++) {
-            yield (int)(new \DateTimeImmutable(sprintf('-%d month', $i)))->format('Ym');
+            yield (int)(new \DateTimeImmutable(sprintf('first day of this month -%d month', $i)))->format('Ym');
         }
     }
 }

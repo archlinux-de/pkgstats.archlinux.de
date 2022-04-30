@@ -22,7 +22,7 @@ class StatisticsRangeParamConverter implements ParamConverterInterface
             (int)strtotime(
                 date(
                     '1-m-Y',
-                    (int)strtotime('now -1 months')
+                    (int)strtotime('first day of this month -1 months')
                 )
             )
         );
