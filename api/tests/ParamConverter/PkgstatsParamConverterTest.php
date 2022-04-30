@@ -9,7 +9,6 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
@@ -25,25 +24,17 @@ class PkgstatsParamConverterTest extends TestCase
     /** @var MockObject|SerializerInterface */
     private MockObject $serializer;
 
-    /** @var MockObject|DenormalizerInterface */
-    private MockObject $denormalizer;
-
     public function setUp(): void
     {
         $this->validator = $this->createMock(ValidatorInterface::class);
         $this->serializer = $this->createMock(SerializerInterface::class);
-        $this->denormalizer = $this->createMock(DenormalizerInterface::class);
 
-        $this->denormalizer
-            ->expects($this->any())
-            ->method('denormalize')
-            ->willReturn(new PkgstatsRequest('2.4'));
         $this->serializer
             ->expects($this->any())
             ->method('deserialize')
-            ->willReturn(new PkgstatsRequest('2.4'));
+            ->willReturn(new PkgstatsRequest('3.2.2'));
 
-        $this->paramConverter = new PkgstatsParamConverter($this->validator, $this->serializer, $this->denormalizer);
+        $this->paramConverter = new PkgstatsParamConverter($this->validator, $this->serializer);
     }
 
     public function testSupportsPkgStatsRequest(): void
@@ -70,10 +61,7 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertFalse($this->paramConverter->supports($configuration));
     }
 
-    /**
-     * @dataProvider provideContentTypes
-     */
-    public function testApplyVersion(string $contentType): void
+    public function testApplyVersion(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
@@ -82,9 +70,8 @@ class PkgstatsParamConverterTest extends TestCase
             ->method('getName')
             ->willReturn(PkgstatsRequest::class);
 
-        $request = Request::create('/post');
-        $request->server->set('HTTP_USER_AGENT', 'pkgstats/2.4');
-        $request->headers->set('Content-Type', $contentType);
+        $request = Request::create('/api/submit');
+        $request->headers->set('Content-Type', 'application/json');
 
         $this->validator
             ->expects($this->once())
@@ -100,20 +87,16 @@ class PkgstatsParamConverterTest extends TestCase
         $this->assertInstanceOf(PkgstatsRequest::class, $request->attributes->get(PkgstatsRequest::class));
         /** @var PkgstatsRequest $pkgstatsRequest */
         $pkgstatsRequest = $request->attributes->get(PkgstatsRequest::class);
-        $this->assertEquals(2.4, $pkgstatsRequest->getVersion());
+        $this->assertEquals('3.2.2', $pkgstatsRequest->getVersion());
     }
 
-    /**
-     * @dataProvider provideContentTypes
-     */
-    public function testApplyFailsOnValidationErrors(string $contentType): void
+    public function testApplyFailsOnValidationErrors(): void
     {
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
 
-        $request = Request::create('/post');
-        $request->server->set('HTTP_USER_AGENT', 'pkgstats/2.4');
-        $request->headers->set('Content-Type', $contentType);
+        $request = Request::create('/api/submit');
+        $request->headers->set('Content-Type', 'application/json');
 
         $this->validator
             ->expects($this->once())
@@ -126,13 +109,5 @@ class PkgstatsParamConverterTest extends TestCase
 
         $this->expectException(PkgstatsRequestException::class);
         $this->paramConverter->apply($request, $configuration);
-    }
-
-    public function provideContentTypes(): array
-    {
-        return [
-            ['application/json'],
-            ['pplication/x-www-form-urlencoded'],
-        ];
     }
 }

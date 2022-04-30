@@ -3,13 +3,13 @@
 namespace App\Tests\Serializer;
 
 use App\Request\PkgstatsRequest;
-use App\Serializer\PkgstatsRequestV2Denormalizer;
+use App\Serializer\PkgstatsRequestDenormalizer;
 use App\Service\GeoIp;
 use App\Service\MirrorUrlFilter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class PkgstatsRequestV2DenormalizerTest extends TestCase
+class PkgstatsRequestDenormalizerTest extends TestCase
 {
     /** @var GeoIp|MockObject */
     private MockObject $geoIp;
@@ -17,34 +17,39 @@ class PkgstatsRequestV2DenormalizerTest extends TestCase
     /** @var MirrorUrlFilter|MockObject */
     private MockObject $mirrorUrlFilter;
 
-    private PkgstatsRequestV2Denormalizer $denormalizer;
+    private PkgstatsRequestDenormalizer $denormalizer;
 
     public function setUp(): void
     {
         $this->geoIp = $this->createMock(GeoIp::class);
         $this->mirrorUrlFilter = $this->createMock(MirrorUrlFilter::class);
-        $this->denormalizer = new PkgstatsRequestV2Denormalizer(
+        $this->denormalizer = new PkgstatsRequestDenormalizer(
             $this->geoIp,
             $this->mirrorUrlFilter
         );
     }
 
-    public function testDenormalizeUser(): void
+    public function testDenormalizeRequest(): void
     {
         $this->mirrorUrlFilter->expects($this->once())->method('filter')->willReturnArgument(0);
         $this->geoIp
             ->expects($this->once())
             ->method('getCountryCode')
             ->willReturn('DE');
-        $context = [
-            'clientIp' => 'abc',
-            'userAgent' => 'pkgstats/2.4'
-        ];
+        $context = ['clientIp' => 'abc'];
 
         $data = [
-            'arch' => 'x86_64',
-            'cpuarch' => 'x86_64',
-            'mirror' => 'https://mirror.archlinux.de/'
+            'version' => '3',
+            'system' => [
+                'architecture' => 'x86_64'
+            ],
+            'os' => [
+                'architecture' => 'x86_64'
+            ],
+            'pacman' => [
+                'mirror' => 'https://mirror.archlinux.de/',
+                'packages' => ['foo', 'bar']
+            ]
         ];
 
         $pkgstatsRequest = $this->denormalizer->denormalize($data, PkgstatsRequest::class, 'form', $context);
@@ -54,22 +59,6 @@ class PkgstatsRequestV2DenormalizerTest extends TestCase
         $this->assertEquals('x86_64', $pkgstatsRequest->getSystemArchitecture()->getName());
         $this->assertNotNull($pkgstatsRequest->getMirror());
         $this->assertEquals('https://mirror.archlinux.de/', $pkgstatsRequest->getMirror()->getUrl());
-    }
-
-    public function testDenormalizePackages(): void
-    {
-        $context = [
-            'clientIp' => 'abc',
-            'userAgent' => 'pkgstats/2.4'
-        ];
-
-        $data = [
-            'packages' => implode("\n", ['foo', 'bar']),
-        ];
-
-        $pkgstatsRequest = $this->denormalizer->denormalize($data, PkgstatsRequest::class, 'form', $context);
-
-        $this->assertInstanceOf(PkgstatsRequest::class, $pkgstatsRequest);
         $packages = $pkgstatsRequest->getPackages();
         $this->assertCount(2, $packages);
         $this->assertEquals('foo', $packages[0]->getName());
@@ -78,7 +67,7 @@ class PkgstatsRequestV2DenormalizerTest extends TestCase
 
     public function testSpportsDenormalization(): void
     {
-        $this->assertTrue($this->denormalizer->supportsDenormalization([], PkgstatsRequest::class, 'form'));
+        $this->assertTrue($this->denormalizer->supportsDenormalization([], PkgstatsRequest::class, 'json'));
         $this->assertTrue($this->denormalizer->hasCacheableSupportsMethod());
     }
 }

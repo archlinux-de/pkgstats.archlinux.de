@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -24,23 +23,6 @@ class PostPackageListController extends AbstractController
      */
     public function __construct(private EntityManagerInterface $entityManager)
     {
-    }
-
-    /**
-     * @deprecated
-     */
-    #[Route(
-        path: '/post',
-        name: 'app_pkgstats_post',
-        requirements: ['_format' => 'text'],
-        defaults: ['_format' => 'text'],
-        methods: ['POST']
-    )]
-    public function postAction(PkgstatsRequest $pkgstatsRequest, Request $request): Response
-    {
-        $this->persistSubmission($pkgstatsRequest);
-
-        return $this->render('post.text.twig', ['quiet' => $request->get('quiet') === 'true']);
     }
 
     /**
@@ -112,8 +94,7 @@ class PostPackageListController extends AbstractController
     #[Route(
         path: '/api/submit',
         name: 'app_api_submit',
-        methods: ['POST'],
-        condition: 'request.headers.get("Content-Type") === "application/json"'
+        methods: ['POST']
     )]
     public function submitAction(PkgstatsRequest $pkgstatsRequest): Response
     {

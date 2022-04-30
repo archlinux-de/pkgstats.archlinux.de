@@ -17,10 +17,6 @@ framework:
     php_errors:
         log: true
 
-    request:
-        formats:
-            text: 'text/plain'
-
 when@test:
     framework:
         test: true

@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class PkgstatsRequest
 {
     #[Assert\NotBlank]
-    #[Assert\Regex('/^(2\.[345]|3(\.[0-9]+)?)(\.[0-9]+(-[\w-]+)?)?$/')]
+    #[Assert\EqualTo('3')]
     private string $version;
 
     /**

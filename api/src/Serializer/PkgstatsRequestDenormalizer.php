@@ -13,7 +13,7 @@ use App\Service\MirrorUrlFilter;
 use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableSupportsMethodInterface
+class PkgstatsRequestDenormalizer implements DenormalizerInterface, CacheableSupportsMethodInterface
 {
     public function __construct(private GeoIp $geoIp, private MirrorUrlFilter $mirrorUrlFilter)
     {
@@ -36,8 +36,7 @@ class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableS
 
         $clientIp = $context['clientIp'] ?? '127.0.0.1';
 
-        $pkgstatsver = $data['version'] ?? '';
-        $pkgstatsRequest = new PkgstatsRequest($pkgstatsver);
+        $pkgstatsRequest = new PkgstatsRequest($data['version'] ?? '');
         $pkgstatsRequest->setOperatingSystemArchitecture(
             (new OperatingSystemArchitecture($arch))->setMonth((int)date('Ym'))
         );
@@ -65,7 +64,7 @@ class PkgstatsRequestV3Denormalizer implements DenormalizerInterface, CacheableS
 
     public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
     {
-        return $type === PkgstatsRequest::class && $format === 'json';
+        return $type === PkgstatsRequest::class;
     }
 
     /**

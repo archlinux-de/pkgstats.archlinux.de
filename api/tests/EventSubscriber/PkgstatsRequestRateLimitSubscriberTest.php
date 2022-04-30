@@ -53,12 +53,9 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
         return new RequestEvent($kernel, $request, HttpKernelInterface::MAIN_REQUEST);
     }
 
-    /**
-     * @dataProvider provideRateLimitedRoutes
-     */
-    public function testRateLimit(string $route): void
+    public function testRateLimit(): void
     {
-        $event = $this->createEvent($route);
+        $event = $this->createEvent('app_api_submit');
         $this->rateLimitSubscriber->onKernelRequest($event);
         $this->expectException(TooManyRequestsHttpException::class);
         $this->rateLimitSubscriber->onKernelRequest($event);
@@ -71,13 +68,5 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
         $this->rateLimitSubscriber->onKernelRequest($event);
         // Asserting that not exception was thrown
         $this->assertTrue(true);
-    }
-
-    public function provideRateLimitedRoutes(): array
-    {
-        return [
-            ['app_api_submit'],
-            ['app_pkgstats_post']
-        ];
     }
 }

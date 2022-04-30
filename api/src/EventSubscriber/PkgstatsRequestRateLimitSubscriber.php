@@ -21,7 +21,7 @@ class PkgstatsRequestRateLimitSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        if (!in_array($event->getRequest()->attributes->get('_route'), ['app_api_submit', 'app_pkgstats_post'])) {
+        if ($event->getRequest()->attributes->get('_route') != 'app_api_submit') {
             return;
         }
 

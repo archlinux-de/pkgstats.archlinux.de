@@ -59,65 +59,12 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue(in_array('pacman', $packagesArray));
     }
 
-    public function testPostPackageListIsSuccessful(): void
-    {
-        $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'cpuarch' => 'x86_64',
-                'packages' => 'pkgstats',
-                'mirror' => 'https://mirror.archlinux.de/'
-            ]
-        );
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertEquals('UTF-8', $client->getResponse()->getCharset());
-        $this->assertStringContainsString('text/plain', (string)$client->getResponse()->headers->get('Content-Type'));
-        $this->assertIsString($client->getResponse()->getContent());
-        $this->assertStringContainsString('Thanks for your submission. :-)', $client->getResponse()->getContent());
-
-        $countryRepository = $this->getEntityManager()->getRepository(Country::class);
-        $this->assertEmpty($countryRepository->findAll());
-
-        $mirrorRepository = $this->getEntityManager()->getRepository(Mirror::class);
-        $mirrors = $mirrorRepository->findAll();
-        $this->assertCount(1, $mirrors);
-        $this->assertInstanceOf(Mirror::class, $mirrors[0]);
-        $this->assertEquals('https://mirror.archlinux.de/', $mirrors[0]->getUrl());
-
-        $operatingSystemArchitectureRepository = $this->getEntityManager()->getRepository(
-            OperatingSystemArchitecture::class
-        );
-        $operatingSystemArchitectures = $operatingSystemArchitectureRepository->findAll();
-        $this->assertCount(1, $operatingSystemArchitectures);
-        $this->assertInstanceOf(OperatingSystemArchitecture::class, $operatingSystemArchitectures[0]);
-        $this->assertEquals('x86_64', $operatingSystemArchitectures[0]->getName());
-
-        $systemArchitectureRepository = $this->getEntityManager()->getRepository(SystemArchitecture::class);
-        $systemArchitectures = $systemArchitectureRepository->findAll();
-        $this->assertCount(1, $systemArchitectures);
-        $this->assertInstanceOf(SystemArchitecture::class, $systemArchitectures[0]);
-        $this->assertEquals('x86_64', $systemArchitectures[0]->getName());
-
-        /** @var PackageRepository $packageRepository */
-        $packageRepository = $this->getEntityManager()->getRepository(Package::class);
-        $this->assertCount(1, $packageRepository->findAll());
-        /** @var Package $package */
-        $package = $packageRepository->findAll()[0];
-        $this->assertEquals('pkgstats', $package->getName());
-        $this->assertEquals(1, $package->getCount());
-    }
-
-    private function createPkgstatsClient(string $version = '2.4'): KernelBrowser
+    private function createPkgstatsClient(): KernelBrowser
     {
         $client = $this->getClient();
-        $client->setServerParameter('HTTP_USER_AGENT', sprintf('pkgstats/%s', $version));
-        $client->setServerParameter('CONTENT_TYPE', 'application/x-www-form-urlencoded');
-        $client->setServerParameter('HTTP_ACCEPT', 'text/plain');
+        $client->setServerParameter('HTTP_USER_AGENT', 'pkgstats/3.2.2');
+        $client->setServerParameter('CONTENT_TYPE', 'application/json');
+        $client->setServerParameter('HTTP_ACCEPT', 'application/json');
         return $client;
     }
 
@@ -162,25 +109,15 @@ class PostPackageListControllerTest extends DatabaseTestCase
      */
     public function testSupportedVersions(string $version): void
     {
-        $client = $this->createPkgstatsClient($version);
-        $this->sendRequest($client);
+        $client = $this->createPkgstatsClient();
+        $this->sendRequest($client, version: $version);
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
     public function provideSupportedVserions(): array
     {
         return [
-            ['2.3'],
-            ['2.4'],
-            ['2.4.0'],
-            ['2.4.2'],
-            ['2.4.9999'],
-            ['2.4.2-5-g163d6c2'],
-            ['2.5.0'],
-            ['3'],
-            ['3.0.0'],
-            ['3.1'],
-            ['3.2.0']
+            ['3']
         ];
     }
 
@@ -191,6 +128,16 @@ class PostPackageListControllerTest extends DatabaseTestCase
             ['2.0'],
             ['2.1'],
             ['2.2'],
+            ['2.3'],
+            ['2.4'],
+            ['2.4.0'],
+            ['2.4.2'],
+            ['2.4.9999'],
+            ['2.4.2-5-g163d6c2'],
+            ['2.5.0'],
+            ['3.0.0'],
+            ['3.1'],
+            ['3.2.0'],
             ['0.1'],
             [''],
             ['a'],
@@ -204,7 +151,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
      */
     public function testUnsupportedVersionFails(string $version): void
     {
-        $client = $this->createPkgstatsClient($version);
+        $client = $this->createPkgstatsClient();
         $this->sendRequest($client, version: $version);
         $this->assertTrue($client->getResponse()->isClientError());
     }
@@ -299,25 +246,6 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $client = $this->createPkgstatsClient();
         $this->sendRequest($client, packages: [str_repeat('a', 256)]);
         $this->assertTrue($client->getResponse()->isClientError());
-    }
-
-    public function testQuietMode(): void
-    {
-        $client = $this->createPkgstatsClient();
-
-        $client->request(
-            'POST',
-            '/post',
-            [
-                'arch' => 'x86_64',
-                'packages' => 'pkgstats',
-                'quiet' => 'true'
-            ]
-        );
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertIsString($client->getResponse()->getContent());
-        $this->assertEquals('', $client->getResponse()->getContent());
     }
 
     public function testSubmissionsAreLimitedPerUser(): void
