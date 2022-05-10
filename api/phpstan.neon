@@ -19,7 +19,3 @@ parameters:
 			message: '#Method .+ should return .+ but returns (array|mixed)#'
 			paths:
 				- src/Repository
-		-
-			message: '#Parameter $repositoryClass of attribute class Doctrine\\ORM\\Mapping\\Entity constructor expects class-string<Doctrine\\ORM\\EntityRepository<T of object>>|null#'
-			paths:
-				- src/Entity
