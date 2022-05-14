@@ -4032,14 +4032,14 @@ glob-to-regexp@^0.4.1:
   integrity sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw==
 
 glob@^7.1.3, glob@^7.1.4, glob@^7.1.6, glob@^7.1.7:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.0.tgz#d15535af7732e02e948f4c41628bd910293f6023"
-  integrity sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/glob/-/glob-7.2.2.tgz#29deb38e1ef90f132d5958abe9c3ee8e87f3c318"
+  integrity sha512-NzDgHDiJwKYByLrL5lONmQFpK/2G78SMMfo+E9CuGlX4IkvfKDsiQSNPwAYxEy+e6p7ZQ3uslSLlwlJcqezBmQ==
   dependencies:
     fs.realpath "^1.0.0"
     inflight "^1.0.4"
     inherits "2"
-    minimatch "^3.0.4"
+    minimatch "^3.1.1"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
@@ -5587,7 +5587,7 @@ minimalistic-assert@^1.0.0:
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz#2e194de044626d4a10e7f7fbc00ce73e83e4d5c7"
   integrity sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==
 
-minimatch@^3.0.4, minimatch@^3.1.2:
+minimatch@^3.0.4, minimatch@^3.1.1, minimatch@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
   integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
@@ -6850,9 +6850,9 @@ rollup-plugin-terser@^7.0.0:
     terser "^5.0.0"
 
 rollup@^2.43.1:
-  version "2.72.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.72.1.tgz#861c94790537b10008f0ca0fbc60e631aabdd045"
-  integrity sha512-NTc5UGy/NWFGpSqF1lFY8z9Adri6uhyMLI6LvPAXdBKoPRFhIIiBUpt+Qg2awixqO3xvzSijjhnb4+QEZwJmxA==
+  version "2.73.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.73.0.tgz#128fef4b333fd92d02d6929afbb6ee38d7feb32d"
+  integrity sha512-h/UngC3S4Zt28mB3g0+2YCMegT5yoftnQplwzPqGZcKvlld5e+kT/QRmJiL+qxGyZKOYpgirWGdLyEO1b0dpLQ==
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -7576,7 +7576,7 @@ svgo@^2.7.0:
     picocolors "^1.0.0"
     stable "^0.1.8"
 
-swagger-client@^3.18.4:
+swagger-client@^3.18.5:
   version "3.18.5"
   resolved "https://registry.yarnpkg.com/swagger-client/-/swagger-client-3.18.5.tgz#8034df561452f4bbd36871a8072394b7ca883106"
   integrity sha512-c0txGDtfQTJnaIBaEKCwtRNcUaaAfj+RXI4QVV9p3WW+AUCQqp4naCjaDNNsOfMkE4ySyhnblbL+jGqAVC7snw==
@@ -7595,10 +7595,10 @@ swagger-client@^3.18.4:
     traverse "~0.6.6"
     url "~0.11.0"
 
-swagger-ui@^4.11.0:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/swagger-ui/-/swagger-ui-4.11.0.tgz#0577eba1a9e2bf866f97feb99924a0a64f159e3c"
-  integrity sha512-PWUzafBApoBLuJkIKzG98ekGosOWjWT367Vjkey3XLfCBY08DQ4JC03yfG8wyPzhZvJ2xveE7h13RKiBcMzqnw==
+swagger-ui@^4.11.1:
+  version "4.11.1"
+  resolved "https://registry.yarnpkg.com/swagger-ui/-/swagger-ui-4.11.1.tgz#9fae75f650d2e033b85b1864602e279635e35c6b"
+  integrity sha512-+Yc9qdIvDGoEsQMXQig4b8sYgvB3gU2IZH+ZTZBsIgK8NsQWkuMRIXd0CqsFKd8lm0ui2BqhSxRnIOIGihASUg==
   dependencies:
     "@babel/runtime-corejs3" "^7.16.8"
     "@braintree/sanitize-url" "=6.0.0"
@@ -7630,7 +7630,7 @@ swagger-ui@^4.11.0:
     reselect "^4.1.5"
     serialize-error "^8.1.0"
     sha.js "^2.4.11"
-    swagger-client "^3.18.4"
+    swagger-client "^3.18.5"
     url-parse "^1.5.8"
     xml "=1.0.1"
     xml-but-prettier "^1.0.1"
