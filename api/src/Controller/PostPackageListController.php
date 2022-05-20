@@ -11,7 +11,7 @@ use App\Request\PkgstatsRequest;
 use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,76 +25,73 @@ class PostPackageListController extends AbstractController
     {
     }
 
-    /**
-     * @OA\Tag(name="pkgstats")
-     * @OA\Post(
-     *     description="POST endpoint for the pkgstats cli tool",
-     *     @OA\Response(
-     *         response=204,
-     *         description="Submission was successful"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Validation failed"
-     *     ),
-     *     @OA\Response(
-     *         response=429,
-     *         description="Rate limit was reached"
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(
-     *                 property="version",
-     *                 type="string",
-     *                 example="3"
-     *             ),
-     *             @OA\Property (
-     *                 type="object",
-     *                 property="system",
-     *                 @OA\Property(
-     *                     property="architecture",
-     *                     type="string",
-     *                     description="Architecture of the CPU",
-     *                     example="x86_64"
-     *                 ),
-     *             ),
-     *             @OA\Property (
-     *                 type="object",
-     *                 property="os",
-     *                 @OA\Property(
-     *                     property="architecture",
-     *                     type="string",
-     *                     description="Architecture of the distribution",
-     *                     example="x86_64"
-     *                 ),
-     *             ),
-     *             @OA\Property (
-     *                 type="object",
-     *                 property="pacman",
-     *                 @OA\Property(
-     *                     property="mirror",
-     *                     type="string",
-     *                     description="Package mirror",
-     *                     example="https://mirror.pkgbuild.com/"
-     *                 ),
-     *                 @OA\Property(
-     *                     property="packages",
-     *                     type="array",
-     *                     items={"type"="string", "minLength"=1, "maxLength"=191, "minimum"=1, "maximum"=10000},
-     *                     description="List of package names",
-     *                     example={"pacman", "linux", "pkgstats"}
-     *                 )
-     *             )
-     *         )
-     *     )
-     * )
-     */
     #[Route(
         path: '/api/submit',
         name: 'app_api_submit',
         methods: ['POST']
+    )]
+    #[OA\Tag(name: 'pkgstats')]
+    #[OA\Post(
+        description: 'POST endpoint for the pkgstats cli tool',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(property: 'version', type: 'string', example: '3'),
+                    new OA\Property(
+                        property: 'system',
+                        properties: [
+                            new OA\Property(
+                                property: 'architecture',
+                                description: 'Architecture of the CPU',
+                                type: 'string',
+                                example: 'x86_64'
+                            )
+                        ],
+                        type: 'object',
+                    ),
+                    new OA\Property(
+                        property: 'os',
+                        properties: [
+                            new OA\Property(
+                                property: 'architecture',
+                                description: 'Architecture of the distribution',
+                                type: 'string',
+                                example: 'x86_64'
+                            )
+                        ],
+                        type: 'object',
+                    ),
+                    new OA\Property(
+                        property: 'pacman',
+                        properties: [
+                            new OA\Property(
+                                property: 'mirror',
+                                description: 'Package mirror',
+                                type: 'string',
+                                example: 'https://mirror.pkgbuild.com/'
+                            ),
+                            new OA\Property(
+                                property: 'packages',
+                                description: 'List of package names',
+                                type: 'array',
+                                items: new OA\Items(type: 'string', maxLength: 191, minLength: 1),
+                                maxItems: 10000,
+                                minItems: 1,
+                                example: ['pacman', 'linux', 'pkgstats']
+                            )
+                        ],
+                        type: 'object'
+                    )
+                ],
+                type: 'object'
+            )
+        ),
+        responses: [
+            new OA\Response(response: 204, description: 'Submission was successful'),
+            new OA\Response(response: 400, description: 'Validation failed'),
+            new OA\Response(response: 429, description: 'Rate limit was reached'),
+        ]
     )]
     public function submitAction(PkgstatsRequest $pkgstatsRequest): Response
     {

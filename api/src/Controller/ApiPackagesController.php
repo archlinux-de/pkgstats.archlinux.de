@@ -9,11 +9,11 @@ use App\Request\PaginationRequest;
 use App\Request\StatisticsRangeRequest;
 use App\Service\PackagePopularityCalculator;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Attributes as OA;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use OpenApi\Annotations as OA;
 
 #[Cache(maxage: '+5 minutes', smaxage: 'first day of next month')]
 class ApiPackagesController extends AbstractController
@@ -22,45 +22,37 @@ class ApiPackagesController extends AbstractController
     {
     }
 
-    /**
-     * @OA\Tag(name="packages")
-     * @OA\Response(
-     *     description="Returns popularity of given package",
-     *     response=200,
-     *     @Model(type=PackagePopularity::class)
-     * )
-     * @OA\Parameter(
-     *     in="path",
-     *     name="name",
-     *     description="Name of the package",
-     *     @OA\Schema(
-     *         type="string"
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="startMonth",
-     *     required=false,
-     *     in="query",
-     *     description="Specify start month in the form of 'Ym', e.g. 201901. Defaults to last month.",
-     *     @OA\Schema(
-     *         type="integer"
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="endMonth",
-     *     required=false,
-     *     in="query",
-     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
-     *     @OA\Schema(
-     *         type="integer"
-     *     )
-     * )
-     */
     #[Route(
         path: '/api/packages/{name}',
         name: 'app_api_package',
         requirements: ['name' => '^[^-/]{1}[^/\s]{0,190}$'],
         methods: ['GET']
+    )]
+    #[OA\Tag(name: 'packages')]
+    #[OA\Parameter(
+        name: 'name',
+        description: 'Name of the package',
+        in: 'path',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'startMonth',
+        description: 'Specify start month in the form of \'Ym\', e.g. 201901. Defaults to last month.',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'endMonth',
+        description: 'Specify end month in the format of \'Ym\', e.g. 201901. Defaults to last month.',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Response(
+        response: 200,
+        description: 'Returns popularity of given package',
+        content: new OA\JsonContent(ref: new Model(type: PackagePopularity::class))
     )]
     public function packageAction(string $name, StatisticsRangeRequest $statisticsRangeRequest): Response
     {
@@ -69,69 +61,51 @@ class ApiPackagesController extends AbstractController
         );
     }
 
-    /**
-     * @OA\Tag(name="packages")
-     * @OA\Response(
-     *     description="Returns popularities of given package in a monthly series",
-     *     response=200,
-     *     @Model(type=PackagePopularityList::class)
-     * )
-     * @OA\Parameter(
-     *     in="path",
-     *     name="name",
-     *     description="Name of the package",
-     *     @OA\Schema(
-     *         type="string"
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="startMonth",
-     *     required=false,
-     *     in="query",
-     *     description="Specify start month in the form of 'Ym', e.g. 201901. Defaults to last month.",
-     *     @OA\Schema(
-     *         type="integer"
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="endMonth",
-     *     required=false,
-     *     in="query",
-     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
-     *     @OA\Schema(
-     *         type="integer"
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="limit",
-     *     required=false,
-     *     in="query",
-     *     description="Limit the result set",
-     *     @OA\Schema(
-     *         type="integer",
-     *         default=100,
-     *         minimum=1,
-     *         maximum=10000
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="offset",
-     *     required=false,
-     *     in="query",
-     *     description="Offset the result set",
-     *     @OA\Schema(
-     *         type="integer",
-     *         default=0,
-     *         minimum=0,
-     *         maximum=100000
-     *     )
-     * )
-     */
     #[Route(
         path: '/api/packages/{name}/series',
         name: 'app_api_package_series',
         requirements: ['name' => '^[^-/]{1}[^/\s]{0,190}$'],
         methods: ['GET']
+    )]
+    #[OA\Tag(name: 'packages')]
+    #[OA\Parameter(
+        name: 'name',
+        description: 'Name of the package',
+        in: 'path',
+        schema: new OA\Schema(type: 'string')
+    )]
+    #[OA\Parameter(
+        name: 'startMonth',
+        description: 'Specify start month in the form of \'Ym\', e.g. 201901. Defaults to last month.',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'endMonth',
+        description: 'Specify end month in the format of \'Ym\', e.g. 201901. Defaults to last month.',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'limit',
+        description: 'Limit the result set',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer', default: 100, maximum: 10000, minimum: 1)
+    )]
+    #[OA\Parameter(
+        name: 'offset',
+        description: 'Offset the result set',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer', default: 0, maximum: 100000, minimum: 0)
+    )]
+    #[OA\Response(
+        response: 200,
+        description: 'Returns popularities of given package in a monthly series',
+        content: new OA\JsonContent(ref: new Model(type: PackagePopularityList::class))
     )]
     public function packageSeriesAction(
         string $name,
@@ -147,71 +121,51 @@ class ApiPackagesController extends AbstractController
         );
     }
 
-    /**
-     * @OA\Tag(name="packages")
-     * @OA\Response(
-     *     description="Returns list of package popularities",
-     *     response=200,
-     *     @Model(type=PackagePopularityList::class)
-     * )
-     * @OA\Parameter(
-     *     name="startMonth",
-     *     required=false,
-     *     in="query",
-     *     description="Specify start month in the format of 'Ym', e.g. 201901. Defaults to last month.",
-     *     @OA\Schema(
-     *         type="integer",
-     *         format="Ym"
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="endMonth",
-     *     required=false,
-     *     in="query",
-     *     description="Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
-     *     @OA\Schema(
-     *         type="integer"
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="limit",
-     *     required=false,
-     *     in="query",
-     *     description="Limit the result set",
-     *     @OA\Schema(
-     *         type="integer",
-     *         default=100,
-     *         minimum=1,
-     *         maximum=10000
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="offset",
-     *     required=false,
-     *     in="query",
-     *     description="Offset the result set",
-     *     @OA\Schema(
-     *         type="integer",
-     *         default=0,
-     *         minimum=0,
-     *         maximum=100000
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="query",
-     *     required=false,
-     *     in="query",
-     *     description="Search by package name",
-     *     @OA\Schema(
-     *         type="string",
-     *         maxLength=191
-     *     )
-     * )
-     */
     #[Route(
         path: '/api/packages',
         name: 'app_api_packages',
         methods: ['GET']
+    )]
+    #[OA\Tag(name: 'packages')]
+    #[OA\Parameter(
+        name: 'startMonth',
+        description: 'Specify start month in the format of \'Ym\', e.g. 201901. Defaults to last month.',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer', format: 'Ym')
+    )]
+    #[OA\Parameter(
+        name: 'endMonth',
+        description: 'Specify end month in the format of \'Ym\', e.g. 201901. Defaults to last month.',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Parameter(
+        name: 'limit',
+        description: 'Limit the result set',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer', default: 100, maximum: 10000, minimum: 1)
+    )]
+    #[OA\Parameter(
+        name: 'offset',
+        description: 'Offset the result set',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'integer', default: 0, maximum: 100000, minimum: 0)
+    )]
+    #[OA\Parameter(
+        name: 'query',
+        description: 'Search by package name',
+        in: 'query',
+        required: false,
+        schema: new OA\Schema(type: 'string', maxLength: 191)
+    )]
+    #[OA\Response(
+        response: 200,
+        description: 'Returns list of package popularities',
+        content: new OA\JsonContent(ref: new Model(type: PackagePopularityList::class))
     )]
     public function packageJsonAction(
         StatisticsRangeRequest $statisticsRangeRequest,
