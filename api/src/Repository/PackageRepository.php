@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Month;
 use App\Entity\Package;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NoResultException;
@@ -84,8 +85,7 @@ class PackageRepository extends ServiceEntityRepository
 
     public function getMonthlyMaximumCountByRange(int $startMonth, int $endMonth): array
     {
-        $nextMonth = new \DateTime((new \DateTime('first day of this month +1 month'))->format('Y-m-01'));
-        $lifetime = $nextMonth->getTimestamp() - time();
+        $lifetime = Month::create(1)->getTimestamp() - time();
 
         $maxMonthlyCount = $this->createQueryBuilder('package')
             ->select('MAX(package.count) AS count')
@@ -119,6 +119,7 @@ class PackageRepository extends ServiceEntityRepository
             $queryBuilder
                 ->where('package.month = :month')
                 ->orderBy('package.count', 'desc')
+                ->addOrderBy('package.name', 'asc')
                 ->setParameter('month', $startMonth);
         } else {
             $queryBuilder
@@ -128,6 +129,7 @@ class PackageRepository extends ServiceEntityRepository
                 ->andWhere('package.month <= :endMonth')
                 ->groupBy('package.name')
                 ->orderBy('package_count', 'desc')
+                ->addOrderBy('package.name', 'asc')
                 ->setParameter('startMonth', $startMonth)
                 ->setParameter('endMonth', $endMonth);
         }

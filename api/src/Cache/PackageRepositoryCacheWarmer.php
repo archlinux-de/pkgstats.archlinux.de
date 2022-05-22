@@ -2,6 +2,7 @@
 
 namespace App\Cache;
 
+use App\Entity\Month;
 use App\Repository\PackageRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
@@ -33,15 +34,7 @@ class PackageRepositoryCacheWarmer implements CacheWarmerInterface
         }
 
         try {
-            $defaultMonth = (int)date(
-                'Ym',
-                (int)strtotime(
-                    date(
-                        '1-m-Y',
-                        (int)strtotime('first day of this month -1 months')
-                    )
-                )
-            );
+            $defaultMonth = Month::create()->getYearMonth();
 
             $this->packageRepository->getMonthlyMaximumCountByRange(0, $defaultMonth);
             $this->packageRepository->getMaximumCountByRange($defaultMonth, $defaultMonth);

@@ -2,6 +2,7 @@
 
 namespace App\ParamConverter;
 
+use App\Entity\Month;
 use App\Request\PkgstatsRequestException;
 use App\Request\StatisticsRangeRequest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -17,15 +18,7 @@ class StatisticsRangeParamConverter implements ParamConverterInterface
 
     public function apply(Request $request, ParamConverter $configuration): bool
     {
-        $defaultMonth = (int)date(
-            'Ym',
-            (int)strtotime(
-                date(
-                    '1-m-Y',
-                    (int)strtotime('first day of this month -1 months')
-                )
-            )
-        );
+        $defaultMonth = Month::create()->getYearMonth();
 
         $statisticsRangeRequest = new StatisticsRangeRequest(
             $request->query->getInt('startMonth', $defaultMonth),

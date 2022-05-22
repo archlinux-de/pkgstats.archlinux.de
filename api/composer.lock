@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b4c4103ac9089707126126176c1410e",
+    "content-hash": "94204eb4873a35e177f5d5818277c775",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -8038,6 +8038,73 @@
             "time": "2020-09-28T06:39:44+00:00"
         },
         {
+            "name": "spatie/phpunit-snapshot-assertions",
+            "version": "4.2.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/phpunit-snapshot-assertions.git",
+                "reference": "3c34fd460419b273b23bc7c8f72c18894b79a040"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/3c34fd460419b273b23bc7c8f72c18894b79a040",
+                "reference": "3c34fd460419b273b23bc7c8f72c18894b79a040",
+                "shasum": ""
+            },
+            "require": {
+                "composer-runtime-api": "^2.0",
+                "ext-dom": "*",
+                "ext-json": "*",
+                "php": "^7.3|^7.4|^8.0",
+                "phpunit/phpunit": "^8.3|^9.0",
+                "symfony/property-access": "^4.0|^5.0|^6.0",
+                "symfony/serializer": "^4.0|^5.0|^6.0",
+                "symfony/yaml": "^4.0|^5.0|^6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Snapshots\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Snapshot testing with PHPUnit",
+            "homepage": "https://github.com/spatie/phpunit-snapshot-assertions",
+            "keywords": [
+                "assert",
+                "phpunit",
+                "phpunit-snapshot-assertions",
+                "snapshot",
+                "spatie",
+                "testing"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/phpunit-snapshot-assertions/issues",
+                "source": "https://github.com/spatie/phpunit-snapshot-assertions/tree/4.2.11"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                }
+            ],
+            "time": "2022-03-18T08:44:50+00:00"
+        },
+        {
             "name": "squizlabs/php_codesniffer",
             "version": "3.6.2",
             "source": {
@@ -8319,6 +8386,85 @@
                 }
             ],
             "time": "2022-04-12T16:11:42+00:00"
+        },
+        {
+            "name": "symfony/property-access",
+            "version": "v6.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/property-access.git",
+                "reference": "e5ac708a97933e9680b81b92eb90a5e301490d72"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/e5ac708a97933e9680b81b92eb90a5e301490d72",
+                "reference": "e5ac708a97933e9680b81b92eb90a5e301490d72",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0.2",
+                "symfony/property-info": "^5.4|^6.0"
+            },
+            "require-dev": {
+                "symfony/cache": "^5.4|^6.0"
+            },
+            "suggest": {
+                "psr/cache-implementation": "To cache access methods."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\PropertyAccess\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Provides functions to read and write from/to an object or array using a simple string notation",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "access",
+                "array",
+                "extraction",
+                "index",
+                "injection",
+                "object",
+                "property",
+                "property path",
+                "reflection"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/property-access/tree/v6.0.8"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-04-20T15:01:42+00:00"
         },
         {
             "name": "theseer/tokenizer",

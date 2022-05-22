@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Month;
 use App\Entity\PackagePopularity;
 use App\Entity\PackagePopularityList;
 use App\Request\PackageQueryRequest;
@@ -10,12 +11,10 @@ use App\Request\StatisticsRangeRequest;
 use App\Service\PackagePopularityCalculator;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Attributes as OA;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Cache(maxage: '+5 minutes', smaxage: 'first day of next month')]
 class ApiPackagesController extends AbstractController
 {
     public function __construct(private PackagePopularityCalculator $packagePopularityCalculator)
@@ -56,9 +55,18 @@ class ApiPackagesController extends AbstractController
     )]
     public function packageAction(string $name, StatisticsRangeRequest $statisticsRangeRequest): Response
     {
-        return $this->json(
-            $this->packagePopularityCalculator->getPackagePopularity($name, $statisticsRangeRequest)
+        return $this->applyCacheHeaders(
+            $this->json(
+                $this->packagePopularityCalculator->getPackagePopularity($name, $statisticsRangeRequest)
+            )
         );
+    }
+
+    private function applyCacheHeaders(Response $response): Response
+    {
+        return $response
+            ->setMaxAge(5 * 60)
+            ->setSharedMaxAge(Month::create(1)->getTimestamp() - time());
     }
 
     #[Route(
@@ -112,11 +120,13 @@ class ApiPackagesController extends AbstractController
         StatisticsRangeRequest $statisticsRangeRequest,
         PaginationRequest $paginationRequest
     ): Response {
-        return $this->json(
-            $this->packagePopularityCalculator->getPackagePopularitySeries(
-                $name,
-                $statisticsRangeRequest,
-                $paginationRequest
+        return $this->applyCacheHeaders(
+            $this->json(
+                $this->packagePopularityCalculator->getPackagePopularitySeries(
+                    $name,
+                    $statisticsRangeRequest,
+                    $paginationRequest
+                )
             )
         );
     }
@@ -172,11 +182,13 @@ class ApiPackagesController extends AbstractController
         PaginationRequest $paginationRequest,
         PackageQueryRequest $packageQueryRequest
     ): Response {
-        return $this->json(
-            $this->packagePopularityCalculator->findPackagesPopularity(
-                $statisticsRangeRequest,
-                $paginationRequest,
-                $packageQueryRequest
+        return $this->applyCacheHeaders(
+            $this->json(
+                $this->packagePopularityCalculator->findPackagesPopularity(
+                    $statisticsRangeRequest,
+                    $paginationRequest,
+                    $packageQueryRequest
+                )
             )
         );
     }

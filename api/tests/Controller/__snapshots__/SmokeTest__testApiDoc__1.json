@@ -1,0 +1,354 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "pkgstats API documentation",
+        "version": "3.0.0"
+    },
+    "paths": {
+        "\/api\/packages\/{name}": {
+            "get": {
+                "tags": [
+                    "packages"
+                ],
+                "operationId": "get_app_api_package",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Name of the package",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "[^-\/]{1}[^\/\\s]{0,190}"
+                        }
+                    },
+                    {
+                        "name": "startMonth",
+                        "in": "query",
+                        "description": "Specify start month in the form of 'Ym', e.g. 201901. Defaults to last month.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "endMonth",
+                        "in": "query",
+                        "description": "Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns popularity of given package",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/PackagePopularity"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/api\/packages\/{name}\/series": {
+            "get": {
+                "tags": [
+                    "packages"
+                ],
+                "operationId": "get_app_api_package_series",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Name of the package",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "pattern": "[^-\/]{1}[^\/\\s]{0,190}"
+                        }
+                    },
+                    {
+                        "name": "startMonth",
+                        "in": "query",
+                        "description": "Specify start month in the form of 'Ym', e.g. 201901. Defaults to last month.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "endMonth",
+                        "in": "query",
+                        "description": "Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the result set",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "maximum": 10000,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset the result set",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "maximum": 100000,
+                            "minimum": 0
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns popularities of given package in a monthly series",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/PackagePopularityList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/api\/packages": {
+            "get": {
+                "tags": [
+                    "packages"
+                ],
+                "operationId": "get_app_api_packages",
+                "parameters": [
+                    {
+                        "name": "startMonth",
+                        "in": "query",
+                        "description": "Specify start month in the format of 'Ym', e.g. 201901. Defaults to last month.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "Ym"
+                        }
+                    },
+                    {
+                        "name": "endMonth",
+                        "in": "query",
+                        "description": "Specify end month in the format of 'Ym', e.g. 201901. Defaults to last month.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Limit the result set",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 100,
+                            "maximum": 10000,
+                            "minimum": 1
+                        }
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Offset the result set",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 0,
+                            "maximum": 100000,
+                            "minimum": 0
+                        }
+                    },
+                    {
+                        "name": "query",
+                        "in": "query",
+                        "description": "Search by package name",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 191
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns list of package popularities",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/PackagePopularityList"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/api\/submit": {
+            "post": {
+                "tags": [
+                    "pkgstats"
+                ],
+                "description": "POST endpoint for the pkgstats cli tool",
+                "operationId": "post_app_api_submit",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "properties": {
+                                    "version": {
+                                        "type": "string",
+                                        "example": "3"
+                                    },
+                                    "system": {
+                                        "properties": {
+                                            "architecture": {
+                                                "description": "Architecture of the CPU",
+                                                "type": "string",
+                                                "example": "x86_64"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "os": {
+                                        "properties": {
+                                            "architecture": {
+                                                "description": "Architecture of the distribution",
+                                                "type": "string",
+                                                "example": "x86_64"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "pacman": {
+                                        "properties": {
+                                            "mirror": {
+                                                "description": "Package mirror",
+                                                "type": "string",
+                                                "example": "https:\/\/mirror.pkgbuild.com\/"
+                                            },
+                                            "packages": {
+                                                "description": "List of package names",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string",
+                                                    "maxLength": 191,
+                                                    "minLength": 1
+                                                },
+                                                "maxItems": 10000,
+                                                "minItems": 1,
+                                                "example": [
+                                                    "pacman",
+                                                    "linux",
+                                                    "pkgstats"
+                                                ]
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Submission was successful"
+                    },
+                    "400": {
+                        "description": "Validation failed"
+                    },
+                    "429": {
+                        "description": "Rate limit was reached"
+                    }
+                }
+            }
+        },
+        "\/api\/doc.json": {
+            "get": {
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PackagePopularity": {
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "samples": {
+                        "type": "integer"
+                    },
+                    "count": {
+                        "type": "integer"
+                    },
+                    "startMonth": {
+                        "type": "integer"
+                    },
+                    "endMonth": {
+                        "type": "integer"
+                    },
+                    "popularity": {
+                        "type": "number",
+                        "format": "float"
+                    }
+                },
+                "type": "object"
+            },
+            "PackagePopularityList": {
+                "properties": {
+                    "packagePopularities": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#\/components\/schemas\/PackagePopularity"
+                        }
+                    },
+                    "total": {
+                        "type": "integer"
+                    },
+                    "limit": {
+                        "type": "integer"
+                    },
+                    "offset": {
+                        "type": "integer"
+                    },
+                    "query": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "count": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
