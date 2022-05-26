@@ -1,8 +1,7 @@
 module.exports = {
   root: true,
   env: {
-    browser: true,
-    'vue/setup-compiler-macros': true
+    browser: true
   },
   extends: [
     'standard',

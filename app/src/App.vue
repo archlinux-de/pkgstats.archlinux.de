@@ -75,11 +75,19 @@
 </style>
 
 <script setup>
-import 'bootstrap/js/src/collapse'
+import Collapse from 'bootstrap/js/src/collapse'
 import LogoImage from './assets/images/archlogo.svg'
 import IconImage from './assets/images/archicon.svg'
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useHead } from '@vueuse/head'
+
+useRouter().beforeEach(() => {
+  const navbar = Collapse.getInstance('#archlinux-navbar')
+  if (navbar) {
+    navbar.hide()
+  }
+})
 
 useHead({
   title: 'pkgstats',

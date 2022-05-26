@@ -16,5 +16,8 @@ export default createRouter({
     { path: '/', name: 'start', component: Start },
     { path: '/api/doc', name: 'api-doc', component: () => import(/* webpackChunkName: "api-doc" */ './views/ApiDoc') },
     { path: '/:pathMatch(.*)*', component: NotFound }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    return savedPosition ?? { x: 0, y: 0 }
+  }
 })

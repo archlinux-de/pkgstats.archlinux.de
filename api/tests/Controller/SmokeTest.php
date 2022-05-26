@@ -20,7 +20,7 @@ class SmokeTest extends DatabaseTestCase
     public static function setUpBeforeClass(): void
     {
         Month::setBaseTimestamp(strtotime('2022-02-02'));
-        Months::setNumberOfMonths(8);
+        Months::setNumberOfMonths(3);
     }
 
     public static function tearDownAfterClass(): void
