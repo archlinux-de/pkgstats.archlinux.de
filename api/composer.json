@@ -19,20 +19,20 @@
         "maxmind-db/reader": "^1.11.0",
         "nelmio/api-doc-bundle": "^4.9.0",
         "sensio/framework-extra-bundle": "^6.2.6",
-        "symfony/console": "^6.0.9",
-        "symfony/dotenv": "^6.0.5",
-        "symfony/expression-language": "^6.0.8",
+        "symfony/console": "^6.1.0",
+        "symfony/dotenv": "^6.1.0",
+        "symfony/expression-language": "^6.1.0",
         "symfony/flex": "^2.1.8",
-        "symfony/framework-bundle": "^6.0.9",
-        "symfony/intl": "^6.0.8",
+        "symfony/framework-bundle": "^6.1.0",
+        "symfony/intl": "^6.1.0",
         "symfony/monolog-bundle": "^3.8.0",
-        "symfony/property-info": "^6.0.9",
-        "symfony/rate-limiter": "^6.0.9",
-        "symfony/runtime": "^6.0.8",
-        "symfony/serializer": "^6.0.9",
-        "symfony/twig-bundle": "^6.0.8",
-        "symfony/validator": "^6.0.8",
-        "symfony/yaml": "^6.0.3"
+        "symfony/property-info": "^6.1.0",
+        "symfony/rate-limiter": "^6.1.0",
+        "symfony/runtime": "^6.1.0",
+        "symfony/serializer": "^6.1.0",
+        "symfony/twig-bundle": "^6.1.0",
+        "symfony/validator": "^6.1.0",
+        "symfony/yaml": "^6.1.0"
     },
     "require-dev": {
         "ext-libxml": "*",
@@ -112,7 +112,8 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.0.*"
+            "require": "6.1.*",
+            "docker": false
         },
         "mc-bumpface": {
             "stripVersionPrefixes": true

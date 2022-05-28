@@ -4,3 +4,12 @@ framework:
             policy: 'fixed_window'
             limit: 10
             interval: '1 day'
+
+when@test:
+    services:
+        Symfony\Component\RateLimiter\Storage\InMemoryStorage:
+
+    framework:
+        rate_limiter:
+            pkgstats_request:
+                storage_service: 'Symfony\Component\RateLimiter\Storage\InMemoryStorage'

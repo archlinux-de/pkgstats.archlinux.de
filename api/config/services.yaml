@@ -20,7 +20,6 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/Tests/'
             - '../src/Request/'
 
     # add more service definitions when explicit configuration is needed
@@ -45,3 +44,11 @@ services:
     App\Cache\PackageRepositoryCacheWarmer:
         bind:
             $environment: '%kernel.environment%'
+
+when@dev:
+    services:
+        League\ISO3166\ISO3166:
+
+when@test:
+    services:
+        League\ISO3166\ISO3166:

@@ -62,7 +62,7 @@ class PkgstatsRequestDenormalizer implements DenormalizerInterface, CacheableSup
         return $pkgstatsRequest;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return $type === PkgstatsRequest::class;
     }

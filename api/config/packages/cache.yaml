@@ -17,3 +17,13 @@ framework:
         # Namespaced pools use the above "app" backend by default
         #pools:
             #my.dedicated.cache: null
+
+when@dev:
+    framework:
+        cache:
+            app: cache.adapter.array
+
+when@test:
+    framework:
+        cache:
+            app: cache.adapter.array
