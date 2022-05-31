@@ -2,6 +2,7 @@
 
 namespace App\Tests\ParamConverter;
 
+use App\Entity\Month;
 use App\ParamConverter\StatisticsRangeParamConverter;
 use App\Request\PkgstatsRequestException;
 use App\Request\StatisticsRangeRequest;
@@ -40,6 +41,8 @@ class StatisticsRangeParamConverterTest extends TestCase
 
     public function testDefault(): void
     {
+        Month::resetBaseTimestamp();
+
         /** @var ParamConverter|MockObject $configuration */
         $configuration = $this->createMock(ParamConverter::class);
         $configuration
@@ -66,8 +69,8 @@ class StatisticsRangeParamConverterTest extends TestCase
         );
         /** @var StatisticsRangeRequest $statisticsRangeRequest */
         $statisticsRangeRequest = $request->attributes->get(StatisticsRangeRequest::class);
-        $this->assertEquals(date('Ym', strtotime('-1 month')), $statisticsRangeRequest->getStartMonth());
-        $this->assertEquals(date('Ym', strtotime('-1 month')), $statisticsRangeRequest->getEndMonth());
+        $this->assertEquals(date('Ym', strtotime('first day of this month -1 months')), $statisticsRangeRequest->getStartMonth());
+        $this->assertEquals(date('Ym', strtotime('first day of this month -1 months')), $statisticsRangeRequest->getEndMonth());
     }
 
     public function testApply(): void
