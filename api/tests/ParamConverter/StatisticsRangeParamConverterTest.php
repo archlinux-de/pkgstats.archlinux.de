@@ -69,8 +69,20 @@ class StatisticsRangeParamConverterTest extends TestCase
         );
         /** @var StatisticsRangeRequest $statisticsRangeRequest */
         $statisticsRangeRequest = $request->attributes->get(StatisticsRangeRequest::class);
-        $this->assertEquals(date('Ym', strtotime('first day of this month -1 months')), $statisticsRangeRequest->getStartMonth());
-        $this->assertEquals(date('Ym', strtotime('first day of this month -1 months')), $statisticsRangeRequest->getEndMonth());
+        $this->assertEquals(
+            date(
+                'Ym',
+                strtotime('first day of this month -1 months')
+            ),
+            $statisticsRangeRequest->getStartMonth()
+        );
+        $this->assertEquals(
+            date(
+                'Ym',
+                strtotime('first day of this month -1 months')
+            ),
+            $statisticsRangeRequest->getEndMonth()
+        );
     }
 
     public function testApply(): void
