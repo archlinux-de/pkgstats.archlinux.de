@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   cypress:
-    image: cypress/included:9.7.0
+    image: cypress/included:10.0.2
     depends_on:
       - nginx
     environment:
@@ -16,6 +16,7 @@ services:
     working_dir: /app
     volumes:
       - ../app:/app:ro
+      - ../app/tests/e2e:/app/tests/e2e:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:ro
     tmpfs:
       - /tmp
