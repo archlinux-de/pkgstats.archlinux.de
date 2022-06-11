@@ -1,4 +1,6 @@
-export default function convertToDataSeries (PackagepopularitiesArray) {
+import { computed, unref } from 'vue'
+
+const convertToDataSeries = (PackagepopularitiesArray) => {
   const tempSeries = new Map()
   const tempLabels = new Set()
 
@@ -40,3 +42,5 @@ export default function convertToDataSeries (PackagepopularitiesArray) {
 
   return data
 }
+
+export const useConvertDataSeries = (PackagepopularitiesArray) => computed(() => convertToDataSeries(unref(PackagepopularitiesArray)))

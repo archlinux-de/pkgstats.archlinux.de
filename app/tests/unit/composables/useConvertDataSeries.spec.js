@@ -1,9 +1,10 @@
-import convertToDataSeries from '../../src/services/DataSeriesConverter'
+import { useConvertDataSeries } from '../../../src/composables/useConvertDataSeries'
+import { unref } from 'vue'
 
 it('Converting an Array to a data series', () =>
-  expect(convertToDataSeries([
+  expect(unref(useConvertDataSeries([
     { packagePopularities: [{ name: 'nodejs', popularity: 64.01, startMonth: 201909 }] }
-  ]))
+  ])))
     .toStrictEqual({
       labels: [201909],
       datasets: [
@@ -13,10 +14,10 @@ it('Converting an Array to a data series', () =>
 )
 
 it('Converting multiple Arrays to data series', () =>
-  expect(convertToDataSeries([
+  expect(unref(useConvertDataSeries([
     { packagePopularities: [{ name: 'nodejs', popularity: 64.01, startMonth: 201909 }] },
     { packagePopularities: [{ name: 'php', popularity: 32.69, startMonth: 201909 }] }
-  ]))
+  ])))
     .toStrictEqual({
       labels: [201909],
       datasets: [
@@ -27,7 +28,7 @@ it('Converting multiple Arrays to data series', () =>
 )
 
 it('Converting multiple incomplete Arrays to a consistent data series', () =>
-  expect(convertToDataSeries([
+  expect(unref(useConvertDataSeries([
     { packagePopularities: [{ name: 'nodejs', popularity: 64.01, startMonth: 201909 }] },
     {
       packagePopularities: [
@@ -35,7 +36,7 @@ it('Converting multiple incomplete Arrays to a consistent data series', () =>
         { name: 'php', popularity: 12, startMonth: 201909 }
       ]
     }
-  ]))
+  ])))
     .toStrictEqual({
       labels: [201908, 201909],
       datasets: [
@@ -46,6 +47,6 @@ it('Converting multiple incomplete Arrays to a consistent data series', () =>
 )
 
 it('Converting an incomplete Array to an empty data series', () =>
-  expect(convertToDataSeries([{ packagePopularities: [] }]))
+  expect(unref(useConvertDataSeries([{ packagePopularities: [] }])))
     .toStrictEqual({ labels: [], datasets: [] })
 )

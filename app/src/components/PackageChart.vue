@@ -7,13 +7,10 @@
 </template>
 
 <script setup>
-import { inject, computed } from 'vue'
-
 import LoadingSpinner from './LoadingSpinner'
 import { useFetchPackagesSeries } from '../composables/useApiFetch'
 import ChartJs from './ChartJs'
-
-const convertToDataSeries = inject('convertToDataSeries')
+import { useConvertDataSeries } from '../composables/useConvertDataSeries'
 
 const props = defineProps({
   packages: {
@@ -52,5 +49,5 @@ const props = defineProps({
 
 const { data: fetchedData, isFetching, isFinished, error } = useFetchPackagesSeries(props.packages, { startMonth: props.startMonth, endMonth: props.endMonth, limit: props.limit })
 
-const data = computed(() => convertToDataSeries(fetchedData.value))
+const data = useConvertDataSeries(fetchedData)
 </script>
