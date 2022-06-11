@@ -10,6 +10,6 @@ describe('Compare', () => {
   })
 
   it('shows chart', () => {
-    cy.assertCanvasIsNotEmpty('#package-chart[style]')
+    cy.assertCanvasIsNotEmpty('[data-test=package-chart][style]')
   })
 })

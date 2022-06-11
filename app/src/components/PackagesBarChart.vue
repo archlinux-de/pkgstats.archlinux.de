@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="alert alert-danger" role="alert" v-if="error != ''">{{ error }}</div>
-    <loading-spinner absolute v-if="loading"></loading-spinner>
+    <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
+    <loading-spinner absolute v-if="isFetching"></loading-spinner>
     <table class="table table-sm table-borderless">
       <colgroup>
         <col class="w-25">
@@ -27,10 +27,8 @@
 </template>
 
 <script setup>
-import { toRefs, ref, inject, onMounted } from 'vue'
 import LoadingSpinner from './LoadingSpinner'
-
-const apiPackagesService = inject('apiPackagesService')
+import { useFetchPackagesPopularity } from '../composables/useApiFetch'
 
 const props = defineProps({
   packages: {
@@ -38,28 +36,6 @@ const props = defineProps({
     required: true
   }
 })
-const { packages } = toRefs(props)
-const packagePopularities = ref(packages.value.map(packageName => ({ name: packageName, popularity: 0 })))
-const error = ref('')
-const loading = ref(false)
 
-const sortPackagesByPopularity = packagePopularities => packagePopularities.sort((a, b) => Math.sign(b.popularity - a.popularity))
-
-const fetchData = () => {
-  loading.value = true
-  Promise.all(packages.value.map(packageName => apiPackagesService.fetchPackagePopularity(packageName)))
-    .then(dataArray => {
-      packagePopularities.value = sortPackagesByPopularity(dataArray)
-    })
-    .catch(e => {
-      error.value = e.toString()
-    })
-    .finally(() => {
-      loading.value = false
-    })
-}
-
-onMounted(() => {
-  fetchData()
-})
+const { data: packagePopularities, isFetching, error } = useFetchPackagesPopularity(props.packages)
 </script>

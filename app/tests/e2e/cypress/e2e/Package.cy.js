@@ -12,6 +12,6 @@ describe('Package', () => {
   it('shows chart', () => {
     // eslint-disable-next-line cypress/no-unnecessary-waiting
     cy.wait(1000)
-    cy.assertCanvasIsNotEmpty('#package-chart[style]')
+    cy.assertCanvasIsNotEmpty('[data-test=package-chart][style]')
   })
 })
