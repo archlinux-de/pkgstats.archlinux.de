@@ -1798,14 +1798,14 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.2.37.tgz#8e6adc3f2759af52f0e85863dfb0b711ecc5c702"
   integrity sha512-4rSJemR2NQIo9Klm1vabqWjD8rs/ZaJSzMxkMNeJS6lHiUjjUeYFbooN19NgFjztubEKh3WlZUeOLVdbbUWHsw==
 
-"@vueuse/core@^8.9.2":
-  version "8.9.2"
-  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-8.9.2.tgz#49499abc4db31232d21574cf0d996bd5581dfc13"
-  integrity sha512-dE3/JgwqIHmmtmRBdZAnq87rZCSFbYVps2t3gWy9Jv/+Qp6sHSSKuPFtwguJVZ2OnaGnB/AMRmx4CuFRxFin3A==
+"@vueuse/core@^8.9.3":
+  version "8.9.3"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-8.9.3.tgz#209ca814a6bd4cbc45c799069efc8cd140e407f0"
+  integrity sha512-q2pr3N7FPG7IBBhEXTYOJU+38VwKMLP5IfD33byzBV4Th7f1JHT4qPKvJrvr17knAefPRzNqgt9et+xFqaRlPQ==
   dependencies:
     "@types/web-bluetooth" "^0.0.14"
-    "@vueuse/metadata" "8.9.2"
-    "@vueuse/shared" "8.9.2"
+    "@vueuse/metadata" "8.9.3"
+    "@vueuse/shared" "8.9.3"
     vue-demi "*"
 
 "@vueuse/head@^0.7.6":
@@ -1813,23 +1813,23 @@
   resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-0.7.6.tgz#39eb2aa593db6f02d10ba469b33d8cfbce038183"
   integrity sha512-cOWqCkT3WiF5oEpw+VVEWUJd9RLD5rc7DmnFp3cePsejp+t7686uKD9Z9ZU7Twb7R/BI8iexKTmXo9D/F3v6UA==
 
-"@vueuse/metadata@8.9.2":
-  version "8.9.2"
-  resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-8.9.2.tgz#ce9d535968ad23d452566f3f61ad86b3e5606ad1"
-  integrity sha512-g2s2BeyeEtJElmMFfFPnM+BTvnt0omniyvz8U18/zXDpQIMGozlNQgHoFeratyMfgVBhH/u2VKzmchChtDsgPQ==
+"@vueuse/metadata@8.9.3":
+  version "8.9.3"
+  resolved "https://registry.yarnpkg.com/@vueuse/metadata/-/metadata-8.9.3.tgz#5370d787d324bba111a642b016225c8d0a59fcf9"
+  integrity sha512-57gZZKtWAmcJaUBmciCohvmumVLz4+FnoVnWj7U5BWs5PC2/7gU9Z0/i1i9leDNeboAauFzAq7z1GjS8eYnT+w==
 
-"@vueuse/router@^8.9.2":
-  version "8.9.2"
-  resolved "https://registry.yarnpkg.com/@vueuse/router/-/router-8.9.2.tgz#2a0feae42253fac197a8009056e6c189cb228bb8"
-  integrity sha512-HyY9H9kcvGIR1Q+/D4J7V3eZkQOLj6TefPWEbqa86iolh48uYx06X0YqXyjkiwIvc4ck1x/N7DjdNbO9Su639A==
+"@vueuse/router@^8.9.3":
+  version "8.9.3"
+  resolved "https://registry.yarnpkg.com/@vueuse/router/-/router-8.9.3.tgz#6c93d6827e8ef4948041caefb8a5cd0c1076495a"
+  integrity sha512-KY3Vl935xqlpOmB6xdYIG+MUtvxoY2ox1xyQCoa+Rb9RTfpWtU3T3u1TJYaKUb2MIRJZj7Q6kQ6coTxVDkSPKQ==
   dependencies:
-    "@vueuse/shared" "8.9.2"
+    "@vueuse/shared" "8.9.3"
     vue-demi "*"
 
-"@vueuse/shared@8.9.2":
-  version "8.9.2"
-  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-8.9.2.tgz#d8a46f73ae2a971754ea9572505239bfbc311e2a"
-  integrity sha512-s4Nk82oheL5z1GywyGnqjob0MzbAt88olMZa0vgt/p3gcMsT8Ff7+SqmNgEFC6AAs6xiuhOAZpnew9Zs3d90yQ==
+"@vueuse/shared@8.9.3":
+  version "8.9.3"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-8.9.3.tgz#5083ccf6a1f87a4a7a87410c180d6576a3aa4446"
+  integrity sha512-foorYQAU3CGknAO1w9No/rpGBJmb7L74MPltnZAYxeBRfhsajjJYYgja+D5IT2vT+/a0NciISaVp3fDwMN1ocA==
   dependencies:
     vue-demi "*"
 
@@ -3310,9 +3310,9 @@ ejs@^3.1.6:
     jake "^10.8.5"
 
 electron-to-chromium@^1.4.188:
-  version "1.4.189"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.189.tgz#4e5b221dc44e09e9dddc9abbc6457857dee7ba25"
-  integrity sha512-dQ6Zn4ll2NofGtxPXaDfY2laIa6NyCQdqXYHdwH90GJQW0LpJJib0ZU/ERtbb0XkBEmUD2eJtagbOie3pdMiPg==
+  version "1.4.191"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.191.tgz#01dd4bf32502a48ce24bf3890b5553a1c5f93539"
+  integrity sha512-MeEaiuoSFh4G+rrN+Ilm1KJr8pTTZloeLurcZ+PRcthvdK1gWThje+E6baL7/7LoNctrzCncavAG/j/vpES9jg==
 
 emittery@^0.10.2:
   version "0.10.2"
