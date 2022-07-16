@@ -45,6 +45,18 @@ services:
         bind:
             $environment: '%kernel.environment%'
 
+    App\Controller\ApiPackagesController:
+        bind:
+            $environment: '%kernel.environment%'
+
+    App\Controller\SitemapController:
+        bind:
+            $environment: '%kernel.environment%'
+
+    App\EventSubscriber\ApiDocJsonCacheSubscriber:
+        bind:
+            $environment: '%kernel.environment%'
+
 when@dev:
     services:
         League\ISO3166\ISO3166:

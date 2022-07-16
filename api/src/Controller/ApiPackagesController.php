@@ -17,8 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ApiPackagesController extends AbstractController
 {
-    public function __construct(private PackagePopularityCalculator $packagePopularityCalculator)
-    {
+    public function __construct(
+        private PackagePopularityCalculator $packagePopularityCalculator,
+        private string $environment
+    ) {
     }
 
     #[Route(
@@ -64,6 +66,10 @@ class ApiPackagesController extends AbstractController
 
     private function applyCacheHeaders(Response $response): Response
     {
+        if ($this->environment !== 'prod') {
+            return $response;
+        }
+
         return $response
             ->setMaxAge(5 * 60)
             ->setSharedMaxAge(Month::create(1)->getTimestamp() - time());

@@ -8,13 +8,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SitemapController extends AbstractController
 {
+    public function __construct(private string $environment)
+    {
+    }
+
     #[Route(path: '/sitemap.xml', name: 'app_sitemap', methods: ['GET'])]
     public function indexAction(): Response
     {
         $response = $this->render('sitemap.xml.twig');
         $response->headers->set('Content-Type', 'application/xml; charset=UTF-8');
-        $response->setSharedMaxAge(60 * 60);
-        $response->setMaxAge(5 * 60);
+        if ($this->environment === 'prod') {
+            $response->setSharedMaxAge(60 * 60);
+            $response->setMaxAge(5 * 60);
+        }
         return $response;
     }
 }

@@ -8,6 +8,10 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ApiDocJsonCacheSubscriber implements EventSubscriberInterface
 {
+    public function __construct(private string $environment)
+    {
+    }
+
     public static function getSubscribedEvents(): array
     {
         return [KernelEvents::RESPONSE => ['onKernelResponse']];
@@ -23,7 +27,9 @@ class ApiDocJsonCacheSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $event->getResponse()->setMaxAge(300);
-        $event->getResponse()->setSharedMaxAge(3600);
+        if ($this->environment === 'prod') {
+            $event->getResponse()->setMaxAge(300);
+            $event->getResponse()->setSharedMaxAge(3600);
+        }
     }
 }
