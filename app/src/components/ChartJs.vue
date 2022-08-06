@@ -134,12 +134,13 @@ const drawChart = (canvas, data) => {
 onMounted(() => {
   const chart = drawChart(canvas.value, data.value)
 
-  watch(data, () => {
+  const unwatch = watch(data, () => {
     chart.data = data.value
     chart.update()
   })
 
   onBeforeUnmount(() => {
+    unwatch()
     chart.destroy()
   })
 })

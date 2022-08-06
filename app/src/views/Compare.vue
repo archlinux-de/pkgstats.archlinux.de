@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue'
+import { computed, onBeforeUnmount, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHead } from '@vueuse/head'
 import PackageChart from '../components/PackageChart'
@@ -28,13 +28,17 @@ const packages = computed(() => route.hash
   .slice(0, 10)
 )
 
-watch(packages, () => {
+const unwatch = watch(packages, () => {
   const canonicalHash = '#packages=' + packages.value.join(',')
 
-  if (route.hash !== canonicalHash) {
+  if (route.name === 'compare' && route.hash !== canonicalHash) {
     router.replace({ name: 'compare', hash: canonicalHash })
   }
 }, { immediate: true })
+
+onBeforeUnmount(() => {
+  unwatch()
+})
 
 useHead({ title: 'Compare Packages' })
 </script>
