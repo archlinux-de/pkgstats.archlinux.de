@@ -30,7 +30,6 @@ export const useFetchPackageList = (query, offset, limit) => {
       initialData: { packagePopularities: [] },
       refetch: true,
       afterFetch: (ctx) => {
-        console.log('var')
         if (result.data.value.offset < ctx.data.offset) {
           ctx.data.packagePopularities = [...result.data.value.packagePopularities, ...ctx.data.packagePopularities]
         }

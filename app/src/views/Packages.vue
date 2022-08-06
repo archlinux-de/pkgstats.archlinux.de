@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useIntersectionObserver } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
@@ -61,10 +61,6 @@ const offset = ref(0)
 const limit = ref(60)
 
 const { isFinished, isFetching, data, error } = useFetchPackageList(query, offset, limit)
-
-watch(data, () => {
-  console.log('foo', data.value)
-})
 
 const end = ref(null)
 
