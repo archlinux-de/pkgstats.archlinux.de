@@ -28,7 +28,6 @@
 </style>
 
 <script setup>
-import { defineProps } from 'vue'
 defineProps({
   absolute: {
     type: Boolean,
