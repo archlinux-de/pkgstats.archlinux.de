@@ -44,6 +44,16 @@ const renderYearMonth = yearMonth => {
   return `${year}-${month}`
 }
 
+const testRenderPlugin = {
+  id: 'testRenderPlugin',
+  beforeRender: function (chart) {
+    chart.canvas.dataset.testRendered = 'false'
+  },
+  afterRender: function (chart) {
+    chart.canvas.dataset.testRendered = 'true'
+  }
+}
+
 const drawChart = (canvas, data) => {
   const colors = ['#08c', '#dc3545', '#198754', '#ffc107', '#0dcaf0', '#d63384', '#fd7e14', '#333', '#6f42c1', '#adb5bd']
   const textColor = '#333'
@@ -55,7 +65,8 @@ const drawChart = (canvas, data) => {
     CategoryScale,
     LinearScale,
     Legend,
-    Tooltip
+    Tooltip,
+    testRenderPlugin
   )
 
   return new Chart(canvas, {
