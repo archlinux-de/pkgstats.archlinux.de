@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="alert alert-danger" role="alert" v-if="error">{{ error }}</div>
+    <div class="alert alert-danger" role="alert" v-if="error.length > 0">{{ error }}</div>
     <loading-spinner v-if="isFetching"></loading-spinner>
-    <chart-js v-if="isFinished" :data="data" :width="1280" :height="720" data-test="package-chart"></chart-js>
+    <chart-js v-if="isFinished && error.length === 0" :data="data" :width="1280" :height="720" data-test="package-chart"></chart-js>
   </div>
 </template>
 

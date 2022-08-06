@@ -5,6 +5,10 @@ const convertToDataSeries = (PackagepopularitiesArray) => {
   const tempLabels = new Set()
 
   PackagepopularitiesArray.filter(data => data).forEach(result => {
+    if (!Array.isArray(result.packagePopularities)) {
+      return
+    }
+
     result.packagePopularities.forEach((packagePopularity) => {
       tempLabels.add(packagePopularity.startMonth)
       let tempData

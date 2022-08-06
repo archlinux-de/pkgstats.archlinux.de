@@ -41,15 +41,16 @@ export const useFetchPackagesSeries = (pkgs, options) => {
   const data = ref([])
   const isFinished = ref(false)
   const isFetching = ref(true)
-  const error = ref(null)
+  const error = ref([])
 
   Promise.all(unref(pkgs).map(pkg => useFetchPackageSeries(pkg, options)))
     .then(results => {
       data.value = results.map(result => unref(result.data))
+      error.value = results.map(result => unref(result.error)).filter(error => error)
       isFinished.value = true
     })
     .catch(e => {
-      error.value = e.toString()
+      error.value.push(e.toString())
     })
     .finally(() => {
       isFetching.value = false
