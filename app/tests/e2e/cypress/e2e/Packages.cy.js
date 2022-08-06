@@ -1,6 +1,8 @@
 describe('Packages', () => {
   beforeEach(() => {
+    cy.intercept({ method: 'GET', pathname: /^\/api\// }).as('api')
     cy.visit('/packages')
+    cy.wait('@api')
   })
 
   it('shows title', () => {
@@ -17,5 +19,14 @@ describe('Packages', () => {
   it('handles invalid input', () => {
     cy.get('input[type=search]').type('{bar}', { parseSpecialCharSequences: false })
     cy.contains('[role=alert]', 'Bad Request')
+  })
+
+  it('loads additional packages when scrolling', () => {
+    const packageLimit = 60
+    const packageRowHeight = 30
+    cy.get('table').find('tr').should('have.length', packageLimit + 1)
+    cy.scrollTo(0, packageRowHeight * packageLimit)
+    cy.wait('@api')
+    cy.get('table').find('tr').should('have.length', packageLimit * 2 + 1)
   })
 })
