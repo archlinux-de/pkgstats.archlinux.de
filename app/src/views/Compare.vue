@@ -19,13 +19,14 @@ import PackageChart from '../components/PackageChart'
 const route = useRoute()
 const router = useRouter()
 
-const packages = computed(() => route.hash
-  .replace(/^#packages=/, '')
-  .split(',')
-  .filter(value => value.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]+$/))
-  .reduce((previous, current, index, array) => [...new Set(array)], [])
-  .sort()
-  .slice(0, 10)
+const packages = computed(() => {
+  const tempPackages = route.hash
+    .replace(/^#packages=/, '')
+    .split(',')
+    .filter(value => value.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]+$/))
+
+  return [...new Set(tempPackages)].sort().slice(0, 10)
+}
 )
 
 const unwatch = watch(packages, () => {
