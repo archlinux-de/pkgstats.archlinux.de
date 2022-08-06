@@ -18,7 +18,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr :key="id" v-for="(pkg, id) in data.packagePopularities">
+        <tr :key="id" v-for="(pkg, id) in data.packagePopularities" :data-test-name="pkg.name">
           <td class="text-nowrap">
             <router-link :to="{name: 'package', params: {package: pkg.name}}">{{ pkg.name }}</router-link>
           </td>

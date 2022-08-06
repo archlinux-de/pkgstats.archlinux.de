@@ -7,7 +7,7 @@
         <col class="w-25">
         <col class="w-75">
       </colgroup>
-      <tr :key="packagePopularity.name" v-for="packagePopularity in packagePopularities">
+      <tr :key="packagePopularity.name" v-for="packagePopularity in packagePopularities" :data-test-name="packagePopularity.name">
         <td>
           <router-link :to="{name: 'package', params:{package: packagePopularity.name}}">{{ packagePopularity.name }}
           </router-link>
