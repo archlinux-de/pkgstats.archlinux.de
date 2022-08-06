@@ -16,7 +16,7 @@ describe('Fun', () => {
   })
 
   it('shows packages', () => {
-    cy.get('[data-test-name=firefox] [role=progressbar]').invoke('text').should('match', /^\d+/)
+    cy.get('[data-test-name=firefox] [role=progressbar][aria-valuenow*="."]').invoke('text').should('match', /^\d+/)
     cy.contains('a', 'firefox')
   })
 
@@ -29,7 +29,7 @@ describe('Fun', () => {
     cy.scrollTo(0, packageRowHeight * entriesLength)
     cy.wait('@api-packages')
 
-    cy.get(`[data-test-name=${lastPackage}] [role=progressbar]`).invoke('text').should('match', /^\d+/)
+    cy.get(`[data-test-name=${lastPackage}] [role=progressbar][aria-valuenow*="."]`, { timeout: 30000 }).invoke('text').should('match', /^\d+/)
     cy.contains('a', lastPackage)
   })
 })

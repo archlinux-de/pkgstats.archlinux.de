@@ -18,7 +18,7 @@ describe('Packages', () => {
     cy.location().should((loc) => {
       expect(loc.search).to.eq('?query=firefox')
     })
-    cy.get('[data-test-name=firefox] [role=progressbar]').invoke('text').should('match', /^\d+/)
+    cy.get('[data-test-name=firefox] [role=progressbar][aria-valuenow*="."]').invoke('text').should('match', /^\d+/)
     cy.contains('[role=alert]', 'packages found')
     cy.contains('a', 'firefox')
   })
