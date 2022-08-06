@@ -1,6 +1,8 @@
 describe('Fun', () => {
   beforeEach(() => {
+    cy.intercept({ method: 'GET', pathname: /^\/api\/packages\/[\w-]+$/ }).as('api-packages')
     cy.visit('/fun')
+    cy.wait('@api-packages')
   })
 
   it('shows title', () => {

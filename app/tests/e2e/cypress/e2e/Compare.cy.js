@@ -1,8 +1,8 @@
 describe('Compare', () => {
   beforeEach(() => {
-    cy.intercept({ method: 'GET', pathname: /^\/api\// }).as('api')
+    cy.intercept({ method: 'GET', pathname: /^\/api\/packages\/[\w-]+\/series$/ }).as('api-packages-series')
     cy.visit('/compare/packages#packages=chromium,firefox')
-    cy.wait('@api')
+    cy.wait('@api-packages-series')
   })
 
   it('shows title', () => {

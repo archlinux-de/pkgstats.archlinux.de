@@ -1,8 +1,8 @@
 describe('Packages', () => {
   beforeEach(() => {
-    cy.intercept({ method: 'GET', pathname: /^\/api\// }).as('api')
+    cy.intercept({ method: 'GET', pathname: /^\/api\/packages$/ }).as('api-packages-query')
     cy.visit('/packages')
-    cy.wait('@api')
+    cy.wait('@api-packages-query')
   })
 
   it('shows title', () => {
@@ -26,7 +26,7 @@ describe('Packages', () => {
     const packageRowHeight = 30
     cy.get('table').find('tr').should('have.length', packageLimit + 1)
     cy.scrollTo(0, packageRowHeight * packageLimit)
-    cy.wait('@api')
+    cy.wait('@api-packages-query')
     cy.get('table').find('tr').should('have.length', packageLimit * 2 + 1)
   })
 })
