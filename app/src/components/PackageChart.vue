@@ -34,19 +34,6 @@ const props = defineProps({
   }
 })
 
-/*
-  if (packages.value.length < 1) {
-    loading.value = false
-    errors.value.push('No packages defined')
-    return
-  }
-  if (packages.value.length > 10) {
-    loading.value = false
-    errors.value.push('Too many packages defined')
-    return
-  }
-  */
-
 const { data: fetchedData, isFetching, isFinished, error } = useFetchPackagesSeries(props.packages, { startMonth: props.startMonth, endMonth: props.endMonth, limit: props.limit })
 
 const data = useConvertDataSeries(fetchedData)

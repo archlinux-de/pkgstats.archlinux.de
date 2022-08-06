@@ -2,32 +2,39 @@
   <div class="container" role="main">
     <h1 class="mb-3">Compare Packages</h1>
     <p class="mb-3">Relative usage of packages</p>
-    <package-chart :limit="0" :packages="packages" :start-month="0"></package-chart>
+    <package-chart :limit="0" v-if="packages.length > 0" :packages="packages" :start-month="0"></package-chart>
+    <div v-else class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">No packages defined</h4>
+      <p>Provide at least one package name to compare</p>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useHead } from '@vueuse/head'
 import PackageChart from '../components/PackageChart'
 
-const packages = (() => {
-  let packages = useRoute().hash
-    .replace(/^#packages=/, '')
-    .split(',')
-    .filter(pkg => pkg.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]+$/))
+const route = useRoute()
+const router = useRouter()
 
-  packages = Array.from(new Set(packages)).sort()
-  // limit the number of line graphs
-  packages = packages.slice(0, 10)
+const packages = computed(() => route.hash
+  .replace(/^#packages=/, '')
+  .split(',')
+  .filter(value => value.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]+$/))
+  .reduce((previous, current, index, array) => [...new Set(array)], [])
+  .sort()
+  .slice(0, 10)
+)
 
-  const canonicalHash = '#packages=' + packages.join(',')
-  if (useRoute().hash !== canonicalHash) {
-    useRouter().replace({ name: 'compare', hash: canonicalHash })
+watch(packages, () => {
+  const canonicalHash = '#packages=' + packages.value.join(',')
+
+  if (route.hash !== canonicalHash) {
+    router.replace({ name: 'compare', hash: canonicalHash })
   }
-
-  return packages
-})()
+}, { immediate: true })
 
 useHead({ title: 'Compare Packages' })
 </script>
