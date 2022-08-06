@@ -28,7 +28,7 @@
 
 <script setup>
 import LoadingSpinner from './LoadingSpinner'
-import { useFetchPackagesPopularity } from '../composables/useApiFetch'
+import { useFetchPackagesPopularity } from '../composables/useFetchPackagesPopularity'
 
 const props = defineProps({
   packages: {

@@ -54,7 +54,7 @@ import { useIntersectionObserver } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
 import { useRouteHash, useRouteQuery } from '@vueuse/router'
 import LoadingSpinner from '../components/LoadingSpinner'
-import { useFetchPackageList } from '../composables/useApiFetch'
+import { useFetchPackageList } from '../composables/useFetchPackageList'
 
 const query = useRouteQuery('query', useRouteHash('').value.replace(/^#query=/, ''))
 const offset = ref(0)

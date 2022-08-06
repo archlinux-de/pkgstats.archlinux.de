@@ -8,7 +8,7 @@
 
 <script setup>
 import LoadingSpinner from './LoadingSpinner'
-import { useFetchPackagesSeries } from '../composables/useApiFetch'
+import { useFetchPackagesSeries } from '../composables/useFetchPackagesSeries'
 import ChartJs from './ChartJs'
 import { useConvertDataSeries } from '../composables/useConvertDataSeries'
 
