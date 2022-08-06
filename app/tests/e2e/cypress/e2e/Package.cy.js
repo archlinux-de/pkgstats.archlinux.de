@@ -1,8 +1,8 @@
 describe('Package', () => {
   beforeEach(() => {
-    cy.intercept({ method: 'GET', pathname: /^\/api\// }).as('api')
+    cy.intercept({ method: 'GET', pathname: /^\/api\/packages\/[\w-]+\/series$/ }).as('api-packages-series')
     cy.visit('/packages/firefox')
-    cy.wait('@api')
+    cy.wait('@api-packages-series')
   })
 
   it('shows title', () => {
@@ -10,8 +10,6 @@ describe('Package', () => {
   })
 
   it('shows chart', () => {
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(1000)
-    cy.assertCanvasIsNotEmpty('#package-chart[style]')
+    cy.assertCanvasIsNotEmpty('[data-test=package-chart][data-test-rendered=true][style]')
   })
 })

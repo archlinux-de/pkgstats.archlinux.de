@@ -1,8 +1,14 @@
-export default function convertToDataSeries (PackagepopularitiesArray) {
+import { computed, unref } from 'vue'
+
+const convertToDataSeries = (PackagepopularitiesArray) => {
   const tempSeries = new Map()
   const tempLabels = new Set()
 
   PackagepopularitiesArray.filter(data => data).forEach(result => {
+    if (!Array.isArray(result.packagePopularities)) {
+      return
+    }
+
     result.packagePopularities.forEach((packagePopularity) => {
       tempLabels.add(packagePopularity.startMonth)
       let tempData
@@ -40,3 +46,5 @@ export default function convertToDataSeries (PackagepopularitiesArray) {
 
   return data
 }
+
+export const useConvertDataSeries = (PackagepopularitiesArray) => computed(() => convertToDataSeries(unref(PackagepopularitiesArray)))
