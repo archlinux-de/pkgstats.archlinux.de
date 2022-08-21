@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ce9b792712ce8d7d4171ea6ae3351cc",
+    "content-hash": "a053d2a73f8c2270683bc9e2fac26a7a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -244,16 +244,16 @@
         },
         {
             "name": "doctrine/common",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "c824e95d4c83b7102d8bc60595445a6f7d540f96"
+                "reference": "6a76bd25b1030d35d6ba2bf2f69ca858a41fc580"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/c824e95d4c83b7102d8bc60595445a6f7d540f96",
-                "reference": "c824e95d4c83b7102d8bc60595445a6f7d540f96",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/6a76bd25b1030d35d6ba2bf2f69ca858a41fc580",
+                "reference": "6a76bd25b1030d35d6ba2bf2f69ca858a41fc580",
                 "shasum": ""
             },
             "require": {
@@ -262,6 +262,7 @@
             },
             "require-dev": {
                 "doctrine/coding-standard": "^9.0",
+                "doctrine/collections": "^1",
                 "phpstan/phpstan": "^1.4.1",
                 "phpstan/phpstan-phpunit": "^1",
                 "phpunit/phpunit": "^7.5.20 || ^8.5 || ^9.0",
@@ -314,7 +315,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/common/issues",
-                "source": "https://github.com/doctrine/common/tree/3.3.0"
+                "source": "https://github.com/doctrine/common/tree/3.3.1"
             },
             "funding": [
                 {
@@ -330,7 +331,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-05T18:28:51+00:00"
+            "time": "2022-08-20T10:48:54+00:00"
         },
         {
             "name": "doctrine/dbal",
@@ -6622,23 +6623,23 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.15",
+            "version": "9.2.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2e9da11878c4202f97915c1cb4bb1ca318a63f5f"
+                "reference": "2593003befdcc10db5e213f9f28814f5aa8ac073"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2e9da11878c4202f97915c1cb4bb1ca318a63f5f",
-                "reference": "2e9da11878c4202f97915c1cb4bb1ca318a63f5f",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2593003befdcc10db5e213f9f28814f5aa8ac073",
+                "reference": "2593003befdcc10db5e213f9f28814f5aa8ac073",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^4.13.0",
+                "nikic/php-parser": "^4.14",
                 "php": ">=7.3",
                 "phpunit/php-file-iterator": "^3.0.3",
                 "phpunit/php-text-template": "^2.0.2",
@@ -6687,7 +6688,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.15"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.16"
             },
             "funding": [
                 {
@@ -6695,7 +6696,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-07T09:28:20+00:00"
+            "time": "2022-08-20T05:26:47+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -6940,16 +6941,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.21",
+            "version": "9.5.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "0e32b76be457de00e83213528f6bb37e2a38fcb1"
+                "reference": "e329ac6e8744f461518272612a479fde958752fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0e32b76be457de00e83213528f6bb37e2a38fcb1",
-                "reference": "0e32b76be457de00e83213528f6bb37e2a38fcb1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e329ac6e8744f461518272612a479fde958752fe",
+                "reference": "e329ac6e8744f461518272612a479fde958752fe",
                 "shasum": ""
             },
             "require": {
@@ -7026,7 +7027,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.21"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.22"
             },
             "funding": [
                 {
@@ -7038,7 +7039,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-06-19T12:14:25+00:00"
+            "time": "2022-08-20T08:25:46+00:00"
         },
         {
             "name": "pierres/doctrine-migrations-test",
