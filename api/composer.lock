@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "be59db054e2ec042e627c87abffc5b69",
+    "content-hash": "222f12cbc8a93bb3c0039d85f79cd95b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -335,16 +335,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "3.4.2",
+            "version": "3.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "22de295f10edbe00df74f517612f1fbd711131e2"
+                "reference": "a24b89d663d8f261199bc0a91c48016042ebda85"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/22de295f10edbe00df74f517612f1fbd711131e2",
-                "reference": "22de295f10edbe00df74f517612f1fbd711131e2",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/a24b89d663d8f261199bc0a91c48016042ebda85",
+                "reference": "a24b89d663d8f261199bc0a91c48016042ebda85",
                 "shasum": ""
             },
             "require": {
@@ -357,8 +357,8 @@
                 "psr/log": "^1|^2|^3"
             },
             "require-dev": {
-                "doctrine/coding-standard": "9.0.0",
-                "jetbrains/phpstorm-stubs": "2022.1",
+                "doctrine/coding-standard": "10.0.0",
+                "jetbrains/phpstorm-stubs": "2022.2",
                 "phpstan/phpstan": "1.8.2",
                 "phpstan/phpstan-strict-rules": "^1.3",
                 "phpunit/phpunit": "9.5.21",
@@ -426,7 +426,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/dbal/issues",
-                "source": "https://github.com/doctrine/dbal/tree/3.4.2"
+                "source": "https://github.com/doctrine/dbal/tree/3.4.3"
             },
             "funding": [
                 {
@@ -442,7 +442,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-08-21T14:21:06+00:00"
+            "time": "2022-08-28T17:26:36+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -2164,16 +2164,16 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v6.2.6",
+            "version": "v6.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "6bd976c99ef3f78e31c9490a10ba6dd8901076eb"
+                "reference": "b27b8d6a43c508db1ea0df6c87774dd49014913c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/6bd976c99ef3f78e31c9490a10ba6dd8901076eb",
-                "reference": "6bd976c99ef3f78e31c9490a10ba6dd8901076eb",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/b27b8d6a43c508db1ea0df6c87774dd49014913c",
+                "reference": "b27b8d6a43c508db1ea0df6c87774dd49014913c",
                 "shasum": ""
             },
             "require": {
@@ -2236,9 +2236,9 @@
             ],
             "support": {
                 "issues": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/issues",
-                "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.2.6"
+                "source": "https://github.com/sensiolabs/SensioFrameworkExtraBundle/tree/v6.2.7"
             },
-            "time": "2022-01-14T11:51:13+00:00"
+            "time": "2022-06-16T09:06:24+00:00"
         },
         {
             "name": "symfony/cache",
@@ -6559,16 +6559,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "9.2.16",
+            "version": "9.2.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "2593003befdcc10db5e213f9f28814f5aa8ac073"
+                "reference": "aa94dc41e8661fe90c7316849907cba3007b10d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/2593003befdcc10db5e213f9f28814f5aa8ac073",
-                "reference": "2593003befdcc10db5e213f9f28814f5aa8ac073",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/aa94dc41e8661fe90c7316849907cba3007b10d8",
+                "reference": "aa94dc41e8661fe90c7316849907cba3007b10d8",
                 "shasum": ""
             },
             "require": {
@@ -6624,7 +6624,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.16"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/9.2.17"
             },
             "funding": [
                 {
@@ -6632,7 +6632,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-20T05:26:47+00:00"
+            "time": "2022-08-30T12:24:04+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -6877,16 +6877,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.23",
+            "version": "9.5.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "888556852e7e9bbeeedb9656afe46118765ade34"
+                "reference": "d0aa6097bef9fd42458a9b3c49da32c6ce6129c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/888556852e7e9bbeeedb9656afe46118765ade34",
-                "reference": "888556852e7e9bbeeedb9656afe46118765ade34",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d0aa6097bef9fd42458a9b3c49da32c6ce6129c5",
+                "reference": "d0aa6097bef9fd42458a9b3c49da32c6ce6129c5",
                 "shasum": ""
             },
             "require": {
@@ -6915,7 +6915,7 @@
                 "sebastian/global-state": "^5.0.1",
                 "sebastian/object-enumerator": "^4.0.3",
                 "sebastian/resource-operations": "^3.0.3",
-                "sebastian/type": "^3.0",
+                "sebastian/type": "^3.1",
                 "sebastian/version": "^3.0.2"
             },
             "suggest": {
@@ -6959,7 +6959,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.23"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.24"
             },
             "funding": [
                 {
@@ -6971,7 +6971,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-22T14:01:36+00:00"
+            "time": "2022-08-30T07:42:16+00:00"
         },
         {
             "name": "pierres/doctrine-migrations-test",
