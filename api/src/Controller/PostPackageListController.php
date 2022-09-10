@@ -69,7 +69,7 @@ class PostPackageListController extends AbstractController
                                 property: 'mirror',
                                 description: 'Package mirror',
                                 type: 'string',
-                                example: 'https://mirror.pkgbuild.com/'
+                                example: 'https://geo.mirror.pkgbuild.com/'
                             ),
                             new OA\Property(
                                 property: 'packages',
