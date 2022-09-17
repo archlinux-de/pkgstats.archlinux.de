@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Month;
+use App\Entity\Package;
 use App\Entity\PackagePopularity;
 use App\Entity\PackagePopularityList;
 use App\Request\PackageQueryRequest;
@@ -26,7 +27,7 @@ class ApiPackagesController extends AbstractController
     #[Route(
         path: '/api/packages/{name}',
         name: 'app_api_package',
-        requirements: ['name' => '^[^-/]{1}[^/\s]{0,190}$'],
+        requirements: ['name' => Package::NAME_REGEXP],
         methods: ['GET']
     )]
     #[OA\Tag(name: 'packages')]
@@ -78,7 +79,7 @@ class ApiPackagesController extends AbstractController
     #[Route(
         path: '/api/packages/{name}/series',
         name: 'app_api_package_series',
-        requirements: ['name' => '^[^-/]{1}[^/\s]{0,190}$'],
+        requirements: ['name' => Package::NAME_REGEXP],
         methods: ['GET']
     )]
     #[OA\Tag(name: 'packages')]

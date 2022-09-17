@@ -14,7 +14,7 @@ class Package
     #[ORM\Column(length: 191)]
     #[ORM\Id]
     #[Assert\Length(max: 191)]
-    #[Assert\Regex('/^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$/')]
+    #[Assert\Regex('/' . self::NAME_REGEXP . '/')]
     private string $name;
 
     #[ORM\Column(type: 'integer')]
@@ -26,6 +26,8 @@ class Package
     #[ORM\Column(type: 'integer')]
     #[Assert\Positive]
     private int $count = 1;
+
+    public const NAME_REGEXP = '^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]{0,190}$';
 
     public function getName(): string
     {

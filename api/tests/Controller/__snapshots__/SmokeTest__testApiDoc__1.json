@@ -5,6 +5,15 @@
         "version": "3.0.0"
     },
     "paths": {
+        "\/api\/doc.json": {
+            "get": {
+                "responses": {
+                    "default": {
+                        "description": ""
+                    }
+                }
+            }
+        },
         "\/api\/packages\/{name}": {
             "get": {
                 "tags": [
@@ -19,7 +28,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "[^-\/]{1}[^\/\\s]{0,190}"
+                            "pattern": "[a-zA-Z0-9][a-zA-Z0-9@:\\.+_-]{0,190}"
                         }
                     },
                     {
@@ -69,7 +78,7 @@
                         "required": true,
                         "schema": {
                             "type": "string",
-                            "pattern": "[^-\/]{1}[^\/\\s]{0,190}"
+                            "pattern": "[a-zA-Z0-9][a-zA-Z0-9@:\\.+_-]{0,190}"
                         }
                     },
                     {
@@ -282,15 +291,6 @@
                     },
                     "429": {
                         "description": "Rate limit was reached"
-                    }
-                }
-            }
-        },
-        "\/api\/doc.json": {
-            "get": {
-                "responses": {
-                    "default": {
-                        "description": ""
                     }
                 }
             }
