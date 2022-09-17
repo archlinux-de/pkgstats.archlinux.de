@@ -141,7 +141,8 @@ class PkgstatsRequestTest extends TestCase
             ['aarch64', ['aarch64', 'armv7h', 'armv6h', 'arm']],
             ['armv5', ['arm']],
             ['armv6', ['armv6h', 'arm']],
-            ['armv7', ['armv7h', 'armv6h', 'arm']]
+            ['armv7', ['armv7h', 'armv6h', 'arm']],
+            ['riscv64', ['riscv64']]
         ];
 
         foreach ($entries as $entry) {

@@ -117,6 +117,7 @@ class PkgstatsRequest
             'armv7' => ['armv7h', 'armv6h', 'arm'],
             'armv6' => ['armv6h', 'arm'],
             'armv5' => ['arm'],
+            'riscv64' => ['riscv64'],
             default => [],
         };
 
@@ -136,6 +137,7 @@ class PkgstatsRequest
             'armv6h' => ['armv6', 'armv7', 'aarch64'],
             'armv7h' => ['armv7', 'aarch64'],
             'arm' => ['armv5', 'armv6', 'armv7', 'aarch64'],
+            'riscv64' => ['riscv64'],
             default => [],
         };
 
