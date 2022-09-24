@@ -1,5 +1,8 @@
 Cypress.Commands.add('assertCanvasIsNotEmpty', (canvas) => {
   cy.get(canvas).then(element => {
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(500)
+
     const canvas = element[0]
 
     assert.isAtLeast(canvas.width, 100)

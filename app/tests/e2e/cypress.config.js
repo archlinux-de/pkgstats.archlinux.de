@@ -9,5 +9,9 @@ module.exports = {
   component: {
     setupNodeEvents (on, config) {},
     specPattern: '**/*.cy.{js,jsx,ts,tsx}'
+  },
+  retries: {
+    runMode: 5,
+    openMode: 0
   }
 }
