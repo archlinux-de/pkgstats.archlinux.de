@@ -7,8 +7,8 @@
     "serve": "webpack serve --mode development --host 0.0.0.0 --port 8180 --allowed-hosts all --hot"
   },
   "dependencies": {
-    "@babel/core": "^7.19.6",
-    "@babel/preset-env": "^7.19.4",
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@vue/compiler-sfc": "^3.2.41",
     "@vueuse/core": "^9.4.0",
@@ -56,7 +56,7 @@
     "jest-environment-jsdom": "^29.2.2",
     "stylelint": "^14.14.1",
     "stylelint-config-recommended-vue": "^1.4.0",
-    "stylelint-config-standard-scss": "^6.0.0",
+    "stylelint-config-standard-scss": "^6.1.0",
     "stylelint-no-unsupported-browser-features": "^6.0.1",
     "webpack-dev-server": "^4.11.1"
   },
