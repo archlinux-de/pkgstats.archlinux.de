@@ -1711,37 +1711,35 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@unhead/dom@0.6.2":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-0.6.2.tgz#9bd54ef6b070092ba606ec8dfcbb5407ecc7dadc"
-  integrity sha512-v1uC/RMvXFQggCPoIreZW/dxNb1w+S8Aqt4nVaCkNFox9Hpz9pyEJx6bbCkpHbDjclrvX1BOENor8QjX3En4jQ==
+"@unhead/dom@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-0.6.6.tgz#d4e9251504c88d33da7d6793b5e4e8630c1ff65e"
+  integrity sha512-iKKv6s+oRvsvF3EeHE1n5xVf2oKtED1M4q0ECzFmM+oSihGUGzZJAn+UgN5MOcx1ilJQcHxBQQwzO9pppW/3aQ==
   dependencies:
-    "@unhead/schema" "0.6.2"
+    "@unhead/schema" "0.6.6"
 
-"@unhead/schema@0.6.2", "@unhead/schema@^0.6.2":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@unhead/schema/-/schema-0.6.2.tgz#07fc60fefca78b754e0f5148962a77ace1a36ceb"
-  integrity sha512-B8DPw5h780rIrX1GNC7a8B8l7WbxBN2Gx1QQM/y6aM8GNVdvmaQ18/3MR7K88bpYs1ZMrupujHUBXjgJRnPL7w==
+"@unhead/schema@0.6.6", "@unhead/schema@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@unhead/schema/-/schema-0.6.6.tgz#23228b295fc7568139bdf816ca727b1424b756a6"
+  integrity sha512-hcJLBTW7LlS1KzaUZ4nxBFaQmx3g7SxfJyX37/UET2JlH+8ycQgojFCZbnrHn5QIJz7zU1VcWv9gGfeS9i2lSQ==
   dependencies:
     "@zhead/schema" "1.0.0-beta.13"
     hookable "^5.4.1"
 
-"@unhead/ssr@^0.6.2":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@unhead/ssr/-/ssr-0.6.2.tgz#844584e06ea5aff281079d96b8b410da40a82562"
-  integrity sha512-gk84r23WOmdIwDbNnq/BSMmUhhe+477HUXuK1iutPDLHeNQMgSGN5B2aNpkm6dboNFTP3W8r5IrAfCXhSZi3Kw==
+"@unhead/ssr@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@unhead/ssr/-/ssr-0.6.6.tgz#77d087d80db88128a783e0b5872f29ece176d040"
+  integrity sha512-Dmt6E5BqJ3HRLh5fSlICCJ1YtYoyijl1jXdJ+D6jXHN8ut21/65qiwGPNPQOXAwBtBLLRRX3yvvDvTtlWN+zLQ==
   dependencies:
-    "@unhead/schema" "0.6.2"
+    "@unhead/schema" "0.6.6"
 
-"@unhead/vue@^0.6.2":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-0.6.2.tgz#347084c7b9db6be6238436064e19d4bdfeec9537"
-  integrity sha512-re3i1QdShxMLEYecBhztmScUTz1yUqJyb6Ka8+PxcxNAwz9qQtPXO0+u3LIjRsbk9eWRIUsVj+hJL3WFfcK3WQ==
+"@unhead/vue@^0.6.6":
+  version "0.6.6"
+  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-0.6.6.tgz#cbfa492ca75e827fc17289f7085ebb6b4dce7929"
+  integrity sha512-oXkWEbW8astq5xhIS7HS+q6Q9vT/HGYM/gaHUpHQlXVFwc2t7KcBcDoFQMONLLw/eEovMudnwUGXRi6/8kwz8Q==
   dependencies:
-    "@unhead/dom" "0.6.2"
-    "@unhead/schema" "0.6.2"
-    "@vueuse/shared" latest
-    unhead "0.6.2"
+    "@unhead/schema" "0.6.6"
+    hookable "^5.4.1"
 
 "@vue/compiler-core@3.2.45":
   version "3.2.45"
@@ -1848,14 +1846,15 @@
     "@vueuse/shared" "9.5.0"
     vue-demi "*"
 
-"@vueuse/head@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-1.0.6.tgz#3b3ce9a85056eb7561b4c8f09edd27922159d003"
-  integrity sha512-GzlSgpt6wix6/3QqUJG8gydm6V/wHi1yC2SMJVY1kOMwIZ6Lf76adtL7yI6dv6FpJ7ffZRitMXogTpxGra5REQ==
+"@vueuse/head@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-1.0.12.tgz#37f348d48e3800b24124058a6525c5de362666d9"
+  integrity sha512-ra2mnr8doC+ZmlKir3Jv2H0b9zkjxcBlkdb7Hi7kXpjXJ2E5U5S/c3QF3tNyO4WnxTjV/hEw2Is0wkfX924szg==
   dependencies:
-    "@unhead/schema" "^0.6.2"
-    "@unhead/ssr" "^0.6.2"
-    "@unhead/vue" "^0.6.2"
+    "@unhead/dom" "^0.6.6"
+    "@unhead/schema" "^0.6.6"
+    "@unhead/ssr" "^0.6.6"
+    "@unhead/vue" "^0.6.6"
 
 "@vueuse/metadata@9.5.0":
   version "9.5.0"
@@ -1870,7 +1869,7 @@
     "@vueuse/shared" "9.5.0"
     vue-demi "*"
 
-"@vueuse/shared@9.5.0", "@vueuse/shared@latest":
+"@vueuse/shared@9.5.0":
   version "9.5.0"
   resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-9.5.0.tgz#f5306548af0dc9f2b3a0d4da74e62bfdd6211241"
   integrity sha512-HnnCWU1Vg9CVWRCcI8ohDKDRB2Sc4bTgT1XAIaoLSfVHHn+TKbrox6pd3klCSw4UDxkhDfOk8cAdcK+Z5KleCA==
@@ -2601,10 +2600,10 @@ character-reference-invalid@^1.0.0:
   resolved "https://registry.yarnpkg.com/character-reference-invalid/-/character-reference-invalid-1.1.4.tgz#083329cda0eae272ab3dbbf37e9a382c13af1560"
   integrity sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==
 
-chart.js@^3.9.1:
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-3.9.1.tgz#3abf2c775169c4c71217a107163ac708515924b8"
-  integrity sha512-Ro2JbLmvg83gXF5F4sniaQ+lTbSv18E+TIf2cOeiH1Iqd2PGFOtem+DUufMZsCJwFE7ywPOpfXFBwRTGq7dh6w==
+chart.js@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-4.0.1.tgz#93d5d50ac222a5b3b6ac7488e82e1553ac031592"
+  integrity sha512-5/8/9eBivwBZK81mKvmIwTb2Pmw4D/5h1RK9fBWZLLZ8mCJ+kfYNmV9rMrGoa5Hgy2/wVDBMLSUDudul2/9ihA==
 
 "chokidar@>=3.0.0 <4.0.0", chokidar@^3.5.3:
   version "3.5.3"
@@ -4322,9 +4321,9 @@ hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
     react-is "^16.7.0"
 
 hookable@^5.4.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/hookable/-/hookable-5.4.1.tgz#c0ce030a31a0243fdff2ac3518ea9a83b7e7f9d9"
-  integrity sha512-i808BglQ1OuSIcgPSZoWsDapCMLXKe5wLS6XZvIXpaBWdWLUZARM8vOLayu6cXewj5TSbaZaMzKnq+pRnfscEQ==
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/hookable/-/hookable-5.4.2.tgz#6a1d3c4b3cb5b4262f99b3070ce0ee92c9c78049"
+  integrity sha512-6rOvaUiNKy9lET1X0ECnyZ5O5kSV0PJbtA5yZUgdEF7fGJEVwSLSislltyt7nFwVVALYHQJtfGeAR2Y0A0uJkg==
 
 hosted-git-info@^2.1.4:
   version "2.8.9"
@@ -6867,16 +6866,16 @@ regexpp@^3.0.0, regexpp@^3.2.0:
   integrity sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==
 
 regexpu-core@^5.1.0:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/regexpu-core/-/regexpu-core-5.2.1.tgz#a69c26f324c1e962e9ffd0b88b055caba8089139"
-  integrity sha512-HrnlNtpvqP1Xkb28tMhBUO2EbyUHdQlsnlAhzWcwHy8WJR53UWr7/MAvqrsQKMbV4qdpv03oTMG8iIhfsPFktQ==
+  version "5.2.2"
+  resolved "https://registry.yarnpkg.com/regexpu-core/-/regexpu-core-5.2.2.tgz#3e4e5d12103b64748711c3aad69934d7718e75fc"
+  integrity sha512-T0+1Zp2wjF/juXMrMxHxidqGYn8U4R+zleSJhX9tQ1PUsS8a9UtYfbsF9LdiVgNX3kiX8RNaKM42nfSgvFJjmw==
   dependencies:
     regenerate "^1.4.2"
     regenerate-unicode-properties "^10.1.0"
     regjsgen "^0.7.1"
     regjsparser "^0.9.1"
     unicode-match-property-ecmascript "^2.0.0"
-    unicode-match-property-value-ecmascript "^2.0.0"
+    unicode-match-property-value-ecmascript "^2.1.0"
 
 regjsgen@^0.7.1:
   version "0.7.1"
@@ -8042,15 +8041,6 @@ unbox-primitive@^1.0.2:
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
 
-unhead@0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/unhead/-/unhead-0.6.2.tgz#beba2e550c46711b45ddb94ec2eb5124606496ac"
-  integrity sha512-+ZaLD6/PIpX12TorTJFfhiouB6IimMX1LxgRZ0Rx0mqXnOac/DVtZOi8AEO311FmF9LjRWMfl7U31f1rbub1Qw==
-  dependencies:
-    "@unhead/dom" "0.6.2"
-    "@unhead/schema" "0.6.2"
-    hookable "^5.4.1"
-
 unicode-canonical-property-names-ecmascript@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-2.0.0.tgz#301acdc525631670d39f6146e0e77ff6bbdebddc"
@@ -8064,10 +8054,10 @@ unicode-match-property-ecmascript@^2.0.0:
     unicode-canonical-property-names-ecmascript "^2.0.0"
     unicode-property-aliases-ecmascript "^2.0.0"
 
-unicode-match-property-value-ecmascript@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/unicode-match-property-value-ecmascript/-/unicode-match-property-value-ecmascript-2.0.0.tgz#1a01aa57247c14c568b89775a54938788189a714"
-  integrity sha512-7Yhkc0Ye+t4PNYzOGKedDhXbYIBe1XEQYQxOPyhcXNMJ0WCABqqj6ckydd6pWRZTHV4GuCPKdBAUiMc60tsKVw==
+unicode-match-property-value-ecmascript@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/unicode-match-property-value-ecmascript/-/unicode-match-property-value-ecmascript-2.1.0.tgz#cb5fffdcd16a05124f5a4b0bf7c3770208acbbe0"
+  integrity sha512-qxkjQt6qjg/mYscYMC0XKRn3Rh0wFPlfxB0xkt9CfyTvpX1Ra0+rAmdX2QyAobptSEvuy4RtpPRui6XkV+8wjA==
 
 unicode-property-aliases-ecmascript@^2.0.0:
   version "2.1.0"
