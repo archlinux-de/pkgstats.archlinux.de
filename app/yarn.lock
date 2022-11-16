@@ -1711,34 +1711,34 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@unhead/dom@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-0.6.6.tgz#d4e9251504c88d33da7d6793b5e4e8630c1ff65e"
-  integrity sha512-iKKv6s+oRvsvF3EeHE1n5xVf2oKtED1M4q0ECzFmM+oSihGUGzZJAn+UgN5MOcx1ilJQcHxBQQwzO9pppW/3aQ==
+"@unhead/dom@^0.6.7":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-0.6.9.tgz#7b31ec72c8bdd31b73b19fe3a2efe7d4689024de"
+  integrity sha512-fC2nQIOiq097bRWaeUcDPRjP3ucK2N01fyp/KTH2ThjE2hSG0rpXKb/GfF+v+xfIr8o5gK//64KwRHPZ5usrPg==
   dependencies:
-    "@unhead/schema" "0.6.6"
+    "@unhead/schema" "0.6.9"
 
-"@unhead/schema@0.6.6", "@unhead/schema@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@unhead/schema/-/schema-0.6.6.tgz#23228b295fc7568139bdf816ca727b1424b756a6"
-  integrity sha512-hcJLBTW7LlS1KzaUZ4nxBFaQmx3g7SxfJyX37/UET2JlH+8ycQgojFCZbnrHn5QIJz7zU1VcWv9gGfeS9i2lSQ==
+"@unhead/schema@0.6.9", "@unhead/schema@^0.6.7":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@unhead/schema/-/schema-0.6.9.tgz#52cb4168e06115083cc4c68e3cbbc3c3d65d77c7"
+  integrity sha512-MWx+DP6Os6vYaHjt7BZ0lmIEBX8M/P0am/NoE9xIhGDYzQq+GLxTllE6DJB9QXaMIzpJ2G5ePKOPuxCeaI8TRA==
   dependencies:
     "@zhead/schema" "1.0.0-beta.13"
     hookable "^5.4.1"
 
-"@unhead/ssr@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@unhead/ssr/-/ssr-0.6.6.tgz#77d087d80db88128a783e0b5872f29ece176d040"
-  integrity sha512-Dmt6E5BqJ3HRLh5fSlICCJ1YtYoyijl1jXdJ+D6jXHN8ut21/65qiwGPNPQOXAwBtBLLRRX3yvvDvTtlWN+zLQ==
+"@unhead/ssr@^0.6.7":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@unhead/ssr/-/ssr-0.6.9.tgz#02d590bc176e2a783727e2df193475763328f4a3"
+  integrity sha512-vD4B1omq/eRhBf1qaYkt5n0hWL5XKc3AeaUKVbJxRquNnBXVch128Wc5q+lXzrzDppbTvSYEUVZMpBpOs6BYWw==
   dependencies:
-    "@unhead/schema" "0.6.6"
+    "@unhead/schema" "0.6.9"
 
-"@unhead/vue@^0.6.6":
-  version "0.6.6"
-  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-0.6.6.tgz#cbfa492ca75e827fc17289f7085ebb6b4dce7929"
-  integrity sha512-oXkWEbW8astq5xhIS7HS+q6Q9vT/HGYM/gaHUpHQlXVFwc2t7KcBcDoFQMONLLw/eEovMudnwUGXRi6/8kwz8Q==
+"@unhead/vue@^0.6.7":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-0.6.9.tgz#05ad8d67bc1de8d33b7dc0e6b816391f977c0edc"
+  integrity sha512-H2HpJUdbqEprllsJzFmxVISy9XJWR66clx+AypJxUu98Av/kQozrr+WekvzJxX/QHHbssea1FVQRszIjK3u8lA==
   dependencies:
-    "@unhead/schema" "0.6.6"
+    "@unhead/schema" "0.6.9"
     hookable "^5.4.1"
 
 "@vue/compiler-core@3.2.45":
@@ -1846,15 +1846,15 @@
     "@vueuse/shared" "9.5.0"
     vue-demi "*"
 
-"@vueuse/head@^1.0.12":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-1.0.12.tgz#37f348d48e3800b24124058a6525c5de362666d9"
-  integrity sha512-ra2mnr8doC+ZmlKir3Jv2H0b9zkjxcBlkdb7Hi7kXpjXJ2E5U5S/c3QF3tNyO4WnxTjV/hEw2Is0wkfX924szg==
+"@vueuse/head@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-1.0.13.tgz#6e82a34e1ea87bf19354db4f80d0eb02c0267dcd"
+  integrity sha512-QJ69f+V0blbroHPuOAYBQZek31kMmFttgUj+QmL+rnXgFUfRXj5rqIDC2chFBSsjHcWl6KfzwPbou5mjCVJAgw==
   dependencies:
-    "@unhead/dom" "^0.6.6"
-    "@unhead/schema" "^0.6.6"
-    "@unhead/ssr" "^0.6.6"
-    "@unhead/vue" "^0.6.6"
+    "@unhead/dom" "^0.6.7"
+    "@unhead/schema" "^0.6.7"
+    "@unhead/ssr" "^0.6.7"
+    "@unhead/vue" "^0.6.7"
 
 "@vueuse/metadata@9.5.0":
   version "9.5.0"
@@ -5102,9 +5102,9 @@ jest-mock@^29.3.1:
     jest-util "^29.3.1"
 
 jest-pnp-resolver@^1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.2.tgz#b704ac0ae028a89108a4d040b3f919dfddc8e33c"
-  integrity sha512-olV41bKSMm8BdnuMsewT4jqlZ8+3TCARAXjZGT9jcoSnrfUnRCqnMoF9XEeoWjbzObpqF9dRhHQj0Xb9QdF6/w==
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/jest-pnp-resolver/-/jest-pnp-resolver-1.2.3.tgz#930b1546164d4ad5937d5540e711d4d38d4cad2e"
+  integrity sha512-+3NpwQEnRoIBtx4fyhblQDPgJI0H1IEIkX7ShLUjPGA7TtUTvI1oiKi3SR4oBR0hQhQR80l4WAe5RrXBwWMA8w==
 
 jest-regex-util@^29.2.0:
   version "29.2.0"
