@@ -1711,35 +1711,35 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@unhead/dom@^1.0.1":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-1.0.2.tgz#d10e8fc662481342043123e6b88309e0ea7c97b2"
-  integrity sha512-AAiYzDmwTTePJu5ZBypPIJidQMDS2WrCXQfe6KJIJtgLss0oXNllve4XVjPEDVh31lfAna89KfVPb/2z0g71pg==
+"@unhead/dom@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-1.0.3.tgz#4f4305104fec614f015d189b0d564b31850f5fb8"
+  integrity sha512-EWkQoFqdzjHPqn9bZRinl2FpCAFTJRzGoLcBjn3y66+qlQ6P99heVmRSQyx9BjTbBdPaM3oSbD2KEnT0J8NPmA==
   dependencies:
-    "@unhead/schema" "1.0.2"
+    "@unhead/schema" "1.0.3"
 
-"@unhead/schema@1.0.2", "@unhead/schema@^1.0.1":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@unhead/schema/-/schema-1.0.2.tgz#f98a9866840c90551eece876f02fb26e8865b9f6"
-  integrity sha512-/LyNATQ6zHxZBgnTvTQwYJTZLJjx69/2DvaCcikyEj+y6rjhd77osqUb4Qmt2GxYPbVjuL6J5i5wIyES51RZhw==
+"@unhead/schema@1.0.3", "@unhead/schema@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@unhead/schema/-/schema-1.0.3.tgz#0dc879e46545d62f37afcdc58353b6d75b85ea7a"
+  integrity sha512-Alt7YdY4ksM1dty/hQpRFaCmnDv11h79gvi3RgALYe8J16uvR+55WChwtjFMUDUDUx4nLNmsxohfj22IYaqfwg==
   dependencies:
-    "@zhead/schema" "^1.0.3"
-    hookable "^5.4.1"
+    "@zhead/schema" "^1.0.4"
+    hookable "^5.4.2"
 
-"@unhead/ssr@^1.0.1":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@unhead/ssr/-/ssr-1.0.2.tgz#5da5e9b672cf42e5cd343b6bf281aef22388c0fb"
-  integrity sha512-OZSuYm/BkiZXgU1bAK7Oc/KfJrtrGLSHE7u95UYLhd3vobWvznfTOZM1ZHkORaCzm1twe4nIMHm1ion73M/9Gg==
+"@unhead/ssr@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@unhead/ssr/-/ssr-1.0.3.tgz#734f7b018bcce5d0cac5b10f169495a1f94858e7"
+  integrity sha512-bVGtBivIwvfxTGpRdIo54hoAyIkjecmy1lBDxbZOgF89P3u8aWK0HpXe874M3Wpx1E/OGl109WvDii8hwIk94w==
   dependencies:
-    "@unhead/schema" "1.0.2"
+    "@unhead/schema" "1.0.3"
 
-"@unhead/vue@^1.0.1":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-1.0.2.tgz#0d54921942de8125f6694c014830b19791c1bdf2"
-  integrity sha512-AWBJoiN+kNXn+lFmlELkRqiY54x6ymhA7lWfpgpgH+nJ7AGhqkavv7UHZHL+/G54Wjl3DFcZIm262iZqv0yqyQ==
+"@unhead/vue@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-1.0.3.tgz#2c5e8c86c1953f5846e4438a0e64f1af081b0d1b"
+  integrity sha512-Unma97Ob/1PAE+dCyYLArSpjs73bWBIOApReft8AynqWyP2afn09O81HbzX9BJAmmziIZ+SV4CGmuEtRsPlitA==
   dependencies:
-    "@unhead/schema" "1.0.2"
-    hookable "^5.4.1"
+    "@unhead/schema" "1.0.3"
+    hookable "^5.4.2"
 
 "@vue/compiler-core@3.2.45":
   version "3.2.45"
@@ -1846,15 +1846,15 @@
     "@vueuse/shared" "9.5.0"
     vue-demi "*"
 
-"@vueuse/head@^1.0.16":
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-1.0.16.tgz#24db98a74f7727332e37f258273be7e2393e0702"
-  integrity sha512-0nYyrnMh42hE4uL3E0OYY5lFg03BIL26+pE1e6285Oh7pebHgmZlmSCFRmLAlVMSxhp/+6aOrIZLIObm7SKNfg==
+"@vueuse/head@^1.0.17":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@vueuse/head/-/head-1.0.17.tgz#ba3224fd84f5df71d325ef6af78c8585af8ae2ae"
+  integrity sha512-dRw8l8vGv8Yf2rPhVw9gvnn2T+JWDfXT0xuIgOQseotPSkophdgqjrZSnxeKzM4R/shTziUDWDU589EkpoyYUw==
   dependencies:
-    "@unhead/dom" "^1.0.1"
-    "@unhead/schema" "^1.0.1"
-    "@unhead/ssr" "^1.0.1"
-    "@unhead/vue" "^1.0.1"
+    "@unhead/dom" "^1.0.3"
+    "@unhead/schema" "^1.0.3"
+    "@unhead/ssr" "^1.0.3"
+    "@unhead/vue" "^1.0.3"
 
 "@vueuse/metadata@9.5.0":
   version "9.5.0"
@@ -2027,10 +2027,10 @@
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
   integrity sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==
 
-"@zhead/schema@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@zhead/schema/-/schema-1.0.3.tgz#6ce87124687e1512798e0e8d0a00e646d60627ba"
-  integrity sha512-hpG+fENrSV82trtmtO7sAdPTQLnfhZIGtqvgN4fIUfEuyILF1GwAYjgFT/FdUaZ8yBSsYt5U47O35tOE2Ts1HA==
+"@zhead/schema@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@zhead/schema/-/schema-1.0.4.tgz#f37419c72c1707c677a288b1a9d6fbff561811ee"
+  integrity sha512-v/CM22nH0TW9VU5IcRXlshwrMtsZPnFQWhcLBvpZjOJvfEmjl8cUb6OIJQJRR2WESNjjPW2Cji8mgL9XSVLjxA==
 
 abab@^2.0.6:
   version "2.0.6"
@@ -2156,9 +2156,9 @@ ansi-styles@^5.0.0:
   integrity sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==
 
 anymatch@^3.0.3, anymatch@~3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/anymatch/-/anymatch-3.1.2.tgz#c0557c096af32f106198f4f4e2a383537e378716"
-  integrity sha512-P43ePfOAIupkguHUycrc4qJ9kz8ZiuOUijaETwX7THt0Y/GNK7v0aa8rY816xWjZ7rJdA5XdMcpVFTKMq+RvWg==
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/anymatch/-/anymatch-3.1.3.tgz#790c58b19ba1720a84205b57c618d5ad8524973e"
+  integrity sha512-KMReFUr0B4t+D+OBkjR3KYqvocp2XaSzO55UcB6mgQMd3KbcE+mWTyvVV7D/zsdEbNnV6acZUutkiHQXvTr1Rw==
   dependencies:
     normalize-path "^3.0.0"
     picomatch "^2.0.4"
@@ -2557,9 +2557,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001179, caniuse-lite@^1.0.30001304, caniuse-lite@^1.0.30001400, caniuse-lite@^1.0.30001426:
-  version "1.0.30001431"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001431.tgz#e7c59bd1bc518fae03a4656be442ce6c4887a795"
-  integrity sha512-zBUoFU0ZcxpvSt9IU66dXVT/3ctO1cy4y9cscs1szkPlcWb6pasYM144GqrUygUbT+k7cmUCW61cvskjcv0enQ==
+  version "1.0.30001434"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001434.tgz#ec1ec1cfb0a93a34a0600d37903853030520a4e5"
+  integrity sha512-aOBHrLmTQw//WFa2rcF1If9fa3ypkC1wzqqiKHgfdrXTWcU8C4gKVZT77eQAPWN1APys3+uQ0Df07rKauXGEYA==
 
 chalk@^2.0.0:
   version "2.4.2"
@@ -4318,7 +4318,7 @@ hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.2:
   dependencies:
     react-is "^16.7.0"
 
-hookable@^5.4.1:
+hookable@^5.4.2:
   version "5.4.2"
   resolved "https://registry.yarnpkg.com/hookable/-/hookable-5.4.2.tgz#6a1d3c4b3cb5b4262f99b3070ce0ee92c9c78049"
   integrity sha512-6rOvaUiNKy9lET1X0ECnyZ5O5kSV0PJbtA5yZUgdEF7fGJEVwSLSislltyt7nFwVVALYHQJtfGeAR2Y0A0uJkg==
@@ -5299,9 +5299,9 @@ js-file-download@^0.4.12:
   integrity sha512-rML+NkoD08p5Dllpjo0ffy4jRHeY6Zsapvr/W86N7E0yuzAO6qa5X9+xog6zQNlH102J7IXljNY2FtS6Lj3ucg==
 
 js-sdsl@^4.1.4:
-  version "4.1.5"
-  resolved "https://registry.yarnpkg.com/js-sdsl/-/js-sdsl-4.1.5.tgz#1ff1645e6b4d1b028cd3f862db88c9d887f26e2a"
-  integrity sha512-08bOAKweV2NUC1wqTtf3qZlnpOX/R2DU9ikpjOHs0H+ibQv3zpncVQg6um4uYtRtrwIX8M4Nh3ytK4HGlYAq7Q==
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/js-sdsl/-/js-sdsl-4.2.0.tgz#278e98b7bea589b8baaf048c20aeb19eb7ad09d0"
+  integrity sha512-dyBIzQBDkCqCu+0upx25Y2jGdbTGxE9fshMsCdK0ViOongpV+n5tXRcZY9v7CaVQ79AGS9KA1KHtojxiM7aXSQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
