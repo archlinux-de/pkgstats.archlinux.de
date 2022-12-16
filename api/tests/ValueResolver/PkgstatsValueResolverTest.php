@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Tests\ParamConverter;
+namespace App\Tests\ValueResolver;
 
-use App\ParamConverter\PkgstatsParamConverter;
+use App\ValueResolver\PkgstatsValueResolver;
 use App\Request\PkgstatsRequest;
 use App\Request\PkgstatsRequestException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class PkgstatsParamConverterTest extends TestCase
+class PkgstatsValueResolverTest extends TestCase
 {
     /** @var ValidatorInterface|MockObject */
     private MockObject $validator;
 
-    private PkgstatsParamConverter $paramConverter;
+    private PkgstatsValueResolver $pkgstatsValueResolver;
 
     /** @var MockObject|SerializerInterface */
     private MockObject $serializer;
@@ -34,40 +34,16 @@ class PkgstatsParamConverterTest extends TestCase
             ->method('deserialize')
             ->willReturn(new PkgstatsRequest('3.2.2'));
 
-        $this->paramConverter = new PkgstatsParamConverter($this->validator, $this->serializer);
+        $this->pkgstatsValueResolver = new PkgstatsValueResolver($this->validator, $this->serializer);
     }
 
-    public function testSupportsPkgStatsRequest(): void
+    public function testResolveVersion(): void
     {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getClass')
-            ->willReturn(PkgstatsRequest::class);
-
-        $this->assertTrue($this->paramConverter->supports($configuration));
-    }
-
-    public function testRejectUnsupportedRequest(): void
-    {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getClass')
-            ->willReturn('foo');
-
-        $this->assertFalse($this->paramConverter->supports($configuration));
-    }
-
-    public function testApplyVersion(): void
-    {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getName')
+        /** @var ArgumentMetadata|MockObject $argument */
+        $argument = $this->createMock(ArgumentMetadata::class);
+        $argument
+            ->expects($this->atLeastOnce())
+            ->method('getType')
             ->willReturn(PkgstatsRequest::class);
 
         $request = Request::create('/api/submit');
@@ -82,18 +58,23 @@ class PkgstatsParamConverterTest extends TestCase
                 }
             );
 
-        $this->assertTrue($this->paramConverter->apply($request, $configuration));
+        $values = [...$this->pkgstatsValueResolver->resolve($request, $argument)];
+        $this->assertCount(1, $values);
 
-        $this->assertInstanceOf(PkgstatsRequest::class, $request->attributes->get(PkgstatsRequest::class));
+        $this->assertInstanceOf(PkgstatsRequest::class, $values[0]);
         /** @var PkgstatsRequest $pkgstatsRequest */
-        $pkgstatsRequest = $request->attributes->get(PkgstatsRequest::class);
+        $pkgstatsRequest = $values[0];
         $this->assertEquals('3.2.2', $pkgstatsRequest->getVersion());
     }
 
-    public function testApplyFailsOnValidationErrors(): void
+    public function testResolveFailsOnValidationErrors(): void
     {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
+        /** @var ArgumentMetadata|MockObject $argument */
+        $argument = $this->createMock(ArgumentMetadata::class);
+        $argument
+            ->expects($this->atLeastOnce())
+            ->method('getType')
+            ->willReturn(PkgstatsRequest::class);
 
         $request = Request::create('/api/submit');
         $request->headers->set('Content-Type', 'application/json');
@@ -108,6 +89,6 @@ class PkgstatsParamConverterTest extends TestCase
             );
 
         $this->expectException(PkgstatsRequestException::class);
-        $this->paramConverter->apply($request, $configuration);
+        $this->pkgstatsValueResolver->resolve($request, $argument);
     }
 }

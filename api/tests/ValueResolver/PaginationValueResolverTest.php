@@ -1,38 +1,38 @@
 <?php
 
-namespace App\Tests\ParamConverter;
+namespace App\Tests\ValueResolver;
 
-use App\ParamConverter\PaginationParamConverter;
+use App\ValueResolver\PaginationValueResolver;
 use App\Request\PaginationRequest;
 use App\Request\PkgstatsRequestException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class PaginationParamConverterTest extends TestCase
+class PaginationValueResolverTest extends TestCase
 {
     /** @var ValidatorInterface|MockObject */
     private MockObject $validator;
 
-    private PaginationParamConverter $paramConverter;
+    private PaginationValueResolver $paginationValueResolver;
 
     public function setUp(): void
     {
         $this->validator = $this->createMock(ValidatorInterface::class);
-        $this->paramConverter = new PaginationParamConverter($this->validator);
+        $this->paginationValueResolver = new PaginationValueResolver($this->validator);
     }
 
-    public function testApply(): void
+    public function testResolve(): void
     {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getName')
+        /** @var ArgumentMetadata|MockObject $argument */
+        $argument = $this->createMock(ArgumentMetadata::class);
+        $argument
+            ->expects($this->atLeastOnce())
+            ->method('getType')
             ->willReturn(PaginationRequest::class);
 
         $request = Request::create('/get', 'GET', ['offset' => 2, 'limit' => 42]);
@@ -44,22 +44,23 @@ class PaginationParamConverterTest extends TestCase
                 return new ConstraintViolationList();
             });
 
-        $this->assertTrue($this->paramConverter->apply($request, $configuration));
+        $values = [...$this->paginationValueResolver->resolve($request, $argument)];
+        $this->assertCount(1, $values);
 
-        $this->assertInstanceOf(PaginationRequest::class, $request->attributes->get(PaginationRequest::class));
+        $this->assertInstanceOf(PaginationRequest::class, $values[0]);
         /** @var PaginationRequest $paginationRequest */
-        $paginationRequest = $request->attributes->get(PaginationRequest::class);
+        $paginationRequest = $values[0];
         $this->assertEquals(2, $paginationRequest->getOffset());
         $this->assertEquals(42, $paginationRequest->getLimit());
     }
 
     public function testDefaults(): void
     {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getName')
+        /** @var ArgumentMetadata|MockObject $argument */
+        $argument = $this->createMock(ArgumentMetadata::class);
+        $argument
+            ->expects($this->atLeastOnce())
+            ->method('getType')
             ->willReturn(PaginationRequest::class);
 
         $request = Request::create('/get');
@@ -71,31 +72,24 @@ class PaginationParamConverterTest extends TestCase
                 return new ConstraintViolationList();
             });
 
-        $this->assertTrue($this->paramConverter->apply($request, $configuration));
+        $values = [...$this->paginationValueResolver->resolve($request, $argument)];
+        $this->assertCount(1, $values);
 
-        $this->assertInstanceOf(PaginationRequest::class, $request->attributes->get(PaginationRequest::class));
+        $this->assertInstanceOf(PaginationRequest::class, $values[0]);
         /** @var PaginationRequest $paginationRequest */
-        $paginationRequest = $request->attributes->get(PaginationRequest::class);
+        $paginationRequest = $values[0];
         $this->assertEquals(0, $paginationRequest->getOffset());
         $this->assertEquals(100, $paginationRequest->getLimit());
     }
 
-    public function testSupports(): void
+    public function testResolveFailsOnValidationErrors(): void
     {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getClass')
+        /** @var ArgumentMetadata|MockObject $argument */
+        $argument = $this->createMock(ArgumentMetadata::class);
+        $argument
+            ->expects($this->atLeastOnce())
+            ->method('getType')
             ->willReturn(PaginationRequest::class);
-
-        $this->assertTrue($this->paramConverter->supports($configuration));
-    }
-
-    public function testApplyFailsOnValidationErrors(): void
-    {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
 
         $request = Request::create('/get');
 
@@ -107,6 +101,6 @@ class PaginationParamConverterTest extends TestCase
             });
 
         $this->expectException(PkgstatsRequestException::class);
-        $this->paramConverter->apply($request, $configuration);
+        $this->paginationValueResolver->resolve($request, $argument);
     }
 }

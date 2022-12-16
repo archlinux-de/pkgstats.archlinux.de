@@ -1,53 +1,41 @@
 <?php
 
-namespace App\Tests\ParamConverter;
+namespace App\Tests\ValueResolver;
 
 use App\Entity\Month;
-use App\ParamConverter\StatisticsRangeParamConverter;
+use App\ValueResolver\StatisticsRangeValueResolver;
 use App\Request\PkgstatsRequestException;
 use App\Request\StatisticsRangeRequest;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class StatisticsRangeParamConverterTest extends TestCase
+class StatisticsRangeValueResolverTest extends TestCase
 {
     /** @var ValidatorInterface|MockObject */
     private MockObject $validator;
 
-    private StatisticsRangeParamConverter $paramConverter;
+    private StatisticsRangeValueResolver $statisticsRangeValueResolver;
 
     public function setUp(): void
     {
         $this->validator = $this->createMock(ValidatorInterface::class);
-        $this->paramConverter = new StatisticsRangeParamConverter($this->validator);
-    }
-
-    public function testSupports(): void
-    {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getClass')
-            ->willReturn(StatisticsRangeRequest::class);
-
-        $this->assertTrue($this->paramConverter->supports($configuration));
+        $this->statisticsRangeValueResolver = new StatisticsRangeValueResolver($this->validator);
     }
 
     public function testDefault(): void
     {
         Month::resetBaseTimestamp();
 
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getName')
+        /** @var ArgumentMetadata|MockObject $argument */
+        $argument = $this->createMock(ArgumentMetadata::class);
+        $argument
+            ->expects($this->atLeastOnce())
+            ->method('getType')
             ->willReturn(StatisticsRangeRequest::class);
 
         $request = Request::create('/get');
@@ -61,14 +49,12 @@ class StatisticsRangeParamConverterTest extends TestCase
                 }
             );
 
-        $this->assertTrue($this->paramConverter->apply($request, $configuration));
+        $values = [...$this->statisticsRangeValueResolver->resolve($request, $argument)];
+        $this->assertCount(1, $values);
 
-        $this->assertInstanceOf(
-            StatisticsRangeRequest::class,
-            $request->attributes->get(StatisticsRangeRequest::class)
-        );
+        $this->assertInstanceOf(StatisticsRangeRequest::class, $values[0]);
         /** @var StatisticsRangeRequest $statisticsRangeRequest */
-        $statisticsRangeRequest = $request->attributes->get(StatisticsRangeRequest::class);
+        $statisticsRangeRequest = $values[0];
         $this->assertEquals(
             date(
                 'Ym',
@@ -85,13 +71,13 @@ class StatisticsRangeParamConverterTest extends TestCase
         );
     }
 
-    public function testApply(): void
+    public function testResolve(): void
     {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
-        $configuration
-            ->expects($this->once())
-            ->method('getName')
+        /** @var ArgumentMetadata|MockObject $argument */
+        $argument = $this->createMock(ArgumentMetadata::class);
+        $argument
+            ->expects($this->atLeastOnce())
+            ->method('getType')
             ->willReturn(StatisticsRangeRequest::class);
 
         $request = Request::create('/get', 'GET', ['startMonth' => 201801, 'endMonth' => 201812]);
@@ -105,22 +91,24 @@ class StatisticsRangeParamConverterTest extends TestCase
                 }
             );
 
-        $this->assertTrue($this->paramConverter->apply($request, $configuration));
+        $values = [...$this->statisticsRangeValueResolver->resolve($request, $argument)];
+        $this->assertCount(1, $values);
 
-        $this->assertInstanceOf(
-            StatisticsRangeRequest::class,
-            $request->attributes->get(StatisticsRangeRequest::class)
-        );
+        $this->assertInstanceOf(StatisticsRangeRequest::class, $values[0]);
         /** @var StatisticsRangeRequest $statisticsRangeRequest */
-        $statisticsRangeRequest = $request->attributes->get(StatisticsRangeRequest::class);
+        $statisticsRangeRequest = $values[0];
         $this->assertEquals(201801, $statisticsRangeRequest->getStartMonth());
         $this->assertEquals(201812, $statisticsRangeRequest->getEndMonth());
     }
 
-    public function testApplyFailsOnValidationErrors(): void
+    public function testResolveFailsOnValidationErrors(): void
     {
-        /** @var ParamConverter|MockObject $configuration */
-        $configuration = $this->createMock(ParamConverter::class);
+        /** @var ArgumentMetadata|MockObject $argument */
+        $argument = $this->createMock(ArgumentMetadata::class);
+        $argument
+            ->expects($this->atLeastOnce())
+            ->method('getType')
+            ->willReturn(StatisticsRangeRequest::class);
 
         $request = Request::create('/get');
 
@@ -134,6 +122,6 @@ class StatisticsRangeParamConverterTest extends TestCase
             );
 
         $this->expectException(PkgstatsRequestException::class);
-        $this->paramConverter->apply($request, $configuration);
+        $this->statisticsRangeValueResolver->resolve($request, $argument);
     }
 }
