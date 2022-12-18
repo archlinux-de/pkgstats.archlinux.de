@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Install Just
         uses: extractions/setup-just@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Install dependencies
