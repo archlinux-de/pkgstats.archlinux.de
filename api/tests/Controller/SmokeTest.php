@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\DataFixtures\Months;
 use App\Entity\Month;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -16,6 +17,14 @@ use SymfonyDatabaseTest\DatabaseTestCase;
 class SmokeTest extends DatabaseTestCase
 {
     use MatchesSnapshots;
+
+    // @FIXME: Hotfix until https://github.com/spatie/phpunit-snapshot-assertions/pull/163 is merged
+    protected function getSnapshotId(): string
+    {
+        return (new \ReflectionClass($this))->getShortName() . '__' .
+        $this->nameWithDataSet() . '__' .
+        $this->snapshotIncrementor;
+    }
 
     public static function setUpBeforeClass(): void
     {
@@ -46,12 +55,11 @@ class SmokeTest extends DatabaseTestCase
         $client->request('GET', '/api/doc.json');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertMatchesJsonSnapshot($client->getResponse()->getContent());
     }
 
-    /**
-     * @dataProvider providePackageRequest
-     */
+    #[DataProvider('providePackageRequest')]
     public function testPackage(string $name, array $parameters): void
     {
         $client = $this->getClient();
@@ -59,6 +67,7 @@ class SmokeTest extends DatabaseTestCase
         $client->request('GET', sprintf('/api/packages/%s', $name), $this->createAbsoluteMonths($parameters));
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertMatchesJsonSnapshot($client->getResponse()->getContent());
     }
 
@@ -73,9 +82,7 @@ class SmokeTest extends DatabaseTestCase
         return $parameters;
     }
 
-    /**
-     * @dataProvider providePackageSeriesRequest
-     */
+    #[DataProvider('providePackageSeriesRequest')]
     public function testPackageSeries(string $name, array $parameters): void
     {
         $client = $this->getClient();
@@ -83,16 +90,17 @@ class SmokeTest extends DatabaseTestCase
         $client->request('GET', sprintf('/api/packages/%s/series', $name), $this->createAbsoluteMonths($parameters));
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertMatchesJsonSnapshot($client->getResponse()->getContent());
     }
 
-    public function providePackageSeriesRequest(): array
+    public static function providePackageSeriesRequest(): array
     {
         $requests = [];
 
         foreach ([null, 1, 10] as $limit) {
             foreach ([null, 0, 1, 2] as $offset) {
-                foreach ($this->providePackageRequest() as $packageRequest) {
+                foreach (self::providePackageRequest() as $packageRequest) {
                     if ($limit !== null) {
                         $packageRequest[1]['limit'] = $limit;
                     }
@@ -108,7 +116,7 @@ class SmokeTest extends DatabaseTestCase
         return $requests;
     }
 
-    public function providePackageRequest(): array
+    public static function providePackageRequest(): array
     {
         $startMonth = -2;
         $endMonth = -1;
@@ -120,9 +128,7 @@ class SmokeTest extends DatabaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider providePackagesRequest
-     */
+    #[DataProvider('providePackagesRequest')]
     public function testPackages(array $parameters): void
     {
         $client = $this->getClient();
@@ -130,10 +136,11 @@ class SmokeTest extends DatabaseTestCase
         $client->request('GET', '/api/packages', $this->createAbsoluteMonths($parameters));
 
         $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertIsString($client->getResponse()->getContent());
         $this->assertMatchesJsonSnapshot($client->getResponse()->getContent());
     }
 
-    public function providePackagesRequest(): array
+    public static function providePackagesRequest(): array
     {
         Month::setBaseTimestamp(strtotime('2022-02-02'));
         $startMonths = [null, -2];

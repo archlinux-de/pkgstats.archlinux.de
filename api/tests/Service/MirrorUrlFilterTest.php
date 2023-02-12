@@ -3,20 +3,19 @@
 namespace App\Tests\Service;
 
 use App\Service\MirrorUrlFilter;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class MirrorUrlFilterTest extends TestCase
 {
-    /**
-     * @dataProvider provideUrls
-     */
+    #[DataProvider('provideUrls')]
     public function testFilter(string $input, ?string $expected): void
     {
         $mirrorUrlFilter = new MirrorUrlFilter();
         $this->assertEquals($expected, $mirrorUrlFilter->filter($input));
     }
 
-    public function provideUrls(): array
+    public static function provideUrls(): array
     {
         return [
             ['https://mirror.archlinux.de/', 'https://mirror.archlinux.de/'],

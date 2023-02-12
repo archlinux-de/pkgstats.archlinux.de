@@ -4,13 +4,12 @@ namespace App\Tests\Repository;
 
 use App\Entity\Package;
 use App\Repository\PackageRepository;
+use PHPUnit\Framework\Attributes\DataProvider;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
 class PackageRepositoryTest extends DatabaseTestCase
 {
-    /**
-     * @dataProvider provideMonthRange
-     */
+    #[DataProvider('provideMonthRange')]
     public function testGetCountByNameAndRange(int $startMonth, int $endMonth): void
     {
         $package = (new Package())->setName('a')->setMonth($startMonth)->incrementCount();
@@ -26,9 +25,7 @@ class PackageRepositoryTest extends DatabaseTestCase
         $this->assertEquals(2, $count);
     }
 
-    /**
-     * @dataProvider provideMonthRange
-     */
+    #[DataProvider('provideMonthRange')]
     public function testGetCountByNameAndRangeOfUnknownPackage(int $startMonth, int $endMonth): void
     {
         /** @var PackageRepository $packageRepository */
@@ -38,9 +35,7 @@ class PackageRepositoryTest extends DatabaseTestCase
         $this->assertEquals(0, $count);
     }
 
-    /**
-     * @dataProvider provideMonthRange
-     */
+    #[DataProvider('provideMonthRange')]
     public function testFindPackagesCountByRange(int $startMonth, int $endMonth): void
     {
         $packageA = (new Package())->setName('a')->setMonth($startMonth)->incrementCount();
@@ -70,9 +65,7 @@ class PackageRepositoryTest extends DatabaseTestCase
         );
     }
 
-    /**
-     * @dataProvider provideMonthRange
-     */
+    #[DataProvider('provideMonthRange')]
     public function testGetMaximumCountByRange(int $startMonth, int $endMonth): void
     {
         $packageA = (new Package())->setName('a')->setMonth($startMonth - 1);
@@ -101,9 +94,7 @@ class PackageRepositoryTest extends DatabaseTestCase
         $this->assertEquals(2, $count);
     }
 
-    /**
-     * @dataProvider provideMonthRange
-     */
+    #[DataProvider('provideMonthRange')]
     public function testGetMaximumCountByRangeIsInitiallyZero(int $startMonth, int $endMonth): void
     {
         /** @var PackageRepository $packageRepository */
@@ -157,7 +148,7 @@ class PackageRepositoryTest extends DatabaseTestCase
         $this->assertEquals([['count' => 2, 'month' => 201810]], $monthlyCount);
     }
 
-    public function provideMonthRange(): array
+    public static function provideMonthRange(): array
     {
         return [
             [201810, 201811],

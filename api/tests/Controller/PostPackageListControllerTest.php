@@ -8,6 +8,7 @@ use App\Entity\OperatingSystemArchitecture;
 use App\Entity\Package;
 use App\Entity\SystemArchitecture;
 use App\Repository\PackageRepository;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 use SymfonyDatabaseTest\DatabaseTestCase;
@@ -104,9 +105,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         );
     }
 
-    /**
-     * @dataProvider provideSupportedVserions
-     */
+    #[DataProvider('provideSupportedVserions')]
     public function testSupportedVersions(string $version): void
     {
         $client = $this->createPkgstatsClient();
@@ -114,14 +113,14 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
-    public function provideSupportedVserions(): array
+    public static function provideSupportedVserions(): array
     {
         return [
             ['3']
         ];
     }
 
-    public function provideUnsupportedVersions(): array
+    public static function provideUnsupportedVersions(): array
     {
         return [
             ['1.0'],
@@ -146,9 +145,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         ];
     }
 
-    /**
-     * @dataProvider provideUnsupportedVersions
-     */
+    #[DataProvider('provideUnsupportedVersions')]
     public function testUnsupportedVersionFails(string $version): void
     {
         $client = $this->createPkgstatsClient();
@@ -170,9 +167,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    /**
-     * @dataProvider provideUnsupportedArchitectures
-     */
+    #[DataProvider('provideUnsupportedArchitectures')]
     public function testPostPackageListWithUnsupportedArchitectureFails(string $arch, string $cpuArch): void
     {
         $client = $this->createPkgstatsClient();
@@ -180,9 +175,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    /**
-     * @dataProvider provideUnsupportedCpuArchitectures
-     */
+    #[DataProvider('provideUnsupportedCpuArchitectures')]
     public function testPostPackageListWithUnsupportedCpuArchitectureFails(string $cpuArch, string $arch): void
     {
         $client = $this->createPkgstatsClient();
@@ -190,9 +183,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
-    /**
-     * @dataProvider provideSupportedCpuArchitectures
-     */
+    #[DataProvider('provideSupportedCpuArchitectures')]
     public function testPostPackageListWithSupportedCpuArchitectureIsSuccessful(string $cpuArch, string $arch): void
     {
         $client = $this->createPkgstatsClient();
@@ -200,9 +191,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
     }
 
-    /**
-     * @dataProvider provideSupportedArchitectures
-     */
+    #[DataProvider('provideSupportedArchitectures')]
     public function testPostPackageListWithSupportedArchitectureIsSuccessful(string $arch, string $cpuArch): void
     {
         $client = $this->createPkgstatsClient();
@@ -284,7 +273,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertEquals(2, $package->getCount());
     }
 
-    public function provideSupportedArchitectures(): array
+    public static function provideSupportedArchitectures(): array
     {
         $result = [];
         $entries = [
@@ -307,7 +296,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         return $result;
     }
 
-    public function provideSupportedCpuArchitectures(): array
+    public static function provideSupportedCpuArchitectures(): array
     {
         $result = [];
         $entries = [
@@ -333,7 +322,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         return $result;
     }
 
-    public function provideUnsupportedArchitectures(): array
+    public static function provideUnsupportedArchitectures(): array
     {
         $result = [];
         $entries = [
@@ -355,7 +344,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         return $result;
     }
 
-    public function provideUnsupportedCpuArchitectures(): array
+    public static function provideUnsupportedCpuArchitectures(): array
     {
         $result = [];
         $entries = [

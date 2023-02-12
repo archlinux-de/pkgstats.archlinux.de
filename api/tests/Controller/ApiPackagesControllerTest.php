@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Package;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
@@ -11,9 +12,7 @@ use SymfonyDatabaseTest\DatabaseTestCase;
  */
 class ApiPackagesControllerTest extends DatabaseTestCase
 {
-    /**
-     * @dataProvider providePackageNames
-     */
+    #[DataProvider('providePackageNames')]
     public function testFetchAllPackages(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
@@ -101,9 +100,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertPackagePupularity($client->getResponse()->getContent());
     }
 
-    /**
-     * @dataProvider providePackageNames
-     */
+    #[DataProvider('providePackageNames')]
     public function testFetchSinglePackage(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
@@ -204,9 +201,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
     }
 
-    /**
-     * @dataProvider providePackageNames
-     */
+    #[DataProvider('providePackageNames')]
     public function testPackagesSeries(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
@@ -230,7 +225,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals($packageName, $pupularityList['packagePopularities'][0]['name']);
     }
 
-    public function providePackageNames(): array
+    public static function providePackageNames(): array
     {
         return [
             ['pacman'],

@@ -123,11 +123,11 @@ test-e2e:
 		just cypress-run
 	fi
 
-test-db: start-db
-	{{PHP-DB-RUN}} vendor/bin/phpunit -c phpunit-db.xml
+test-db *args: start-db
+	{{PHP-DB-RUN}} vendor/bin/phpunit -c phpunit-db.xml {{args}}
 
-test-db-migrations: start-db
-	{{PHP-DB-RUN}} vendor/bin/phpunit -c phpunit-db.xml --testsuite 'Doctrine Migrations Test'
+test-db-migrations *args: start-db
+	{{PHP-DB-RUN}} vendor/bin/phpunit -c phpunit-db.xml --testsuite 'Doctrine Migrations Test' {{args}}
 
 test-coverage:
 	{{NODE-RUN}} node_modules/.bin/jest --passWithNoTests --coverage --coverageDirectory var/coverage/jest

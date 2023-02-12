@@ -8,6 +8,7 @@ use App\Entity\OperatingSystemArchitecture;
 use App\Entity\Package;
 use App\Entity\SystemArchitecture;
 use App\Request\PkgstatsRequest;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilderInterface;
@@ -40,9 +41,7 @@ class PkgstatsRequestTest extends TestCase
         $this->assertEquals('x86_64_v4', $request->getSystemArchitecture()->getName());
     }
 
-    /**
-     * @dataProvider provideValidArchitecutres
-     */
+    #[DataProvider('provideValidArchitecutres')]
     public function testValidOperatingSystemArchitectures(string $cpuArch, string $osArch): void
     {
         $request = (new PkgstatsRequest('3'))
@@ -57,9 +56,7 @@ class PkgstatsRequestTest extends TestCase
         $request->validateOperatingSystemArchitectures($context);
     }
 
-    /**
-     * @dataProvider provideValidArchitecutres
-     */
+    #[DataProvider('provideValidArchitecutres')]
     public function testValidSystemArchitectures(string $cpuArch, string $osArch): void
     {
         $request = (new PkgstatsRequest('3'))
@@ -74,9 +71,7 @@ class PkgstatsRequestTest extends TestCase
         $request->validateSystemArchitectures($context);
     }
 
-    /**
-     * @dataProvider provideInvalidArchitectures
-     */
+    #[DataProvider('provideInvalidArchitectures')]
     public function testInvalidOperatingSystemArchitectures(string $cpuArch, string $osArch): void
     {
         $request = (new PkgstatsRequest('3'))
@@ -101,9 +96,7 @@ class PkgstatsRequestTest extends TestCase
         $request->validateOperatingSystemArchitectures($context);
     }
 
-    /**
-     * @dataProvider provideInvalidArchitectures
-     */
+    #[DataProvider('provideInvalidArchitectures')]
     public function testInvalidSystemArchitectures(string $cpuArch, string $osArch): void
     {
         $request = (new PkgstatsRequest('3'))
@@ -128,7 +121,7 @@ class PkgstatsRequestTest extends TestCase
         $request->validateSystemArchitectures($context);
     }
 
-    public function provideValidArchitecutres(): array
+    public static function provideValidArchitecutres(): array
     {
         $result = [];
         $entries = [
@@ -154,7 +147,7 @@ class PkgstatsRequestTest extends TestCase
         return $result;
     }
 
-    public function provideInvalidArchitectures(): array
+    public static function provideInvalidArchitectures(): array
     {
         $result = [];
         $entries = [
