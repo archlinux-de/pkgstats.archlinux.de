@@ -18,14 +18,6 @@ class SmokeTest extends DatabaseTestCase
 {
     use MatchesSnapshots;
 
-    // @FIXME: Hotfix until https://github.com/spatie/phpunit-snapshot-assertions/pull/163 is merged
-    protected function getSnapshotId(): string
-    {
-        return (new \ReflectionClass($this))->getShortName() . '__' .
-        $this->nameWithDataSet() . '__' .
-        $this->snapshotIncrementor;
-    }
-
     public static function setUpBeforeClass(): void
     {
         Month::setBaseTimestamp(strtotime('2022-02-02'));
