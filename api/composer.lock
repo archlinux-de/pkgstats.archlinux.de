@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ed72a052e3ec1f0dfcebda9e3bc30c3",
+    "content-hash": "ba0c077a87aac46ef348ed6e11ca7861",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -5676,30 +5676,30 @@
         },
         {
             "name": "malukenho/mcbumpface",
-            "version": "1.1.5",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/malukenho/mcbumpface.git",
-                "reference": "8d172d6935d7e0c1e79f244df5ed324909692a93"
+                "reference": "af986cc6598bf7362584783a455ff39493e9b123"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/malukenho/mcbumpface/zipball/8d172d6935d7e0c1e79f244df5ed324909692a93",
-                "reference": "8d172d6935d7e0c1e79f244df5ed324909692a93",
+                "url": "https://api.github.com/repos/malukenho/mcbumpface/zipball/af986cc6598bf7362584783a455ff39493e9b123",
+                "reference": "af986cc6598bf7362584783a455ff39493e9b123",
                 "shasum": ""
             },
             "require": {
                 "composer-plugin-api": "^1.0.0 || ^2.0.0",
-                "php": "^7.2 || ~8.0"
+                "php": "^7.2 || ~8.0 || ~8.1 || ~8.2"
             },
             "require-dev": {
                 "composer/composer": "^1.9.3 || ^2.0.2",
-                "doctrine/coding-standard": "^8.2.0",
+                "doctrine/coding-standard": "^9.0.2",
                 "ext-json": "*",
                 "ext-zip": "*",
-                "infection/infection": "^0.19.1",
-                "phpunit/phpunit": "^9.4.2",
-                "staabm/annotate-pull-request-from-checkstyle": "^1.4.0"
+                "infection/infection": "^0.26.19",
+                "phpunit/phpunit": "^9.6.4",
+                "staabm/annotate-pull-request-from-checkstyle": "^1.8.3"
             },
             "type": "composer-plugin",
             "extra": {
@@ -5723,9 +5723,15 @@
             "description": "Bumping into packages",
             "support": {
                 "issues": "https://github.com/malukenho/mcbumpface/issues",
-                "source": "https://github.com/malukenho/mcbumpface/tree/1.1.5"
+                "source": "https://github.com/malukenho/mcbumpface/tree/1.2.0"
             },
-            "time": "2020-10-29T20:32:02+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/malukenho",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-02-27T19:23:58+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -6686,16 +6692,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.0.12",
+            "version": "10.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "87d5cfdb4ecf440fb9f08b636b1152be433fc6f1"
+                "reference": "c37a88d7a905266eab6498817a1bf1170043313f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/87d5cfdb4ecf440fb9f08b636b1152be433fc6f1",
-                "reference": "87d5cfdb4ecf440fb9f08b636b1152be433fc6f1",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c37a88d7a905266eab6498817a1bf1170043313f",
+                "reference": "c37a88d7a905266eab6498817a1bf1170043313f",
                 "shasum": ""
             },
             "require": {
@@ -6766,7 +6772,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.12"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.0.13"
             },
             "funding": [
                 {
@@ -6782,7 +6788,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-25T06:05:15+00:00"
+            "time": "2023-02-27T13:07:57+00:00"
         },
         {
             "name": "pierres/doctrine-migrations-test",
