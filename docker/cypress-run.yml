@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   cypress:
-    image: cypress/included:cypress-12.8.1-node-18.14.1-chrome-111.0.5563.110-1-ff-111.0-edge-111.0.1661.51-1
+    image: cypress/included:12.9.0
     depends_on:
       - nginx
     environment:
