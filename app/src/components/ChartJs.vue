@@ -56,7 +56,8 @@ const testRenderPlugin = {
 
 const drawChart = (canvas, data) => {
   const colors = ['#08c', '#dc3545', '#198754', '#ffc107', '#0dcaf0', '#d63384', '#fd7e14', '#333', '#6f42c1', '#adb5bd']
-  const textColor = '#333'
+  const textColor = window.getComputedStyle(document.documentElement).getPropertyValue('--bs-body-color')
+  const gridColor = window.getComputedStyle(document.documentElement).getPropertyValue('--bs-border-color')
 
   Chart.register(
     LineElement,
@@ -103,14 +104,16 @@ const drawChart = (canvas, data) => {
             autoSkipPadding: 30
           },
           grid: {
-            display: false
+            display: false,
+            color: gridColor
           }
         },
         y: {
           type: 'linear',
           min: 0,
           grid: {
-            borderDash: [1, 2]
+            borderDash: [1, 2],
+            color: gridColor
           },
           ticks: {
             color: textColor

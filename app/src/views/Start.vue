@@ -23,7 +23,7 @@
 
           <h4>Searching for packages</h4>
           <p>The cli client can be used to search for packages and show the most popular matches:</p>
-          <pre class="text-light bg-dark p-2"><code>$ pkgstats <strong>search</strong> firefox
+          <pre><code>$ pkgstats <strong>search</strong> firefox
 firefox                    63.53
 firefox-developer-edition  6.30
 firefox-i18n-de            3.32
@@ -41,8 +41,7 @@ See more results at <a class="code-link" href="https://pkgstats.archlinux.de/pac
 
           <h4>Comparing package statistics</h4>
           <p>The popularity of one or more packages can be queried:</p>
-          <pre
-            class="text-light bg-dark p-2"><code>$ pkgstats <strong>show</strong> firefox chromium epiphany konqueror
+          <pre><code>$ pkgstats <strong>show</strong> firefox chromium epiphany konqueror
 firefox        63.53
 chromium       48.80
 epiphany       16.33
@@ -54,7 +53,7 @@ See more results at <a class="code-link"
           <h4>Submitting your package data</h4>
           <p>While the systemd timer automatically submits your data, you may want to inspect the data that are being
             sent:</p>
-          <pre class="text-light bg-dark p-2"><code>$ pkgstats <strong>submit --dump-json</strong>
+          <pre><code>$ pkgstats <strong>submit --dump-json</strong>
 {
   "version": "3",
   "system": {
@@ -73,7 +72,7 @@ See more results at <a class="code-link"
   }
 }</code></pre>
           <p>If you are just curious about the CPU architecture that pkgstats detects, simply run:</p>
-          <pre class="text-light bg-dark p-2"><code>$ pkgstats <strong>arch cpu</strong>
+          <pre><code>$ pkgstats <strong>arch cpu</strong>
 x86_64_v3</code></pre>
         </div>
       </div>

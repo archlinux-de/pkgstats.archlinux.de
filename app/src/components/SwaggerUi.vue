@@ -21,8 +21,14 @@ onMounted(() => {
 
   const styleNode = document.createElement('style')
   styleNode.innerHTML = Styles +
-    '.information-container { display: none; }' +
-    '.swagger-ui .opblock .opblock-summary-path { max-width: calc(100% - 10rem); }'
+    `
+    .information-container { display: none; }
+    .swagger-ui .opblock .opblock-summary-path { max-width: calc(100% - 10rem); }
+    @media (prefers-color-scheme: dark) {
+      .swagger-ui { filter: invert(88%) hue-rotate(180deg); }
+      .swagger-ui .microlight { filter: invert(100%) hue-rotate(180deg); }
+    }
+    `
   rootNode.appendChild(styleNode)
 
   const swaggerNode = document.createElement('div')
