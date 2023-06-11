@@ -10,18 +10,19 @@ use App\Entity\SystemArchitecture;
 use App\Request\PkgstatsRequest;
 use App\Service\GeoIp;
 use App\Service\MirrorUrlFilter;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class PkgstatsRequestDenormalizer implements DenormalizerInterface, CacheableSupportsMethodInterface
+class PkgstatsRequestDenormalizer implements DenormalizerInterface
 {
-    public function __construct(private GeoIp $geoIp, private MirrorUrlFilter $mirrorUrlFilter)
+    public function __construct(private readonly GeoIp $geoIp, private readonly MirrorUrlFilter $mirrorUrlFilter)
     {
     }
 
-    public function hasCacheableSupportsMethod(): bool
+    public function getSupportedTypes(?string $format): array
     {
-        return true;
+        return [
+            PkgstatsRequest::class => true
+        ];
     }
 
     public function denormalize(mixed $data, string $type, string $format = null, array $context = []): PkgstatsRequest

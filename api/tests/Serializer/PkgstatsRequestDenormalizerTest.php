@@ -68,6 +68,5 @@ class PkgstatsRequestDenormalizerTest extends TestCase
     public function testSpportsDenormalization(): void
     {
         $this->assertTrue($this->denormalizer->supportsDenormalization([], PkgstatsRequest::class, 'json'));
-        $this->assertTrue($this->denormalizer->hasCacheableSupportsMethod());
     }
 }
