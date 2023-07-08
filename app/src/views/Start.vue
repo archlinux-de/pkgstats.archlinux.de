@@ -137,6 +137,7 @@ x86_64_v3</code></pre>
 .code-link {
   color: inherit;
 
+  /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
   &:hover {
     color: inherit;
   }

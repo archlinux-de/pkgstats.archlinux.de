@@ -13,6 +13,7 @@
     animation: delay-opacity ease-in 1.2s forwards;
     animation-delay: 0.2s;
 
+    /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
     &--absolute {
       position: absolute;
       left: 50%;
