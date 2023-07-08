@@ -24,21 +24,21 @@ init: start
 
 start:
 	{{COMPOSE}} up -d
-	{{MARIADB-RUN}} mysqladmin -uroot -hmariadb --wait=10 ping
+	{{MARIADB-RUN}} mariadb-admin -uroot -hmariadb --wait=10 ping
 	@echo URL: http://localhost:${PORT}
 
 start-db:
 	{{COMPOSE}} up -d mariadb
-	{{MARIADB-RUN}} mysqladmin -uroot -hmariadb --wait=10 ping
+	{{MARIADB-RUN}} mariadb-admin -uroot -hmariadb --wait=10 ping
 
 stop:
 	{{COMPOSE}} stop
 
 # Load a (gzipped) database backup for local testing
 import-db-dump file name='pkgstats_archlinux_de': start
-	{{MARIADB-RUN}} mysqladmin -uroot -hmariadb drop -f {{name}} || true
-	{{MARIADB-RUN}} mysqladmin -uroot -hmariadb create {{name}}
-	zcat {{file}} | {{MARIADB-RUN}} mysql -uroot -hmariadb {{name}}
+	{{MARIADB-RUN}} mariadb-admin -uroot -hmariadb drop -f {{name}} || true
+	{{MARIADB-RUN}} mariadb-admin -uroot -hmariadb create {{name}}
+	zcat {{file}} | {{MARIADB-RUN}} mariadb -uroot -hmariadb {{name}}
 	{{PHP-DB-RUN}} bin/console doctrine:migrations:sync-metadata-storage --no-interaction
 	{{PHP-DB-RUN}} bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
