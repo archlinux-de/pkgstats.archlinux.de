@@ -2,7 +2,7 @@ name: outdated
 
 on:
   schedule:
-    - cron: '0 7 */1 * *'
+    - cron: '0 7 1 * *'
 
 jobs:
   outdated:
@@ -14,5 +14,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Pulling Docker images
+        run: just compose pull
+      - name: Building Docker images
+        run: just compose build
       - name: Check for outdated Composer packages
         run: just composer-outdated

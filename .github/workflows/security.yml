@@ -2,7 +2,7 @@ name: security
 
 on:
   schedule:
-    - cron: '0 5 */1 * *'
+    - cron: '0 5 1 * *'
 
 jobs:
   security:
@@ -14,6 +14,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Pulling Docker images
+        run: just compose pull
+      - name: Building Docker images
+        run: just compose build
       - name: Install dependencies
         run: just install
       - name: Check security issues
