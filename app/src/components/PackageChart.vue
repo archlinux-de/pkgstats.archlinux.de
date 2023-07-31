@@ -34,6 +34,7 @@ const props = defineProps({
   }
 })
 
+// eslint-disable-next-line vue/no-setup-props-destructure
 const { data: fetchedData, isFetching, isFinished, error } = useFetchPackagesSeries(props.packages, { startMonth: props.startMonth, endMonth: props.endMonth, limit: props.limit })
 
 const data = useConvertDataSeries(fetchedData)
