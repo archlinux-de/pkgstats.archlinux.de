@@ -2,8 +2,9 @@ set dotenv-load := true
 
 export UID := `id -u`
 export GID := `id -g`
+export COMPOSE_PROFILES := if env_var_or_default("CI", "0") == "true" { "test" } else { "dev" }
 
-COMPOSE := 'docker compose -f docker/app.yml ' + `[ "${CI-}" != "true" ] && echo '-f docker/dev.yml' || echo ''` + ' -p ' + env_var('PROJECT_NAME')
+COMPOSE := 'docker compose -f docker/app.yml -p ' + env_var('PROJECT_NAME')
 COMPOSE-RUN := COMPOSE + ' run --rm'
 PHP-DB-RUN := COMPOSE-RUN + ' api'
 PHP-RUN := COMPOSE-RUN + ' --no-deps api'
@@ -47,7 +48,7 @@ clean:
 	git clean -fdqx -e .idea
 
 rebuild: clean
-	{{COMPOSE}} build --pull
+	{{COMPOSE}} -f docker/cypress-run.yml -f docker/cypress-open.yml build --pull
 	just install
 	just init
 
@@ -87,12 +88,15 @@ yarn *args='-h':
 jest *args:
 	{{NODE-RUN}} node_modules/.bin/jest --passWithNoTests {{args}}
 
-cypress-run *args:
-	{{COMPOSE}} -f docker/cypress-run.yml run     --rm --no-deps cypress run  --project tests/e2e --browser chrome --headless {{args}}
+cypress *args:
+	{{COMPOSE}} -f docker/cypress-run.yml run --rm --no-deps --entrypoint cypress cypress-run {{args}}
 
-cypress-open:
-	xhost +local:root
-	{{COMPOSE}} -f docker/cypress-open.yml run -d --rm --no-deps cypress open --project tests/e2e
+cypress-run *args:
+	{{COMPOSE}} -f docker/cypress-run.yml run --rm --no-deps cypress-run --headless --browser chrome --project tests/e2e {{args}}
+
+cypress-open *args:
+	Xephyr :${PORT} -screen 1920x1080 -resizeable -name Cypress -title "Cypress - {{ env_var('PROJECT_NAME') }}" -terminate -no-host-grab -extension MIT-SHM -extension XTEST -nolisten tcp &
+	DISPLAY=:${PORT} DISPLAY_SOCKET=/tmp/.X11-unix/X${PORT%%:*} {{COMPOSE}} -f docker/cypress-open.yml run --rm --no-deps cypress-open --project tests/e2e --e2e {{args}}
 
 test-php:
 	{{PHP-RUN}} composer validate
@@ -118,7 +122,7 @@ test-e2e:
 		git clean -xdf app/dist
 		just init
 		just yarn build
-		CYPRESS_baseUrl=http://nginx:81 just cypress-run
+		CYPRESS_baseUrl=http://nginx:8081 just cypress-run
 	else
 		just cypress-run
 	fi
@@ -131,10 +135,10 @@ test-db-migrations *args: start-db
 
 test-coverage:
 	{{NODE-RUN}} node_modules/.bin/jest --passWithNoTests --coverage --coverageDirectory var/coverage/jest
-	{{PHP-RUN}} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage/phpunit
+	{{PHP-RUN}} php -d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage/phpunit
 
 test-db-coverage: start-db
-	{{PHP-RUN}} phpdbg -qrr -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage -c phpunit-db.xml
+	{{PHP-RUN}} php -d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage -c phpunit-db.xml
 
 test-security: (composer "audit")
 	{{NODE-RUN}} yarn audit --groups dependencies

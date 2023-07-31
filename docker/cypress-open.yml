@@ -1,22 +1,24 @@
 version: "3.8"
 
 services:
-  cypress:
-    image: cypress/included:cypress-12.17.2-node-18.16.0-chrome-114.0.5735.133-1-ff-114.0.2-edge-114.0.1823.51-1
+  cypress-open:
+    build:
+      context: cypress
+      target: cypress-open
     depends_on:
       - nginx
     environment:
-      - CYPRESS_baseUrl=${CYPRESS_baseUrl:-http://localhost:${PORT}}
+      - CYPRESS_baseUrl=${CYPRESS_baseUrl:-http://nginx:8080}
       - CYPRESS_numTestsKeptInMemory=100
       - DISPLAY
-    entrypoint: cypress
-    ipc: host
-    network_mode: host
-    userns_mode: host
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
     working_dir: /app
     volumes:
-      - ../app:/app:ro
-      - ../app/tests/e2e:/app/tests/e2e:rw
-      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - ../app/src/config:/app/src/config:ro
+      - ../app/tests/e2e:/app/tests/e2e:ro
+      - ${DISPLAY_SOCKET:-/tmp/.X11-unix}:${DISPLAY_SOCKET:-/tmp/.X11-unix}:ro
     tmpfs:
       - /tmp

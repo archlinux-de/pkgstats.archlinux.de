@@ -20,12 +20,6 @@ jobs:
         run: just compose pull
       - name: Pulling Cypress Docker image
         run: just compose -f docker/cypress-open.yml pull
-      - name: Maintain Docker cache
-        uses: satackey/action-docker-layer-caching@v0.0.11
-        continue-on-error: true
-        with:
-          key: docker-${{ hashFiles('docker/**') }}
-          restore-keys: docker-
       - name: Building Docker images
         run: just compose build
       - name: Maintain Composer cache
