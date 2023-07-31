@@ -148,17 +148,10 @@ fix-code-style:
 	{{NODE-RUN}} node_modules/.bin/eslint '*.js' src tests --ext js --ext vue --fix
 	{{NODE-RUN}} node_modules/.bin/stylelint --fix 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
 
-_update-cypress-image:
-	#!/usr/bin/env bash
-	set -e
-	CYPRESS_VERSION=$(curl -sSf 'https://hub.docker.com/v2/repositories/cypress/included/tags/?page_size=1' | jq -r '."results"[]["name"]')
-	sed -E "s#(cypress/included:).+#\1${CYPRESS_VERSION}#g" -i docker/cypress-*.yml
-
 update:
 	{{PHP-RUN}} composer --no-interaction update
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
 	{{NODE-RUN}} yarn upgrade --non-interactive --latest
-	just _update-cypress-image
 
 deploy:
 	cd app && yarn install --non-interactive --frozen-lockfile --production

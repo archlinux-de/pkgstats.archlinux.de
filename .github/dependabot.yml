@@ -1,7 +1,17 @@
 version: 2
 updates:
   - package-ecosystem: "docker"
-    directory: "/docker"
+    directory: "/docker/cypress"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/docker/php"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "docker"
+    directory: "/docker/nginx"
     schedule:
       interval: "daily"
 
