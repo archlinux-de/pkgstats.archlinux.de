@@ -38,7 +38,7 @@ class PackageRepository extends ServiceEntityRepository
         }
 
         try {
-            return $queryBuilder
+            return (int)$queryBuilder
                 ->getQuery()
                 ->getSingleScalarResult();
         } catch (NoResultException $e) {
