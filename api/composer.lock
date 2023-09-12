@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7871cbc619b7cf8f53b67b2987d84e5b",
+    "content-hash": "6df63c5b5dd63c4bce4cf292fb0ea905",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -5659,16 +5659,16 @@
         },
         {
             "name": "league/iso3166",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/iso3166.git",
-                "reference": "628f1b4992169917f3f59c14020ea4513c63f6db"
+                "reference": "11703e0313f34920add11c0228f0dd43ebd10f9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/iso3166/zipball/628f1b4992169917f3f59c14020ea4513c63f6db",
-                "reference": "628f1b4992169917f3f59c14020ea4513c63f6db",
+                "url": "https://api.github.com/repos/thephpleague/iso3166/zipball/11703e0313f34920add11c0228f0dd43ebd10f9a",
+                "reference": "11703e0313f34920add11c0228f0dd43ebd10f9a",
                 "shasum": ""
             },
             "require": {
@@ -5713,7 +5713,7 @@
                 "issues": "https://github.com/thephpleague/iso3166/issues",
                 "source": "https://github.com/thephpleague/iso3166"
             },
-            "time": "2023-06-05T15:02:58+00:00"
+            "time": "2023-09-11T07:59:36+00:00"
         },
         {
             "name": "malukenho/mcbumpface",
@@ -7866,16 +7866,16 @@
         },
         {
             "name": "spatie/phpunit-snapshot-assertions",
-            "version": "5.0.2",
+            "version": "5.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/phpunit-snapshot-assertions.git",
-                "reference": "b1748c4b62750a2ea2e2df544d962806e0f8995e"
+                "reference": "92f6541716c7b09e07680960764f0cddc11106f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/b1748c4b62750a2ea2e2df544d962806e0f8995e",
-                "reference": "b1748c4b62750a2ea2e2df544d962806e0f8995e",
+                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/92f6541716c7b09e07680960764f0cddc11106f2",
+                "reference": "92f6541716c7b09e07680960764f0cddc11106f2",
                 "shasum": ""
             },
             "require": {
@@ -7888,6 +7888,13 @@
                 "symfony/property-access": "^5.2|^6.2",
                 "symfony/serializer": "^5.2|^6.2",
                 "symfony/yaml": "^5.2|^6.2"
+            },
+            "require-dev": {
+                "spatie/pixelmatch-php": "dev-main",
+                "spatie/ray": "^1.37"
+            },
+            "suggest": {
+                "spatie/pixelmatch-php": "Required to use the image snapshot assertions"
             },
             "type": "library",
             "extra": {
@@ -7924,7 +7931,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/phpunit-snapshot-assertions/issues",
-                "source": "https://github.com/spatie/phpunit-snapshot-assertions/tree/5.0.2"
+                "source": "https://github.com/spatie/phpunit-snapshot-assertions/tree/5.1.0"
             },
             "funding": [
                 {
@@ -7932,7 +7939,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-04-20T08:25:04+00:00"
+            "time": "2023-09-11T14:28:48+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
