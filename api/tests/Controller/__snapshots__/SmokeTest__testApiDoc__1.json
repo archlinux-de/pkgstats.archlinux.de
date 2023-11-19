@@ -5,15 +5,6 @@
         "version": "3.0.0"
     },
     "paths": {
-        "\/api\/doc.json": {
-            "get": {
-                "responses": {
-                    "default": {
-                        "description": ""
-                    }
-                }
-            }
-        },
         "\/api\/packages\/{name}": {
             "get": {
                 "tags": [

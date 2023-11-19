@@ -28,6 +28,8 @@ class Mirror
     #[Assert\Positive]
     private int $count = 1;
 
+    public const URL_REGEXP = '^[0-9a-zA-Z\-\._~\/\:]{1,191}$';
+
     public function __construct(string $url)
     {
         $this->url = $url;
