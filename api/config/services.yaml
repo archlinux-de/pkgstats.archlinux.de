@@ -53,6 +53,10 @@ services:
         bind:
             $environment: '%kernel.environment%'
 
+    App\Controller\ApiSystemArchitectureController:
+        bind:
+            $environment: '%kernel.environment%'
+
     App\Controller\SitemapController:
         bind:
             $environment: '%kernel.environment%'

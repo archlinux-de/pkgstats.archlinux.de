@@ -14,6 +14,7 @@ class SystemArchitecture
     public const ARCHITECTURES = [
         'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4', 'i686', 'aarch64', 'armv7', 'armv6', 'armv5', 'riscv64'
     ];
+    public const NAME_REGEXP = '^\w{1,10}$';
 
     #[ORM\Column(length: 10)]
     #[ORM\Id]
