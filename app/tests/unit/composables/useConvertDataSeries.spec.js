@@ -4,7 +4,7 @@ import { unref } from 'vue'
 it('Converting an Array to a data series', () =>
   expect(unref(useConvertDataSeries([
     { packagePopularities: [{ name: 'nodejs', popularity: 64.01, startMonth: 201909 }] }
-  ])))
+  ], 'packagePopularities')))
     .toStrictEqual({
       labels: [201909],
       datasets: [
@@ -17,7 +17,7 @@ it('Converting multiple Arrays to data series', () =>
   expect(unref(useConvertDataSeries([
     { packagePopularities: [{ name: 'nodejs', popularity: 64.01, startMonth: 201909 }] },
     { packagePopularities: [{ name: 'php', popularity: 32.69, startMonth: 201909 }] }
-  ])))
+  ], 'packagePopularities')))
     .toStrictEqual({
       labels: [201909],
       datasets: [
@@ -36,7 +36,7 @@ it('Converting multiple incomplete Arrays to a consistent data series', () =>
         { name: 'php', popularity: 12, startMonth: 201909 }
       ]
     }
-  ])))
+  ], 'packagePopularities')))
     .toStrictEqual({
       labels: [201908, 201909],
       datasets: [
@@ -47,6 +47,6 @@ it('Converting multiple incomplete Arrays to a consistent data series', () =>
 )
 
 it('Converting an incomplete Array to an empty data series', () =>
-  expect(unref(useConvertDataSeries([{ packagePopularities: [] }])))
+  expect(unref(useConvertDataSeries([{ packagePopularities: [] }], 'packagePopularities')))
     .toStrictEqual({ labels: [], datasets: [] })
 )

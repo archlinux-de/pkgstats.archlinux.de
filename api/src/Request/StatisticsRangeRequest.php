@@ -32,9 +32,14 @@ class StatisticsRangeRequest
     private function isValidYearMonth(int $yearMonth): bool
     {
         $matches = (new ByteString((string)$yearMonth))->match('/^([0-9]{4})([0-9]{2})$/');
+        if (!$matches) {
+            return false;
+        }
+
         $yearMonth = (int)$matches[0];
         $year = (int)$matches[1];
         $month = (int)$matches[2];
+
         return
             $year >= 2002 &&
             $month >= 1 && $month <= 12 &&

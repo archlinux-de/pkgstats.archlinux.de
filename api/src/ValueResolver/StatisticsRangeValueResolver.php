@@ -26,7 +26,7 @@ class StatisticsRangeValueResolver implements ValueResolverInterface
 
         $statisticsRangeRequest = new StatisticsRangeRequest(
             $request->query->getInt('startMonth', $defaultMonth),
-            $request->query->getInt('endMonth', $defaultMonth)
+            $request->query->getInt('endMonth', $defaultMonth) ?: $defaultMonth
         );
 
         $errors = $this->validator->validate($statisticsRangeRequest);

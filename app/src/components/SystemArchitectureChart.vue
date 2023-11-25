@@ -2,18 +2,18 @@
   <div>
     <div class="alert alert-danger" role="alert" v-if="error.length > 0">{{ error }}</div>
     <loading-spinner v-if="isFetching"></loading-spinner>
-    <chart-js v-if="isFinished && error.length === 0" :data="data" :width="1280" :height="720" data-test="package-chart"></chart-js>
+    <chart-js v-if="isFinished && error.length === 0" :data="data" :width="1280" :height="720" data-test="system-architecture-chart"></chart-js>
   </div>
 </template>
 
 <script setup>
 import LoadingSpinner from './LoadingSpinner'
 import ChartJs from './ChartJs'
-import { useFetchPackagesSeries } from '../composables/useFetchPackagesSeries'
+import { useFetchSystemArchitecturesSeries } from '../composables/useFetchSystemArchitecturesSeries'
 import { useConvertDataSeries } from '../composables/useConvertDataSeries'
 
 const props = defineProps({
-  packages: {
+  systemArchitectures: {
     type: Array,
     required: true,
     validator (value) {
@@ -34,7 +34,7 @@ const props = defineProps({
   }
 })
 
-const { data: fetchedData, isFetching, isFinished, error } = useFetchPackagesSeries(props.packages, { startMonth: props.startMonth, endMonth: props.endMonth, limit: props.limit })
+const { data: fetchedData, isFetching, isFinished, error } = useFetchSystemArchitecturesSeries(props.systemArchitectures, { startMonth: props.startMonth, endMonth: props.endMonth, limit: props.limit })
 
-const data = useConvertDataSeries(fetchedData, 'packagePopularities')
+const data = useConvertDataSeries(fetchedData, 'systemArchitecturePopularities')
 </script>

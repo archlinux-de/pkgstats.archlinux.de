@@ -1,24 +1,29 @@
 import { computed, unref } from 'vue'
 
-const convertToDataSeries = (PackagepopularitiesArray) => {
+/**
+ * @param {Object[]} PopularitiesArray
+ * @param {string} pupularitiesKey
+ * @returns {{datasets: Object[], labels: string[]}}
+ */
+const convertToDataSeries = (PopularitiesArray, pupularitiesKey) => {
   const tempSeries = new Map()
   const tempLabels = new Set()
 
-  PackagepopularitiesArray.filter(data => data).forEach(result => {
-    if (!Array.isArray(result.packagePopularities)) {
+  PopularitiesArray.filter(data => data).forEach(result => {
+    if (!Array.isArray(result[pupularitiesKey])) {
       return
     }
 
-    result.packagePopularities.forEach((packagePopularity) => {
-      tempLabels.add(packagePopularity.startMonth)
+    result[pupularitiesKey].forEach((popularity) => {
+      tempLabels.add(popularity.startMonth)
       let tempData
-      if (tempSeries.has(packagePopularity.name)) {
-        tempData = tempSeries.get(packagePopularity.name)
+      if (tempSeries.has(popularity.name)) {
+        tempData = tempSeries.get(popularity.name)
       } else {
         tempData = new Map()
-        tempSeries.set(packagePopularity.name, tempData)
+        tempSeries.set(popularity.name, tempData)
       }
-      tempData.set(packagePopularity.startMonth, packagePopularity.popularity)
+      tempData.set(popularity.startMonth, popularity.popularity)
     })
   })
 
@@ -47,4 +52,4 @@ const convertToDataSeries = (PackagepopularitiesArray) => {
   return data
 }
 
-export const useConvertDataSeries = (PackagepopularitiesArray) => computed(() => convertToDataSeries(unref(PackagepopularitiesArray)))
+export const useConvertDataSeries = (PopularitiesArray, pupularitiesKey) => computed(() => convertToDataSeries(unref(PopularitiesArray), unref(pupularitiesKey)))
