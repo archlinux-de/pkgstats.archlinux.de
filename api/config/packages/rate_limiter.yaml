@@ -1,9 +1,9 @@
 framework:
     rate_limiter:
         pkgstats_request:
-            policy: 'fixed_window'
-            limit: 10
-            interval: '1 day'
+            policy: 'sliding_window'
+            limit: 50
+            interval: '7 day'
 
 when@test:
     services:

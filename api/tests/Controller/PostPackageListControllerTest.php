@@ -241,9 +241,9 @@ class PostPackageListControllerTest extends DatabaseTestCase
     {
         $client = $this->createPkgstatsClient();
 
-        for ($i = 1; $i <= 11; $i++) {
+        for ($i = 1; $i <= 51; $i++) {
             $this->sendRequest($client);
-            if ($i <= 10) {
+            if ($i <= 50) {
                 $this->assertTrue($client->getResponse()->isSuccessful());
             } else {
                 $this->assertEquals(429, $client->getResponse()->getStatusCode());
