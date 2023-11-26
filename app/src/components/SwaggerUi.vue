@@ -38,7 +38,8 @@ onMounted(() => {
   SwaggerUI({
     domNode: swaggerNode,
     url: url.value,
-    defaultModelsExpandDepth: 0
+    defaultModelsExpandDepth: 0,
+    supportedSubmitMethods: ['get']
   })
 })
 </script>
