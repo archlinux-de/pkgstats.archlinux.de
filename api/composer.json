@@ -18,21 +18,21 @@
         "doctrine/orm": "^2.17.1",
         "maxmind-db/reader": "^1.11.1",
         "nelmio/api-doc-bundle": "^4.12.0",
-        "symfony/console": "^6.3.9",
-        "symfony/dotenv": "^6.3.7",
-        "symfony/expression-language": "^6.3.0",
+        "symfony/console": "^6.4.1",
+        "symfony/dotenv": "^6.4.0",
+        "symfony/expression-language": "^6.4.0",
         "symfony/flex": "^2.4.1",
-        "symfony/framework-bundle": "^6.3.9",
-        "symfony/intl": "^6.3.7",
-        "symfony/lock": "^6.3.9",
+        "symfony/framework-bundle": "^6.4.1",
+        "symfony/intl": "^6.4.0",
+        "symfony/lock": "^6.4.0",
         "symfony/monolog-bundle": "^3.10.0",
-        "symfony/property-info": "^6.3.9",
-        "symfony/rate-limiter": "^6.3.8",
-        "symfony/runtime": "^6.3.2",
-        "symfony/serializer": "^6.3.10",
-        "symfony/twig-bundle": "^6.3.8",
-        "symfony/validator": "^6.3.9",
-        "symfony/yaml": "^6.3.8"
+        "symfony/property-info": "^6.4.0",
+        "symfony/rate-limiter": "^6.4.0",
+        "symfony/runtime": "^6.4.0",
+        "symfony/serializer": "^6.4.1",
+        "symfony/twig-bundle": "^6.4.0",
+        "symfony/validator": "^6.4.0",
+        "symfony/yaml": "^6.4.0"
     },
     "require-dev": {
         "ext-libxml": "*",
@@ -102,8 +102,8 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
-            "require": "6.3.*",
+            "allow-contrib": true,
+            "require": "6.4.*",
             "docker": false
         },
         "mc-bumpface": {

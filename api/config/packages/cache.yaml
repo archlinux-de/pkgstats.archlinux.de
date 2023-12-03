@@ -26,14 +26,8 @@ when@dev:
     framework:
         cache:
             app: cache.adapter.array
-            pools:
-                cache.rate_limiter:
-                    adapter: cache.adapter.array
 
 when@test:
     framework:
         cache:
             app: cache.adapter.array
-            pools:
-                cache.rate_limiter:
-                    adapter: cache.adapter.array
