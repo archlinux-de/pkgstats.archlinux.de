@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d31927cee171d13c35ad10e107dabde1",
+    "content-hash": "6095aa731e61e6483317757f84d4f919",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -6851,16 +6851,16 @@
         },
         {
             "name": "pierres/doctrine-migrations-test",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/doctrine-migrations-test.git",
-                "reference": "7c57f357c60bb9dd9caeb22edff36af4d59fb51e"
+                "reference": "1882c12fe12394ba57ad2e8e45fa12f99390636c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/doctrine-migrations-test/zipball/7c57f357c60bb9dd9caeb22edff36af4d59fb51e",
-                "reference": "7c57f357c60bb9dd9caeb22edff36af4d59fb51e",
+                "url": "https://api.github.com/repos/pierres/doctrine-migrations-test/zipball/1882c12fe12394ba57ad2e8e45fa12f99390636c",
+                "reference": "1882c12fe12394ba57ad2e8e45fa12f99390636c",
                 "shasum": ""
             },
             "require": {
@@ -6869,8 +6869,8 @@
                 "doctrine/doctrine-migrations-bundle": "^3.0",
                 "doctrine/orm": "^2.8",
                 "php": "^8.1",
-                "symfony/browser-kit": "^6.0",
-                "symfony/framework-bundle": "^6.0"
+                "symfony/browser-kit": "^6.0|^7.0",
+                "symfony/framework-bundle": "^6.0|^7.0"
             },
             "require-dev": {
                 "phpstan/extension-installer": "^1.2.0",
@@ -6902,22 +6902,22 @@
             "description": "Test cases to verify Doctrine Migrations",
             "support": {
                 "issues": "https://github.com/pierres/doctrine-migrations-test/issues",
-                "source": "https://github.com/pierres/doctrine-migrations-test/tree/2.0.0"
+                "source": "https://github.com/pierres/doctrine-migrations-test/tree/2.1.0"
             },
-            "time": "2023-02-12T08:31:48+00:00"
+            "time": "2023-12-02T10:47:29+00:00"
         },
         {
             "name": "pierres/symfony-database-test",
-            "version": "2.0.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/symfony-database-test.git",
-                "reference": "49d39f8afd40be98f0023388f2e5e52889e2fbab"
+                "reference": "307ab5383040b16fd5ed5095bae0b2dc02799129"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/49d39f8afd40be98f0023388f2e5e52889e2fbab",
-                "reference": "49d39f8afd40be98f0023388f2e5e52889e2fbab",
+                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/307ab5383040b16fd5ed5095bae0b2dc02799129",
+                "reference": "307ab5383040b16fd5ed5095bae0b2dc02799129",
                 "shasum": ""
             },
             "require": {
@@ -6925,8 +6925,8 @@
                 "doctrine/doctrine-bundle": "^2.4",
                 "doctrine/orm": "^2.8",
                 "php": "^8.1",
-                "symfony/browser-kit": "^6.0",
-                "symfony/framework-bundle": "^6.0"
+                "symfony/browser-kit": "^6.0|^7.0",
+                "symfony/framework-bundle": "^6.0|^7.0"
             },
             "require-dev": {
                 "phpstan/extension-installer": "^1.2.0",
@@ -6958,9 +6958,9 @@
             "description": "Symfony WebTestCase with database support",
             "support": {
                 "issues": "https://github.com/pierres/symfony-database-test/issues",
-                "source": "https://github.com/pierres/symfony-database-test/tree/2.0.0"
+                "source": "https://github.com/pierres/symfony-database-test/tree/2.1.1"
             },
-            "time": "2023-02-12T08:41:25+00:00"
+            "time": "2023-12-02T10:50:22+00:00"
         },
         {
             "name": "sebastian/cli-parser",
