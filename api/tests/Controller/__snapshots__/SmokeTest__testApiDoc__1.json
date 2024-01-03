@@ -290,6 +290,14 @@
     "components": {
         "schemas": {
             "PackagePopularity": {
+                "required": [
+                    "name",
+                    "samples",
+                    "count",
+                    "startMonth",
+                    "endMonth",
+                    "popularity"
+                ],
                 "properties": {
                     "name": {
                         "type": "string"
@@ -314,6 +322,13 @@
                 "type": "object"
             },
             "PackagePopularityList": {
+                "required": [
+                    "packagePopularities",
+                    "total",
+                    "limit",
+                    "offset",
+                    "count"
+                ],
                 "properties": {
                     "packagePopularities": {
                         "type": "array",
