@@ -90,8 +90,7 @@ class PkgstatsRequestTest extends TestCase
             ->willReturn($violationBuilder);
         $violationBuilder
             ->expects($this->once())
-            ->method('addViolation')
-            ->willReturn($violationBuilder);
+            ->method('addViolation');
 
         $request->validateOperatingSystemArchitectures($context);
     }
@@ -115,8 +114,7 @@ class PkgstatsRequestTest extends TestCase
             ->willReturn($violationBuilder);
         $violationBuilder
             ->expects($this->once())
-            ->method('addViolation')
-            ->willReturn($violationBuilder);
+            ->method('addViolation');
 
         $request->validateSystemArchitectures($context);
     }
