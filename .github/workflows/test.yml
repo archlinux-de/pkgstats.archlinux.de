@@ -26,13 +26,13 @@ jobs:
       - name: Building Docker images
         run: just compose build
       - name: Maintain Composer cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: api/vendor
           key: composer-${{ hashFiles('api/composer.lock') }}
           restore-keys: composer-
       - name: Maintain Yarn cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: app/node_modules
           key: yarn-${{ hashFiles('app/yarn.lock') }}
