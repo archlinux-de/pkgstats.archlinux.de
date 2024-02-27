@@ -57,7 +57,7 @@ services:
       - app
 
   mariadb:
-    image: mariadb:11
+    image: mariadb:11.3
     environment:
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
