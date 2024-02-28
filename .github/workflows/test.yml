@@ -13,7 +13,7 @@ jobs:
         type: ['test', 'test-db', 'test-e2e']
     steps:
       - name: Install Just
-        uses: extractions/setup-just@v1
+        uses: extractions/setup-just@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
