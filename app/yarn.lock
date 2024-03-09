@@ -128,6 +128,17 @@
     lodash.debounce "^4.0.8"
     resolve "^1.14.2"
 
+"@babel/helper-define-polyfill-provider@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@babel/helper-define-polyfill-provider/-/helper-define-polyfill-provider-0.6.0.tgz#4d1a8b898c8299a2fcf295d7d356d2648471ab31"
+  integrity sha512-efwOM90nCG6YeT8o3PCyBVSxRfmILxCNL+TNI8CGQl7a62M0Wd9VkV+XHwIlkOz1r4b+lxu6gBjdWiOMdUCrCQ==
+  dependencies:
+    "@babel/helper-compilation-targets" "^7.22.6"
+    "@babel/helper-plugin-utils" "^7.22.5"
+    debug "^4.1.1"
+    lodash.debounce "^4.0.8"
+    resolve "^1.14.2"
+
 "@babel/helper-environment-visitor@^7.22.20":
   version "7.22.20"
   resolved "https://registry.yarnpkg.com/@babel/helper-environment-visitor/-/helper-environment-visitor-7.22.20.tgz#96159db61d34a29dba454c959f5ae4a649ba9167"
@@ -1808,9 +1819,9 @@
     web-tree-sitter "=0.20.3"
 
 "@swagger-api/apidom-reference@>=0.97.0 <1.0.0":
-  version "0.97.0"
-  resolved "https://registry.yarnpkg.com/@swagger-api/apidom-reference/-/apidom-reference-0.97.0.tgz#6a817a4322338851fb278b888330d23b1fe5b234"
-  integrity sha512-Xngw4kf9oz3ZkfPlDJoaO2OslFIKLNpdxmjxOtInTZTRo61zkm3oPd+TY8WVfxjsoja2TGRqYEzyn5H6ZZ8oBA==
+  version "0.97.1"
+  resolved "https://registry.yarnpkg.com/@swagger-api/apidom-reference/-/apidom-reference-0.97.1.tgz#2eba0fd6701b84e6287a83d69ce107fc4d3892c2"
+  integrity sha512-Bs1U2VutmVpqbCxbCt4DTiL8v0s6osAJx+4v49BGrTcfFFh97K/EOAm48WgA8ViP7qHUNBhUF83rjbpEwOshFw==
   dependencies:
     "@babel/runtime-corejs3" "^7.20.7"
     "@swagger-api/apidom-core" "^0.97.0"
@@ -2175,46 +2186,46 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@unhead/dom@1.8.11", "@unhead/dom@^1.7.0":
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-1.8.11.tgz#217c0d70a5659554f1cb589cbad65a950c48e084"
-  integrity sha512-B5Bae4Y+6/2oDlfNJwEuf1kApyM4pmZ01VReWcVDYAdZpkD7eZZoVZnF945MluaMb6SMvGIXejcSUXTH/BOWaQ==
+"@unhead/dom@1.8.12", "@unhead/dom@^1.7.0":
+  version "1.8.12"
+  resolved "https://registry.yarnpkg.com/@unhead/dom/-/dom-1.8.12.tgz#95ef06af6b5e0b3446a6c90aaf3c797fe83e85a1"
+  integrity sha512-1A94VyVX/yxBXmZR1mvxvmhhbgF72dUDcmsmoyXOiobd3Zt2rJLu19Ih8jy35CDR4oUAWzK+o6HO1vWzY4wGAQ==
   dependencies:
-    "@unhead/schema" "1.8.11"
-    "@unhead/shared" "1.8.11"
+    "@unhead/schema" "1.8.12"
+    "@unhead/shared" "1.8.12"
 
-"@unhead/schema@1.8.11", "@unhead/schema@^1.7.0":
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/@unhead/schema/-/schema-1.8.11.tgz#87600f4afd9059679cd7f9eee3ae1c1627669a53"
-  integrity sha512-Aok9sZcVznJxjBRF/v2LKaeoqgYU/9kuyknYhf3M13byrdp3dLD6qcUvnLC98PrPVy7CMfOov4kXHoI/DRY5MQ==
+"@unhead/schema@1.8.12", "@unhead/schema@^1.7.0":
+  version "1.8.12"
+  resolved "https://registry.yarnpkg.com/@unhead/schema/-/schema-1.8.12.tgz#f2a75cc7078801c7e0fbcc2b168756253a484eb8"
+  integrity sha512-sUkjvRGaAN0NCvZtB7VtyC5pUdYQAutHtmKbEK79nfPfb2Z7kFT1nysIno13ivybeq98l4Ge1o4crVuTwGHhTw==
   dependencies:
     hookable "^5.5.3"
     zhead "^2.2.4"
 
-"@unhead/shared@1.8.11":
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/@unhead/shared/-/shared-1.8.11.tgz#1b5e6703e6920f6979fe69dea153d90c43814622"
-  integrity sha512-Mz3pAJUq160mPXYFNUalfyEDQ0a6eRIbMlJFQ7HNy8shM+4kbeKgInoaa2EaFF8zRrhYvuLJZhyLk5kFINSmBg==
+"@unhead/shared@1.8.12":
+  version "1.8.12"
+  resolved "https://registry.yarnpkg.com/@unhead/shared/-/shared-1.8.12.tgz#09e82611fc0e71c8136c4bc918cfa194d1ae0c29"
+  integrity sha512-3pP1cYSH22UeCvvVyAVkh7Nfo2GwWDuO/h/31I2eVl5oVvmb0vZx7Ff47RlfKDMkfN7ddKaRwkLaYAR+hNNWsQ==
   dependencies:
-    "@unhead/schema" "1.8.11"
+    "@unhead/schema" "1.8.12"
 
 "@unhead/ssr@^1.7.0":
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/@unhead/ssr/-/ssr-1.8.11.tgz#3b0a317c16ae626f0b190497db4f1245730d305e"
-  integrity sha512-5LI+uzcNu2FQp2IOoRQSaWWPDBQNXIuOvcZfxUDKzj0GMdqHRaugPdf44Jje7SmG7RsPhOR9DHKDtuCJ65zcaw==
+  version "1.8.12"
+  resolved "https://registry.yarnpkg.com/@unhead/ssr/-/ssr-1.8.12.tgz#366ed95b7722cf401169da5ada32e56005a134fe"
+  integrity sha512-e1pcp5HU6QgQChxx4YrMA+Lq/fw783vKtbbbnh0XCcHhwvuw2wr55Ah27KEwm+CGKHkuAhmz75ZKBJy1GZcu2Q==
   dependencies:
-    "@unhead/schema" "1.8.11"
-    "@unhead/shared" "1.8.11"
+    "@unhead/schema" "1.8.12"
+    "@unhead/shared" "1.8.12"
 
 "@unhead/vue@^1.7.0":
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-1.8.11.tgz#350548dd7de05d99d9acc99519b23139e911cf13"
-  integrity sha512-yEpQaBYQsqld3m6lexMP+Vf0+j2UdY/QIO98b7v2XBm200ruZmRvI4IJDMrI8cODVwSnwQWHDLF2upXlNeQ4Qg==
+  version "1.8.12"
+  resolved "https://registry.yarnpkg.com/@unhead/vue/-/vue-1.8.12.tgz#c5a9df2a41d43a38eeb834c2e4586fcd62429d7a"
+  integrity sha512-26D+3SIfJwTx1PgPa+urjJ5agImucevSS5pwXMTYHQOK45ip+TTAealrRTbMmAkvaw+KK6Su9OaCzlYVJnmDOQ==
   dependencies:
-    "@unhead/schema" "1.8.11"
-    "@unhead/shared" "1.8.11"
+    "@unhead/schema" "1.8.12"
+    "@unhead/shared" "1.8.12"
     hookable "^5.5.3"
-    unhead "1.8.11"
+    unhead "1.8.12"
 
 "@vue/compiler-core@3.4.21":
   version "3.4.21"
@@ -2844,12 +2855,12 @@ babel-plugin-jest-hoist@^29.6.3:
     "@types/babel__traverse" "^7.0.6"
 
 babel-plugin-polyfill-corejs2@^0.4.8:
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.4.8.tgz#dbcc3c8ca758a290d47c3c6a490d59429b0d2269"
-  integrity sha512-OtIuQfafSzpo/LhnJaykc0R/MMnuLSSVjVYy9mHArIZ9qTCSZ6TpWCuEKZYVoN//t8HqBNScHrOtCrIK5IaGLg==
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/babel-plugin-polyfill-corejs2/-/babel-plugin-polyfill-corejs2-0.4.9.tgz#15a285f681e1c5495093d85f1cf72bd1cbed41ce"
+  integrity sha512-BXIWIaO3MewbXWdJdIGDWZurv5OGJlFNo7oy20DpB3kWDVJLcY2NRypRsRUbRe5KMqSNLuOGnWTFQQtY5MAsRw==
   dependencies:
     "@babel/compat-data" "^7.22.6"
-    "@babel/helper-define-polyfill-provider" "^0.5.0"
+    "@babel/helper-define-polyfill-provider" "^0.6.0"
     semver "^6.3.1"
 
 babel-plugin-polyfill-corejs3@^0.9.0:
@@ -3927,9 +3938,9 @@ ejs@^3.1.6:
     jake "^10.8.5"
 
 electron-to-chromium@^1.4.668:
-  version "1.4.697"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.697.tgz#2fff1955aea09fa8bdb418c29bb6b2870b151b13"
-  integrity sha512-iPS+iUNUrqTkPRFjMYv1FGXIUYhj2K4rc/93nrDsDtQGMUqyRouCq/xABOSOljKbriEiwg0bEQHGaeD4OaU56g==
+  version "1.4.699"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.699.tgz#dd53c939e13da64e94b341e563f0a3011b4ef0e9"
+  integrity sha512-I7q3BbQi6e4tJJN5CRcyvxhK0iJb34TV8eJQcgh+fR2fQ8miMgZcEInckCo1U9exDHbfz7DLDnFn8oqH/VcRKw==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -6712,9 +6723,9 @@ onetime@^5.1.2:
     mimic-fn "^2.1.0"
 
 open@^10.0.3:
-  version "10.0.4"
-  resolved "https://registry.yarnpkg.com/open/-/open-10.0.4.tgz#4869d009dc5b706ae6585699e15d8ccc6cb73629"
-  integrity sha512-oujJ/FFr7ra6/7gJuQ4ZJJ8Gf2VHM0J3J/W7IvH++zaqEzacWVxzK++NiVY5NLHTTj7u/jNH5H3Ei9biL31Lng==
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/open/-/open-10.1.0.tgz#a7795e6e5d519abe4286d9937bb24b51122598e1"
+  integrity sha512-mnkeQ1qP5Ue2wd+aivTD3NHd/lZ96Lu0jgf0pwktLPtx6cTZiH7tyeGRRHs0zX0rbrahXPnXlUnbeXyaBBuIaw==
   dependencies:
     default-browser "^5.2.1"
     define-lazy-prop "^3.0.0"
@@ -8948,14 +8959,14 @@ undici-types@~5.26.4:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
 
-unhead@1.8.11:
-  version "1.8.11"
-  resolved "https://registry.yarnpkg.com/unhead/-/unhead-1.8.11.tgz#40115ae948267f8fc5aa68589f9d39423d25e7b5"
-  integrity sha512-g1coK+pRv+RbeD4+hK76FV6Y++i5jY99CftKyP1ARQcLCbz0ri6+vBpWMS4d+h7x0DfWSCGm/wWkPQ1WXWHfRA==
+unhead@1.8.12:
+  version "1.8.12"
+  resolved "https://registry.yarnpkg.com/unhead/-/unhead-1.8.12.tgz#513ff300868d27657a82ac83d1930b279d9ca466"
+  integrity sha512-O7YPZo1QtNo24Cv9cXiewB74feARf7v8fCmYWQiY3w0z/7oig1kOoGJub6y2XuusQMZpSX56/GDRmog0IZldeA==
   dependencies:
-    "@unhead/dom" "1.8.11"
-    "@unhead/schema" "1.8.11"
-    "@unhead/shared" "1.8.11"
+    "@unhead/dom" "1.8.12"
+    "@unhead/schema" "1.8.12"
+    "@unhead/shared" "1.8.12"
     hookable "^5.5.3"
 
 unicode-canonical-property-names-ecmascript@^2.0.0:
