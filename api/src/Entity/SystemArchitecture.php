@@ -21,13 +21,13 @@ class SystemArchitecture
     #[Assert\Choice(self::ARCHITECTURES)]
     private string $name;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     #[ORM\Id]
     #[Assert\NotBlank]
     #[Assert\DateTime('Ym')]
     private int $month;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     #[Assert\Positive]
     private int $count = 1;
 

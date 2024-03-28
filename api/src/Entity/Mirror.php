@@ -18,13 +18,13 @@ class Mirror
     #[Assert\Url(protocols: ['http', 'https', 'ftp'])]
     private string $url;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     #[ORM\Id]
     #[Assert\NotBlank]
     #[Assert\DateTime('Ym')]
     private int $month;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     #[Assert\Positive]
     private int $count = 1;
 
