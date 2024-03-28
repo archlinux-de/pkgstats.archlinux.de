@@ -10,9 +10,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Request\MirrorQueryRequest;
 use App\Request\PkgstatsRequestException;
 
-class MirrorQueryValueResolver implements ValueResolverInterface
+readonly class MirrorQueryValueResolver implements ValueResolverInterface
 {
-    public function __construct(private readonly ValidatorInterface $validator)
+    public function __construct(private ValidatorInterface $validator)
     {
     }
 

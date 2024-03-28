@@ -27,7 +27,7 @@ class Package
     #[Assert\Positive]
     private int $count = 1;
 
-    public const NAME_REGEXP = '^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]{0,190}$';
+    public const string NAME_REGEXP = '^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]{0,190}$';
 
     public function getName(): string
     {

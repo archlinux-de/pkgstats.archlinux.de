@@ -6,7 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class PaginationRequest
 {
-    public const MAX_LIMIT = 10000;
+    public const int MAX_LIMIT = 10000;
 
     #[Assert\Range(min:0, max:100000)]
     private int $offset;

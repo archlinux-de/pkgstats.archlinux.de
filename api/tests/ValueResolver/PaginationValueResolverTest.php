@@ -15,9 +15,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PaginationValueResolverTest extends TestCase
 {
-    /** @var ValidatorInterface|MockObject */
-    private MockObject $validator;
-
+    private ValidatorInterface&MockObject $validator;
     private PaginationValueResolver $paginationValueResolver;
 
     public function setUp(): void

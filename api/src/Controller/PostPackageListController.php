@@ -21,7 +21,7 @@ class PostPackageListController extends AbstractController
     /**
      * @param EntityManager $entityManager
      */
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
 

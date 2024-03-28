@@ -58,7 +58,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         return $packageList;
     }
 
-    private function assertPackagePupularity(string $json): array
+    private function assertPackagePupularity(string $json): void
     {
         $this->assertJson($json);
 
@@ -72,8 +72,6 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertIsInt($package['count']);
         $this->assertArrayHasKey('popularity', $package);
         $this->assertIsNumeric($package['popularity']);
-
-        return $package;
     }
 
     public function testFetchEmptyList(): void

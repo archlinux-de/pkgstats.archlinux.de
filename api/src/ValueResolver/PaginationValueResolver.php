@@ -9,9 +9,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Request\PaginationRequest;
 use App\Request\PkgstatsRequestException;
 
-class PaginationValueResolver implements ValueResolverInterface
+readonly class PaginationValueResolver implements ValueResolverInterface
 {
-    public function __construct(private readonly ValidatorInterface $validator)
+    public function __construct(private ValidatorInterface $validator)
     {
     }
 

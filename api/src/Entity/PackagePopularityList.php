@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-class PackagePopularityList implements \JsonSerializable
+readonly class PackagePopularityList implements \JsonSerializable
 {
     /**
      * @param PackagePopularity[] $packagePopularities

@@ -19,8 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiMirrorsController extends AbstractController
 {
     public function __construct(
-        private MirrorPopularityCalculator $mirrorPopularityCalculator,
-        private string $environment
+        private readonly MirrorPopularityCalculator $mirrorPopularityCalculator,
+        private readonly string $environment
     ) {
     }
 

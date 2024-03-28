@@ -9,7 +9,7 @@ use App\Request\PackageQueryRequest;
 use App\Request\PaginationRequest;
 use App\Request\StatisticsRangeRequest;
 
-class PackagePopularityCalculator
+readonly class PackagePopularityCalculator
 {
     public function __construct(private PackageRepository $packageRepository)
     {

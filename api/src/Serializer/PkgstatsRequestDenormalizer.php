@@ -8,13 +8,13 @@ use App\Entity\OperatingSystemArchitecture;
 use App\Entity\Package;
 use App\Entity\SystemArchitecture;
 use App\Request\PkgstatsRequest;
-use App\Service\GeoIp;
+use App\Service\GeoIpInterface;
 use App\Service\MirrorUrlFilter;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class PkgstatsRequestDenormalizer implements DenormalizerInterface
+readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
 {
-    public function __construct(private readonly GeoIp $geoIp, private readonly MirrorUrlFilter $mirrorUrlFilter)
+    public function __construct(private GeoIpInterface $geoIp, private MirrorUrlFilter $mirrorUrlFilter)
     {
     }
 

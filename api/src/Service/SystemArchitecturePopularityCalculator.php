@@ -9,7 +9,7 @@ use App\Request\SystemArchitectureQueryRequest;
 use App\Request\PaginationRequest;
 use App\Request\StatisticsRangeRequest;
 
-class SystemArchitecturePopularityCalculator
+readonly class SystemArchitecturePopularityCalculator
 {
     public function __construct(private SystemArchitectureRepository $systemArchitectureRepository)
     {

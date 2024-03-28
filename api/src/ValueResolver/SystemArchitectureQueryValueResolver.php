@@ -10,9 +10,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Request\SystemArchitectureQueryRequest;
 use App\Request\PkgstatsRequestException;
 
-class SystemArchitectureQueryValueResolver implements ValueResolverInterface
+readonly class SystemArchitectureQueryValueResolver implements ValueResolverInterface
 {
-    public function __construct(private readonly ValidatorInterface $validator)
+    public function __construct(private ValidatorInterface $validator)
     {
     }
 

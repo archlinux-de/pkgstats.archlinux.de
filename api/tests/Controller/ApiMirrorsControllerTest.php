@@ -57,7 +57,7 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         return $mirrorList;
     }
 
-    private function assertMirrorPupularity(string $json): array
+    private function assertMirrorPupularity(string $json): void
     {
         $this->assertJson($json);
 
@@ -71,8 +71,6 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertIsInt($mirror['count']);
         $this->assertArrayHasKey('popularity', $mirror);
         $this->assertIsNumeric($mirror['popularity']);
-
-        return $mirror;
     }
 
     public function testFetchEmptyList(): void

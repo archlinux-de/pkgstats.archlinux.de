@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-class MirrorPopularity implements \JsonSerializable
+readonly class MirrorPopularity implements \JsonSerializable
 {
     public function __construct(
         private string $url,

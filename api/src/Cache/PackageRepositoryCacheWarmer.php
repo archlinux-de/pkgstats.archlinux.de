@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 /**
  * @codeCoverageIgnore
  */
-class PackageRepositoryCacheWarmer implements CacheWarmerInterface
+readonly class PackageRepositoryCacheWarmer implements CacheWarmerInterface
 {
     public function __construct(
         private PackageRepository $packageRepository,

@@ -9,7 +9,7 @@ use App\Request\MirrorQueryRequest;
 use App\Request\PaginationRequest;
 use App\Request\StatisticsRangeRequest;
 
-class MirrorPopularityCalculator
+readonly class MirrorPopularityCalculator
 {
     public function __construct(private MirrorRepository $mirrorRepository)
     {

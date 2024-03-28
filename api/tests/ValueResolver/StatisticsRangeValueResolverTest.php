@@ -16,9 +16,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class StatisticsRangeValueResolverTest extends TestCase
 {
-    /** @var ValidatorInterface|MockObject */
-    private MockObject $validator;
-
+    private ValidatorInterface&MockObject $validator;
     private StatisticsRangeValueResolver $statisticsRangeValueResolver;
 
     public function setUp(): void

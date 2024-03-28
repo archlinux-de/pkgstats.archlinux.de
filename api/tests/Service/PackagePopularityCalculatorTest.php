@@ -12,9 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class PackagePopularityCalculatorTest extends TestCase
 {
-    /** @var PackageRepository|MockObject */
-    private MockObject $packageRepository;
-
+    private PackageRepository&MockObject $packageRepository;
     private PackagePopularityCalculator $packagePopularityCalculator;
 
     public function setUp(): void

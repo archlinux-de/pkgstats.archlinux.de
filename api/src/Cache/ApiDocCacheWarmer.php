@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 /**
  * @codeCoverageIgnore
  */
-class ApiDocCacheWarmer implements CacheWarmerInterface
+readonly class ApiDocCacheWarmer implements CacheWarmerInterface
 {
     public function __construct(
         private DocumentationController $documentationController,

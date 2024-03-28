@@ -10,9 +10,9 @@ use App\Entity\Month;
 use App\Request\PkgstatsRequestException;
 use App\Request\StatisticsRangeRequest;
 
-class StatisticsRangeValueResolver implements ValueResolverInterface
+readonly class StatisticsRangeValueResolver implements ValueResolverInterface
 {
-    public function __construct(private readonly ValidatorInterface $validator)
+    public function __construct(private ValidatorInterface $validator)
     {
     }
 

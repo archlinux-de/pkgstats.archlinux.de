@@ -4,24 +4,20 @@ namespace App\Tests\Serializer;
 
 use App\Request\PkgstatsRequest;
 use App\Serializer\PkgstatsRequestDenormalizer;
-use App\Service\GeoIp;
+use App\Service\GeoIpInterface;
 use App\Service\MirrorUrlFilter;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class PkgstatsRequestDenormalizerTest extends TestCase
 {
-    /** @var GeoIp|MockObject */
-    private MockObject $geoIp;
-
-    /** @var MirrorUrlFilter|MockObject */
-    private MockObject $mirrorUrlFilter;
-
+    private GeoIpInterface&MockObject $geoIp;
+    private MirrorUrlFilter&MockObject $mirrorUrlFilter;
     private PkgstatsRequestDenormalizer $denormalizer;
 
     public function setUp(): void
     {
-        $this->geoIp = $this->createMock(GeoIp::class);
+        $this->geoIp = $this->createMock(GeoIpInterface::class);
         $this->mirrorUrlFilter = $this->createMock(MirrorUrlFilter::class);
         $this->denormalizer = new PkgstatsRequestDenormalizer(
             $this->geoIp,

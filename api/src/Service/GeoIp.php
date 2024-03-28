@@ -5,7 +5,7 @@ namespace App\Service;
 use MaxMind\Db\Reader;
 use Psr\Log\LoggerInterface;
 
-class GeoIp
+readonly class GeoIp implements GeoIpInterface
 {
     public function __construct(private Reader $reader, private LoggerInterface $logger)
     {

@@ -10,11 +10,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Request\PkgstatsRequest;
 use App\Request\PkgstatsRequestException;
 
-class PkgstatsValueResolver implements ValueResolverInterface
+readonly class PkgstatsValueResolver implements ValueResolverInterface
 {
     public function __construct(
-        private readonly ValidatorInterface $validator,
-        private readonly SerializerInterface $serializer
+        private ValidatorInterface $validator,
+        private SerializerInterface $serializer
     ) {
     }
 

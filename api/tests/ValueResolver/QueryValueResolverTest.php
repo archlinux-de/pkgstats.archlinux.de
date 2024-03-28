@@ -15,9 +15,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class QueryValueResolverTest extends TestCase
 {
-    /** @var ValidatorInterface|MockObject */
-    private MockObject $validator;
-
+    private ValidatorInterface&MockObject $validator;
     private QueryValueResolver $queryValueResolver;
 
     public function setUp(): void

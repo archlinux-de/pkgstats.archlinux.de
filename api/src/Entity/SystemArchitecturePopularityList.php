@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-class SystemArchitecturePopularityList implements \JsonSerializable
+readonly class SystemArchitecturePopularityList implements \JsonSerializable
 {
     /**
      * @param SystemArchitecturePopularity[] $systemArchitecturePopularities

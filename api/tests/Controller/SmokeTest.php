@@ -66,7 +66,7 @@ class SmokeTest extends DatabaseTestCase
     public function createAbsoluteMonths(array $parameters): array
     {
         foreach (['startMonth', 'endMonth'] as $key) {
-            if (isset($parameters[$key]) && $parameters[$key] !== null) {
+            if (isset($parameters[$key])) {
                 $parameters[$key] = Month::create($parameters[$key])->getYearMonth();
             }
         }

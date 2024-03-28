@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
-class PkgstatsRequestRateLimitSubscriber implements EventSubscriberInterface
+readonly class PkgstatsRequestRateLimitSubscriber implements EventSubscriberInterface
 {
     public function __construct(private RateLimiterFactory $pkgstatsRequestLimiter)
     {

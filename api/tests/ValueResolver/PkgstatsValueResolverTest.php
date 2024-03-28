@@ -16,13 +16,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PkgstatsValueResolverTest extends TestCase
 {
-    /** @var ValidatorInterface|MockObject */
-    private MockObject $validator;
-
+    private ValidatorInterface&MockObject $validator;
     private PkgstatsValueResolver $pkgstatsValueResolver;
-
-    /** @var MockObject|SerializerInterface */
-    private MockObject $serializer;
+    private SerializerInterface&MockObject $serializer;
 
     public function setUp(): void
     {

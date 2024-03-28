@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-class MirrorPopularityList implements \JsonSerializable
+readonly class MirrorPopularityList implements \JsonSerializable
 {
     /**
      * @param MirrorPopularity[] $mirrorPopularities

@@ -19,8 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ApiPackagesController extends AbstractController
 {
     public function __construct(
-        private PackagePopularityCalculator $packagePopularityCalculator,
-        private string $environment
+        private readonly PackagePopularityCalculator $packagePopularityCalculator,
+        private readonly string $environment
     ) {
     }
 

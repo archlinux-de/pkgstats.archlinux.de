@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-class PackagePopularity implements \JsonSerializable
+readonly class PackagePopularity implements \JsonSerializable
 {
     public function __construct(
         private string $name,

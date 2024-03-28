@@ -8,7 +8,7 @@ use Traversable;
 
 class Months implements IteratorAggregate
 {
-    private const DEFAULT_NUMBER_OF_MONTHS = 50;
+    private const int DEFAULT_NUMBER_OF_MONTHS = 50;
 
     private static int $numberOfNonths = self::DEFAULT_NUMBER_OF_MONTHS;
 

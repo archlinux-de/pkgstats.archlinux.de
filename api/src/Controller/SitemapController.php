@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SitemapController extends AbstractController
 {
-    public function __construct(private string $environment)
+    public function __construct(private readonly string $environment)
     {
     }
 
