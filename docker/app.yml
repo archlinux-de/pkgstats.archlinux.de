@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   api:
     build: php
@@ -15,18 +13,18 @@ services:
     volumes:
       - ../api:/app/api
       - ../app/src/config:/app/app/src/config:ro
-      - ~/.cache/composer:/tmp/.composer/cache
+      - ../.cache/composer:/tmp/.composer/cache
     tmpfs:
       - /tmp
     depends_on:
       - mariadb
 
   app:
-    image: node:21-alpine
+    build: node
     working_dir: /app/app
     environment:
       - HOME=/tmp
-    command: yarn serve
+    command: pnpm run serve
     user: "${UID}:${GID}"
     userns_mode: host
     cap_drop:
@@ -35,7 +33,7 @@ services:
       - no-new-privileges
     volumes:
       - ../app:/app/app
-      - ~/.cache/yarn:/tmp/.cache/yarn
+      - ../.cache/node:/tmp/.cache/node
     tmpfs:
       - /tmp
 

@@ -54,7 +54,7 @@ rebuild: clean
 
 install:
 	{{PHP-RUN}} composer --no-interaction install
-	{{NODE-RUN}} yarn install --non-interactive --frozen-lockfile
+	{{NODE-RUN}} pnpm install --frozen-lockfile
 
 compose *args:
 	{{COMPOSE}} {{args}}
@@ -82,8 +82,8 @@ phpstan *args:
 node *args='-h':
 	{{NODE-RUN}} node {{args}}
 
-yarn *args='-h':
-	{{NODE-RUN}} yarn {{args}}
+pnpm *args='-h':
+	{{NODE-RUN}} pnpm {{args}}
 
 jest *args:
 	{{NODE-RUN}} node_modules/.bin/jest --passWithNoTests {{args}}
@@ -111,7 +111,7 @@ test-js:
 	{{NODE-RUN}} node_modules/.bin/eslint '*.js' src tests --ext js --ext vue
 	{{NODE-RUN}} node_modules/.bin/stylelint 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
 	{{NODE-RUN}} node_modules/.bin/jest --passWithNoTests
-	{{NODE-RUN}} yarn build --output-path $(mktemp -d)
+	{{NODE-RUN}} pnpm run build --output-path $(mktemp -d)
 
 test: test-php test-js
 
@@ -121,7 +121,7 @@ test-e2e:
 	if [ "${CI-}" = "true" ]; then
 		git clean -xdf app/dist
 		just init
-		just yarn build
+		just pnpm run build
 		CYPRESS_baseUrl=http://nginx:8081 just cypress-run
 	else
 		just cypress-run
@@ -141,7 +141,7 @@ test-db-coverage: start-db
 	{{PHP-RUN}} php -d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage -c phpunit-db.xml
 
 test-security: (composer "audit")
-	{{NODE-RUN}} yarn audit --groups dependencies
+	{{NODE-RUN}} pnpm audit --prod
 
 fix-code-style:
 	{{PHP-RUN}} vendor/bin/phpcbf || true
@@ -151,11 +151,11 @@ fix-code-style:
 update:
 	{{PHP-RUN}} composer --no-interaction update
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
-	{{NODE-RUN}} yarn upgrade --non-interactive --latest
+	{{NODE-RUN}} pnpm update --latest
 
 deploy:
-	cd app && yarn install --non-interactive --frozen-lockfile --production
-	cd app && yarn build
+	cd app && pnpm install --frozen-lockfile --prod
+	cd app && pnpm run build
 	cd app && find dist -type f -atime +512 -delete # needs to be above the highest TTL
 	cd app && find dist -type d -empty -delete
 	cd api && composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader --classmap-authoritative
