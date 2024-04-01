@@ -70,6 +70,10 @@ composer *args:
 
 composer-outdated: (composer "install") (composer "outdated --direct --strict")
 
+pnpm-outdated: (pnpm "install --frozen-lockfile") (pnpm "outdated")
+
+outdated: composer-outdated pnpm-outdated
+
 console *args:
 	{{PHP-RUN}} bin/console {{args}}
 

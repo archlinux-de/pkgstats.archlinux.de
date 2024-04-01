@@ -18,5 +18,17 @@ jobs:
         run: just compose pull
       - name: Building Docker images
         run: just compose build
-      - name: Check for outdated Composer packages
-        run: just composer-outdated
+      - name: Maintain Composer cache
+        uses: actions/cache@v4
+        with:
+          path: api/.cache/composer
+          key: composer-${{ hashFiles('api/composer.lock') }}
+          restore-keys: composer-
+      - name: Maintain pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: app/.cache/node
+          key: pnpm-${{ hashFiles('app/pnpm-lock.yaml') }}
+          restore-keys: pnpm-
+      - name: Check for outdated packages
+        run: just outdated
