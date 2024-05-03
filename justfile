@@ -154,8 +154,6 @@ fix-code-style:
 
 update:
 	{{PHP-RUN}} composer --no-interaction update
-	# Downgrade broken swagger-php; see https://github.com/zircote/swagger-php/issues/1339
-	{{PHP-RUN}} composer --no-interaction update 'zircote/swagger-php:4.8.*'
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
 	{{NODE-RUN}} pnpm update --latest
 
