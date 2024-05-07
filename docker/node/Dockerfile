@@ -1,3 +1,3 @@
 FROM node:21-alpine
 
-RUN npm install -g pnpm@8
+RUN npm install -g pnpm@9
