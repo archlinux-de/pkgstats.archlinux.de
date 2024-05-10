@@ -9,8 +9,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PackageFixtures extends Fixture
 {
-    public function __construct(private readonly ValidatorInterface $validator, private readonly Months $months)
-    {
+    public function __construct(
+        private readonly ValidatorInterface $validator,
+        private readonly Months $months,
+        private readonly string $environment
+    ) {
     }
 
     public function load(ObjectManager $manager): void
@@ -31,7 +34,9 @@ class PackageFixtures extends Fixture
      */
     private function createPackages(int $month): iterable
     {
-        $packageNames = array_unique([...$this->getFunPackages(), ...$this->getPackages()]);
+        $packageNames = $this->environment === 'dev'
+            ? array_unique([...$this->getFunPackages(), ...$this->getPackages()])
+            : $this->getPackages();
 
         foreach ($packageNames as $packageName) {
             $package = (new Package())->setName($packageName)->setMonth($month);
