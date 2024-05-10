@@ -48,7 +48,10 @@ class SmokeTest extends DatabaseTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertMatchesJsonSnapshot($client->getResponse()->getContent());
+        $this->assertMatchesJsonSnapshot([
+            'request' => $client->getRequest()->getRequestUri(),
+            'response' => json_decode($client->getResponse()->getContent())
+        ]);
     }
 
     #[DataProvider('providePackageRequest')]
@@ -60,7 +63,10 @@ class SmokeTest extends DatabaseTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertMatchesJsonSnapshot($client->getResponse()->getContent());
+        $this->assertMatchesJsonSnapshot([
+            'request' => $client->getRequest()->getRequestUri(),
+            'response' => json_decode($client->getResponse()->getContent())
+        ]);
     }
 
     public function createAbsoluteMonths(array $parameters): array
@@ -83,7 +89,10 @@ class SmokeTest extends DatabaseTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertMatchesJsonSnapshot($client->getResponse()->getContent());
+        $this->assertMatchesJsonSnapshot([
+            'request' => $client->getRequest()->getRequestUri(),
+            'response' => json_decode($client->getResponse()->getContent())
+        ]);
     }
 
     public static function providePackageSeriesRequest(): array
@@ -129,7 +138,10 @@ class SmokeTest extends DatabaseTestCase
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertMatchesJsonSnapshot($client->getResponse()->getContent());
+        $this->assertMatchesJsonSnapshot([
+            'request' => $client->getRequest()->getRequestUri(),
+            'response' => json_decode($client->getResponse()->getContent())
+        ]);
     }
 
     public static function providePackagesRequest(): array

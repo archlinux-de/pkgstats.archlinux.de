@@ -1,17 +1,20 @@
 {
-    "total": 1342,
-    "count": 1,
-    "limit": 1,
-    "offset": 2,
-    "query": "",
-    "packagePopularities": [
-        {
-            "name": "python-pip",
-            "samples": 499,
-            "count": 478,
-            "popularity": 95.79,
-            "startMonth": 202201,
-            "endMonth": 202201
-        }
-    ]
+    "request": "\/api\/packages?endMonth=202201&limit=1&offset=2",
+    "response": {
+        "total": 1342,
+        "count": 1,
+        "limit": 1,
+        "offset": 2,
+        "query": "",
+        "packagePopularities": [
+            {
+                "name": "python-pip",
+                "samples": 499,
+                "count": 478,
+                "popularity": 95.79,
+                "startMonth": 202201,
+                "endMonth": 202201
+            }
+        ]
+    }
 }

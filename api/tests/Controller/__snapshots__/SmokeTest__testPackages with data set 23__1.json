@@ -1,17 +1,20 @@
 {
-    "total": 3,
-    "count": 1,
-    "limit": 1,
-    "offset": 0,
-    "query": "pacman",
-    "packagePopularities": [
-        {
-            "name": "pacman-mirrorlist",
-            "samples": 499,
-            "count": 242,
-            "popularity": 48.5,
-            "startMonth": 202201,
-            "endMonth": 202201
-        }
-    ]
+    "request": "\/api\/packages?limit=1&offset=0&query=pacman",
+    "response": {
+        "total": 3,
+        "count": 1,
+        "limit": 1,
+        "offset": 0,
+        "query": "pacman",
+        "packagePopularities": [
+            {
+                "name": "pacman-mirrorlist",
+                "samples": 499,
+                "count": 242,
+                "popularity": 48.5,
+                "startMonth": 202201,
+                "endMonth": 202201
+            }
+        ]
+    }
 }

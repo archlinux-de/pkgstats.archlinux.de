@@ -1,89 +1,92 @@
 {
-    "total": 1342,
-    "count": 10,
-    "limit": 10,
-    "offset": 0,
-    "query": "",
-    "packagePopularities": [
-        {
-            "name": "flac",
-            "samples": 1026,
-            "count": 849,
-            "popularity": 82.75,
-            "startMonth": 202112,
-            "endMonth": 202201
-        },
-        {
-            "name": "mbedtls2",
-            "samples": 1026,
-            "count": 813,
-            "popularity": 79.24,
-            "startMonth": 202112,
-            "endMonth": 202201
-        },
-        {
-            "name": "libshout",
-            "samples": 1026,
-            "count": 741,
-            "popularity": 72.22,
-            "startMonth": 202112,
-            "endMonth": 202201
-        },
-        {
-            "name": "lib32-libxml2",
-            "samples": 1026,
-            "count": 727,
-            "popularity": 70.86,
-            "startMonth": 202112,
-            "endMonth": 202201
-        },
-        {
-            "name": "poppler-data",
-            "samples": 1026,
-            "count": 720,
-            "popularity": 70.18,
-            "startMonth": 202112,
-            "endMonth": 202201
-        },
-        {
-            "name": "apache",
-            "samples": 1026,
-            "count": 714,
-            "popularity": 69.59,
-            "startMonth": 202112,
-            "endMonth": 202201
-        },
-        {
-            "name": "libxt",
-            "samples": 1026,
-            "count": 707,
-            "popularity": 68.91,
-            "startMonth": 202112,
-            "endMonth": 202201
-        },
-        {
-            "name": "texlive-bin",
-            "samples": 1026,
-            "count": 706,
-            "popularity": 68.81,
-            "startMonth": 202112,
-            "endMonth": 202201
-        },
-        {
-            "name": "libbs2b",
-            "samples": 1026,
-            "count": 683,
-            "popularity": 66.57,
-            "startMonth": 202112,
-            "endMonth": 202201
-        },
-        {
-            "name": "multipath-tools",
-            "samples": 1026,
-            "count": 682,
-            "popularity": 66.47,
-            "startMonth": 202112,
-            "endMonth": 202201
-        }
-    ]
+    "request": "\/api\/packages?startMonth=202112&limit=10&offset=0&query=",
+    "response": {
+        "total": 1342,
+        "count": 10,
+        "limit": 10,
+        "offset": 0,
+        "query": "",
+        "packagePopularities": [
+            {
+                "name": "flac",
+                "samples": 1026,
+                "count": 849,
+                "popularity": 82.75,
+                "startMonth": 202112,
+                "endMonth": 202201
+            },
+            {
+                "name": "mbedtls2",
+                "samples": 1026,
+                "count": 813,
+                "popularity": 79.24,
+                "startMonth": 202112,
+                "endMonth": 202201
+            },
+            {
+                "name": "libshout",
+                "samples": 1026,
+                "count": 741,
+                "popularity": 72.22,
+                "startMonth": 202112,
+                "endMonth": 202201
+            },
+            {
+                "name": "lib32-libxml2",
+                "samples": 1026,
+                "count": 727,
+                "popularity": 70.86,
+                "startMonth": 202112,
+                "endMonth": 202201
+            },
+            {
+                "name": "poppler-data",
+                "samples": 1026,
+                "count": 720,
+                "popularity": 70.18,
+                "startMonth": 202112,
+                "endMonth": 202201
+            },
+            {
+                "name": "apache",
+                "samples": 1026,
+                "count": 714,
+                "popularity": 69.59,
+                "startMonth": 202112,
+                "endMonth": 202201
+            },
+            {
+                "name": "libxt",
+                "samples": 1026,
+                "count": 707,
+                "popularity": 68.91,
+                "startMonth": 202112,
+                "endMonth": 202201
+            },
+            {
+                "name": "texlive-bin",
+                "samples": 1026,
+                "count": 706,
+                "popularity": 68.81,
+                "startMonth": 202112,
+                "endMonth": 202201
+            },
+            {
+                "name": "libbs2b",
+                "samples": 1026,
+                "count": 683,
+                "popularity": 66.57,
+                "startMonth": 202112,
+                "endMonth": 202201
+            },
+            {
+                "name": "multipath-tools",
+                "samples": 1026,
+                "count": 682,
+                "popularity": 66.47,
+                "startMonth": 202112,
+                "endMonth": 202201
+            }
+        ]
+    }
 }

@@ -1,17 +1,20 @@
 {
-    "total": 3,
-    "count": 1,
-    "limit": 10,
-    "offset": 2,
-    "query": "pacman",
-    "packagePopularities": [
-        {
-            "name": "pacman",
-            "samples": 1026,
-            "count": 219,
-            "popularity": 21.35,
-            "startMonth": 202112,
-            "endMonth": 202201
-        }
-    ]
+    "request": "\/api\/packages?startMonth=202112&endMonth=202201&limit=10&offset=2&query=pacman",
+    "response": {
+        "total": 3,
+        "count": 1,
+        "limit": 10,
+        "offset": 2,
+        "query": "pacman",
+        "packagePopularities": [
+            {
+                "name": "pacman",
+                "samples": 1026,
+                "count": 219,
+                "popularity": 21.35,
+                "startMonth": 202112,
+                "endMonth": 202201
+            }
+        ]
+    }
 }

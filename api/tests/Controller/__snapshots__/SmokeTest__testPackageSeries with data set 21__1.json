@@ -1,17 +1,20 @@
 {
-    "total": 2,
-    "count": 1,
-    "limit": 1,
-    "offset": 0,
-    "query": null,
-    "packagePopularities": [
-        {
-            "name": "pacman",
-            "samples": 527,
-            "count": 129,
-            "popularity": 24.48,
-            "startMonth": 202112,
-            "endMonth": 202112
-        }
-    ]
+    "request": "\/api\/packages\/pacman\/series?startMonth=202112&limit=1&offset=0",
+    "response": {
+        "total": 2,
+        "count": 1,
+        "limit": 1,
+        "offset": 0,
+        "query": null,
+        "packagePopularities": [
+            {
+                "name": "pacman",
+                "samples": 527,
+                "count": 129,
+                "popularity": 24.48,
+                "startMonth": 202112,
+                "endMonth": 202112
+            }
+        ]
+    }
 }

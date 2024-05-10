@@ -1,89 +1,92 @@
 {
-    "total": 1342,
-    "count": 10,
-    "limit": 10,
-    "offset": 2,
-    "query": "",
-    "packagePopularities": [
-        {
-            "name": "python-pip",
-            "samples": 499,
-            "count": 478,
-            "popularity": 95.79,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "findutils",
-            "samples": 499,
-            "count": 475,
-            "popularity": 95.19,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "bitwarden",
-            "samples": 499,
-            "count": 468,
-            "popularity": 93.79,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "texlive-bin",
-            "samples": 499,
-            "count": 466,
-            "popularity": 93.39,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "aarch64-linux-gnu-glibc",
-            "samples": 499,
-            "count": 459,
-            "popularity": 91.98,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "docker-compose",
-            "samples": 499,
-            "count": 454,
-            "popularity": 90.98,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "xcb-util-wm",
-            "samples": 499,
-            "count": 446,
-            "popularity": 89.38,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "enchant",
-            "samples": 499,
-            "count": 437,
-            "popularity": 87.58,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "libsoxr",
-            "samples": 499,
-            "count": 436,
-            "popularity": 87.37,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "perl-net-ip",
-            "samples": 499,
-            "count": 428,
-            "popularity": 85.77,
-            "startMonth": 202201,
-            "endMonth": 202201
-        }
-    ]
+    "request": "\/api\/packages?limit=10&offset=2",
+    "response": {
+        "total": 1342,
+        "count": 10,
+        "limit": 10,
+        "offset": 2,
+        "query": "",
+        "packagePopularities": [
+            {
+                "name": "python-pip",
+                "samples": 499,
+                "count": 478,
+                "popularity": 95.79,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "findutils",
+                "samples": 499,
+                "count": 475,
+                "popularity": 95.19,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "bitwarden",
+                "samples": 499,
+                "count": 468,
+                "popularity": 93.79,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "texlive-bin",
+                "samples": 499,
+                "count": 466,
+                "popularity": 93.39,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "aarch64-linux-gnu-glibc",
+                "samples": 499,
+                "count": 459,
+                "popularity": 91.98,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "docker-compose",
+                "samples": 499,
+                "count": 454,
+                "popularity": 90.98,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "xcb-util-wm",
+                "samples": 499,
+                "count": 446,
+                "popularity": 89.38,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "enchant",
+                "samples": 499,
+                "count": 437,
+                "popularity": 87.58,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "libsoxr",
+                "samples": 499,
+                "count": 436,
+                "popularity": 87.37,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "perl-net-ip",
+                "samples": 499,
+                "count": 428,
+                "popularity": 85.77,
+                "startMonth": 202201,
+                "endMonth": 202201
+            }
+        ]
+    }
 }

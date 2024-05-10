@@ -1,57 +1,60 @@
 {
-    "total": 8,
-    "count": 6,
-    "limit": 10,
-    "offset": 2,
-    "query": "php",
-    "packagePopularities": [
-        {
-            "name": "php-gd",
-            "samples": 499,
-            "count": 263,
-            "popularity": 52.71,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "php-phpdbg",
-            "samples": 499,
-            "count": 186,
-            "popularity": 37.27,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "php-sqlite",
-            "samples": 499,
-            "count": 112,
-            "popularity": 22.44,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "php",
-            "samples": 499,
-            "count": 85,
-            "popularity": 17.03,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "php-legacy",
-            "samples": 499,
-            "count": 63,
-            "popularity": 12.63,
-            "startMonth": 202201,
-            "endMonth": 202201
-        },
-        {
-            "name": "phpstorm",
-            "samples": 499,
-            "count": 34,
-            "popularity": 6.81,
-            "startMonth": 202201,
-            "endMonth": 202201
-        }
-    ]
+    "request": "\/api\/packages?limit=10&offset=2&query=php",
+    "response": {
+        "total": 8,
+        "count": 6,
+        "limit": 10,
+        "offset": 2,
+        "query": "php",
+        "packagePopularities": [
+            {
+                "name": "php-gd",
+                "samples": 499,
+                "count": 263,
+                "popularity": 52.71,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "php-phpdbg",
+                "samples": 499,
+                "count": 186,
+                "popularity": 37.27,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "php-sqlite",
+                "samples": 499,
+                "count": 112,
+                "popularity": 22.44,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "php",
+                "samples": 499,
+                "count": 85,
+                "popularity": 17.03,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "php-legacy",
+                "samples": 499,
+                "count": 63,
+                "popularity": 12.63,
+                "startMonth": 202201,
+                "endMonth": 202201
+            },
+            {
+                "name": "phpstorm",
+                "samples": 499,
+                "count": 34,
+                "popularity": 6.81,
+                "startMonth": 202201,
+                "endMonth": 202201
+            }
+        ]
+    }
 }
