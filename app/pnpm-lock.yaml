@@ -87,8 +87,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(webpack@5.91.0(webpack-cli@5.1.4))
       swagger-ui:
-        specifier: ^5.17.9
-        version: 5.17.9(ramda@0.30.0)
+        specifier: ^5.17.10
+        version: 5.17.10(ramda@0.30.0)
       vue:
         specifier: ^3.4.27
         version: 3.4.27
@@ -2260,8 +2260,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.4.768:
-    resolution: {integrity: sha512-z2U3QcvNuxdkk33YV7R1bVMNq7fL23vq3WfO5BHcqrm4TnDGReouBfYKLEFh5umoK1XACjEwp8mmnhXk2EJigw==}
+  electron-to-chromium@1.4.772:
+    resolution: {integrity: sha512-jFfEbxR/abTTJA3ci+2ok1NTuOBBtB4jH+UT6PUmRN+DY3WSD4FFRsgoVQ+QNIJ0T7wrXwzsWCI2WKC46b++2A==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -4812,8 +4812,8 @@ packages:
   swagger-client@3.27.9:
     resolution: {integrity: sha512-7F7PnwSyIs+wBsX1rVkKDHXqwgVIX9aIl5O84eBcXEXLcrnndGS4C3n0Mk37+ZpJZN5uqv8MQKN6nQzhjsn6hQ==}
 
-  swagger-ui@5.17.9:
-    resolution: {integrity: sha512-xSZrhMjtDRYwc4g/4pzfaQ/R3J2Qt//3S+39q613lWh0zs5lh6JnRBYXCd88rUogo7kfnG8RfSUwvIMQpl0Etg==}
+  swagger-ui@5.17.10:
+    resolution: {integrity: sha512-b2Fki6FnoRD+TKvpIKBTPGIjoC2Ly0+n6XO3d+rHg+RnPNUVUDtWi/JLmDszt7UOWXVIEgcU49ZmaQXgXwCoUQ==}
 
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
@@ -7553,7 +7553,7 @@ snapshots:
   browserslist@4.23.0:
     dependencies:
       caniuse-lite: 1.0.30001618
-      electron-to-chromium: 1.4.768
+      electron-to-chromium: 1.4.772
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.0)
 
@@ -8117,7 +8117,7 @@ snapshots:
     dependencies:
       jake: 10.9.1
 
-  electron-to-chromium@1.4.768: {}
+  electron-to-chromium@1.4.772: {}
 
   emittery@0.13.1: {}
 
@@ -11044,7 +11044,7 @@ snapshots:
       - debug
       - ramda
 
-  swagger-ui@5.17.9(ramda@0.30.0):
+  swagger-ui@5.17.10(ramda@0.30.0):
     dependencies:
       '@babel/runtime-corejs3': 7.24.5
       '@braintree/sanitize-url': 7.0.1
