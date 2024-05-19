@@ -20,7 +20,7 @@ describe('Fun', () => {
     cy.contains('a', 'firefox')
   })
 
-  it('scrowls down and loads lazy', () => {
+  it('scrolls down and loads lazy', () => {
     const entries = Object.entries(FunConfig).flat(2)
     const entriesLength = entries.length
     const lastPackage = entries.at(-1)
