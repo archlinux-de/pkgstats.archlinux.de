@@ -20,7 +20,7 @@
               <router-link :to="{name: 'packages'}" class="nav-link ms-3 fw-bold">Packages</router-link>
             </li>
             <li class="nav-item">
-              <router-link :to="{name: 'compare-system-architectures'}" class="nav-link ms-3 fw-bold">System Architectures</router-link>
+              <router-link :to="{name: 'compare-system-architectures', params: {preset: 'current'}}" class="nav-link ms-3 fw-bold">System Architectures</router-link>
             </li>
             <li class="nav-item">
               <router-link :to="{name: 'fun'}" class="nav-link ms-3 fw-bold">Fun</router-link>

@@ -1,7 +1,7 @@
 describe('Compare System Architectures', () => {
   beforeEach(() => {
     cy.intercept({ method: 'GET', pathname: /^\/api\/system-architectures/ }).as('api-compare-system-architectures')
-    cy.visit('/compare/system-architectures')
+    cy.visit('/compare/system-architectures/current')
     cy.wait('@api-compare-system-architectures')
   })
 

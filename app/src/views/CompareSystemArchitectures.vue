@@ -5,7 +5,7 @@
 
     <ul class="nav nav-tabs mb-2">
       <li class="nav-item">
-        <router-link :to="{name: 'compare-system-architectures', params: {preset: ''}}" class="nav-link" exact>current</router-link>
+        <router-link :to="{name: 'compare-system-architectures', params: {preset: 'current'}}" class="nav-link" exact>current</router-link>
       </li>
       <li class="nav-item">
         <router-link :to="{name: 'compare-system-architectures', params: {preset: 'all'}}" class="nav-link" exact>all</router-link>
