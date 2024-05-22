@@ -14,7 +14,12 @@
         No packages selected. Use the search below to add packages
         and allow the generation of a comparison graph over time.
       </div>
-      <a :href="customCompareChartLink" target="_blank" style="display: block;" data-test-name="comparison-graph-link">
+      <a :href="customCompareChartLink"
+         :class="{disabled: selectedPackages.length < 1}"
+         target="_blank"
+         style="display: block;"
+         data-test-name="comparison-graph-link"
+      >
         Show graph
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-in-up-right" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M6.364 13.5a.5.5 0 0 0 .5.5H13.5a1.5 1.5 0 0 0 1.5-1.5v-10A1.5 1.5 0 0 0 13.5 1h-10A1.5 1.5 0 0 0 2 2.5v6.636a.5.5 0 1 0 1 0V2.5a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6.864a.5.5 0 0 0-.5.5"/>
@@ -143,6 +148,11 @@ useHead({
 </script>
 
 <style scoped lang="scss">
+a.disabled {
+  color: #666;
+  pointer-events: none;
+}
+
 .pkg-badge {
   border: 2px solid #08c;
   margin: 4px 4px 4px 0;
