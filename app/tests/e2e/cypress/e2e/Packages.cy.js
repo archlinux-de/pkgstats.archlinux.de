@@ -10,6 +10,17 @@ describe('Packages', () => {
     cy.contains('h1', 'Package statistics')
   })
 
+  it('shows comparison graph', () => {
+    cy.visit('/packages')
+    cy.contains('div', 'No packages selected.' +
+      ' Use the search below to add packages and allow the generation of a comparison' +
+      ' graph over time.')
+    cy.get('[data-test=toggle-pkg-in-comparison]').invoke('click')
+    /* cypress cannot open link in new tabs, so we open in the current tab to see the chart */
+    cy.get('[data-test-name=comparison-graph-link').invoke('removeAttr', 'target').click()
+    cy.assertCanvasIsNotEmpty('[data-test=package-chart][data-test-rendered=true][style]')
+  })
+
   it('searches', () => {
     cy.visit('/packages')
     cy.wait('@api-packages-query')
