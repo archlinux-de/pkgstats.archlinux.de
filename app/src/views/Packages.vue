@@ -3,7 +3,7 @@
     <h1 class="mb-4">Package statistics & comparison</h1>
 
     <h2>Package comparison</h2>
-    <div style="margin-bottom: 32px;">
+    <div class="mb-4">
       <div class="mb-2" v-if="selectedPackages.length > 0">
         <div :key="pkgName" v-for="pkgName in selectedPackages" class="pkg-badge">
           <span class="pkg-badge-content">{{pkgName}}</span>
@@ -15,9 +15,9 @@
         and allow the generation of a comparison graph over time.
       </div>
       <a :href="customCompareChartLink"
+         class="d-block"
          :class="{disabled: selectedPackages.length < 1}"
          target="_blank"
-         style="display: block;"
          data-test-name="comparison-graph-link"
       >
         Show graph
