@@ -47,10 +47,9 @@ describe('Packages', () => {
     cy.wait('@api-packages-query')
 
     const packageLimit = 60
-    const packageRowHeight = 30
 
     cy.get('table').find('tr').should('have.length', packageLimit + 1)
-    cy.scrollTo(0, packageRowHeight * packageLimit)
+    cy.scrollTo('bottom')
     cy.wait('@api-packages-query')
 
     cy.get('table').find('tr').should('have.length', packageLimit * 2 + 1)
