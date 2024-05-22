@@ -8,7 +8,6 @@ export default createRouter({
   linkActiveClass: 'active',
   routes: [
     { path: '/compare/packages', name: 'compare', component: () => import(/* webpackChunkName: "package-chart" */ './views/Compare') },
-    { path: '/compare/packages/custom', name: 'compare-custom', component: () => import(/* webpackChunkName: "package-chart" */ './views/CustomPackageComparison.vue') },
     { path: '/compare/system-architectures/:preset', name: 'compare-system-architectures', component: () => import(/* webpackChunkName: "system-architectures-chart" */ './views/CompareSystemArchitectures') },
     { path: '/fun', name: 'fun', component: () => import(/* webpackChunkName: "fun" */ './views/Fun') },
     { path: '/impressum', name: 'impressum', component: () => import(/* webpackChunkName: "legal" */ './views/Impressum') },
