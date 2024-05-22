@@ -10,12 +10,43 @@ describe('Packages', () => {
     cy.contains('h1', 'Package statistics')
   })
 
-  it('shows comparison graph', () => {
+  it('adds and removes packages for comparison', () => {
     cy.visit('/packages')
+    cy.wait('@api-packages-query')
+
     cy.contains('div', 'No packages selected.' +
       ' Use the search below to add packages and allow the generation of a comparison' +
       ' graph over time.')
+
+    /* add two packages and assert they are shown */
+    const firstPackageName = cy.get('table').find('td').first().innerText
+    cy.get('[data-test=toggle-pkg-in-comparison]').first().invoke('click')
+    const firstBadgeName = cy.get('span[class="pkg-badge-content"]').first().innerText
+    cy.expect(firstPackageName).equals(firstBadgeName)
+
+    const lastPackageName = cy.get('table').find('td').last().innerText
+    cy.get('[data-test=toggle-pkg-in-comparison]').last().invoke('click')
+    const lastBadgeName = cy.get('span[class="pkg-badge-content"]').last().innerText
+    cy.expect(lastPackageName).equals(lastBadgeName)
+
+    cy.get('span[class="pkg-badge-content"]').should('have.length', 2)
+
+    /* test removal via CTA in table */
+    cy.get('[data-test=toggle-pkg-in-comparison]').last().invoke('click')
+    cy.get('span[class="pkg-badge-content"]').should('have.length', 1)
+
+    /* add back the last visible package to assert removal via the X on the badge */
+    cy.get('[data-test=toggle-pkg-in-comparison]').last().invoke('click')
+    cy.get('.btn.btn-secondary.pkg-badge-button').last().invoke('click')
+    cy.get('span[class="pkg-badge-content"]').should('have.length', 1)
+  })
+
+  it('shows comparison graph', () => {
+    cy.visit('/packages')
+    cy.wait('@api-packages-query')
+
     cy.get('[data-test=toggle-pkg-in-comparison]').invoke('click')
+
     /* cypress cannot open link in new tabs, so we open in the current tab to see the chart */
     cy.get('[data-test-name=comparison-graph-link').invoke('removeAttr', 'target').click()
     cy.assertCanvasIsNotEmpty('[data-test=package-chart][data-test-rendered=true][style]')
