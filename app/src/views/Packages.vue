@@ -11,7 +11,7 @@
         </div>
       </div>
       <div v-else>
-        No packages selected. Use the search below to add up to 10 packages
+        No packages selected. Use the search below to add packages
         and allow the generation of a comparison graph over time.
       </div>
       <a :href="customCompareChartLink" target="_blank" style="display: block;">
