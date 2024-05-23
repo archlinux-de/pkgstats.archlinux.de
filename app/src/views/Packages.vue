@@ -21,7 +21,7 @@
          data-test-name="comparison-graph-link"
       >
         Show graph
-        <span v-html="boxArrowUpRight" class="text-primary"></span>
+        <span v-html="boxArrowUpRight"></span>
       </a>
     </div>
 
