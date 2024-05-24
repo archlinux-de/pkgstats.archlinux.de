@@ -14,15 +14,17 @@
         No packages selected. Use the search below to add packages
         and allow the generation of a comparison graph over time.
       </div>
-      <a :href="customCompareChartLink"
-         class="d-block"
-         :class="{disabled: selectedPackages.length < 1}"
-         target="_blank"
-         data-test-name="comparison-graph-link"
-      >
-        Show graph
-        <span v-html="boxArrowUpRight"></span>
-      </a>
+      <div>
+        <a :href="customCompareChartLink"
+           class="d-flex"
+           :class="{disabled: selectedPackages.length < 1}"
+           target="_blank"
+           data-test-name="comparison-graph-link"
+        >
+          <span class="me-2">Show graph </span>
+          <span class="d-flex" v-html="boxArrowUpRight"></span>
+        </a>
+      </div>
     </div>
 
     <h2>Package Search</h2>
