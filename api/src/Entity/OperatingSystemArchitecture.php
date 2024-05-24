@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass:OperatingSystemArchitectureRepository::class)]
 #[ORM\Index(columns: ['month', 'name'], name: 'operating_sytem_architecture_month_name')]
-#[ORM\Index(columns: ['month'], name: 'operating_sytem_architecture_month')]
+#[ORM\Index(columns: ['month', 'count'], name: 'operating_sytem_architecture_month_count')]
 class OperatingSystemArchitecture
 {
     public const array ARCHITECTURES = ['x86_64', 'i686', 'aarch64', 'armv7h', 'armv6h', 'arm', 'riscv64'];

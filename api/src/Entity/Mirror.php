@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MirrorRepository::class)]
 #[ORM\Index(columns: ['month', 'url'], name: 'mirror_month_url')]
-#[ORM\Index(columns: ['month'], name: 'mirror_month')]
+#[ORM\Index(columns: ['month', 'count'], name: 'mirror_month_count')]
 class Mirror
 {
     #[ORM\Column(length: 191)]

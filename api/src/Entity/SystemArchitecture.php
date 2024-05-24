@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SystemArchitectureRepository::class)]
 #[ORM\Index(columns: ['month', 'name'], name: 'sytem_architecture_month_name')]
-#[ORM\Index(columns: ['month'], name: 'sytem_architecture_month')]
+#[ORM\Index(columns: ['month', 'count'], name: 'sytem_architecture_month_count')]
 class SystemArchitecture
 {
     public const array ARCHITECTURES = [

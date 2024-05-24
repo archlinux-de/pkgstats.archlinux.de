@@ -2,8 +2,9 @@
 
 namespace App\Cache;
 
-use App\Entity\Month;
+use App\Repository\MirrorRepository;
 use App\Repository\PackageRepository;
+use App\Repository\SystemArchitectureRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 
@@ -14,6 +15,8 @@ readonly class PackageRepositoryCacheWarmer implements CacheWarmerInterface
 {
     public function __construct(
         private PackageRepository $packageRepository,
+        private SystemArchitectureRepository $systemArchitectureRepository,
+        private MirrorRepository $mirrorRepository,
         private LoggerInterface $logger,
         private string $environment
     ) {
@@ -34,10 +37,9 @@ readonly class PackageRepositoryCacheWarmer implements CacheWarmerInterface
         }
 
         try {
-            $defaultMonth = Month::create()->getYearMonth();
-
-            $this->packageRepository->getMonthlyMaximumCountByRange(0, $defaultMonth);
-            $this->packageRepository->getMaximumCountByRange($defaultMonth, $defaultMonth);
+            $this->packageRepository->getMonthlyMaximumCountByRange(0, 0);
+            $this->systemArchitectureRepository->getMonthlySumCountByRange(0, 0);
+            $this->mirrorRepository->getMonthlySumCountByRange(0, 0);
 
             $this->logger->info('Package repository cache warmed up');
         } catch (\Throwable $e) {

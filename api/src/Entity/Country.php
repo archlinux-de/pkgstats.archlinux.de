@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
 #[ORM\Index(columns: ['month', 'code'], name: 'country_month_code')]
-#[ORM\Index(columns: ['month'], name: 'country_month')]
+#[ORM\Index(columns: ['month', 'count'], name: 'country_month_count')]
 class Country
 {
     #[ORM\Column(length: 2)]
