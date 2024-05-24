@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 /**
  * @codeCoverageIgnore
  */
-readonly class PackageRepositoryCacheWarmer implements CacheWarmerInterface
+readonly class RepositoryCacheWarmer implements CacheWarmerInterface
 {
     public function __construct(
         private PackageRepository $packageRepository,
@@ -41,7 +41,7 @@ readonly class PackageRepositoryCacheWarmer implements CacheWarmerInterface
             $this->systemArchitectureRepository->getMonthlySumCountByRange(0, 0);
             $this->mirrorRepository->getMonthlySumCountByRange(0, 0);
 
-            $this->logger->info('Package repository cache warmed up');
+            $this->logger->info('Repository caches warmed up');
         } catch (\Throwable $e) {
             $this->logger->warning($e->getMessage(), ['file' => $e->getFile(), 'line' => $e->getLine()]);
         }
