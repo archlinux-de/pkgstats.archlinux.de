@@ -15,7 +15,7 @@ class OperatingSystemArchitecture
         'x86_64', 'i686', 'aarch64', 'armv7h', 'armv6h', 'arm', 'riscv64', 'loongarch64'
     ];
 
-    #[ORM\Column(length:10)]
+    #[ORM\Column(length:15)]
     #[ORM\Id]
     #[Assert\Choice(self::ARCHITECTURES)]
     private string $name;
