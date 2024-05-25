@@ -42,7 +42,7 @@
         </table>
         <router-link
           class=" d-inline-flex btn btn-outline-primary"
-          :to="{ name: 'compare', hash: '#packages=' + Array.from(pkgs).sort() }"
+          :to="{ name: 'compare', hash: '#packages=' + Array.from(selectedPackageNames).sort() }"
           data-test-name="comparison-graph-link"
         >
           <span class="me-2">Show graph </span>
@@ -129,7 +129,7 @@ const offset = ref(0)
 const limit = ref(60)
 
 const selectedPackages = ref([])
-const pkgs = computed(() => (selectedPackages.value.map((pkg) => pkg.name))
+const selectedPackageNames = computed(() => (selectedPackages.value.map((pkg) => pkg.name))
 )
 const togglePackageSelected = (pkg) => {
   if (selectedPackages.value.length > 0) {
