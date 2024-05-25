@@ -5,10 +5,45 @@
     <h2>Package comparison</h2>
     <div class="mb-4">
       <div class="mb-2" v-if="selectedPackages.length > 0">
-        <div :key="pkg.name" v-for="pkg in selectedPackages" class="pkg-badge">
-          <span class="pkg-badge-content">{{pkg.name}}</span>
-          <button class="btn btn-secondary pkg-badge-button" @click="togglePackageSelected(pkg)">X</button>
-        </div>
+        <table class="table table-striped table-borderless table-sm">
+          <thead>
+          <tr>
+            <th scope="col">Package</th>
+            <th scope="col">Popularity</th>
+            <th scope="col">Compare</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr :key="id" v-for="(pkg, id) in selectedPackages">
+            <td class="text-nowrap">
+              <router-link :to="{name: 'package', params: {package: pkg.name}}">{{ pkg.name }}</router-link>
+            </td>
+            <td class="w-75">
+              <div class="progress bg-transparent progress-large"
+                   :title="pkg.popularity + '%'">
+                <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                     :style="`width: ${pkg.popularity}%`"
+                     :aria-valuenow="pkg.popularity"
+                     v-text="(pkg.popularity > 5 ? pkg.popularity + '%' : '')"></div>
+              </div>
+            </td>
+            <td>
+              <button data-test="toggle-pkg-in-comparison-table" class="btn" @click="togglePackageSelected(pkg)">
+                <template v-if="isPackageSelected(pkg)">
+                  <span v-html="trash" class="text-primary"></span>
+                </template>
+                <template v-else>
+                  <span v-html="plus" class="text-primary"></span>
+                </template>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+<!--        <div :key="pkg.name" v-for="pkg in selectedPackages" class="pkg-badge">-->
+<!--          <span class="pkg-badge-content">{{pkg.name}}</span>-->
+<!--          <button class="btn btn-secondary pkg-badge-button" @click="togglePackageSelected(pkg)">X</button>-->
+<!--        </div>-->
       </div>
       <div v-else>
         No packages selected. Use the search below to add packages
@@ -59,7 +94,7 @@
             </div>
           </td>
           <td>
-            <button data-test="toggle-pkg-in-comparison" class="btn" @click="togglePackageSelected(pkg)">
+            <button data-test="toggle-pkg-in-popularity-table" class="btn" @click="togglePackageSelected(pkg)">
               <template v-if="isPackageSelected(pkg)">
                 <span v-html="trash" class="text-primary"></span>
               </template>
