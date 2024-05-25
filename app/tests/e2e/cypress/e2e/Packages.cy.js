@@ -45,11 +45,29 @@ describe('Packages', () => {
     cy.visit('/packages')
     cy.wait('@api-packages-query')
 
+    cy.get('[data-test=toggle-pkg-in-popularity-table]').first().invoke('click')
+    cy.get('[data-test=toggle-pkg-in-popularity-table]').last().invoke('click')
+
+    cy.get('[data-test-name=comparison-graph-link').click()
+    cy.assertCanvasIsNotEmpty('[data-test=package-chart][data-test-rendered=true][style]')
+  })
+
+  it('does not allow comparison of one package', () => {
+    cy.visit('/packages')
+    cy.wait('@api-packages-query')
+
+    cy.get('[data-test=toggle-pkg-in-popularity-table]').first().invoke('click')
+
+    cy.get('[data-test-name=comparison-graph-link]').should('have.length', 0)
+  })
+
+  it('does not allow comparison of too many packages', () => {
+    cy.visit('/packages')
+    cy.wait('@api-packages-query')
+
     cy.get('[data-test=toggle-pkg-in-popularity-table]').invoke('click')
 
-    /* cypress cannot open link in new tabs, so we open in the current tab to see the chart */
-    cy.get('[data-test-name=comparison-graph-link').invoke('removeAttr', 'target').click()
-    cy.assertCanvasIsNotEmpty('[data-test=package-chart][data-test-rendered=true][style]')
+    cy.get('[data-test-name=compare-too-many-packages-hint]').should('have.length', 1)
   })
 
   it('searches', () => {

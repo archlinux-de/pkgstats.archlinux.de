@@ -41,14 +41,16 @@
           </tbody>
         </table>
         <router-link
-          class=" d-inline-flex btn btn-outline-primary"
+          v-if="selectedPackages.length > 1 && selectedPackages.length < 11"
+          class="d-inline-flex btn btn-primary"
           :to="{ name: 'compare', hash: '#packages=' + Array.from(selectedPackageNames).sort() }"
-          target="_blank"
           data-test-name="comparison-graph-link"
         >
-          <span class="me-2">Show graph </span>
-          <span class="d-flex" v-html="boxArrowUpRight"></span>
+          <span>Compare</span>
         </router-link>
+        <div v-if="selectedPackages.length > 10" role="alert" class="alert alert-info mb-4" data-test-name="compare-too-many-packages-hint">
+            You can only compare up to 10 packages.
+        </div>
       </div>
       <div v-else class="mb-2">
         No packages selected. Use the search below to add packages
@@ -122,8 +124,7 @@ import { useRouteHash, useRouteQuery } from '@vueuse/router'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { useFetchPackageList } from '../composables/useFetchPackageList'
 import trash from 'bootstrap-icons/icons/trash.svg?raw'
-import plus from 'bootstrap-icons/icons/plus.svg?raw'
-import boxArrowUpRight from 'bootstrap-icons/icons/box-arrow-up-right.svg?raw'
+import plus from 'bootstrap-icons/icons/plus-lg.svg?raw'
 
 const query = useRouteQuery('query', useRouteHash('').value.replace(/^#query=/, ''))
 const offset = ref(0)
