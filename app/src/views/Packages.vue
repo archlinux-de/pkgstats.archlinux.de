@@ -145,14 +145,7 @@ const togglePackageSelected = (pkg) => {
   }
 }
 
-const isPackageSelected = (pkg) => {
-  for (const selectedPackage of selectedPackages.value) {
-    if (selectedPackage.name === pkg.name) {
-      return true
-    }
-  }
-  return false
-}
+const isPackageSelected = (pkg) => selectedPackages.value.map(selectedPackage => selectedPackage.name).includes(pkg.name)
 
 const { isFinished, isFetching, data, error } = useFetchPackageList(query, offset, limit)
 
