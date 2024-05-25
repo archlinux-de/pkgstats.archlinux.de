@@ -131,8 +131,7 @@ const offset = ref(0)
 const limit = ref(60)
 
 const selectedPackages = ref([])
-const selectedPackageNames = computed(() => (selectedPackages.value.map((pkg) => pkg.name))
-)
+const selectedPackageNames = computed(() => (selectedPackages.value.map((pkg) => pkg.name)))
 const togglePackageSelected = (pkg) => {
   if (selectedPackages.value.length > 0) {
     if (isPackageSelected(pkg)) {
