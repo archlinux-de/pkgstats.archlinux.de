@@ -15,7 +15,7 @@
           </thead>
           <tbody>
           <tr :key="id" v-for="(pkg, id) in selectedPackages">
-            <td class="text-nowrap">
+            <td class="text-nowrap" data-test="package-name-in-comparison-table">
               <router-link :to="{name: 'package', params: {package: pkg.name}}">{{ pkg.name }}</router-link>
             </td>
             <td class="w-75">

@@ -20,32 +20,32 @@ describe('Packages', () => {
 
     /* add two packages and assert they are shown */
     const firstPackageName = cy.get('table').find('td').first().innerText
-    cy.get('[data-test=toggle-pkg-in-comparison]').first().invoke('click')
-    const firstBadgeName = cy.get('span[class="pkg-badge-content"]').first().innerText
-    cy.expect(firstPackageName).equals(firstBadgeName)
+    cy.get('[data-test=toggle-pkg-in-popularity-table]').first().invoke('click')
+    const firstSelectedName = cy.get('[data-test=package-name-in-comparison-table]').first().innerText
+    cy.expect(firstPackageName).equals(firstSelectedName)
 
     const lastPackageName = cy.get('table').find('td').last().innerText
-    cy.get('[data-test=toggle-pkg-in-comparison]').last().invoke('click')
-    const lastBadgeName = cy.get('span[class="pkg-badge-content"]').last().innerText
-    cy.expect(lastPackageName).equals(lastBadgeName)
+    cy.get('[data-test=toggle-pkg-in-popularity-table]').last().invoke('click')
+    const lastSelectedName = cy.get('[data-test=package-name-in-comparison-table]').last().innerText
+    cy.expect(lastPackageName).equals(lastSelectedName)
 
-    cy.get('span[class="pkg-badge-content"]').should('have.length', 2)
+    cy.get('[data-test=package-name-in-comparison-table]').should('have.length', 2)
 
     /* test removal via CTA in table */
-    cy.get('[data-test=toggle-pkg-in-comparison]').last().invoke('click')
-    cy.get('span[class="pkg-badge-content"]').should('have.length', 1)
+    cy.get('[data-test=toggle-pkg-in-comparison-table]').last().invoke('click')
+    cy.get('[data-test=package-name-in-comparison-table]').should('have.length', 1)
 
-    /* add back the last visible package to assert removal via the X on the badge */
-    cy.get('[data-test=toggle-pkg-in-comparison]').last().invoke('click')
-    cy.get('.btn.btn-secondary.pkg-badge-button').last().invoke('click')
-    cy.get('span[class="pkg-badge-content"]').should('have.length', 1)
+    /* add back the last visible package to assert removal via the comparison table */
+    cy.get('[data-test=toggle-pkg-in-popularity-table]').last().invoke('click')
+    cy.get('[data-test=toggle-pkg-in-comparison-table]').last().invoke('click')
+    cy.get('[data-test=package-name-in-comparison-table]').should('have.length', 1)
   })
 
   it('shows comparison graph', () => {
     cy.visit('/packages')
     cy.wait('@api-packages-query')
 
-    cy.get('[data-test=toggle-pkg-in-comparison]').invoke('click')
+    cy.get('[data-test=toggle-pkg-in-comparison-table]').invoke('click')
 
     /* cypress cannot open link in new tabs, so we open in the current tab to see the chart */
     cy.get('[data-test-name=comparison-graph-link').invoke('removeAttr', 'target').click()
