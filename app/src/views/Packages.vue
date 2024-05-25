@@ -5,9 +5,9 @@
     <h2>Package comparison</h2>
     <div class="mb-4">
       <div class="mb-2" v-if="selectedPackages.length > 0">
-        <div :key="pkgName" v-for="pkgName in selectedPackages" class="pkg-badge">
-          <span class="pkg-badge-content">{{pkgName}}</span>
-          <button class="btn btn-secondary pkg-badge-button" @click="togglePackageSelected(pkgName)">X</button>
+        <div :key="pkg.name" v-for="pkg in selectedPackages" class="pkg-badge">
+          <span class="pkg-badge-content">{{pkg.name}}</span>
+          <button class="btn btn-secondary pkg-badge-button" @click="togglePackageSelected(pkg)">X</button>
         </div>
       </div>
       <div v-else>
@@ -59,8 +59,8 @@
             </div>
           </td>
           <td>
-            <button data-test="toggle-pkg-in-comparison" class="btn" @click="togglePackageSelected(pkg.name)">
-              <template v-if="selectedPackages.includes(pkg.name)">
+            <button data-test="toggle-pkg-in-comparison" class="btn" @click="togglePackageSelected(pkg)">
+              <template v-if="isPackageSelected(pkg)">
                 <span v-html="trash" class="text-primary"></span>
               </template>
               <template v-else>
@@ -103,12 +103,25 @@ const limit = ref(60)
 const selectedPackages = ref([])
 const customCompareChartLink = computed(() => ('/compare/packages#packages=' + selectedPackages.value.join(',')))
 
-const togglePackageSelected = (pkgName) => {
-  if (selectedPackages.value.includes(pkgName)) {
-    selectedPackages.value = selectedPackages.value.filter((pkg) => pkg !== pkgName)
+const togglePackageSelected = (pkg) => {
+  if (selectedPackages.value.length > 0) {
+    if (isPackageSelected(pkg)) {
+      selectedPackages.value = selectedPackages.value.filter((selectedPkg) => selectedPkg.name !== pkg.name)
+    } else {
+      selectedPackages.value.push(pkg)
+    }
   } else {
-    selectedPackages.value.push(pkgName)
+    selectedPackages.value.push(pkg)
   }
+}
+
+const isPackageSelected = (pkg) => {
+  for (const selectedPackage of selectedPackages.value) {
+    if (selectedPackage.name === pkg.name) {
+      return true
+    }
+  }
+  return false
 }
 
 const { isFinished, isFetching, data, error } = useFetchPackageList(query, offset, limit)
