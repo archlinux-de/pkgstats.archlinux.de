@@ -27,34 +27,31 @@
                      v-text="(pkg.popularity > 5 ? pkg.popularity + '%' : '')"></div>
               </div>
             </td>
-            <td>
-              <button data-test="toggle-pkg-in-comparison-table" class="btn" @click="togglePackageSelected(pkg)">
+            <td class="align-middle">
+              <button data-test="toggle-pkg-in-comparison-table" class="d-flex btn pkg-toggle" @click="togglePackageSelected(pkg)">
                 <template v-if="isPackageSelected(pkg)">
-                  <span v-html="trash" class="text-primary"></span>
+                  <span v-html="trash" class="d-inline-flex text-primary"></span>
                 </template>
                 <template v-else>
-                  <span v-html="plus" class="text-primary"></span>
+                  <span v-html="plus" class="d-inline-flex text-primary"></span>
                 </template>
               </button>
             </td>
           </tr>
           </tbody>
         </table>
-      </div>
-      <div v-else>
-        No packages selected. Use the search below to add packages
-        and allow the generation of a comparison graph over time.
-      </div>
-      <div>
-        <a :href="customCompareChartLink"
-           class="d-flex"
-           :class="{disabled: selectedPackages.length < 1}"
-           target="_blank"
-           data-test-name="comparison-graph-link"
+        <router-link
+          class=" d-inline-flex btn btn-outline-primary"
+          :to="{ name: 'compare', hash: '#packages=' + Array.from(pkgs).sort() }"
+          data-test-name="comparison-graph-link"
         >
           <span class="me-2">Show graph </span>
           <span class="d-flex" v-html="boxArrowUpRight"></span>
-        </a>
+        </router-link>
+      </div>
+      <div v-else class="mb-2">
+        No packages selected. Use the search below to add packages
+        and allow the generation of a comparison graph over time.
       </div>
     </div>
 
@@ -89,13 +86,13 @@
                    v-text="(pkg.popularity > 5 ? pkg.popularity + '%' : '')"></div>
             </div>
           </td>
-          <td>
-            <button data-test="toggle-pkg-in-popularity-table" class="btn" @click="togglePackageSelected(pkg)">
+          <td class="align-middle">
+            <button data-test="toggle-pkg-in-popularity-table" class="d-flex btn pkg-toggle" @click="togglePackageSelected(pkg)">
               <template v-if="isPackageSelected(pkg)">
-                <span v-html="trash" class="text-primary"></span>
+                <span v-html="trash" class="text-primary d-inline-flex"></span>
               </template>
               <template v-else>
-                <span v-html="plus" class="text-primary"></span>
+                <span v-html="plus" class="text-primary d-inline-flex"></span>
               </template>
             </button>
           </td>
@@ -132,8 +129,7 @@ const offset = ref(0)
 const limit = ref(60)
 
 const selectedPackages = ref([])
-const customCompareChartLink = computed(
-  () => ('/compare/packages#packages=' + selectedPackages.value.map((pkg) => pkg.name).join(','))
+const pkgs = computed(() => (selectedPackages.value.map((pkg) => pkg.name))
 )
 const togglePackageSelected = (pkg) => {
   if (selectedPackages.value.length > 0) {
@@ -190,8 +186,8 @@ useHead({
 </script>
 
 <style scoped lang="scss">
-a.disabled {
-  color: #666;
-  pointer-events: none;
+button.btn.pkg-toggle {
+  padding: 0;
+  border: none;
 }
 </style>
