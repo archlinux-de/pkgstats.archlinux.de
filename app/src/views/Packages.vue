@@ -10,7 +10,7 @@
           <tr>
             <th scope="col">Package</th>
             <th scope="col">Popularity</th>
-            <th scope="col">Compare</th>
+            <th scope="col" class="d-none d-lg-block text-center">Compare</th>
           </tr>
           </thead>
           <tbody>
@@ -30,10 +30,10 @@
             <td class="align-middle">
               <button data-test="toggle-pkg-in-comparison-table" class="d-flex btn pkg-toggle" @click="togglePackageSelected(pkg)">
                 <template v-if="isPackageSelected(pkg)">
-                  <span v-html="trash" class="d-inline-flex text-primary"></span>
+                  <span v-html="trash" class="d-inline-flex text-primary justify-content-center w-100"></span>
                 </template>
                 <template v-else>
-                  <span v-html="plus" class="d-inline-flex text-primary"></span>
+                  <span v-html="plus" class="d-inline-flex text-primary justify-content-center w-100"></span>
                 </template>
               </button>
             </td>
@@ -70,7 +70,7 @@
         <tr>
           <th scope="col">Package</th>
           <th scope="col">Popularity</th>
-          <th scope="col">Compare</th>
+          <th scope="col" class="d-none d-lg-block text-center">Compare</th>
         </tr>
         </thead>
         <tbody>
@@ -90,10 +90,10 @@
           <td class="align-middle">
             <button data-test="toggle-pkg-in-popularity-table" class="d-flex btn pkg-toggle" @click="togglePackageSelected(pkg)">
               <template v-if="isPackageSelected(pkg)">
-                <span v-html="trash" class="text-primary d-inline-flex"></span>
+                <span v-html="trash" class="text-primary d-inline-flex justify-content-center w-100"></span>
               </template>
               <template v-else>
-                <span v-html="plus" class="text-primary d-inline-flex"></span>
+                <span v-html="plus" class="text-primary d-inline-flex justify-content-center w-100"></span>
               </template>
             </button>
           </td>
@@ -188,6 +188,7 @@ useHead({
 
 <style scoped lang="scss">
 button.btn.pkg-toggle {
+  width: 100%;
   padding: 0;
   border: none;
 }
