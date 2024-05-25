@@ -40,10 +40,6 @@
           </tr>
           </tbody>
         </table>
-<!--        <div :key="pkg.name" v-for="pkg in selectedPackages" class="pkg-badge">-->
-<!--          <span class="pkg-badge-content">{{pkg.name}}</span>-->
-<!--          <button class="btn btn-secondary pkg-badge-button" @click="togglePackageSelected(pkg)">X</button>-->
-<!--        </div>-->
       </div>
       <div v-else>
         No packages selected. Use the search below to add packages
@@ -198,20 +194,4 @@ a.disabled {
   color: #666;
   pointer-events: none;
 }
-
-.pkg-badge {
-  border: 2px solid #08c;
-  margin: 4px 4px 4px 0;
-  display: inline-block;
-}
-
-.pkg-badge-content {
-  padding: 4px 8px;
-}
-
-.pkg-badge-button {
-  padding: 4px 8px;
-  border-left: 2px solid #08c;
-}
-
 </style>
