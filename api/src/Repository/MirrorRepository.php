@@ -9,6 +9,9 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @extends ServiceEntityRepository<Mirror>
+ */
 class MirrorRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)

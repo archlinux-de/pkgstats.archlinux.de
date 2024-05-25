@@ -6,6 +6,9 @@ use App\Entity\Month;
 use IteratorAggregate;
 use Traversable;
 
+/**
+ * @implements IteratorAggregate<int>
+ */
 class Months implements IteratorAggregate
 {
     private const int DEFAULT_NUMBER_OF_MONTHS = 50;

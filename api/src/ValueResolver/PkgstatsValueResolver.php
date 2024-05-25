@@ -18,6 +18,9 @@ readonly class PkgstatsValueResolver implements ValueResolverInterface
     ) {
     }
 
+    /**
+     * @return iterable<PkgstatsRequest>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if (!$argument->getType() || !is_a($argument->getType(), PkgstatsRequest::class, true)) {

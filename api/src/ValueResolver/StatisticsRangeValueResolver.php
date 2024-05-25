@@ -16,6 +16,9 @@ readonly class StatisticsRangeValueResolver implements ValueResolverInterface
     {
     }
 
+    /**
+     * @return iterable<StatisticsRangeRequest>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if (!$argument->getType() || !is_a($argument->getType(), StatisticsRangeRequest::class, true)) {

@@ -11,5 +11,6 @@ parameters:
 		- config
 		- bin
 		- migrations
-	checkMissingIterableValueType: false
-	checkGenericClassInNonGenericObjectType: false
+	ignoreErrors:
+		-
+			identifier: missingType.iterableValue

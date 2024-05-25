@@ -16,6 +16,9 @@ readonly class MirrorQueryValueResolver implements ValueResolverInterface
     {
     }
 
+    /**
+     * @return iterable<MirrorQueryRequest>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if (!$argument->getType() || !is_a($argument->getType(), MirrorQueryRequest::class, true)) {

@@ -16,6 +16,9 @@ readonly class SystemArchitectureQueryValueResolver implements ValueResolverInte
     {
     }
 
+    /**
+     * @return iterable<SystemArchitectureQueryRequest>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if (!$argument->getType() || !is_a($argument->getType(), SystemArchitectureQueryRequest::class, true)) {

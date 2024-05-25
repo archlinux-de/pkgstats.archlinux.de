@@ -15,6 +15,9 @@ readonly class PaginationValueResolver implements ValueResolverInterface
     {
     }
 
+    /**
+     * @return iterable<PaginationRequest>
+     */
     public function resolve(Request $request, ArgumentMetadata $argument): iterable
     {
         if (!$argument->getType() || !is_a($argument->getType(), PaginationRequest::class, true)) {
