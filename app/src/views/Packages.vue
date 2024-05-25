@@ -136,8 +136,9 @@ const offset = ref(0)
 const limit = ref(60)
 
 const selectedPackages = ref([])
-const customCompareChartLink = computed(() => ('/compare/packages#packages=' + selectedPackages.value.join(',')))
-
+const customCompareChartLink = computed(
+  () => ('/compare/packages#packages=' + selectedPackages.value.map((pkg) => pkg.name).join(','))
+)
 const togglePackageSelected = (pkg) => {
   if (selectedPackages.value.length > 0) {
     if (isPackageSelected(pkg)) {
