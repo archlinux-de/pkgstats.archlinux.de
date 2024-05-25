@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-readonly class MirrorPopularity implements \JsonSerializable
+readonly class MirrorPopularity implements PopularityInterface
 {
     public function __construct(
         private string $url,
@@ -11,18 +11,6 @@ readonly class MirrorPopularity implements \JsonSerializable
         private int $startMonth,
         private int $endMonth
     ) {
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'url' => $this->getUrl(),
-            'samples' => $this->getSamples(),
-            'count' => $this->getCount(),
-            'popularity' => $this->getPopularity(),
-            'startMonth' => $this->getStartMonth(),
-            'endMonth' => $this->getEndMonth()
-        ];
     }
 
     public function getUrl(): string

@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-readonly class SystemArchitecturePopularity implements \JsonSerializable
+readonly class SystemArchitecturePopularity implements PopularityInterface
 {
     public function __construct(
         private string $name,
@@ -11,18 +11,6 @@ readonly class SystemArchitecturePopularity implements \JsonSerializable
         private int $startMonth,
         private int $endMonth
     ) {
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'name' => $this->getName(),
-            'samples' => $this->getSamples(),
-            'count' => $this->getCount(),
-            'popularity' => $this->getPopularity(),
-            'startMonth' => $this->getStartMonth(),
-            'endMonth' => $this->getEndMonth()
-        ];
     }
 
     public function getName(): string

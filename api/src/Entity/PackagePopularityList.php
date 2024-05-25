@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-readonly class PackagePopularityList implements \JsonSerializable
+readonly class PackagePopularityList implements PopularityListInterface
 {
     /**
      * @param PackagePopularity[] $packagePopularities
@@ -14,18 +14,6 @@ readonly class PackagePopularityList implements \JsonSerializable
         private int $offset,
         private ?string $query
     ) {
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'total' => $this->getTotal(),
-            'count' => $this->getCount(),
-            'limit' => $this->getLimit(),
-            'offset' => $this->getOffset(),
-            'query' => $this->getQuery(),
-            'packagePopularities' => $this->getPackagePopularities()
-        ];
     }
 
     public function getTotal(): int

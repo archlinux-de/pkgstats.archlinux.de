@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-readonly class SystemArchitecturePopularityList implements \JsonSerializable
+readonly class SystemArchitecturePopularityList implements PopularityListInterface
 {
     /**
      * @param SystemArchitecturePopularity[] $systemArchitecturePopularities
@@ -14,18 +14,6 @@ readonly class SystemArchitecturePopularityList implements \JsonSerializable
         private int $offset,
         private ?string $query
     ) {
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'total' => $this->getTotal(),
-            'count' => $this->getCount(),
-            'limit' => $this->getLimit(),
-            'offset' => $this->getOffset(),
-            'query' => $this->getQuery(),
-            'systemArchitecturePopularities' => $this->getSystemArchitecturePopularities()
-        ];
     }
 
     public function getTotal(): int

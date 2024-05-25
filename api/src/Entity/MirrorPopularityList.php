@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-readonly class MirrorPopularityList implements \JsonSerializable
+readonly class MirrorPopularityList implements PopularityListInterface
 {
     /**
      * @param MirrorPopularity[] $mirrorPopularities
@@ -14,18 +14,6 @@ readonly class MirrorPopularityList implements \JsonSerializable
         private int $offset,
         private ?string $query
     ) {
-    }
-
-    public function jsonSerialize(): array
-    {
-        return [
-            'total' => $this->getTotal(),
-            'count' => $this->getCount(),
-            'limit' => $this->getLimit(),
-            'offset' => $this->getOffset(),
-            'query' => $this->getQuery(),
-            'mirrorPopularities' => $this->getMirrorPopularities()
-        ];
     }
 
     public function getTotal(): int
