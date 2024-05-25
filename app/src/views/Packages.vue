@@ -43,6 +43,7 @@
         <router-link
           class=" d-inline-flex btn btn-outline-primary"
           :to="{ name: 'compare', hash: '#packages=' + Array.from(selectedPackageNames).sort() }"
+          target="_blank"
           data-test-name="comparison-graph-link"
         >
           <span class="me-2">Show graph </span>
