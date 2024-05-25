@@ -45,7 +45,7 @@ describe('Packages', () => {
     cy.visit('/packages')
     cy.wait('@api-packages-query')
 
-    cy.get('[data-test=toggle-pkg-in-comparison-table]').invoke('click')
+    cy.get('[data-test=toggle-pkg-in-popularity-table]').invoke('click')
 
     /* cypress cannot open link in new tabs, so we open in the current tab to see the chart */
     cy.get('[data-test-name=comparison-graph-link').invoke('removeAttr', 'target').click()
