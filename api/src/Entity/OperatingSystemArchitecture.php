@@ -11,7 +11,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['month', 'count'], name: 'operating_sytem_architecture_month_count')]
 class OperatingSystemArchitecture
 {
-    public const array ARCHITECTURES = ['x86_64', 'i686', 'aarch64', 'armv7h', 'armv6h', 'arm', 'riscv64'];
+    public const array ARCHITECTURES = [
+        'x86_64', 'i686', 'aarch64', 'armv7h', 'armv6h', 'arm', 'riscv64', 'loongarch64'
+    ];
 
     #[ORM\Column(length:10)]
     #[ORM\Id]

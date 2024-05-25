@@ -118,6 +118,7 @@ class PkgstatsRequest
             'armv6' => ['armv6h', 'arm'],
             'armv5' => ['arm'],
             'riscv64' => ['riscv64'],
+            'loong64' => ['loongarch64'],
             default => [],
         };
 
@@ -138,6 +139,7 @@ class PkgstatsRequest
             'armv7h' => ['armv7', 'aarch64'],
             'arm' => ['armv5', 'armv6', 'armv7', 'aarch64'],
             'riscv64' => ['riscv64'],
+            'loongarch64' => ['loong64'],
             default => [],
         };
 

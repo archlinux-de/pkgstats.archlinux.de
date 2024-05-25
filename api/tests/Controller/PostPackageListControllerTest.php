@@ -284,7 +284,8 @@ class PostPackageListControllerTest extends DatabaseTestCase
             ['armv6h', ['aarch64', 'armv6', 'armv7']],
             ['armv7h', ['aarch64', 'armv7']],
             ['aarch64', ['aarch64']],
-            ['riscv64', ['riscv64']]
+            ['riscv64', ['riscv64']],
+            ['loongarch64', ['loong64']]
         ];
 
         foreach ($entries as $entry) {
@@ -311,6 +312,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
             ['armv6', ['armv6h', 'arm']],
             ['armv7', ['armv7h', 'armv6h', 'arm']],
             ['riscv64', ['riscv64']],
+            ['loong64', ['loongarch64']]
         ];
 
         foreach ($entries as $entry) {

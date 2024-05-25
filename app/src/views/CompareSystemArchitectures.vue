@@ -49,18 +49,18 @@ watch(preset, value => {
       endMonth.value = 201812
       break
     case 'community':
-      systemArchitectures.value = ['i686', 'aarch64', 'armv7', 'armv6', 'armv5', 'riscv64'].sort()
+      systemArchitectures.value = ['i686', 'aarch64', 'armv7', 'armv6', 'armv5', 'riscv64', 'loong64'].sort()
       startMonth.value = 201712
       endMonth.value = 0
       break
     case 'all':
       // @see App\Entity\SystemArchitecture::ARCHITECTURES
-      systemArchitectures.value = ['x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4', 'i686', 'aarch64', 'armv7', 'armv6', 'armv5', 'riscv64'].sort()
+      systemArchitectures.value = ['x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4', 'i686', 'aarch64', 'armv7', 'armv6', 'armv5', 'riscv64', 'loong64'].sort()
       startMonth.value = 0
       endMonth.value = 0
       break
     default:
-      systemArchitectures.value = ['x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4', 'i686', 'aarch64', 'armv7', 'armv6', 'armv5', 'riscv64'].sort()
+      systemArchitectures.value = ['x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4', 'i686', 'aarch64', 'armv7', 'armv6', 'armv5', 'riscv64', 'loong64'].sort()
       startMonth.value = 202105
       endMonth.value = 0
   }
