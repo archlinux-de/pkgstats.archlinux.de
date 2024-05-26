@@ -7,7 +7,11 @@ module.exports = {
     purgecss({
       content: ['**/*.js', '**/*.html', '**/*.vue'],
       skippedContentGlobs: ['node_modules/**', 'tests/**'],
-      variables: true
+      variables: true,
+      safelist: {
+        greedy: [/^svgMap-/],
+        variables: ['--bs-primary']
+      }
     })
   ]
 }
