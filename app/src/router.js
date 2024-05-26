@@ -10,6 +10,7 @@ export default createRouter({
     { path: '/compare/packages', name: 'compare', component: () => import(/* webpackChunkName: "package-chart" */ './views/Compare') },
     { path: '/compare/system-architectures/:preset', name: 'compare-system-architectures', component: () => import(/* webpackChunkName: "system-architectures-chart" */ './views/CompareSystemArchitectures') },
     { path: '/countries', name: 'countries', component: () => import(/* webpackChunkName: "countries-map" */ './views/Countries') },
+    { path: '/fun/:category', name: 'fun-detail', component: () => import(/* webpackChunkName: "fun" */ './views/FunDetail') },
     { path: '/fun', name: 'fun', component: () => import(/* webpackChunkName: "fun" */ './views/Fun') },
     { path: '/impressum', name: 'impressum', component: () => import(/* webpackChunkName: "legal" */ './views/Impressum') },
     { path: '/packages/:package', name: 'package', component: () => import(/* webpackChunkName: "package-chart" */ './views/Package') },
