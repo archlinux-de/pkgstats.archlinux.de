@@ -30,5 +30,5 @@ import PackagesBarChart from '../components/PackagesBarChart.vue'
 import PackageChart from '../components/PackageChart.vue'
 
 useHead({ title: 'Fun statistics' })
-const examplePkgs = FunConfig.Browsers
+const examplePkgs = ['chromium', 'firefox', 'brave-bin', 'epiphany', 'opera']
 </script>
