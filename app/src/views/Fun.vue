@@ -5,7 +5,7 @@
     and the development over time.</p>
     <div class="mb-2 mb-lg-4">
       <div :key="title" v-for="(pkgs, title) in FunConfig">
-        <router-link :to="{ name: 'fun-detail', params: {category: title} }">
+        <router-link :to="{ name: 'fun-detail', params: {category: title, preset: 'current'} }">
           {{ title }}
         </router-link>
       </div>
