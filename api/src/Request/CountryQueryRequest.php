@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CountryQueryRequest
 {
-    #[Assert\Length(max:191)]
+    #[Assert\Length(max:2)]
     #[Assert\Regex('/' . Country::CODE_REGEXP . '/')]
     private string $query;
 

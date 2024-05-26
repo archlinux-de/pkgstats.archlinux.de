@@ -34,7 +34,7 @@ class ApiCountriesController extends AbstractController
     #[OA\Tag(name: 'countries')]
     #[OA\Parameter(
         name: 'code',
-        description: 'CODE of the country',
+        description: 'ISO 3166-1 alpha-2 code of the country',
         in: 'path',
         schema: new OA\Schema(type: 'string')
     )]
@@ -87,7 +87,7 @@ class ApiCountriesController extends AbstractController
     #[OA\Tag(name: 'countries')]
     #[OA\Parameter(
         name: 'code',
-        description: 'CODE of the country',
+        description: 'ISO 3166-1 alpha-2 code of the country',
         in: 'path',
         schema: new OA\Schema(type: 'string')
     )]
