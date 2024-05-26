@@ -1484,8 +1484,8 @@ packages:
   ajv@6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
 
-  ajv@8.13.0:
-    resolution: {integrity: sha512-PRA911Blj99jR5RMeTunVbNXMF6Lp4vZXnk5GQjcnUWUTsrXtekg/pnmFFI2u/I36Y/2bITGS30GZCXei6uNkA==}
+  ajv@8.14.0:
+    resolution: {integrity: sha512-oYs1UUtO97ZO2lJ4bwnWeQW8/zvOIQLGKcvPTsWmvc2SYgBb+upuNS5NxoLaMU4h8Ju3Nbj6Cq8mD2LQoqVKFA==}
 
   ansi-escapes@4.3.2:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}
@@ -5399,9 +5399,9 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@apideck/better-ajv-errors@0.3.6(ajv@8.13.0)':
+  '@apideck/better-ajv-errors@0.3.6(ajv@8.14.0)':
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.14.0
       json-schema: 0.4.0
       jsonpointer: 5.0.1
       leven: 3.1.0
@@ -7255,17 +7255,17 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ajv-formats@2.1.1(ajv@8.13.0):
+  ajv-formats@2.1.1(ajv@8.14.0):
     optionalDependencies:
-      ajv: 8.13.0
+      ajv: 8.14.0
 
   ajv-keywords@3.5.2(ajv@6.12.6):
     dependencies:
       ajv: 6.12.6
 
-  ajv-keywords@5.1.0(ajv@8.13.0):
+  ajv-keywords@5.1.0(ajv@8.14.0):
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.14.0
       fast-deep-equal: 3.1.3
 
   ajv@6.12.6:
@@ -7275,7 +7275,7 @@ snapshots:
       json-schema-traverse: 0.4.1
       uri-js: 4.4.1
 
-  ajv@8.13.0:
+  ajv@8.14.0:
     dependencies:
       fast-deep-equal: 3.1.3
       json-schema-traverse: 1.0.0
@@ -10582,9 +10582,9 @@ snapshots:
   schema-utils@4.2.0:
     dependencies:
       '@types/json-schema': 7.0.15
-      ajv: 8.13.0
-      ajv-formats: 2.1.1(ajv@8.13.0)
-      ajv-keywords: 5.1.0(ajv@8.13.0)
+      ajv: 8.14.0
+      ajv-formats: 2.1.1(ajv@8.14.0)
+      ajv-keywords: 5.1.0(ajv@8.14.0)
 
   select-hose@2.0.0: {}
 
@@ -11094,7 +11094,7 @@ snapshots:
 
   table@6.8.2:
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.14.0
       lodash.truncate: 4.4.2
       slice-ansi: 4.0.0
       string-width: 4.2.3
@@ -11608,7 +11608,7 @@ snapshots:
 
   workbox-build@7.1.0(@types/babel__core@7.20.5):
     dependencies:
-      '@apideck/better-ajv-errors': 0.3.6(ajv@8.13.0)
+      '@apideck/better-ajv-errors': 0.3.6(ajv@8.14.0)
       '@babel/core': 7.24.6
       '@babel/preset-env': 7.24.6(@babel/core@7.24.6)
       '@babel/runtime': 7.24.6
@@ -11617,7 +11617,7 @@ snapshots:
       '@rollup/plugin-replace': 2.4.2(rollup@2.79.1)
       '@rollup/plugin-terser': 0.4.4(rollup@2.79.1)
       '@surma/rollup-plugin-off-main-thread': 2.2.3
-      ajv: 8.13.0
+      ajv: 8.14.0
       common-tags: 1.8.2
       fast-json-stable-stringify: 2.1.0
       fs-extra: 9.1.0
