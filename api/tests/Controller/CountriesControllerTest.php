@@ -28,7 +28,7 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertCountryPupularityList($client->getResponse()->getContent());
+        $this->assertCountryPopularityList($client->getResponse()->getContent());
     }
 
     private function assertAllowsCrossOriginAccess(Response $response): void
@@ -37,7 +37,7 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertEquals('*', $response->headers->get('Access-Control-Allow-Origin'));
     }
 
-    private function assertCountryPupularityList(string $json): array
+    private function assertCountryPopularityList(string $json): array
     {
         $this->assertJson($json);
 
@@ -51,13 +51,13 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertIsArray($countryList['countryPopularities']);
 
         foreach ($countryList['countryPopularities'] as $country) {
-            $this->assertCountryPupularity((string)json_encode($country));
+            $this->assertCountryPopularity((string)json_encode($country));
         }
 
         return $countryList;
     }
 
-    private function assertCountryPupularity(string $json): void
+    private function assertCountryPopularity(string $json): void
     {
         $this->assertJson($json);
 
@@ -82,7 +82,7 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertCountryPupularityList($client->getResponse()->getContent());
+        $this->assertCountryPopularityList($client->getResponse()->getContent());
     }
 
     public function testFetchEmptyCountry(): void
@@ -94,7 +94,7 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertCountryPupularity($client->getResponse()->getContent());
+        $this->assertCountryPopularity($client->getResponse()->getContent());
     }
 
     #[DataProvider('provideCountryCodes')]
@@ -113,7 +113,7 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertCountryPupularity($client->getResponse()->getContent());
+        $this->assertCountryPopularity($client->getResponse()->getContent());
     }
 
     public function testQueryRequest(): void
@@ -134,9 +134,9 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertCountryPupularityList($client->getResponse()->getContent());
-        $this->assertCount(1, $pupularityList['countryPopularities']);
-        $this->assertEquals($de->getCode(), $pupularityList['countryPopularities'][0]['code']);
+        $popularityList = $this->assertCountryPopularityList($client->getResponse()->getContent());
+        $this->assertCount(1, $popularityList['countryPopularities']);
+        $this->assertEquals($de->getCode(), $popularityList['countryPopularities'][0]['code']);
     }
 
     public function testFilterByDate(): void
@@ -157,9 +157,9 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertCountryPupularityList($client->getResponse()->getContent());
-        $this->assertCount(1, $pupularityList['countryPopularities']);
-        $this->assertEquals($fr->getCode(), $pupularityList['countryPopularities'][0]['code']);
+        $popularityList = $this->assertCountryPopularityList($client->getResponse()->getContent());
+        $this->assertCount(1, $popularityList['countryPopularities']);
+        $this->assertEquals($fr->getCode(), $popularityList['countryPopularities'][0]['code']);
     }
 
     public function testLimitResults(): void
@@ -183,11 +183,11 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertCountryPupularityList($client->getResponse()->getContent());
-        $this->assertEquals(2, $pupularityList['total']);
-        $this->assertEquals(1, $pupularityList['count']);
-        $this->assertCount(1, $pupularityList['countryPopularities']);
-        $this->assertEquals($fr->getCode(), $pupularityList['countryPopularities'][0]['code']);
+        $popularityList = $this->assertCountryPopularityList($client->getResponse()->getContent());
+        $this->assertEquals(2, $popularityList['total']);
+        $this->assertEquals(1, $popularityList['count']);
+        $this->assertCount(1, $popularityList['countryPopularities']);
+        $this->assertEquals($fr->getCode(), $popularityList['countryPopularities'][0]['code']);
     }
 
     #[DataProvider('provideCountryCodes')]
@@ -206,11 +206,11 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertCountryPupularityList($client->getResponse()->getContent());
-        $this->assertEquals(1, $pupularityList['total']);
-        $this->assertEquals(1, $pupularityList['count']);
-        $this->assertCount(1, $pupularityList['countryPopularities']);
-        $this->assertEquals($countryCode, $pupularityList['countryPopularities'][0]['code']);
+        $popularityList = $this->assertCountryPopularityList($client->getResponse()->getContent());
+        $this->assertEquals(1, $popularityList['total']);
+        $this->assertEquals(1, $popularityList['count']);
+        $this->assertCount(1, $popularityList['countryPopularities']);
+        $this->assertEquals($countryCode, $popularityList['countryPopularities'][0]['code']);
     }
 
     public static function provideCountryCodes(): array

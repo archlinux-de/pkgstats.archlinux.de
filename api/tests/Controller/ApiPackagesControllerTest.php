@@ -29,7 +29,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertPackagePupularityList($client->getResponse()->getContent());
+        $this->assertPackagePopularityList($client->getResponse()->getContent());
     }
 
     private function assertAllowsCrossOriginAccess(Response $response): void
@@ -38,7 +38,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals('*', $response->headers->get('Access-Control-Allow-Origin'));
     }
 
-    private function assertPackagePupularityList(string $json): array
+    private function assertPackagePopularityList(string $json): array
     {
         $this->assertJson($json);
 
@@ -52,13 +52,13 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertIsArray($packageList['packagePopularities']);
 
         foreach ($packageList['packagePopularities'] as $package) {
-            $this->assertPackagePupularity((string)json_encode($package));
+            $this->assertPackagePopularity((string)json_encode($package));
         }
 
         return $packageList;
     }
 
-    private function assertPackagePupularity(string $json): void
+    private function assertPackagePopularity(string $json): void
     {
         $this->assertJson($json);
 
@@ -83,7 +83,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertPackagePupularityList($client->getResponse()->getContent());
+        $this->assertPackagePopularityList($client->getResponse()->getContent());
     }
 
     public function testFetchEmptyPackage(): void
@@ -95,7 +95,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertPackagePupularity($client->getResponse()->getContent());
+        $this->assertPackagePopularity($client->getResponse()->getContent());
     }
 
     #[DataProvider('providePackageNames')]
@@ -115,7 +115,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertPackagePupularity($client->getResponse()->getContent());
+        $this->assertPackagePopularity($client->getResponse()->getContent());
     }
 
     public function testQueryRequest(): void
@@ -138,9 +138,9 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
-        $this->assertCount(1, $pupularityList['packagePopularities']);
-        $this->assertEquals('pacman', $pupularityList['packagePopularities'][0]['name']);
+        $popularityList = $this->assertPackagePopularityList($client->getResponse()->getContent());
+        $this->assertCount(1, $popularityList['packagePopularities']);
+        $this->assertEquals('pacman', $popularityList['packagePopularities'][0]['name']);
     }
 
     public function testFilterByDate(): void
@@ -163,9 +163,9 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
-        $this->assertCount(1, $pupularityList['packagePopularities']);
-        $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
+        $popularityList = $this->assertPackagePopularityList($client->getResponse()->getContent());
+        $this->assertCount(1, $popularityList['packagePopularities']);
+        $this->assertEquals('php', $popularityList['packagePopularities'][0]['name']);
     }
 
     public function testLimitResults(): void
@@ -192,11 +192,11 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
-        $this->assertEquals(2, $pupularityList['total']);
-        $this->assertEquals(1, $pupularityList['count']);
-        $this->assertCount(1, $pupularityList['packagePopularities']);
-        $this->assertEquals('php', $pupularityList['packagePopularities'][0]['name']);
+        $popularityList = $this->assertPackagePopularityList($client->getResponse()->getContent());
+        $this->assertEquals(2, $popularityList['total']);
+        $this->assertEquals(1, $popularityList['count']);
+        $this->assertCount(1, $popularityList['packagePopularities']);
+        $this->assertEquals('php', $popularityList['packagePopularities'][0]['name']);
     }
 
     #[DataProvider('providePackageNames')]
@@ -216,11 +216,11 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertPackagePupularityList($client->getResponse()->getContent());
-        $this->assertEquals(1, $pupularityList['total']);
-        $this->assertEquals(1, $pupularityList['count']);
-        $this->assertCount(1, $pupularityList['packagePopularities']);
-        $this->assertEquals($packageName, $pupularityList['packagePopularities'][0]['name']);
+        $popularityList = $this->assertPackagePopularityList($client->getResponse()->getContent());
+        $this->assertEquals(1, $popularityList['total']);
+        $this->assertEquals(1, $popularityList['count']);
+        $this->assertCount(1, $popularityList['packagePopularities']);
+        $this->assertEquals($packageName, $popularityList['packagePopularities'][0]['name']);
     }
 
     public static function providePackageNames(): array

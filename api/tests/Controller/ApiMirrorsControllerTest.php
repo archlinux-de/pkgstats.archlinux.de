@@ -28,7 +28,7 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertMirrorPupularityList($client->getResponse()->getContent());
+        $this->assertMirrorPopularityList($client->getResponse()->getContent());
     }
 
     private function assertAllowsCrossOriginAccess(Response $response): void
@@ -37,7 +37,7 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertEquals('*', $response->headers->get('Access-Control-Allow-Origin'));
     }
 
-    private function assertMirrorPupularityList(string $json): array
+    private function assertMirrorPopularityList(string $json): array
     {
         $this->assertJson($json);
 
@@ -51,13 +51,13 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertIsArray($mirrorList['mirrorPopularities']);
 
         foreach ($mirrorList['mirrorPopularities'] as $mirror) {
-            $this->assertMirrorPupularity((string)json_encode($mirror));
+            $this->assertMirrorPopularity((string)json_encode($mirror));
         }
 
         return $mirrorList;
     }
 
-    private function assertMirrorPupularity(string $json): void
+    private function assertMirrorPopularity(string $json): void
     {
         $this->assertJson($json);
 
@@ -82,7 +82,7 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertMirrorPupularityList($client->getResponse()->getContent());
+        $this->assertMirrorPopularityList($client->getResponse()->getContent());
     }
 
     public function testFetchEmptyMirror(): void
@@ -94,7 +94,7 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertMirrorPupularity($client->getResponse()->getContent());
+        $this->assertMirrorPopularity($client->getResponse()->getContent());
     }
 
     #[DataProvider('provideMirrorUrls')]
@@ -113,7 +113,7 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $this->assertMirrorPupularity($client->getResponse()->getContent());
+        $this->assertMirrorPopularity($client->getResponse()->getContent());
     }
 
     public function testQueryRequest(): void
@@ -134,9 +134,9 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertMirrorPupularityList($client->getResponse()->getContent());
-        $this->assertCount(1, $pupularityList['mirrorPopularities']);
-        $this->assertEquals($leaseweb->getUrl(), $pupularityList['mirrorPopularities'][0]['url']);
+        $popularityList = $this->assertMirrorPopularityList($client->getResponse()->getContent());
+        $this->assertCount(1, $popularityList['mirrorPopularities']);
+        $this->assertEquals($leaseweb->getUrl(), $popularityList['mirrorPopularities'][0]['url']);
     }
 
     public function testFilterByDate(): void
@@ -157,9 +157,9 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertMirrorPupularityList($client->getResponse()->getContent());
-        $this->assertCount(1, $pupularityList['mirrorPopularities']);
-        $this->assertEquals($localhost->getUrl(), $pupularityList['mirrorPopularities'][0]['url']);
+        $popularityList = $this->assertMirrorPopularityList($client->getResponse()->getContent());
+        $this->assertCount(1, $popularityList['mirrorPopularities']);
+        $this->assertEquals($localhost->getUrl(), $popularityList['mirrorPopularities'][0]['url']);
     }
 
     public function testLimitResults(): void
@@ -183,11 +183,11 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertMirrorPupularityList($client->getResponse()->getContent());
-        $this->assertEquals(2, $pupularityList['total']);
-        $this->assertEquals(1, $pupularityList['count']);
-        $this->assertCount(1, $pupularityList['mirrorPopularities']);
-        $this->assertEquals($localhost->getUrl(), $pupularityList['mirrorPopularities'][0]['url']);
+        $popularityList = $this->assertMirrorPopularityList($client->getResponse()->getContent());
+        $this->assertEquals(2, $popularityList['total']);
+        $this->assertEquals(1, $popularityList['count']);
+        $this->assertCount(1, $popularityList['mirrorPopularities']);
+        $this->assertEquals($localhost->getUrl(), $popularityList['mirrorPopularities'][0]['url']);
     }
 
     #[DataProvider('provideMirrorUrls')]
@@ -206,11 +206,11 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertAllowsCrossOriginAccess($client->getResponse());
         $this->assertIsString($client->getResponse()->getContent());
-        $pupularityList = $this->assertMirrorPupularityList($client->getResponse()->getContent());
-        $this->assertEquals(1, $pupularityList['total']);
-        $this->assertEquals(1, $pupularityList['count']);
-        $this->assertCount(1, $pupularityList['mirrorPopularities']);
-        $this->assertEquals($mirrorUrl, $pupularityList['mirrorPopularities'][0]['url']);
+        $popularityList = $this->assertMirrorPopularityList($client->getResponse()->getContent());
+        $this->assertEquals(1, $popularityList['total']);
+        $this->assertEquals(1, $popularityList['count']);
+        $this->assertCount(1, $popularityList['mirrorPopularities']);
+        $this->assertEquals($mirrorUrl, $popularityList['mirrorPopularities'][0]['url']);
     }
 
     public static function provideMirrorUrls(): array
