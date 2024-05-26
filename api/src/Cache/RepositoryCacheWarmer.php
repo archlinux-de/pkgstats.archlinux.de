@@ -2,6 +2,7 @@
 
 namespace App\Cache;
 
+use App\Repository\CountryRepository;
 use App\Repository\MirrorRepository;
 use App\Repository\PackageRepository;
 use App\Repository\SystemArchitectureRepository;
@@ -17,6 +18,7 @@ readonly class RepositoryCacheWarmer implements CacheWarmerInterface
         private PackageRepository $packageRepository,
         private SystemArchitectureRepository $systemArchitectureRepository,
         private MirrorRepository $mirrorRepository,
+        private CountryRepository $countryRepository,
         private LoggerInterface $logger,
         private string $environment
     ) {
@@ -40,6 +42,7 @@ readonly class RepositoryCacheWarmer implements CacheWarmerInterface
             $this->packageRepository->getMonthlyMaximumCountByRange(0, 0);
             $this->systemArchitectureRepository->getMonthlySumCountByRange(0, 0);
             $this->mirrorRepository->getMonthlySumCountByRange(0, 0);
+            $this->countryRepository->getMonthlySumCountByRange(0, 0);
 
             $this->logger->info('Repository caches warmed up');
         } catch (\Throwable $e) {

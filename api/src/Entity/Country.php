@@ -27,6 +27,8 @@ class Country
     #[Assert\Positive]
     private int $count = 1;
 
+    public const string CODE_REGEXP = '^[a-zA-Z]{2}$';
+
     public function __construct(string $code)
     {
         $this->code = $code;

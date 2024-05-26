@@ -2,6 +2,7 @@
 
 namespace App\Serializer;
 
+use App\Entity\CountryPopularityList;
 use App\Entity\MirrorPopularityList;
 use App\Entity\PackagePopularityList;
 use App\Entity\PopularityListInterface;
@@ -29,6 +30,7 @@ class PopularityListNormalizer implements NormalizerInterface
             && ($object instanceof MirrorPopularityList
                 || $object instanceof PackagePopularityList
                 || $object instanceof SystemArchitecturePopularityList
+                || $object instanceof CountryPopularityList
             )
         );
 
@@ -46,7 +48,8 @@ class PopularityListNormalizer implements NormalizerInterface
                         'query',
                         'mirrorPopularities',
                         'systemArchitecturePopularities',
-                        'packagePopularities'
+                        'packagePopularities',
+                        'countryPopularities'
                     ]
                 ]
             )
@@ -62,7 +65,10 @@ class PopularityListNormalizer implements NormalizerInterface
         return ($data instanceof PopularityListInterface
                 && ($data instanceof MirrorPopularityList
                     || $data instanceof PackagePopularityList
-                    || $data instanceof SystemArchitecturePopularityList)) && $format === 'json';
+                    || $data instanceof SystemArchitecturePopularityList
+                    || $data instanceof CountryPopularityList
+                )
+                            ) && $format === 'json';
     }
 
     public function getSupportedTypes(?string $format): array
@@ -72,6 +78,7 @@ class PopularityListNormalizer implements NormalizerInterface
             MirrorPopularityList::class => $format === 'json',
             PackagePopularityList::class => $format === 'json',
             SystemArchitecturePopularityList::class => $format === 'json',
+            CountryPopularityList::class => $format === 'json'
         ];
     }
 }

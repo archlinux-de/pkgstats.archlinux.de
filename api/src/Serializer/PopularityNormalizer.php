@@ -2,6 +2,7 @@
 
 namespace App\Serializer;
 
+use App\Entity\CountryPopularity;
 use App\Entity\MirrorPopularity;
 use App\Entity\PackagePopularity;
 use App\Entity\PopularityInterface;
@@ -30,6 +31,7 @@ class PopularityNormalizer implements NormalizerInterface
                 $object instanceof MirrorPopularity
                 || $object instanceof PackagePopularity
                 || $object instanceof SystemArchitecturePopularity
+                || $object instanceof CountryPopularity
             )
         );
 
@@ -42,6 +44,7 @@ class PopularityNormalizer implements NormalizerInterface
                     AbstractNormalizer::ATTRIBUTES => [
                         'name',
                         'url',
+                        'code',
                         'samples',
                         'count',
                         'popularity',
@@ -65,6 +68,7 @@ class PopularityNormalizer implements NormalizerInterface
                 $data instanceof MirrorPopularity
                 || $data instanceof PackagePopularity
                 || $data instanceof SystemArchitecturePopularity
+                || $data instanceof CountryPopularity
             )
             && $format === 'json');
     }
@@ -74,6 +78,9 @@ class PopularityNormalizer implements NormalizerInterface
         return [
             PopularityInterface::class => $format === 'json',
             MirrorPopularity::class => $format === 'json',
+            PackagePopularity::class => $format === 'json',
+            SystemArchitecturePopularity::class => $format === 'json',
+            CountryPopularity::class => $format === 'json'
         ];
     }
 }
