@@ -5,7 +5,7 @@
       <li class="nav-item">
         <router-link :to="{name: 'fun-detail', params: {category: category, preset: 'current'}}" class="nav-link" exact>current</router-link>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" data-test="graph-chart-link">
         <router-link :to="{name: 'fun-detail', params: {category: category, preset: 'history'}}" class="nav-link" exact>history</router-link>
       </li>
     </ul>

@@ -4,7 +4,6 @@ describe('Fun', () => {
   beforeEach(() => {
     cy.intercept({ method: 'GET', pathname: /^\/api\/packages\/[\w-]+$/ }).as('api-packages')
     cy.visit('/fun')
-    cy.wait('@api-packages')
   })
 
   it('shows title', () => {
@@ -15,21 +14,15 @@ describe('Fun', () => {
     cy.contains('a', 'Browsers')
   })
 
-  // it('shows packages', () => {
-  //   cy.get('[data-test-name=firefox] [role=progressbar][aria-valuenow*="."]').invoke('text').should('match', /^\d+/)
-  //   cy.contains('a', 'firefox')
-  // })
-
-  // it('scrolls down and loads lazy', () => {
-  //   const entries = Object.entries(FunConfig).flat(2)
-  //   const entriesLength = entries.length
-  //   const lastPackage = entries.at(-1)
-  //   const packageRowHeight = 30
-  //
-  //   cy.scrollTo(0, packageRowHeight * entriesLength)
-  //   cy.wait('@api-packages')
-  //
-  //   cy.get(`[data-test-name=${lastPackage}] [role=progressbar][aria-valuenow*="."]`, { timeout: 30000 }).invoke('text').should('match', /^\d+/)
-  //   cy.contains('a', lastPackage)
-  // })
+  it('navigates to fun detail page and shows charts', () => {
+    cy.get('[data-test=Browsers]').within(() => {
+      cy.get('a').click()
+    })
+    cy.wait('@api-packages')
+    cy.contains('h1', 'Browsers statistics')
+    cy.get('[data-test=packages-bar-chart]').should('have.length', 1)
+    cy.get('[data-test=graph-chart-link]').click()
+    cy.wait('@api-packages')
+    cy.assertCanvasIsNotEmpty('[data-test=package-chart][data-test-rendered=true][style]')
+  })
 })
