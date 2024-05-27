@@ -2,7 +2,7 @@
   <div>
     <div class="alert alert-danger" role="alert" v-if="error.length > 0">{{ error }}</div>
     <loading-spinner absolute v-if="isFetching"></loading-spinner>
-    <table class="table table-sm table-borderless" v-if="error.length === 0">
+    <table class="table table-sm table-borderless" v-if="error.length === 0" data-test="packages-bar-chart">
       <colgroup>
         <col class="w-25">
         <col class="w-75">
