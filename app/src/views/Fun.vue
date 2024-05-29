@@ -11,17 +11,19 @@
           </router-link>
         </div>
       </div>
-      <div class="col mm-grid">
-        <picture class="mm-overlapping">
-          <source :srcset="barChartImageLight" media="(prefers-color-scheme: light)"/>
-          <source :srcset="barChartImageDark"  media="(prefers-color-scheme: dark)"/>
-          <img alt="Package Bar Charts" height="96" width="353" :src="barChartImageDark" class="border border-primary-subtle shadow shadow-3"/>
-        </picture>
-        <picture class="mm-underlying">
-          <source :srcset="graphImageLight" media="(prefers-color-scheme: light)"/>
-          <source :srcset="graphImageDark"  media="(prefers-color-scheme: dark)"/>
-          <img alt="Package Graphs" height="150" width="340" :src="graphImageLight" class="border border-primary-subtle shadow shadow-3"/>
-        </picture>
+      <div class="col d-flex align-items-center">
+        <div class="mm-grid">
+          <picture class="mm-overlapping">
+            <source :srcset="barChartImageLight" media="(prefers-color-scheme: light)"/>
+            <source :srcset="barChartImageDark"  media="(prefers-color-scheme: dark)"/>
+            <img alt="Package Bar Charts" height="96" width="353" :src="barChartImageDark" class="border border-primary-subtle shadow shadow-3"/>
+          </picture>
+          <picture class="mm-underlying">
+            <source :srcset="graphImageLight" media="(prefers-color-scheme: light)"/>
+            <source :srcset="graphImageDark"  media="(prefers-color-scheme: dark)"/>
+            <img alt="Package Graphs" height="150" width="340" :src="graphImageLight" class="border border-primary-subtle shadow shadow-3"/>
+          </picture>
+        </div>
       </div>
     </div>
     <div class="mt-4">Contributions are welcome. For more information please refer to the repository
