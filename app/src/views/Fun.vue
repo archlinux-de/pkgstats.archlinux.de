@@ -12,20 +12,19 @@
       </div>
       <div class="col">
         <h2>Preview</h2>
-        <p>Chose a group of pre-selected packages...</p>
-        <picture>
-          <source :srcset="barChartImageLight" media="(prefers-color-scheme: light)"/>
-          <source :srcset="barChartImageDark"  media="(prefers-color-scheme: dark)"/>
-          <img alt="Package Bar Charts" height="129" width="435" :src="barChartImageDark" class="d-inline-block align-text-top"/>
-        </picture>
-        <div class="mt-2 mb-2">... and assess the current popularity or the development over time.</div>
-        <div>
-          <picture>
+        <div class="mm-grid">
+          <picture class="mm-overlapping">
+            <source :srcset="barChartImageLight" media="(prefers-color-scheme: light)"/>
+            <source :srcset="barChartImageDark"  media="(prefers-color-scheme: dark)"/>
+            <img alt="Package Bar Charts" height="129" width="435" :src="barChartImageDark" class="border border-primary-subtle shadow shadow-3"/>
+          </picture>
+          <picture class="mm-underlying">
             <source :srcset="graphImageLight" media="(prefers-color-scheme: light)"/>
             <source :srcset="graphImageDark"  media="(prefers-color-scheme: dark)"/>
-            <img alt="Package Graphs" height="244" width="434" :src="graphImageLight" class="d-inline-block align-text-top only-on-light"/>
+            <img alt="Package Graphs" height="210" width="400" :src="graphImageLight" class="border border-primary-subtle shadow shadow-3"/>
           </picture>
         </div>
+
       </div>
     </div>
   </div>
@@ -41,3 +40,25 @@ import barChartImageLight from '../assets/images/fun_barChart_lightMode.webp'
 
 useHead({ title: 'Fun statistics' })
 </script>
+
+<style scoped lang="scss">
+.mm-grid {
+  display: grid;
+  grid-template-columns: 4fr 2fr 2fr 3fr 6fr;
+}
+
+.mm-overlapping {
+  grid-row: 1 / span 2;
+  grid-column: 1 / span 2;
+  z-index: 2;
+}
+
+.mm-underlying {
+  grid-row: 2 / span 4;
+  grid-column: 2 / span 3;
+}
+
+.mm-underlying:hover {
+  z-index:3;
+}
+</style>
