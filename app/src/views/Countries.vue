@@ -16,6 +16,7 @@ useHead({ title: 'Country statistics' })
 
 const { data: countryPopularities, error } = useFetchCountryList()
 
+/* svgMap library crashes on short hex code usage */
 const normalizeColorFormat = color => {
   if (color.match(/^#([0-9a-fA-F]{3})$/)) {
     return `#${color[1]}${color[1]}${color[2]}${color[2]}${color[3]}${color[3]}`
@@ -49,7 +50,7 @@ onMounted(() => {
       data: {
         data: {
           popularity: {
-            name: 'market share',
+            name: 'share',
             format: '{0}%',
             thousandSeparator: ','
           }
