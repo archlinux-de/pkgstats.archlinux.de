@@ -17,6 +17,9 @@
               <router-link :to="{name: 'start'}" exact class="nav-link ms-3 fw-bold">Start</router-link>
             </li>
             <li class="nav-item">
+              <router-link :to="{name: 'countries'}" exact class="nav-link ms-3 fw-bold">Countries</router-link>
+            </li>
+            <li class="nav-item">
               <router-link :to="{name: 'packages'}" class="nav-link ms-3 fw-bold">Packages</router-link>
             </li>
             <li class="nav-item">
