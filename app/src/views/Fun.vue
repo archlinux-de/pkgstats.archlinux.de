@@ -47,7 +47,8 @@ useHead({ title: 'Fun statistics' })
 <style scoped lang="scss">
 .mm-grid {
   display: none;
-  @media (min-width: 992px) {
+  /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
+  @media (width >= 992px) {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
   }
