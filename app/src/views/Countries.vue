@@ -1,6 +1,7 @@
 <template>
   <div class="container" role="main">
     <h1 class="mb-4">Countries</h1>
+    Explore the distribution of the submitted package statistics.
     <div v-if="error" class="alert alert-danger" role="alert">{{ error }}</div>
     <div id="countries-map"></div>
   </div>
