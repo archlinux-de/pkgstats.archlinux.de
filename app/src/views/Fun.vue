@@ -12,13 +12,13 @@
         </div>
       </div>
       <div class="col d-flex align-items-center">
-        <div class="mm-grid">
-          <picture class="mm-overlapping">
+        <div class="chart-preview-grid">
+          <picture class="chart-preview-overlapping">
             <source :srcset="barChartImageLight" media="(prefers-color-scheme: light)"/>
             <source :srcset="barChartImageDark"  media="(prefers-color-scheme: dark)"/>
             <img loading="lazy" alt="Package Bar Charts" height="96" width="353" :src="barChartImageDark" class="border border-primary-subtle shadow shadow-3"/>
           </picture>
-          <picture class="mm-underlying">
+          <picture class="chart-preview-underlying">
             <source :srcset="graphImageLight" media="(prefers-color-scheme: light)"/>
             <source :srcset="graphImageDark"  media="(prefers-color-scheme: dark)"/>
             <img loading="lazy" alt="Package Graphs" height="150" width="340" :src="graphImageLight" class="border border-primary-subtle shadow shadow-3"/>
@@ -45,7 +45,7 @@ useHead({ title: 'Fun statistics' })
 </script>
 
 <style scoped lang="scss">
-.mm-grid {
+.chart-preview-grid {
   display: none;
   /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
   @media (width >= 992px) {
@@ -54,13 +54,13 @@ useHead({ title: 'Fun statistics' })
   }
 }
 
-.mm-overlapping {
+.chart-preview-overlapping {
   grid-row: 1 / span 2;
   grid-column: 1 / span 3;
   z-index: 2;
 }
 
-.mm-underlying {
+.chart-preview-underlying {
   grid-row: 2 / span 4;
   grid-column: 2 / span 3;
 }
