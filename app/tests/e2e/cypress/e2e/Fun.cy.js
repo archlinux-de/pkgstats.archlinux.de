@@ -1,5 +1,3 @@
-// import FunConfig from '../../../../src/config/fun.json'
-
 describe('Fun', () => {
   beforeEach(() => {
     cy.intercept({ method: 'GET', pathname: /^\/api\/packages\/[\w-]+$/ }).as('api-packages')
