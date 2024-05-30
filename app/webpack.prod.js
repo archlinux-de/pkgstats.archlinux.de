@@ -31,6 +31,7 @@ module.exports = {
       navigateFallbackAllowlist: [
         new RegExp('^/compare/packages$'),
         new RegExp('^/compare/system-architectures/[^/]+$'),
+        new RegExp('^/countries$'),
         new RegExp('^/fun$'),
         new RegExp('^/impressum$'),
         new RegExp('^/packages/[^/]+$'),
