@@ -23,8 +23,8 @@ module.exports = {
         test: /\.(webp)$/i,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]',
-          outputPath: 'assets/images'
+          name: '[name].[contenthash].[ext]',
+          outputPath: 'img'
         }
       }
     ]
