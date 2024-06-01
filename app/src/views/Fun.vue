@@ -27,7 +27,7 @@
       </div>
     </div>
     <div class="mt-4">Contributions are welcome. For more information please refer to the repository
-      <a href="https://github.com/archlinux-de/pkgstats.archlinux.de/blob/main/README.md">README</a>
+      <a href="https://github.com/archlinux-de/pkgstats.archlinux.de/blob/main/README.md#contributions">README</a>
       .
     </div>
   </div>
