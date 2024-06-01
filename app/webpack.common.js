@@ -20,7 +20,7 @@ module.exports = {
       { test: /\.svg$/, type: 'asset/resource', generator: { filename: 'img/[name].[contenthash].[ext]' } },
       { resourceQuery: /raw/, type: 'asset/source' },
       {
-        test: /\.(webp)$/i,
+        test: /\.(webp|png|jpe?g)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[contenthash].[ext]',
