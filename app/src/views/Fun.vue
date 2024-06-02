@@ -45,10 +45,14 @@ useHead({ title: 'Fun statistics' })
 </script>
 
 <style scoped lang="scss">
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+
 .chart-preview-grid {
   display: none;
   /* stylelint-disable-next-line plugin/no-unsupported-browser-features */
-  @media (width >= 992px) {
+  @include media-breakpoint-up(lg) {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
   }
