@@ -36,10 +36,10 @@
 <script setup>
 import { useHead } from '@vueuse/head'
 import FunConfig from '../config/fun.json'
-import graphImageDark from '../assets/images/fun_graph_darkMode.webp'
-import graphImageLight from '../assets/images/fun_graph_lightMode.webp'
-import barChartImageDark from '../assets/images/fun_barChart_darkMode.webp'
-import barChartImageLight from '../assets/images/fun_barChart_lightMode.webp'
+import graphImageDark from '../assets/images/fun_graph_darkMode.png'
+import graphImageLight from '../assets/images/fun_graph_lightMode.png'
+import barChartImageDark from '../assets/images/fun_barChart_darkMode.png'
+import barChartImageLight from '../assets/images/fun_barChart_lightMode.png'
 
 useHead({ title: 'Fun statistics' })
 </script>
