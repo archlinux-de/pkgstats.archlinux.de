@@ -15,7 +15,7 @@ class Mirror
     #[ORM\Id]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
-    #[Assert\Url(protocols: ['http', 'https', 'ftp'])]
+    #[Assert\Url(protocols: ['http', 'https', 'ftp'], requireTld: true)]
     private string $url;
 
     #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
