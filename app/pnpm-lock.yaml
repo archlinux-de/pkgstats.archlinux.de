@@ -28,7 +28,7 @@ importers:
         version: 2.0.0(vue@3.4.29)
       '@vueuse/router':
         specifier: ^10.11.0
-        version: 10.11.0(vue-router@4.3.3(vue@3.4.29))(vue@3.4.29)
+        version: 10.11.0(vue-router@4.4.0(vue@3.4.29))(vue@3.4.29)
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.19(postcss@8.4.38)
@@ -105,8 +105,8 @@ importers:
         specifier: ^17.4.2
         version: 17.4.2(@vue/compiler-sfc@3.4.29)(vue@3.4.29)(webpack@5.92.1(webpack-cli@5.1.4))
       vue-router:
-        specifier: ^4.3.3
-        version: 4.3.3(vue@3.4.29)
+        specifier: ^4.4.0
+        version: 4.4.0(vue@3.4.29)
       webpack:
         specifier: ^5.92.1
         version: 5.92.1(webpack-cli@5.1.4)
@@ -2293,8 +2293,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.4.807:
-    resolution: {integrity: sha512-kSmJl2ZwhNf/bcIuCH/imtNOKlpkLDn2jqT5FJ+/0CXjhnFaOa9cOe9gHKKy71eM49izwuQjZhKk+lWQ1JxB7A==}
+  electron-to-chromium@1.4.808:
+    resolution: {integrity: sha512-0ItWyhPYnww2VOuCGF4s1LTfbrdAV2ajy/TN+ZTuhR23AHI6rWHCrBXJ/uxoXOvRRqw8qjYVrG81HFI7x/2wdQ==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -4788,11 +4788,11 @@ packages:
       postcss-html: ^1.0.0
       stylelint: '>=14.0.0'
 
-  stylelint-config-recommended@14.0.0:
-    resolution: {integrity: sha512-jSkx290CglS8StmrLp2TxAppIajzIBZKYm3IxT89Kg6fGlxbPiTiyH9PS5YUuVAFwaJLl1ikiXX0QWjI0jmgZQ==}
+  stylelint-config-recommended@14.0.1:
+    resolution: {integrity: sha512-bLvc1WOz/14aPImu/cufKAZYfXs/A/owZfSMZ4N+16WGXLoX5lOir53M6odBxvhgmgdxCVnNySJmZKx73T93cg==}
     engines: {node: '>=18.12.0'}
     peerDependencies:
-      stylelint: ^16.0.0
+      stylelint: ^16.1.0
 
   stylelint-config-standard-scss@13.1.0:
     resolution: {integrity: sha512-Eo5w7/XvwGHWkeGLtdm2FZLOMYoZl1omP2/jgFCXyl2x5yNz7/8vv4Tj6slHvMSSUNTaGoam/GAZ0ZhukvalfA==}
@@ -4804,8 +4804,8 @@ packages:
       postcss:
         optional: true
 
-  stylelint-config-standard@36.0.0:
-    resolution: {integrity: sha512-3Kjyq4d62bYFp/Aq8PMKDwlgUyPU4nacXsjDLWJdNPRUgpuxALu1KnlAHIj36cdtxViVhXexZij65yM0uNIHug==}
+  stylelint-config-standard@36.0.1:
+    resolution: {integrity: sha512-8aX8mTzJ6cuO8mmD5yon61CWuIM4UD8Q5aBcWKGSf6kg+EC3uhB+iOywpTK4ca6ZL7B49en8yanOFtUW0qNzyw==}
     engines: {node: '>=18.12.0'}
     peerDependencies:
       stylelint: ^16.1.0
@@ -5159,8 +5159,8 @@ packages:
       vue:
         optional: true
 
-  vue-router@4.3.3:
-    resolution: {integrity: sha512-8Q+u+WP4N2SXY38FDcF2H1dUEbYVHVPtPCPZj/GTZx8RCbiB8AtJP9+YIxn4Vs0svMTNQcLIzka4GH7Utkx9xQ==}
+  vue-router@4.4.0:
+    resolution: {integrity: sha512-HB+t2p611aIZraV2aPSRNXf0Z/oLZFrlygJm+sZbdJaW6lcFqEDQwnzUBXn+DApw+/QzDU/I9TeWx9izEjTmsA==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -7226,11 +7226,11 @@ snapshots:
 
   '@vueuse/metadata@10.11.0': {}
 
-  '@vueuse/router@10.11.0(vue-router@4.3.3(vue@3.4.29))(vue@3.4.29)':
+  '@vueuse/router@10.11.0(vue-router@4.4.0(vue@3.4.29))(vue@3.4.29)':
     dependencies:
       '@vueuse/shared': 10.11.0(vue@3.4.29)
       vue-demi: 0.14.8(vue@3.4.29)
-      vue-router: 4.3.3(vue@3.4.29)
+      vue-router: 4.4.0(vue@3.4.29)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -7677,7 +7677,7 @@ snapshots:
   browserslist@4.23.1:
     dependencies:
       caniuse-lite: 1.0.30001636
-      electron-to-chromium: 1.4.807
+      electron-to-chromium: 1.4.808
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.1)
 
@@ -8245,7 +8245,7 @@ snapshots:
     dependencies:
       jake: 10.9.1
 
-  electron-to-chromium@1.4.807: {}
+  electron-to-chromium@1.4.808: {}
 
   emittery@0.13.1: {}
 
@@ -11045,7 +11045,7 @@ snapshots:
     dependencies:
       postcss-scss: 4.0.9(postcss@8.4.38)
       stylelint: 16.6.1
-      stylelint-config-recommended: 14.0.0(stylelint@16.6.1)
+      stylelint-config-recommended: 14.0.1(stylelint@16.6.1)
       stylelint-scss: 6.3.2(stylelint@16.6.1)
     optionalDependencies:
       postcss: 8.4.38
@@ -11056,9 +11056,9 @@ snapshots:
       semver: 7.6.2
       stylelint: 16.6.1
       stylelint-config-html: 1.1.0(postcss-html@1.7.0)(stylelint@16.6.1)
-      stylelint-config-recommended: 14.0.0(stylelint@16.6.1)
+      stylelint-config-recommended: 14.0.1(stylelint@16.6.1)
 
-  stylelint-config-recommended@14.0.0(stylelint@16.6.1):
+  stylelint-config-recommended@14.0.1(stylelint@16.6.1):
     dependencies:
       stylelint: 16.6.1
 
@@ -11066,14 +11066,14 @@ snapshots:
     dependencies:
       stylelint: 16.6.1
       stylelint-config-recommended-scss: 14.0.0(postcss@8.4.38)(stylelint@16.6.1)
-      stylelint-config-standard: 36.0.0(stylelint@16.6.1)
+      stylelint-config-standard: 36.0.1(stylelint@16.6.1)
     optionalDependencies:
       postcss: 8.4.38
 
-  stylelint-config-standard@36.0.0(stylelint@16.6.1):
+  stylelint-config-standard@36.0.1(stylelint@16.6.1):
     dependencies:
       stylelint: 16.6.1
-      stylelint-config-recommended: 14.0.0(stylelint@16.6.1)
+      stylelint-config-recommended: 14.0.1(stylelint@16.6.1)
 
   stylelint-no-unsupported-browser-features@8.0.1(stylelint@16.6.1):
     dependencies:
@@ -11535,7 +11535,7 @@ snapshots:
       '@vue/compiler-sfc': 3.4.29
       vue: 3.4.29
 
-  vue-router@4.3.3(vue@3.4.29):
+  vue-router@4.4.0(vue@3.4.29):
     dependencies:
       '@vue/devtools-api': 6.6.3
       vue: 3.4.29
