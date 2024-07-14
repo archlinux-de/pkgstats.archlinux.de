@@ -116,8 +116,8 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useIntersectionObserver } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
 import { useRouteHash, useRouteQuery } from '@vueuse/router'
@@ -126,6 +126,23 @@ import { useFetchPackageList } from '../composables/useFetchPackageList'
 import trash from 'bootstrap-icons/icons/trash.svg?raw'
 import plus from 'bootstrap-icons/icons/plus-lg.svg?raw'
 
+const route = useRoute()
+const router = useRouter()
+
+router.beforeEach((to, from) => {
+  if (from.name === "compare") {
+    console.log(from)
+    const comparedPackageNames = from.hash.split('=')[1].split(',')
+    console.log(comparedPackageNames)
+
+
+    // TODO: fetch package info for names
+    // and pass data to page
+    return {name: 'Packages', data: {"comparedPackageNames": comparedPackageNames}}
+  }
+})
+
+// @Todo: how does it work with a hash? why not a questionmark?
 const query = useRouteQuery('query', useRouteHash('').value.replace(/^#query=/, ''))
 const offset = ref(0)
 const limit = ref(60)
