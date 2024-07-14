@@ -1,65 +1,71 @@
 {
   "Browsers": [
-    "firefox",
+    "brave-bin",
     "chromium",
-    "google-chrome",
     "epiphany",
+    "firefox",
+    "google-chrome",
     "konqueror",
-    "torbrowser-launcher",
     "opera",
-    "vivaldi",
-    "brave-bin"
+    "torbrowser-launcher",
+    "vivaldi"
   ],
   "Editors": [
-    "nano",
-    "vi",
-    "vim",
-    "gedit",
-    "neovim",
-    "kate",
-    "emacs",
     "code",
-    "mousepad",
+    "emacs",
     "geany",
+    "gedit",
+    "helix",
+    "kakoune",
+    "kate",
+    "gnome-text-editor",
     "leafpad",
     "micro",
-    "kakoune"
+    "mousepad",
+    "nano",
+    "neovim",
+    "vi",
+    "vim",
+    "zed"
   ],
   "Desktop Environments": [
-    "plasma-workspace",
-    "gnome-shell",
-    "xfdesktop",
+    "budgie-desktop",
     "cinnamon",
+    "gnome-shell",
     "lxde-common",
     "mate-panel",
-    "budgie-desktop"
+    "plasma-workspace",
+    "xfdesktop"
   ],
   "File Managers": [
-    "thunar",
-    "nautilus",
+    "caja",
     "dolphin",
+    "konqueror",
     "mc",
+    "nautilus",
     "nemo",
     "pcmanfm",
-    "konqueror",
-    "caja"
+    "thunar"
   ],
   "Window Managers": [
-    "openbox",
-    "i3-wm",
     "awesome",
-    "sway",
-    "fluxbox"
+    "fluxbox",
+    "hyprland",
+    "i3-wm",
+    "openbox",
+    "sway"
   ],
   "Shells": [
     "bash",
-    "zsh",
-    "fish",
     "dash",
-    "tcsh"
+    "fish",
+    "nushell",
+    "tcsh",
+    "zsh"
   ],
   "Terminal Emulators": [
     "alacritty",
+    "gnome-console",
     "gnome-terminal",
     "konsole",
     "terminator",
@@ -68,24 +74,25 @@
     "yakuake"
   ],
   "Xorg GPU Drivers": [
-    "xf86-video-intel",
     "nvidia-utils",
     "xf86-video-amdgpu",
-    "xf86-video-nouveau",
     "xf86-video-ati",
-    "xf86-video-vmware",
-    "xf86-video-openchrome"
+    "xf86-video-intel",
+    "xf86-video-nouveau",
+    "xf86-video-openchrome",
+    "xf86-video-vmware"
   ],
   "Runtime Environments": [
-    "perl",
     "bash",
-    "python",
-    "lua",
-    "ruby",
-    "nodejs",
+    "deno",
+    "erlang-nox",
     "java-environment-common",
+    "lua",
+    "nodejs",
+    "perl",
     "php",
-    "erlang-nox"
+    "python",
+    "ruby"
   ],
   "System Languages": [
     "clang",
