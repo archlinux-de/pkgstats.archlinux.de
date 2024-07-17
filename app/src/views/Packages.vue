@@ -123,6 +123,7 @@ import { useHead } from '@vueuse/head'
 import { useRouteHash, useRouteQuery } from '@vueuse/router'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { useFetchPackageList } from '../composables/useFetchPackageList'
+import { useFetchPackagePopularity } from '../composables/useFetchPackagePopularity'
 import trash from 'bootstrap-icons/icons/trash.svg?raw'
 import plus from 'bootstrap-icons/icons/plus-lg.svg?raw'
 
@@ -133,12 +134,14 @@ router.beforeEach((to, from) => {
   if (from.name === "compare") {
     console.log(from)
     const comparedPackageNames = from.hash.split('=')[1].split(',')
-    console.log(comparedPackageNames)
-
-
-    // TODO: fetch package info for names
-    // and pass data to page
-    return {name: 'Packages', data: {"comparedPackageNames": comparedPackageNames}}
+    //console.log(comparedPackageNames)
+    let preselectedPackages = ref([])
+    comparedPackageNames.forEach((pkgName) => {
+      const { isFinished, isFetching, data, error } = useFetchPackagePopularity(pkgName)
+      preselectedPackages.value.push(data.value)
+    })
+    console.log(preselectedPackages.value)
+    return true
   }
 })
 
