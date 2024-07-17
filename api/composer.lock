@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c55e897721132f951ba068fc242ee4a7",
+    "content-hash": "6172fd4f9d3a3332dd6a288eae85bc65",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -5464,16 +5464,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.10.4",
+            "version": "4.10.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "88895afcfaac955ed061489a2b19a431bf58b3e2"
+                "reference": "0840dad40fd6759912485f34bfccf13b49b29226"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/88895afcfaac955ed061489a2b19a431bf58b3e2",
-                "reference": "88895afcfaac955ed061489a2b19a431bf58b3e2",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/0840dad40fd6759912485f34bfccf13b49b29226",
+                "reference": "0840dad40fd6759912485f34bfccf13b49b29226",
                 "shasum": ""
             },
             "require": {
@@ -5539,9 +5539,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/4.10.4"
+                "source": "https://github.com/zircote/swagger-php/tree/4.10.5"
             },
-            "time": "2024-07-10T02:06:32+00:00"
+            "time": "2024-07-16T03:13:27+00:00"
         }
     ],
     "packages-dev": [
@@ -6287,21 +6287,21 @@
         },
         {
             "name": "phpstan/phpstan-doctrine",
-            "version": "1.4.7",
+            "version": "1.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-doctrine.git",
-                "reference": "3f2cb3d364851e54080277499a9a7c150364538d"
+                "reference": "fa497c5cf8a3f9cd3db8cb4033daf5244793d3e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/3f2cb3d364851e54080277499a9a7c150364538d",
-                "reference": "3f2cb3d364851e54080277499a9a7c150364538d",
+                "url": "https://api.github.com/repos/phpstan/phpstan-doctrine/zipball/fa497c5cf8a3f9cd3db8cb4033daf5244793d3e1",
+                "reference": "fa497c5cf8a3f9cd3db8cb4033daf5244793d3e1",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.11"
+                "phpstan/phpstan": "^1.11.7"
             },
             "conflict": {
                 "doctrine/collections": "<1.0",
@@ -6353,9 +6353,9 @@
             "description": "Doctrine extensions for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-doctrine/issues",
-                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.4.7"
+                "source": "https://github.com/phpstan/phpstan-doctrine/tree/1.4.8"
             },
-            "time": "2024-07-12T20:28:45+00:00"
+            "time": "2024-07-16T11:31:01+00:00"
         },
         {
             "name": "phpstan/phpstan-phpunit",
@@ -6411,22 +6411,22 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "1.4.5",
+            "version": "1.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "1bd7c339f622dfb5a1a97dcaf1a862734eabfa1d"
+                "reference": "e909a075d69e0d4db262ac3407350ae2c6b6ab5f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/1bd7c339f622dfb5a1a97dcaf1a862734eabfa1d",
-                "reference": "1bd7c339f622dfb5a1a97dcaf1a862734eabfa1d",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/e909a075d69e0d4db262ac3407350ae2c6b6ab5f",
+                "reference": "e909a075d69e0d4db262ac3407350ae2c6b6ab5f",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*",
                 "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.11"
+                "phpstan/phpstan": "^1.11.7"
             },
             "conflict": {
                 "symfony/framework-bundle": "<3.0"
@@ -6477,9 +6477,9 @@
             "description": "Symfony Framework extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/1.4.5"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/1.4.6"
             },
-            "time": "2024-06-26T12:19:42+00:00"
+            "time": "2024-07-16T11:48:54+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
