@@ -4,7 +4,7 @@ import { useFetchPackagePopularity } from './useFetchPackagePopularity'
 const sortPackagesByPopularity = packagePopularities => packagePopularities.sort((a, b) => Math.sign(b.popularity - a.popularity))
 
 /**
- * @param {array<string>} pkgs
+ * @param {ref<array>} pkgs
  * @returns {Promise<any>}
  */
 export const useFetchPackagesPopularity = (pkgs) => {
