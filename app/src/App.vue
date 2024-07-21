@@ -1,5 +1,12 @@
 <template>
   <div id="page">
+    <Head>
+      <title>pkgstats</title>
+      <meta name="robots" content="index,follow">
+      <meta name="theme-color" content="#333">
+      <link rel="icon" :href="IconImage" sizes="any" type="image/svg+xml">
+      <link rel="manifest" href="/manifest.webmanifest">
+    </Head>
     <nav class="navbar navbar-expand-md navbar-dark navbar-border-brand bg-dark nav-no-outline mb-4">
       <div class="container-fluid">
         <router-link :to="{name: 'start'}" class="navbar-brand">
@@ -92,29 +99,17 @@ pre:has(> code) {
 
 <script setup>
 import Collapse from 'bootstrap/js/src/collapse'
-import LogoImage from './assets/images/archlogo.svg'
-import IconImage from './assets/images/archicon.svg'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHead } from '@vueuse/head'
+import { Head } from '@vueuse/head'
+import LogoImage from '~/assets/images/archlogo.svg'
+import IconImage from '~/assets/images/archicon.svg'
 
 useRouter().beforeEach(() => {
   const navbar = Collapse.getInstance('#archlinux-navbar')
   if (navbar) {
     navbar.hide()
   }
-})
-
-useHead({
-  title: 'pkgstats',
-  meta: [
-    { name: 'robots', content: 'index,follow' },
-    { name: 'theme-color', content: '#333' }
-  ],
-  link: [
-    { rel: 'icon', href: IconImage, sizes: 'any', type: 'image/svg+xml' },
-    { rel: 'manifest', href: '/manifest.webmanifest' }
-  ]
 })
 
 onMounted(() => {
