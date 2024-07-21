@@ -52,10 +52,10 @@
             You can only compare up to 10 packages.
         </div>
       </div>
-<!--      <div v-else class="mb-2">-->
-<!--        No packages selected. Use the search below to add packages-->
-<!--        and allow the generation of a comparison graph over time.-->
-<!--      </div>-->
+      <div v-else class="mb-2">
+        No packages selected. Use the search below to add packages
+        and allow the generation of a comparison graph over time.
+      </div>
     </div>
 
     <loading-spinner v-if="isFetching2"></loading-spinner>
