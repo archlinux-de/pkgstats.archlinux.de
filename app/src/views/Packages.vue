@@ -3,7 +3,7 @@
     <h1 class="mb-4">Package statistics & comparison</h1>
 
     <h2>Package comparison</h2>
-    <div class="mb-4">
+    <div v-if="isFinished2 && !error2" class="mb-4">
       <div class="mb-2" v-if="selectedPackages.length > 0">
         <table class="table table-striped table-borderless table-sm">
           <thead>
@@ -52,11 +52,14 @@
             You can only compare up to 10 packages.
         </div>
       </div>
-      <div v-else class="mb-2">
-        No packages selected. Use the search below to add packages
-        and allow the generation of a comparison graph over time.
-      </div>
+<!--      <div v-else class="mb-2">-->
+<!--        No packages selected. Use the search below to add packages-->
+<!--        and allow the generation of a comparison graph over time.-->
+<!--      </div>-->
     </div>
+
+    <loading-spinner v-if="isFetching2"></loading-spinner>
+    <div role="alert" class="alert alert-danger" v-if="error2">{{ error2 }}</div>
 
     <h2>Package Search</h2>
     <div class="input-group mb-4">
@@ -117,7 +120,7 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { useIntersectionObserver } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
 import { useRouteHash, useRouteQuery } from '@vueuse/router'
@@ -127,41 +130,32 @@ import trash from 'bootstrap-icons/icons/trash.svg?raw'
 import plus from 'bootstrap-icons/icons/plus-lg.svg?raw'
 import { useFetchPackagesPopularity } from '../composables/useFetchPackagesPopularity'
 
-const router = useRouter()
-
-router.beforeEach((to, from) => {
-
-  if (from.name === "compare") {
-    const comparedPackageNames = from.hash.split('=')[1].split(',')
-    const { isFinished, isFetching, data, error} = useFetchPackagesPopularity(comparedPackageNames)
-    if (isFinished) {
-      to.meta.preselectedPackages = data
-      return true
-    } else {
-      route.meta.preselectedPackages = null
-      return true
-    }
-  }
-})
-
-// @Todo: how does it work with a hash? why not a questionmark?
 const query = useRouteQuery('query', useRouteHash('').value.replace(/^#query=/, ''))
 const offset = ref(0)
 const limit = ref(60)
 
-const route = useRoute()
-const selectedPackages = route.meta.preselectedPackages ??  ref([])
+const compare = useRouteQuery('compare', '')
+const selectedPackageNames = computed(() => compare.value.split(','))
 
-const selectedPackageNames = computed(() => (selectedPackages.value.map((pkg) => pkg.name)))
+const selectedPackages = ref([])
+const { isFinished2, isFetching2, data2, error2 } = useFetchPackagesPopularity(selectedPackageNames)
+if (isFinished2) {
+  selectedPackages.value = data2
+}
+
+console.log('selectedPackages', selectedPackages)
 const togglePackageSelected = (pkg) => {
   if (selectedPackages.value.length > 0) {
     if (isPackageSelected(pkg)) {
       selectedPackages.value = selectedPackages.value.filter((selectedPkg) => selectedPkg.name !== pkg.name)
+      compare.value = compare.value.split(',').filter((pkgName) => pkg.name !== pkgName).join(',')
     } else {
       selectedPackages.value.push(pkg)
+      compare.value = compare.value + ',' + pkg.name
     }
   } else {
     selectedPackages.value.push(pkg)
+    compare.value = compare.value + pkg.name
   }
 }
 
