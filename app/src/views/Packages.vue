@@ -116,32 +116,31 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useIntersectionObserver } from '@vueuse/core'
 import { useHead } from '@vueuse/head'
 import { useRouteHash, useRouteQuery } from '@vueuse/router'
 import LoadingSpinner from '../components/LoadingSpinner'
 import { useFetchPackageList } from '../composables/useFetchPackageList'
-import { useFetchPackagePopularity } from '../composables/useFetchPackagePopularity'
 import trash from 'bootstrap-icons/icons/trash.svg?raw'
 import plus from 'bootstrap-icons/icons/plus-lg.svg?raw'
+import { useFetchPackagesPopularity } from '../composables/useFetchPackagesPopularity'
 
-const route = useRoute()
 const router = useRouter()
 
 router.beforeEach((to, from) => {
+
   if (from.name === "compare") {
-    console.log(from)
     const comparedPackageNames = from.hash.split('=')[1].split(',')
-    //console.log(comparedPackageNames)
-    let preselectedPackages = ref([])
-    comparedPackageNames.forEach((pkgName) => {
-      const { isFinished, isFetching, data, error } = useFetchPackagePopularity(pkgName)
-      preselectedPackages.value.push(data.value)
-    })
-    console.log(preselectedPackages.value)
-    return true
+    const { isFinished, isFetching, data, error} = useFetchPackagesPopularity(comparedPackageNames)
+    if (isFinished) {
+      to.meta.preselectedPackages = data
+      return true
+    } else {
+      route.meta.preselectedPackages = null
+      return true
+    }
   }
 })
 
@@ -150,7 +149,9 @@ const query = useRouteQuery('query', useRouteHash('').value.replace(/^#query=/, 
 const offset = ref(0)
 const limit = ref(60)
 
-const selectedPackages = ref([])
+const route = useRoute()
+const selectedPackages = route.meta.preselectedPackages ??  ref([])
+
 const selectedPackageNames = computed(() => (selectedPackages.value.map((pkg) => pkg.name)))
 const togglePackageSelected = (pkg) => {
   if (selectedPackages.value.length > 0) {
