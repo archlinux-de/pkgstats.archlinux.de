@@ -134,7 +134,15 @@ const offset = ref(0)
 const limit = ref(60)
 
 const compare = useRouteQuery('compare', '')
-const selectedPackageNames = computed(() => compare.value ? compare.value.split(',') : [])
+// remove duplicates if the user enters packages in the url directly
+compare.value = [...new Set(compare.value.split(','))].slice(0, 10).join(',')
+
+const selectedPackageNames = computed(() => {
+  if (compare.value) {
+    return [...new Set(compare.value.split(','))].slice(0, 10)
+  }
+  return []
+})
 
 const { isFinished: isFinished2, isFetching: isFetching2, data: selectedPackages, error: error2 } = useFetchPackagesPopularity(selectedPackageNames)
 
