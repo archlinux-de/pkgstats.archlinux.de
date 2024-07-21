@@ -2,12 +2,16 @@ const { VueLoaderPlugin } = require('vue-loader')
 const CopyPlugin = require('copy-webpack-plugin')
 const HtmlPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
+const path = require('path')
 
 module.exports = {
   entry: { app: ['./src/main.js'] },
   output: { publicPath: '/' },
   resolve: {
     extensions: ['.js', '.vue'],
+    alias: {
+      '~': path.resolve(__dirname, './src/')
+    },
     fallback: {
       buffer: require.resolve('buffer/'),
       stream: require.resolve('stream-browserify')
