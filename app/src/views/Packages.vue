@@ -28,8 +28,8 @@
               </div>
             </td>
             <td class="align-middle">
-              <button data-test="toggle-pkg-in-comparison-table" class="d-flex btn w-100 p-0 b-none" @click="togglePackageSelected(pkg)">
-                <template v-if="isPackageSelected(pkg)">
+              <button data-test="toggle-pkg-in-comparison-table" class="d-flex btn w-100 p-0 b-none" @click="togglePackageSelected(pkg.name)">
+                <template v-if="isPackageSelected(pkg.name)">
                   <span v-html="trash" class="d-inline-flex text-primary justify-content-center w-100"></span>
                 </template>
                 <template v-else>
@@ -92,8 +92,8 @@
             </div>
           </td>
           <td class="align-middle">
-            <button data-test="toggle-pkg-in-popularity-table" class="d-flex btn w-100 p-0 b-none" @click="togglePackageSelected(pkg)">
-              <template v-if="isPackageSelected(pkg)">
+            <button data-test="toggle-pkg-in-popularity-table" class="d-flex btn w-100 p-0 b-none" @click="togglePackageSelected(pkg.name)">
+              <template v-if="isPackageSelected(pkg.name)">
                 <span v-html="trash" class="text-primary d-inline-flex justify-content-center w-100"></span>
               </template>
               <template v-else>
@@ -138,15 +138,15 @@ const selectedPackageNames = computed(() => compare.value ? compare.value.split(
 
 const { isFinished: isFinished2, isFetching: isFetching2, data: selectedPackages, error: error2 } = useFetchPackagesPopularity(selectedPackageNames)
 
-const isPackageSelected = (pkg) => selectedPackages.value.map(selectedPackage => selectedPackage.name).includes(pkg.name)
+const isPackageSelected = (pkgName) => selectedPackageNames.value.includes(pkgName)
 
-const togglePackageSelected = (pkg) => {
-  const pkgIndex = selectedPackageNames.value.indexOf(pkg.name)
+const togglePackageSelected = (pkgName) => {
+  const pkgIndex = selectedPackageNames.value.indexOf(pkgName)
   if (pkgIndex > -1) {
     // Remove element as computed array is readonly
     selectedPackageNames.value.splice(pkgIndex, 1)
   } else {
-    selectedPackageNames.value.push(pkg.name)
+    selectedPackageNames.value.push(pkgName)
   }
 
   compare.value = [...new Set(selectedPackageNames.value)].sort().slice(0, 10).join(',')
