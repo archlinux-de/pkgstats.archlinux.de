@@ -134,8 +134,8 @@ const offset = ref(0)
 const limit = ref(60)
 
 const compare = useRouteQuery('compare', '')
-// remove duplicates if the user enters packages in the url directly
 const tmp = compare.value.split(',').filter(value => value.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]+$/))
+// remove duplicates if the user enters packages in the url directly
 compare.value = [...new Set(tmp)].sort().slice(0, 10).join(',')
 
 const selectedPackageNames = computed(() => {
