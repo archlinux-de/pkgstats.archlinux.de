@@ -3,7 +3,7 @@
     <h1 class="mb-4">Package statistics & comparison</h1>
 
     <h2>Package comparison</h2>
-    <div v-if="isFinished2 && !error2" class="mb-4">
+    <div v-if="isFinished2 && error2.length === 0" class="mb-4">
       <div class="mb-2" v-if="selectedPackages.length > 0">
         <table class="table table-striped table-borderless table-sm">
           <thead>
@@ -59,7 +59,6 @@
     </div>
 
     <loading-spinner v-if="isFetching2"></loading-spinner>
-    <div role="alert" class="alert alert-danger" v-if="error2">{{ error2 }}</div>
 
     <h2>Package Search</h2>
     <div class="input-group mb-4">
@@ -135,27 +134,23 @@ const offset = ref(0)
 const limit = ref(60)
 
 const compare = useRouteQuery('compare', '')
-const selectedPackageNames = computed(() => compare.value.split(','))
+const selectedPackageNames = computed(() => compare.value ? compare.value.split(',') : [])
 
-const { isFinished2, isFetching2, selectedPackages, error2 } = useFetchPackagesPopularity(selectedPackageNames)
+const { isFinished: isFinished2, isFetching: isFetching2, data: selectedPackages, error: error2 } = useFetchPackagesPopularity(selectedPackageNames)
 
 const isPackageSelected = (pkg) => selectedPackages.value.map(selectedPackage => selectedPackage.name).includes(pkg.name)
 
 const togglePackageSelected = (pkg) => {
-  if (selectedPackages.value.length > 0) {
-    if (isPackageSelected(pkg)) {
-      selectedPackages.value = selectedPackages.value.filter((selectedPkg) => selectedPkg.name !== pkg.name)
-      compare.value = compare.value.split(',').filter((pkgName) => pkg.name !== pkgName).join(',')
-    } else {
-      selectedPackages.value.push(pkg)
-      compare.value = compare.value + ',' + pkg.name
-    }
+  const pkgIndex = selectedPackageNames.value.indexOf(pkg.name)
+  if (pkgIndex > -1) {
+    // Remove element as computed array is readonly
+    selectedPackageNames.value.splice(pkgIndex, 1)
   } else {
-    selectedPackages.value.push(pkg)
-    compare.value = compare.value + pkg.name
+    selectedPackageNames.value.push(pkg.name)
   }
-}
 
+  compare.value = [...new Set(selectedPackageNames.value)].sort().slice(0, 10).join(',')
+}
 
 const { isFinished, isFetching, data, error } = useFetchPackageList(query, offset, limit)
 
