@@ -33,7 +33,7 @@ export const useFetchPackagesPopularity = (pkgs) => {
       isFetching.value = false
     })
 
-  watch(() => pkgs, fetchPkgData, { immediate: true })
+  watch(pkgs, fetchPkgData, { immediate: true })
 
   return {
     data,
