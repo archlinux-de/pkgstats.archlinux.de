@@ -137,13 +137,10 @@ const limit = ref(60)
 const compare = useRouteQuery('compare', '')
 const selectedPackageNames = computed(() => compare.value.split(','))
 
-const selectedPackages = ref([])
-const { isFinished2, isFetching2, data2, error2 } = useFetchPackagesPopularity(selectedPackageNames)
-if (isFinished2) {
-  selectedPackages.value = data2
-}
+const { isFinished2, isFetching2, selectedPackages, error2 } = useFetchPackagesPopularity(selectedPackageNames)
 
-console.log('selectedPackages', selectedPackages)
+const isPackageSelected = (pkg) => selectedPackages.value.map(selectedPackage => selectedPackage.name).includes(pkg.name)
+
 const togglePackageSelected = (pkg) => {
   if (selectedPackages.value.length > 0) {
     if (isPackageSelected(pkg)) {
@@ -159,7 +156,6 @@ const togglePackageSelected = (pkg) => {
   }
 }
 
-const isPackageSelected = (pkg) => selectedPackages.value.map(selectedPackage => selectedPackage.name).includes(pkg.name)
 
 const { isFinished, isFetching, data, error } = useFetchPackageList(query, offset, limit)
 
