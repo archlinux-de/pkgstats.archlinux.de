@@ -32,4 +32,11 @@ describe('Compare', () => {
       expect(loc.hash).to.eq('#packages=bash,linux')
     })
   })
+
+  it('generates the correct "edit selection" link', () => {
+    cy.visit('/compare/packages#packages=nano,vim,nano')
+    cy.wait('@api-packages-series')
+
+    cy.get('[data-test-id="edit-selection-cta"]').should('have.attr', 'href', '/packages?compare=nano,vim')
+  })
 })
