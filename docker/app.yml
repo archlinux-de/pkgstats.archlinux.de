@@ -59,8 +59,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-    volumes:
-      - ./mariadb/conf.d:/etc/mysqld/conf.d:ro
     tmpfs:
       - /tmp
       - /var/lib/mysql
