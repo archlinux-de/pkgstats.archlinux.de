@@ -72,24 +72,11 @@ $textColor: var(--bs-body-color);
 $textColorLight: var(--bs-secondary-color);
 $oceanColor: transparent;
 $mapActiveStrokeColor: var(--bs-link-hover-color);
+$mapControlsColor: var(--bs-body-color);
+$mapControlsBackgroundColor: var(--bs-body-bg);
+$mapTooltipColor: var(--bs-body-color);
+$mapTooltipBackgroundColor: var(--bs-body-bg);
 
 @import "~svgmap/src/scss/map";
 @import "~svgmap/src/scss/tooltip";
-
-.svgMap-map-controls-wrapper {
-  .svgMap-map-controls-zoom,
-  .svgMap-map-controls-move {
-    color: var(--bs-body-color);
-    background-color: var(--bs-body-bg);
-  }
-}
-
-.svgMap-tooltip {
-  color: var(--bs-body-color);
-  background-color: var(--bs-body-bg);
-
-  .svgMap-tooltip-pointer::after {
-    background-color: var(--bs-body-bg);
-  }
-}
 </style>
