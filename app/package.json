@@ -10,7 +10,7 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.4",
     "@fullhuman/postcss-purgecss": "^6.0.0",
-    "@vue/compiler-sfc": "^3.4.38",
+    "@vue/compiler-sfc": "^3.5.4",
     "@vueuse/core": "^11.0.3",
     "@vueuse/head": "^2.0.0",
     "@vueuse/router": "^11.0.3",
@@ -28,18 +28,18 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.9.1",
-    "postcss": "^8.4.41",
+    "postcss": "^8.4.45",
     "postcss-html": "^1.7.0",
     "postcss-loader": "^8.1.1",
-    "sass": "^1.77.8",
+    "sass": "^1.78.0",
     "sass-loader": "^16.0.1",
     "stream-browserify": "^3.0.0",
     "style-loader": "^4.0.0",
     "svgmap": "^2.11.1",
     "swagger-ui": "^5.17.14",
-    "vue": "^3.4.38",
+    "vue": "^3.5.4",
     "vue-loader": "^17.4.2",
-    "vue-router": "^4.4.3",
+    "vue-router": "^4.4.4",
     "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
     "webpack-merge": "^6.0.1",
@@ -50,17 +50,17 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-compat": "^6.0.0",
     "eslint-plugin-cypress": "^3.5.0",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-import": "^2.30.0",
     "eslint-plugin-n": "^17.10.2",
     "eslint-plugin-promise": "^7.1.0",
-    "eslint-plugin-vue": "^9.27.0",
+    "eslint-plugin-vue": "^9.28.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "stylelint": "^16.9.0",
     "stylelint-config-recommended-vue": "^1.5.0",
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-no-unsupported-browser-features": "^8.0.1",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-dev-server": "^5.1.0"
   },
   "engines": {
     "node": ">=22"
@@ -70,6 +70,9 @@
       "ignoreDependencies": [
         "eslint"
       ]
+    },
+    "overrides": {
+      "caniuse-lite": "1.0.30001654"
     }
   }
 }
