@@ -66,8 +66,6 @@ onMounted(() => {
 
 <style lang="scss">
 /* stylelint-disable */
-@import "~svgmap/src/scss/variables";
-
 $textColor: var(--bs-body-color);
 $textColorLight: var(--bs-secondary-color);
 $oceanColor: transparent;
@@ -77,6 +75,5 @@ $mapControlsBackgroundColor: var(--bs-body-bg);
 $mapTooltipColor: var(--bs-body-color);
 $mapTooltipBackgroundColor: var(--bs-body-bg);
 
-@import "~svgmap/src/scss/map";
-@import "~svgmap/src/scss/tooltip";
+@import "~svgmap/src/scss/main";
 </style>
