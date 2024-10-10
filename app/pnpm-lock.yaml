@@ -128,7 +128,7 @@ importers:
         version: 8.57.0
       eslint-config-standard:
         specifier: ^17.1.0
-        version: 17.1.0(eslint-plugin-import@2.31.0(eslint@8.57.0))(eslint-plugin-n@17.10.3(eslint@8.57.0))(eslint-plugin-promise@7.1.0(eslint@8.57.0))(eslint@8.57.0)
+        version: 17.1.0(eslint-plugin-import@2.31.0(eslint@8.57.0))(eslint-plugin-n@17.11.1(eslint@8.57.0))(eslint-plugin-promise@7.1.0(eslint@8.57.0))(eslint@8.57.0)
       eslint-plugin-compat:
         specifier: ^6.0.1
         version: 6.0.1(eslint@8.57.0)
@@ -139,8 +139,8 @@ importers:
         specifier: ^2.31.0
         version: 2.31.0(eslint@8.57.0)
       eslint-plugin-n:
-        specifier: ^17.10.3
-        version: 17.10.3(eslint@8.57.0)
+        specifier: ^17.11.1
+        version: 17.11.1(eslint@8.57.0)
       eslint-plugin-promise:
         specifier: ^7.1.0
         version: 7.1.0(eslint@8.57.0)
@@ -1976,8 +1976,8 @@ packages:
     peerDependencies:
       postcss: ^8.0.9
 
-  css-functions-list@3.2.2:
-    resolution: {integrity: sha512-c+N0v6wbKVxTu5gOBBFkr9BEdBWaqqjQeiJ8QvSRIJOf+UxlJh930m8e6/WNeODIK0mYLFkoONrnj16i2EcvfQ==}
+  css-functions-list@3.2.3:
+    resolution: {integrity: sha512-IQOkD3hbR5KrN93MtcYuad6YPuTSUhntLHDuLEbFWE+ff2/XSZNdZG+LcbbIW5AXKg/WFIfYItIzVoHngHXZzA==}
     engines: {node: '>=12 || >=16'}
 
   css-loader@7.1.2:
@@ -2287,8 +2287,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.33:
-    resolution: {integrity: sha512-+cYTcFB1QqD4j4LegwLfpCNxifb6dDFUAwk6RsLusCwIaZI6or2f+q8rs5tTB2YC53HhOlIbEaqHMAAC8IOIwA==}
+  electron-to-chromium@1.5.35:
+    resolution: {integrity: sha512-hOSRInrIDm0Brzp4IHW2F/VM+638qOL2CzE0DgpnGzKW27C95IqqeqgKz/hxHGnvPxvQGpHUGD5qRVC9EZY2+A==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -2458,8 +2458,8 @@ packages:
       '@typescript-eslint/parser':
         optional: true
 
-  eslint-plugin-n@17.10.3:
-    resolution: {integrity: sha512-ySZBfKe49nQZWR1yFaA0v/GsH6Fgp8ah6XV0WDz6CN8WO0ek4McMzb7A2xnf4DCYV43frjCygvb9f/wx7UUxRw==}
+  eslint-plugin-n@17.11.1:
+    resolution: {integrity: sha512-93IUD82N6tIEgjztVI/l3ElHtC2wTa9boJHrD8iN+NyDxjxz/daZUZKfkedjBZNdg6EqDk4irybUsiPwDqXAEA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8.23.0'
@@ -2783,8 +2783,8 @@ packages:
     resolution: {integrity: sha512-AhO5QUcj8llrbG09iWhPU2B204J1xnPeL8kQmVorSsy+Sjj1sk8gIyh6cUocGmH4L0UuhAJy+hJMRA4mgA4mFQ==}
     engines: {node: '>=8'}
 
-  globals@15.10.0:
-    resolution: {integrity: sha512-tqFIbz83w4Y5TCbtgjZjApohbuh7K9BxGYFm7ifwDR240tvdb7P9x+/9VvUKlmkPoiknoJtanI8UOrqxS3a7lQ==}
+  globals@15.11.0:
+    resolution: {integrity: sha512-yeyNSjdbyVaWurlwCpcA6XNBrHTMIeDdj0/hnvX/OLJ9ekOXYbLsLinH/MucQyGvNnXhidTdNhTtJaffL2sMfw==}
     engines: {node: '>=18'}
 
   globalthis@1.0.4:
@@ -7663,7 +7663,7 @@ snapshots:
   browserslist@4.24.0:
     dependencies:
       caniuse-lite: 1.0.30001654
-      electron-to-chromium: 1.5.33
+      electron-to-chromium: 1.5.35
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.0)
 
@@ -7924,7 +7924,7 @@ snapshots:
     dependencies:
       postcss: 8.4.47
 
-  css-functions-list@3.2.2: {}
+  css-functions-list@3.2.3: {}
 
   css-loader@7.1.2(webpack@5.95.0):
     dependencies:
@@ -8232,7 +8232,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.33: {}
+  electron-to-chromium@1.5.35: {}
 
   emittery@0.13.1: {}
 
@@ -8367,11 +8367,11 @@ snapshots:
       eslint: 8.57.0
       semver: 7.6.3
 
-  eslint-config-standard@17.1.0(eslint-plugin-import@2.31.0(eslint@8.57.0))(eslint-plugin-n@17.10.3(eslint@8.57.0))(eslint-plugin-promise@7.1.0(eslint@8.57.0))(eslint@8.57.0):
+  eslint-config-standard@17.1.0(eslint-plugin-import@2.31.0(eslint@8.57.0))(eslint-plugin-n@17.11.1(eslint@8.57.0))(eslint-plugin-promise@7.1.0(eslint@8.57.0))(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
       eslint-plugin-import: 2.31.0(eslint@8.57.0)
-      eslint-plugin-n: 17.10.3(eslint@8.57.0)
+      eslint-plugin-n: 17.11.1(eslint@8.57.0)
       eslint-plugin-promise: 7.1.0(eslint@8.57.0)
 
   eslint-import-resolver-node@0.3.9:
@@ -8399,7 +8399,7 @@ snapshots:
       caniuse-lite: 1.0.30001654
       eslint: 8.57.0
       find-up: 5.0.0
-      globals: 15.10.0
+      globals: 15.11.0
       lodash.memoize: 4.1.2
       semver: 7.6.3
 
@@ -8442,14 +8442,14 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-n@17.10.3(eslint@8.57.0):
+  eslint-plugin-n@17.11.1(eslint@8.57.0):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
       enhanced-resolve: 5.17.1
       eslint: 8.57.0
       eslint-plugin-es-x: 7.8.0(eslint@8.57.0)
       get-tsconfig: 4.8.1
-      globals: 15.10.0
+      globals: 15.11.0
       ignore: 5.3.2
       minimatch: 9.0.5
       semver: 7.6.3
@@ -8855,7 +8855,7 @@ snapshots:
     dependencies:
       type-fest: 0.20.2
 
-  globals@15.10.0: {}
+  globals@15.11.0: {}
 
   globalthis@1.0.4:
     dependencies:
@@ -11079,7 +11079,7 @@ snapshots:
       balanced-match: 2.0.0
       colord: 2.9.3
       cosmiconfig: 9.0.0
-      css-functions-list: 3.2.2
+      css-functions-list: 3.2.3
       css-tree: 2.3.1
       debug: 4.3.7
       fast-glob: 3.3.2
