@@ -41,6 +41,11 @@ class CountryFixtures extends Fixture
             for ($i = 0; $i < mt_rand(1, 6_000); $i++) {
                 $country->incrementCount();
             }
+            $f = $this->validator->validate($country);
+            if ($f->count() > 0) {
+                var_dump($f);
+//                    exit;
+            }
             assert($this->validator->validate($country)->count() === 0);
             yield $country;
         }

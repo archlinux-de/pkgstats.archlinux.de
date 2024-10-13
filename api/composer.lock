@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "341d26fd5f4396094f5f74cde056c758",
+    "content-hash": "bbb9d69f24d80b2057ffcadbe756bfd9",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -1082,16 +1082,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "2.19.8",
+            "version": "2.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "c2c500077b1ec9d0a829fdf7c8d18e448b501605"
+                "reference": "8ed6c2234aba019f9737a6bcc9516438e62da27c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/c2c500077b1ec9d0a829fdf7c8d18e448b501605",
-                "reference": "c2c500077b1ec9d0a829fdf7c8d18e448b501605",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/8ed6c2234aba019f9737a6bcc9516438e62da27c",
+                "reference": "8ed6c2234aba019f9737a6bcc9516438e62da27c",
                 "shasum": ""
             },
             "require": {
@@ -1120,7 +1120,9 @@
                 "doctrine/annotations": "^1.13 || ^2",
                 "doctrine/coding-standard": "^9.0.2 || ^12.0",
                 "phpbench/phpbench": "^0.16.10 || ^1.0",
+                "phpstan/extension-installer": "~1.1.0 || ^1.4",
                 "phpstan/phpstan": "~1.4.10 || 1.12.6",
+                "phpstan/phpstan-deprecation-rules": "^1",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.6",
                 "psr/log": "^1 || ^2 || ^3",
                 "squizlabs/php_codesniffer": "3.7.2",
@@ -1177,9 +1179,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/orm/issues",
-                "source": "https://github.com/doctrine/orm/tree/2.19.8"
+                "source": "https://github.com/doctrine/orm/tree/2.20.0"
             },
-            "time": "2024-10-10T09:46:49+00:00"
+            "time": "2024-10-11T11:47:24+00:00"
         },
         {
             "name": "doctrine/persistence",
@@ -5807,29 +5809,32 @@
         },
         {
             "name": "league/iso3166",
-            "version": "4.3.1",
+            "version": "4.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/thephpleague/iso3166.git",
-                "reference": "11703e0313f34920add11c0228f0dd43ebd10f9a"
+                "url": "https://github.com/alcohol/iso3166.git",
+                "reference": "5133fed7d54728222f4058702487dccedda20472"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/iso3166/zipball/11703e0313f34920add11c0228f0dd43ebd10f9a",
-                "reference": "11703e0313f34920add11c0228f0dd43ebd10f9a",
+                "url": "https://api.github.com/repos/alcohol/iso3166/zipball/5133fed7d54728222f4058702487dccedda20472",
+                "reference": "5133fed7d54728222f4058702487dccedda20472",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^7.3|^8.0"
+                "php": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5"
+                "phpstan/phpstan": "^1.12.6",
+                "phpstan/phpstan-deprecation-rules": "^1.2.1",
+                "phpstan/phpstan-strict-rules": "^1.6.1",
+                "phpunit/phpunit": "^9.6.21"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-master": "4.x-dev"
                 }
             },
             "autoload": {
@@ -5848,7 +5853,7 @@
                 }
             ],
             "description": "ISO 3166-1 PHP Library",
-            "homepage": "https://github.com/thephpleague/iso3166",
+            "homepage": "https://github.com/alcohol/iso3166",
             "keywords": [
                 "3166",
                 "3166-1",
@@ -5858,10 +5863,16 @@
                 "library"
             ],
             "support": {
-                "issues": "https://github.com/thephpleague/iso3166/issues",
-                "source": "https://github.com/thephpleague/iso3166"
+                "issues": "https://github.com/alcohol/iso3166/issues",
+                "source": "https://github.com/alcohol/iso3166"
             },
-            "time": "2023-09-11T07:59:36+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/alcohol",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-10-10T07:39:24+00:00"
         },
         {
             "name": "malukenho/mcbumpface",

@@ -11,10 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Index(columns: ['month', 'count'], name: 'country_month_count')]
 class Country
 {
+    public const string CODE_REGEXP = '^[a-zA-Z]{1,2}$';
+
     #[ORM\Column(length: 2)]
     #[ORM\Id]
     #[Assert\NotBlank]
-    #[Assert\Country]
+    // Explicitly list Kosovo as it is currently not recognized by Symfony
+    #[Assert\AtLeastOneOf([new Assert\Country(), new Assert\EqualTo("XK")])]
     private string $code;
 
     #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
@@ -26,8 +29,6 @@ class Country
     #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
     #[Assert\Positive]
     private int $count = 1;
-
-    public const string CODE_REGEXP = '^[a-zA-Z]{1,2}$';
 
     public function __construct(string $code)
     {
