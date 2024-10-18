@@ -69,8 +69,8 @@ importers:
         specifier: ^6.2.0
         version: 6.2.0(webpack@5.95.0)
       html-webpack-plugin:
-        specifier: ^5.6.0
-        version: 5.6.0(webpack@5.95.0)
+        specifier: ^5.6.2
+        version: 5.6.2(webpack@5.95.0)
       mini-css-extract-plugin:
         specifier: ^2.9.1
         version: 2.9.1(webpack@5.95.0)
@@ -84,11 +84,11 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1(postcss@8.4.47)(webpack@5.95.0)
       sass:
-        specifier: ^1.80.0
-        version: 1.80.0
+        specifier: ^1.80.2
+        version: 1.80.2
       sass-loader:
         specifier: ^16.0.2
-        version: 16.0.2(sass@1.80.0)(webpack@5.95.0)
+        version: 16.0.2(sass@1.80.2)(webpack@5.95.0)
       stream-browserify:
         specifier: ^3.0.0
         version: 3.0.0
@@ -2367,8 +2367,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.40:
-    resolution: {integrity: sha512-LYm78o6if4zTasnYclgQzxEcgMoIcybWOhkATWepN95uwVVWV0/IW10v+2sIeHE+bIYWipLneTftVyQm45UY7g==}
+  electron-to-chromium@1.5.41:
+    resolution: {integrity: sha512-dfdv/2xNjX0P8Vzme4cfzHqnPm5xsZXwsolTYr0eyW18IUmNyG08vL+fttvinTfhKfIKdRoqkDIC9e9iWQCNYQ==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -2968,8 +2968,8 @@ packages:
     resolution: {integrity: sha512-ztqyC3kLto0e9WbNp0aeP+M3kTt+nbaIveGmUxAtZa+8iFgKLUOD4YKM5j+f3QD89bra7UeumolZHKuOXnTmeQ==}
     engines: {node: '>=8'}
 
-  html-webpack-plugin@5.6.0:
-    resolution: {integrity: sha512-iwaY4wzbe48AfKLZ/Cc8k0L+FKG6oSNRaZ8x5A/T/IVDGyXcbHncM9TdDa93wn0FsSm82FhTKW7f3vS61thXAw==}
+  html-webpack-plugin@5.6.2:
+    resolution: {integrity: sha512-q7xp/FO9RGBVoTKNItkdX1jKLscLFkgn/dLVFNYbHVbfHLBk6DYW5nsQ8kCzIWcgKP/kUBocetjvav6lD8YfCQ==}
     engines: {node: '>=10.13.0'}
     peerDependencies:
       '@rspack/core': 0.x || 1.x
@@ -4584,8 +4584,8 @@ packages:
       webpack:
         optional: true
 
-  sass@1.80.0:
-    resolution: {integrity: sha512-9Yzb4qTUJ//eTKZQzxAtNsezOvfQlB+7hAJjj5wFqKZb2c2xboeCYnKh2Gzyp6sdyiNe9FUgn8xgc1ffXHmM6g==}
+  sass@1.80.2:
+    resolution: {integrity: sha512-9wXY8cGBlUmoUoT+vwOZOFCiS+naiWVjqlreN9ar9PudXbGwlMTFwCR5K9kB4dFumJ6ib98wZyAObJKsWf1nAA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -4910,8 +4910,8 @@ packages:
     peerDependencies:
       stylelint: ^16.0.2
 
-  stylelint-scss@6.8.0:
-    resolution: {integrity: sha512-6gjsCZ30UUF6ivjZB2Z+1lb6k0+JFa1uR2MgGbYu76xRjEfvNTpSS1nQim1Gom1ijFF9GzauOiq1Kr7zKptQOw==}
+  stylelint-scss@6.8.1:
+    resolution: {integrity: sha512-al+5eRb72bKrFyVAY+CLWKUMX+k+wsDCgyooSfhISJA2exqnJq1PX1iIIpdrvhu3GtJgNJZl9/BIW6EVSMCxdg==}
     engines: {node: '>=18.12.0'}
     peerDependencies:
       stylelint: ^16.0.2
@@ -7780,7 +7780,7 @@ snapshots:
   browserslist@4.24.0:
     dependencies:
       caniuse-lite: 1.0.30001654
-      electron-to-chromium: 1.5.40
+      electron-to-chromium: 1.5.41
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.0)
 
@@ -8356,7 +8356,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.40: {}
+  electron-to-chromium@1.5.41: {}
 
   emittery@0.13.1: {}
 
@@ -9085,7 +9085,7 @@ snapshots:
 
   html-tags@3.3.1: {}
 
-  html-webpack-plugin@5.6.0(webpack@5.95.0):
+  html-webpack-plugin@5.6.2(webpack@5.95.0):
     dependencies:
       '@types/html-minifier-terser': 6.1.0
       html-minifier-terser: 6.1.0
@@ -10814,14 +10814,14 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sass-loader@16.0.2(sass@1.80.0)(webpack@5.95.0):
+  sass-loader@16.0.2(sass@1.80.2)(webpack@5.95.0):
     dependencies:
       neo-async: 2.6.2
     optionalDependencies:
-      sass: 1.80.0
+      sass: 1.80.2
       webpack: 5.95.0(webpack-cli@5.1.4)
 
-  sass@1.80.0:
+  sass@1.80.2:
     dependencies:
       '@parcel/watcher': 2.4.1
       chokidar: 4.0.1
@@ -11159,7 +11159,7 @@ snapshots:
       postcss-scss: 4.0.9(postcss@8.4.47)
       stylelint: 16.10.0
       stylelint-config-recommended: 14.0.1(stylelint@16.10.0)
-      stylelint-scss: 6.8.0(stylelint@16.10.0)
+      stylelint-scss: 6.8.1(stylelint@16.10.0)
     optionalDependencies:
       postcss: 8.4.47
 
@@ -11194,7 +11194,7 @@ snapshots:
       postcss: 8.4.47
       stylelint: 16.10.0
 
-  stylelint-scss@6.8.0(stylelint@16.10.0):
+  stylelint-scss@6.8.1(stylelint@16.10.0):
     dependencies:
       css-tree: 3.0.0
       is-plain-object: 5.0.0
