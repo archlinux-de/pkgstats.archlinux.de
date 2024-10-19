@@ -84,11 +84,11 @@ importers:
         specifier: ^8.1.1
         version: 8.1.1(postcss@8.4.47)(webpack@5.95.0)
       sass:
-        specifier: ^1.80.2
-        version: 1.80.2
+        specifier: ^1.80.3
+        version: 1.80.3
       sass-loader:
         specifier: ^16.0.2
-        version: 16.0.2(sass@1.80.2)(webpack@5.95.0)
+        version: 16.0.2(sass@1.80.3)(webpack@5.95.0)
       stream-browserify:
         specifier: ^3.0.0
         version: 3.0.0
@@ -958,8 +958,8 @@ packages:
   '@leichtgewicht/ip-codec@2.0.5':
     resolution: {integrity: sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==}
 
-  '@mdn/browser-compat-data@5.6.7':
-    resolution: {integrity: sha512-joDR4YZiielxL2h2hN7X2F/mcuaVCW6TRbeEqhk20gPDqdzuFBODk+P4r0wTCGZrvc2Dc4Wnwwk5KyzEpOxy2g==}
+  '@mdn/browser-compat-data@5.6.8':
+    resolution: {integrity: sha512-ueuvAVqVaPF+bEclXAH/P+qfUJ2IMJDaeUS+j8HC/maWTdV5tcm2eTvlGdXRLiq0rJAZk0Zy22i51rzW0B2izQ==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -4584,8 +4584,8 @@ packages:
       webpack:
         optional: true
 
-  sass@1.80.2:
-    resolution: {integrity: sha512-9wXY8cGBlUmoUoT+vwOZOFCiS+naiWVjqlreN9ar9PudXbGwlMTFwCR5K9kB4dFumJ6ib98wZyAObJKsWf1nAA==}
+  sass@1.80.3:
+    resolution: {integrity: sha512-ptDWyVmDMVielpz/oWy3YP3nfs7LpJTHIJZboMVs8GEC9eUmtZTZhMHlTW98wY4aEorDfjN38+Wr/XjskFWcfA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -6573,7 +6573,7 @@ snapshots:
 
   '@leichtgewicht/ip-codec@2.0.5': {}
 
-  '@mdn/browser-compat-data@5.6.7': {}
+  '@mdn/browser-compat-data@5.6.8': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -7593,7 +7593,7 @@ snapshots:
 
   ast-metadata-inferer@0.8.0:
     dependencies:
-      '@mdn/browser-compat-data': 5.6.7
+      '@mdn/browser-compat-data': 5.6.8
 
   astral-regex@2.0.0: {}
 
@@ -8517,7 +8517,7 @@ snapshots:
 
   eslint-plugin-compat@6.0.1(eslint@8.57.0):
     dependencies:
-      '@mdn/browser-compat-data': 5.6.7
+      '@mdn/browser-compat-data': 5.6.8
       ast-metadata-inferer: 0.8.0
       browserslist: 4.24.0
       caniuse-lite: 1.0.30001654
@@ -10814,14 +10814,14 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sass-loader@16.0.2(sass@1.80.2)(webpack@5.95.0):
+  sass-loader@16.0.2(sass@1.80.3)(webpack@5.95.0):
     dependencies:
       neo-async: 2.6.2
     optionalDependencies:
-      sass: 1.80.2
+      sass: 1.80.3
       webpack: 5.95.0(webpack-cli@5.1.4)
 
-  sass@1.80.2:
+  sass@1.80.3:
     dependencies:
       '@parcel/watcher': 2.4.1
       chokidar: 4.0.1
