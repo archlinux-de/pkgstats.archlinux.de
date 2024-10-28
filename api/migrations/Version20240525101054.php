@@ -18,4 +18,9 @@ final class Version20240525101054 extends AbstractMigration
     {
         $this->addSql('ALTER TABLE operating_system_architecture CHANGE name name VARCHAR(10) NOT NULL');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

@@ -36,4 +36,9 @@ final class Version20240524135745 extends AbstractMigration
         $this->addSql('DROP INDEX sytem_architecture_month_count ON system_architecture');
         $this->addSql('CREATE INDEX sytem_architecture_month ON system_architecture (month)');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

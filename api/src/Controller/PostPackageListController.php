@@ -18,9 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PostPackageListController extends AbstractController
 {
-    /**
-     * @param EntityManager $entityManager
-     */
     public function __construct(private readonly EntityManagerInterface $entityManager)
     {
     }
@@ -103,7 +100,7 @@ class PostPackageListController extends AbstractController
     private function persistSubmission(PkgstatsRequest $pkgstatsRequest): void
     {
         $this->entityManager->wrapInTransaction(
-            function (EntityManager $entityManager) use ($pkgstatsRequest) {
+            function (EntityManagerInterface $entityManager) use ($pkgstatsRequest) {
                 $this->persistPackages($entityManager, $pkgstatsRequest->getPackages());
                 $this->persistCountry($entityManager, $pkgstatsRequest->getCountry());
                 $this->persistMirror($entityManager, $pkgstatsRequest->getMirror());
@@ -119,7 +116,7 @@ class PostPackageListController extends AbstractController
     /**
      * @param Package[] $packages
      */
-    private function persistPackages(EntityManager $entityManager, array $packages): void
+    private function persistPackages(EntityManagerInterface $entityManager, array $packages): void
     {
         foreach ($packages as $package) {
             /** @var Package|null $persistedPackage */
@@ -136,7 +133,7 @@ class PostPackageListController extends AbstractController
         }
     }
 
-    private function persistCountry(EntityManager $entityManager, ?Country $country): void
+    private function persistCountry(EntityManagerInterface $entityManager, ?Country $country): void
     {
         if (!$country) {
             return;
@@ -155,7 +152,7 @@ class PostPackageListController extends AbstractController
         $entityManager->persist($country);
     }
 
-    private function persistMirror(EntityManager $entityManager, ?Mirror $mirror): void
+    private function persistMirror(EntityManagerInterface $entityManager, ?Mirror $mirror): void
     {
         if (!$mirror) {
             return;
@@ -175,7 +172,7 @@ class PostPackageListController extends AbstractController
     }
 
     private function persistOperatingSystemArchitecture(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         OperatingSystemArchitecture $operatingSystemArchitecture
     ): void {
         /** @var OperatingSystemArchitecture|null $persistedOperatingSystemArchitecture */
@@ -192,7 +189,7 @@ class PostPackageListController extends AbstractController
     }
 
     private function persistSystemArchitecture(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         SystemArchitecture $systemArchitecture
     ): void {
         /** @var SystemArchitecture|null $persistedSystemArchitecture */

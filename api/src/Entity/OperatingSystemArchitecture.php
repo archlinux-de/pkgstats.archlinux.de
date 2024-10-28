@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\OperatingSystemArchitectureRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -20,13 +21,13 @@ class OperatingSystemArchitecture
     #[Assert\Choice(self::ARCHITECTURES)]
     private string $name;
 
-    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
     #[ORM\Id]
     #[Assert\NotBlank]
     #[Assert\DateTime('Ym')]
     private int $month;
 
-    #[ORM\Column(type: 'integer', options: ['unsigned' => true])]
+    #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
     #[Assert\Positive]
     private int $count = 1;
 
