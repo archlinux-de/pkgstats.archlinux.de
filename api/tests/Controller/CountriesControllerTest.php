@@ -2,14 +2,14 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\ApiCountriesController;
 use App\Entity\Country;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
-/**
- * @covers \App\Controller\ApiCountriesController
- */
+#[CoversClass(ApiCountriesController::class)]
 class CountriesControllerTest extends DatabaseTestCase
 {
     #[DataProvider('provideCountryCodes')]

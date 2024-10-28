@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\DataFixtures\Months;
 use App\Entity\Month;
+use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
@@ -11,9 +12,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
-/**
- * @coversNothing
- */
+#[CoversNothing]
 class SmokeTest extends DatabaseTestCase
 {
     use MatchesSnapshots;

@@ -2,14 +2,14 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\ApiPackagesController;
 use App\Entity\Package;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
-/**
- * @covers \App\Controller\ApiPackagesController
- */
+#[CoversClass(ApiPackagesController::class)]
 class ApiPackagesControllerTest extends DatabaseTestCase
 {
     #[DataProvider('providePackageNames')]

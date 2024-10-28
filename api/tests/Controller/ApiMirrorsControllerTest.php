@@ -2,14 +2,14 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\ApiMirrorsController;
 use App\Entity\Mirror;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
-/**
- * @covers \App\Controller\ApiMirrorsController
- */
+#[CoversClass(ApiMirrorsController::class)]
 class ApiMirrorsControllerTest extends DatabaseTestCase
 {
     #[DataProvider('provideMirrorUrls')]

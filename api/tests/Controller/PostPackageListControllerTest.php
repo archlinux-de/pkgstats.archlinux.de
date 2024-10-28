@@ -2,20 +2,20 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\PostPackageListController;
 use App\Entity\Country;
 use App\Entity\Mirror;
 use App\Entity\OperatingSystemArchitecture;
 use App\Entity\Package;
 use App\Entity\SystemArchitecture;
 use App\Repository\PackageRepository;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
-/**
- * @covers \App\Controller\PostPackageListController
- */
+#[CoversClass(PostPackageListController::class)]
 class PostPackageListControllerTest extends DatabaseTestCase
 {
     public function testSubmitPackageListIsSuccessful(): void

@@ -2,11 +2,11 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\SitemapController;
+use PHPUnit\Framework\Attributes\CoversClass;
 use SymfonyDatabaseTest\DatabaseTestCase;
 
-/**
- * @covers \App\Controller\SitemapController
- */
+#[CoversClass(SitemapController::class)]
 class SitemapControllerTest extends DatabaseTestCase
 {
     public function testIndexAction(): void
