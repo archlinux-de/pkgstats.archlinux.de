@@ -28,13 +28,11 @@ init: start
 # start all services defined in docker/app.yml
 start:
 	{{COMPOSE}} up -d
-	{{MARIADB-RUN}} mariadb-admin -uroot -hmariadb --skip-ssl --wait=10 ping
 	@echo URL: http://localhost:${PORT}
 
 # start mariadb service defined in docker/app.yml
 start-db:
 	{{COMPOSE}} up -d mariadb
-	{{MARIADB-RUN}} mariadb-admin -uroot -hmariadb --skip-ssl --wait=10 ping
 
 # stop all services defined in docker/app.yml
 stop:
