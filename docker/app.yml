@@ -17,7 +17,8 @@ services:
     tmpfs:
       - /tmp
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
 
   app:
     build: node
@@ -56,6 +57,12 @@ services:
 
   mariadb:
     image: mariadb:11.5
+    healthcheck:
+      test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     environment:
       - MYSQL_ROOT_PASSWORD=
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
@@ -75,4 +82,5 @@ services:
     tmpfs:
       - /tmp
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
