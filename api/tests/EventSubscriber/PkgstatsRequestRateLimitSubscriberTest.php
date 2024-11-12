@@ -67,6 +67,7 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
         $this->rateLimitSubscriber->onKernelRequest($event);
         $this->rateLimitSubscriber->onKernelRequest($event);
         // Asserting that not exception was thrown
+        // @phpstan-ignore-next-line
         $this->assertTrue(true);
     }
 }

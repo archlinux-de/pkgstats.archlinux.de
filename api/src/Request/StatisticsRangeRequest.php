@@ -36,9 +36,9 @@ class StatisticsRangeRequest
             return false;
         }
 
-        $yearMonth = (int)$matches[0];
-        $year = (int)$matches[1];
-        $month = (int)$matches[2];
+        $yearMonth = (int)$matches[0]; // @phpstan-ignore cast.int
+        $year = (int)$matches[1]; // @phpstan-ignore cast.int
+        $month = (int)$matches[2]; // @phpstan-ignore cast.int
 
         return
             $year >= 2002 &&

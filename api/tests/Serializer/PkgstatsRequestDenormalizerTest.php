@@ -50,7 +50,6 @@ class PkgstatsRequestDenormalizerTest extends TestCase
 
         $pkgstatsRequest = $this->denormalizer->denormalize($data, PkgstatsRequest::class, 'form', $context);
 
-        $this->assertInstanceOf(PkgstatsRequest::class, $pkgstatsRequest);
         $this->assertEquals('x86_64', $pkgstatsRequest->getOperatingSystemArchitecture()->getName());
         $this->assertEquals('x86_64', $pkgstatsRequest->getSystemArchitecture()->getName());
         $this->assertNotNull($pkgstatsRequest->getMirror());

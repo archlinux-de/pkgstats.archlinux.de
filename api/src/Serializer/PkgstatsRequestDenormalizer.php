@@ -30,18 +30,20 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
         assert(is_array($data));
         assert(is_string($context['clientIp']) || is_null($context['clientIp']));
 
-        $packages = $this->filterList($data['pacman']['packages'] ?? []);
-        $arch = ($data['os']['architecture'] ?? '');
-        $cpuArch = $data['system']['architecture'] ?? '';
-        $mirror = $this->mirrorUrlFilter->filter(($data['pacman']['mirror'] ?? ''));
+        $packages = $this->filterList($data['pacman']['packages'] ?? []); // @phpstan-ignore-line
+        $arch = ($data['os']['architecture'] ?? '');  // @phpstan-ignore-line
+        $cpuArch = $data['system']['architecture'] ?? '';  // @phpstan-ignore-line
+        $mirror = $this->mirrorUrlFilter->filter(($data['pacman']['mirror'] ?? '')); // @phpstan-ignore-line
 
         $clientIp = $context['clientIp'] ?? '127.0.0.1';
 
-        $pkgstatsRequest = new PkgstatsRequest($data['version'] ?? '');
+        $pkgstatsRequest = new PkgstatsRequest($data['version'] ?? ''); // @phpstan-ignore-line
         $pkgstatsRequest->setOperatingSystemArchitecture(
-            (new OperatingSystemArchitecture($arch))->setMonth((int)date('Ym'))
+            (new OperatingSystemArchitecture($arch))->setMonth((int)date('Ym')) // @phpstan-ignore-line
         );
-        $pkgstatsRequest->setSystemArchitecture((new SystemArchitecture($cpuArch))->setMonth((int)date('Ym')));
+        $pkgstatsRequest->setSystemArchitecture(
+            (new SystemArchitecture($cpuArch))->setMonth((int)date('Ym')) // @phpstan-ignore-line
+        );
 
         if ($mirror) {
             $pkgstatsRequest->setMirror((new Mirror($mirror))->setMonth((int)date('Ym')));

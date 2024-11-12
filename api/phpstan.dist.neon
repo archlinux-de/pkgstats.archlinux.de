@@ -1,7 +1,8 @@
 parameters:
 	level: max
+	treatPhpDocTypesAsCertain: false
 	symfony:
-		container_xml_path: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
+		containerXmlPath: '%rootDir%/../../../var/cache/dev/App_KernelDevDebugContainer.xml'
 	doctrine:
 		objectManagerLoader: tests/object-manager.php
 	paths:
@@ -11,6 +12,7 @@ parameters:
 		- config
 		- bin
 		- migrations
-	ignoreErrors:
-		-
-			identifier: missingType.iterableValue
+	excludePaths:
+		- public/index.php
+		- tests/bootstrap.php
+		- tests/object-manager.php

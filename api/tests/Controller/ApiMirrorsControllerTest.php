@@ -37,10 +37,14 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertEquals('*', $response->headers->get('Access-Control-Allow-Origin'));
     }
 
+    /**
+     * @return array{'total': int, 'count': int, 'mirrorPopularities': list<array{'url': string}>}
+     */
     private function assertMirrorPopularityList(string $json): array
     {
         $this->assertJson($json);
 
+        /** @var array{'total': int, 'count': int, 'mirrorPopularities': list<array{'url': string}>} $mirrorList */
         $mirrorList = json_decode($json, true);
         $this->assertIsArray($mirrorList);
         $this->assertArrayHasKey('total', $mirrorList);
@@ -213,6 +217,9 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertEquals($mirrorUrl, $popularityList['mirrorPopularities'][0]['url']);
     }
 
+    /**
+     * @return list<string[]>
+     */
     public static function provideMirrorUrls(): array
     {
         return [

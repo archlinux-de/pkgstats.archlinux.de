@@ -126,6 +126,9 @@ readonly class CountryPopularityCalculator
         );
     }
 
+    /**
+     * @return array<int, int>
+     */
     private function getRangeCountSeries(StatisticsRangeRequest $statisticsRangeRequest): array
     {
         $monthlyCount = $this->countryRepository->getMonthlySumCountByRange(

@@ -126,6 +126,9 @@ readonly class MirrorPopularityCalculator
         );
     }
 
+    /**
+     * @return array<int, int>
+     */
     private function getRangeCountSeries(StatisticsRangeRequest $statisticsRangeRequest): array
     {
         $monthlyCount = $this->mirrorRepository->getMonthlySumCountByRange(

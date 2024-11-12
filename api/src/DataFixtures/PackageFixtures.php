@@ -54,10 +54,12 @@ class PackageFixtures extends Fixture
     private function getFunPackages(): iterable
     {
         $funPackages = json_decode((string)file_get_contents(__DIR__ . '/../../../app/src/config/fun.json'), true);
-        assert(is_array($funPackages));
+        assert(is_iterable($funPackages));
 
         foreach ($funPackages as $funCategories) {
+            assert(is_iterable($funCategories));
             foreach ($funCategories as $funPackage) {
+                assert(is_string($funPackage));
                 yield $funPackage;
             }
         }

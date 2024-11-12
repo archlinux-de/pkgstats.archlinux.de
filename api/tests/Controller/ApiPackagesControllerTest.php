@@ -38,10 +38,14 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals('*', $response->headers->get('Access-Control-Allow-Origin'));
     }
 
+    /**
+     * @return array{'total': int, 'count': int, 'packagePopularities': list<array{'name': string}>}
+     */
     private function assertPackagePopularityList(string $json): array
     {
         $this->assertJson($json);
 
+        /** @var array{'total': int, 'count': int, 'packagePopularities': list<array{'name': string}>} $packageList */
         $packageList = json_decode($json, true);
         $this->assertIsArray($packageList);
         $this->assertArrayHasKey('total', $packageList);
@@ -223,6 +227,9 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals($packageName, $popularityList['packagePopularities'][0]['name']);
     }
 
+    /**
+     * @return list<string[]>
+     */
     public static function providePackageNames(): array
     {
         return [

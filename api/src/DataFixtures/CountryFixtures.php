@@ -35,17 +35,12 @@ class CountryFixtures extends Fixture
     private function createCountries(int $month): iterable
     {
         foreach ($this->iso3166 as $countryCode) {
-            assert(is_array($countryCode));
             assert(is_string($countryCode['alpha2']));
             $country = (new Country($countryCode['alpha2']))->setMonth($month);
             for ($i = 0; $i < mt_rand(1, 6_000); $i++) {
                 $country->incrementCount();
             }
             $f = $this->validator->validate($country);
-            if ($f->count() > 0) {
-                var_dump($f);
-//                    exit;
-            }
             assert($this->validator->validate($country)->count() === 0);
             yield $country;
         }

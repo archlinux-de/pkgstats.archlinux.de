@@ -37,10 +37,14 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertEquals('*', $response->headers->get('Access-Control-Allow-Origin'));
     }
 
+    /**
+     * @return array{'total': int, 'count': int, 'countryPopularities': list<array{'code': string}>}
+     */
     private function assertCountryPopularityList(string $json): array
     {
         $this->assertJson($json);
 
+        /** @var array{'total': int, 'count': int, 'countryPopularities': list<array{'code': string}>}  $countryList */
         $countryList = json_decode($json, true);
         $this->assertIsArray($countryList);
         $this->assertArrayHasKey('total', $countryList);
@@ -213,6 +217,9 @@ class CountriesControllerTest extends DatabaseTestCase
         $this->assertEquals($countryCode, $popularityList['countryPopularities'][0]['code']);
     }
 
+    /**
+     * @return list<string[]>
+     */
     public static function provideCountryCodes(): array
     {
         return [

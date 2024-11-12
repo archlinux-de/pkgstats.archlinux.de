@@ -49,6 +49,9 @@ class SystemArchitectureRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return array{'total': int, 'systemArchitectures': list<array{'name': string, 'month': int, 'count': int}>}
+     */
     public function findMonthlyByNameAndRange(
         string $name,
         int $startMonth,
@@ -69,6 +72,7 @@ class SystemArchitectureRepository extends ServiceEntityRepository
 
         $pagination = new Paginator($queryBuilder, false);
         $total = $pagination->count();
+        /** @var list<array{'name': string, 'month': int, 'count': int}> $systemArchitectures */
         $systemArchitectures = $pagination->getQuery()->getArrayResult();
 
         return [
@@ -86,10 +90,14 @@ class SystemArchitectureRepository extends ServiceEntityRepository
         );
     }
 
+    /**
+     * @return array<array{'month': int, 'count': int}>
+     */
     public function getMonthlySumCountByRange(int $startMonth, int $endMonth): array
     {
         $lifetime = Month::create(1)->getTimestamp() - time();
 
+        /** @var list<array{'month': int, 'count': int}> $sumMonthlyCount */
         $sumMonthlyCount = $this->createQueryBuilder('systemArchitecture')
             ->select('SUM(systemArchitecture.count) AS count')
             ->addSelect('systemArchitecture.month')
@@ -101,12 +109,14 @@ class SystemArchitectureRepository extends ServiceEntityRepository
         return array_filter(
             $sumMonthlyCount,
             function ($entry) use ($startMonth, $endMonth) {
-                assert(is_array($entry));
                 return $entry['month'] >= $startMonth && $entry['month'] <= $endMonth;
             }
         );
     }
 
+    /**
+     * @return array{'total': int, 'systemArchitectures': list<array{'name': string, 'count': int}>}
+     */
     public function findSystemArchitecturesCountByRange(
         string $query,
         int $startMonth,
@@ -144,10 +154,10 @@ class SystemArchitectureRepository extends ServiceEntityRepository
 
         $pagination = new Paginator($queryBuilder, false);
         $total = $pagination->count();
+        /** @var list<array{'systemArchitecture_name': string, 'systemArchitecture_count': int}> $systemArchitectures */
         $systemArchitectures = $pagination->getQuery()->getScalarResult();
 
         $systemArchitectures = array_map(function ($systemArchitecture) {
-            assert(is_array($systemArchitecture));
             return [
                 'name' => $systemArchitecture['systemArchitecture_name'],
                 'count' => $systemArchitecture['systemArchitecture_count']

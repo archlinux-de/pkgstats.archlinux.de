@@ -49,6 +49,9 @@ class PackageRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return array{'total': int, 'packages': list<array{'name': string, 'month': int, 'count': int}>}
+     */
     public function findMonthlyByNameAndRange(
         string $name,
         int $startMonth,
@@ -69,6 +72,7 @@ class PackageRepository extends ServiceEntityRepository
 
         $pagination = new Paginator($queryBuilder, false);
         $total = $pagination->count();
+        /** @var list<array{'name': string, 'month': int, 'count': int}> $packages */
         $packages = $pagination->getQuery()->getArrayResult();
 
         return [
@@ -86,10 +90,14 @@ class PackageRepository extends ServiceEntityRepository
         );
     }
 
+    /**
+     * @return array<array{'month': int, 'count': int}>
+     */
     public function getMonthlyMaximumCountByRange(int $startMonth, int $endMonth): array
     {
         $lifetime = Month::create(1)->getTimestamp() - time();
 
+        /** @var list<array{'month': int, 'count': int}> $maxMonthlyCount */
         $maxMonthlyCount = $this->createQueryBuilder('package')
             ->select('MAX(package.count) AS count')
             ->addSelect('package.month')
@@ -102,12 +110,14 @@ class PackageRepository extends ServiceEntityRepository
         return array_filter(
             $maxMonthlyCount,
             function ($entry) use ($startMonth, $endMonth) {
-                assert(is_array($entry));
                 return $entry['month'] >= $startMonth && $entry['month'] <= $endMonth;
             }
         );
     }
 
+    /**
+     * @return array{'total': int, 'packages': list<array{'name': string, 'count': int}>}
+     */
     public function findPackagesCountByRange(
         string $query,
         int $startMonth,
@@ -144,10 +154,10 @@ class PackageRepository extends ServiceEntityRepository
 
         $pagination = new Paginator($queryBuilder, false);
         $total = $pagination->count();
+        /** @var list<array{'package_name': string, 'package_count': int}> $packages */
         $packages = $pagination->getQuery()->getScalarResult();
 
         $packages = array_map(function ($package) {
-            assert(is_array($package));
             return [
                 'name' => $package['package_name'],
                 'count' => $package['package_count']

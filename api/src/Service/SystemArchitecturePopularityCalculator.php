@@ -126,6 +126,9 @@ readonly class SystemArchitecturePopularityCalculator
         );
     }
 
+    /**
+     * @return array<int, int>
+     */
     private function getRangeCountSeries(StatisticsRangeRequest $statisticsRangeRequest): array
     {
         $monthlyCount = $this->systemArchitectureRepository->getMonthlySumCountByRange(

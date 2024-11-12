@@ -148,6 +148,9 @@ class PackageRepositoryTest extends DatabaseTestCase
         $this->assertEquals([['count' => 2, 'month' => 201810]], $monthlyCount);
     }
 
+    /**
+     * @return list<int[]>
+     */
     public static function provideMonthRange(): array
     {
         return [

@@ -49,6 +49,9 @@ class CountryRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return array{'total': int, 'countries': list<array{'code': string, 'month': int, 'count': int}>}
+     */
     public function findMonthlyByCodeAndRange(
         string $code,
         int $startMonth,
@@ -69,6 +72,7 @@ class CountryRepository extends ServiceEntityRepository
 
         $pagination = new Paginator($queryBuilder, false);
         $total = $pagination->count();
+        /** @var list<array{'code': string, 'month': int, 'count': int}> $countries */
         $countries = $pagination->getQuery()->getArrayResult();
 
         return [
@@ -81,15 +85,19 @@ class CountryRepository extends ServiceEntityRepository
     {
         return array_reduce(
             $this->getMonthlySumCountByRange($startMonth, $endMonth),
-            fn($carry, $item) => $carry + $item['count'],
+            fn(int $carry, array $item) => $carry + $item['count'],
             0
         );
     }
 
+    /**
+     * @return array<array{'month': int, 'count': int}>
+     */
     public function getMonthlySumCountByRange(int $startMonth, int $endMonth): array
     {
         $lifetime = Month::create(1)->getTimestamp() - time();
 
+        /** @var list<array{'month': int, 'count': int}> $sumMonthlyCount */
         $sumMonthlyCount = $this->createQueryBuilder('country')
             ->select('SUM(country.count) AS count')
             ->addSelect('country.month')
@@ -101,12 +109,14 @@ class CountryRepository extends ServiceEntityRepository
         return array_filter(
             $sumMonthlyCount,
             function ($entry) use ($startMonth, $endMonth) {
-                assert(is_array($entry));
                 return $entry['month'] >= $startMonth && $entry['month'] <= $endMonth;
             }
         );
     }
 
+    /**
+     * @return array{'total': int, 'countries': list<array{'code': string, 'count': int}>}
+     */
     public function findCountriesCountByRange(
         string $query,
         int $startMonth,
@@ -144,10 +154,10 @@ class CountryRepository extends ServiceEntityRepository
 
         $pagination = new Paginator($queryBuilder, false);
         $total = $pagination->count();
+        /** @var list<array{'country_code': string, 'country_count': int}> $countries */
         $countries = $pagination->getQuery()->getScalarResult();
 
         $countries = array_map(function ($country) {
-            assert(is_array($country));
             return [
                 'code' => $country['country_code'],
                 'count' => $country['country_count']

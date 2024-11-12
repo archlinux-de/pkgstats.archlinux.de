@@ -23,6 +23,9 @@ class PopularityListNormalizer implements NormalizerInterface
         $this->normalizer = $normalizer;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function normalize(mixed $object, ?string $format = null, array $context = []): array
     {
         assert(

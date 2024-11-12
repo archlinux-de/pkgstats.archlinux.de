@@ -15,9 +15,12 @@ class MirrorUrlFilterTest extends TestCase
         $this->assertEquals($expected, $mirrorUrlFilter->filter($input));
     }
 
+    /**
+     * @return list<array<string, ?string>>
+     */
     public static function provideUrls(): array
     {
-        return [
+        return [ // @phpstan-ignore return.type
             ['https://mirror.archlinux.de/', 'https://mirror.archlinux.de/'],
             ['https://mirror.archlinux.de', 'https://mirror.archlinux.de/'],
             ['https://mirror.archlinux.de//', 'https://mirror.archlinux.de/'],

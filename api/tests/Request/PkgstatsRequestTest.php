@@ -17,7 +17,6 @@ class PkgstatsRequestTest extends TestCase
 {
     public function testGettersAndSetters(): void
     {
-        /** @var Package $package */
         $package = $this->createMock(Package::class);
 
         $request = (new PkgstatsRequest('1.0'))
@@ -119,6 +118,9 @@ class PkgstatsRequestTest extends TestCase
         $request->validateSystemArchitectures($context);
     }
 
+    /**
+     * @return list<array<string>>
+     */
     public static function provideValidArchitecutres(): array
     {
         $result = [];
@@ -145,6 +147,9 @@ class PkgstatsRequestTest extends TestCase
         return $result;
     }
 
+    /**
+     * @return list<array<string>>
+     */
     public static function provideInvalidArchitectures(): array
     {
         $result = [];

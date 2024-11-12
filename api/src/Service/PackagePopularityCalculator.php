@@ -126,6 +126,9 @@ readonly class PackagePopularityCalculator
         );
     }
 
+    /**
+     * @return array<int, int>
+     */
     private function getRangeCountSeries(StatisticsRangeRequest $statisticsRangeRequest): array
     {
         $monthlyCount = $this->packageRepository->getMonthlyMaximumCountByRange(

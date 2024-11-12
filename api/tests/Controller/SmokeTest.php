@@ -53,6 +53,9 @@ class SmokeTest extends DatabaseTestCase
         ]);
     }
 
+    /**
+     * @param array{'startMonth': ?int, 'endMonth': ?int} $parameters
+     */
     #[DataProvider('providePackageRequest')]
     public function testPackage(string $name, array $parameters): void
     {
@@ -68,6 +71,10 @@ class SmokeTest extends DatabaseTestCase
         ]);
     }
 
+    /**
+     * @param array{'startMonth': ?int, 'endMonth': ?int} $parameters
+     * @return array{'startMonth': ?int, 'endMonth': ?int}
+     */
     public function createAbsoluteMonths(array $parameters): array
     {
         foreach (['startMonth', 'endMonth'] as $key) {
@@ -79,6 +86,9 @@ class SmokeTest extends DatabaseTestCase
         return $parameters;
     }
 
+    /**
+     * @param array{'startMonth': ?int, 'endMonth': ?int} $parameters
+     */
     #[DataProvider('providePackageSeriesRequest')]
     public function testPackageSeries(string $name, array $parameters): void
     {
@@ -94,6 +104,9 @@ class SmokeTest extends DatabaseTestCase
         ]);
     }
 
+    /**
+     * @return list<array<string, array<mixed>>>
+     */
     public static function providePackageSeriesRequest(): array
     {
         $requests = [];
@@ -101,6 +114,8 @@ class SmokeTest extends DatabaseTestCase
         foreach ([null, 1, 10] as $limit) {
             foreach ([null, 0, 1, 2] as $offset) {
                 foreach (self::providePackageRequest() as $packageRequest) {
+                    self::assertArrayHasKey(1, $packageRequest);
+                    self::assertIsArray($packageRequest[1]);
                     if ($limit !== null) {
                         $packageRequest[1]['limit'] = $limit;
                     }
@@ -116,11 +131,14 @@ class SmokeTest extends DatabaseTestCase
         return $requests;
     }
 
+    /**
+     * @return list<array<string, array<mixed>>>
+     */
     public static function providePackageRequest(): array
     {
         $startMonth = -2;
         $endMonth = -1;
-        return [
+        return [ // @phpstan-ignore return.type
             ['pacman', []],
             ['pacman', ['startMonth' => $startMonth]],
             ['pacman', ['endMonth' => $endMonth]],
@@ -128,6 +146,9 @@ class SmokeTest extends DatabaseTestCase
         ];
     }
 
+    /**
+     * @param array{'startMonth': ?int, 'endMonth': ?int} $parameters
+     */
     #[DataProvider('providePackagesRequest')]
     public function testPackages(array $parameters): void
     {
@@ -143,6 +164,9 @@ class SmokeTest extends DatabaseTestCase
         ]);
     }
 
+    /**
+     * @return list<array>
+     */
     public static function providePackagesRequest(): array
     {
         Month::setBaseTimestamp(strtotime('2022-02-02'));
