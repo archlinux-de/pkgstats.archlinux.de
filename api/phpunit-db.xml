@@ -6,7 +6,7 @@
     <ini name="error_reporting" value="-1"/>
     <server name="APP_ENV" value="test" force="true"/>
     <server name="SHELL_VERBOSITY" value="-1"/>
-    <env name="DATABASE_URL" value="mysql://root@mariadb/db-test?serverVersion=11.5.2-MariaDB&amp;charset=utf8mb4"/>
+    <env name="DATABASE_URL" value="mysql://root@mariadb/db-test?serverVersion=11.6.2-MariaDB&amp;charset=utf8mb4"/>
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;quiet[]=indirect&amp;quiet[]=other"/>
   </php>
   <testsuites>
