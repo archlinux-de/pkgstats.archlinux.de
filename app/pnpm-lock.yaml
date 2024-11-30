@@ -157,8 +157,8 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0(postcss-html@1.7.0)(stylelint@16.11.0)
       stylelint-config-standard-scss:
-        specifier: ^13.1.0
-        version: 13.1.0(postcss@8.4.49)(stylelint@16.11.0)
+        specifier: ^14.0.0
+        version: 14.0.0(postcss@8.4.49)(stylelint@16.11.0)
       stylelint-no-unsupported-browser-features:
         specifier: ^8.0.2
         version: 8.0.2(stylelint@16.11.0)
@@ -963,8 +963,8 @@ packages:
   '@leichtgewicht/ip-codec@2.0.5':
     resolution: {integrity: sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==}
 
-  '@mdn/browser-compat-data@5.6.19':
-    resolution: {integrity: sha512-nov43xmgYccY9ePMQfqPD29ASOKbOhn3iOJxA5reOfC3wLbEM5an8Sn6A3Th1TuD3XfXc0hjrFQYbJ3qhyPhhQ==}
+  '@mdn/browser-compat-data@5.6.20':
+    resolution: {integrity: sha512-TOxHxwNNtZ+HWnmhBgBCKYwevIqxi5HOshnBg7Fac3R95EFGm3ir0HDUG1ujBG3i8zjXimp3GZK1lfsjkbmydg==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -3783,8 +3783,8 @@ packages:
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
 
-  node-addon-api@8.2.2:
-    resolution: {integrity: sha512-9emqXAKhVoNrQ792nLI/wpzPpJ/bj/YXxW0CvAau1+RdGBcCRF1Dmz7719zgVsQNrzHl9Tzn3ImZ4qWFarWL0A==}
+  node-addon-api@8.3.0:
+    resolution: {integrity: sha512-8VOpLHFrOQlAH+qA0ZzuGRlALRA6/LVh8QJldbrC4DY0hXoMP0l4Acq8TzFC018HztWiRqyCEj2aTWY2UvnJUg==}
     engines: {node: ^18 || ^20 || >= 21}
 
   node-domexception@1.0.0:
@@ -3824,8 +3824,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nwsapi@2.2.13:
-    resolution: {integrity: sha512-cTGB9ptp9dY9A5VbMSe7fQBcl/tt22Vcqdq8+eN93rblOuE0aCFu4aZ2vMwct/2t+lFnosm8RkQW1I0Omb1UtQ==}
+  nwsapi@2.2.16:
+    resolution: {integrity: sha512-F1I/bimDpj3ncaNDhfyMWuFqmQDBwDB0Fogc2qpL3BWvkQteFD/8BzWuIRl83rq0DXfm8SGt/HFhLXZyljTXcQ==}
 
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
@@ -4884,12 +4884,12 @@ packages:
     peerDependencies:
       stylelint: ^16.1.0
 
-  stylelint-config-standard-scss@13.1.0:
-    resolution: {integrity: sha512-Eo5w7/XvwGHWkeGLtdm2FZLOMYoZl1omP2/jgFCXyl2x5yNz7/8vv4Tj6slHvMSSUNTaGoam/GAZ0ZhukvalfA==}
+  stylelint-config-standard-scss@14.0.0:
+    resolution: {integrity: sha512-6Pa26D9mHyi4LauJ83ls3ELqCglU6VfCXchovbEqQUiEkezvKdv6VgsIoMy58i00c854wVmOw0k8W5FTpuaVqg==}
     engines: {node: '>=18.12.0'}
     peerDependencies:
       postcss: ^8.3.3
-      stylelint: ^16.3.1
+      stylelint: ^16.11.0
     peerDependenciesMeta:
       postcss:
         optional: true
@@ -6555,7 +6555,7 @@ snapshots:
 
   '@leichtgewicht/ip-codec@2.0.5': {}
 
-  '@mdn/browser-compat-data@5.6.19': {}
+  '@mdn/browser-compat-data@5.6.20': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -7059,7 +7059,7 @@ snapshots:
 
   '@tree-sitter-grammars/tree-sitter-yaml@0.6.1(tree-sitter@0.21.1)':
     dependencies:
-      node-addon-api: 8.2.2
+      node-addon-api: 8.3.0
       node-gyp-build: 4.8.4
       tree-sitter: 0.21.1
     optional: true
@@ -7603,7 +7603,7 @@ snapshots:
 
   ast-metadata-inferer@0.8.0:
     dependencies:
-      '@mdn/browser-compat-data': 5.6.19
+      '@mdn/browser-compat-data': 5.6.20
 
   astral-regex@2.0.0: {}
 
@@ -8500,7 +8500,7 @@ snapshots:
 
   eslint-plugin-compat@6.0.1(eslint@8.57.0):
     dependencies:
-      '@mdn/browser-compat-data': 5.6.19
+      '@mdn/browser-compat-data': 5.6.20
       ast-metadata-inferer: 0.8.0
       browserslist: 4.24.2
       caniuse-lite: 1.0.30001684
@@ -9776,7 +9776,7 @@ snapshots:
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
       is-potential-custom-element-name: 1.0.1
-      nwsapi: 2.2.13
+      nwsapi: 2.2.16
       parse5: 7.2.1
       saxes: 6.0.0
       symbol-tree: 3.2.4
@@ -10035,7 +10035,7 @@ snapshots:
   node-addon-api@7.1.1:
     optional: true
 
-  node-addon-api@8.2.2:
+  node-addon-api@8.3.0:
     optional: true
 
   node-domexception@1.0.0: {}
@@ -10066,7 +10066,7 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nwsapi@2.2.13: {}
+  nwsapi@2.2.16: {}
 
   object-assign@4.1.1: {}
 
@@ -11142,7 +11142,7 @@ snapshots:
     dependencies:
       stylelint: 16.11.0
 
-  stylelint-config-standard-scss@13.1.0(postcss@8.4.49)(stylelint@16.11.0):
+  stylelint-config-standard-scss@14.0.0(postcss@8.4.49)(stylelint@16.11.0):
     dependencies:
       stylelint: 16.11.0
       stylelint-config-recommended-scss: 14.1.0(postcss@8.4.49)(stylelint@16.11.0)
@@ -11399,7 +11399,7 @@ snapshots:
 
   tree-sitter-json@0.24.8(tree-sitter@0.21.1):
     dependencies:
-      node-addon-api: 8.2.2
+      node-addon-api: 8.3.0
       node-gyp-build: 4.8.4
     optionalDependencies:
       tree-sitter: 0.21.1
@@ -11407,7 +11407,7 @@ snapshots:
 
   tree-sitter@0.21.1:
     dependencies:
-      node-addon-api: 8.2.2
+      node-addon-api: 8.3.0
       node-gyp-build: 4.8.4
     optional: true
 
