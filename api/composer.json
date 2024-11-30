@@ -18,22 +18,22 @@
         "doctrine/orm": "^3.3.0",
         "maxmind-db/reader": "^1.12.0",
         "nelmio/api-doc-bundle": "^4.33.4",
-        "symfony/console": "^7.1.8",
-        "symfony/dotenv": "^7.1.9",
-        "symfony/expression-language": "^7.1.6",
+        "symfony/console": "^7.2.0",
+        "symfony/dotenv": "^7.2.0",
+        "symfony/expression-language": "^7.2.0",
         "symfony/flex": "^2.4.7",
-        "symfony/framework-bundle": "^7.1.6",
-        "symfony/intl": "^7.1.8",
-        "symfony/lock": "^7.1.6",
+        "symfony/framework-bundle": "^7.2.0",
+        "symfony/intl": "^7.2.0",
+        "symfony/lock": "^7.2.0",
         "symfony/monolog-bundle": "^3.10.0",
-        "symfony/property-access": "^7.1.6",
-        "symfony/property-info": "^7.1.9",
-        "symfony/rate-limiter": "^7.1.8",
-        "symfony/runtime": "^7.1.7",
-        "symfony/serializer": "^7.1.9",
-        "symfony/twig-bundle": "^7.1.6",
-        "symfony/validator": "^7.1.9",
-        "symfony/yaml": "^7.1.6"
+        "symfony/property-access": "^7.2.0",
+        "symfony/property-info": "^7.2.0",
+        "symfony/rate-limiter": "^7.2.0",
+        "symfony/runtime": "^7.2.0",
+        "symfony/serializer": "^7.2.0",
+        "symfony/twig-bundle": "^7.2.0",
+        "symfony/validator": "^7.2.0",
+        "symfony/yaml": "^7.2.0"
     },
     "require-dev": {
         "ext-libxml": "*",
@@ -49,8 +49,8 @@
         "phpstan/phpstan-phpunit": "^2.0.1",
         "phpstan/phpstan-symfony": "^2.0.0",
         "phpunit/phpunit": "^11.4.4",
-        "pierres/doctrine-migrations-test": "^2.2.1",
-        "pierres/symfony-database-test": "^2.2.0",
+        "pierres/doctrine-migrations-test": "^2.3.0",
+        "pierres/symfony-database-test": "^2.3.0",
         "spatie/phpunit-snapshot-assertions": "^5.1.6",
         "squizlabs/php_codesniffer": "^3.11.1",
         "symfony/phpunit-bridge": "^7.2.0"
@@ -90,7 +90,8 @@
     },
     "scripts": {
         "auto-scripts": {
-            "cache:clear": "symfony-cmd"
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
@@ -105,7 +106,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": true,
-            "require": "7.1.*",
+            "require": "7.2.*",
             "docker": false
         },
         "mc-bumpface": {
