@@ -25,7 +25,7 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
         ];
     }
 
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): PkgstatsRequest
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): PkgstatsRequest
     {
         assert(is_array($data));
         assert(is_string($context['clientIp']) || is_null($context['clientIp']));
@@ -65,8 +65,12 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
         return $pkgstatsRequest;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
-    {
+    public function supportsDenormalization(
+        mixed $data,
+        string $type,
+        ?string $format = null,
+        array $context = []
+    ): bool {
         return $type === PkgstatsRequest::class;
     }
 
