@@ -13,7 +13,7 @@ export const useFetchPackageList = (query, offset, limit) => {
     const params = new URLSearchParams()
     params.set('offset', offset.value)
     params.set('limit', limit.value)
-    params.set('query', encodeURIComponent(query.value))
+    params.set('query', query.value)
     params.sort()
     return '/api/packages?' + params.toString()
   }), 50)
