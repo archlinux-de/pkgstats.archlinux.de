@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7737bd6824e08d43da073cb5a0b057a",
+    "content-hash": "973c08d11ba27ddd547431219663b1af",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -3854,8 +3854,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -7937,16 +7937,16 @@
         },
         {
             "name": "spatie/phpunit-snapshot-assertions",
-            "version": "5.1.6",
+            "version": "5.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/phpunit-snapshot-assertions.git",
-                "reference": "61e2eb567713c89987895b8f514a7a4d3bff89c9"
+                "reference": "5c7ae9d555c3b46bddd35f4e4bab9a6181aa1446"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/61e2eb567713c89987895b8f514a7a4d3bff89c9",
-                "reference": "61e2eb567713c89987895b8f514a7a4d3bff89c9",
+                "url": "https://api.github.com/repos/spatie/phpunit-snapshot-assertions/zipball/5c7ae9d555c3b46bddd35f4e4bab9a6181aa1446",
+                "reference": "5c7ae9d555c3b46bddd35f4e4bab9a6181aa1446",
                 "shasum": ""
             },
             "require": {
@@ -8002,7 +8002,7 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/phpunit-snapshot-assertions/issues",
-                "source": "https://github.com/spatie/phpunit-snapshot-assertions/tree/5.1.6"
+                "source": "https://github.com/spatie/phpunit-snapshot-assertions/tree/5.1.7"
             },
             "funding": [
                 {
@@ -8010,7 +8010,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2024-05-03T07:53:03+00:00"
+            "time": "2024-12-09T15:47:41+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
