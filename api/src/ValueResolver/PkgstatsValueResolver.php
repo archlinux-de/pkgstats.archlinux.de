@@ -2,6 +2,7 @@
 
 namespace App\ValueResolver;
 
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -14,7 +15,8 @@ readonly class PkgstatsValueResolver implements ValueResolverInterface
 {
     public function __construct(
         private ValidatorInterface $validator,
-        private SerializerInterface $serializer
+        private SerializerInterface $serializer,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -36,6 +38,7 @@ readonly class PkgstatsValueResolver implements ValueResolverInterface
 
         $errors = $this->validator->validate($pkgstatsRequest);
         if ($errors->count() > 0) {
+            $this->logger->error($errors, ['request' => $pkgstatsRequest]);
             throw new PkgstatsRequestException($errors);
         }
 
