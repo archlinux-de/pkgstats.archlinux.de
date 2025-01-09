@@ -22,7 +22,7 @@ class PkgstatsRequest
      * @var Package[]
      */
     #[Assert\Valid]
-    #[Assert\Count(min:1, max:10000)]
+    #[Assert\Count(min:1, max:20000)]
     private array $packages = [];
 
     #[Assert\Valid]
