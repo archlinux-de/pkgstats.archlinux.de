@@ -7,10 +7,11 @@ use App\Request\PkgstatsRequest;
 use App\Request\PkgstatsRequestException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -30,7 +31,11 @@ class PkgstatsValueResolverTest extends TestCase
             ->method('deserialize')
             ->willReturn(new PkgstatsRequest('3.2.2'));
 
-        $this->pkgstatsValueResolver = new PkgstatsValueResolver($this->validator, $this->serializer);
+        $this->pkgstatsValueResolver = new PkgstatsValueResolver(
+            $this->validator,
+            $this->serializer,
+            $this->createMock(LoggerInterface::class)
+        );
     }
 
     public function testResolveVersion(): void
@@ -80,7 +85,7 @@ class PkgstatsValueResolverTest extends TestCase
             ->method('validate')
             ->willReturnCallback(
                 function (PkgstatsRequest $_) {
-                    return new ConstraintViolationList([$this->createMock(ConstraintViolation::class)]);
+                    return new ConstraintViolationList([$this->createMock(ConstraintViolationInterface::class)]);
                 }
             );
 

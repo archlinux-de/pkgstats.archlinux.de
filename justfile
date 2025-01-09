@@ -93,7 +93,7 @@ console *args:
 
 # run phpunit inside a php container
 phpunit *args:
-	{{PHP-RUN}} vendor/bin/phpunit {{args}}
+	{{PHP-RUN}} php -dmemory_limit=-1 vendor/bin/phpunit {{args}}
 
 # run phpstan inside a php containre
 phpstan *args:
@@ -132,7 +132,7 @@ test-php:
 	{{PHP-RUN}} bin/console lint:yaml --parse-tags config
 	{{PHP-RUN}} bin/console lint:twig templates
 	{{PHP-RUN}} php -dmemory_limit=-1 vendor/bin/phpstan analyse
-	{{PHP-RUN}} vendor/bin/phpunit
+	{{PHP-RUN}} php -dmemory_limit=-1 vendor/bin/phpunit
 
 # execute all js tests (linting, jest, build project)
 test-js:

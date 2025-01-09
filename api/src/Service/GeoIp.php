@@ -15,7 +15,12 @@ readonly class GeoIp implements GeoIpInterface
     {
         try {
             $response = $this->reader->get($clientIp);
-            if (is_array($response) && isset($response['country']) && is_array($response['country']) && is_string($response['country']['iso_code'])) {
+            if (
+                is_array($response) &&
+                isset($response['country']) &&
+                is_array($response['country']) &&
+                is_string($response['country']['iso_code'])
+            ) {
                 return $response['country']['iso_code'];
             }
         } catch (\Exception $e) {

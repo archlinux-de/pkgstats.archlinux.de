@@ -219,7 +219,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
             $client,
             packages: iterator_to_array(
                 (function () {
-                    for ($i = 0; $i < 10002; $i++) {
+                    for ($i = 0; $i < 20002; $i++) {
                         yield 'package-' . $i;
                     }
                 })()
