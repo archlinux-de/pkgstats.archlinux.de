@@ -59,7 +59,7 @@
 @import "./assets/css/import-bootstrap";
 
 .navbar-border-brand {
-  border-bottom: 0.313rem solid $primary;
+  border-bottom: 0.313rem solid $primary; /* stylelint-disable-line declaration-property-value-no-unknown */
 }
 
 .nav-no-outline a:focus {
@@ -93,7 +93,7 @@ pre:has(> code) {
   border-width: $border-width;
   border-style: $border-style;
   border-color: var(--bs-border-color);
-  padding: map-get($gutters, 2); /* stylelint-disable-line scss/no-global-function-names, function-no-unknown */
+  padding: map-get($gutters, 2); /* stylelint-disable-line scss/no-global-function-names, function-no-unknown, declaration-property-value-no-unknown */
 }
 </style>
 
