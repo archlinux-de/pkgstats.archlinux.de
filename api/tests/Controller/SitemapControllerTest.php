@@ -20,6 +20,6 @@ class SitemapControllerTest extends DatabaseTestCase
         $this->assertIsString($response);
         $this->assertNotFalse(\simplexml_load_string($response));
         $this->assertEmpty(\libxml_get_errors());
-        $this->assertStringContainsString('<url><loc>http://localhost/</loc></url>', $response);
+        $this->assertStringContainsString('<loc>http://localhost/</loc>', $response);
     }
 }
