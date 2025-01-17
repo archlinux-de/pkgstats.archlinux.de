@@ -29,6 +29,7 @@ class ApiMirrorsController extends AbstractController
         name: 'app_api_mirror',
         requirements: ['url' => Mirror::URL_REGEXP],
         methods: ['GET'],
+        condition: 'not (params["url"] ends with "/series")',
         priority: 1
     )]
     #[OA\Tag(name: 'mirrors')]
