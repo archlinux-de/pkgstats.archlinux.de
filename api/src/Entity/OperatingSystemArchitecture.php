@@ -13,7 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class OperatingSystemArchitecture
 {
     public const array ARCHITECTURES = [
-        'x86_64', 'i686', 'aarch64', 'armv7h', 'armv6h', 'arm', 'riscv64', 'loongarch64'
+        'x86_64', 'i686', 'i586',
+        'aarch64', 'armv7h', 'armv6h', 'armv7l', 'armv6l', 'armv5tel', 'arm',
+        'riscv64',
+        'loongarch64'
     ];
 
     #[ORM\Column(length:15)]

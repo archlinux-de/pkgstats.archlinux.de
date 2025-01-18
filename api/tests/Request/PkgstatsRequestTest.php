@@ -40,7 +40,7 @@ class PkgstatsRequestTest extends TestCase
         $this->assertEquals('x86_64_v4', $request->getSystemArchitecture()->getName());
     }
 
-    #[DataProvider('provideValidArchitecutres')]
+    #[DataProvider('provideValidArchitectures')]
     public function testValidOperatingSystemArchitectures(string $cpuArch, string $osArch): void
     {
         $request = (new PkgstatsRequest('3'))
@@ -55,7 +55,7 @@ class PkgstatsRequestTest extends TestCase
         $request->validateOperatingSystemArchitectures($context);
     }
 
-    #[DataProvider('provideValidArchitecutres')]
+    #[DataProvider('provideValidArchitectures')]
     public function testValidSystemArchitectures(string $cpuArch, string $osArch): void
     {
         $request = (new PkgstatsRequest('3'))
@@ -121,21 +121,23 @@ class PkgstatsRequestTest extends TestCase
     /**
      * @return list<array<string>>
      */
-    public static function provideValidArchitecutres(): array
+    public static function provideValidArchitectures(): array
     {
         $result = [];
         $entries = [
             // cpuArch -> arch
-            ['x86_64', ['x86_64', 'i686']],
-            ['x86_64_v2', ['x86_64', 'i686']],
-            ['x86_64_v3', ['x86_64', 'i686']],
-            ['x86_64_v4', ['x86_64', 'i686']],
-            ['i686', ['i686']],
-            ['aarch64', ['aarch64', 'armv7h', 'armv6h', 'arm']],
-            ['armv5', ['arm']],
-            ['armv6', ['armv6h', 'arm']],
-            ['armv7', ['armv7h', 'armv6h', 'arm']],
-            ['riscv64', ['riscv64']]
+            ['x86_64', ['x86_64', 'i686', 'i586']],
+            ['x86_64_v2', ['x86_64', 'i686', 'i586']],
+            ['x86_64_v3', ['x86_64', 'i686', 'i586']],
+            ['x86_64_v4', ['x86_64', 'i686', 'i586']],
+            ['i586', ['i586']],
+            ['i686', ['i586', 'i686']],
+            ['aarch64', ['aarch64', 'armv7l', 'armv7h', 'armv6l', 'armv6h', 'arm', 'armv5tel']],
+            ['armv5', ['arm', 'armv5tel']],
+            ['armv6', ['armv6l', 'armv6h', 'arm', 'armv5tel']],
+            ['armv7', ['armv7l', 'armv7h', 'armv6l', 'armv6h', 'arm', 'armv5tel']],
+            ['riscv64', ['riscv64']],
+            ['loong64', ['loongarch64']]
         ];
 
         foreach ($entries as $entry) {

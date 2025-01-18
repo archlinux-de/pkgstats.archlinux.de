@@ -13,10 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SystemArchitecture
 {
     public const array ARCHITECTURES = [
-        'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4',
-        'i686',
-        'aarch64',
-        'armv7', 'armv6', 'armv5',
+        'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4', 'i586', 'i686',
+        'aarch64', 'armv7', 'armv6', 'armv5',
         'riscv64',
         'loong64'
     ];

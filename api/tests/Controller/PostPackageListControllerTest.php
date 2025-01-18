@@ -289,9 +289,13 @@ class PostPackageListControllerTest extends DatabaseTestCase
             // arch -> cpuArch
             ['x86_64', ['x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4']],
             ['i686', ['i686', 'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4']],
+            ['i586', ['i586', 'i686', 'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4']],
             ['arm', ['aarch64', 'armv5', 'armv6', 'armv7']],
+            ['armv5tel', ['aarch64', 'armv5', 'armv6', 'armv7']],
             ['armv6h', ['aarch64', 'armv6', 'armv7']],
+            ['armv6l', ['aarch64', 'armv6', 'armv7']],
             ['armv7h', ['aarch64', 'armv7']],
+            ['armv7l', ['aarch64', 'armv7']],
             ['aarch64', ['aarch64']],
             ['riscv64', ['riscv64']],
             ['loongarch64', ['loong64']]
@@ -314,15 +318,16 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $result = [];
         $entries = [
             // cpuArch -> arch
-            ['x86_64', ['x86_64', 'i686']],
-            ['x86_64_v2', ['x86_64', 'i686']],
-            ['x86_64_v3', ['x86_64', 'i686']],
-            ['x86_64_v4', ['x86_64', 'i686']],
-            ['i686', ['i686']],
-            ['aarch64', ['aarch64', 'armv7h', 'armv6h', 'arm']],
-            ['armv5', ['arm']],
-            ['armv6', ['armv6h', 'arm']],
-            ['armv7', ['armv7h', 'armv6h', 'arm']],
+            ['x86_64', ['x86_64', 'i686', 'i586']],
+            ['x86_64_v2', ['x86_64', 'i686', 'i586']],
+            ['x86_64_v3', ['x86_64', 'i686', 'i586']],
+            ['x86_64_v4', ['x86_64', 'i686', 'i586']],
+            ['i586', ['i586']],
+            ['i686', ['i586', 'i686']],
+            ['aarch64', ['aarch64', 'armv7l', 'armv7h', 'armv6l', 'armv6h', 'arm', 'armv5tel']],
+            ['armv5', ['arm', 'armv5tel']],
+            ['armv6', ['armv6l', 'armv6h', 'arm', 'armv5tel']],
+            ['armv7', ['armv7l', 'armv7h', 'armv6l', 'armv6h', 'arm', 'armv5tel']],
             ['riscv64', ['riscv64']],
             ['loong64', ['loongarch64']]
         ];
