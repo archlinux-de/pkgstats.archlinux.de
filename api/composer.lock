@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8b48c70fd0441e9993cfa388edb9b810",
+    "content-hash": "60d332d440978c9d71a8622d5e6fe08a",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -5505,20 +5505,20 @@
     "packages-dev": [
         {
             "name": "doctrine/data-fixtures",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/data-fixtures.git",
-                "reference": "2ae45139f148c9272c49a521d82cc50491355a99"
+                "reference": "f7f1e12d6bceb58c204b3e77210a103c1c57601e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/2ae45139f148c9272c49a521d82cc50491355a99",
-                "reference": "2ae45139f148c9272c49a521d82cc50491355a99",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/f7f1e12d6bceb58c204b3e77210a103c1c57601e",
+                "reference": "f7f1e12d6bceb58c204b3e77210a103c1c57601e",
                 "shasum": ""
             },
             "require": {
-                "doctrine/persistence": "^3.1",
+                "doctrine/persistence": "^3.1 || ^4.0",
                 "php": "^8.1",
                 "psr/log": "^1.1 || ^2 || ^3"
             },
@@ -5568,7 +5568,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/data-fixtures/issues",
-                "source": "https://github.com/doctrine/data-fixtures/tree/2.0.1"
+                "source": "https://github.com/doctrine/data-fixtures/tree/2.0.2"
             },
             "funding": [
                 {
@@ -5584,7 +5584,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-10T07:03:23+00:00"
+            "time": "2025-01-21T13:21:31+00:00"
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
@@ -6093,16 +6093,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.1.1",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "cd6e973e04b4c2b94c86e8612b5a65f0da0e08e7"
+                "reference": "7d08f569e582ade182a375c366cbd896eccadd3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/cd6e973e04b4c2b94c86e8612b5a65f0da0e08e7",
-                "reference": "cd6e973e04b4c2b94c86e8612b5a65f0da0e08e7",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7d08f569e582ade182a375c366cbd896eccadd3a",
+                "reference": "7d08f569e582ade182a375c366cbd896eccadd3a",
                 "shasum": ""
             },
             "require": {
@@ -6147,7 +6147,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-05T16:43:48+00:00"
+            "time": "2025-01-21T14:54:06+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -6320,22 +6320,22 @@
         },
         {
             "name": "phpstan/phpstan-symfony",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-symfony.git",
-                "reference": "c08cd8e54a08d651bc402d304cfa161c3c3766c4"
+                "reference": "65f02c7e585f3c7372e42e14d3d87da034031553"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/c08cd8e54a08d651bc402d304cfa161c3c3766c4",
-                "reference": "c08cd8e54a08d651bc402d304cfa161c3c3766c4",
+                "url": "https://api.github.com/repos/phpstan/phpstan-symfony/zipball/65f02c7e585f3c7372e42e14d3d87da034031553",
+                "reference": "65f02c7e585f3c7372e42e14d3d87da034031553",
                 "shasum": ""
             },
             "require": {
                 "ext-simplexml": "*",
                 "php": "^7.4 || ^8.0",
-                "phpstan/phpstan": "^2.0"
+                "phpstan/phpstan": "^2.1.2"
             },
             "conflict": {
                 "symfony/framework-bundle": "<3.0"
@@ -6385,9 +6385,9 @@
             "description": "Symfony Framework extensions and rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-symfony/issues",
-                "source": "https://github.com/phpstan/phpstan-symfony/tree/2.0.1"
+                "source": "https://github.com/phpstan/phpstan-symfony/tree/2.0.2"
             },
-            "time": "2025-01-04T13:58:15+00:00"
+            "time": "2025-01-21T18:57:07+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
