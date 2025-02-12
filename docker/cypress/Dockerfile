@@ -1,4 +1,4 @@
-FROM cypress/included:14.0.2 AS cypress-run
+FROM cypress/included:14.0.3 AS cypress-run
 
 ENV CYPRESS_CACHE_FOLDER=/home/node/.cache/Cypress
 RUN mv /root/.cache /home/node/.cache
