@@ -26,7 +26,7 @@ const packages = computed(() => {
   const tempPackages = route.hash
     .replace(/^#packages=/, '')
     .split(',')
-    .filter(value => value.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]+$/))
+    .filter(value => value.match(/^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]*$/))
 
   return [...new Set(tempPackages)].sort().slice(0, 10)
 }
