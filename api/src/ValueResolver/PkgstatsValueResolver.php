@@ -38,7 +38,11 @@ readonly class PkgstatsValueResolver implements ValueResolverInterface
 
         $errors = $this->validator->validate($pkgstatsRequest);
         if ($errors->count() > 0) {
-            $this->logger->error($errors, ['request' => $request->getContent(), 'clientIp' => $request->getClientIp()]);
+            $this->logger->error($errors, [
+                'request' => $request->getContent(),
+                'clientIp' => $request->getClientIp(),
+                'userAgent' => $request->headers->get('User-Agent', 'unknown')
+            ]);
             throw new PkgstatsRequestException($errors);
         }
 
