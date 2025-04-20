@@ -136,7 +136,7 @@ test-php:
 
 # execute all js tests (linting, jest, build project)
 test-js:
-	{{NODE-RUN}} node_modules/.bin/eslint '*.js' src tests --ext js --ext vue
+	{{NODE-RUN}} node_modules/.bin/eslint
 	{{NODE-RUN}} node_modules/.bin/stylelint 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
 	{{NODE-RUN}} node_modules/.bin/jest --passWithNoTests
 	{{NODE-RUN}} pnpm run build --output-path $(mktemp -d)
@@ -181,7 +181,7 @@ test-security: (composer "audit")
 # run phpcbf, eslint and stylelint to fix cs
 fix-code-style:
 	{{PHP-RUN}} vendor/bin/phpcbf || true
-	{{NODE-RUN}} node_modules/.bin/eslint '*.js' src tests --ext js --ext vue --fix
+	{{NODE-RUN}} node_modules/.bin/eslint --fix
 	{{NODE-RUN}} node_modules/.bin/stylelint --fix=strict 'src/assets/css/**/*.scss' 'src/assets/css/**/*.css' 'src/**/*.vue'
 
 # update all project dependencies
