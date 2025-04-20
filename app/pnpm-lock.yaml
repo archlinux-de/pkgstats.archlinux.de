@@ -1855,8 +1855,8 @@ packages:
   caniuse-api@3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
 
-  caniuse-lite@1.0.30001714:
-    resolution: {integrity: sha512-mtgapdwDLSSBnCI3JokHM7oEQBLxiJKVRtg10AxM1AyeiKcM96f0Mkbqeq+1AbiCtvMcHRulAAEMu693JrSWqg==}
+  caniuse-lite@1.0.30001715:
+    resolution: {integrity: sha512-7ptkFGMm2OAOgvZpwgA4yjQ5SQbrNVGdRjzH0pBdy1Fasvcr+KAeECmbCAECzTuDuoX0FCY8KzUxjf9+9kfZEw==}
 
   chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
@@ -2674,8 +2674,8 @@ packages:
   fb-watchman@2.0.2:
     resolution: {integrity: sha512-p5161BqbuCaSnB8jIbzQHOlpgsPmK5rJVDfDKO91Axs5NC1uu3HRQm6wt9cd9/+GtQQIO53JdGXXoyDpTAsgYA==}
 
-  fdir@6.4.3:
-    resolution: {integrity: sha512-PMXmW2y1hDDfTSRc9gaXIuCCRpuoz3Kaz8cUelp3smouvfT632ozg2vrT6lJsHKKOF59YLbOGfAWGUcKEfRMQw==}
+  fdir@6.4.4:
+    resolution: {integrity: sha512-1NZP+GK4GfuAv3PqKvxQRDMjdSRZjnkq7KfhlNrCNNlZ0ygQFpebfrnfnq/W7fpUnAv9aGWmY1zKx7FYL3gwhg==}
     peerDependencies:
       picomatch: ^3 || ^4
     peerDependenciesMeta:
@@ -3548,8 +3548,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  keyv@5.3.2:
-    resolution: {integrity: sha512-Lji2XRxqqa5Wg+CHLVfFKBImfJZ4pCSccu9eVWK6w4c2SDFLd8JAn1zqTuSFnsxb7ope6rMsnIHfp+eBbRBRZQ==}
+  keyv@5.3.3:
+    resolution: {integrity: sha512-Rwu4+nXI9fqcxiEHtbkvoes2X+QfkTRo1TMkPfwzipGsJlJO/z69vqB4FNl9xJ3xCpAcbkvmEabZfPzrwN3+gQ==}
 
   kind-of@6.0.3:
     resolution: {integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==}
@@ -3807,6 +3807,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-fetch-commonjs@3.3.2:
     resolution: {integrity: sha512-VBlAiynj3VMLrotgwOS3OyECFxas5y7ltLcK4t41lMUZeaK15Ym4QRkqN0EQKAFL42q9i21EPKjzLUPfltR72A==}
@@ -5037,8 +5038,8 @@ packages:
   thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
 
-  tinyglobby@0.2.12:
-    resolution: {integrity: sha512-qkf4trmKSIiMTs/E63cxH+ojC2unam7rJ0WrauAzpT3ECNTxGRMlaXxVbfxMUC/w0LaYk6jQ4y/nGR9uBO3tww==}
+  tinyglobby@0.2.13:
+    resolution: {integrity: sha512-mEwzpUgrLySlveBwEVDMKk5B57bhLPYovRfPAXD5gA/98Opn0rCDj3GtLwFvCvH5RK9uPCExUROW5NjDwvqkxw==}
     engines: {node: '>=12.0.0'}
 
   tmpl@1.0.5:
@@ -7626,7 +7627,7 @@ snapshots:
   autoprefixer@10.4.21(postcss@8.5.3):
     dependencies:
       browserslist: 4.24.4
-      caniuse-lite: 1.0.30001714
+      caniuse-lite: 1.0.30001715
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.1.1
@@ -7787,7 +7788,7 @@ snapshots:
 
   browserslist@4.24.4:
     dependencies:
-      caniuse-lite: 1.0.30001714
+      caniuse-lite: 1.0.30001715
       electron-to-chromium: 1.5.139
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
@@ -7812,7 +7813,7 @@ snapshots:
   cacheable@1.8.10:
     dependencies:
       hookified: 1.8.2
-      keyv: 5.3.2
+      keyv: 5.3.3
 
   call-bind-apply-helpers@1.0.2:
     dependencies:
@@ -7845,11 +7846,11 @@ snapshots:
   caniuse-api@3.0.0:
     dependencies:
       browserslist: 4.24.4
-      caniuse-lite: 1.0.30001714
+      caniuse-lite: 1.0.30001715
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
-  caniuse-lite@1.0.30001714: {}
+  caniuse-lite@1.0.30001715: {}
 
   chalk@4.1.2:
     dependencies:
@@ -7986,7 +7987,7 @@ snapshots:
       normalize-path: 3.0.0
       schema-utils: 4.3.0
       serialize-javascript: 6.0.2
-      tinyglobby: 0.2.12
+      tinyglobby: 0.2.13
       webpack: 5.99.6(webpack-cli@6.0.1)
 
   core-js-compat@3.41.0:
@@ -8279,7 +8280,7 @@ snapshots:
   doiuse@6.0.5:
     dependencies:
       browserslist: 4.24.4
-      caniuse-lite: 1.0.30001714
+      caniuse-lite: 1.0.30001715
       css-tokenize: 1.0.1
       duplexify: 4.1.3
       multimatch: 5.0.0
@@ -8527,7 +8528,7 @@ snapshots:
       '@mdn/browser-compat-data': 5.7.6
       ast-metadata-inferer: 0.8.1
       browserslist: 4.24.4
-      caniuse-lite: 1.0.30001714
+      caniuse-lite: 1.0.30001715
       eslint: 8.57.0
       find-up: 5.0.0
       globals: 15.15.0
@@ -8786,7 +8787,7 @@ snapshots:
     dependencies:
       bser: 2.1.1
 
-  fdir@6.4.3(picomatch@4.0.2):
+  fdir@6.4.4(picomatch@4.0.2):
     optionalDependencies:
       picomatch: 4.0.2
 
@@ -9867,7 +9868,7 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  keyv@5.3.2:
+  keyv@5.3.3:
     dependencies:
       '@keyv/serialize': 1.0.3
 
@@ -11447,9 +11448,9 @@ snapshots:
 
   thunky@1.1.0: {}
 
-  tinyglobby@0.2.12:
+  tinyglobby@0.2.13:
     dependencies:
-      fdir: 6.4.3(picomatch@4.0.2)
+      fdir: 6.4.4(picomatch@4.0.2)
       picomatch: 4.0.2
 
   tmpl@1.0.5: {}
