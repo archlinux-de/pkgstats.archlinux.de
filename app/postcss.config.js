@@ -1,10 +1,11 @@
-const purgecss = require('@fullhuman/postcss-purgecss')
+const purgeImport = require('@fullhuman/postcss-purgecss')
+const purgeCSSPlugin = purgeImport.purgeCSSPlugin || purgeImport.default || purgeImport
 const autoprefixer = require('autoprefixer')
 
 module.exports = {
   plugins: [
     autoprefixer,
-    purgecss({
+    purgeCSSPlugin({
       content: ['**/*.js', '**/*.html', '**/*.vue'],
       skippedContentGlobs: ['node_modules/**', 'tests/**'],
       variables: true,

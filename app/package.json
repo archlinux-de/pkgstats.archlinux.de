@@ -9,7 +9,7 @@
   "dependencies": {
     "@babel/core": "^7.26.10",
     "@babel/preset-env": "^7.26.9",
-    "@fullhuman/postcss-purgecss": "^6.0.0",
+    "@fullhuman/postcss-purgecss": "^7.0.2",
     "@vue/compiler-sfc": "^3.5.13",
     "@vueuse/core": "^13.1.0",
     "@vueuse/head": "^2.0.0",
@@ -69,12 +69,5 @@
   },
   "engines": {
     "node": ">=23"
-  },
-  "pnpm": {
-    "updateConfig": {
-      "ignoreDependencies": [
-        "@fullhuman/postcss-purgecss"
-      ]
-    }
   }
 }
