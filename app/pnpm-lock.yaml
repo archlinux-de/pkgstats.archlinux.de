@@ -4008,8 +4008,8 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
-  napi-postinstall@0.1.1:
-    resolution: {integrity: sha512-TYY03NBTDA+gDLvOaVpir/Myk0bZhumlhmALLCqiH389wJIDVnF+jfCDS+Sw1m2qpyJ/hjyK0GDYgLov6Z1Pkg==}
+  napi-postinstall@0.1.5:
+    resolution: {integrity: sha512-HI5bHONOUYqV+FJvueOSgjRxHTLB25a3xIv59ugAxFe7xRNbW96hyYbMbsKzl+QvFV9mN/SrtHwiU+vYhMwA7Q==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     hasBin: true
 
@@ -10630,7 +10630,7 @@ snapshots:
 
   nanoid@3.3.11: {}
 
-  napi-postinstall@0.1.1: {}
+  napi-postinstall@0.1.5: {}
 
   natural-compare@1.4.0: {}
 
@@ -12227,7 +12227,7 @@ snapshots:
 
   unrs-resolver@1.6.1:
     dependencies:
-      napi-postinstall: 0.1.1
+      napi-postinstall: 0.1.5
     optionalDependencies:
       '@unrs/resolver-binding-darwin-arm64': 1.6.1
       '@unrs/resolver-binding-darwin-x64': 1.6.1
