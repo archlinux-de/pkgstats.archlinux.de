@@ -7,8 +7,8 @@
     "serve": "webpack serve --mode development --host 0.0.0.0 --port 8180 --allowed-hosts all --hot"
   },
   "dependencies": {
-    "@babel/core": "^7.26.10",
-    "@babel/preset-env": "^7.26.9",
+    "@babel/core": "^7.27.1",
+    "@babel/preset-env": "^7.27.1",
     "@fullhuman/postcss-purgecss": "^7.0.2",
     "@vue/compiler-sfc": "^3.5.13",
     "@vueuse/core": "^13.1.0",
@@ -46,7 +46,7 @@
     "workbox-webpack-plugin": "^7.3.0"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.27.0",
+    "@babel/eslint-parser": "^7.27.1",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.25.1",
     "@jest/globals": "^29.7.0",
@@ -57,7 +57,7 @@
     "eslint-plugin-jest": "^28.11.0",
     "eslint-plugin-n": "^17.17.0",
     "eslint-plugin-promise": "^7.2.1",
-    "eslint-plugin-vue": "^10.0.1",
+    "eslint-plugin-vue": "^10.1.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "neostandard": "^0.12.1",
