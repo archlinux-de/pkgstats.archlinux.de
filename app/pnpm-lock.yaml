@@ -42,8 +42,8 @@ importers:
         specifier: ^5.3.5
         version: 5.3.5(@popperjs/core@2.11.8)
       bootstrap-icons:
-        specifier: ^1.11.3
-        version: 1.11.3
+        specifier: ^1.11.4
+        version: 1.11.4
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -2001,8 +2001,8 @@ packages:
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
 
-  bootstrap-icons@1.11.3:
-    resolution: {integrity: sha512-+3lpHrCw/it2/7lBL15VR0HEumaBss0+f/Lb6ZvHISn1mlK83jjFpooTLsMWbIjJMDjDjOExMsTxnXSIT4k4ww==}
+  bootstrap-icons@1.11.4:
+    resolution: {integrity: sha512-P/3I5KsoS8tDvpBLolRBZnRkkKysUXM8Rm00nnazHY+eZ/o/smJZEDPbKI+d+XZLWdiaYDBB+ikUiCl7BogyKg==}
 
   bootstrap@5.3.5:
     resolution: {integrity: sha512-ct1CHKtiobRimyGzmsSldEtM03E8fcEX4Tb3dGXz1V8faRwM50+vfHwTzOxB3IlKO7m+9vTH3s/3C6T2EAPeTA==}
@@ -3976,8 +3976,8 @@ packages:
     resolution: {integrity: sha512-aisnrDP4GNe06UcKFnV5bfMNPBUw4jsLGaWwWfnH3v02GnBuXX2MCVn5RbrWo0j3pczUilYblq7fQ7Nw2t5XKw==}
     engines: {node: '>= 0.8'}
 
-  memfs@4.17.0:
-    resolution: {integrity: sha512-4eirfZ7thblFmqFjywlTmuWVSvccHAJbn1r8qQLzmTO11qcqpohOjmY2mFce6x7x7WtskzRqApPD0hv+Oa74jg==}
+  memfs@4.17.1:
+    resolution: {integrity: sha512-thuTRd7F4m4dReCIy7vv4eNYnU6XI/tHMLSMMHLiortw/Y0QxqKtinG523U2aerzwYWGi606oBP4oMPy4+edag==}
     engines: {node: '>= 4.0.0'}
 
   meow@13.2.0:
@@ -5858,8 +5858,8 @@ packages:
     resolution: {integrity: sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  ws@8.18.1:
-    resolution: {integrity: sha512-RKW2aJZMXeMxVpnZ6bck+RswznaxmzdULiBr6KY7XkTnW8uvt0iT9H5DkHUChXrc+uurzwa0rVI16n/Xzjdz1w==}
+  ws@8.18.2:
+    resolution: {integrity: sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -8399,7 +8399,7 @@ snapshots:
 
   boolbase@1.0.0: {}
 
-  bootstrap-icons@1.11.3: {}
+  bootstrap-icons@1.11.4: {}
 
   bootstrap@5.3.5(@popperjs/core@2.11.8):
     dependencies:
@@ -10604,7 +10604,7 @@ snapshots:
       whatwg-encoding: 2.0.0
       whatwg-mimetype: 3.0.0
       whatwg-url: 11.0.0
-      ws: 8.18.1
+      ws: 8.18.2
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
       - bufferutil
@@ -10761,7 +10761,7 @@ snapshots:
 
   media-typer@1.1.0: {}
 
-  memfs@4.17.0:
+  memfs@4.17.1:
     dependencies:
       '@jsonjoy.com/json-pack': 1.2.0(tslib@2.8.1)
       '@jsonjoy.com/util': 1.5.0(tslib@2.8.1)
@@ -12646,7 +12646,7 @@ snapshots:
   webpack-dev-middleware@7.4.2(webpack@5.99.7):
     dependencies:
       colorette: 2.0.20
-      memfs: 4.17.0
+      memfs: 4.17.1
       mime-types: 2.1.35
       on-finished: 2.4.1
       range-parser: 1.2.1
@@ -12683,7 +12683,7 @@ snapshots:
       sockjs: 0.3.24
       spdy: 4.0.2
       webpack-dev-middleware: 7.4.2(webpack@5.99.7)
-      ws: 8.18.1
+      ws: 8.18.2
     optionalDependencies:
       webpack: 5.99.7(webpack-cli@6.0.1)
       webpack-cli: 6.0.1(webpack-dev-server@5.2.1)(webpack@5.99.7)
@@ -12966,7 +12966,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
 
-  ws@8.18.1: {}
+  ws@8.18.2: {}
 
   xml-but-prettier@1.0.1:
     dependencies:
