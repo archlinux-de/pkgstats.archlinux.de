@@ -42,8 +42,8 @@ importers:
         specifier: ^5.3.5
         version: 5.3.5(@popperjs/core@2.11.8)
       bootstrap-icons:
-        specifier: ^1.11.4
-        version: 1.11.4
+        specifier: ^1.12.1
+        version: 1.12.1
       buffer:
         specifier: ^6.0.3
         version: 6.0.3
@@ -2001,8 +2001,8 @@ packages:
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
 
-  bootstrap-icons@1.11.4:
-    resolution: {integrity: sha512-P/3I5KsoS8tDvpBLolRBZnRkkKysUXM8Rm00nnazHY+eZ/o/smJZEDPbKI+d+XZLWdiaYDBB+ikUiCl7BogyKg==}
+  bootstrap-icons@1.12.1:
+    resolution: {integrity: sha512-ekwupjsteHQmgGV+haQ0nNMoSyKCbJj5ou+06vFzb9uR2/bwN9isNEgXBaQzcT+fLzhKS3OaBNpwz8XdZlIgYQ==}
 
   bootstrap@5.3.5:
     resolution: {integrity: sha512-ct1CHKtiobRimyGzmsSldEtM03E8fcEX4Tb3dGXz1V8faRwM50+vfHwTzOxB3IlKO7m+9vTH3s/3C6T2EAPeTA==}
@@ -5917,8 +5917,8 @@ packages:
     peerDependencies:
       zod: ^3.24.1
 
-  zod@3.24.3:
-    resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
+  zod@3.24.4:
+    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
 
 snapshots:
 
@@ -7002,8 +7002,8 @@ snapshots:
       express-rate-limit: 7.5.0(express@5.1.0)
       pkce-challenge: 5.0.0
       raw-body: 3.0.0
-      zod: 3.24.3
-      zod-to-json-schema: 3.24.5(zod@3.24.3)
+      zod: 3.24.4
+      zod-to-json-schema: 3.24.5(zod@3.24.4)
     transitivePeerDependencies:
       - supports-color
 
@@ -8399,7 +8399,7 @@ snapshots:
 
   boolbase@1.0.0: {}
 
-  bootstrap-icons@1.11.4: {}
+  bootstrap-icons@1.12.1: {}
 
   bootstrap@5.3.5(@popperjs/core@2.11.8):
     dependencies:
@@ -9372,7 +9372,7 @@ snapshots:
       minimatch: 3.1.2
       natural-compare: 1.4.0
       optionator: 0.9.4
-      zod: 3.24.3
+      zod: 3.24.4
     optionalDependencies:
       jiti: 1.21.7
     transitivePeerDependencies:
@@ -13002,8 +13002,8 @@ snapshots:
 
   zhead@2.2.4: {}
 
-  zod-to-json-schema@3.24.5(zod@3.24.3):
+  zod-to-json-schema@3.24.5(zod@3.24.4):
     dependencies:
-      zod: 3.24.3
+      zod: 3.24.4
 
-  zod@3.24.3: {}
+  zod@3.24.4: {}
