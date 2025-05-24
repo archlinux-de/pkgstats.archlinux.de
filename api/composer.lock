@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2d0aa033bb881529669b9daba5b0ad4",
+    "content-hash": "d00784c3b21979f80fd5dc536cd477c3",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -1293,20 +1293,19 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v5.0.1",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "ede5e66c0016135ca580c94b3cc832310d77cd53"
+                "reference": "f48d9cb3930a34df209547ffd86db01254d5fce8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/ede5e66c0016135ca580c94b3cc832310d77cd53",
-                "reference": "ede5e66c0016135ca580c94b3cc832310d77cd53",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/f48d9cb3930a34df209547ffd86db01254d5fce8",
+                "reference": "f48d9cb3930a34df209547ffd86db01254d5fce8",
                 "shasum": ""
             },
             "require": {
-                "ext-json": "*",
                 "php": ">=8.1",
                 "phpdocumentor/reflection-docblock": "^5.0",
                 "phpdocumentor/type-resolver": "^1.8.2",
@@ -1344,10 +1343,12 @@
                 "symfony/cache": "^6.4 || ^7.1",
                 "symfony/dom-crawler": "^6.4 || ^7.1",
                 "symfony/expression-language": "^6.4 || ^7.1",
+                "symfony/finder": "^6.4 || ^7.1",
                 "symfony/form": "^6.4 || ^7.1",
                 "symfony/phpunit-bridge": "^6.4 || ^7.1",
                 "symfony/property-access": "^6.4 || ^7.1",
                 "symfony/security-csrf": "^6.4 || ^7.1",
+                "symfony/security-http": "^6.4 || ^7.1",
                 "symfony/serializer": "^6.4 || ^7.1",
                 "symfony/stopwatch": "^6.4 || ^7.1",
                 "symfony/templating": "^6.4 || ^7.1",
@@ -1402,7 +1403,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/NelmioApiDocBundle/issues",
-                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v5.0.1"
+                "source": "https://github.com/nelmio/NelmioApiDocBundle/tree/v5.2.0"
             },
             "funding": [
                 {
@@ -1410,7 +1411,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-03-24T15:14:41+00:00"
+            "time": "2025-05-23T21:30:13+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2993,16 +2994,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v2.6.0",
+            "version": "v2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "ccc4d2dc15e90f0fed555d6078c3698396306cdd"
+                "reference": "5d743b3b78fabe9f3146586d77b0a1f9292851fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/ccc4d2dc15e90f0fed555d6078c3698396306cdd",
-                "reference": "ccc4d2dc15e90f0fed555d6078c3698396306cdd",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/5d743b3b78fabe9f3146586d77b0a1f9292851fc",
+                "reference": "5d743b3b78fabe9f3146586d77b0a1f9292851fc",
                 "shasum": ""
             },
             "require": {
@@ -3041,7 +3042,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v2.6.0"
+                "source": "https://github.com/symfony/flex/tree/v2.7.0"
             },
             "funding": [
                 {
@@ -3057,7 +3058,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-21T07:23:28+00:00"
+            "time": "2025-05-23T11:41:40+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -6303,16 +6304,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "12.2.1",
+            "version": "12.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "448f2c504d86dbff3949dcd02c95aa85db2c7617"
+                "reference": "9075a8efc66e11bc55c319062e147bdb06777267"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/448f2c504d86dbff3949dcd02c95aa85db2c7617",
-                "reference": "448f2c504d86dbff3949dcd02c95aa85db2c7617",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/9075a8efc66e11bc55c319062e147bdb06777267",
+                "reference": "9075a8efc66e11bc55c319062e147bdb06777267",
                 "shasum": ""
             },
             "require": {
@@ -6339,7 +6340,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "12.2.x-dev"
+                    "dev-main": "12.3.x-dev"
                 }
             },
             "autoload": {
@@ -6368,7 +6369,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
                 "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy",
-                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.2.1"
+                "source": "https://github.com/sebastianbergmann/php-code-coverage/tree/12.3.0"
             },
             "funding": [
                 {
@@ -6388,7 +6389,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-05-04T05:25:05+00:00"
+            "time": "2025-05-23T15:49:03+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
