@@ -45,7 +45,7 @@ jobs:
       - run: just test-db
       - run: just test-e2e
       - name: Commit updates
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: Update dependencies
           commit_user_name: Maintenance Bob
