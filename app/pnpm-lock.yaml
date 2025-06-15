@@ -48,8 +48,8 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
       chart.js:
-        specifier: ^4.4.9
-        version: 4.4.9
+        specifier: ^4.5.0
+        version: 4.5.0
       compression-webpack-plugin:
         specifier: ^11.1.0
         version: 11.1.0(webpack@5.99.9)
@@ -1995,8 +1995,8 @@ packages:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
 
-  axios@1.9.0:
-    resolution: {integrity: sha512-re4CqKTJaURpzbLHtIi6XpDv20/CnpXOtjRY5/CU32L8gU8ek9UIivcfvSWvmKEngmVbrUtPpdDwWDWL7DNHvg==}
+  axios@1.10.0:
+    resolution: {integrity: sha512-/1xYAC4MP/HEG+3duIhFr4ZQXR4sQXOIe+o6sdqzeykGLx6Upp/1p8MHqhINOvGeP7xyNHe7tsiJByc4SSVUxw==}
 
   babel-jest@30.0.0:
     resolution: {integrity: sha512-JQ0DhdFjODbSawDf0026uZuwaqfKkQzk+9mwWkq2XkKFIaMhFVOxlVmbFCOnnC76jATdxrff3IiUAvOAJec6tw==}
@@ -2167,8 +2167,8 @@ packages:
   character-reference-invalid@1.1.4:
     resolution: {integrity: sha512-mKKUkUbhPpQlCOfIuZkvSEgktjPFIsZKRRbC6KWVEMvlzblj3i3asQv5ODsrwt0N3pHAEvjP8KTQPHkp0+6jOg==}
 
-  chart.js@4.4.9:
-    resolution: {integrity: sha512-EyZ9wWKgpAU0fLJ43YAEIF8sr5F2W3LqbS40ZJyHIner2lY14ufqv2VMp69MAiZ2rpwxEUxEhIH/0U3xyRynxg==}
+  chart.js@4.5.0:
+    resolution: {integrity: sha512-aYeC/jDgSEx8SHWZvANYMioYMZ2KX02W6f6uVfyteuCGcadDLcYVHdfdygsTQkQ4TKn5lghoojAsPj5pu0SnvQ==}
     engines: {pnpm: '>=8'}
 
   chokidar@3.6.0:
@@ -7557,7 +7557,7 @@ snapshots:
       '@swagger-api/apidom-core': 1.0.0-beta.43
       '@swagger-api/apidom-error': 1.0.0-beta.43
       '@types/ramda': 0.30.2
-      axios: 1.9.0
+      axios: 1.10.0
       minimatch: 7.4.6
       process: 0.11.10
       ramda: 0.30.1
@@ -8312,7 +8312,7 @@ snapshots:
     dependencies:
       possible-typed-array-names: 1.1.0
 
-  axios@1.9.0:
+  axios@1.10.0:
     dependencies:
       follow-redirects: 1.15.9
       form-data: 4.0.3
@@ -8538,7 +8538,7 @@ snapshots:
 
   character-reference-invalid@1.1.4: {}
 
-  chart.js@4.4.9:
+  chart.js@4.5.0:
     dependencies:
       '@kurkle/color': 0.3.4
 
