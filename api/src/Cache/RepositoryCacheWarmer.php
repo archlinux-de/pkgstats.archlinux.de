@@ -34,7 +34,7 @@ readonly class RepositoryCacheWarmer implements CacheWarmerInterface
      */
     public function warmUp(string $cacheDir, ?string $buildDir = null): array
     {
-        if ($this->environment != 'prod') {
+        if ($this->environment !== 'prod') {
             return [];
         }
 

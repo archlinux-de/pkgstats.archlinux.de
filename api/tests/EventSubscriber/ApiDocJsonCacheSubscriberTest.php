@@ -16,7 +16,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
 {
     public function testGetSubscribedEvents(): void
     {
-        $events = (new ApiDocJsonCacheSubscriber('prod'))->getSubscribedEvents();
+        $events = new ApiDocJsonCacheSubscriber('prod')->getSubscribedEvents();
 
         $this->assertArrayHasKey(KernelEvents::RESPONSE, $events);
     }
@@ -34,7 +34,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
 
         $event = $this->createEvent(new Request(), $response);
 
-        (new ApiDocJsonCacheSubscriber('prod'))->onKernelResponse($event);
+        new ApiDocJsonCacheSubscriber('prod')->onKernelResponse($event);
     }
 
     private function createEvent(Request $request, Response $response): ResponseEvent
@@ -67,7 +67,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
 
         $event = $this->createEvent(new Request([], [], ['_route' => 'app_swagger']), $response);
 
-        (new ApiDocJsonCacheSubscriber('prod'))->onKernelResponse($event);
+        new ApiDocJsonCacheSubscriber('prod')->onKernelResponse($event);
     }
 
     public function testSubscriberWillSetCacheHeader(): void
@@ -87,6 +87,6 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
 
         $event = $this->createEvent(new Request([], [], ['_route' => 'app_swagger']), $response);
 
-        (new ApiDocJsonCacheSubscriber('prod'))->onKernelResponse($event);
+        new ApiDocJsonCacheSubscriber('prod')->onKernelResponse($event);
     }
 }

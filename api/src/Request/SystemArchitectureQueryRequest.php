@@ -9,7 +9,7 @@ class SystemArchitectureQueryRequest
 {
     #[Assert\Length(max:191)]
     #[Assert\Regex('/' . SystemArchitecture::NAME_REGEXP . '/')]
-    private string $query;
+    private readonly string $query;
 
     public function __construct(string $query)
     {

@@ -25,7 +25,7 @@ class CountryRepository extends ServiceEntityRepository
             ->where('country.code = :code')
             ->setParameter('code', $code);
 
-        if ($startMonth == $endMonth) {
+        if ($startMonth === $endMonth) {
             $queryBuilder
                 ->select('country.count')
                 ->andWhere('country.month = :month')
@@ -44,7 +44,7 @@ class CountryRepository extends ServiceEntityRepository
             return (int)$queryBuilder
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultException $e) {
+        } catch (NoResultException) {
             return 0;
         }
     }
@@ -85,7 +85,7 @@ class CountryRepository extends ServiceEntityRepository
     {
         return array_reduce(
             $this->getMonthlySumCountByRange($startMonth, $endMonth),
-            fn(int $carry, array $item) => $carry + $item['count'],
+            fn(int $carry, array $item): int => $carry + $item['count'],
             0
         );
     }
@@ -108,9 +108,7 @@ class CountryRepository extends ServiceEntityRepository
 
         return array_filter(
             $sumMonthlyCount,
-            function ($entry) use ($startMonth, $endMonth) {
-                return $entry['month'] >= $startMonth && $entry['month'] <= $endMonth;
-            }
+            fn($entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
         );
     }
 
@@ -127,7 +125,7 @@ class CountryRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('country')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
-        if ($startMonth == $endMonth) {
+        if ($startMonth === $endMonth) {
             $queryBuilder
                 ->where('country.month = :month')
                 ->orderBy('country.count', 'desc')
@@ -157,12 +155,10 @@ class CountryRepository extends ServiceEntityRepository
         /** @var list<array{'country_code': string, 'country_count': int}> $countries */
         $countries = $pagination->getQuery()->getScalarResult();
 
-        $countries = array_map(function ($country) {
-            return [
-                'code' => $country['country_code'],
-                'count' => $country['country_count']
-            ];
-        }, $countries);
+        $countries = array_map(fn($country): array => [
+            'code' => $country['country_code'],
+            'count' => $country['country_count']
+        ], $countries);
 
         return [
             'total' => $total,

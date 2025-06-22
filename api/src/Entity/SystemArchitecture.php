@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: SystemArchitectureRepository::class)]
 #[ORM\Index(columns: ['month', 'name'], name: 'sytem_architecture_month_name')]
 #[ORM\Index(columns: ['month', 'count'], name: 'sytem_architecture_month_count')]
-class SystemArchitecture
+class SystemArchitecture implements \Stringable
 {
     public const array ARCHITECTURES = [
         'x86_64', 'x86_64_v2', 'x86_64_v3', 'x86_64_v4', 'i586', 'i686',

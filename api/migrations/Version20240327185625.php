@@ -18,6 +18,7 @@ final class Version20240327185625 extends AbstractMigration
         $this->addSql('ALTER TABLE system_architecture CHANGE month month INT UNSIGNED NOT NULL, CHANGE count count INT UNSIGNED NOT NULL');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->addSql('ALTER TABLE system_architecture CHANGE month month INT NOT NULL, CHANGE count count INT NOT NULL');
@@ -27,6 +28,7 @@ final class Version20240327185625 extends AbstractMigration
         $this->addSql('ALTER TABLE package CHANGE month month INT NOT NULL, CHANGE count count INT NOT NULL');
     }
 
+    #[\Override]
     public function isTransactional(): bool
     {
         return false;

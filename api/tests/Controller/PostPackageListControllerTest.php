@@ -52,7 +52,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         /** @var Package[] $packages */
         $packages = $packageRepository->findAll();
         $this->assertCount(2, $packages);
-        $packagesArray = array_map(fn($package) => $package->getName(), $packages);
+        $packagesArray = array_map(fn($package): string => $package->getName(), $packages);
         $this->assertTrue(in_array('pkgstats', $packagesArray));
         $this->assertTrue(in_array('pacman', $packagesArray));
     }
@@ -260,7 +260,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
     public function testPostPackageListIncrementsPackageCount(): void
     {
         $this->getEntityManager()->persist(
-            (new Package())
+            new Package()
                 ->setName('pkgstats')
                 ->setMonth((int)date('Ym'))
         );

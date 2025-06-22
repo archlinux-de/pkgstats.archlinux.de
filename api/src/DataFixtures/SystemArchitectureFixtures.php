@@ -32,7 +32,7 @@ class SystemArchitectureFixtures extends Fixture
     private function createSystemArchitectures(int $month): iterable
     {
         foreach (SystemArchitecture::ARCHITECTURES as $architectureName) {
-            $systemArchitecture = (new SystemArchitecture($architectureName))->setMonth($month);
+            $systemArchitecture = new SystemArchitecture($architectureName)->setMonth($month);
             for ($i = 0; $i < mt_rand(1, 20_000); $i++) {
                 $systemArchitecture->incrementCount();
             }

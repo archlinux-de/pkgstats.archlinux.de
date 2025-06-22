@@ -31,7 +31,7 @@ class MirrorFixtures extends Fixture
     private function createMirrors(int $month): iterable
     {
         for ($j = 0; $j < 100; $j++) {
-            $mirror = (new Mirror(sprintf('http://%d.localhost/', $j)))->setMonth($month);
+            $mirror = new Mirror(sprintf('http://%d.localhost/', $j))->setMonth($month);
             for ($i = 0; $i < mt_rand(1, 2_000); $i++) {
                 $mirror->incrementCount();
             }

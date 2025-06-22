@@ -16,6 +16,7 @@ final class Version20190922101653 extends AbstractMigration
         $this->addSql('ALTER TABLE package ADD PRIMARY KEY (name, month)');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->addSql('ALTER TABLE package DROP PRIMARY KEY');
@@ -23,6 +24,7 @@ final class Version20190922101653 extends AbstractMigration
         $this->addSql('ALTER TABLE package ADD PRIMARY KEY (pkgname, month)');
     }
 
+    #[\Override]
     public function isTransactional(): bool
     {
         return false;

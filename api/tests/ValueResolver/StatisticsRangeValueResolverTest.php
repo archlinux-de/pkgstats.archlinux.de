@@ -42,9 +42,7 @@ class StatisticsRangeValueResolverTest extends TestCase
             ->expects($this->once())
             ->method('validate')
             ->willReturnCallback(
-                function (StatisticsRangeRequest $_) {
-                    return new ConstraintViolationList();
-                }
+                fn(StatisticsRangeRequest $_): ConstraintViolationList => new ConstraintViolationList()
             );
 
         $values = [...$this->statisticsRangeValueResolver->resolve($request, $argument)];
@@ -84,9 +82,7 @@ class StatisticsRangeValueResolverTest extends TestCase
             ->expects($this->once())
             ->method('validate')
             ->willReturnCallback(
-                function (StatisticsRangeRequest $_) {
-                    return new ConstraintViolationList();
-                }
+                fn(StatisticsRangeRequest $_): ConstraintViolationList => new ConstraintViolationList()
             );
 
         $values = [...$this->statisticsRangeValueResolver->resolve($request, $argument)];
@@ -114,9 +110,8 @@ class StatisticsRangeValueResolverTest extends TestCase
             ->expects($this->once())
             ->method('validate')
             ->willReturnCallback(
-                function (StatisticsRangeRequest $_) {
-                    return new ConstraintViolationList([$this->createMock(ConstraintViolation::class)]);
-                }
+                fn(StatisticsRangeRequest $_): ConstraintViolationList
+                => new ConstraintViolationList([$this->createMock(ConstraintViolation::class)])
             );
 
         $this->expectException(PkgstatsRequestException::class);

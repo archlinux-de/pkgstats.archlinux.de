@@ -36,7 +36,7 @@ class CountryFixtures extends Fixture
     {
         foreach ($this->iso3166 as $countryCode) {
             assert(is_string($countryCode['alpha2']));
-            $country = (new Country($countryCode['alpha2']))->setMonth($month);
+            $country = new Country($countryCode['alpha2'])->setMonth($month);
             for ($i = 0; $i < mt_rand(1, 6_000); $i++) {
                 $country->incrementCount();
             }

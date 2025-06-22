@@ -25,7 +25,7 @@ class PackageRepository extends ServiceEntityRepository
             ->where('package.name = :name')
             ->setParameter('name', $name);
 
-        if ($startMonth == $endMonth) {
+        if ($startMonth === $endMonth) {
             $queryBuilder
                 ->select('package.count')
                 ->andWhere('package.month = :month')
@@ -44,7 +44,7 @@ class PackageRepository extends ServiceEntityRepository
             return (int)$queryBuilder
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultException $e) {
+        } catch (NoResultException) {
             return 0;
         }
     }
@@ -85,7 +85,7 @@ class PackageRepository extends ServiceEntityRepository
     {
         return array_reduce(
             $this->getMonthlyMaximumCountByRange($startMonth, $endMonth),
-            fn($carry, $item) => $carry + $item['count'],
+            fn($carry, $item): float|int => $carry + $item['count'],
             0
         );
     }
@@ -109,9 +109,7 @@ class PackageRepository extends ServiceEntityRepository
 
         return array_filter(
             $maxMonthlyCount,
-            function ($entry) use ($startMonth, $endMonth) {
-                return $entry['month'] >= $startMonth && $entry['month'] <= $endMonth;
-            }
+            fn($entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
         );
     }
 
@@ -128,7 +126,7 @@ class PackageRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('package')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
-        if ($startMonth == $endMonth) {
+        if ($startMonth === $endMonth) {
             $queryBuilder
                 ->where('package.month = :month')
                 ->orderBy('package.count', 'desc')
@@ -157,12 +155,10 @@ class PackageRepository extends ServiceEntityRepository
         /** @var list<array{'package_name': string, 'package_count': int}> $packages */
         $packages = $pagination->getQuery()->getScalarResult();
 
-        $packages = array_map(function ($package) {
-            return [
-                'name' => $package['package_name'],
-                'count' => $package['package_count']
-            ];
-        }, $packages);
+        $packages = array_map(fn($package): array => [
+            'name' => $package['package_name'],
+            'count' => $package['package_count']
+        ], $packages);
 
         return [
             'total' => $total,

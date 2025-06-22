@@ -15,12 +15,14 @@ final class Version20191020113255 extends AbstractMigration
         $this->addSql('CREATE INDEX month ON package (month)');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->addSql('DROP INDEX month_name ON package');
         $this->addSql('DROP INDEX month ON package');
     }
 
+    #[\Override]
     public function isTransactional(): bool
     {
         return false;

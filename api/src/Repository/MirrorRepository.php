@@ -25,7 +25,7 @@ class MirrorRepository extends ServiceEntityRepository
             ->where('mirror.url = :url')
             ->setParameter('url', $url);
 
-        if ($startMonth == $endMonth) {
+        if ($startMonth === $endMonth) {
             $queryBuilder
                 ->select('mirror.count')
                 ->andWhere('mirror.month = :month')
@@ -44,7 +44,7 @@ class MirrorRepository extends ServiceEntityRepository
             return (int)$queryBuilder
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultException $e) {
+        } catch (NoResultException) {
             return 0;
         }
     }
@@ -85,7 +85,7 @@ class MirrorRepository extends ServiceEntityRepository
     {
         return array_reduce(
             $this->getMonthlySumCountByRange($startMonth, $endMonth),
-            fn($carry, $item) => $carry + $item['count'],
+            fn($carry, $item): float|int => $carry + $item['count'],
             0
         );
     }
@@ -108,9 +108,7 @@ class MirrorRepository extends ServiceEntityRepository
 
         return array_filter(
             $sumMonthlyCount,
-            function ($entry) use ($startMonth, $endMonth) {
-                return $entry['month'] >= $startMonth && $entry['month'] <= $endMonth;
-            }
+            fn($entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
         );
     }
 
@@ -127,7 +125,7 @@ class MirrorRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('mirror')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
-        if ($startMonth == $endMonth) {
+        if ($startMonth === $endMonth) {
             $queryBuilder
                 ->where('mirror.month = :month')
                 ->orderBy('mirror.count', 'desc')
@@ -157,12 +155,10 @@ class MirrorRepository extends ServiceEntityRepository
         /** @var list<array{'mirror_url': string, 'mirror_count': int}> $mirrors */
         $mirrors = $pagination->getQuery()->getScalarResult();
 
-        $mirrors = array_map(function ($mirror) {
-            return [
-                'url' => $mirror['mirror_url'],
-                'count' => $mirror['mirror_count']
-            ];
-        }, $mirrors);
+        $mirrors = array_map(fn($mirror): array => [
+            'url' => $mirror['mirror_url'],
+            'count' => $mirror['mirror_count']
+        ], $mirrors);
 
         return [
             'total' => $total,

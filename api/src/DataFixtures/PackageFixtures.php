@@ -39,7 +39,7 @@ class PackageFixtures extends Fixture
             : $this->getPackages();
 
         foreach ($packageNames as $packageName) {
-            $package = (new Package())->setName($packageName)->setMonth($month);
+            $package = new Package()->setName($packageName)->setMonth($month);
             for ($i = 0; $i < mt_rand(1, 20_000); $i++) {
                 $package->incrementCount();
             }

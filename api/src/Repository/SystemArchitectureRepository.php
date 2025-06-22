@@ -25,7 +25,7 @@ class SystemArchitectureRepository extends ServiceEntityRepository
             ->where('systemArchitecture.name = :name')
             ->setParameter('name', $name);
 
-        if ($startMonth == $endMonth) {
+        if ($startMonth === $endMonth) {
             $queryBuilder
                 ->select('systemArchitecture.count')
                 ->andWhere('systemArchitecture.month = :month')
@@ -44,7 +44,7 @@ class SystemArchitectureRepository extends ServiceEntityRepository
             return (int)$queryBuilder
                 ->getQuery()
                 ->getSingleScalarResult();
-        } catch (NoResultException $e) {
+        } catch (NoResultException) {
             return 0;
         }
     }
@@ -85,7 +85,7 @@ class SystemArchitectureRepository extends ServiceEntityRepository
     {
         return array_reduce(
             $this->getMonthlySumCountByRange($startMonth, $endMonth),
-            fn($carry, $item) => $carry + $item['count'],
+            fn($carry, $item): float|int => $carry + $item['count'],
             0
         );
     }
@@ -108,9 +108,7 @@ class SystemArchitectureRepository extends ServiceEntityRepository
 
         return array_filter(
             $sumMonthlyCount,
-            function ($entry) use ($startMonth, $endMonth) {
-                return $entry['month'] >= $startMonth && $entry['month'] <= $endMonth;
-            }
+            fn($entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
         );
     }
 
@@ -127,7 +125,7 @@ class SystemArchitectureRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('systemArchitecture')
             ->setFirstResult($offset)
             ->setMaxResults($limit);
-        if ($startMonth == $endMonth) {
+        if ($startMonth === $endMonth) {
             $queryBuilder
                 ->where('systemArchitecture.month = :month')
                 ->orderBy('systemArchitecture.count', 'desc')
@@ -157,12 +155,10 @@ class SystemArchitectureRepository extends ServiceEntityRepository
         /** @var list<array{'systemArchitecture_name': string, 'systemArchitecture_count': int}> $systemArchitectures */
         $systemArchitectures = $pagination->getQuery()->getScalarResult();
 
-        $systemArchitectures = array_map(function ($systemArchitecture) {
-            return [
-                'name' => $systemArchitecture['systemArchitecture_name'],
-                'count' => $systemArchitecture['systemArchitecture_count']
-            ];
-        }, $systemArchitectures);
+        $systemArchitectures = array_map(fn($systemArchitecture): array => [
+            'name' => $systemArchitecture['systemArchitecture_name'],
+            'count' => $systemArchitecture['systemArchitecture_count']
+        ], $systemArchitectures);
 
         return [
             'total' => $total,

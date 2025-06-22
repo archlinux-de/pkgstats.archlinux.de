@@ -14,11 +14,13 @@ final class Version20190622041315 extends AbstractMigration
         $this->addSql('DELETE FROM package WHERE pkgname NOT REGEXP \'^[a-zA-Z0-9][a-zA-Z0-9@:\.+_-]*$\'');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->warnIf(true, 'Filtering of package names cannot be reverted');
     }
 
+    #[\Override]
     public function isTransactional(): bool
     {
         return false;

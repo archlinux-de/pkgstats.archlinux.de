@@ -9,7 +9,7 @@ class CountryQueryRequest
 {
     #[Assert\Length(max:2)]
     #[Assert\Regex('/' . Country::CODE_REGEXP . '/')]
-    private string $query;
+    private readonly string $query;
 
     public function __construct(string $query)
     {

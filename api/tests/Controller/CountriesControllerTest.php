@@ -16,8 +16,8 @@ class CountriesControllerTest extends DatabaseTestCase
     public function testFetchAllCountries(string $countryCode): void
     {
         $entityManager = $this->getEntityManager();
-        $country = (new Country($countryCode))
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+        $country = new Country($countryCode)
+            ->setMonth((int)new \DateTime()->format('Ym'));
         $entityManager->persist($country);
         $entityManager->flush();
 
@@ -105,8 +105,8 @@ class CountriesControllerTest extends DatabaseTestCase
     public function testFetchSingleCountry(string $countryCode): void
     {
         $entityManager = $this->getEntityManager();
-        $country = (new Country($countryCode))
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+        $country = new Country($countryCode)
+            ->setMonth((int)new \DateTime()->format('Ym'));
         $entityManager->persist($country);
         $entityManager->flush();
 
@@ -123,9 +123,9 @@ class CountriesControllerTest extends DatabaseTestCase
     public function testQueryRequest(): void
     {
         $entityManager = $this->getEntityManager();
-        $de = (new Country('DE'))
+        $de = new Country('DE')
             ->setMonth(201901);
-        $fr = (new Country('FR'))
+        $fr = new Country('FR')
             ->setMonth(201901);
         $entityManager->persist($de);
         $entityManager->persist($fr);
@@ -146,9 +146,9 @@ class CountriesControllerTest extends DatabaseTestCase
     public function testFilterByDate(): void
     {
         $entityManager = $this->getEntityManager();
-        $de = (new Country('DE'))
+        $de = new Country('DE')
             ->setMonth(201901);
-        $fr = (new Country('FR'))
+        $fr = new Country('FR')
             ->setMonth(201801);
         $entityManager->persist($de);
         $entityManager->persist($fr);
@@ -169,11 +169,11 @@ class CountriesControllerTest extends DatabaseTestCase
     public function testLimitResults(): void
     {
         $entityManager = $this->getEntityManager();
-        $de = (new Country('DE'))
+        $de = new Country('DE')
             ->setMonth(201901);
-        $fr = (new Country('FR'))
+        $fr = new Country('FR')
             ->setMonth(201901);
-        $fr2 = (new Country('FR'))
+        $fr2 = new Country('FR')
             ->setMonth(201902);
         $entityManager->persist($de);
         $entityManager->persist($fr);
@@ -198,7 +198,7 @@ class CountriesControllerTest extends DatabaseTestCase
     public function testCountriesSeries(string $countryCode): void
     {
         $entityManager = $this->getEntityManager();
-        $country = (new Country($countryCode))
+        $country = new Country($countryCode)
             ->setMonth(201901);
         $entityManager->persist($country);
         $entityManager->flush();

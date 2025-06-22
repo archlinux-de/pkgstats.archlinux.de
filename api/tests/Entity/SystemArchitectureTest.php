@@ -9,7 +9,7 @@ class SystemArchitectureTest extends TestCase
 {
     public function testSettersAndGetters(): void
     {
-        $systemArchitecture = (new SystemArchitecture('a'))->setMonth(201812);
+        $systemArchitecture = new SystemArchitecture('a')->setMonth(201812);
 
         $this->assertEquals('a', $systemArchitecture->getName());
         $this->assertEquals(201812, $systemArchitecture->getMonth());
@@ -18,7 +18,7 @@ class SystemArchitectureTest extends TestCase
 
     public function testIncrementCount(): void
     {
-        $systemArchitecture = (new SystemArchitecture('a'))->setMonth(201812)
+        $systemArchitecture = new SystemArchitecture('a')->setMonth(201812)
             ->incrementCount();
         $this->assertEquals(2, $systemArchitecture->getCount());
     }

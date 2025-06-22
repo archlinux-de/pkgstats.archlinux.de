@@ -9,7 +9,6 @@ use App\Entity\Package;
 use App\Entity\SystemArchitecture;
 use App\Request\PkgstatsRequest;
 use Doctrine\DBAL\LockMode;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -100,7 +99,7 @@ class PostPackageListController extends AbstractController
     private function persistSubmission(PkgstatsRequest $pkgstatsRequest): void
     {
         $this->entityManager->wrapInTransaction(
-            function (EntityManagerInterface $entityManager) use ($pkgstatsRequest) {
+            function (EntityManagerInterface $entityManager) use ($pkgstatsRequest): void {
                 $this->persistPackages($entityManager, $pkgstatsRequest->getPackages());
                 $this->persistCountry($entityManager, $pkgstatsRequest->getCountry());
                 $this->persistMirror($entityManager, $pkgstatsRequest->getMirror());

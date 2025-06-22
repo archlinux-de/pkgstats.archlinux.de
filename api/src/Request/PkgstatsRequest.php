@@ -16,7 +16,7 @@ class PkgstatsRequest
 {
     #[Assert\NotBlank]
     #[Assert\EqualTo('3')]
-    private string $version;
+    private readonly string $version;
 
     /**
      * @var Package[]

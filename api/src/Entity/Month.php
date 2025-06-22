@@ -42,7 +42,7 @@ class Month
 
     public function getDateTime(): DateTimeInterface
     {
-        return (new DateTimeImmutable())->setTimestamp($this->getTimestamp());
+        return new DateTimeImmutable()->setTimestamp($this->getTimestamp());
     }
 
     public function getTimestamp(): int

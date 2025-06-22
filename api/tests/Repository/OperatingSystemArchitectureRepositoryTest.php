@@ -10,7 +10,7 @@ class OperatingSystemArchitectureRepositoryTest extends DatabaseTestCase
 {
     public function testFindAll(): void
     {
-        $operatingSystemArchitecture = (new OperatingSystemArchitecture('a'))->setMonth(201810)->incrementCount();
+        $operatingSystemArchitecture = new OperatingSystemArchitecture('a')->setMonth(201810)->incrementCount();
         $entityManager = $this->getEntityManager();
         $entityManager->persist($operatingSystemArchitecture);
         $entityManager->flush();

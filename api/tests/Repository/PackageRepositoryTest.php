@@ -12,7 +12,7 @@ class PackageRepositoryTest extends DatabaseTestCase
     #[DataProvider('provideMonthRange')]
     public function testGetCountByNameAndRange(int $startMonth, int $endMonth): void
     {
-        $package = (new Package())->setName('a')->setMonth($startMonth)->incrementCount();
+        $package = new Package()->setName('a')->setMonth($startMonth)->incrementCount();
         $entityManager = $this->getEntityManager();
         $entityManager->persist($package);
         $entityManager->flush();
@@ -38,8 +38,8 @@ class PackageRepositoryTest extends DatabaseTestCase
     #[DataProvider('provideMonthRange')]
     public function testFindPackagesCountByRange(int $startMonth, int $endMonth): void
     {
-        $packageA = (new Package())->setName('a')->setMonth($startMonth)->incrementCount();
-        $packageAA = (new Package())->setName('aa')->setMonth($endMonth);
+        $packageA = new Package()->setName('a')->setMonth($startMonth)->incrementCount();
+        $packageAA = new Package()->setName('aa')->setMonth($endMonth);
         $entityManager = $this->getEntityManager();
         $entityManager->persist($packageA);
         $entityManager->flush();
@@ -68,16 +68,16 @@ class PackageRepositoryTest extends DatabaseTestCase
     #[DataProvider('provideMonthRange')]
     public function testGetMaximumCountByRange(int $startMonth, int $endMonth): void
     {
-        $packageA = (new Package())->setName('a')->setMonth($startMonth - 1);
-        $packageB = (new Package())->setName('a')->setMonth($startMonth);
+        $packageA = new Package()->setName('a')->setMonth($startMonth - 1);
+        $packageB = new Package()->setName('a')->setMonth($startMonth);
         $entityManager = $this->getEntityManager();
         $entityManager->persist($packageA);
         $entityManager->flush();
 
-        if ($startMonth == $endMonth) {
+        if ($startMonth === $endMonth) {
             $packageB->incrementCount();
         } else {
-            $packageC = (new Package())->setName('a')->setMonth($endMonth);
+            $packageC = new Package()->setName('a')->setMonth($endMonth);
             $entityManager->persist($packageC);
             $entityManager->flush();
         }
@@ -106,8 +106,8 @@ class PackageRepositoryTest extends DatabaseTestCase
 
     public function testFindMonthlyByNameAndRange(): void
     {
-        $packageA = (new Package())->setName('a')->setMonth(201810);
-        $packageB = (new Package())->setName('a')->setMonth(201811);
+        $packageA = new Package()->setName('a')->setMonth(201810);
+        $packageB = new Package()->setName('a')->setMonth(201811);
         $entityManager = $this->getEntityManager();
         $entityManager->persist($packageA);
         $entityManager->flush();
@@ -136,7 +136,7 @@ class PackageRepositoryTest extends DatabaseTestCase
 
     public function testGetMonthlyMaximumCountByRange(): void
     {
-        $package = (new Package())->setName('a')->setMonth(201810)->incrementCount();
+        $package = new Package()->setName('a')->setMonth(201810)->incrementCount();
         $entityManager = $this->getEntityManager();
         $entityManager->persist($package);
         $entityManager->flush();

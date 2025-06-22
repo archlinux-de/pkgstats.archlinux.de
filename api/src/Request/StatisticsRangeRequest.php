@@ -9,9 +9,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 #[Assert\Callback('validate')]
 class StatisticsRangeRequest
 {
-    private int $startMonth;
+    private readonly int $startMonth;
 
-    private int $endMonth;
+    private readonly int $endMonth;
 
     public function __construct(int $startMonth, int $endMonth)
     {
@@ -31,7 +31,7 @@ class StatisticsRangeRequest
 
     private function isValidYearMonth(int $yearMonth): bool
     {
-        $matches = (new ByteString((string)$yearMonth))->match('/^([0-9]{4})([0-9]{2})$/');
+        $matches = new ByteString((string)$yearMonth)->match('/^([0-9]{4})([0-9]{2})$/');
         if (!$matches) {
             return false;
         }

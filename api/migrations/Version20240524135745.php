@@ -23,6 +23,7 @@ final class Version20240524135745 extends AbstractMigration
         $this->addSql('CREATE INDEX sytem_architecture_month_count ON system_architecture (month, count)');
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->addSql('DROP INDEX country_month_count ON country');
@@ -37,6 +38,7 @@ final class Version20240524135745 extends AbstractMigration
         $this->addSql('CREATE INDEX sytem_architecture_month ON system_architecture (month)');
     }
 
+    #[\Override]
     public function isTransactional(): bool
     {
         return false;

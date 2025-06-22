@@ -39,24 +39,24 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
 
         $pkgstatsRequest = new PkgstatsRequest($data['version'] ?? ''); // @phpstan-ignore-line
         $pkgstatsRequest->setOperatingSystemArchitecture(
-            (new OperatingSystemArchitecture($arch))->setMonth((int)date('Ym')) // @phpstan-ignore-line
+            new OperatingSystemArchitecture($arch)->setMonth((int)date('Ym')) // @phpstan-ignore-line
         );
         $pkgstatsRequest->setSystemArchitecture(
-            (new SystemArchitecture($cpuArch))->setMonth((int)date('Ym')) // @phpstan-ignore-line
+            new SystemArchitecture($cpuArch)->setMonth((int)date('Ym')) // @phpstan-ignore-line
         );
 
         if ($mirror) {
-            $pkgstatsRequest->setMirror((new Mirror($mirror))->setMonth((int)date('Ym')));
+            $pkgstatsRequest->setMirror(new Mirror($mirror)->setMonth((int)date('Ym')));
         }
 
         $countryCode = $this->geoIp->getCountryCode($clientIp);
         if ($countryCode) {
-            $pkgstatsRequest->setCountry((new Country($countryCode))->setMonth((int)date('Ym')));
+            $pkgstatsRequest->setCountry(new Country($countryCode)->setMonth((int)date('Ym')));
         }
 
         foreach ($packages as $package) {
             $pkgstatsRequest->addPackage(
-                (new Package())
+                new Package()
                     ->setName($package)
                     ->setMonth((int)date('Ym'))
             );

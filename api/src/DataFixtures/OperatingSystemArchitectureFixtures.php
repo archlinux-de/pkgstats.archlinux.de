@@ -32,7 +32,7 @@ class OperatingSystemArchitectureFixtures extends Fixture
     private function createOperatingSystemArchitectures(int $month): iterable
     {
         foreach (OperatingSystemArchitecture::ARCHITECTURES as $architectureName) {
-            $operatingSystemArchitecture = (new OperatingSystemArchitecture($architectureName))->setMonth($month);
+            $operatingSystemArchitecture = new OperatingSystemArchitecture($architectureName)->setMonth($month);
             for ($i = 0; $i < mt_rand(1, 20_000); $i++) {
                 $operatingSystemArchitecture->incrementCount();
             }

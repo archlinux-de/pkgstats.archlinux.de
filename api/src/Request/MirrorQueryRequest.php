@@ -9,7 +9,7 @@ class MirrorQueryRequest
 {
     #[Assert\Length(max:191)]
     #[Assert\Regex('/' . Mirror::URL_REGEXP . '/')]
-    private string $query;
+    private readonly string $query;
 
     public function __construct(string $query)
     {

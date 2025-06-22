@@ -16,8 +16,8 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
     public function testFetchAllMirrors(string $mirrorUrl): void
     {
         $entityManager = $this->getEntityManager();
-        $mirror = (new Mirror($mirrorUrl))
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+        $mirror = new Mirror($mirrorUrl)
+            ->setMonth((int)new \DateTime()->format('Ym'));
         $entityManager->persist($mirror);
         $entityManager->flush();
 
@@ -105,8 +105,8 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
     public function testFetchSingleMirror(string $mirrorUrl): void
     {
         $entityManager = $this->getEntityManager();
-        $mirror = (new Mirror($mirrorUrl))
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+        $mirror = new Mirror($mirrorUrl)
+            ->setMonth((int)new \DateTime()->format('Ym'));
         $entityManager->persist($mirror);
         $entityManager->flush();
 
@@ -123,9 +123,9 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
     public function testQueryRequest(): void
     {
         $entityManager = $this->getEntityManager();
-        $leaseweb = (new Mirror('https://mirror.leaseweb.net/archlinux/'))
+        $leaseweb = new Mirror('https://mirror.leaseweb.net/archlinux/')
             ->setMonth(201901);
-        $localhost = (new Mirror('http://localhost:8080/'))
+        $localhost = new Mirror('http://localhost:8080/')
             ->setMonth(201901);
         $entityManager->persist($leaseweb);
         $entityManager->persist($localhost);
@@ -146,9 +146,9 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
     public function testFilterByDate(): void
     {
         $entityManager = $this->getEntityManager();
-        $leaseweb = (new Mirror('https://mirror.leaseweb.net/archlinux/'))
+        $leaseweb = new Mirror('https://mirror.leaseweb.net/archlinux/')
             ->setMonth(201901);
-        $localhost = (new Mirror('http://localhost:8080/'))
+        $localhost = new Mirror('http://localhost:8080/')
             ->setMonth(201801);
         $entityManager->persist($leaseweb);
         $entityManager->persist($localhost);
@@ -169,11 +169,11 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
     public function testLimitResults(): void
     {
         $entityManager = $this->getEntityManager();
-        $leaseweb = (new Mirror('https://mirror.leaseweb.net/archlinux/'))
+        $leaseweb = new Mirror('https://mirror.leaseweb.net/archlinux/')
             ->setMonth(201901);
-        $localhost = (new Mirror('http://localhost:8080/'))
+        $localhost = new Mirror('http://localhost:8080/')
             ->setMonth(201901);
-        $anotherLocalhost = (new Mirror('http://localhost:8080/'))
+        $anotherLocalhost = new Mirror('http://localhost:8080/')
             ->setMonth(201902);
         $entityManager->persist($leaseweb);
         $entityManager->persist($localhost);
@@ -198,7 +198,7 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
     public function testMirrorsSeries(string $mirrorUrl): void
     {
         $entityManager = $this->getEntityManager();
-        $mirror = (new Mirror($mirrorUrl))
+        $mirror = new Mirror($mirrorUrl)
             ->setMonth(201901);
         $entityManager->persist($mirror);
         $entityManager->flush();

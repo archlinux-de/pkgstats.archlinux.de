@@ -220,6 +220,7 @@ class SmokeTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isNotFound());
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

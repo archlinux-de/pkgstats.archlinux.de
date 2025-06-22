@@ -9,7 +9,7 @@ class PackageTest extends TestCase
 {
     public function testSettersAndGetters(): void
     {
-        $package = (new Package())->setName('a')->setMonth(201812);
+        $package = new Package()->setName('a')->setMonth(201812);
 
         $this->assertEquals('a', $package->getName());
         $this->assertEquals(201812, $package->getMonth());
@@ -18,7 +18,7 @@ class PackageTest extends TestCase
 
     public function testIncrementCount(): void
     {
-        $package = (new Package())->setName('a')->setMonth(201812)
+        $package = new Package()->setName('a')->setMonth(201812)
             ->incrementCount();
         $this->assertEquals(2, $package->getCount());
     }

@@ -19,7 +19,7 @@ class PkgstatsRequestTest extends TestCase
     {
         $package = $this->createMock(Package::class);
 
-        $request = (new PkgstatsRequest('1.0'))
+        $request = new PkgstatsRequest('1.0')
             ->addPackage($package)
             ->setCountry(new Country('DE'))
             ->setMirror(new Mirror('http://localhost'))
@@ -43,7 +43,7 @@ class PkgstatsRequestTest extends TestCase
     #[DataProvider('provideValidArchitectures')]
     public function testValidOperatingSystemArchitectures(string $cpuArch, string $osArch): void
     {
-        $request = (new PkgstatsRequest('3'))
+        $request = new PkgstatsRequest('3')
             ->setSystemArchitecture(new SystemArchitecture($cpuArch))
             ->setOperatingSystemArchitecture(new OperatingSystemArchitecture($osArch));
 
@@ -58,7 +58,7 @@ class PkgstatsRequestTest extends TestCase
     #[DataProvider('provideValidArchitectures')]
     public function testValidSystemArchitectures(string $cpuArch, string $osArch): void
     {
-        $request = (new PkgstatsRequest('3'))
+        $request = new PkgstatsRequest('3')
             ->setSystemArchitecture(new SystemArchitecture($cpuArch))
             ->setOperatingSystemArchitecture(new OperatingSystemArchitecture($osArch));
 
@@ -73,7 +73,7 @@ class PkgstatsRequestTest extends TestCase
     #[DataProvider('provideInvalidArchitectures')]
     public function testInvalidOperatingSystemArchitectures(string $cpuArch, string $osArch): void
     {
-        $request = (new PkgstatsRequest('3'))
+        $request = new PkgstatsRequest('3')
             ->setSystemArchitecture(new SystemArchitecture($cpuArch))
             ->setOperatingSystemArchitecture(new OperatingSystemArchitecture($osArch));
 
@@ -97,7 +97,7 @@ class PkgstatsRequestTest extends TestCase
     #[DataProvider('provideInvalidArchitectures')]
     public function testInvalidSystemArchitectures(string $cpuArch, string $osArch): void
     {
-        $request = (new PkgstatsRequest('3'))
+        $request = new PkgstatsRequest('3')
             ->setSystemArchitecture(new SystemArchitecture($cpuArch))
             ->setOperatingSystemArchitecture(new OperatingSystemArchitecture($osArch));
 

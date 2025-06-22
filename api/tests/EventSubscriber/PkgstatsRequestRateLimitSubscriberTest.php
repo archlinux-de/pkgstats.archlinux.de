@@ -17,7 +17,6 @@ use Symfony\Component\RateLimiter\Storage\InMemoryStorage;
 
 class PkgstatsRequestRateLimitSubscriberTest extends TestCase
 {
-    /** @var PkgstatsRequestRateLimitSubscriber */
     private PkgstatsRequestRateLimitSubscriber $rateLimitSubscriber;
 
     public function setUp(): void

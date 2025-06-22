@@ -54,9 +54,7 @@ class PkgstatsValueResolverTest extends TestCase
             ->expects($this->once())
             ->method('validate')
             ->willReturnCallback(
-                function (PkgstatsRequest $_) {
-                    return new ConstraintViolationList();
-                }
+                fn(PkgstatsRequest $_): ConstraintViolationList => new ConstraintViolationList()
             );
 
         $values = [...$this->pkgstatsValueResolver->resolve($request, $argument)];
@@ -84,9 +82,8 @@ class PkgstatsValueResolverTest extends TestCase
             ->expects($this->once())
             ->method('validate')
             ->willReturnCallback(
-                function (PkgstatsRequest $_) {
-                    return new ConstraintViolationList([$this->createMock(ConstraintViolationInterface::class)]);
-                }
+                fn(PkgstatsRequest $_): ConstraintViolationList
+                => new ConstraintViolationList([$this->createMock(ConstraintViolationInterface::class)])
             );
 
         $this->expectException(PkgstatsRequestException::class);

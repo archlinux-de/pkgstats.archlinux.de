@@ -36,11 +36,13 @@ final class Version20190621141307 extends AbstractMigration
         }
     }
 
+    #[\Override]
     public function down(Schema $schema): void
     {
         $this->warnIf(true, 'Filtering of mirror urls cannot be reverted');
     }
 
+    #[\Override]
     public function isTransactional(): bool
     {
         return false;

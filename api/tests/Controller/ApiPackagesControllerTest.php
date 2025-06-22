@@ -16,9 +16,9 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testFetchAllPackages(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
-        $package = (new Package())
+        $package = new Package()
             ->setName($packageName)
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+            ->setMonth((int)new \DateTime()->format('Ym'));
         $entityManager->persist($package);
         $entityManager->flush();
 
@@ -106,9 +106,9 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testFetchSinglePackage(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
-        $package = (new Package())
+        $package = new Package()
             ->setName($packageName)
-            ->setMonth((int)(new \DateTime())->format('Ym'));
+            ->setMonth((int)new \DateTime()->format('Ym'));
         $entityManager->persist($package);
         $entityManager->flush();
 
@@ -125,10 +125,10 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testQueryRequest(): void
     {
         $entityManager = $this->getEntityManager();
-        $pacman = (new Package())
+        $pacman = new Package()
             ->setName('pacman')
             ->setMonth(201901);
-        $php = (new Package())
+        $php = new Package()
             ->setName('php')
             ->setMonth(201901);
         $entityManager->persist($pacman);
@@ -150,10 +150,10 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testFilterByDate(): void
     {
         $entityManager = $this->getEntityManager();
-        $pacman = (new Package())
+        $pacman = new Package()
             ->setName('pacman')
             ->setMonth(201901);
-        $php = (new Package())
+        $php = new Package()
             ->setName('php')
             ->setMonth(201801);
         $entityManager->persist($pacman);
@@ -175,13 +175,13 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testLimitResults(): void
     {
         $entityManager = $this->getEntityManager();
-        $pacman = (new Package())
+        $pacman = new Package()
             ->setName('pacman')
             ->setMonth(201901);
-        $php = (new Package())
+        $php = new Package()
             ->setName('php')
             ->setMonth(201901);
-        $anotherPhp = (new Package())
+        $anotherPhp = new Package()
             ->setName('php')
             ->setMonth(201902);
         $entityManager->persist($pacman);
@@ -207,7 +207,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testPackagesSeries(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
-        $package = (new Package())
+        $package = new Package()
             ->setName($packageName)
             ->setMonth(201901);
         $entityManager->persist($package);

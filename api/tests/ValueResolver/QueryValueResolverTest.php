@@ -38,9 +38,7 @@ class QueryValueResolverTest extends TestCase
         $this->validator
             ->expects($this->once())
             ->method('validate')
-            ->willReturnCallback(function (PackageQueryRequest $_) {
-                return new ConstraintViolationList();
-            });
+            ->willReturnCallback(fn(PackageQueryRequest $_): ConstraintViolationList => new ConstraintViolationList());
 
         $values = [...$this->queryValueResolver->resolve($request, $argument)];
         $this->assertCount(1, $values);
@@ -65,9 +63,7 @@ class QueryValueResolverTest extends TestCase
         $this->validator
             ->expects($this->once())
             ->method('validate')
-            ->willReturnCallback(function (PackageQueryRequest $_) {
-                return new ConstraintViolationList();
-            });
+            ->willReturnCallback(fn(PackageQueryRequest $_): ConstraintViolationList => new ConstraintViolationList());
 
         $values = [...$this->queryValueResolver->resolve($request, $argument)];
         $this->assertCount(1, $values);
@@ -92,9 +88,8 @@ class QueryValueResolverTest extends TestCase
         $this->validator
             ->expects($this->once())
             ->method('validate')
-            ->willReturnCallback(function (PackageQueryRequest $_) {
-                return new ConstraintViolationList([$this->createMock(ConstraintViolation::class)]);
-            });
+            ->willReturnCallback(fn(PackageQueryRequest $_): ConstraintViolationList
+            => new ConstraintViolationList([$this->createMock(ConstraintViolation::class)]));
 
         $this->expectException(PkgstatsRequestException::class);
         $this->queryValueResolver->resolve($request, $argument);

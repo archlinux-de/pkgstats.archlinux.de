@@ -10,7 +10,7 @@ class MirrorRepositoryTest extends DatabaseTestCase
 {
     public function testFindAll(): void
     {
-        $mirror = (new Mirror('a'))->setMonth(201810)->incrementCount();
+        $mirror = new Mirror('a')->setMonth(201810)->incrementCount();
         $entityManager = $this->getEntityManager();
         $entityManager->persist($mirror);
         $entityManager->flush();

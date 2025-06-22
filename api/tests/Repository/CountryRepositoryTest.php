@@ -10,7 +10,7 @@ class CountryRepositoryTest extends DatabaseTestCase
 {
     public function testFindAll(): void
     {
-        $country = (new Country('a'))->setMonth(201810)->incrementCount();
+        $country = new Country('a')->setMonth(201810)->incrementCount();
         $entityManager = $this->getEntityManager();
         $entityManager->persist($country);
         $entityManager->flush();

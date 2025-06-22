@@ -10,7 +10,7 @@ class SystemArchitectureRepositoryTest extends DatabaseTestCase
 {
     public function testFindAll(): void
     {
-        $systemArchitecture = (new SystemArchitecture('a'))->setMonth(201810)->incrementCount();
+        $systemArchitecture = new SystemArchitecture('a')->setMonth(201810)->incrementCount();
         $entityManager = $this->getEntityManager();
         $entityManager->persist($systemArchitecture);
         $entityManager->flush();

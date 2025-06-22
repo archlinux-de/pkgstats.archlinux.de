@@ -16,7 +16,7 @@ class ApiCorsSubscriberTest extends TestCase
 {
     public function testGetSubscribedEvents(): void
     {
-        $events = (new ApiCorsSubscriber())->getSubscribedEvents();
+        $events = new ApiCorsSubscriber()->getSubscribedEvents();
 
         $this->assertArrayHasKey(KernelEvents::RESPONSE, $events);
     }
@@ -38,7 +38,7 @@ class ApiCorsSubscriberTest extends TestCase
             $response
         );
 
-        (new ApiCorsSubscriber())->onKernelResponse($event);
+        new ApiCorsSubscriber()->onKernelResponse($event);
 
         $this->assertFalse($response->headers->has('Access-Control-Allow-Origin'));
     }
@@ -66,7 +66,7 @@ class ApiCorsSubscriberTest extends TestCase
             $response
         );
 
-        (new ApiCorsSubscriber())->onKernelResponse($event);
+        new ApiCorsSubscriber()->onKernelResponse($event);
 
         $this->assertFalse($response->headers->has('Access-Control-Allow-Origin'));
     }
@@ -94,7 +94,7 @@ class ApiCorsSubscriberTest extends TestCase
             $response
         );
 
-        (new ApiCorsSubscriber())->onKernelResponse($event);
+        new ApiCorsSubscriber()->onKernelResponse($event);
 
         $this->assertTrue($response->headers->has('Access-Control-Allow-Origin'));
     }
