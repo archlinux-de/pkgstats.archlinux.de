@@ -23,6 +23,7 @@ class SmokeTest extends DatabaseTestCase
         Months::setNumberOfMonths(3);
     }
 
+    #[\Override]
     public static function tearDownAfterClass(): void
     {
         Month::resetBaseTimestamp();
