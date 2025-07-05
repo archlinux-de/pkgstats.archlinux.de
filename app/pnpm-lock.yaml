@@ -166,8 +166,8 @@ importers:
         specifier: 30.0.4
         version: 30.0.4
       neostandard:
-        specifier: ^0.12.1
-        version: 0.12.1(@typescript-eslint/utils@8.35.1(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.35.1(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3))(eslint@9.30.1(jiti@1.21.7)))(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3)
+        specifier: ^0.12.2
+        version: 0.12.2(@typescript-eslint/utils@8.35.1(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.35.1(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3))(eslint@9.30.1(jiti@1.21.7)))(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3)
       stylelint:
         specifier: ^16.21.1
         version: 16.21.1(typescript@5.7.3)
@@ -4141,8 +4141,8 @@ packages:
   neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
 
-  neostandard@0.12.1:
-    resolution: {integrity: sha512-As/LDK+xx591BLb1rPRaPs+JfXFgyNx5BoBui1KBeF/J4s0mW8+NBohrYnMfgm1w1t7E/Y/tU34MjMiP6lns6A==}
+  neostandard@0.12.2:
+    resolution: {integrity: sha512-VZU8EZpSaNadp3rKEwBhVD1Kw8jE3AftQLkCyOaM7bWemL1LwsYRsBnAmXy2LjG9zO8t66qJdqB7ccwwORyrAg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     hasBin: true
     peerDependencies:
@@ -10856,7 +10856,7 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  neostandard@0.12.1(@typescript-eslint/utils@8.35.1(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.35.1(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3))(eslint@9.30.1(jiti@1.21.7)))(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3):
+  neostandard@0.12.2(@typescript-eslint/utils@8.35.1(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.35.1(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3))(eslint@9.30.1(jiti@1.21.7)))(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3):
     dependencies:
       '@humanwhocodes/gitignore-to-minimatch': 1.0.2
       '@stylistic/eslint-plugin': 2.11.0(eslint@9.30.1(jiti@1.21.7))(typescript@5.7.3)
