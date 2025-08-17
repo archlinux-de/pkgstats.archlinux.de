@@ -52,7 +52,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
         /** @var Package[] $packages */
         $packages = $packageRepository->findAll();
         $this->assertCount(2, $packages);
-        $packagesArray = array_map(fn($package): string => $package->getName(), $packages);
+        $packagesArray = array_map(fn(Package $package): string => $package->getName(), $packages);
         $this->assertTrue(in_array('pkgstats', $packagesArray));
         $this->assertTrue(in_array('pacman', $packagesArray));
     }

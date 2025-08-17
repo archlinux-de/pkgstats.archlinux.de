@@ -108,7 +108,7 @@ class CountryRepository extends ServiceEntityRepository
 
         return array_filter(
             $sumMonthlyCount,
-            fn($entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
+            fn(array $entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
         );
     }
 
@@ -155,7 +155,7 @@ class CountryRepository extends ServiceEntityRepository
         /** @var list<array{'country_code': string, 'country_count': int}> $countries */
         $countries = $pagination->getQuery()->getScalarResult();
 
-        $countries = array_map(fn($country): array => [
+        $countries = array_map(fn(array $country): array => [
             'code' => $country['country_code'],
             'count' => $country['country_count']
         ], $countries);

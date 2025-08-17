@@ -109,7 +109,7 @@ class PackageRepository extends ServiceEntityRepository
 
         return array_filter(
             $maxMonthlyCount,
-            fn($entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
+            fn(array $entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
         );
     }
 
@@ -155,7 +155,7 @@ class PackageRepository extends ServiceEntityRepository
         /** @var list<array{'package_name': string, 'package_count': int}> $packages */
         $packages = $pagination->getQuery()->getScalarResult();
 
-        $packages = array_map(fn($package): array => [
+        $packages = array_map(fn(array $package): array => [
             'name' => $package['package_name'],
             'count' => $package['package_count']
         ], $packages);

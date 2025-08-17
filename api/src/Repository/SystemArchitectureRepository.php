@@ -108,7 +108,7 @@ class SystemArchitectureRepository extends ServiceEntityRepository
 
         return array_filter(
             $sumMonthlyCount,
-            fn($entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
+            fn(array $entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
         );
     }
 
@@ -155,7 +155,7 @@ class SystemArchitectureRepository extends ServiceEntityRepository
         /** @var list<array{'systemArchitecture_name': string, 'systemArchitecture_count': int}> $systemArchitectures */
         $systemArchitectures = $pagination->getQuery()->getScalarResult();
 
-        $systemArchitectures = array_map(fn($systemArchitecture): array => [
+        $systemArchitectures = array_map(fn(array $systemArchitecture): array => [
             'name' => $systemArchitecture['systemArchitecture_name'],
             'count' => $systemArchitecture['systemArchitecture_count']
         ], $systemArchitectures);

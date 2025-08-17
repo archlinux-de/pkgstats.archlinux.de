@@ -58,15 +58,10 @@ onMounted(() => {
   $textColorLight: var(--bs-secondary-color),
   $oceanColor: transparent,
   $mapActiveStrokeColor: var(--bs-link-hover-color),
-  // $mapControlsColor is missing !default in the library, cannot be overridden here
+  $mapControlsColor: var(--bs-body-color),
   $mapControlsBackgroundColor: var(--bs-body-bg),
   $mapTooltipColor: var(--bs-body-color),
-  $mapTooltipBackgroundColor: var(--bs-body-bg)
+  $mapTooltipBackgroundColor: var(--bs-body-bg),
 );
 @use '~svgmap/src/scss/main';
-
-/* stylelint-disable selector-class-pattern */
-.svgMap-control-button {
-  color: var(--bs-body-color);
-}
 </style>

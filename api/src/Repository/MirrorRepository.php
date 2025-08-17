@@ -108,7 +108,7 @@ class MirrorRepository extends ServiceEntityRepository
 
         return array_filter(
             $sumMonthlyCount,
-            fn($entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
+            fn(array $entry): bool => $entry['month'] >= $startMonth && $entry['month'] <= $endMonth
         );
     }
 
@@ -155,7 +155,7 @@ class MirrorRepository extends ServiceEntityRepository
         /** @var list<array{'mirror_url': string, 'mirror_count': int}> $mirrors */
         $mirrors = $pagination->getQuery()->getScalarResult();
 
-        $mirrors = array_map(fn($mirror): array => [
+        $mirrors = array_map(fn(array $mirror): array => [
             'url' => $mirror['mirror_url'],
             'count' => $mirror['mirror_count']
         ], $mirrors);
