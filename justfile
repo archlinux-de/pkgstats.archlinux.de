@@ -193,6 +193,8 @@ update:
 	{{PHP-RUN}} composer --no-interaction update
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
 	{{NODE-RUN}} pnpm update --latest
+	# Downgrade broken swagger-ui
+	{{NODE-RUN}} pnpm install 'swagger-ui@5.27.1'
 
 deploy:
 	cd app && pnpm install --frozen-lockfile --prod
