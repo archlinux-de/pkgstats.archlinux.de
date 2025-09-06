@@ -244,7 +244,7 @@ class SmokeTest extends DatabaseTestCase
         $result = $application->run($input, $output);
 
         $outputResult = $output->fetch();
-        static::assertEmpty($outputResult, $outputResult);
-        static::assertEquals(0, $result, sprintf('Command %s failed', $input));
+        self::assertEmpty($outputResult, $outputResult);
+        self::assertEquals(0, $result, sprintf('Command %s failed', $input));
     }
 }
