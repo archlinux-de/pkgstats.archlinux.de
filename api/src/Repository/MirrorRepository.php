@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MirrorRepository extends ServiceEntityRepository
 {
+    public const int MIN_POPULARITY = 5;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Mirror::class);
@@ -29,15 +31,19 @@ class MirrorRepository extends ServiceEntityRepository
             $queryBuilder
                 ->select('mirror.count')
                 ->andWhere('mirror.month = :month')
-                ->setParameter('month', $startMonth);
+                ->setParameter('month', $startMonth)
+                ->andWhere('mirror.count >= :minPopularity')
+                ->setParameter('minPopularity', self::MIN_POPULARITY);
         } else {
             $queryBuilder
-                ->select('SUM(mirror.count)')
+                ->select('SUM(mirror.count) AS mirror_count')
                 ->andWhere('mirror.month >= :startMonth')
                 ->andWhere('mirror.month <= :endMonth')
                 ->groupBy('mirror.url')
                 ->setParameter('startMonth', $startMonth)
-                ->setParameter('endMonth', $endMonth);
+                ->setParameter('endMonth', $endMonth)
+                ->having('mirror_count >= :minPopularity')
+                ->setParameter('minPopularity', self::MIN_POPULARITY);
         }
 
         try {
