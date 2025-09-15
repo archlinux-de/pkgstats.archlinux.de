@@ -4,6 +4,7 @@ namespace App\Tests\Controller;
 
 use App\Controller\ApiPackagesController;
 use App\Entity\Package;
+use App\Repository\PackageRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,9 +17,7 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testFetchAllPackages(string $packageName): void
     {
         $entityManager = $this->getEntityManager();
-        $package = new Package()
-            ->setName($packageName)
-            ->setMonth((int)new \DateTime()->format('Ym'));
+        $package = $this->createPopularPackage($packageName, (int)new \DateTime()->format('Ym'));
         $entityManager->persist($package);
         $entityManager->flush();
 
@@ -125,12 +124,8 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testQueryRequest(): void
     {
         $entityManager = $this->getEntityManager();
-        $pacman = new Package()
-            ->setName('pacman')
-            ->setMonth(201901);
-        $php = new Package()
-            ->setName('php')
-            ->setMonth(201901);
+        $pacman = $this->createPopularPackage('pacman', 201901);
+        $php = $this->createPopularPackage('php', 201901);
         $entityManager->persist($pacman);
         $entityManager->persist($php);
         $entityManager->flush();
@@ -150,12 +145,8 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testFilterByDate(): void
     {
         $entityManager = $this->getEntityManager();
-        $pacman = new Package()
-            ->setName('pacman')
-            ->setMonth(201901);
-        $php = new Package()
-            ->setName('php')
-            ->setMonth(201801);
+        $pacman = $this->createPopularPackage('pacman', 201901);
+        $php = $this->createPopularPackage('php', 201801);
         $entityManager->persist($pacman);
         $entityManager->persist($php);
         $entityManager->flush();
@@ -175,15 +166,9 @@ class ApiPackagesControllerTest extends DatabaseTestCase
     public function testLimitResults(): void
     {
         $entityManager = $this->getEntityManager();
-        $pacman = new Package()
-            ->setName('pacman')
-            ->setMonth(201901);
-        $php = new Package()
-            ->setName('php')
-            ->setMonth(201901);
-        $anotherPhp = new Package()
-            ->setName('php')
-            ->setMonth(201902);
+        $pacman = $this->createPopularPackage('pacman', 201901);
+        $php = $this->createPopularPackage('php', 201901);
+        $anotherPhp = $this->createPopularPackage('php', 201902);
         $entityManager->persist($pacman);
         $entityManager->persist($php);
         $entityManager->persist($anotherPhp);
@@ -225,6 +210,18 @@ class ApiPackagesControllerTest extends DatabaseTestCase
         $this->assertEquals(1, $popularityList['count']);
         $this->assertCount(1, $popularityList['packagePopularities']);
         $this->assertEquals($packageName, $popularityList['packagePopularities'][0]['name']);
+    }
+
+    private function createPopularPackage(string $name, int $month): Package
+    {
+        $package = new Package()
+            ->setName($name)
+            ->setMonth($month);
+        for ($i = 1; $i < PackageRepository::MIN_POPULARITY; $i++) {
+            $package->incrementCount();
+        }
+
+        return $package;
     }
 
     /**

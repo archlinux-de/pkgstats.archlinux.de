@@ -38,8 +38,8 @@ class PackageRepositoryTest extends DatabaseTestCase
     #[DataProvider('provideMonthRange')]
     public function testFindPackagesCountByRange(int $startMonth, int $endMonth): void
     {
-        $packageA = new Package()->setName('a')->setMonth($startMonth)->incrementCount();
-        $packageAA = new Package()->setName('aa')->setMonth($endMonth);
+        $packageA = $this->createPopularPackage('a', $startMonth);
+        $packageAA = $this->createPopularPackage('aa', $endMonth);
         $entityManager = $this->getEntityManager();
         $entityManager->persist($packageA);
         $entityManager->flush();
@@ -57,7 +57,7 @@ class PackageRepositoryTest extends DatabaseTestCase
                 'packages' => [
                     [
                         'name' => 'aa',
-                        'count' => 1
+                        'count' => PackageRepository::MIN_POPULARITY
                     ]
                 ]
             ],
@@ -146,6 +146,54 @@ class PackageRepositoryTest extends DatabaseTestCase
         $packageRepository = $this->getRepository(Package::class);
         $monthlyCount = $packageRepository->getMonthlyMaximumCountByRange(201810, 201811);
         $this->assertEquals([['count' => 2, 'month' => 201810]], $monthlyCount);
+    }
+
+    public function testFindPackagesCountByRangeFiltersUnpopular(): void
+    {
+        $startMonth = 202501;
+        $endMonth = 202501;
+
+        $popularPackage = $this->createPopularPackage('popular', $startMonth);
+
+        $unpopularPackage = new Package()->setName('unpopular')->setMonth($startMonth);
+        for ($i = 1; $i < PackageRepository::MIN_POPULARITY - 1; $i++) {
+            $unpopularPackage->incrementCount();
+        }
+
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($popularPackage);
+        $entityManager->persist($unpopularPackage);
+        $entityManager->flush();
+        $entityManager->clear();
+
+        /** @var PackageRepository $packageRepository */
+        $packageRepository = $this->getRepository(Package::class);
+        $result = $packageRepository->findPackagesCountByRange('', $startMonth, $endMonth, 0, 10);
+
+        $this->assertEquals(
+            [
+                'total' => 1,
+                'packages' => [
+                    [
+                        'name' => 'popular',
+                        'count' => PackageRepository::MIN_POPULARITY
+                    ]
+                ]
+            ],
+            $result
+        );
+    }
+
+    private function createPopularPackage(string $name, int $month): Package
+    {
+        $package = new Package()
+            ->setName($name)
+            ->setMonth($month);
+        for ($i = 1; $i < PackageRepository::MIN_POPULARITY; $i++) {
+            $package->incrementCount();
+        }
+
+        return $package;
     }
 
     /**

@@ -14,6 +14,8 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PackageRepository extends ServiceEntityRepository
 {
+    public const int MIN_POPULARITY = 5;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Package::class);
@@ -131,7 +133,9 @@ class PackageRepository extends ServiceEntityRepository
                 ->where('package.month = :month')
                 ->orderBy('package.count', 'desc')
                 ->addOrderBy('package.name', 'asc')
-                ->setParameter('month', $startMonth);
+                ->setParameter('month', $startMonth)
+                ->andWhere('package.count >= :minPopularity')
+                ->setParameter('minPopularity', self::MIN_POPULARITY);
         } else {
             $queryBuilder
                 ->select('package.name AS package_name')
@@ -142,7 +146,9 @@ class PackageRepository extends ServiceEntityRepository
                 ->orderBy('package_count', 'desc')
                 ->addOrderBy('package.name', 'asc')
                 ->setParameter('startMonth', $startMonth)
-                ->setParameter('endMonth', $endMonth);
+                ->setParameter('endMonth', $endMonth)
+                ->having('package_count >= :minPopularity')
+                ->setParameter('minPopularity', self::MIN_POPULARITY);
         }
         if (!empty($query)) {//@TODO: testen, ob das greift
             $queryBuilder

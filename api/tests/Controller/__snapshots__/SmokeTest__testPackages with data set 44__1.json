@@ -1,11 +1,8 @@
 {
-    "request": "\/api\/packages?limit=10&offset=2",
+    "request": "/api/packages?limit=10&offset=2",
     "response": {
-        "total": 1342,
+        "total": 1341,
         "count": 10,
-        "limit": 10,
-        "offset": 2,
-        "query": "",
         "packagePopularities": [
             {
                 "name": "python-pip",
@@ -87,6 +84,9 @@
                 "startMonth": 202201,
                 "endMonth": 202201
             }
-        ]
+        ],
+        "limit": 10,
+        "offset": 2,
+        "query": ""
     }
 }

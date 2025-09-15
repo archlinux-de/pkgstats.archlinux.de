@@ -1,11 +1,8 @@
 {
-    "request": "\/api\/packages?offset=1&query=",
+    "request": "/api/packages?offset=1&query=",
     "response": {
-        "total": 1342,
+        "total": 1341,
         "count": 100,
-        "limit": 100,
-        "offset": 1,
-        "query": "",
         "packagePopularities": [
             {
                 "name": "xorg-xrandr",
@@ -807,6 +804,9 @@
                 "startMonth": 202201,
                 "endMonth": 202201
             }
-        ]
+        ],
+        "limit": 100,
+        "offset": 1,
+        "query": ""
     }
 }
