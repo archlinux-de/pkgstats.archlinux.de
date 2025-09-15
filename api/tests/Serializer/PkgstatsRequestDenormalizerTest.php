@@ -56,8 +56,40 @@ class PkgstatsRequestDenormalizerTest extends TestCase
         $this->assertEquals('https://mirror.archlinux.de/', $pkgstatsRequest->getMirror()->getUrl());
         $packages = $pkgstatsRequest->getPackages();
         $this->assertCount(2, $packages);
-        $this->assertEquals('foo', $packages[0]->getName());
-        $this->assertEquals('bar', $packages[1]->getName());
+        $this->assertEquals('bar', $packages[0]->getName());
+        $this->assertEquals('foo', $packages[1]->getName());
+    }
+
+    public function testDenormalizeFiltersAndSortsPackages(): void
+    {
+        $this->mirrorUrlFilter->expects($this->once())->method('filter')->willReturnArgument(0);
+        $this->geoIp
+            ->expects($this->once())
+            ->method('getCountryCode')
+            ->willReturn('DE');
+        $context = ['clientIp' => 'abc'];
+
+        $data = [
+            'version' => '3',
+            'system' => [
+                'architecture' => 'x86_64'
+            ],
+            'os' => [
+                'architecture' => 'x86_64'
+            ],
+            'pacman' => [
+                'mirror' => 'https://mirror.archlinux.de/',
+                'packages' => ['zsh', 'bash', 'vim', 'bash', '']
+            ]
+        ];
+
+        $pkgstatsRequest = $this->denormalizer->denormalize($data, PkgstatsRequest::class, 'form', $context);
+
+        $packages = $pkgstatsRequest->getPackages();
+        $this->assertCount(3, $packages);
+        $this->assertEquals('bash', $packages[0]->getName());
+        $this->assertEquals('vim', $packages[1]->getName());
+        $this->assertEquals('zsh', $packages[2]->getName());
     }
 
     public function testSpportsDenormalization(): void

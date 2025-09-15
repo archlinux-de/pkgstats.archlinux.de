@@ -80,6 +80,9 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
      */
     private function filterList(array $array): array
     {
-        return array_filter(array_unique($array));
+        $array = array_filter(array_unique($array));
+        sort($array);
+
+        return $array;
     }
 }
