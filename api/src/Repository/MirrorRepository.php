@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MirrorRepository extends ServiceEntityRepository
 {
-    public const int MIN_POPULARITY = 5;
+    public const int MIN_POPULARITY = 16;
 
     public function __construct(ManagerRegistry $registry)
     {
