@@ -121,7 +121,7 @@ class SmokeTest extends DatabaseTestCase
                         $packageRequest[1]['limit'] = $limit;
                     }
                     if ($offset !== null) {
-                        $packageRequest[1]['offset'] = $offset;
+                        $packageRequest[1]['offset'] = $offset; // @phpstan-ignore offsetAccess.nonOffsetAccessible
                     }
 
                     $requests[] = $packageRequest;
