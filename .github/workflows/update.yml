@@ -39,6 +39,8 @@ jobs:
         run: just install
       - name: Update dependencies
         run: just update
+      - name: Run Rector
+        run: just rector
       - name: Fix code style
         run: just fix-code-style
       - run: just test
