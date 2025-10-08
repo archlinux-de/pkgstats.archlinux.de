@@ -17,7 +17,7 @@ class PaginationRequest
     public function __construct(int $offset, int $limit)
     {
         $this->offset = $offset;
-        $this->limit = $limit == 0 ? self::MAX_LIMIT : $limit;
+        $this->limit = $limit === 0 ? self::MAX_LIMIT : $limit;
     }
 
     public function getOffset(): int
