@@ -11,10 +11,6 @@ module.exports = {
     extensions: ['.js', '.vue'],
     alias: {
       '~': path.resolve(__dirname, './src/')
-    },
-    fallback: {
-      buffer: require.resolve('buffer/'),
-      stream: require.resolve('stream-browserify')
     }
   },
 
@@ -50,9 +46,6 @@ module.exports = {
     new HtmlPlugin({
       template: 'public/index.html',
       title: process.env.npm_package_name
-    }),
-    new webpack.ProvidePlugin({
-      Buffer: ['buffer', 'Buffer']
     })
   ]
 }
