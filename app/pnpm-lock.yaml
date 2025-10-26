@@ -99,8 +99,8 @@ importers:
         specifier: ^2.14.0
         version: 2.14.0
       swagger-ui:
-        specifier: ^5.27.1
-        version: 5.27.1
+        specifier: ^5.29.5
+        version: 5.29.5
       vue:
         specifier: ^3.5.22
         version: 3.5.22(typescript@5.7.3)
@@ -2642,8 +2642,8 @@ packages:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
 
-  dompurify@3.2.4:
-    resolution: {integrity: sha512-ysFSFEDVduQpyhzAob/kkuJjf5zWkZD8/A9ywSp1byueyuCfHamrCBa14/Oc2iiB0e51B+NpxSl5gmzn+Ms/mg==}
+  dompurify@3.2.6:
+    resolution: {integrity: sha512-/2GogDQlohXPZe6D6NOgQvXLPSYBqIWMnZ8zzOhn09REE4eyAzb+Hed3jhoM9OkuaJ8P6ZGTTVWQKAi8ieIzfQ==}
 
   domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
@@ -4783,10 +4783,10 @@ packages:
     peerDependencies:
       react: ^15.3.0 || 16 || 17 || 18
 
-  react-dom@18.3.1:
-    resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
+  react-dom@19.2.0:
+    resolution: {integrity: sha512-UlbRu4cAiGaIewkPyiRGJk0imDN2T3JjieT6spoL2UeSf5od4n5LB/mQ4ejmxhCFT1tYe8IvaFulzynWovsEFQ==}
     peerDependencies:
-      react: ^18.3.1
+      react: ^19.2.0
 
   react-immutable-proptypes@2.2.0:
     resolution: {integrity: sha512-Vf4gBsePlwdGvSZoLSBfd4HAP93HDauMY4fDjXhreg/vg6F3Fj/MXDNyTbltPC/xZKmZc+cjLu3598DdYK6sgQ==}
@@ -4828,8 +4828,8 @@ packages:
     peerDependencies:
       react: '>= 0.14.0'
 
-  react@18.3.1:
-    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
+  react@19.2.0:
+    resolution: {integrity: sha512-tmbWg6W31tQLeB5cdIBOicJDJRR2KzXsV7uSK9iNfLWQ5bIZfxuPEHp7M8wiHyHnn0DD1i7w3Zmin0FtkrwoCQ==}
     engines: {node: '>=0.10.0'}
 
   readable-stream@1.1.14:
@@ -5026,8 +5026,8 @@ packages:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
 
-  scheduler@0.23.2:
-    resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
+  scheduler@0.27.0:
+    resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
 
   schema-utils@3.3.0:
     resolution: {integrity: sha512-pN/yOAvcC+5rQ5nERGuwrjLlYvLTbCibnZ1I7B1LaiAz9BRBlE9GMgE/eqV30P7aJQUf7Ddimy/RsbYO/GrVGg==}
@@ -5404,8 +5404,8 @@ packages:
   swagger-client@3.35.7:
     resolution: {integrity: sha512-AAVk7lBFIw41wI0tsqyh/l4dwJ0/eslHL2Ex4hmsGtuKcD6/wXunetO8AsmE5MptK4YgRvpmUDvKnF1TaGzdiQ==}
 
-  swagger-ui@5.27.1:
-    resolution: {integrity: sha512-cGQyafnHLmVFiBeFrbUzUtMn+R0/XI7r69T/cxp5bkusTdLu1Ul8A+8j9hgThYLEH33LukOzldtiuu4gr8XE6g==}
+  swagger-ui@5.29.5:
+    resolution: {integrity: sha512-EcuQPeFKZDRPiZaq3kJQSiRwQr7F8q8XN1J3RlHvruV6Lr14e7NXAmCQYio+9IEp1Zho8q3/OHuznhxTQXzLQA==}
 
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
@@ -7378,7 +7378,7 @@ snapshots:
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
       '@swagger-api/apidom-ast': 1.0.0-rc.0
-      '@swagger-api/apidom-error': 1.0.0-rc.0
+      '@swagger-api/apidom-error': 1.0.0-beta.51
       '@types/ramda': 0.30.2
       minim: 0.23.8
       ramda: 0.30.1
@@ -7409,8 +7409,8 @@ snapshots:
   '@swagger-api/apidom-json-pointer@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-error': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-error': 1.0.0-beta.51
       '@swaggerexpert/json-pointer': 2.10.2
 
   '@swagger-api/apidom-json-pointer@1.0.0-rc.0':
@@ -7419,6 +7419,7 @@ snapshots:
       '@swagger-api/apidom-core': 1.0.0-rc.0
       '@swagger-api/apidom-error': 1.0.0-rc.0
       '@swaggerexpert/json-pointer': 2.10.2
+    optional: true
 
   '@swagger-api/apidom-ns-api-design-systems@1.0.0-rc.0':
     dependencies:
@@ -7435,7 +7436,7 @@ snapshots:
   '@swagger-api/apidom-ns-arazzo-1@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-json-schema-2020-12': 1.0.0-rc.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -7446,7 +7447,7 @@ snapshots:
   '@swagger-api/apidom-ns-asyncapi-2@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-json-schema-draft-7': 1.0.0-rc.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -7511,8 +7512,8 @@ snapshots:
   '@swagger-api/apidom-ns-openapi-2@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-error': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-error': 1.0.0-beta.51
       '@swagger-api/apidom-ns-json-schema-draft-4': 1.0.0-rc.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -7523,8 +7524,8 @@ snapshots:
   '@swagger-api/apidom-ns-openapi-3-0@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-error': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-error': 1.0.0-beta.51
       '@swagger-api/apidom-ns-json-schema-draft-4': 1.0.0-rc.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -7547,8 +7548,8 @@ snapshots:
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
       '@swagger-api/apidom-ast': 1.0.0-rc.0
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-json-pointer': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-json-pointer': 1.0.0-beta.51
       '@swagger-api/apidom-ns-json-schema-2020-12': 1.0.0-rc.0
       '@swagger-api/apidom-ns-openapi-3-0': 1.0.0-rc.0
       '@types/ramda': 0.30.2
@@ -7573,7 +7574,7 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-api-design-systems-json@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-api-design-systems': 1.0.0-rc.0
       '@swagger-api/apidom-parser-adapter-json': 1.0.0-beta.51
       '@types/ramda': 0.30.2
@@ -7584,7 +7585,7 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-api-design-systems-yaml@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-api-design-systems': 1.0.0-rc.0
       '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.0.0-beta.51
       '@types/ramda': 0.30.2
@@ -7595,7 +7596,7 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-arazzo-json-1@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-arazzo-1': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-json': 1.0.0-beta.51
       '@types/ramda': 0.30.2
@@ -7606,7 +7607,7 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-arazzo-yaml-1@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-arazzo-1': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.0.0-beta.51
       '@types/ramda': 0.30.2
@@ -7617,7 +7618,7 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-asyncapi-json-2@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-asyncapi-2': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-json': 1.0.0-beta.51
       '@types/ramda': 0.30.2
@@ -7628,7 +7629,7 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-asyncapi-2': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.0.0-beta.51
       '@types/ramda': 0.30.2
@@ -7640,8 +7641,8 @@ snapshots:
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
       '@swagger-api/apidom-ast': 1.0.0-rc.0
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-error': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-error': 1.0.0-beta.51
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
@@ -7653,7 +7654,7 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-openapi-json-2@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-openapi-2': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-json': 1.0.0-beta.51
       '@types/ramda': 0.30.2
@@ -7664,8 +7665,8 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-openapi-json-3-0@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-ns-openapi-3-0': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-ns-openapi-3-0': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-json': 1.0.0-beta.51
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -7675,8 +7676,8 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-openapi-json-3-1@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-ns-openapi-3-1': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-ns-openapi-3-1': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-json': 1.0.0-beta.51
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -7686,7 +7687,7 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-openapi-yaml-2@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
       '@swagger-api/apidom-ns-openapi-2': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.0.0-beta.51
       '@types/ramda': 0.30.2
@@ -7697,8 +7698,8 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-ns-openapi-3-0': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-ns-openapi-3-0': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.0.0-beta.51
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -7708,8 +7709,8 @@ snapshots:
   '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-ns-openapi-3-1': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-ns-openapi-3-1': 1.0.0-beta.51
       '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.0.0-beta.51
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -7720,8 +7721,8 @@ snapshots:
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
       '@swagger-api/apidom-ast': 1.0.0-rc.0
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-error': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-error': 1.0.0-beta.51
       '@tree-sitter-grammars/tree-sitter-yaml': 0.7.1(tree-sitter@0.22.4)
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -7733,8 +7734,8 @@ snapshots:
   '@swagger-api/apidom-reference@1.0.0-beta.51':
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
-      '@swagger-api/apidom-core': 1.0.0-rc.0
-      '@swagger-api/apidom-error': 1.0.0-rc.0
+      '@swagger-api/apidom-core': 1.0.0-beta.51
+      '@swagger-api/apidom-error': 1.0.0-beta.51
       '@types/ramda': 0.30.2
       axios: 1.12.2
       minimatch: 7.4.6
@@ -9136,7 +9137,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.2.4:
+  dompurify@3.2.6:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
@@ -11588,64 +11589,61 @@ snapshots:
       iconv-lite: 0.4.24
       unpipe: 1.0.0
 
-  react-copy-to-clipboard@5.1.0(react@18.3.1):
+  react-copy-to-clipboard@5.1.0(react@19.2.0):
     dependencies:
       copy-to-clipboard: 3.3.3
       prop-types: 15.8.1
-      react: 18.3.1
+      react: 19.2.0
 
-  react-debounce-input@3.3.0(react@18.3.1):
+  react-debounce-input@3.3.0(react@19.2.0):
     dependencies:
       lodash.debounce: 4.0.8
       prop-types: 15.8.1
-      react: 18.3.1
+      react: 19.2.0
 
-  react-dom@18.3.1(react@18.3.1):
+  react-dom@19.2.0(react@19.2.0):
     dependencies:
-      loose-envify: 1.4.0
-      react: 18.3.1
-      scheduler: 0.23.2
+      react: 19.2.0
+      scheduler: 0.27.0
 
   react-immutable-proptypes@2.2.0(immutable@3.8.2):
     dependencies:
       immutable: 3.8.2
       invariant: 2.2.4
 
-  react-immutable-pure-component@2.2.2(immutable@3.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-immutable-pure-component@2.2.2(immutable@3.8.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       immutable: 3.8.2
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
+      react: 19.2.0
+      react-dom: 19.2.0(react@19.2.0)
 
-  react-inspector@6.0.2(react@18.3.1):
+  react-inspector@6.0.2(react@19.2.0):
     dependencies:
-      react: 18.3.1
+      react: 19.2.0
 
   react-is@16.13.1: {}
 
   react-is@18.3.1: {}
 
-  react-redux@9.2.0(react@18.3.1)(redux@5.0.1):
+  react-redux@9.2.0(react@19.2.0)(redux@5.0.1):
     dependencies:
       '@types/use-sync-external-store': 0.0.6
-      react: 18.3.1
-      use-sync-external-store: 1.6.0(react@18.3.1)
+      react: 19.2.0
+      use-sync-external-store: 1.6.0(react@19.2.0)
     optionalDependencies:
       redux: 5.0.1
 
-  react-syntax-highlighter@15.6.6(react@18.3.1):
+  react-syntax-highlighter@15.6.6(react@19.2.0):
     dependencies:
       '@babel/runtime': 7.28.4
       highlight.js: 10.7.3
       highlightjs-vue: 1.0.0
       lowlight: 1.20.0
       prismjs: 1.30.0
-      react: 18.3.1
+      react: 19.2.0
       refractor: 3.6.0
 
-  react@18.3.1:
-    dependencies:
-      loose-envify: 1.4.0
+  react@19.2.0: {}
 
   readable-stream@1.1.14:
     dependencies:
@@ -11844,9 +11842,7 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
-  scheduler@0.23.2:
-    dependencies:
-      loose-envify: 1.4.0
+  scheduler@0.27.0: {}
 
   schema-utils@3.3.0:
     dependencies:
@@ -12349,15 +12345,16 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  swagger-ui@5.27.1:
+  swagger-ui@5.29.5:
     dependencies:
       '@babel/runtime-corejs3': 7.28.4
       '@scarf/scarf': 1.4.0
       base64-js: 1.5.1
+      buffer: 6.0.3
       classnames: 2.5.1
       css.escape: 1.5.1
       deep-extend: 0.6.0
-      dompurify: 3.2.4
+      dompurify: 3.2.6
       ieee754: 1.2.1
       immutable: 3.8.2
       js-file-download: 0.4.12
@@ -12366,15 +12363,15 @@ snapshots:
       prop-types: 15.8.1
       randexp: 0.5.3
       randombytes: 2.1.0
-      react: 18.3.1
-      react-copy-to-clipboard: 5.1.0(react@18.3.1)
-      react-debounce-input: 3.3.0(react@18.3.1)
-      react-dom: 18.3.1(react@18.3.1)
+      react: 19.2.0
+      react-copy-to-clipboard: 5.1.0(react@19.2.0)
+      react-debounce-input: 3.3.0(react@19.2.0)
+      react-dom: 19.2.0(react@19.2.0)
       react-immutable-proptypes: 2.2.0(immutable@3.8.2)
-      react-immutable-pure-component: 2.2.2(immutable@3.8.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-inspector: 6.0.2(react@18.3.1)
-      react-redux: 9.2.0(react@18.3.1)(redux@5.0.1)
-      react-syntax-highlighter: 15.6.6(react@18.3.1)
+      react-immutable-pure-component: 2.2.2(immutable@3.8.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      react-inspector: 6.0.2(react@19.2.0)
+      react-redux: 9.2.0(react@19.2.0)(redux@5.0.1)
+      react-syntax-highlighter: 15.6.6(react@19.2.0)
       redux: 5.0.1
       redux-immutable: 4.0.0(immutable@3.8.2)
       remarkable: 2.0.1
@@ -12673,9 +12670,9 @@ snapshots:
       querystringify: 2.2.0
       requires-port: 1.0.0
 
-  use-sync-external-store@1.6.0(react@18.3.1):
+  use-sync-external-store@1.6.0(react@19.2.0):
     dependencies:
-      react: 18.3.1
+      react: 19.2.0
 
   util-deprecate@1.0.2: {}
 
