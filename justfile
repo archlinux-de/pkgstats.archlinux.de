@@ -196,7 +196,7 @@ update:
 
 deploy:
 	cd app && pnpm install --frozen-lockfile --prod
-	cd app && pnpm run build
+	cd app && NODE_OPTIONS=--no-experimental-webstorage pnpm run build
 	cd app && find dist -type f -atime +512 -delete # needs to be above the highest TTL
 	cd app && find dist -type d -empty -delete
 	cd api && composer --no-interaction install --prefer-dist --no-dev --optimize-autoloader --classmap-authoritative

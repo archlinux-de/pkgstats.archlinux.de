@@ -25,6 +25,7 @@ services:
     working_dir: /app/app
     environment:
       - HOME=/tmp
+      - NODE_OPTIONS=--no-experimental-webstorage
     command: pnpm run serve
     user: "${UID}:${GID}"
     userns_mode: host
