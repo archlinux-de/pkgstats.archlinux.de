@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a95b239b45aa7a7c1549760f89897bd",
+    "content-hash": "0fc8b41e972f3e5af4c8410e9aaf8bc7",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -3033,16 +3033,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v2.9.0",
+            "version": "v2.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "94b37978c9982dc41c5b6a4147892d2d3d1b9ce6"
+                "reference": "9cd384775973eabbf6e8b05784dda279fc67c28d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/94b37978c9982dc41c5b6a4147892d2d3d1b9ce6",
-                "reference": "94b37978c9982dc41c5b6a4147892d2d3d1b9ce6",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/9cd384775973eabbf6e8b05784dda279fc67c28d",
+                "reference": "9cd384775973eabbf6e8b05784dda279fc67c28d",
                 "shasum": ""
             },
             "require": {
@@ -3050,7 +3050,8 @@
                 "php": ">=8.1"
             },
             "conflict": {
-                "composer/semver": "<1.7.2"
+                "composer/semver": "<1.7.2",
+                "symfony/dotenv": "<5.4"
             },
             "require-dev": {
                 "composer/composer": "^2.1",
@@ -3081,7 +3082,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v2.9.0"
+                "source": "https://github.com/symfony/flex/tree/v2.10.0"
             },
             "funding": [
                 {
@@ -3101,7 +3102,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-10-31T15:22:50+00:00"
+            "time": "2025-11-16T09:38:19+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -5475,16 +5476,16 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "5.7.0",
+            "version": "5.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "39fcd46e79c2f3cfbf56cf5a92a86108c8eed401"
+                "reference": "374262ed61670c5bd5f050cd9e4dc850d0a092ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/39fcd46e79c2f3cfbf56cf5a92a86108c8eed401",
-                "reference": "39fcd46e79c2f3cfbf56cf5a92a86108c8eed401",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/374262ed61670c5bd5f050cd9e4dc850d0a092ef",
+                "reference": "374262ed61670c5bd5f050cd9e4dc850d0a092ef",
                 "shasum": ""
             },
             "require": {
@@ -5557,9 +5558,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zircote/swagger-php/issues",
-                "source": "https://github.com/zircote/swagger-php/tree/5.7.0"
+                "source": "https://github.com/zircote/swagger-php/tree/5.7.1"
             },
-            "time": "2025-11-11T03:41:35+00:00"
+            "time": "2025-11-16T20:00:36+00:00"
         }
     ],
     "packages-dev": [
