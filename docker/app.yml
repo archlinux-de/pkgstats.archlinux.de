@@ -57,7 +57,7 @@ services:
       - app
 
   mariadb:
-    image: mariadb:12.0
+    image: mariadb:12.1
     healthcheck:
       test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
       interval: 10s

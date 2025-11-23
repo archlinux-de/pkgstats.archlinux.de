@@ -16,7 +16,7 @@
         <server name="APP_ENV" value="test" force="true"/>
         <server name="SHELL_VERBOSITY" value="-1"/>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;quiet[]=indirect&amp;quiet[]=other"/>
-        <env name="DATABASE_URL" value="mysql://root@mariadb/db-test?serverVersion=12.0.2-MariaDB&amp;charset=utf8mb4"/>
+        <env name="DATABASE_URL" value="mysql://root@mariadb/db-test?serverVersion=12.1.2-MariaDB&amp;charset=utf8mb4"/>
     </php>
 
     <testsuites>
