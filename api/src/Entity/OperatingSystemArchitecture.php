@@ -21,7 +21,7 @@ class OperatingSystemArchitecture implements \Stringable
 
     #[ORM\Column(length:15)]
     #[ORM\Id]
-    #[Assert\Choice(self::ARCHITECTURES)]
+    #[Assert\Choice(choices: self::ARCHITECTURES)]
     private string $name;
 
     #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]

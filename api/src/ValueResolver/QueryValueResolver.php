@@ -25,7 +25,7 @@ readonly class QueryValueResolver implements ValueResolverInterface
             return [];
         }
 
-        $query = $request->get('query', '');
+        $query = $request->query->get('query', '');
         if (!is_string($query)) {
             throw new BadRequestHttpException('Invalid request');
         }
