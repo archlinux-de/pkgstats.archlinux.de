@@ -26,6 +26,7 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Request/'
+            - '../src/DataFixtures/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
@@ -46,8 +47,14 @@ services:
 
 when@dev:
     services:
+        App\DataFixtures\:
+            resource: '../src/DataFixtures/'
+
         League\ISO3166\ISO3166:
 
 when@test:
     services:
+        App\DataFixtures\:
+            resource: '../src/DataFixtures/'
+
         League\ISO3166\ISO3166:
