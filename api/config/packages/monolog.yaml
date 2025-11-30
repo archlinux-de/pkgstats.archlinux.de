@@ -47,7 +47,3 @@ when@prod:
                 type: console
                 process_psr_3_messages: false
                 channels: ["!event", "!doctrine"]
-            deprecation:
-                type: syslog
-                channels: [deprecation]
-                formatter: monolog.formatter.json
