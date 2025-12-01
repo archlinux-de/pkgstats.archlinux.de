@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "561944c5fda6ddb715d78bb0418bbf30",
+    "content-hash": "2df8797542418b36c1c951f45773e994",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -5432,16 +5432,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.22.0",
+            "version": "v3.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "4509984193026de413baf4ba80f68590a7f2c51d"
+                "reference": "1de2ec1fc43ab58a4b7e80b214b96bfc895750f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/4509984193026de413baf4ba80f68590a7f2c51d",
-                "reference": "4509984193026de413baf4ba80f68590a7f2c51d",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/1de2ec1fc43ab58a4b7e80b214b96bfc895750f3",
+                "reference": "1de2ec1fc43ab58a4b7e80b214b96bfc895750f3",
                 "shasum": ""
             },
             "require": {
@@ -5495,7 +5495,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.22.0"
+                "source": "https://github.com/twigphp/Twig/tree/v3.22.1"
             },
             "funding": [
                 {
@@ -5507,7 +5507,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-10-29T15:56:47+00:00"
+            "time": "2025-11-16T16:01:12+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -6983,16 +6983,16 @@
         },
         {
             "name": "pierres/doctrine-migrations-test",
-            "version": "2.5.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/doctrine-migrations-test.git",
-                "reference": "55df0d223c9ce5e7c7600c0acc3c7c0c57098f62"
+                "reference": "d4ad29c0e2bc328a283539365ddcf0daffc5aa8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/doctrine-migrations-test/zipball/55df0d223c9ce5e7c7600c0acc3c7c0c57098f62",
-                "reference": "55df0d223c9ce5e7c7600c0acc3c7c0c57098f62",
+                "url": "https://api.github.com/repos/pierres/doctrine-migrations-test/zipball/d4ad29c0e2bc328a283539365ddcf0daffc5aa8f",
+                "reference": "d4ad29c0e2bc328a283539365ddcf0daffc5aa8f",
                 "shasum": ""
             },
             "require": {
@@ -7001,8 +7001,8 @@
                 "doctrine/doctrine-migrations-bundle": "^3.3",
                 "doctrine/orm": "^3.0",
                 "php": "^8.3",
-                "symfony/browser-kit": "^7.0",
-                "symfony/framework-bundle": "^7.0"
+                "symfony/browser-kit": "^7.0|^8.0",
+                "symfony/framework-bundle": "^7.0|^8.0"
             },
             "require-dev": {
                 "phpstan/extension-installer": "^1.4",
@@ -7034,22 +7034,22 @@
             "description": "Test cases to verify Doctrine Migrations",
             "support": {
                 "issues": "https://github.com/pierres/doctrine-migrations-test/issues",
-                "source": "https://github.com/pierres/doctrine-migrations-test/tree/2.5.0"
+                "source": "https://github.com/pierres/doctrine-migrations-test/tree/2.6.0"
             },
-            "time": "2025-11-01T11:28:17+00:00"
+            "time": "2025-11-30T08:39:54+00:00"
         },
         {
             "name": "pierres/symfony-database-test",
-            "version": "2.4.0",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pierres/symfony-database-test.git",
-                "reference": "bfdda3778eab5e6bf7ad4fd046b5e60cb074c69a"
+                "reference": "5a664b6218e89cb73b8919c22e0a7fc97e5b93ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/bfdda3778eab5e6bf7ad4fd046b5e60cb074c69a",
-                "reference": "bfdda3778eab5e6bf7ad4fd046b5e60cb074c69a",
+                "url": "https://api.github.com/repos/pierres/symfony-database-test/zipball/5a664b6218e89cb73b8919c22e0a7fc97e5b93ab",
+                "reference": "5a664b6218e89cb73b8919c22e0a7fc97e5b93ab",
                 "shasum": ""
             },
             "require": {
@@ -7057,8 +7057,8 @@
                 "doctrine/doctrine-bundle": "^2.11|^3.0",
                 "doctrine/orm": "^3.0",
                 "php": "^8.3",
-                "symfony/browser-kit": "^7.0",
-                "symfony/framework-bundle": "^7.0"
+                "symfony/browser-kit": "^7.0|^8.0",
+                "symfony/framework-bundle": "^7.0|^8.0"
             },
             "require-dev": {
                 "phpstan/extension-installer": "^1.4",
@@ -7090,9 +7090,9 @@
             "description": "Symfony WebTestCase with database support",
             "support": {
                 "issues": "https://github.com/pierres/symfony-database-test/issues",
-                "source": "https://github.com/pierres/symfony-database-test/tree/2.4.0"
+                "source": "https://github.com/pierres/symfony-database-test/tree/2.5.0"
             },
-            "time": "2025-11-01T11:39:05+00:00"
+            "time": "2025-11-30T08:07:34+00:00"
         },
         {
             "name": "rector/rector",
