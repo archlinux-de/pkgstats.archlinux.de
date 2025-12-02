@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass:OperatingSystemArchitectureRepository::class)]
-#[ORM\Index(columns: ['month', 'name'], name: 'operating_sytem_architecture_month_name')]
-#[ORM\Index(columns: ['month', 'count'], name: 'operating_sytem_architecture_month_count')]
+#[ORM\Index(name: 'operating_sytem_architecture_month_name', columns: ['month', 'name'])]
+#[ORM\Index(name: 'operating_sytem_architecture_month_count', columns: ['month', 'count'])]
 class OperatingSystemArchitecture implements \Stringable
 {
     public const array ARCHITECTURES = [

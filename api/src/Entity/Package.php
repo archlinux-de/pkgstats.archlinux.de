@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PackageRepository::class)]
-#[ORM\Index(columns: ['month', 'name'], name: 'package_month_name')]
-#[ORM\Index(columns: ['month', 'count'], name: 'package_month_count')]
+#[ORM\Index(name: 'package_month_name', columns: ['month', 'name'])]
+#[ORM\Index(name: 'package_month_count', columns: ['month', 'count'])]
 class Package
 {
     #[ORM\Column(length: 191)]

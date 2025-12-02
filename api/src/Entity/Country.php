@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CountryRepository::class)]
-#[ORM\Index(columns: ['month', 'code'], name: 'country_month_code')]
-#[ORM\Index(columns: ['month', 'count'], name: 'country_month_count')]
+#[ORM\Index(name: 'country_month_code', columns: ['month', 'code'])]
+#[ORM\Index(name: 'country_month_count', columns: ['month', 'count'])]
 class Country
 {
     public const string CODE_REGEXP = '^[a-zA-Z]{1,2}$';
