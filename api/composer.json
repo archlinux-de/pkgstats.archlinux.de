@@ -4,7 +4,7 @@
     "description": "Arch Linux package statistics website",
     "license": "GPL-3.0-or-later",
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-apcu": "^5.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
@@ -89,7 +89,8 @@
         "symfony/polyfill-php81": "*",
         "symfony/polyfill-php82": "*",
         "symfony/polyfill-php83": "*",
-        "symfony/polyfill-php84": "*"
+        "symfony/polyfill-php84": "*",
+        "symfony/polyfill-php85": "*"
     },
     "scripts": {
         "auto-scripts": {

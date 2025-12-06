@@ -172,11 +172,11 @@ test-db-migrations *args: start-db
 # use jest and phpunit to generate code coverage reports
 test-coverage:
 	{{NODE-RUN}} node_modules/.bin/jest --passWithNoTests --coverage --coverageDirectory var/coverage/jest
-	{{PHP-RUN}} php -d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage/phpunit
+	{{PHP-RUN}} php -d extension=pcov -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage/phpunit
 
 # run phpunit to generate db code coverage report
 test-db-coverage: start-db
-	{{PHP-RUN}} php -d zend_extension=xdebug -d xdebug.mode=coverage -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage -c phpunit-db.xml
+	{{PHP-RUN}} php -d extension=pcov -d memory_limit=-1 vendor/bin/phpunit --coverage-html var/coverage -c phpunit-db.xml
 
 # run composer and pnpm audit commands
 test-security: (composer "audit")

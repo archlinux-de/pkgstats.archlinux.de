@@ -30,7 +30,7 @@ readonly class PkgstatsRequestRateLimitSubscriber implements EventSubscriberInte
 
         if (!$limit->isAccepted()) {
             throw new TooManyRequestsHttpException(
-                $limit->getRetryAfter()->format(\DateTimeInterface::RFC7231),
+                $limit->getRetryAfter()->format(\DateTimeInterface::RFC1123),
                 sprintf(
                     'You already submitted your data %d times. Retry after %s.',
                     $limit->getLimit(),
