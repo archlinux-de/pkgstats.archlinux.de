@@ -27,14 +27,14 @@ class PkgstatsValueResolverTest extends TestCase
         $this->serializer = $this->createMock(SerializerInterface::class);
 
         $this->serializer
-            ->expects($this->any())
+            ->expects($this->once())
             ->method('deserialize')
             ->willReturn(new PkgstatsRequest('3.2.2'));
 
         $this->pkgstatsValueResolver = new PkgstatsValueResolver(
             $this->validator,
             $this->serializer,
-            $this->createMock(LoggerInterface::class)
+            $this->createStub(LoggerInterface::class)
         );
     }
 
@@ -83,7 +83,7 @@ class PkgstatsValueResolverTest extends TestCase
             ->method('validate')
             ->willReturnCallback(
                 fn(PkgstatsRequest $_): ConstraintViolationList
-                => new ConstraintViolationList([$this->createMock(ConstraintViolationInterface::class)])
+                => new ConstraintViolationList([$this->createStub(ConstraintViolationInterface::class)])
             );
 
         $this->expectException(PkgstatsRequestException::class);

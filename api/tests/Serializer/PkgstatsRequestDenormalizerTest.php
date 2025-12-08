@@ -94,6 +94,8 @@ class PkgstatsRequestDenormalizerTest extends TestCase
 
     public function testSpportsDenormalization(): void
     {
+        $this->geoIp->expects($this->never())->method('getCountryCode');
+        $this->mirrorUrlFilter->expects($this->never())->method('filter');
         $this->assertTrue($this->denormalizer->supportsDenormalization([], PkgstatsRequest::class, 'json'));
     }
 }

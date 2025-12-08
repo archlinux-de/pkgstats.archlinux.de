@@ -4,6 +4,7 @@ namespace App\Tests\EventSubscriber;
 
 use App\EventSubscriber\PkgstatsRequestRateLimitSubscriber;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,15 +37,15 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
         $this->assertArrayHasKey(KernelEvents::REQUEST, $events);
     }
 
-    private function createEvent(string $route): RequestEvent
+    private function createEvent(string $route, InvocationOrder $ipRequests): RequestEvent
     {
         /** @var KernelInterface|MockObject $kernel */
-        $kernel = $this->createMock(KernelInterface::class);
+        $kernel = $this->createStub(KernelInterface::class);
 
         /** @var Request|MockObject $request */
         $request = $this->createMock(Request::class);
         $request
-            ->expects($this->any())
+            ->expects($ipRequests)
             ->method('getClientIp')
             ->willReturn('127.0.0.1');
         $request->attributes = new ParameterBag(['_route' => $route]);
@@ -54,7 +55,7 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
 
     public function testRateLimit(): void
     {
-        $event = $this->createEvent('app_api_submit');
+        $event = $this->createEvent('app_api_submit', $this->atLeastOnce());
         $this->rateLimitSubscriber->onKernelRequest($event);
         $this->expectException(TooManyRequestsHttpException::class);
         $this->rateLimitSubscriber->onKernelRequest($event);
@@ -62,10 +63,10 @@ class PkgstatsRequestRateLimitSubscriberTest extends TestCase
 
     public function testRateLimitDoesNotApplyToOtherRoutes(): void
     {
-        $event = $this->createEvent('foo');
+        $event = $this->createEvent('foo', $this->never());
         $this->rateLimitSubscriber->onKernelRequest($event);
         $this->rateLimitSubscriber->onKernelRequest($event);
-        // Asserting that not exception was thrown
+        // Asserting that no exception was thrown
         // @phpstan-ignore-next-line
         $this->assertTrue(true);
     }

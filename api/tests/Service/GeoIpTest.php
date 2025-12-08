@@ -23,19 +23,21 @@ class GeoIpTest extends TestCase
 
     public function testGeoIpReturnesCountryCode(): void
     {
-        $this->reader->method('get')->willReturn(['country' => ['iso_code' => 'DE']]);
+        $this->reader->expects($this->once())->method('get')->willReturn(['country' => ['iso_code' => 'DE']]);
+        $this->logger->expects($this->never())->method('error');
         $this->assertEquals('DE', $this->geoIp->getCountryCode('::1'));
     }
 
     public function testGeoIpReturnesNullOnError(): void
     {
-        $this->reader->method('get')->willThrowException(new \Exception());
+        $this->reader->expects($this->once())->method('get')->willThrowException(new \Exception());
+        $this->logger->expects($this->once())->method('error');
         $this->assertNull($this->geoIp->getCountryCode('foo'));
     }
 
     public function testGeoIpLogsErrors(): void
     {
-        $this->reader->method('get')->willThrowException(new \Exception(':-('));
+        $this->reader->expects($this->once())->method('get')->willThrowException(new \Exception(':-('));
         $this->logger
             ->expects($this->once())
             ->method('error')

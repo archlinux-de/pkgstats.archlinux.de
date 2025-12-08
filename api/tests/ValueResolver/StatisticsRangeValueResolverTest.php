@@ -111,7 +111,7 @@ class StatisticsRangeValueResolverTest extends TestCase
             ->method('validate')
             ->willReturnCallback(
                 fn(StatisticsRangeRequest $_): ConstraintViolationList
-                => new ConstraintViolationList([$this->createMock(ConstraintViolation::class)])
+                => new ConstraintViolationList([$this->createStub(ConstraintViolation::class)])
             );
 
         $this->expectException(PkgstatsRequestException::class);

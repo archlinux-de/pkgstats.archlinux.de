@@ -17,7 +17,7 @@ class PkgstatsRequestTest extends TestCase
 {
     public function testGettersAndSetters(): void
     {
-        $package = $this->createMock(Package::class);
+        $package = $this->createStub(Package::class);
 
         $request = new PkgstatsRequest('1.0')
             ->addPackage($package)

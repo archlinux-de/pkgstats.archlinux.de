@@ -23,7 +23,7 @@ class ApiCorsSubscriberTest extends TestCase
 
     public function testSubscriberIsOnlyEnabledOnMasterRequests(): void
     {
-        $response = $this->createMock(Response::class);
+        $response = $this->createStub(Response::class);
         $response->headers = new ResponseHeaderBag();
 
         $request = $this->createMock(Request::class);
@@ -32,7 +32,7 @@ class ApiCorsSubscriberTest extends TestCase
             ->method('isMethod');
 
         $event = new ResponseEvent(
-            $this->createMock(KernelInterface::class),
+            $this->createStub(KernelInterface::class),
             $request,
             HttpKernelInterface::SUB_REQUEST,
             $response
@@ -45,7 +45,7 @@ class ApiCorsSubscriberTest extends TestCase
 
     public function testSubscriberIsOnlyEnabledOnGetRequests(): void
     {
-        $response = $this->createMock(Response::class);
+        $response = $this->createStub(Response::class);
         $response->headers = new ResponseHeaderBag();
 
         $request = $this->createMock(Request::class);
@@ -60,7 +60,7 @@ class ApiCorsSubscriberTest extends TestCase
             ->willReturn('/api/foo');
 
         $event = new ResponseEvent(
-            $this->createMock(KernelInterface::class),
+            $this->createStub(KernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST,
             $response
@@ -73,7 +73,7 @@ class ApiCorsSubscriberTest extends TestCase
 
     public function testCorsHeadersAreSetForApiRequests(): void
     {
-        $response = $this->createMock(Response::class);
+        $response = $this->createStub(Response::class);
         $response->headers = new ResponseHeaderBag();
 
         $request = $this->createMock(Request::class);
@@ -88,7 +88,7 @@ class ApiCorsSubscriberTest extends TestCase
             ->willReturn('/api/foo');
 
         $event = new ResponseEvent(
-            $this->createMock(KernelInterface::class),
+            $this->createStub(KernelInterface::class),
             $request,
             HttpKernelInterface::MAIN_REQUEST,
             $response

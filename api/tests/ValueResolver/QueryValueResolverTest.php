@@ -89,7 +89,7 @@ class QueryValueResolverTest extends TestCase
             ->expects($this->once())
             ->method('validate')
             ->willReturnCallback(fn(PackageQueryRequest $_): ConstraintViolationList
-            => new ConstraintViolationList([$this->createMock(ConstraintViolation::class)]));
+            => new ConstraintViolationList([$this->createStub(ConstraintViolation::class)]));
 
         $this->expectException(PkgstatsRequestException::class);
         $this->queryValueResolver->resolve($request, $argument);

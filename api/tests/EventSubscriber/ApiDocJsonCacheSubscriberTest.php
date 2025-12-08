@@ -40,7 +40,7 @@ class ApiDocJsonCacheSubscriberTest extends TestCase
     private function createEvent(Request $request, Response $response): ResponseEvent
     {
         /** @var KernelInterface|MockObject $kernel */
-        $kernel = $this->createMock(KernelInterface::class);
+        $kernel = $this->createStub(KernelInterface::class);
 
         return new ResponseEvent(
             $kernel,
