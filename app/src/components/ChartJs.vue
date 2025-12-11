@@ -63,7 +63,7 @@ const drawChart = (canvas, data) => {
     '#0dcaf0',
     '#d63384',
     '#ff9800',
-    '#333',
+    '#434434',
     '#673ab7',
     '#adb5bd',
     '#8bc34a',
