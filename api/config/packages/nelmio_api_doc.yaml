@@ -7,7 +7,6 @@ nelmio_api_doc:
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
         name_patterns:
-            - ^app_api_submit
             - ^app_api_package
         disable_default_routes: true
 

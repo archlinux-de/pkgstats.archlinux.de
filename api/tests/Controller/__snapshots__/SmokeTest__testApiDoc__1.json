@@ -1,5 +1,5 @@
 {
-    "request": "\/api\/doc.json",
+    "request": "/api/doc.json",
     "response": {
         "openapi": "3.0.0",
         "info": {
@@ -7,7 +7,7 @@
             "version": "3.0.0"
         },
         "paths": {
-            "\/api\/packages\/{name}": {
+            "/api/packages/{name}": {
                 "get": {
                     "tags": [
                         "packages"
@@ -47,9 +47,9 @@
                         "200": {
                             "description": "Returns popularity of given package",
                             "content": {
-                                "application\/json": {
+                                "application/json": {
                                     "schema": {
-                                        "$ref": "#\/components\/schemas\/PackagePopularity"
+                                        "$ref": "#/components/schemas/PackagePopularity"
                                     }
                                 }
                             }
@@ -57,7 +57,7 @@
                     }
                 }
             },
-            "\/api\/packages\/{name}\/series": {
+            "/api/packages/{name}/series": {
                 "get": {
                     "tags": [
                         "packages"
@@ -121,9 +121,9 @@
                         "200": {
                             "description": "Returns popularities of given package in a monthly series",
                             "content": {
-                                "application\/json": {
+                                "application/json": {
                                     "schema": {
-                                        "$ref": "#\/components\/schemas\/PackagePopularityList"
+                                        "$ref": "#/components/schemas/PackagePopularityList"
                                     }
                                 }
                             }
@@ -131,7 +131,7 @@
                     }
                 }
             },
-            "\/api\/packages": {
+            "/api/packages": {
                 "get": {
                     "tags": [
                         "packages"
@@ -196,94 +196,12 @@
                         "200": {
                             "description": "Returns list of package popularities",
                             "content": {
-                                "application\/json": {
+                                "application/json": {
                                     "schema": {
-                                        "$ref": "#\/components\/schemas\/PackagePopularityList"
+                                        "$ref": "#/components/schemas/PackagePopularityList"
                                     }
                                 }
                             }
-                        }
-                    }
-                }
-            },
-            "\/api\/submit": {
-                "post": {
-                    "tags": [
-                        "pkgstats"
-                    ],
-                    "description": "POST endpoint for the pkgstats cli tool",
-                    "operationId": "post_app_api_submit",
-                    "requestBody": {
-                        "required": true,
-                        "content": {
-                            "application\/json": {
-                                "schema": {
-                                    "properties": {
-                                        "version": {
-                                            "type": "string",
-                                            "example": "3"
-                                        },
-                                        "system": {
-                                            "properties": {
-                                                "architecture": {
-                                                    "description": "Architecture of the CPU",
-                                                    "type": "string",
-                                                    "example": "x86_64"
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "os": {
-                                            "properties": {
-                                                "architecture": {
-                                                    "description": "Architecture of the distribution",
-                                                    "type": "string",
-                                                    "example": "x86_64"
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "pacman": {
-                                            "properties": {
-                                                "mirror": {
-                                                    "description": "Package mirror",
-                                                    "type": "string",
-                                                    "example": "https:\/\/geo.mirror.pkgbuild.com\/"
-                                                },
-                                                "packages": {
-                                                    "description": "List of package names",
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "string",
-                                                        "maxLength": 191,
-                                                        "minLength": 1
-                                                    },
-                                                    "maxItems": 10000,
-                                                    "minItems": 1,
-                                                    "example": [
-                                                        "pacman",
-                                                        "linux",
-                                                        "pkgstats"
-                                                    ]
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "responses": {
-                        "204": {
-                            "description": "Submission was successful"
-                        },
-                        "400": {
-                            "description": "Validation failed"
-                        },
-                        "429": {
-                            "description": "Rate limit was reached"
                         }
                     }
                 }
@@ -335,7 +253,7 @@
                         "packagePopularities": {
                             "type": "array",
                             "items": {
-                                "$ref": "#\/components\/schemas\/PackagePopularity"
+                                "$ref": "#/components/schemas/PackagePopularity"
                             }
                         },
                         "total": {
@@ -362,9 +280,6 @@
         "tags": [
             {
                 "name": "packages"
-            },
-            {
-                "name": "pkgstats"
             }
         ]
     }
