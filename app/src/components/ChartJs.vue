@@ -55,7 +55,23 @@ const testRenderPlugin = {
 }
 
 const drawChart = (canvas, data) => {
-  const colors = ['#08c', '#dc3545', '#198754', '#ffc107', '#0dcaf0', '#d63384', '#fd7e14', '#333', '#6f42c1', '#adb5bd']
+  const colors = [
+    '#08c',
+    '#dc3545',
+    '#198754',
+    '#ffc107',
+    '#0dcaf0',
+    '#d63384',
+    '#ff9800',
+    '#434434',
+    '#673ab7',
+    '#adb5bd',
+    '#8bc34a',
+    '#3f51b5',
+    '#ffeb3b',
+    '#ff5722',
+    '#795548'
+  ]
   const textColor = window.getComputedStyle(document.documentElement).getPropertyValue('--bs-body-color')
   const gridColor = window.getComputedStyle(document.documentElement).getPropertyValue('--bs-border-color')
 
