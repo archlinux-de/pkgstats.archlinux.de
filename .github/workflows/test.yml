@@ -26,13 +26,13 @@ jobs:
       - name: Building Docker images
         run: just compose build
       - name: Maintain Composer cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: api/.cache/composer
           key: composer-${{ hashFiles('api/composer.lock') }}
           restore-keys: composer-
       - name: Maintain pnpm cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: app/.cache/node
           key: pnpm-${{ hashFiles('app/pnpm-lock.yaml') }}
