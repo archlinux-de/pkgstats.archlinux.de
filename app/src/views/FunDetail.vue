@@ -10,7 +10,23 @@
       </li>
     </ul>
     <packages-bar-chart v-if="showBarChart" :packages="pkgs"></packages-bar-chart>
-    <package-chart v-if="showGraph" :limit="0" :packages="pkgs" :start-month="0"></package-chart>
+    <package-chart v-if="showGraph" :limit="0" :packages="pkgs" :start-month="0" :filter="filter"></package-chart>
+
+    <div v-if="route.path.endsWith('/history')">
+      <h2 class="mt-4">Filters</h2>
+      <div class="btn-group" role="group" aria-label="Filter chart data">
+        <input type="radio" class="btn-check" id="packagesRadioAll" value="All" v-model="filter" autocomplete="off">
+        <label class="btn" :class="filter === 'All' ? 'btn-primary' : 'btn-outline-primary'" for="packagesRadioAll">
+          All
+        </label>
+
+        <input type="radio" class="btn-check" id="packagesRadioTop5" value="Top 5" v-model="filter" autocomplete="off">
+        <label class="btn" :class="filter === 'Top 5' ? 'btn-primary' : 'btn-outline-primary'" for="packagesRadioTop5">
+          Top 5
+        </label>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -21,9 +37,12 @@ import FunConfig from '../config/fun.json'
 import PackageChart from '../components/PackageChart.vue'
 import { ref, watch } from 'vue'
 import { useRouteParams } from '@vueuse/router'
+import { useRoute } from 'vue-router'
 
 const category = useRouteParams('category')
 const preset = useRouteParams('preset')
+const route = useRoute()
+const filter = ref('All')
 
 const pkgs = FunConfig[category.value]
 

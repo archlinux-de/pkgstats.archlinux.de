@@ -95,10 +95,11 @@ console *args:
 phpunit *args:
 	{{PHP-RUN}} php -dmemory_limit=-1 vendor/bin/phpunit {{args}}
 
-# run phpstan inside a php containre
+# run phpstan inside a php container
 phpstan *args:
 	{{PHP-RUN}} php -dmemory_limit=-1 vendor/bin/phpstan {{args}}
 
+# run rector inside the php container
 rector *args:
 	{{PHP-RUN}} php -dmemory_limit=-1 vendor/bin/rector {{args}}
 
@@ -106,11 +107,11 @@ rector *args:
 node *args='-h':
 	{{NODE-RUN}} node {{args}}
 
-# run pnpm inside a php containre
+# run pnpm inside a php container
 pnpm *args='-h':
 	{{NODE-RUN}} pnpm {{args}}
 
-# run jest inside a node containre
+# run jest inside a node container
 jest *args:
 	{{NODE-RUN}} node_modules/.bin/jest --passWithNoTests {{args}}
 
@@ -194,6 +195,7 @@ update:
 	{{PHP-RUN}} composer --no-interaction update --lock --no-scripts
 	{{NODE-RUN}} pnpm update --latest
 
+# runs on server after deploy; install deps, build assets, run migrations
 deploy:
 	cd app && pnpm install --frozen-lockfile --prod
 	cd app && NODE_OPTIONS=--no-experimental-webstorage pnpm run build
@@ -205,6 +207,7 @@ deploy:
 	cd api && bin/console doctrine:migrations:sync-metadata-storage --no-interaction
 	cd api && bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
 
+# runs on server after deploy; sets correct permissions
 deploy-permissions:
 	cd api && sudo setfacl -dR -m u:php-pkgstats:rwX -m u:deployer:rwX var
 	cd api && sudo setfacl -R -m u:php-pkgstats:rwX -m u:deployer:rwX var

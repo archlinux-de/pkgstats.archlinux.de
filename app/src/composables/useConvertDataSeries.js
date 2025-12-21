@@ -32,7 +32,15 @@ const convertToDataSeries = (PopularitiesArray, pupularitiesKey) => {
     datasets: []
   }
 
-  tempSeries.forEach((series, name) => {
+  // sort packages by current popularity (desc)
+  const sortedTempSeries = Array.from(tempSeries.entries()).sort((a, b) => {
+    const lastLabel = data.labels[data.labels.length - 1]
+    const popA = a[1].get(lastLabel) || 0
+    const popB = b[1].get(lastLabel) || 0
+    return popB - popA
+  })
+
+  sortedTempSeries.forEach(([name, series]) => {
     data.datasets.push({
       label: name,
       data: (() => {
