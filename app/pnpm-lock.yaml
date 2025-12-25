@@ -92,8 +92,8 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0(webpack@5.104.1)
       svgmap:
-        specifier: ^2.16.0
-        version: 2.16.0
+        specifier: ^2.17.0
+        version: 2.17.0
       swagger-ui:
         specifier: ^5.31.0
         version: 5.31.0
@@ -1272,8 +1272,8 @@ packages:
   '@scarf/scarf@1.4.0':
     resolution: {integrity: sha512-xxeapPiUXdZAE3che6f3xogoJPeZgig6omHEy1rIY5WVsB3H2BHNnZH+gHG6x91SCWyQCzWGsuL2Hh3ClO5/qQ==}
 
-  '@sinclair/typebox@0.34.41':
-    resolution: {integrity: sha512-6gS8pZzSXdyRHTIqoqSVknxolr1kzfy4/CeDnrzsVz8TTIWUbOBr6gnzOmTYJ3eXQNh4IYHIGi5aIL7sOZ2G/g==}
+  '@sinclair/typebox@0.34.45':
+    resolution: {integrity: sha512-qJcFVfCa5jxBFSuv7S5WYbA8XdeCPmhnaVVfX/2Y6L8WYg8sk3XY2+6W0zH+3mq1Cz+YC7Ki66HfqX6IHAwnkg==}
 
   '@sinonjs/commons@3.0.1':
     resolution: {integrity: sha512-K3mCHKQ9sVh8o1C9cxkwxaOmXoAMlDxC1mYyHrjqOWEcBjYr76t96zL2zlj5dUGZ3HSw240X1qgH3Mjf1yJWpQ==}
@@ -5357,8 +5357,8 @@ packages:
   svg-tags@1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
 
-  svgmap@2.16.0:
-    resolution: {integrity: sha512-0vQ9T5AX7cSF7Mwc//sjTJqRWIx3D5XnUUzHN4wUcNK9zBJ8jn0GWs4m+OAZAx1A8iM4leqKpehhkIoQpEf1fg==}
+  svgmap@2.17.0:
+    resolution: {integrity: sha512-zdAkea92OfSY0WeSAUil3hvSy0ZBAFXHe9g5AaH3BRqyQefTc+2eWFnzaVuy3yCBbyynaFKzZ4JYCS6PhZ07lg==}
 
   svgo@4.0.0:
     resolution: {integrity: sha512-VvrHQ+9uniE+Mvx3+C9IEe/lWasXCU0nXMY2kZeLrHNICuRiC8uMPyM14UEaMOFA5mhyQqEkB02VoQ16n3DLaw==}
@@ -7000,7 +7000,7 @@ snapshots:
 
   '@jest/schemas@30.0.5':
     dependencies:
-      '@sinclair/typebox': 0.34.41
+      '@sinclair/typebox': 0.34.45
 
   '@jest/snapshot-utils@30.2.0':
     dependencies:
@@ -7280,7 +7280,7 @@ snapshots:
 
   '@scarf/scarf@1.4.0': {}
 
-  '@sinclair/typebox@0.34.41': {}
+  '@sinclair/typebox@0.34.45': {}
 
   '@sinonjs/commons@3.0.1':
     dependencies:
@@ -12213,7 +12213,7 @@ snapshots:
 
   svg-tags@1.0.0: {}
 
-  svgmap@2.16.0:
+  svgmap@2.17.0:
     dependencies:
       svg-pan-zoom: 3.6.2
 
