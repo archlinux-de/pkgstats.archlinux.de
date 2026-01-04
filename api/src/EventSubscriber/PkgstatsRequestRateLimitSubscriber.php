@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -25,7 +26,9 @@ readonly class PkgstatsRequestRateLimitSubscriber implements EventSubscriberInte
             return;
         }
 
-        $limiter = $this->pkgstatsRequestLimiter->create($event->getRequest()->getClientIp());
+        $limiter = $this->pkgstatsRequestLimiter->create(
+            IpUtils::anonymize($event->getRequest()->getClientIp() ?? '127.0.0.1')
+        );
         $limit = $limiter->consume();
 
         if (!$limit->isAccepted()) {
