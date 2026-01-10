@@ -236,6 +236,13 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertTrue($client->getResponse()->isClientError());
     }
 
+    public function testCompletelyInvalidPackageListGetsRejected(): void
+    {
+        $client = $this->createPkgstatsClient();
+        $this->sendRequest($client, packages: ['some-other-package']);
+        $this->assertTrue($client->getResponse()->isClientError());
+    }
+
     public function testLongPackageGetsRejected(): void
     {
         $client = $this->createPkgstatsClient();
@@ -266,15 +273,15 @@ class PostPackageListControllerTest extends DatabaseTestCase
         );
 
         $client = $this->createPkgstatsClient();
-        $this->sendRequest($client, packages: ['pkgstats']);
+        $this->sendRequest($client);
 
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getEntityManager()->getRepository(Package::class);
-        $this->assertCount(1, $packageRepository->findAll());
+        $this->assertCount(1, $packageRepository->findBy(['name' => 'pkgstats']));
         /** @var Package $package */
-        $package = $packageRepository->findAll()[0];
+        $package = $packageRepository->findBy(['name' => 'pkgstats'])[0];
         $this->assertEquals('pkgstats', $package->getName());
         $this->assertEquals(2, $package->getCount());
     }

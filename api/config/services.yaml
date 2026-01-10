@@ -8,6 +8,9 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     geoip.database: '/usr/share/GeoIP/GeoLite2-Country.mmdb'
+    env(EXPECTED_PACKAGES): '["pkgstats","pacman"]'
+    validator.expected_packages: '%env(json:EXPECTED_PACKAGES)%'
+    validator.max_missing: 0.2
 
 services:
     # default configuration for services in *this* file
@@ -44,6 +47,11 @@ services:
     App\Cache\ApiDocCacheWarmer:
         tags:
             - { name: kernel.cache_warmer, priority: -1 }
+
+    App\Validator\ContainsPackagesValidator:
+        bind:
+            $expectedPackages: '%validator.expected_packages%'
+            $maxMissing: '%validator.max_missing%'
 
 when@dev:
     services:

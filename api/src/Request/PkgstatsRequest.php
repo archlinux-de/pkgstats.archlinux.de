@@ -7,6 +7,7 @@ use App\Entity\Mirror;
 use App\Entity\OperatingSystemArchitecture;
 use App\Entity\Package;
 use App\Entity\SystemArchitecture;
+use App\Validator\ContainsPackages;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -23,6 +24,7 @@ class PkgstatsRequest
      */
     #[Assert\Valid]
     #[Assert\Count(min:1, max:20000)]
+    #[ContainsPackages]
     private array $packages = [];
 
     #[Assert\Valid]
