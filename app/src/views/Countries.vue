@@ -10,7 +10,7 @@
 <script setup>
 import { onMounted, watch } from 'vue'
 import { useHead } from '@vueuse/head'
-import SvgMap from 'svgmap'
+import SvgMap from 'svgmap/src/js'
 import { useFetchCountryList } from '../composables/useFetchCountryList'
 
 useHead({ title: 'Country statistics' })
@@ -53,7 +53,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@use "~svgmap/src/scss/variables" with (
+@use "svgmap/src/scss/variables" with (
   $textColor: var(--bs-body-color),
   $textColorLight: var(--bs-secondary-color),
   $oceanColor: transparent,
@@ -63,5 +63,5 @@ onMounted(() => {
   $mapTooltipColor: var(--bs-body-color),
   $mapTooltipBackgroundColor: var(--bs-body-bg),
 );
-@use '~svgmap/src/scss/main';
+@use 'svgmap/src/scss/svg-map';
 </style>

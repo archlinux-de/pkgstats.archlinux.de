@@ -10,7 +10,8 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
-      '~': path.resolve(__dirname, './src/')
+      '~': path.resolve(__dirname, './src/'),
+      svgmap: path.resolve(__dirname, './node_modules/svgmap')
     }
   },
 
