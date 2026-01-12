@@ -10,7 +10,7 @@ parameters:
     geoip.database: '/usr/share/GeoIP/GeoLite2-Country.mmdb'
     env(EXPECTED_PACKAGES): '["pkgstats","pacman"]'
     validator.expected_packages: '%env(json:EXPECTED_PACKAGES)%'
-    validator.max_missing: 0.2
+    validator.max_missing: 0.35
 
 services:
     # default configuration for services in *this* file
