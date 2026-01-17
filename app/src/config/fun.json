@@ -71,6 +71,14 @@
     "pcmanfm",
     "thunar"
   ],
+  "Linux Kernels": [
+    "linux",
+    "linux-hardened",
+    "linux-lts",
+    "linux-rt",
+    "linux-rt-lts",
+    "linux-zen"
+  ],
   "Window Managers": [
     "awesome",
     "fluxbox",
@@ -81,6 +89,17 @@
     "openbox",
     "river",
     "sway"
+  ],
+  "Graphics Drivers": [
+    "mesa",
+    "nvidia-utils",
+    "vulkan-broadcom",
+    "vulkan-dzn",
+    "vulkan-gfxstream",
+    "vulkan-intel",
+    "vulkan-nouveau",
+    "vulkan-radeon",
+    "vulkan-swrast"
   ],
   "Shells": [
     "bash",
@@ -181,5 +200,11 @@
     "utox",
     "weechat",
     "wire-desktop"
+  ],
+  "Widget Toolkits": [
+    "gtk3",
+    "gtk4",
+    "qt5-base",
+    "qt6-base"
   ]
 }
