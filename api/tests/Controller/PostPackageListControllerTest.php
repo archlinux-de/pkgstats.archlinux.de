@@ -6,6 +6,7 @@ use App\Controller\PostPackageListController;
 use App\Entity\Country;
 use App\Entity\Mirror;
 use App\Entity\OperatingSystemArchitecture;
+use App\Entity\OperatingSystemId;
 use App\Entity\Package;
 use App\Entity\SystemArchitecture;
 use App\Repository\PackageRepository;
@@ -47,6 +48,10 @@ class PostPackageListControllerTest extends DatabaseTestCase
         $this->assertCount(1, $systemArchitectures);
         $this->assertEquals('x86_64', $systemArchitectures[0]->getName());
 
+        $operatingSystemIdRepository = $this->getEntityManager()->getRepository(OperatingSystemId::class);
+        $operatingSystemIds = $operatingSystemIdRepository->findAll();
+        $this->assertCount(0, $operatingSystemIds);
+
         /** @var PackageRepository $packageRepository */
         $packageRepository = $this->getEntityManager()->getRepository(Package::class);
         /** @var Package[] $packages */
@@ -75,8 +80,14 @@ class PostPackageListControllerTest extends DatabaseTestCase
         string $osArchitecture = 'x86_64',
         string $mirror = 'https://mirror.archlinux.de/',
         array $packages = ['pkgstats', 'pacman'],
-        string $version = '3'
+        string $version = '3',
+        ?string $osId = null
     ): void {
+        $os = ['architecture' => $osArchitecture];
+        if ($osId !== null) {
+            $os['id'] = $osId;
+        }
+
         $client->request(
             'POST',
             '/api/submit',
@@ -93,9 +104,7 @@ class PostPackageListControllerTest extends DatabaseTestCase
                     'system' => [
                         'architecture' => $systemArchitecture
                     ],
-                    'os' => [
-                        'architecture' => $osArchitecture
-                    ],
+                    'os' => $os,
                     'pacman' => [
                         'mirror' => $mirror,
                         'packages' => $packages
@@ -262,6 +271,40 @@ class PostPackageListControllerTest extends DatabaseTestCase
                 $this->assertEquals(429, $client->getResponse()->getStatusCode());
             }
         }
+    }
+
+    public function testSubmitPackageListWithOperatingSystemIdIsSuccessful(): void
+    {
+        $client = $this->createPkgstatsClient();
+
+        $this->sendRequest($client, osId: 'arch');
+
+        $this->assertEquals(Response::HTTP_NO_CONTENT, $client->getResponse()->getStatusCode());
+
+        $operatingSystemIdRepository = $this->getEntityManager()->getRepository(OperatingSystemId::class);
+        $operatingSystemIds = $operatingSystemIdRepository->findAll();
+        $this->assertCount(1, $operatingSystemIds);
+        $this->assertEquals('arch', $operatingSystemIds[0]->getId());
+        $this->assertEquals(1, $operatingSystemIds[0]->getCount());
+    }
+
+    public function testPostPackageListIncrementsOperatingSystemIdCount(): void
+    {
+        $this->getEntityManager()->persist(
+            new OperatingSystemId('arch')->setMonth((int)date('Ym'))
+        );
+
+        $client = $this->createPkgstatsClient();
+        $this->sendRequest($client, osId: 'arch');
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        $operatingSystemIdRepository = $this->getEntityManager()->getRepository(OperatingSystemId::class);
+        $this->assertCount(1, $operatingSystemIdRepository->findBy(['id' => 'arch']));
+        /** @var OperatingSystemId $operatingSystemId */
+        $operatingSystemId = $operatingSystemIdRepository->findBy(['id' => 'arch'])[0];
+        $this->assertEquals('arch', $operatingSystemId->getId());
+        $this->assertEquals(2, $operatingSystemId->getCount());
     }
 
     public function testPostPackageListIncrementsPackageCount(): void

@@ -5,6 +5,7 @@ namespace App\Serializer;
 use App\Entity\Country;
 use App\Entity\Mirror;
 use App\Entity\OperatingSystemArchitecture;
+use App\Entity\OperatingSystemId;
 use App\Entity\Package;
 use App\Entity\SystemArchitecture;
 use App\Request\PkgstatsRequest;
@@ -32,6 +33,7 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
 
         $packages = $this->filterList($data['pacman']['packages'] ?? []); // @phpstan-ignore-line
         $arch = ($data['os']['architecture'] ?? '');  // @phpstan-ignore-line
+        $id = ($data['os']['id'] ?? '');  // @phpstan-ignore-line
         $cpuArch = $data['system']['architecture'] ?? '';  // @phpstan-ignore-line
         $mirror = $this->mirrorUrlFilter->filter(($data['pacman']['mirror'] ?? '')); // @phpstan-ignore-line
 
@@ -41,6 +43,11 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
         $pkgstatsRequest->setOperatingSystemArchitecture(
             new OperatingSystemArchitecture($arch)->setMonth((int)date('Ym')) // @phpstan-ignore-line
         );
+        if ($id) {
+            $pkgstatsRequest->setOperatingSystemId(
+                new OperatingSystemId($id)->setMonth((int)date('Ym')) // @phpstan-ignore-line
+            );
+        }
         $pkgstatsRequest->setSystemArchitecture(
             new SystemArchitecture($cpuArch)->setMonth((int)date('Ym')) // @phpstan-ignore-line
         );

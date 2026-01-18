@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Country;
 use App\Entity\Mirror;
 use App\Entity\OperatingSystemArchitecture;
+use App\Entity\OperatingSystemId;
 use App\Entity\Package;
 use App\Entity\SystemArchitecture;
 use App\Request\PkgstatsRequest;
@@ -54,6 +55,12 @@ class PostPackageListController extends AbstractController
                                 description: 'Architecture of the distribution',
                                 type: 'string',
                                 example: 'x86_64'
+                            ),
+                            new OA\Property(
+                                property: 'id',
+                                description: 'ID of the distribution from os-release',
+                                type: 'string',
+                                example: 'arch'
                             )
                         ],
                         type: 'object',
@@ -107,6 +114,7 @@ class PostPackageListController extends AbstractController
                     $entityManager,
                     $pkgstatsRequest->getOperatingSystemArchitecture()
                 );
+                $this->persistOperatingSystemId($entityManager, $pkgstatsRequest->getOperatingSystemId());
                 $this->persistSystemArchitecture($entityManager, $pkgstatsRequest->getSystemArchitecture());
             }
         );
@@ -185,6 +193,27 @@ class PostPackageListController extends AbstractController
             $operatingSystemArchitecture = $persistedOperatingSystemArchitecture;
         }
         $entityManager->persist($operatingSystemArchitecture);
+    }
+
+    private function persistOperatingSystemId(
+        EntityManagerInterface $entityManager,
+        ?OperatingSystemId $operatingSystemId
+    ): void {
+        if (!$operatingSystemId) {
+            return;
+        }
+
+        /** @var OperatingSystemId|null $persistedOperatingSystemId */
+        $persistedOperatingSystemId = $entityManager->find(
+            OperatingSystemId::class,
+            ['id' => $operatingSystemId->getId(), 'month' => $operatingSystemId->getMonth()],
+            LockMode::PESSIMISTIC_WRITE
+        );
+        if ($persistedOperatingSystemId) {
+            $persistedOperatingSystemId->incrementCount();
+            $operatingSystemId = $persistedOperatingSystemId;
+        }
+        $entityManager->persist($operatingSystemId);
     }
 
     private function persistSystemArchitecture(

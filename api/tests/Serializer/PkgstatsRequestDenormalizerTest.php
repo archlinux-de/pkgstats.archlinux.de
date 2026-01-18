@@ -52,6 +52,7 @@ class PkgstatsRequestDenormalizerTest extends TestCase
 
         $this->assertEquals('x86_64', $pkgstatsRequest->getOperatingSystemArchitecture()->getName());
         $this->assertEquals('x86_64', $pkgstatsRequest->getSystemArchitecture()->getName());
+        $this->assertNull($pkgstatsRequest->getOperatingSystemId());
         $this->assertNotNull($pkgstatsRequest->getMirror());
         $this->assertEquals('https://mirror.archlinux.de/', $pkgstatsRequest->getMirror()->getUrl());
         $packages = $pkgstatsRequest->getPackages();
@@ -90,6 +91,36 @@ class PkgstatsRequestDenormalizerTest extends TestCase
         $this->assertEquals('bash', $packages[0]->getName());
         $this->assertEquals('vim', $packages[1]->getName());
         $this->assertEquals('zsh', $packages[2]->getName());
+    }
+
+    public function testDenormalizeRequestWithOperatingSystemId(): void
+    {
+        $this->mirrorUrlFilter->expects($this->once())->method('filter')->willReturnArgument(0);
+        $this->geoIp
+            ->expects($this->once())
+            ->method('getCountryCode')
+            ->willReturn('DE');
+        $context = ['clientIp' => 'abc'];
+
+        $data = [
+            'version' => '3',
+            'system' => [
+                'architecture' => 'x86_64'
+            ],
+            'os' => [
+                'architecture' => 'x86_64',
+                'id' => 'arch'
+            ],
+            'pacman' => [
+                'mirror' => 'https://mirror.archlinux.de/',
+                'packages' => ['foo', 'bar']
+            ]
+        ];
+
+        $pkgstatsRequest = $this->denormalizer->denormalize($data, PkgstatsRequest::class, 'form', $context);
+
+        $this->assertNotNull($pkgstatsRequest->getOperatingSystemId());
+        $this->assertEquals('arch', $pkgstatsRequest->getOperatingSystemId()->getId());
     }
 
     public function testSpportsDenormalization(): void
