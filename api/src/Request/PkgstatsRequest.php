@@ -5,6 +5,7 @@ namespace App\Request;
 use App\Entity\Country;
 use App\Entity\Mirror;
 use App\Entity\OperatingSystemArchitecture;
+use App\Entity\OperatingSystemId;
 use App\Entity\Package;
 use App\Entity\SystemArchitecture;
 use App\Validator\ContainsPackages;
@@ -23,7 +24,7 @@ class PkgstatsRequest
      * @var Package[]
      */
     #[Assert\Valid]
-    #[Assert\Count(min:1, max:20000)]
+    #[Assert\Count(min: 1, max: 20000)]
     #[ContainsPackages]
     private array $packages = [];
 
@@ -37,6 +38,9 @@ class PkgstatsRequest
     #[Assert\Valid]
     private OperatingSystemArchitecture $operatingSystemArchitecture;
 
+    #[Assert\Valid]
+    private ?OperatingSystemId $operatingSystemId = null;
+
     #[Assert\NotBlank]
     #[Assert\Valid]
     private SystemArchitecture $systemArchitecture;
@@ -44,6 +48,17 @@ class PkgstatsRequest
     public function __construct(string $version)
     {
         $this->version = $version;
+    }
+
+    public function getOperatingSystemId(): ?OperatingSystemId
+    {
+        return $this->operatingSystemId;
+    }
+
+    public function setOperatingSystemId(?OperatingSystemId $operatingSystemId): PkgstatsRequest
+    {
+        $this->operatingSystemId = $operatingSystemId;
+        return $this;
     }
 
     public function getVersion(): string
@@ -87,29 +102,6 @@ class PkgstatsRequest
         return $this;
     }
 
-    public function getOperatingSystemArchitecture(): OperatingSystemArchitecture
-    {
-        return $this->operatingSystemArchitecture;
-    }
-
-    public function setOperatingSystemArchitecture(
-        OperatingSystemArchitecture $operatingSystemArchitecture
-    ): PkgstatsRequest {
-        $this->operatingSystemArchitecture = $operatingSystemArchitecture;
-        return $this;
-    }
-
-    public function getSystemArchitecture(): SystemArchitecture
-    {
-        return $this->systemArchitecture;
-    }
-
-    public function setSystemArchitecture(SystemArchitecture $systemArchitecture): PkgstatsRequest
-    {
-        $this->systemArchitecture = $systemArchitecture;
-        return $this;
-    }
-
     public function validateOperatingSystemArchitectures(ExecutionContextInterface $context): void
     {
         $validArchitectures = match ($this->getSystemArchitecture()->getName()) {
@@ -126,10 +118,33 @@ class PkgstatsRequest
         };
 
         if (!in_array($this->getOperatingSystemArchitecture(), $validArchitectures)) {
-            $context->buildViolation('Invalid Operating System Architecture')
-                ->atPath('operatingSystemArchitecture')
-                ->addViolation();
+            $context->buildViolation('Invalid Operating System Architecture')->atPath(
+                'operatingSystemArchitecture'
+            )->addViolation();
         }
+    }
+
+    public function getSystemArchitecture(): SystemArchitecture
+    {
+        return $this->systemArchitecture;
+    }
+
+    public function setSystemArchitecture(SystemArchitecture $systemArchitecture): PkgstatsRequest
+    {
+        $this->systemArchitecture = $systemArchitecture;
+        return $this;
+    }
+
+    public function getOperatingSystemArchitecture(): OperatingSystemArchitecture
+    {
+        return $this->operatingSystemArchitecture;
+    }
+
+    public function setOperatingSystemArchitecture(
+        OperatingSystemArchitecture $operatingSystemArchitecture
+    ): PkgstatsRequest {
+        $this->operatingSystemArchitecture = $operatingSystemArchitecture;
+        return $this;
     }
 
     public function validateSystemArchitectures(ExecutionContextInterface $context): void
@@ -148,9 +163,7 @@ class PkgstatsRequest
         };
 
         if (!in_array($this->getSystemArchitecture(), $validSystemArchitectures)) {
-            $context->buildViolation('Invalid System Architecture')
-                ->atPath('systemArchitecture')
-                ->addViolation();
+            $context->buildViolation('Invalid System Architecture')->atPath('systemArchitecture')->addViolation();
         }
     }
 }
