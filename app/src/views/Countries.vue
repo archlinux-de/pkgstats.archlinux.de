@@ -10,7 +10,7 @@
 <script setup>
 import { onMounted, watch } from 'vue'
 import { useHead } from '@vueuse/head'
-import SvgMap from 'svgmap/src/js'
+import SvgMap from 'svgmap/src/js/core/svg-map'
 import { useFetchCountryList } from '../composables/useFetchCountryList'
 
 useHead({ title: 'Country statistics' })

@@ -17,6 +17,7 @@ module.exports = {
 
   module: {
     rules: [
+      { test: /\.js$/, include: /node_modules\/svgmap/, type: 'javascript/auto' },
       { test: /\.vue$/, loader: 'vue-loader' },
       { test: /\.svg$/, type: 'asset/resource', generator: { filename: 'img/[name].[contenthash].[ext]' } },
       { resourceQuery: /raw/, type: 'asset/source' },
@@ -36,9 +37,6 @@ module.exports = {
       __VUE_OPTIONS_API__: false,
       __VUE_PROD_DEVTOOLS__: false,
       __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false
-    }),
-    new webpack.ProvidePlugin({
-      svgPanZoom: 'svg-pan-zoom'
     }),
     new VueLoaderPlugin(),
     new CopyPlugin({
