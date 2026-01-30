@@ -1,0 +1,55 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  enable:
+    - bodyclose
+    - dupl
+    - errorlint
+    - goconst
+    - gocritic
+    - gocyclo
+    - gosec
+    - govet
+    - misspell
+    - mnd
+    - perfsprint
+    - staticcheck
+    - unparam
+    - usestdlibvars
+
+formatters:
+  enable:
+    - gofumpt
+
+linters-settings:
+  gocyclo:
+    min-complexity: 15
+  dupl:
+    threshold: 100
+  goconst:
+    min-len: 3
+    min-occurrences: 3
+  mnd:
+    ignored-numbers:
+      - "0"
+      - "1"
+      - "2"
+      - "10"
+      - "100"
+    ignored-functions:
+      - "time.*"
+      - "http.StatusText"
+
+issues:
+  exclude-rules:
+    # Exclude some linters from running on test files
+    - path: _test\.go
+      linters:
+        - dupl
+        - gocyclo
+        - gosec
+        - mnd
+        - perfsprint

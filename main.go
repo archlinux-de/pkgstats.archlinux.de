@@ -1,28 +1,21 @@
 package main
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 	"time"
-
-	"pkgstats.archlinux.de/internal/apidoc"
-	"pkgstats.archlinux.de/internal/countries"
-	"pkgstats.archlinux.de/internal/database"
-	"pkgstats.archlinux.de/internal/mirrors"
-	"pkgstats.archlinux.de/internal/operatingsystems"
-	"pkgstats.archlinux.de/internal/osarchitectures"
-	"pkgstats.archlinux.de/internal/packages"
-	"pkgstats.archlinux.de/internal/sitemap"
-	"pkgstats.archlinux.de/internal/submit"
-	"pkgstats.archlinux.de/internal/systemarchitectures"
-	"pkgstats.archlinux.de/internal/ui"
-	"pkgstats.archlinux.de/internal/ui/errorpage"
-	uilayout "pkgstats.archlinux.de/internal/ui/layout"
-	"pkgstats.archlinux.de/internal/web"
 )
 
-const defaultCacheMaxAge = 5 * time.Minute
+const (
+	readTimeout     = 10 * time.Second
+	writeTimeout    = 30 * time.Second
+	idleTimeout     = 60 * time.Second
+	shutdownTimeout = 10 * time.Second
+)
 
 func main() {
 	if err := run(); err != nil {
@@ -39,71 +32,55 @@ func run() error {
 	logger := setupLogger(cfg.Environment)
 	slog.SetDefault(logger)
 
-	// Initialize database
-	db, err := database.New(cfg.Database)
-	if err != nil {
-		return err
-	}
-	defer func() { _ = db.Close() }()
-
-	// Setup repositories
-	packagesRepo := packages.NewSQLiteRepository(db)
-	countriesRepo := countries.NewSQLiteRepository(db)
-	mirrorsRepo := mirrors.NewSQLiteRepository(db)
-	systemArchRepo := systemarchitectures.NewSQLiteRepository(db)
-	osIDRepo := operatingsystems.NewSQLiteRepository(db)
-	osArchRepo := osarchitectures.NewSQLiteRepository(db)
-	submitRepo := submit.NewRepository(db)
-
-	// Setup GeoIP lookup
-	var geoip submit.GeoIPLookup
-	geoip, err = submit.NewMaxMindGeoIP(cfg.GeoIPDatabase)
-	if err != nil {
-		slog.Warn("geoip database not available, country detection disabled", "path", cfg.GeoIPDatabase, "error", err)
-		geoip = submit.NoopGeoIP{}
-	} else {
-		defer func() { _ = geoip.Close() }()
-	}
-
-	// Setup rate limiter
-	var rateLimiter submit.RateLimiter
-	if cfg.Environment == "development" || cfg.Environment == "test" {
-		rateLimiter = submit.NewInMemoryRateLimiter()
-	} else {
-		rateLimiter = submit.NewSQLiteRateLimiter(db)
-	}
-
-	// Parse Vite manifest
-	manifest, err := uilayout.NewManifest(embedManifest)
-	if err != nil {
-		return err
-	}
-
-	// Setup HTTP routes
+	// Setup HTTP server
 	mux := http.NewServeMux()
 
-	packages.NewHandler(packagesRepo).RegisterRoutes(mux)
-	countries.NewHandler(countriesRepo).RegisterRoutes(mux)
-	mirrors.NewHandler(mirrorsRepo).RegisterRoutes(mux)
-	systemarchitectures.NewHandler(systemArchRepo).RegisterRoutes(mux)
-	operatingsystems.NewHandler(osIDRepo).RegisterRoutes(mux)
-	osarchitectures.NewHandler(osArchRepo).RegisterRoutes(mux)
-	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
-	sitemap.NewHandler().RegisterRoutes(mux)
-	apidoc.NewHandler().RegisterRoutes(mux)
-	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, embedAssets, embedStatic)
+	// Health check (temporary, for initial testing)
+	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain")
+		_, _ = w.Write([]byte("pkgstatsd is running"))
+	})
 
-	// Apply middleware stack
-	handler := web.Chain(mux,
-		web.Recovery(),
-		web.CORS(),
-		errorpage.Middleware(manifest),
-		web.CacheControl(defaultCacheMaxAge),
-	)
+	server := &http.Server{
+		Addr:         ":" + cfg.Port,
+		Handler:      mux,
+		ReadTimeout:  readTimeout,
+		WriteTimeout: writeTimeout,
+		IdleTimeout:  idleTimeout,
+	}
 
-	// Create and start server
-	server := web.NewServer(":"+cfg.Port, handler)
-	return server.ListenAndServe()
+	// Graceful shutdown setup
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	// Start server in goroutine
+	errChan := make(chan error, 1)
+	go func() {
+		slog.Info("starting server", "port", cfg.Port, "environment", cfg.Environment)
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			errChan <- err
+		}
+	}()
+
+	// Wait for shutdown signal or error
+	select {
+	case err := <-errChan:
+		return err
+	case <-ctx.Done():
+	}
+
+	slog.Info("shutting down server")
+
+	// Give outstanding requests time to complete
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
+	defer cancel()
+
+	if err := server.Shutdown(shutdownCtx); err != nil {
+		return err
+	}
+
+	slog.Info("server stopped")
+	return nil
 }
 
 type config struct {

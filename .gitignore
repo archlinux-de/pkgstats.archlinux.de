@@ -1,8 +1,10 @@
 /.idea/
-/pkgstats*.db*
-/dist
-/node_modules
-/internal/ui/packagepage/icons/*
-!/internal/ui/packagepage/icons/.gitkeep
-/pkgstats.archlinux.de
-*_templ.go
+/.cache/node/*
+!/.cache/node/.gitkeep
+/.cache/composer/*
+!/.cache/composer/.gitkeep
+
+# Go build artifacts
+/bin/
+/coverage.out
+/coverage.html
