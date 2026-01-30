@@ -212,4 +212,32 @@ deploy-permissions:
 	cd api && sudo setfacl -dR -m u:php-pkgstats:rwX -m u:deployer:rwX var
 	cd api && sudo setfacl -R -m u:php-pkgstats:rwX -m u:deployer:rwX var
 
+# Go targets
+
+# build Go binary
+go-build:
+	go build -trimpath -ldflags="-s -w" -o bin/pkgstatsd .
+
+# run Go tests
+go-test *args:
+	go test ./... {{args}}
+
+# run Go linter
+go-lint:
+	golangci-lint run
+
+# format Go code
+go-fmt:
+	golangci-lint run --fix
+	gofumpt -w .
+
+# generate test coverage report
+go-coverage:
+	go test -coverprofile=coverage.out ./...
+	go tool cover -html=coverage.out -o coverage.html
+
+# run Go server locally
+go-run:
+	go run .
+
 # vim: set ft=make :
