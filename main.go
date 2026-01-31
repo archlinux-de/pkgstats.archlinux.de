@@ -8,6 +8,9 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"pkgstats.archlinux.de/internal/database"
+	"pkgstats.archlinux.de/internal/packages"
 )
 
 const (
@@ -32,8 +35,22 @@ func run() error {
 	logger := setupLogger(cfg.Environment)
 	slog.SetDefault(logger)
 
+	// Initialize database
+	db, err := database.New(cfg.Database)
+	if err != nil {
+		return err
+	}
+	defer func() { _ = db.Close() }()
+
+	// Setup repositories
+	packagesRepo := packages.NewSQLiteRepository(db)
+
 	// Setup HTTP server
 	mux := http.NewServeMux()
+
+	// Register routes
+	packagesHandler := packages.NewHandler(packagesRepo)
+	packagesHandler.RegisterRoutes(mux)
 
 	// Health check (temporary, for initial testing)
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
