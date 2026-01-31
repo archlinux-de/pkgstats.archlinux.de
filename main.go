@@ -1,12 +1,9 @@
 package main
 
 import (
-	"context"
 	"log/slog"
 	"net/http"
 	"os"
-	"os/signal"
-	"syscall"
 	"time"
 
 	"pkgstats.archlinux.de/internal/countries"
@@ -14,14 +11,10 @@ import (
 	"pkgstats.archlinux.de/internal/mirrors"
 	"pkgstats.archlinux.de/internal/packages"
 	"pkgstats.archlinux.de/internal/systemarchitectures"
+	"pkgstats.archlinux.de/internal/web"
 )
 
-const (
-	readTimeout     = 10 * time.Second
-	writeTimeout    = 30 * time.Second
-	idleTimeout     = 60 * time.Second
-	shutdownTimeout = 10 * time.Second
-)
+const defaultCacheMaxAge = 5 * time.Minute
 
 func main() {
 	if err := run(); err != nil {
@@ -51,61 +44,31 @@ func run() error {
 	mirrorsRepo := mirrors.NewSQLiteRepository(db)
 	systemArchRepo := systemarchitectures.NewSQLiteRepository(db)
 
-	// Setup HTTP server
+	// Setup HTTP routes
 	mux := http.NewServeMux()
 
-	// Register routes
 	packages.NewHandler(packagesRepo).RegisterRoutes(mux)
 	countries.NewHandler(countriesRepo).RegisterRoutes(mux)
 	mirrors.NewHandler(mirrorsRepo).RegisterRoutes(mux)
 	systemarchitectures.NewHandler(systemArchRepo).RegisterRoutes(mux)
 
-	// Health check (temporary, for initial testing)
+	// Health check
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/plain")
 		_, _ = w.Write([]byte("pkgstatsd is running"))
 	})
 
-	server := &http.Server{
-		Addr:         ":" + cfg.Port,
-		Handler:      mux,
-		ReadTimeout:  readTimeout,
-		WriteTimeout: writeTimeout,
-		IdleTimeout:  idleTimeout,
-	}
+	// Apply middleware stack
+	handler := web.Chain(mux,
+		web.Recovery(),
+		web.Logger(),
+		web.CORS(),
+		web.CacheControl(defaultCacheMaxAge),
+	)
 
-	// Graceful shutdown setup
-	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
-	defer stop()
-
-	// Start server in goroutine
-	errChan := make(chan error, 1)
-	go func() {
-		slog.Info("starting server", "port", cfg.Port, "environment", cfg.Environment)
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			errChan <- err
-		}
-	}()
-
-	// Wait for shutdown signal or error
-	select {
-	case err := <-errChan:
-		return err
-	case <-ctx.Done():
-	}
-
-	slog.Info("shutting down server")
-
-	// Give outstanding requests time to complete
-	shutdownCtx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
-	defer cancel()
-
-	if err := server.Shutdown(shutdownCtx); err != nil {
-		return err
-	}
-
-	slog.Info("server stopped")
-	return nil
+	// Create and start server
+	server := web.NewServer(":"+cfg.Port, handler)
+	return server.ListenAndServe()
 }
 
 type config struct {
