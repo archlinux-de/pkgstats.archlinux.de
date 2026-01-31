@@ -9,8 +9,11 @@ import (
 	"syscall"
 	"time"
 
+	"pkgstats.archlinux.de/internal/countries"
 	"pkgstats.archlinux.de/internal/database"
+	"pkgstats.archlinux.de/internal/mirrors"
 	"pkgstats.archlinux.de/internal/packages"
+	"pkgstats.archlinux.de/internal/systemarchitectures"
 )
 
 const (
@@ -44,13 +47,18 @@ func run() error {
 
 	// Setup repositories
 	packagesRepo := packages.NewSQLiteRepository(db)
+	countriesRepo := countries.NewSQLiteRepository(db)
+	mirrorsRepo := mirrors.NewSQLiteRepository(db)
+	systemArchRepo := systemarchitectures.NewSQLiteRepository(db)
 
 	// Setup HTTP server
 	mux := http.NewServeMux()
 
 	// Register routes
-	packagesHandler := packages.NewHandler(packagesRepo)
-	packagesHandler.RegisterRoutes(mux)
+	packages.NewHandler(packagesRepo).RegisterRoutes(mux)
+	countries.NewHandler(countriesRepo).RegisterRoutes(mux)
+	mirrors.NewHandler(mirrorsRepo).RegisterRoutes(mux)
+	systemarchitectures.NewHandler(systemArchRepo).RegisterRoutes(mux)
 
 	// Health check (temporary, for initial testing)
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
