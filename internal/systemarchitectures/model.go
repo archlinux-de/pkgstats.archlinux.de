@@ -15,5 +15,5 @@ type SystemArchitecturePopularityList struct {
 	SystemArchitecturePopularities []SystemArchitecturePopularity `json:"systemArchitecturePopularities"`
 	Limit                          int                            `json:"limit"`
 	Offset                         int                            `json:"offset"`
-	Query                          string                         `json:"query"`
+	Query                          *string                        `json:"query"`
 }

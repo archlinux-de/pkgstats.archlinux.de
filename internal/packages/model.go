@@ -15,5 +15,5 @@ type PackagePopularityList struct {
 	PackagePopularities []PackagePopularity `json:"packagePopularities"`
 	Limit               int                 `json:"limit"`
 	Offset              int                 `json:"offset"`
-	Query               string              `json:"query"`
+	Query               *string             `json:"query"`
 }
