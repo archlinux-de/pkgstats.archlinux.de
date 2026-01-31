@@ -78,7 +78,7 @@ func TestHandleList(t *testing.T) {
 				},
 				Limit:  limit,
 				Offset: offset,
-				Query:  query,
+				Query:  &query,
 			}, nil
 		},
 	}
@@ -101,8 +101,8 @@ func TestHandleList(t *testing.T) {
 		t.Fatalf("decode response: %v", err)
 	}
 
-	if list.Query != "pac" {
-		t.Errorf("expected query pac, got %s", list.Query)
+	if *list.Query != "pac" {
+		t.Errorf("expected query pac, got %s", *list.Query)
 	}
 	if list.Limit != 10 {
 		t.Errorf("expected limit 10, got %d", list.Limit)

@@ -248,4 +248,49 @@ go-migrate-build:
 go-migrate *args:
 	go run ./cmd/migrate-data {{args}}
 
+# sync data from MariaDB to SQLite test database
+go-sync-testdb:
+	#!/bin/bash
+	set -e
+	rm -f ./pkgstats-test.db
+	DATABASE=./pkgstats-test.db go run . &
+	PID=$!
+	sleep 2
+	kill $PID 2>/dev/null || true
+	for table in package country mirror system_architecture operating_system_architecture; do
+		cols="name, month, count"
+		[ "$table" = "country" ] && cols="code, month, count"
+		[ "$table" = "mirror" ] && cols="url, month, count"
+		echo "Syncing $table..."
+		docker exec pkgstats-archlinux-de-mariadb-1 mariadb -uroot pkgstats_archlinux_de -B -N -e \
+			"SELECT $cols FROM $table" | while IFS=$'\t' read -r col1 col2 col3; do
+			echo "INSERT INTO $table ($cols) VALUES ('$(echo "$col1" | sed "s/'/''/g")', $col2, $col3);"
+		done | sqlite3 ./pkgstats-test.db
+	done
+	echo "Done! Database: ./pkgstats-test.db"
+
+# run API compatibility test (compares PHP and Go responses)
+test-api-compat:
+	./test-api-compat.sh
+
+# full integration test: sync data, start Go server, run comparison
+test-integration:
+	#!/bin/bash
+	set -e
+	echo "=== Cleaning up any existing server on port 8081 ==="
+	fuser -k 8081/tcp 2>/dev/null || true
+	sleep 1
+	echo ""
+	echo "=== Syncing test database ==="
+	just go-sync-testdb
+	echo ""
+	echo "=== Starting Go server ==="
+	DATABASE=./pkgstats-test.db PORT=8081 ENVIRONMENT=development go run . &
+	GO_PID=$!
+	trap "kill $GO_PID 2>/dev/null" EXIT
+	sleep 2
+	echo ""
+	echo "=== Running API compatibility tests ==="
+	./test-api-compat.sh 8180 8081
+
 # vim: set ft=make :

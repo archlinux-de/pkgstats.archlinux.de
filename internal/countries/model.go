@@ -17,5 +17,5 @@ type CountryPopularityList struct {
 	CountryPopularities []CountryPopularity `json:"countryPopularities"`
 	Limit               int                 `json:"limit"`
 	Offset              int                 `json:"offset"`
-	Query               string              `json:"query"`
+	Query               *string             `json:"query"`
 }

@@ -129,7 +129,7 @@ func (r *SQLiteRepository) FindAll(ctx context.Context, query string, startMonth
 		CountryPopularities: countries,
 		Limit:               limit,
 		Offset:              offset,
-		Query:               query,
+		Query:               &query,
 	}, nil
 }
 
@@ -190,7 +190,7 @@ func (r *SQLiteRepository) FindSeriesByCode(ctx context.Context, code string, st
 		CountryPopularities: countries,
 		Limit:               limit,
 		Offset:              offset,
-		Query:               "",
+		Query:               nil,
 	}, nil
 }
 

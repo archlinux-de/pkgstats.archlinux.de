@@ -181,7 +181,7 @@ func (r *SQLiteRepository) FindAll(ctx context.Context, query string, startMonth
 		PackagePopularities: packages,
 		Limit:               limit,
 		Offset:              offset,
-		Query:               query,
+		Query:               &query,
 	}, nil
 }
 
@@ -247,7 +247,7 @@ func (r *SQLiteRepository) FindSeriesByName(ctx context.Context, name string, st
 		PackagePopularities: packages,
 		Limit:               limit,
 		Offset:              offset,
-		Query:               "",
+		Query:               nil,
 	}, nil
 }
 
