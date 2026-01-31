@@ -240,4 +240,12 @@ go-coverage:
 go-run:
 	go run .
 
+# build data migration tool
+go-migrate-build:
+	go build -trimpath -ldflags="-s -w" -o bin/migrate-data ./cmd/migrate-data
+
+# run data migration (requires -mariadb flag)
+go-migrate *args:
+	go run ./cmd/migrate-data {{args}}
+
 # vim: set ft=make :
