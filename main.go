@@ -10,6 +10,7 @@ import (
 	"pkgstats.archlinux.de/internal/database"
 	"pkgstats.archlinux.de/internal/mirrors"
 	"pkgstats.archlinux.de/internal/packages"
+	"pkgstats.archlinux.de/internal/submit"
 	"pkgstats.archlinux.de/internal/systemarchitectures"
 	"pkgstats.archlinux.de/internal/web"
 )
@@ -43,6 +44,25 @@ func run() error {
 	countriesRepo := countries.NewSQLiteRepository(db)
 	mirrorsRepo := mirrors.NewSQLiteRepository(db)
 	systemArchRepo := systemarchitectures.NewSQLiteRepository(db)
+	submitRepo := submit.NewRepository(db)
+
+	// Setup GeoIP lookup
+	var geoip submit.GeoIPLookup
+	geoip, err = submit.NewMaxMindGeoIP(cfg.GeoIPDatabase)
+	if err != nil {
+		slog.Warn("geoip database not available, country detection disabled", "path", cfg.GeoIPDatabase, "error", err)
+		geoip = submit.NoopGeoIP{}
+	} else {
+		defer func() { _ = geoip.Close() }()
+	}
+
+	// Setup rate limiter
+	var rateLimiter submit.RateLimiter
+	if cfg.Environment == "development" || cfg.Environment == "test" {
+		rateLimiter = submit.NewInMemoryRateLimiter()
+	} else {
+		rateLimiter = submit.NewSQLiteRateLimiter(db)
+	}
 
 	// Setup HTTP routes
 	mux := http.NewServeMux()
@@ -51,6 +71,7 @@ func run() error {
 	countries.NewHandler(countriesRepo).RegisterRoutes(mux)
 	mirrors.NewHandler(mirrorsRepo).RegisterRoutes(mux)
 	systemarchitectures.NewHandler(systemArchRepo).RegisterRoutes(mux)
+	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
 
 	// Health check
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {

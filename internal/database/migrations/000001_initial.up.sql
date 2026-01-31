@@ -48,9 +48,10 @@ CREATE TABLE operating_system_architecture (
 CREATE INDEX idx_os_architecture_month_name ON operating_system_architecture(month, name);
 CREATE INDEX idx_os_architecture_month_count ON operating_system_architecture(month, count DESC);
 
--- Rate limiting table
+-- Rate limiting table (sliding window)
 CREATE TABLE rate_limit (
-    key TEXT NOT NULL PRIMARY KEY,
-    tokens INTEGER NOT NULL,
-    last_update INTEGER NOT NULL
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    key TEXT NOT NULL,
+    timestamp INTEGER NOT NULL
 );
+CREATE INDEX idx_rate_limit_key_timestamp ON rate_limit(key, timestamp);
