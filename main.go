@@ -10,6 +10,7 @@ import (
 	"pkgstats.archlinux.de/internal/database"
 	"pkgstats.archlinux.de/internal/mirrors"
 	"pkgstats.archlinux.de/internal/packages"
+	"pkgstats.archlinux.de/internal/sitemap"
 	"pkgstats.archlinux.de/internal/submit"
 	"pkgstats.archlinux.de/internal/systemarchitectures"
 	"pkgstats.archlinux.de/internal/web"
@@ -72,6 +73,7 @@ func run() error {
 	mirrors.NewHandler(mirrorsRepo).RegisterRoutes(mux)
 	systemarchitectures.NewHandler(systemArchRepo).RegisterRoutes(mux)
 	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
+	sitemap.NewHandler().RegisterRoutes(mux)
 
 	// Health check
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
