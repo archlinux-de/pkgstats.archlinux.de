@@ -49,6 +49,7 @@ issues:
     - path: _test\.go
       linters:
         - dupl
+        - goconst
         - gocyclo
         - gosec
         - mnd
