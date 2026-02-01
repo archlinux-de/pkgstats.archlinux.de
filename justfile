@@ -269,6 +269,10 @@ go-sync-testdb:
 	done
 	echo "Done! Database: ./pkgstats-test.db"
 
+# generate Go fixtures for local development (standalone, no PHP required)
+go-fixtures months="3":
+	go run ./cmd/fixtures -db ./pkgstats.db -months {{months}}
+
 # run API compatibility test (compares PHP and Go responses)
 test-api-compat:
 	./test-api-compat.sh
