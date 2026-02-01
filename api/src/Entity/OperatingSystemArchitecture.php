@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass:OperatingSystemArchitectureRepository::class)]
+#[ORM\Entity(repositoryClass: OperatingSystemArchitectureRepository::class)]
 #[ORM\Index(name: 'operating_sytem_architecture_month_name', columns: ['month', 'name'])]
 #[ORM\Index(name: 'operating_sytem_architecture_month_count', columns: ['month', 'count'])]
 class OperatingSystemArchitecture implements \Stringable
@@ -18,8 +18,11 @@ class OperatingSystemArchitecture implements \Stringable
         'riscv64',
         'loongarch64'
     ];
+    private const string NAME_CHARS = '[a-z0-9_]';
+    public const string NAME_REGEXP = '^' . self::NAME_CHARS . '{1,15}$';
+    public const string NAME_REGEXP_OPTIONAL = '^' . self::NAME_CHARS . '*$';
 
-    #[ORM\Column(length:15)]
+    #[ORM\Column(length: 15)]
     #[ORM\Id]
     #[Assert\Choice(choices: self::ARCHITECTURES)]
     private string $name;
