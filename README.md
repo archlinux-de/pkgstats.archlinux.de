@@ -1,4 +1,4 @@
-# pkstats.archlinux.de
+# pkgstats.archlinux.de
 This project contains the code powering [https://pkgstats.archlinux.de/](https://pkgstats.archlinux.de/),
 the Arch Linux package statistics website.
 
