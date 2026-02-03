@@ -24,6 +24,12 @@
         </testsuite>
     </testsuites>
 
+    <groups>
+        <exclude>
+            <group>mariadb</group>
+        </exclude>
+    </groups>
+
     <source ignoreSuppressionOfDeprecations="true"
             ignoreIndirectDeprecations="true"
             restrictNotices="true"
