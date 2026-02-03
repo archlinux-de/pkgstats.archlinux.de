@@ -26,6 +26,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
+            - '../src/DTO/'
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Request/'
@@ -52,6 +53,10 @@ services:
         bind:
             $expectedPackages: '%validator.expected_packages%'
             $maxMissing: '%validator.max_missing%'
+
+    App\Service\AnomalyDetectionService:
+        bind:
+            $expectedPackages: '%validator.expected_packages%'
 
 when@dev:
     services:
