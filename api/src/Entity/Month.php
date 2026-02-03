@@ -35,6 +35,21 @@ class Month
         );
     }
 
+    public static function fromYearMonth(int $yearMonth): self
+    {
+        $date = DateTimeImmutable::createFromFormat('Ym', (string)$yearMonth);
+        assert($date !== false);
+
+        return new self($date->getTimestamp());
+    }
+
+    public function offset(int $months): self
+    {
+        return new self(
+            (int)strtotime(sprintf('%+d months', $months), $this->timestamp)
+        );
+    }
+
     public function getYearMonth(): int
     {
         return (int)$this->getDateTime()->format('Ym');
