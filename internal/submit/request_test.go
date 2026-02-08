@@ -32,6 +32,75 @@ func TestParseRequest_ValidRequest(t *testing.T) {
 	}
 }
 
+func TestParseRequest_ValidRequestWithOSID(t *testing.T) {
+	jsonData := `{
+		"version": "3",
+		"system": {"architecture": "x86_64"},
+		"os": {"architecture": "x86_64", "id": "arch"},
+		"pacman": {"packages": ["pacman"]}
+	}`
+
+	req, err := ParseRequest(strings.NewReader(jsonData))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if req.OS.ID != "arch" {
+		t.Errorf("expected os.id arch, got %s", req.OS.ID)
+	}
+}
+
+func TestParseRequest_InvalidOSID(t *testing.T) {
+	tests := []struct {
+		name string
+		id   string
+	}{
+		{"uppercase", "Arch"},
+		{"spaces", "arch linux"},
+		{"special chars", "arch@linux"},
+		{"too long", strings.Repeat("a", 51)},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			jsonData := `{
+				"version": "3",
+				"system": {"architecture": "x86_64"},
+				"os": {"architecture": "x86_64", "id": "` + tt.id + `"},
+				"pacman": {"packages": ["pacman"]}
+			}`
+
+			_, err := ParseRequest(strings.NewReader(jsonData))
+			if err == nil {
+				t.Fatal("expected error for invalid os.id")
+			}
+			if !strings.Contains(err.Error(), "os.id") {
+				t.Errorf("expected os.id error, got: %v", err)
+			}
+		})
+	}
+}
+
+func TestParseRequest_ValidOSIDPatterns(t *testing.T) {
+	validIDs := []string{"arch", "artix", "endeavouros", "garuda", "manjaro", "cachyos", "arch_linux", "my-os", "os.1.0"}
+
+	for _, id := range validIDs {
+		t.Run(id, func(t *testing.T) {
+			jsonData := `{
+				"version": "3",
+				"system": {"architecture": "x86_64"},
+				"os": {"architecture": "x86_64", "id": "` + id + `"},
+				"pacman": {"packages": ["pacman"]}
+			}`
+
+			_, err := ParseRequest(strings.NewReader(jsonData))
+			if err != nil {
+				t.Fatalf("unexpected error for valid os.id %q: %v", id, err)
+			}
+		})
+	}
+}
+
 func TestParseRequest_InvalidVersion(t *testing.T) {
 	jsonData := `{
 		"version": "2",

@@ -18,6 +18,20 @@ import (
 	"pkgstats.archlinux.de/internal/database"
 )
 
+const (
+	defaultMonths   = 3
+	monthMultiplier = 100
+
+	maxPackageCount     = 20000
+	maxCountryCount     = 6000
+	maxMirrorCount      = 5000
+	maxSysArchCount     = 20000
+	maxOSArchCount      = 20000
+	maxOSIDCount        = 15000
+	rngSeed1        int = 42
+	rngSeed2        int = 42
+)
+
 // Sample package names (subset for testing).
 var packageNames = []string{
 	"pacman", "linux", "base", "systemd", "glibc", "bash", "coreutils",
@@ -57,6 +71,12 @@ var systemArchitectures = []string{
 	"x86_64", "i686", "aarch64", "armv7h", "armv6h", "riscv64",
 }
 
+// Operating system IDs (os-release ID values).
+var operatingSystemIDs = []string{
+	"arch", "artix", "endeavouros", "garuda", "manjaro", "cachyos",
+	"parabola", "archarm", "blackarch", "archcraft",
+}
+
 // Mirror URLs (fictional for testing).
 var mirrorURLs = []string{
 	"https://mirror.rackspace.com/archlinux/",
@@ -74,9 +94,17 @@ var mirrorURLs = []string{
 	"https://geo.mirror.pkgbuild.com/",
 }
 
+// fixtureTable defines a table to populate with fixture data.
+type fixtureTable struct {
+	name     string
+	sql      string
+	values   []string
+	maxCount int
+}
+
 func main() {
 	dbPath := flag.String("db", "./pkgstats.db", "SQLite database path")
-	months := flag.Int("months", 3, "Number of months to generate (going back from current)")
+	months := flag.Int("months", defaultMonths, "Number of months to generate (going back from current)")
 	flag.Parse()
 
 	if err := run(*dbPath, *months); err != nil {
@@ -99,7 +127,7 @@ func run(dbPath string, numMonths int) error {
 	defer func() { _ = db.Close() }()
 
 	// Use seeded random for reproducibility (matches PHP's mt_srand(42))
-	rng := rand.New(rand.NewPCG(42, 42))
+	rng := rand.New(rand.NewPCG(uint64(rngSeed1), uint64(rngSeed2))) //nolint:gosec // intentionally deterministic for fixtures
 
 	// Generate months (current month and going back)
 	monthList := generateMonths(numMonths)
@@ -108,24 +136,22 @@ func run(dbPath string, numMonths int) error {
 	// Generate fixtures
 	start := time.Now()
 
-	if err := generatePackages(ctx, db, rng, monthList); err != nil {
-		return fmt.Errorf("generate packages: %w", err)
+	// OS architectures are a subset of system architectures
+	osArchitectures := []string{"x86_64", "i686", "aarch64", "armv7h", "armv6h"}
+
+	tables := []fixtureTable{
+		{"packages", "INSERT INTO package (name, month, count) VALUES (?, ?, ?)", packageNames, maxPackageCount},
+		{"countries", "INSERT INTO country (code, month, count) VALUES (?, ?, ?)", countryCodes, maxCountryCount},
+		{"mirrors", "INSERT INTO mirror (url, month, count) VALUES (?, ?, ?)", mirrorURLs, maxMirrorCount},
+		{"system architectures", "INSERT INTO system_architecture (name, month, count) VALUES (?, ?, ?)", systemArchitectures, maxSysArchCount},
+		{"OS architectures", "INSERT INTO operating_system_architecture (name, month, count) VALUES (?, ?, ?)", osArchitectures, maxOSArchCount},
+		{"operating system IDs", "INSERT INTO operating_system_id (id, month, count) VALUES (?, ?, ?)", operatingSystemIDs, maxOSIDCount},
 	}
 
-	if err := generateCountries(ctx, db, rng, monthList); err != nil {
-		return fmt.Errorf("generate countries: %w", err)
-	}
-
-	if err := generateMirrors(ctx, db, rng, monthList); err != nil {
-		return fmt.Errorf("generate mirrors: %w", err)
-	}
-
-	if err := generateSystemArchitectures(ctx, db, rng, monthList); err != nil {
-		return fmt.Errorf("generate system architectures: %w", err)
-	}
-
-	if err := generateOSArchitectures(ctx, db, rng, monthList); err != nil {
-		return fmt.Errorf("generate OS architectures: %w", err)
+	for _, table := range tables {
+		if err := generateFixtures(ctx, db, rng, monthList, table); err != nil {
+			return fmt.Errorf("generate %s: %w", table.name, err)
+		}
 	}
 
 	log.Printf("Fixtures generated in %s\n", time.Since(start).Round(time.Millisecond))
@@ -137,20 +163,20 @@ func generateMonths(count int) []int {
 	months := make([]int, count)
 	for i := range count {
 		t := now.AddDate(0, -i, 0)
-		months[i] = t.Year()*100 + int(t.Month())
+		months[i] = t.Year()*monthMultiplier + int(t.Month())
 	}
 	return months
 }
 
-func generatePackages(ctx context.Context, db *sql.DB, rng *rand.Rand, months []int) error {
-	log.Println("Generating packages...")
+func generateFixtures(ctx context.Context, db *sql.DB, rng *rand.Rand, months []int, table fixtureTable) error {
+	log.Printf("Generating %s...\n", table.name)
 	tx, err := db.BeginTx(ctx, nil)
 	if err != nil {
 		return err
 	}
 	defer func() { _ = tx.Rollback() }()
 
-	stmt, err := tx.PrepareContext(ctx, "INSERT INTO package (name, month, count) VALUES (?, ?, ?)")
+	stmt, err := tx.PrepareContext(ctx, table.sql)
 	if err != nil {
 		return err
 	}
@@ -158,9 +184,9 @@ func generatePackages(ctx context.Context, db *sql.DB, rng *rand.Rand, months []
 
 	count := 0
 	for _, month := range months {
-		for _, name := range packageNames {
-			c := rng.IntN(20000) + 1
-			if _, err := stmt.ExecContext(ctx, name, month, c); err != nil {
+		for _, value := range table.values {
+			c := rng.IntN(table.maxCount) + 1
+			if _, err := stmt.ExecContext(ctx, value, month, c); err != nil {
 				return err
 			}
 			count++
@@ -170,137 +196,6 @@ func generatePackages(ctx context.Context, db *sql.DB, rng *rand.Rand, months []
 	if err := tx.Commit(); err != nil {
 		return err
 	}
-	log.Printf("  Inserted %d package records\n", count)
-	return nil
-}
-
-func generateCountries(ctx context.Context, db *sql.DB, rng *rand.Rand, months []int) error {
-	log.Println("Generating countries...")
-	tx, err := db.BeginTx(ctx, nil)
-	if err != nil {
-		return err
-	}
-	defer func() { _ = tx.Rollback() }()
-
-	stmt, err := tx.PrepareContext(ctx, "INSERT INTO country (code, month, count) VALUES (?, ?, ?)")
-	if err != nil {
-		return err
-	}
-	defer func() { _ = stmt.Close() }()
-
-	count := 0
-	for _, month := range months {
-		for _, code := range countryCodes {
-			c := rng.IntN(6000) + 1
-			if _, err := stmt.ExecContext(ctx, code, month, c); err != nil {
-				return err
-			}
-			count++
-		}
-	}
-
-	if err := tx.Commit(); err != nil {
-		return err
-	}
-	log.Printf("  Inserted %d country records\n", count)
-	return nil
-}
-
-func generateMirrors(ctx context.Context, db *sql.DB, rng *rand.Rand, months []int) error {
-	log.Println("Generating mirrors...")
-	tx, err := db.BeginTx(ctx, nil)
-	if err != nil {
-		return err
-	}
-	defer func() { _ = tx.Rollback() }()
-
-	stmt, err := tx.PrepareContext(ctx, "INSERT INTO mirror (url, month, count) VALUES (?, ?, ?)")
-	if err != nil {
-		return err
-	}
-	defer func() { _ = stmt.Close() }()
-
-	count := 0
-	for _, month := range months {
-		for _, url := range mirrorURLs {
-			c := rng.IntN(5000) + 1
-			if _, err := stmt.ExecContext(ctx, url, month, c); err != nil {
-				return err
-			}
-			count++
-		}
-	}
-
-	if err := tx.Commit(); err != nil {
-		return err
-	}
-	log.Printf("  Inserted %d mirror records\n", count)
-	return nil
-}
-
-func generateSystemArchitectures(ctx context.Context, db *sql.DB, rng *rand.Rand, months []int) error {
-	log.Println("Generating system architectures...")
-	tx, err := db.BeginTx(ctx, nil)
-	if err != nil {
-		return err
-	}
-	defer func() { _ = tx.Rollback() }()
-
-	stmt, err := tx.PrepareContext(ctx, "INSERT INTO system_architecture (name, month, count) VALUES (?, ?, ?)")
-	if err != nil {
-		return err
-	}
-	defer func() { _ = stmt.Close() }()
-
-	count := 0
-	for _, month := range months {
-		for _, name := range systemArchitectures {
-			c := rng.IntN(20000) + 1
-			if _, err := stmt.ExecContext(ctx, name, month, c); err != nil {
-				return err
-			}
-			count++
-		}
-	}
-
-	if err := tx.Commit(); err != nil {
-		return err
-	}
-	log.Printf("  Inserted %d system architecture records\n", count)
-	return nil
-}
-
-func generateOSArchitectures(ctx context.Context, db *sql.DB, rng *rand.Rand, months []int) error {
-	log.Println("Generating OS architectures...")
-	tx, err := db.BeginTx(ctx, nil)
-	if err != nil {
-		return err
-	}
-	defer func() { _ = tx.Rollback() }()
-
-	stmt, err := tx.PrepareContext(ctx, "INSERT INTO operating_system_architecture (name, month, count) VALUES (?, ?, ?)")
-	if err != nil {
-		return err
-	}
-	defer func() { _ = stmt.Close() }()
-
-	// OS architectures are a subset
-	osArchitectures := []string{"x86_64", "i686", "aarch64", "armv7h", "armv6h"}
-
-	count := 0
-	for _, month := range months {
-		for _, name := range osArchitectures {
-			c := rng.IntN(20000) + 1
-			if _, err := stmt.ExecContext(ctx, name, month, c); err != nil {
-				return err
-			}
-			count++
-		}
-	}
-
-	if err := tx.Commit(); err != nil {
-		return err
-	}
-	log.Printf("  Inserted %d OS architecture records\n", count)
+	log.Printf("  Inserted %d %s records\n", count, table.name)
 	return nil
 }

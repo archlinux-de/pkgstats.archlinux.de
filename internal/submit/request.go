@@ -5,9 +5,12 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"regexp"
 	"slices"
 	"strings"
 )
+
+var osIDRegexp = regexp.MustCompile(`^[0-9a-z._-]{1,50}$`)
 
 const (
 	expectedVersion       = "3"
@@ -34,6 +37,7 @@ type SystemInfo struct {
 // OSInfo contains OS architecture information.
 type OSInfo struct {
 	Architecture string `json:"architecture"`
+	ID           string `json:"id"`
 }
 
 // PacmanInfo contains pacman-related information.
@@ -89,6 +93,10 @@ func (r *Request) Validate() error {
 
 	if err := validateArchitectures(r.System.Architecture, r.OS.Architecture); err != nil {
 		return err
+	}
+
+	if r.OS.ID != "" && !osIDRegexp.MatchString(r.OS.ID) {
+		return errors.New("os.id must match pattern [0-9a-z._-]{1,50}")
 	}
 
 	return nil

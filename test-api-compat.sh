@@ -128,6 +128,22 @@ compare "/api/system-architectures/x86_64?startMonth=$START_MONTH&endMonth=$END_
 compare "/api/system-architectures/x86_64/series?startMonth=$START_MONTH&endMonth=$END_MONTH"
 
 echo ""
+echo "--- Operating System Architectures ---"
+compare "/api/operating-system-architectures?startMonth=$START_MONTH&endMonth=$START_MONTH&limit=10"
+compare "/api/operating-system-architectures?startMonth=$START_MONTH&endMonth=$START_MONTH&query=x86"
+compare "/api/operating-system-architectures/x86_64?startMonth=$START_MONTH&endMonth=$START_MONTH"
+compare "/api/operating-system-architectures/x86_64?startMonth=$START_MONTH&endMonth=$END_MONTH"
+compare "/api/operating-system-architectures/x86_64/series?startMonth=$START_MONTH&endMonth=$END_MONTH"
+
+echo ""
+echo "--- Operating Systems ---"
+compare "/api/operating-systems?startMonth=$START_MONTH&endMonth=$START_MONTH&limit=10"
+compare "/api/operating-systems?startMonth=$START_MONTH&endMonth=$START_MONTH&query=arch"
+compare "/api/operating-systems/arch?startMonth=$START_MONTH&endMonth=$START_MONTH"
+compare "/api/operating-systems/arch?startMonth=$START_MONTH&endMonth=$END_MONTH"
+compare "/api/operating-systems/arch/series?startMonth=$START_MONTH&endMonth=$END_MONTH"
+
+echo ""
 echo "--- Sitemap ---"
 compare "/sitemap.xml"
 
