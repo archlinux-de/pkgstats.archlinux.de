@@ -9,6 +9,8 @@ import (
 	"pkgstats.archlinux.de/internal/countries"
 	"pkgstats.archlinux.de/internal/database"
 	"pkgstats.archlinux.de/internal/mirrors"
+	"pkgstats.archlinux.de/internal/operatingsystems"
+	"pkgstats.archlinux.de/internal/osarchitectures"
 	"pkgstats.archlinux.de/internal/packages"
 	"pkgstats.archlinux.de/internal/sitemap"
 	"pkgstats.archlinux.de/internal/submit"
@@ -45,6 +47,8 @@ func run() error {
 	countriesRepo := countries.NewSQLiteRepository(db)
 	mirrorsRepo := mirrors.NewSQLiteRepository(db)
 	systemArchRepo := systemarchitectures.NewSQLiteRepository(db)
+	osIDRepo := operatingsystems.NewSQLiteRepository(db)
+	osArchRepo := osarchitectures.NewSQLiteRepository(db)
 	submitRepo := submit.NewRepository(db)
 
 	// Setup GeoIP lookup
@@ -72,6 +76,8 @@ func run() error {
 	countries.NewHandler(countriesRepo).RegisterRoutes(mux)
 	mirrors.NewHandler(mirrorsRepo).RegisterRoutes(mux)
 	systemarchitectures.NewHandler(systemArchRepo).RegisterRoutes(mux)
+	operatingsystems.NewHandler(osIDRepo).RegisterRoutes(mux)
+	osarchitectures.NewHandler(osArchRepo).RegisterRoutes(mux)
 	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
 	sitemap.NewHandler().RegisterRoutes(mux)
 

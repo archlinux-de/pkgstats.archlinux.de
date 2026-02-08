@@ -55,6 +55,12 @@ func (r *Repository) SaveSubmission(ctx context.Context, req *Request, mirrorURL
 		return fmt.Errorf("save OS architecture: %w", err)
 	}
 
+	if req.OS.ID != "" {
+		if err := r.upsertOperatingSystemId(ctx, tx, req.OS.ID, month); err != nil {
+			return fmt.Errorf("save OS ID: %w", err)
+		}
+	}
+
 	if err := tx.Commit(); err != nil {
 		return fmt.Errorf("commit transaction: %w", err)
 	}
@@ -109,6 +115,14 @@ func (r *Repository) upsertOSArchitecture(ctx context.Context, tx *sql.Tx, name 
 		`INSERT INTO operating_system_architecture (name, month, count) VALUES (?, ?, 1)
 		 ON CONFLICT(name, month) DO UPDATE SET count = count + 1`,
 		name, month)
+	return err
+}
+
+func (r *Repository) upsertOperatingSystemId(ctx context.Context, tx *sql.Tx, id string, month int) error {
+	_, err := tx.ExecContext(ctx,
+		`INSERT INTO operating_system_id (id, month, count) VALUES (?, ?, 1)
+		 ON CONFLICT(id, month) DO UPDATE SET count = count + 1`,
+		id, month)
 	return err
 }
 
