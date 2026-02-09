@@ -240,6 +240,18 @@ go-coverage:
 go-run:
 	go run .
 
+COMPOSE-GO := 'docker compose -f docker/go.yml -p ' + env_var('PROJECT_NAME') + '-go'
+
+# start frontend (nginx + webpack dev server) for Go backend
+go-start:
+	{{COMPOSE-GO}} up -d
+	@echo URL: http://localhost:${PORT}
+	@echo "Run 'just go-run' in another terminal to start the Go server"
+
+# stop frontend containers for Go backend
+go-stop:
+	{{COMPOSE-GO}} stop
+
 # build data migration tool
 go-migrate-build:
 	go build -trimpath -ldflags="-s -w" -o bin/migrate-data ./cmd/migrate-data
@@ -248,26 +260,13 @@ go-migrate-build:
 go-migrate *args:
 	go run ./cmd/migrate-data {{args}}
 
+# migrate data from local MariaDB (docker) to SQLite for Go server
+go-migrate-local db="./pkgstats.db":
+	rm -f {{db}}
+	go run ./cmd/migrate-data -mariadb 'root@tcp(localhost:3306)/pkgstats_archlinux_de' -sqlite {{db}}
+
 # sync data from MariaDB to SQLite test database
-go-sync-testdb:
-	#!/bin/bash
-	set -e
-	rm -f ./pkgstats-test.db
-	DATABASE=./pkgstats-test.db go run . &
-	PID=$!
-	sleep 2
-	kill $PID 2>/dev/null || true
-	for table in package country mirror system_architecture operating_system_architecture; do
-		cols="name, month, count"
-		[ "$table" = "country" ] && cols="code, month, count"
-		[ "$table" = "mirror" ] && cols="url, month, count"
-		echo "Syncing $table..."
-		docker exec pkgstats-archlinux-de-mariadb-1 mariadb -uroot pkgstats_archlinux_de -B -N -e \
-			"SELECT $cols FROM $table" | while IFS=$'\t' read -r col1 col2 col3; do
-			echo "INSERT INTO $table ($cols) VALUES ('$(echo "$col1" | sed "s/'/''/g")', $col2, $col3);"
-		done | sqlite3 ./pkgstats-test.db
-	done
-	echo "Done! Database: ./pkgstats-test.db"
+go-sync-testdb: (go-migrate-local "./pkgstats-test.db")
 
 # generate Go fixtures for local development (standalone, no PHP required)
 go-fixtures months="3":
@@ -289,7 +288,7 @@ test-integration:
 	just go-sync-testdb
 	echo ""
 	echo "=== Starting Go server ==="
-	DATABASE=./pkgstats-test.db PORT=8081 ENVIRONMENT=development go run . &
+	DATABASE=./pkgstats-test.db GO_PORT=8081 ENVIRONMENT=development go run . &
 	GO_PID=$!
 	trap "kill $GO_PID 2>/dev/null" EXIT
 	sleep 2

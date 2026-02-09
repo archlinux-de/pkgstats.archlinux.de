@@ -53,7 +53,9 @@ func (h *Handler) HandleList(w http.ResponseWriter, r *http.Request) {
 	if limit > maxLimit {
 		limit = maxLimit
 	}
-	if limit < 1 {
+	if limit == 0 {
+		limit = maxLimit
+	} else if limit < 1 {
 		limit = 1
 	}
 	if offset < 0 {
@@ -84,7 +86,9 @@ func (h *Handler) HandleSeries(w http.ResponseWriter, r *http.Request) {
 	if limit > maxLimit {
 		limit = maxLimit
 	}
-	if limit < 1 {
+	if limit == 0 {
+		limit = maxLimit
+	} else if limit < 1 {
 		limit = 1
 	}
 	if offset < 0 {
