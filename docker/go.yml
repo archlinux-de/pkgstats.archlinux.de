@@ -1,0 +1,36 @@
+services:
+  app:
+    build: node
+    working_dir: /app/app
+    environment:
+      - HOME=/tmp
+      - NODE_OPTIONS=--no-experimental-webstorage
+    command: pnpm run serve
+    user: "${UID}:${GID}"
+    userns_mode: host
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges
+    volumes:
+      - ../app:/app/app
+      - ../.cache/node:/tmp/.cache/node
+    tmpfs:
+      - /tmp
+
+  nginx:
+    build:
+      context: nginx
+    ports:
+      - "${PORT}:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ../app/dist:/app/app/dist:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/include:/etc/nginx/include:ro
+      - ./nginx/include/api-go.conf:/etc/nginx/include/api.conf:ro
+    tmpfs:
+      - /tmp
+    depends_on:
+      - app

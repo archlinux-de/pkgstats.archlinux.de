@@ -111,7 +111,7 @@ func loadConfig() config {
 	return config{
 		Database:      getEnv("DATABASE", "./pkgstats.db"),
 		GeoIPDatabase: getEnv("GEOIP_DATABASE", "/usr/share/GeoIP/GeoLite2-Country.mmdb"),
-		Port:          getEnv("PORT", "8080"),
+		Port:          getEnv("GO_PORT", "8080"),
 		Environment:   getEnv("ENVIRONMENT", "production"),
 	}
 }

@@ -39,6 +39,11 @@ func main() {
 func run(mariadbDSN, sqlitePath string) error {
 	ctx := context.Background()
 
+	// Fail early if SQLite file already exists to avoid duplicate key errors
+	if _, err := os.Stat(sqlitePath); err == nil {
+		return fmt.Errorf("sqlite file %s already exists, remove it first", sqlitePath)
+	}
+
 	// Connect to MariaDB
 	log.Println("Connecting to MariaDB...")
 	mariadb, err := sql.Open("mysql", mariadbDSN)
@@ -71,6 +76,7 @@ func run(mariadbDSN, sqlitePath string) error {
 		{"mirror", "url, month, count"},
 		{"system_architecture", "name, month, count"},
 		{"operating_system_architecture", "name, month, count"},
+		{"operating_system_id", "id, month, count"},
 	}
 
 	for _, table := range tables {
