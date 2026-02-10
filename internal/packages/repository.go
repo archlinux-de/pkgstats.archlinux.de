@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 	"math"
+
+	"pkgstats.archlinux.de/internal/database"
 )
 
 const (
@@ -28,12 +30,16 @@ type Repository interface {
 
 // SQLiteRepository implements Repository using SQLite.
 type SQLiteRepository struct {
-	db *sql.DB
+	db              *sql.DB
+	monthlyMaxCache *database.MonthlySamplesCache
 }
 
 // NewSQLiteRepository creates a new SQLiteRepository.
 func NewSQLiteRepository(db *sql.DB) *SQLiteRepository {
-	return &SQLiteRepository{db: db}
+	return &SQLiteRepository{
+		db:              db,
+		monthlyMaxCache: database.NewMonthlySamplesCache(db, `SELECT month, MAX(count) FROM package GROUP BY month`),
+	}
 }
 
 func (r *SQLiteRepository) FindByName(ctx context.Context, name string, startMonth, endMonth int) (*PackagePopularity, error) {
@@ -264,29 +270,8 @@ func (r *SQLiteRepository) getMaxCount(ctx context.Context, startMonth, endMonth
 	return total, nil
 }
 
-func (r *SQLiteRepository) getMonthlyMaxCounts(ctx context.Context, startMonth, endMonth int) (map[int]int, error) {
-	query := `
-		SELECT month, MAX(count) as max_count
-		FROM package
-		WHERE month >= ? AND month <= ?
-		GROUP BY month`
-
-	rows, err := r.db.QueryContext(ctx, query, startMonth, endMonth)
-	if err != nil {
-		return nil, fmt.Errorf("query monthly max: %w", err)
-	}
-	defer func() { _ = rows.Close() }()
-
-	result := make(map[int]int)
-	for rows.Next() {
-		var month, count int
-		if err := rows.Scan(&month, &count); err != nil {
-			return nil, fmt.Errorf("scan monthly max: %w", err)
-		}
-		result[month] = count
-	}
-
-	return result, rows.Err()
+func (r *SQLiteRepository) getMonthlyMaxCounts(_ context.Context, startMonth, endMonth int) (map[int]int, error) {
+	return r.monthlyMaxCache.Get(startMonth, endMonth)
 }
 
 func calculatePopularity(count, samples int) float64 {
