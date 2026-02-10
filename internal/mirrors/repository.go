@@ -5,6 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 	"math"
+
+	"pkgstats.archlinux.de/internal/database"
 )
 
 const (
@@ -22,12 +24,16 @@ type Repository interface {
 
 // SQLiteRepository implements Repository using SQLite.
 type SQLiteRepository struct {
-	db *sql.DB
+	db           *sql.DB
+	samplesCache *database.MonthlySamplesCache
 }
 
 // NewSQLiteRepository creates a new SQLiteRepository.
 func NewSQLiteRepository(db *sql.DB) *SQLiteRepository {
-	return &SQLiteRepository{db: db}
+	return &SQLiteRepository{
+		db:           db,
+		samplesCache: database.NewMonthlySamplesCache(db, `SELECT month, SUM(count) FROM mirror GROUP BY month`),
+	}
 }
 
 func (r *SQLiteRepository) FindByURL(ctx context.Context, url string, startMonth, endMonth int) (*MirrorPopularity, error) {
@@ -206,29 +212,8 @@ func (r *SQLiteRepository) getSamples(ctx context.Context, startMonth, endMonth 
 	return total, nil
 }
 
-func (r *SQLiteRepository) getMonthlySamples(ctx context.Context, startMonth, endMonth int) (map[int]int, error) {
-	query := `
-		SELECT month, SUM(count) as total
-		FROM mirror
-		WHERE month >= ? AND month <= ?
-		GROUP BY month`
-
-	rows, err := r.db.QueryContext(ctx, query, startMonth, endMonth)
-	if err != nil {
-		return nil, fmt.Errorf("query monthly samples: %w", err)
-	}
-	defer func() { _ = rows.Close() }()
-
-	result := make(map[int]int)
-	for rows.Next() {
-		var month, count int
-		if err := rows.Scan(&month, &count); err != nil {
-			return nil, fmt.Errorf("scan monthly samples: %w", err)
-		}
-		result[month] = count
-	}
-
-	return result, rows.Err()
+func (r *SQLiteRepository) getMonthlySamples(_ context.Context, startMonth, endMonth int) (map[int]int, error) {
+	return r.samplesCache.Get(startMonth, endMonth)
 }
 
 func calculatePopularity(count, samples int) float64 {
