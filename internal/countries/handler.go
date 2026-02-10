@@ -118,6 +118,12 @@ func parseMonthRange(r *http.Request) (startMonth, endMonth int) {
 	startMonth = parseIntParam(r, "startMonth", currentMonth)
 	endMonth = parseIntParam(r, "endMonth", currentMonth)
 
+	// Treat 0 as "no constraint" to match PHP behavior where
+	// startMonth=0/endMonth=0 means "no date filter"
+	if endMonth <= 0 {
+		endMonth = 999912
+	}
+
 	if startMonth > endMonth {
 		startMonth, endMonth = endMonth, startMonth
 	}

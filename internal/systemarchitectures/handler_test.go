@@ -165,6 +165,66 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 	}
 }
 
+func TestHandleList_MonthZeroMeansNoFilter(t *testing.T) {
+	var capturedStart, capturedEnd int
+	repo := &mockRepository{
+		findAllFunc: func(_ context.Context, query string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error) {
+			capturedStart = startMonth
+			capturedEnd = endMonth
+			return &SystemArchitecturePopularityList{
+				SystemArchitecturePopularities: []SystemArchitecturePopularity{},
+				Limit:                          limit,
+				Offset:                         offset,
+				Query:                          &query,
+			}, nil
+		},
+	}
+
+	mux := newTestMux(repo)
+	req := httptest.NewRequest(http.MethodGet, "/api/system-architectures?startMonth=0&endMonth=0", nil)
+	rr := httptest.NewRecorder()
+	mux.ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
+	}
+	if capturedStart != 0 {
+		t.Errorf("expected startMonth 0, got %d", capturedStart)
+	}
+	if capturedEnd != 999912 {
+		t.Errorf("expected endMonth 999912 (no upper bound), got %d", capturedEnd)
+	}
+}
+
+func TestHandleSeries_MonthZeroMeansNoFilter(t *testing.T) {
+	var capturedStart, capturedEnd int
+	repo := &mockRepository{
+		findSeriesByNameFunc: func(_ context.Context, _ string, startMonth, endMonth, limit, _ int) (*SystemArchitecturePopularityList, error) {
+			capturedStart = startMonth
+			capturedEnd = endMonth
+			return &SystemArchitecturePopularityList{
+				SystemArchitecturePopularities: []SystemArchitecturePopularity{},
+				Limit:                          limit,
+			}, nil
+		},
+	}
+
+	mux := newTestMux(repo)
+	req := httptest.NewRequest(http.MethodGet, "/api/system-architectures/x86_64/series?startMonth=0&endMonth=0&limit=0", nil)
+	rr := httptest.NewRecorder()
+	mux.ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
+	}
+	if capturedStart != 0 {
+		t.Errorf("expected startMonth 0, got %d", capturedStart)
+	}
+	if capturedEnd != 999912 {
+		t.Errorf("expected endMonth 999912 (no upper bound), got %d", capturedEnd)
+	}
+}
+
 func TestHandleSeries(t *testing.T) {
 	repo := &mockRepository{
 		findSeriesByNameFunc: func(_ context.Context, name string, _, _, limit, _ int) (*SystemArchitecturePopularityList, error) {
