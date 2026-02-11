@@ -92,7 +92,6 @@ func run() error {
 	// Apply middleware stack
 	handler := web.Chain(mux,
 		web.Recovery(),
-		web.Logger(),
 		web.CORS(),
 		web.CacheControl(defaultCacheMaxAge),
 	)
