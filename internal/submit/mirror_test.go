@@ -1,6 +1,9 @@
 package submit
 
-import "testing"
+import (
+	"strings"
+	"testing"
+)
 
 func TestFilterMirrorURL(t *testing.T) {
 	tests := []struct {
@@ -49,6 +52,9 @@ func TestFilterMirrorURL(t *testing.T) {
 		// Double slashes and backslashes
 		{"double slash", "https://mirror.example.com//archlinux//", "https://mirror.example.com/archlinux/"},
 		{"backslash", "https://mirror.example.com/arch\\linux/", "https://mirror.example.com/archlinux/"},
+
+		// Length limit
+		{"too long URL", "https://mirror.example.com/" + strings.Repeat("a", 230) + "/", ""},
 	}
 
 	for _, tt := range tests {

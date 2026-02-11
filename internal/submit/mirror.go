@@ -14,10 +14,16 @@ var (
 	pkgstatsPathRegex = regexp.MustCompile(`^(.+?)pkgstats-[0-9.]+-[0-9]+-.+?\.pkg\.tar\.(?:gz|xz|zst)$`)
 )
 
+const maxMirrorURLLen = 255
+
 // FilterMirrorURL validates and normalizes a mirror URL.
 // Returns empty string if invalid or excluded.
 func FilterMirrorURL(rawURL string) string {
 	if rawURL == "" {
+		return ""
+	}
+
+	if len(rawURL) > maxMirrorURLLen {
 		return ""
 	}
 
