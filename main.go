@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"pkgstats.archlinux.de/internal/apidoc"
 	"pkgstats.archlinux.de/internal/countries"
 	"pkgstats.archlinux.de/internal/database"
 	"pkgstats.archlinux.de/internal/mirrors"
@@ -80,6 +81,7 @@ func run() error {
 	osarchitectures.NewHandler(osArchRepo).RegisterRoutes(mux)
 	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
 	sitemap.NewHandler().RegisterRoutes(mux)
+	apidoc.NewHandler().RegisterRoutes(mux)
 
 	// Health check
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
