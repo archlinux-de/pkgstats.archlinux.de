@@ -18,25 +18,6 @@ func Chain(h http.Handler, middlewares ...Middleware) http.Handler {
 	return h
 }
 
-// Logger returns a middleware that logs HTTP requests.
-func Logger() Middleware {
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			start := time.Now()
-			wrapped := &responseWriter{ResponseWriter: w, status: http.StatusOK}
-
-			next.ServeHTTP(wrapped, r)
-
-			slog.Info("http request",
-				"method", r.Method,
-				"path", r.URL.Path,
-				"status", wrapped.status,
-				"duration", time.Since(start),
-				"remote", r.RemoteAddr,
-			)
-		})
-	}
-}
 
 func Recovery() Middleware {
 	return func(next http.Handler) http.Handler {
@@ -87,12 +68,3 @@ func formatSeconds(d time.Duration) string {
 	return strconv.Itoa(int(d.Seconds()))
 }
 
-type responseWriter struct {
-	http.ResponseWriter
-	status int
-}
-
-func (rw *responseWriter) WriteHeader(code int) {
-	rw.status = code
-	rw.ResponseWriter.WriteHeader(code)
-}
