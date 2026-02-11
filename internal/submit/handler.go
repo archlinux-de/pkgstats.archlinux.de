@@ -10,19 +10,25 @@ import (
 	"pkgstats.archlinux.de/internal/web"
 )
 
+const defaultMaxMissing = 0.35
+
 // Handler handles HTTP requests for the submit endpoint.
 type Handler struct {
-	repo    *Repository
-	geoip   GeoIPLookup
-	limiter RateLimiter
+	repo             *Repository
+	geoip            GeoIPLookup
+	limiter          RateLimiter
+	expectedPackages []string
+	maxMissing       float64
 }
 
 // NewHandler creates a new Handler with the given dependencies.
 func NewHandler(repo *Repository, geoip GeoIPLookup, limiter RateLimiter) *Handler {
 	return &Handler{
-		repo:    repo,
-		geoip:   geoip,
-		limiter: limiter,
+		repo:             repo,
+		geoip:            geoip,
+		limiter:          limiter,
+		expectedPackages: []string{"pkgstats", "pacman"},
+		maxMissing:       defaultMaxMissing,
 	}
 }
 
@@ -52,6 +58,12 @@ func (h *Handler) HandleSubmit(w http.ResponseWriter, r *http.Request) {
 	// Parse and validate request
 	req, err := ParseRequest(r.Body)
 	if err != nil {
+		web.BadRequest(w, err.Error())
+		return
+	}
+
+	// Validate expected packages
+	if err := ValidateExpectedPackages(req.Pacman.Packages, h.expectedPackages, h.maxMissing); err != nil {
 		web.BadRequest(w, err.Error())
 		return
 	}

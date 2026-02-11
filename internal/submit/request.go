@@ -10,7 +10,10 @@ import (
 	"strings"
 )
 
-var osIDRegexp = regexp.MustCompile(`^[0-9a-z._-]{1,50}$`)
+var (
+	osIDRegexp        = regexp.MustCompile(`^[0-9a-z._-]{1,50}$`)
+	packageNameRegexp = regexp.MustCompile(`^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]{0,190}$`)
+)
 
 const (
 	expectedVersion       = "3"
@@ -18,6 +21,7 @@ const (
 	minPackages           = 1
 	maxPackageLen         = 191
 	truncateErrorMsgLimit = 20
+	archX86_64            = "x86_64"
 )
 
 // Request represents a pkgstats submission request.
@@ -89,6 +93,9 @@ func (r *Request) Validate() error {
 		if len(pkg) > maxPackageLen {
 			return fmt.Errorf("package name %q exceeds maximum length of %d", truncate(pkg, truncateErrorMsgLimit), maxPackageLen)
 		}
+		if !packageNameRegexp.MatchString(pkg) {
+			return fmt.Errorf("invalid package name %q", truncate(pkg, truncateErrorMsgLimit))
+		}
 	}
 
 	if err := validateArchitectures(r.System.Architecture, r.OS.Architecture); err != nil {
@@ -124,8 +131,8 @@ func validateArchitectures(systemArch, osArch string) error {
 // getValidOSArchitectures returns valid OS architectures for a given system architecture.
 func getValidOSArchitectures(systemArch string) []string {
 	switch systemArch {
-	case "x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4":
-		return []string{"x86_64", "i686", "i586"}
+	case archX86_64, "x86_64_v2", "x86_64_v3", "x86_64_v4":
+		return []string{archX86_64, "i686", "i586"}
 	case "i686":
 		return []string{"i686", "i586"}
 	case "i586":
@@ -150,12 +157,12 @@ func getValidOSArchitectures(systemArch string) []string {
 // getValidSystemArchitectures returns valid system architectures for a given OS architecture.
 func getValidSystemArchitectures(osArch string) []string {
 	switch osArch {
-	case "x86_64":
-		return []string{"x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4"}
+	case archX86_64:
+		return []string{archX86_64, "x86_64_v2", "x86_64_v3", "x86_64_v4"}
 	case "i686":
-		return []string{"i686", "x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4"}
+		return []string{"i686", archX86_64, "x86_64_v2", "x86_64_v3", "x86_64_v4"}
 	case "i586":
-		return []string{"i586", "i686", "x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4"}
+		return []string{"i586", "i686", archX86_64, "x86_64_v2", "x86_64_v3", "x86_64_v4"}
 	case "aarch64":
 		return []string{"aarch64"}
 	case "armv6h", "armv6l":
@@ -171,6 +178,32 @@ func getValidSystemArchitectures(osArch string) []string {
 	default:
 		return nil
 	}
+}
+
+// ValidateExpectedPackages checks that a sufficient fraction of expected packages are present.
+// Returns an error if more than maxMissing fraction of expected packages are missing.
+func ValidateExpectedPackages(packages []string, expected []string, maxMissing float64) error {
+	if len(expected) == 0 {
+		return nil
+	}
+
+	pkgSet := make(map[string]struct{}, len(packages))
+	for _, pkg := range packages {
+		pkgSet[strings.ToLower(pkg)] = struct{}{}
+	}
+
+	missing := 0
+	for _, exp := range expected {
+		if _, ok := pkgSet[strings.ToLower(exp)]; !ok {
+			missing++
+		}
+	}
+
+	if float64(missing)/float64(len(expected)) > maxMissing {
+		return errors.New("package list does not contain expected packages")
+	}
+
+	return nil
 }
 
 func truncate(s string, maxLen int) string {
