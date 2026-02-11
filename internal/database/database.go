@@ -17,24 +17,16 @@ var migrations embed.FS
 
 // New creates a new SQLite database connection and runs migrations.
 func New(path string) (*sql.DB, error) {
-	db, err := sql.Open("sqlite", path)
+	// Apply SQLite pragmas via DSN so they are set on every connection in the pool.
+	dsn := path +
+		"?_pragma=journal_mode(WAL)" +
+		"&_pragma=busy_timeout(5000)" +
+		"&_pragma=foreign_keys(ON)" +
+		"&_pragma=synchronous(NORMAL)"
+
+	db, err := sql.Open("sqlite", dsn)
 	if err != nil {
 		return nil, fmt.Errorf("open database: %w", err)
-	}
-
-	// Apply SQLite pragmas for performance and reliability
-	pragmas := []string{
-		"PRAGMA journal_mode=WAL",
-		"PRAGMA busy_timeout=5000",
-		"PRAGMA foreign_keys=ON",
-		"PRAGMA synchronous=NORMAL",
-	}
-
-	for _, pragma := range pragmas {
-		if _, err := db.Exec(pragma); err != nil {
-			_ = db.Close()
-			return nil, fmt.Errorf("execute pragma %q: %w", pragma, err)
-		}
 	}
 
 	// Run migrations
