@@ -16,6 +16,8 @@ import (
 	"pkgstats.archlinux.de/internal/sitemap"
 	"pkgstats.archlinux.de/internal/submit"
 	"pkgstats.archlinux.de/internal/systemarchitectures"
+	"pkgstats.archlinux.de/internal/ui"
+	uilayout "pkgstats.archlinux.de/internal/ui/layout"
 	"pkgstats.archlinux.de/internal/web"
 )
 
@@ -70,6 +72,12 @@ func run() error {
 		rateLimiter = submit.NewSQLiteRateLimiter(db)
 	}
 
+	// Parse Vite manifest
+	manifest, err := uilayout.NewManifest(embedManifest)
+	if err != nil {
+		return err
+	}
+
 	// Setup HTTP routes
 	mux := http.NewServeMux()
 
@@ -82,19 +90,17 @@ func run() error {
 	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
 	sitemap.NewHandler().RegisterRoutes(mux)
 	apidoc.NewHandler().RegisterRoutes(mux)
-
-	// Health check
-	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/plain")
-		_, _ = w.Write([]byte("pkgstatsd is running"))
-	})
+	ui.RegisterRoutes(mux, manifest, packagesRepo, embedAssets, embedStatic)
 
 	// Apply middleware stack
-	handler := web.Chain(mux,
+	middlewares := []web.Middleware{
 		web.Recovery(),
 		web.CORS(),
-		web.CacheControl(defaultCacheMaxAge),
-	)
+	}
+	if cfg.Environment == "production" {
+		middlewares = append(middlewares, web.CacheControl(defaultCacheMaxAge))
+	}
+	handler := web.Chain(mux, middlewares...)
 
 	// Create and start server
 	server := web.NewServer(":"+cfg.Port, handler)
