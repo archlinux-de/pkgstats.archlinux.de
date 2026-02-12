@@ -1,0 +1,110 @@
+package packagepage
+
+import (
+	"fmt"
+	"pkgstats.archlinux.de/internal/packages"
+)
+
+templ PackagesContent(list *packages.PackagePopularityList, query string, currentOffset int, limit int) {
+	<h1 class="mb-4">Package statistics</h1>
+	<form method="GET" action="/packages" class="mb-4">
+		<div class="input-group">
+			<span class="input-group-text" id="package-search-label">Package name</span>
+			<input
+				class="form-control"
+				type="search"
+				name="query"
+				placeholder="Search packages"
+				aria-describedby="package-search-label"
+				value={ query }
+			/>
+			<button class="btn btn-primary" type="submit">Search</button>
+		</div>
+	</form>
+	if len(list.PackagePopularities) > 0 {
+		<table class="table table-striped table-borderless table-sm">
+			<thead>
+				<tr>
+					<th scope="col">Package</th>
+					<th scope="col">Popularity</th>
+				</tr>
+			</thead>
+			<tbody>
+				for _, pkg := range list.PackagePopularities {
+					<tr>
+						<td class="text-nowrap">
+							<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
+						</td>
+						<td class="w-75">
+							<div class="progress bg-transparent progress-large" title={ fmt.Sprintf("%.2f%%", pkg.Popularity) }>
+								<div
+									class="progress-bar"
+									role="progressbar"
+									aria-valuemin="0"
+									aria-valuemax="100"
+									style={ fmt.Sprintf("width: %.2f%%", pkg.Popularity) }
+									aria-valuenow={ fmt.Sprintf("%.2f", pkg.Popularity) }
+								>
+									if pkg.Popularity > 5 {
+										{ fmt.Sprintf("%.2f%%", pkg.Popularity) }
+									}
+								</div>
+							</div>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+		@Pagination(list.Total, currentOffset, limit, query)
+		<div class="alert alert-info">
+			{ fmt.Sprintf("%d", list.Total) } packages found
+		</div>
+	} else if query != "" {
+		<div class="alert alert-info">
+			No packages found matching "{ query }"
+		</div>
+	}
+}
+
+templ Pagination(total int, currentOffset int, limit int, query string) {
+	if total > limit {
+		<nav aria-label="Package navigation">
+			<ul class="pagination">
+				if currentOffset > 0 {
+					<li class="page-item">
+						<a class="page-link" href={ paginationURL(query, prevOffset(currentOffset, limit), limit) }>Previous</a>
+					</li>
+				} else {
+					<li class="page-item disabled">
+						<span class="page-link">Previous</span>
+					</li>
+				}
+				if currentOffset+limit < total {
+					<li class="page-item">
+						<a class="page-link" href={ paginationURL(query, currentOffset+limit, limit) }>Next</a>
+					</li>
+				} else {
+					<li class="page-item disabled">
+						<span class="page-link">Next</span>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
+}
+
+func prevOffset(currentOffset, limit int) int {
+	prev := currentOffset - limit
+	if prev < 0 {
+		return 0
+	}
+	return prev
+}
+
+func paginationURL(query string, offset, limit int) templ.SafeURL {
+	url := fmt.Sprintf("/packages?limit=%d&offset=%d", limit, offset)
+	if query != "" {
+		url += "&query=" + query
+	}
+	return templ.SafeURL(url)
+}

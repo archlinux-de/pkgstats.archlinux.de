@@ -214,8 +214,17 @@ deploy-permissions:
 
 # Go targets
 
+# build frontend assets with Vite
+go-build-assets:
+	pnpm install --frozen-lockfile
+	pnpm run build
+
+# generate templ files
+go-build-templates:
+	go tool templ generate
+
 # build Go binary
-go-build:
+go-build: go-build-assets go-build-templates
 	go build -trimpath -ldflags="-s -w" -o bin/pkgstatsd .
 
 # run Go tests
@@ -237,7 +246,7 @@ go-coverage:
 	go tool cover -html=coverage.out -o coverage.html
 
 # run Go server locally
-go-run:
+go-run: go-build-assets go-build-templates
 	go run .
 
 COMPOSE-GO := 'docker compose -f docker/go.yml -p ' + env_var('PROJECT_NAME') + '-go'

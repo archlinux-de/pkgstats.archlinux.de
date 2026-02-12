@@ -1,0 +1,91 @@
+package layout
+
+type Page struct {
+	Title    string
+	Path     string
+	Manifest *Manifest
+	NoIndex  bool
+}
+
+templ Base(page Page, contents templ.Component) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<meta name="theme-color" content="#333"/>
+			if page.NoIndex {
+				<meta name="robots" content="noindex"/>
+			}
+			<title>{ page.Title }</title>
+			@CSSTags(page.Manifest)
+			<link rel="icon" href="/static/archicon.svg" type="image/svg+xml"/>
+			<link rel="manifest" href="/static/manifest.webmanifest"/>
+		</head>
+		<body>
+			<div id="page">
+				@Navigation(page.Path)
+				<main id="content" class="container">
+					@contents
+				</main>
+				@Footer()
+			</div>
+			@JSTags(page.Manifest)
+		</body>
+	</html>
+}
+
+templ CSSTags(manifest *Manifest) {
+	for _, file := range manifest.CSS {
+		<link rel="stylesheet" href={ file }/>
+	}
+}
+
+templ JSTags(manifest *Manifest) {
+	for _, file := range manifest.JS {
+		<script src={ file }></script>
+	}
+}
+
+templ Navigation(path string) {
+	<nav class="navbar navbar-expand-md navbar-dark navbar-border-brand bg-dark mb-4">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/">
+				<img alt="Arch Linux" height="40" width="190" src="/static/archlogo.svg" class="d-inline-block align-text-top"/>
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#archlinux-navbar" aria-controls="archlinux-navbar" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="archlinux-navbar">
+				<ul class="navbar-nav ms-auto mb-2 mb-md-0">
+					<li class="nav-item">
+						if path == "/" {
+							<a class="nav-link ms-3 fw-bold active" aria-current="page" href="/">Start</a>
+						} else {
+							<a class="nav-link ms-3 fw-bold" href="/">Start</a>
+						}
+					</li>
+					<li class="nav-item">
+						if path == "/packages" {
+							<a class="nav-link ms-3 fw-bold active" aria-current="page" href="/packages">Packages</a>
+						} else {
+							<a class="nav-link ms-3 fw-bold" href="/packages">Packages</a>
+						}
+					</li>
+					<li class="nav-item">
+						<a class="nav-link ms-3 fw-bold" href="/api/doc">API</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+}
+
+templ Footer() {
+	<footer id="footer">
+		<nav class="nav justify-content-end mt-4">
+			<a class="nav-link" href="/privacy-policy">Privacy policy</a>
+			<a class="nav-link" href="/impressum">Impressum</a>
+		</nav>
+	</footer>
+}

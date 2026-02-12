@@ -1,0 +1,59 @@
+$primary: #08c;
+$secondary: #333;
+$dark: $secondary;
+$light: #f6f9fc;
+$enable-rounded: false;
+$body-bg: $light;
+$body-color: $dark;
+$link-hover-color: #666;
+$navbar-dark-hover-color: #fff;
+$font-size-base: 0.875rem;
+$navbar-brand-padding-y: 0.14rem;
+$min-contrast-ratio: 3;
+$link-decoration: none;
+$link-hover-decoration: underline;
+$color-mode-type: media-query;
+
+@use "sass:map";
+@import "bootstrap/scss/bootstrap.scss";
+
+.navbar-border-brand {
+    border-bottom: 0.313rem solid $primary;
+}
+
+.progress-large {
+    height: 2em;
+}
+
+pre:has(> code) {
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-secondary-color);
+    border-width: $border-width;
+    border-style: $border-style;
+    border-color: var(--bs-border-color);
+    padding: map.get($gutters, 2);
+}
+
+#page {
+    position: relative;
+    min-height: 100vh;
+}
+
+#content {
+    padding-bottom: 2.3rem;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.3rem;
+}
+
+.code-link {
+    color: inherit;
+
+    &:hover {
+        color: inherit;
+    }
+}
