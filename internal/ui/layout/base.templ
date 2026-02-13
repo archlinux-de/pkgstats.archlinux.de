@@ -43,7 +43,7 @@ templ CSSTags(manifest *Manifest) {
 
 templ JSTags(manifest *Manifest) {
 	for _, file := range manifest.JS {
-		<script src={ file }></script>
+		<script type="module" src={ file }></script>
 	}
 }
 

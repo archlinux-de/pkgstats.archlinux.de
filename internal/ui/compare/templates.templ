@@ -1,0 +1,17 @@
+package compare
+
+import (
+	"strings"
+	"pkgstats.archlinux.de/internal/chartdata"
+)
+
+templ CompareContent(names []string, data chartdata.Data) {
+	<h1 class="mb-3">Compare packages</h1>
+	<p class="mb-3">Comparing: <strong>{ strings.Join(names, ", ") }</strong></p>
+	<popularity-chart>
+		@templ.JSONScript("", data)
+	</popularity-chart>
+	<div class="mt-3">
+		<a class="btn btn-primary" href={ templ.SafeURL("/packages?compare=" + strings.Join(names, ",")) }>Edit selection</a>
+	</div>
+}

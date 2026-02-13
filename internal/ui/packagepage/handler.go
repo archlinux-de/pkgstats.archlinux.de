@@ -3,7 +3,9 @@ package packagepage
 import (
 	"log/slog"
 	"net/http"
+	"sort"
 	"strconv"
+	"strings"
 	"time"
 
 	"pkgstats.archlinux.de/internal/packages"
@@ -13,6 +15,7 @@ import (
 const (
 	defaultLimit    = 25
 	maxLimit        = 250
+	maxCompare      = 10
 	monthMultiplier = 100
 )
 
@@ -27,6 +30,7 @@ func NewHandler(repo packages.Repository, manifest *layout.Manifest) *Handler {
 
 func (h *Handler) HandlePackages(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("query")
+	compare := r.URL.Query().Get("compare")
 	offset := parseIntParam(r, "offset", 0)
 	limit := parseIntParam(r, "limit", defaultLimit)
 
@@ -44,9 +48,44 @@ func (h *Handler) HandlePackages(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	selectedPackages := h.fetchComparePackages(r, compare, currentMonth)
+
 	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(layout.Page{Title: "Package statistics", Path: "/packages", Manifest: h.manifest}, PackagesContent(list, query, offset, limit))
+	component := layout.Base(layout.Page{Title: "Package statistics", Path: "/packages", Manifest: h.manifest}, PackagesContent(list, query, offset, limit, compare, selectedPackages))
 	_ = component.Render(r.Context(), w)
+}
+
+func (h *Handler) fetchComparePackages(r *http.Request, compare string, currentMonth int) []packages.PackagePopularity {
+	if compare == "" {
+		return nil
+	}
+
+	names := strings.Split(compare, ",")
+	if len(names) > maxCompare {
+		names = names[:maxCompare]
+	}
+
+	var result []packages.PackagePopularity
+	for _, name := range names {
+		name = strings.TrimSpace(name)
+		if name == "" {
+			continue
+		}
+
+		pkg, err := h.repo.FindByName(r.Context(), name, currentMonth, currentMonth)
+		if err != nil {
+			slog.Error("failed to fetch compare package", "error", err, "name", name)
+			continue
+		}
+
+		result = append(result, *pkg)
+	}
+
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].Popularity > result[j].Popularity
+	})
+
+	return result
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
