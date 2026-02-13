@@ -2,77 +2,172 @@ package packagepage
 
 import (
 	"fmt"
+	"strings"
 	"pkgstats.archlinux.de/internal/packages"
 )
 
-templ PackagesContent(list *packages.PackagePopularityList, query string, currentOffset int, limit int) {
-	<h1 class="mb-4">Package statistics</h1>
-	<form method="GET" action="/packages" class="mb-4">
-		<div class="input-group">
-			<span class="input-group-text" id="package-search-label">Package name</span>
-			<input
-				class="form-control"
-				type="search"
-				name="query"
-				placeholder="Search packages"
-				aria-describedby="package-search-label"
-				value={ query }
-			/>
-			<button class="btn btn-primary" type="submit">Search</button>
+templ PackagesContent(list *packages.PackagePopularityList, query string, currentOffset int, limit int, compare string, selectedPackages []packages.PackagePopularity) {
+	<package-selector>
+		<h1 class="mb-4">Package statistics &amp; comparison</h1>
+		<h2>Package comparison</h2>
+		<div data-compare-summary class="mb-4">
+			if len(selectedPackages) > 0 {
+				<div class="mb-2">
+					@CompareTable(selectedPackages)
+					if len(selectedPackages) > 1 && len(selectedPackages) <= 10 {
+						<a
+							class="d-inline-flex btn btn-primary"
+							href={ templ.SafeURL("/compare/packages/" + compareNames(selectedPackages)) }
+						>
+							Compare
+						</a>
+					}
+					if len(selectedPackages) > 10 {
+						<div role="alert" class="alert alert-info mb-4">
+							You can only compare up to 10 packages.
+						</div>
+					}
+				</div>
+			} else {
+				<div class="mb-2">
+					No packages selected. Use the search below to add packages
+					and allow the generation of a comparison graph over time.
+				</div>
+			}
 		</div>
-	</form>
-	if len(list.PackagePopularities) > 0 {
-		<table class="table table-striped table-borderless table-sm">
-			<thead>
-				<tr>
-					<th scope="col">Package</th>
-					<th scope="col">Popularity</th>
-				</tr>
-			</thead>
-			<tbody>
-				for _, pkg := range list.PackagePopularities {
-					<tr>
-						<td class="text-nowrap">
-							<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
-						</td>
-						<td class="w-75">
-							<div class="progress bg-transparent progress-large" title={ fmt.Sprintf("%.2f%%", pkg.Popularity) }>
-								<div
-									class="progress-bar"
-									role="progressbar"
-									aria-valuemin="0"
-									aria-valuemax="100"
-									style={ fmt.Sprintf("width: %.2f%%", pkg.Popularity) }
-									aria-valuenow={ fmt.Sprintf("%.2f", pkg.Popularity) }
-								>
-									if pkg.Popularity > 5 {
-										{ fmt.Sprintf("%.2f%%", pkg.Popularity) }
-									}
-								</div>
-							</div>
-						</td>
-					</tr>
+		<h2>Package Search</h2>
+		<form method="GET" action="/packages" class="mb-4">
+			<div class="input-group">
+				<span class="input-group-text" id="package-search-label">Package name</span>
+				<input
+					class="form-control"
+					type="search"
+					name="query"
+					placeholder="Search packages"
+					aria-describedby="package-search-label"
+					value={ query }
+				/>
+				if compare != "" {
+					<input type="hidden" name="compare" value={ compare }/>
 				}
-			</tbody>
-		</table>
-		@Pagination(list.Total, currentOffset, limit, query)
-		<div class="alert alert-info">
-			{ fmt.Sprintf("%d", list.Total) } packages found
-		</div>
-	} else if query != "" {
-		<div class="alert alert-info">
-			No packages found matching "{ query }"
-		</div>
-	}
+				<button class="btn btn-primary" type="submit">Search</button>
+			</div>
+		</form>
+		if len(list.PackagePopularities) > 0 {
+			@PackageTable(list.PackagePopularities)
+			@Pagination(list.Total, currentOffset, limit, query, compare)
+			<div class="alert alert-info">
+				{ fmt.Sprintf("%d", list.Total) } packages found
+			</div>
+		} else if query != "" {
+			<div class="alert alert-info">
+				No packages found matching "{ query }"
+			</div>
+		}
+	</package-selector>
 }
 
-templ Pagination(total int, currentOffset int, limit int, query string) {
+templ CompareTable(pkgs []packages.PackagePopularity) {
+	<table class="table table-striped table-borderless table-sm">
+		<thead>
+			<tr>
+				<th scope="col">Package</th>
+				<th scope="col">Popularity</th>
+				<th scope="col" class="d-none d-lg-block text-center">Compare</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, pkg := range pkgs {
+				<tr>
+					<td class="text-nowrap">
+						<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
+					</td>
+					<td class="w-75">
+						<div class="progress bg-transparent progress-large" title={ fmt.Sprintf("%.2f%%", pkg.Popularity) }>
+							<div
+								class="progress-bar"
+								role="progressbar"
+								aria-valuemin="0"
+								aria-valuemax="100"
+								style={ fmt.Sprintf("width: %.2f%%", pkg.Popularity) }
+								aria-valuenow={ fmt.Sprintf("%.2f", pkg.Popularity) }
+							>
+								if pkg.Popularity > 5 {
+									{ fmt.Sprintf("%.2f%%", pkg.Popularity) }
+								}
+							</div>
+						</div>
+					</td>
+					<td class="align-middle">
+						<button
+							type="button"
+							class="d-flex btn w-100 p-0 b-none"
+							data-toggle-package={ pkg.Name }
+							data-popularity={ fmt.Sprintf("%.2f", pkg.Popularity) }
+						>
+							<span class="d-inline-flex text-primary justify-content-center w-100" data-icon></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+templ PackageTable(pkgs []packages.PackagePopularity) {
+	<table class="table table-striped table-borderless table-sm">
+		<thead>
+			<tr>
+				<th scope="col">Package</th>
+				<th scope="col">Popularity</th>
+				<th scope="col" class="d-none d-lg-block text-center">Compare</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, pkg := range pkgs {
+				<tr>
+					<td class="text-nowrap">
+						<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
+					</td>
+					<td class="w-75">
+						<div class="progress bg-transparent progress-large" title={ fmt.Sprintf("%.2f%%", pkg.Popularity) }>
+							<div
+								class="progress-bar"
+								role="progressbar"
+								aria-valuemin="0"
+								aria-valuemax="100"
+								style={ fmt.Sprintf("width: %.2f%%", pkg.Popularity) }
+								aria-valuenow={ fmt.Sprintf("%.2f", pkg.Popularity) }
+							>
+								if pkg.Popularity > 5 {
+									{ fmt.Sprintf("%.2f%%", pkg.Popularity) }
+								}
+							</div>
+						</div>
+					</td>
+					<td class="align-middle">
+						<button
+							type="button"
+							class="d-flex btn w-100 p-0 b-none"
+							data-toggle-package={ pkg.Name }
+							data-popularity={ fmt.Sprintf("%.2f", pkg.Popularity) }
+						>
+							<span class="d-inline-flex text-primary justify-content-center w-100" data-icon></span>
+						</button>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+templ Pagination(total int, currentOffset int, limit int, query string, compare string) {
 	if total > limit {
 		<nav aria-label="Package navigation">
 			<ul class="pagination">
 				if currentOffset > 0 {
 					<li class="page-item">
-						<a class="page-link" href={ paginationURL(query, prevOffset(currentOffset, limit), limit) }>Previous</a>
+						<a class="page-link" href={ paginationURL(query, prevOffset(currentOffset, limit), limit, compare) }>Previous</a>
 					</li>
 				} else {
 					<li class="page-item disabled">
@@ -81,7 +176,7 @@ templ Pagination(total int, currentOffset int, limit int, query string) {
 				}
 				if currentOffset+limit < total {
 					<li class="page-item">
-						<a class="page-link" href={ paginationURL(query, currentOffset+limit, limit) }>Next</a>
+						<a class="page-link" href={ paginationURL(query, currentOffset+limit, limit, compare) }>Next</a>
 					</li>
 				} else {
 					<li class="page-item disabled">
@@ -101,10 +196,21 @@ func prevOffset(currentOffset, limit int) int {
 	return prev
 }
 
-func paginationURL(query string, offset, limit int) templ.SafeURL {
+func paginationURL(query string, offset, limit int, compare string) templ.SafeURL {
 	url := fmt.Sprintf("/packages?limit=%d&offset=%d", limit, offset)
 	if query != "" {
 		url += "&query=" + query
 	}
+	if compare != "" {
+		url += "&compare=" + compare
+	}
 	return templ.SafeURL(url)
+}
+
+func compareNames(pkgs []packages.PackagePopularity) string {
+	names := make([]string, len(pkgs))
+	for i, pkg := range pkgs {
+		names[i] = pkg.Name
+	}
+	return strings.Join(names, ",")
 }

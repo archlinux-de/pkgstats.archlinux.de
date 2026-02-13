@@ -1,0 +1,11 @@
+package packagedetail
+
+import "pkgstats.archlinux.de/internal/chartdata"
+
+templ PackageDetailContent(name string, data chartdata.Data) {
+	<h1 class="mb-3">{ name }</h1>
+	<p class="mb-3">Relative usage of <strong>{ name }</strong></p>
+	<popularity-chart>
+		@templ.JSONScript("", data)
+	</popularity-chart>
+}
