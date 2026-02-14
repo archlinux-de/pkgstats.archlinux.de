@@ -3,12 +3,30 @@ package fun
 templ FunContent(categories []Category) {
 	<h1 class="mb-4">Fun statistics</h1>
 	<p>Chose a category to compare popularities and see the development over time.</p>
-	<h2>Categories</h2>
-	for _, cat := range categories {
+	<div class="row row-cols-1 row-cols-lg-2 mb-2 mb-lg-4">
 		<div>
-			<a href={ templ.SafeURL("/fun/" + cat.Name + "/current") }>{ cat.Name }</a>
+			<h2>Categories</h2>
+			for _, cat := range categories {
+				<div>
+					<a href={ templ.SafeURL("/fun/" + cat.Name + "/current") }>{ cat.Name }</a>
+				</div>
+			}
 		</div>
-	}
+		<div class="col d-flex align-items-center">
+			<div class="chart-preview-grid">
+				<picture class="chart-preview-overlapping">
+					<source srcset="/static/fun_barChart_lightMode.png" media="(prefers-color-scheme: light)"/>
+					<source srcset="/static/fun_barChart_darkMode.png" media="(prefers-color-scheme: dark)"/>
+					<img loading="lazy" alt="Package Bar Charts" height="96" width="353" src="/static/fun_barChart_darkMode.png" class="border border-primary-subtle shadow shadow-3"/>
+				</picture>
+				<picture class="chart-preview-underlying">
+					<source srcset="/static/fun_graph_lightMode.png" media="(prefers-color-scheme: light)"/>
+					<source srcset="/static/fun_graph_darkMode.png" media="(prefers-color-scheme: dark)"/>
+					<img loading="lazy" alt="Package Graphs" height="150" width="340" src="/static/fun_graph_lightMode.png" class="border border-primary-subtle shadow shadow-3"/>
+				</picture>
+			</div>
+		</div>
+	</div>
 	<div class="mt-4">
 		Contributions are welcome. For more information please refer to the repository
 		<a href="https://github.com/archlinux-de/pkgstats.archlinux.de/blob/main/README.md#contributions">README</a>.
