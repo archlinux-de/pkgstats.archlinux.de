@@ -11,7 +11,7 @@ class SwaggerUIWrapper extends HTMLElement {
         }
 
         const SwaggerUI = (await import("swagger-ui")).default;
-        const swaggerCSS = (await import("swagger-ui/dist/swagger-ui.css?inline"))
+        const swaggerCSS = (await import("swagger-ui/dist/swagger-ui.css?raw"))
             .default;
 
         const shadow = this.attachShadow({ mode: "open" });

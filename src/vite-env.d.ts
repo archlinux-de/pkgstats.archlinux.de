@@ -11,7 +11,7 @@ declare module "swagger-ui" {
     export default SwaggerUI;
 }
 
-declare module "swagger-ui/dist/swagger-ui.css?inline" {
+declare module "swagger-ui/dist/swagger-ui.css?raw" {
     const css: string;
     export default css;
 }
