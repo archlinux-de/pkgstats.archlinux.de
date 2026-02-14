@@ -15,15 +15,17 @@ func NewHandler(manifest *layout.Manifest) *Handler {
 }
 
 func (h *Handler) HandleImpressum(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(layout.Page{Title: "Impressum", Path: "/impressum", Manifest: h.manifest, NoIndex: true}, ImpressumContent())
-	_ = component.Render(r.Context(), w)
+	layout.Render(w, r,
+		layout.Page{Title: "Impressum", Path: "/impressum", Manifest: h.manifest, NoIndex: true},
+		ImpressumContent(),
+	)
 }
 
 func (h *Handler) HandlePrivacyPolicy(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(layout.Page{Title: "Privacy policy", Path: "/privacy-policy", Manifest: h.manifest, NoIndex: true}, PrivacyPolicyContent())
-	_ = component.Render(r.Context(), w)
+	layout.Render(w, r,
+		layout.Page{Title: "Privacy policy", Path: "/privacy-policy", Manifest: h.manifest, NoIndex: true},
+		PrivacyPolicyContent(),
+	)
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {

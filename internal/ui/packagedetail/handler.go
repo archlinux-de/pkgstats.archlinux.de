@@ -1,17 +1,11 @@
 package packagedetail
 
 import (
-	"log/slog"
 	"net/http"
 
 	"pkgstats.archlinux.de/internal/chartdata"
 	"pkgstats.archlinux.de/internal/packages"
 	"pkgstats.archlinux.de/internal/ui/layout"
-)
-
-const (
-	seriesLimit = 10000
-	maxEndMonth = 999912
 )
 
 type Handler struct {
@@ -30,10 +24,9 @@ func (h *Handler) HandlePackageDetail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list, err := h.repo.FindSeriesByName(r.Context(), name, 0, maxEndMonth, seriesLimit, 0)
+	list, err := h.repo.FindSeriesByName(r.Context(), name, 0, layout.MaxEndMonth, layout.SeriesLimit, 0)
 	if err != nil {
-		slog.Error("failed to fetch package series", "error", err)
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		layout.ServerError(w, "failed to fetch package series", err)
 		return
 	}
 
@@ -44,12 +37,10 @@ func (h *Handler) HandlePackageDetail(w http.ResponseWriter, r *http.Request) {
 
 	data := chartdata.Build(list.PackagePopularities)
 
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(
+	layout.Render(w, r,
 		layout.Page{Title: name + " - Package statistics", Path: "/packages", Manifest: h.manifest},
 		PackageDetailContent(name, data),
 	)
-	_ = component.Render(r.Context(), w)
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {

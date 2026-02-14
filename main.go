@@ -94,15 +94,12 @@ func run() error {
 	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, embedAssets, embedStatic)
 
 	// Apply middleware stack
-	middlewares := []web.Middleware{
+	handler := web.Chain(mux,
 		web.Recovery(),
 		web.CORS(),
 		errorpage.Middleware(manifest),
-	}
-	if cfg.Environment == "production" {
-		middlewares = append(middlewares, web.CacheControl(defaultCacheMaxAge))
-	}
-	handler := web.Chain(mux, middlewares...)
+		web.CacheControl(defaultCacheMaxAge),
+	)
 
 	// Create and start server
 	server := web.NewServer(":"+cfg.Port, handler)

@@ -15,12 +15,10 @@ func NewHandler(manifest *layout.Manifest) *Handler {
 }
 
 func (h *Handler) HandleAPIDoc(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(
+	layout.Render(w, r,
 		layout.Page{Title: "API documentation", Path: "/api/doc", Manifest: h.manifest, NoIndex: true},
 		APIDocContent(),
 	)
-	_ = component.Render(r.Context(), w)
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
