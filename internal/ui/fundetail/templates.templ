@@ -1,0 +1,91 @@
+package fundetail
+
+import (
+	"fmt"
+	"pkgstats.archlinux.de/internal/chartdata"
+	"pkgstats.archlinux.de/internal/packages"
+)
+
+templ FunDetailCurrentContent(category string, pkgs []packages.PackagePopularity) {
+	<h1 class="mb-4">{ category } statistics</h1>
+	@tabNav(category, "current")
+	if len(pkgs) > 0 {
+		@funPackageTable(pkgs)
+	}
+}
+
+templ FunDetailHistoryContent(category string, data chartdata.Data, filter string) {
+	<h1 class="mb-4">{ category } statistics</h1>
+	@tabNav(category, "history")
+	<popularity-chart>
+		@templ.JSONScript("", data)
+	</popularity-chart>
+	<h2 class="mt-4">Filters</h2>
+	<div class="btn-group" role="group" aria-label="Filter chart data">
+		if filter != "top5" {
+			<a class="btn btn-primary" href={ templ.SafeURL("/fun/" + category + "/history") }>All</a>
+		} else {
+			<a class="btn btn-outline-primary" href={ templ.SafeURL("/fun/" + category + "/history") }>All</a>
+		}
+		if filter == "top5" {
+			<a class="btn btn-primary" href={ templ.SafeURL("/fun/" + category + "/history?filter=top5") }>Top 5</a>
+		} else {
+			<a class="btn btn-outline-primary" href={ templ.SafeURL("/fun/" + category + "/history?filter=top5") }>Top 5</a>
+		}
+	</div>
+}
+
+templ tabNav(category string, activeTab string) {
+	<ul class="nav nav-tabs mb-2">
+		<li class="nav-item">
+			if activeTab == "current" {
+				<a class="nav-link active" aria-current="page" href={ templ.SafeURL("/fun/" + category + "/current") }>current</a>
+			} else {
+				<a class="nav-link" href={ templ.SafeURL("/fun/" + category + "/current") }>current</a>
+			}
+		</li>
+		<li class="nav-item">
+			if activeTab == "history" {
+				<a class="nav-link active" aria-current="page" href={ templ.SafeURL("/fun/" + category + "/history") }>history</a>
+			} else {
+				<a class="nav-link" href={ templ.SafeURL("/fun/" + category + "/history") }>history</a>
+			}
+		</li>
+	</ul>
+}
+
+templ funPackageTable(pkgs []packages.PackagePopularity) {
+	<table class="table table-striped table-borderless table-sm">
+		<thead>
+			<tr>
+				<th scope="col">Package</th>
+				<th scope="col">Popularity</th>
+			</tr>
+		</thead>
+		<tbody>
+			for _, pkg := range pkgs {
+				<tr>
+					<td class="text-nowrap">
+						<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
+					</td>
+					<td class="w-75">
+						<div class="progress bg-transparent progress-large" title={ fmt.Sprintf("%.2f%%", pkg.Popularity) }>
+							<div
+								class="progress-bar"
+								role="progressbar"
+								aria-valuemin="0"
+								aria-valuemax="100"
+								style={ fmt.Sprintf("width: %.2f%%", pkg.Popularity) }
+								aria-valuenow={ fmt.Sprintf("%.2f", pkg.Popularity) }
+							>
+								if pkg.Popularity > 5 {
+									{ fmt.Sprintf("%.2f%%", pkg.Popularity) }
+								}
+							</div>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

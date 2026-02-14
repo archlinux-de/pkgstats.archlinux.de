@@ -10,6 +10,10 @@ type PackagePopularity struct {
 	EndMonth   int     `json:"endMonth"`
 }
 
+func (p PackagePopularity) GetName() string        { return p.Name }
+func (p PackagePopularity) GetStartMonth() int     { return p.StartMonth }
+func (p PackagePopularity) GetPopularity() float64 { return p.Popularity }
+
 // PackagePopularityList represents a paginated list of package popularities.
 type PackagePopularityList struct {
 	Total               int                 `json:"total"`

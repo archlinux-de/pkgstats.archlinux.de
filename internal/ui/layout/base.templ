@@ -58,27 +58,26 @@ templ Navigation(path string) {
 			</button>
 			<div class="collapse navbar-collapse" id="archlinux-navbar">
 				<ul class="navbar-nav ms-auto mb-2 mb-md-0">
-					<li class="nav-item">
-						if path == "/" {
-							<a class="nav-link ms-3 fw-bold active" aria-current="page" href="/">Start</a>
-						} else {
-							<a class="nav-link ms-3 fw-bold" href="/">Start</a>
-						}
-					</li>
-					<li class="nav-item">
-						if path == "/packages" {
-							<a class="nav-link ms-3 fw-bold active" aria-current="page" href="/packages">Packages</a>
-						} else {
-							<a class="nav-link ms-3 fw-bold" href="/packages">Packages</a>
-						}
-					</li>
-					<li class="nav-item">
-						<a class="nav-link ms-3 fw-bold" href="/api/doc">API</a>
-					</li>
+					@navLink(path, "/", "Start")
+					@navLink(path, "/countries", "Countries")
+					@navLink(path, "/packages", "Packages")
+					@navLink(path, "/compare/system-architectures", "System Architectures")
+					@navLink(path, "/fun", "Fun")
+					@navLink(path, "/api/doc", "API")
 				</ul>
 			</div>
 		</div>
 	</nav>
+}
+
+templ navLink(currentPath, href, label string) {
+	<li class="nav-item">
+		if currentPath == href {
+			<a class="nav-link ms-3 fw-bold active" aria-current="page" href={ templ.SafeURL(href) }>{ label }</a>
+		} else {
+			<a class="nav-link ms-3 fw-bold" href={ templ.SafeURL(href) }>{ label }</a>
+		}
+	</li>
 }
 
 templ Footer() {

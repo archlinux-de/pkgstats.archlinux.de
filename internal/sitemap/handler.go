@@ -33,8 +33,10 @@ func (h *Handler) HandleSitemap(w http.ResponseWriter, r *http.Request) {
 		XMLNS: "http://www.sitemaps.org/schemas/sitemap/0.9",
 		URLs: []URL{
 			{Loc: baseURL + "/"},
-			{Loc: baseURL + "/fun"},
+			{Loc: baseURL + "/countries"},
 			{Loc: baseURL + "/packages"},
+			{Loc: baseURL + "/compare/system-architectures/current"},
+			{Loc: baseURL + "/fun"},
 		},
 	}
 

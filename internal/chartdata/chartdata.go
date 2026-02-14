@@ -2,14 +2,19 @@ package chartdata
 
 import (
 	"sort"
-
-	"pkgstats.archlinux.de/internal/packages"
 )
 
 const (
 	monthsInYear = 12
 	yearFactor   = 100
 )
+
+// Popularity is implemented by any entity that has time-series popularity data.
+type Popularity interface {
+	GetName() string
+	GetStartMonth() int
+	GetPopularity() float64
+}
 
 type Data struct {
 	Labels   []int     `json:"labels"`
@@ -21,23 +26,23 @@ type Dataset struct {
 	Data  []*float64 `json:"data"`
 }
 
-// Build transforms package popularity entries into a compact ChartJS-ready format.
+// Build transforms popularity entries into a compact ChartJS-ready format.
 // Labels are sorted months, datasets are sorted by last month's popularity descending.
-// Null values represent missing months for a given package.
-func Build(popularities []packages.PackagePopularity) Data {
+// Null values represent missing months for a given entity.
+func Build[T Popularity](popularities []T) Data {
 	labelSet := make(map[int]struct{})
 	seriesMap := make(map[string]map[int]float64)
 
 	for _, p := range popularities {
-		labelSet[p.StartMonth] = struct{}{}
+		labelSet[p.GetStartMonth()] = struct{}{}
 
-		m, ok := seriesMap[p.Name]
+		m, ok := seriesMap[p.GetName()]
 		if !ok {
 			m = make(map[int]float64)
-			seriesMap[p.Name] = m
+			seriesMap[p.GetName()] = m
 		}
 
-		m[p.StartMonth] = p.Popularity
+		m[p.GetStartMonth()] = p.GetPopularity()
 	}
 
 	if len(labelSet) == 0 {

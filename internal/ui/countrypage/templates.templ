@@ -1,0 +1,25 @@
+package countrypage
+
+import (
+	"pkgstats.archlinux.de/internal/countries"
+)
+
+templ CountriesContent(countryPopularities []countries.CountryPopularity) {
+	<h1 class="mb-4">Countries</h1>
+	<p>Explore the distribution of the submitted package statistics.</p>
+	<country-map>
+		@templ.JSONScript("", toSvgMapValues(countryPopularities))
+	</country-map>
+}
+
+type popularityValue struct {
+	Popularity float64 `json:"popularity"`
+}
+
+func toSvgMapValues(pops []countries.CountryPopularity) map[string]popularityValue {
+	m := make(map[string]popularityValue, len(pops))
+	for _, p := range pops {
+		m[p.Code] = popularityValue{Popularity: p.Popularity}
+	}
+	return m
+}

@@ -18,6 +18,16 @@
     "dependencies": {
         "bootstrap": "^5.3.8",
         "bootstrap-icons": "^1.13.1",
-        "chart.js": "^4.4.8"
+        "buffer": "^6.0.3",
+        "chart.js": "^4.4.8",
+        "svg-pan-zoom": "^3.6.2",
+        "svgmap": "^2.19.2",
+        "swagger-ui": "^5.31.0"
+    },
+    "pnpm": {
+        "overrides": {
+            "react": "^18",
+            "react-dom": "^18"
+        }
     }
 }

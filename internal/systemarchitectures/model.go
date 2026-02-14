@@ -10,6 +10,10 @@ type SystemArchitecturePopularity struct {
 	EndMonth   int     `json:"endMonth"`
 }
 
+func (s SystemArchitecturePopularity) GetName() string        { return s.Name }
+func (s SystemArchitecturePopularity) GetStartMonth() int     { return s.StartMonth }
+func (s SystemArchitecturePopularity) GetPopularity() float64 { return s.Popularity }
+
 // SystemArchitecturePopularityList represents a paginated list of system architecture popularities.
 type SystemArchitecturePopularityList struct {
 	Total                          int                            `json:"total"`

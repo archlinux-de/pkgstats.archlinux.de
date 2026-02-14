@@ -1,3 +1,16 @@
+@use "sass:map";
+@use "svgmap-variables" with (
+    $textColor: var(--bs-body-color),
+    $textColorLight: var(--bs-secondary-color),
+    $oceanColor: transparent,
+    $mapActiveStrokeColor: var(--bs-link-hover-color),
+    $mapControlsColor: var(--bs-body-color),
+    $mapControlsBackgroundColor: var(--bs-body-bg),
+    $mapTooltipColor: var(--bs-body-color),
+    $mapTooltipBackgroundColor: var(--bs-body-bg),
+);
+@use "svgmap-styles";
+
 $primary: #08c;
 $secondary: #333;
 $dark: $secondary;
@@ -14,7 +27,6 @@ $link-decoration: none;
 $link-hover-decoration: underline;
 $color-mode-type: media-query;
 
-@use "sass:map";
 @import "bootstrap/scss/bootstrap.scss";
 
 .navbar-border-brand {
