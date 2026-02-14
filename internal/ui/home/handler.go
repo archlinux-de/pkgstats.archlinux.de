@@ -20,9 +20,10 @@ func (h *Handler) HandleHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(layout.Page{Title: "Arch Linux package statistics", Path: "/", Manifest: h.manifest}, HomeContent())
-	_ = component.Render(r.Context(), w)
+	layout.Render(w, r,
+		layout.Page{Title: "Arch Linux package statistics", Path: "/", Manifest: h.manifest},
+		HomeContent(),
+	)
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {

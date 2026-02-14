@@ -18,7 +18,9 @@ class SwaggerUIWrapper extends HTMLElement {
         const shadow = this.attachShadow({ mode: "open" });
 
         const style = document.createElement("style");
-        style.textContent =
+      style.textContent =
+            // store this as external css file and compile it in here
+            // makes it easier to work with due to ide support
             swaggerCSS +
             `
             .information-container { display: none; }

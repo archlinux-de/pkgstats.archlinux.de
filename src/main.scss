@@ -1,4 +1,7 @@
 @use "sass:map";
+
+// we should configure the global css first
+// css specific to single pages (map or chart) should only be loaded on those pages
 @use "svgmap-variables" with (
     $textColor: var(--bs-body-color),
     $textColorLight: var(--bs-secondary-color),

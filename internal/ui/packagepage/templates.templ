@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 	"pkgstats.archlinux.de/internal/packages"
+	"pkgstats.archlinux.de/internal/ui/components"
 )
 
 templ PackagesContent(list *packages.PackagePopularityList, query string, currentOffset int, limit int, compare string, selectedPackages []packages.PackagePopularity) {
@@ -81,20 +82,7 @@ templ CompareTable(pkgs []packages.PackagePopularity, query string, offset int, 
 						<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
 					</td>
 					<td class="w-75">
-						<div class="progress bg-transparent progress-large" title={ fmt.Sprintf("%.2f%%", pkg.Popularity) }>
-							<div
-								class="progress-bar"
-								role="progressbar"
-								aria-valuemin="0"
-								aria-valuemax="100"
-								style={ fmt.Sprintf("width: %.2f%%", pkg.Popularity) }
-								aria-valuenow={ fmt.Sprintf("%.2f", pkg.Popularity) }
-							>
-								if pkg.Popularity > 5 {
-									{ fmt.Sprintf("%.2f%%", pkg.Popularity) }
-								}
-							</div>
-						</div>
+						@components.PopularityBar(pkg.Popularity)
 					</td>
 					<td class="align-middle text-center">
 						<a
@@ -127,20 +115,7 @@ templ PackageTable(pkgs []packages.PackagePopularity, query string, offset int, 
 						<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
 					</td>
 					<td class="w-75">
-						<div class="progress bg-transparent progress-large" title={ fmt.Sprintf("%.2f%%", pkg.Popularity) }>
-							<div
-								class="progress-bar"
-								role="progressbar"
-								aria-valuemin="0"
-								aria-valuemax="100"
-								style={ fmt.Sprintf("width: %.2f%%", pkg.Popularity) }
-								aria-valuenow={ fmt.Sprintf("%.2f", pkg.Popularity) }
-							>
-								if pkg.Popularity > 5 {
-									{ fmt.Sprintf("%.2f%%", pkg.Popularity) }
-								}
-							</div>
-						</div>
+						@components.PopularityBar(pkg.Popularity)
 					</td>
 					<td class="align-middle text-center">
 						if isSelected(compare, pkg.Name) {

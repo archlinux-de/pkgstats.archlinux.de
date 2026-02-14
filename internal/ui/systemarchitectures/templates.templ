@@ -2,25 +2,28 @@ package systemarchitectures
 
 import (
 	"pkgstats.archlinux.de/internal/chartdata"
+	"pkgstats.archlinux.de/internal/ui/components"
 )
 
 templ CompareContent(presets []preset, activePreset string, data chartdata.Data) {
 	<h1 class="mb-3">Compare System Architectures</h1>
 	<p class="mb-3">Relative usage of system architectures</p>
-	<ul class="nav nav-tabs mb-2">
-		for _, p := range presets {
-			<li class="nav-item">
-				if p.Label == activePreset {
-					<a class="nav-link active" aria-current="page" href={ templ.SafeURL("/compare/system-architectures/" + p.Label) }>{ presetDisplayName(p.Label) }</a>
-				} else {
-					<a class="nav-link" href={ templ.SafeURL("/compare/system-architectures/" + p.Label) }>{ presetDisplayName(p.Label) }</a>
-				}
-			</li>
-		}
-	</ul>
+	@components.TabNav(presetTabs(presets, activePreset))
 	<popularity-chart>
 		@templ.JSONScript("", data)
 	</popularity-chart>
+}
+
+func presetTabs(presets []preset, activePreset string) []components.Tab {
+	tabs := make([]components.Tab, len(presets))
+	for i, p := range presets {
+		tabs[i] = components.Tab{
+			Label:  presetDisplayName(p.Label),
+			Href:   templ.SafeURL("/compare/system-architectures/" + p.Label),
+			Active: p.Label == activePreset,
+		}
+	}
+	return tabs
 }
 
 func presetDisplayName(label string) string {

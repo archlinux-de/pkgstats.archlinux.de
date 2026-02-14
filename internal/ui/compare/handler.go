@@ -10,11 +10,7 @@ import (
 	"pkgstats.archlinux.de/internal/ui/layout"
 )
 
-const (
-	maxPackages = 10
-	seriesLimit = 10000
-	maxEndMonth = 999912
-)
+const maxPackages = 10
 
 type Handler struct {
 	repo     packages.Repository
@@ -44,7 +40,7 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, maxEndMonth, seriesLimit, 0)
+		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, layout.MaxEndMonth, layout.SeriesLimit, 0)
 		if err != nil {
 			slog.Error("failed to fetch package series", "error", err, "name", name)
 			continue
@@ -60,12 +56,10 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 
 	data := chartdata.Build(allSeries)
 
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(
+	layout.Render(w, r,
 		layout.Page{Title: "Compare packages", Path: "/packages", Manifest: h.manifest},
 		CompareContent(names, data),
 	)
-	_ = component.Render(r.Context(), w)
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {

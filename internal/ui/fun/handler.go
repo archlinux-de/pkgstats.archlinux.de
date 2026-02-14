@@ -15,12 +15,10 @@ func NewHandler(manifest *layout.Manifest) *Handler {
 }
 
 func (h *Handler) HandleFun(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(
+	layout.Render(w, r,
 		layout.Page{Title: "Fun statistics", Path: "/fun", Manifest: h.manifest},
 		FunContent(Categories),
 	)
-	_ = component.Render(r.Context(), w)
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {

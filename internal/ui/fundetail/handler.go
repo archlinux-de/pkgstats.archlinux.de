@@ -4,7 +4,6 @@ import (
 	"log/slog"
 	"net/http"
 	"sort"
-	"time"
 
 	"pkgstats.archlinux.de/internal/chartdata"
 	"pkgstats.archlinux.de/internal/packages"
@@ -13,12 +12,9 @@ import (
 )
 
 const (
-	seriesLimit     = 10000
-	maxEndMonth     = 999912
-	monthMultiplier = 100
-	top5Limit       = 5
-	presetCurrent   = "current"
-	presetHistory   = "history"
+	top5Limit     = 5
+	presetCurrent = "current"
+	presetHistory = "history"
 )
 
 type Handler struct {
@@ -45,8 +41,6 @@ func (h *Handler) HandleFunDetail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Cache-Control", "public, max-age=300")
-
 	if preset == presetCurrent {
 		h.handleCurrent(w, r, category)
 	} else {
@@ -55,8 +49,7 @@ func (h *Handler) HandleFunDetail(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) handleCurrent(w http.ResponseWriter, r *http.Request, category *fun.Category) {
-	now := time.Now()
-	currentMonth := now.Year()*monthMultiplier + int(now.Month())
+	currentMonth := layout.CurrentMonth()
 
 	var pkgs []packages.PackagePopularity
 
@@ -74,11 +67,10 @@ func (h *Handler) handleCurrent(w http.ResponseWriter, r *http.Request, category
 		return pkgs[i].Popularity > pkgs[j].Popularity
 	})
 
-	component := layout.Base(
+	layout.Render(w, r,
 		layout.Page{Title: category.Name + " statistics", Path: "/fun", Manifest: h.manifest},
 		FunDetailCurrentContent(category.Name, pkgs),
 	)
-	_ = component.Render(r.Context(), w)
 }
 
 func (h *Handler) handleHistory(w http.ResponseWriter, r *http.Request, category *fun.Category) {
@@ -87,7 +79,7 @@ func (h *Handler) handleHistory(w http.ResponseWriter, r *http.Request, category
 	var allSeries []packages.PackagePopularity
 
 	for _, name := range category.Packages {
-		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, maxEndMonth, seriesLimit, 0)
+		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, layout.MaxEndMonth, layout.SeriesLimit, 0)
 		if err != nil {
 			slog.Error("failed to fetch package series", "error", err, "name", name)
 			continue
@@ -102,11 +94,10 @@ func (h *Handler) handleHistory(w http.ResponseWriter, r *http.Request, category
 		data.Datasets = data.Datasets[:top5Limit]
 	}
 
-	component := layout.Base(
+	layout.Render(w, r,
 		layout.Page{Title: category.Name + " statistics", Path: "/fun", Manifest: h.manifest},
 		FunDetailHistoryContent(category.Name, data, filter),
 	)
-	_ = component.Render(r.Context(), w)
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {

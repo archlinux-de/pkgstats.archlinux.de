@@ -1,14 +1,14 @@
 package fundetail
 
 import (
-	"fmt"
 	"pkgstats.archlinux.de/internal/chartdata"
 	"pkgstats.archlinux.de/internal/packages"
+	"pkgstats.archlinux.de/internal/ui/components"
 )
 
 templ FunDetailCurrentContent(category string, pkgs []packages.PackagePopularity) {
 	<h1 class="mb-4">{ category } statistics</h1>
-	@tabNav(category, "current")
+	@components.TabNav(funTabs(category, "current"))
 	if len(pkgs) > 0 {
 		@funPackageTable(pkgs)
 	}
@@ -16,7 +16,7 @@ templ FunDetailCurrentContent(category string, pkgs []packages.PackagePopularity
 
 templ FunDetailHistoryContent(category string, data chartdata.Data, filter string) {
 	<h1 class="mb-4">{ category } statistics</h1>
-	@tabNav(category, "history")
+	@components.TabNav(funTabs(category, "history"))
 	<popularity-chart>
 		@templ.JSONScript("", data)
 	</popularity-chart>
@@ -35,23 +35,11 @@ templ FunDetailHistoryContent(category string, data chartdata.Data, filter strin
 	</div>
 }
 
-templ tabNav(category string, activeTab string) {
-	<ul class="nav nav-tabs mb-2">
-		<li class="nav-item">
-			if activeTab == "current" {
-				<a class="nav-link active" aria-current="page" href={ templ.SafeURL("/fun/" + category + "/current") }>current</a>
-			} else {
-				<a class="nav-link" href={ templ.SafeURL("/fun/" + category + "/current") }>current</a>
-			}
-		</li>
-		<li class="nav-item">
-			if activeTab == "history" {
-				<a class="nav-link active" aria-current="page" href={ templ.SafeURL("/fun/" + category + "/history") }>history</a>
-			} else {
-				<a class="nav-link" href={ templ.SafeURL("/fun/" + category + "/history") }>history</a>
-			}
-		</li>
-	</ul>
+func funTabs(category, activeTab string) []components.Tab {
+	return []components.Tab{
+		{Label: "current", Href: templ.SafeURL("/fun/" + category + "/current"), Active: activeTab == "current"},
+		{Label: "history", Href: templ.SafeURL("/fun/" + category + "/history"), Active: activeTab == "history"},
+	}
 }
 
 templ funPackageTable(pkgs []packages.PackagePopularity) {
@@ -69,20 +57,7 @@ templ funPackageTable(pkgs []packages.PackagePopularity) {
 						<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
 					</td>
 					<td class="w-75">
-						<div class="progress bg-transparent progress-large" title={ fmt.Sprintf("%.2f%%", pkg.Popularity) }>
-							<div
-								class="progress-bar"
-								role="progressbar"
-								aria-valuemin="0"
-								aria-valuemax="100"
-								style={ fmt.Sprintf("width: %.2f%%", pkg.Popularity) }
-								aria-valuenow={ fmt.Sprintf("%.2f", pkg.Popularity) }
-							>
-								if pkg.Popularity > 5 {
-									{ fmt.Sprintf("%.2f%%", pkg.Popularity) }
-								}
-							</div>
-						</div>
+						@components.PopularityBar(pkg.Popularity)
 					</td>
 				</tr>
 			}

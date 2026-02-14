@@ -1,0 +1,21 @@
+package components
+
+type Tab struct {
+	Label  string
+	Href   templ.SafeURL
+	Active bool
+}
+
+templ TabNav(tabs []Tab) {
+	<ul class="nav nav-tabs mb-2">
+		for _, tab := range tabs {
+			<li class="nav-item">
+				if tab.Active {
+					<a class="nav-link active" aria-current="page" href={ tab.Href }>{ tab.Label }</a>
+				} else {
+					<a class="nav-link" href={ tab.Href }>{ tab.Label }</a>
+				}
+			</li>
+		}
+	</ul>
+}

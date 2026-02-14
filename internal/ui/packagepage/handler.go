@@ -6,17 +6,15 @@ import (
 	"sort"
 	"strconv"
 	"strings"
-	"time"
 
 	"pkgstats.archlinux.de/internal/packages"
 	"pkgstats.archlinux.de/internal/ui/layout"
 )
 
 const (
-	defaultLimit    = 25
-	maxLimit        = 250
-	maxCompare      = 10
-	monthMultiplier = 100
+	defaultLimit = 25
+	maxLimit     = 250
+	maxCompare   = 10
 )
 
 type Handler struct {
@@ -38,21 +36,20 @@ func (h *Handler) HandlePackages(w http.ResponseWriter, r *http.Request) {
 	limit = max(limit, 1)
 	offset = max(offset, 0)
 
-	now := time.Now()
-	currentMonth := now.Year()*monthMultiplier + int(now.Month())
+	currentMonth := layout.CurrentMonth()
 
 	list, err := h.repo.FindAll(r.Context(), query, currentMonth, currentMonth, limit, offset)
 	if err != nil {
-		slog.Error("failed to fetch packages", "error", err)
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		layout.ServerError(w, "failed to fetch packages", err)
 		return
 	}
 
 	selectedPackages := h.fetchComparePackages(r, compare, currentMonth)
 
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(layout.Page{Title: "Package statistics", Path: "/packages", Manifest: h.manifest}, PackagesContent(list, query, offset, limit, compare, selectedPackages))
-	_ = component.Render(r.Context(), w)
+	layout.Render(w, r,
+		layout.Page{Title: "Package statistics", Path: "/packages", Manifest: h.manifest},
+		PackagesContent(list, query, offset, limit, compare, selectedPackages),
+	)
 }
 
 func (h *Handler) fetchComparePackages(r *http.Request, compare string, currentMonth int) []packages.PackagePopularity {

@@ -10,8 +10,6 @@ import (
 )
 
 const (
-	seriesLimit         = 10000
-	maxEndMonth         = 999912
 	startMonthCurrent   = 202105
 	endMonthLegacy      = 201812
 	startMonthCommunity = 201712
@@ -29,13 +27,13 @@ var presets = []preset{
 		Label:         "current",
 		Architectures: []string{"aarch64", "armv5", "armv6", "armv7", "i686", "loong64", "riscv64", "x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4"},
 		StartMonth:    startMonthCurrent,
-		EndMonth:      maxEndMonth,
+		EndMonth:      layout.MaxEndMonth,
 	},
 	{
 		Label:         "all",
 		Architectures: []string{"aarch64", "armv5", "armv6", "armv7", "i686", "loong64", "riscv64", "x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4"},
 		StartMonth:    0,
-		EndMonth:      maxEndMonth,
+		EndMonth:      layout.MaxEndMonth,
 	},
 	{
 		Label:         "i686-x86_64",
@@ -47,13 +45,13 @@ var presets = []preset{
 		Label:         "x86_64",
 		Architectures: []string{"x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4"},
 		StartMonth:    startMonthCurrent,
-		EndMonth:      maxEndMonth,
+		EndMonth:      layout.MaxEndMonth,
 	},
 	{
 		Label:         "community",
 		Architectures: []string{"aarch64", "armv5", "armv6", "armv7", "i686", "loong64", "riscv64"},
 		StartMonth:    startMonthCommunity,
-		EndMonth:      maxEndMonth,
+		EndMonth:      layout.MaxEndMonth,
 	},
 }
 
@@ -81,7 +79,7 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 	var allSeries []systemarchitectures.SystemArchitecturePopularity
 
 	for _, arch := range p.Architectures {
-		list, err := h.repo.FindSeriesByName(r.Context(), arch, p.StartMonth, p.EndMonth, seriesLimit, 0)
+		list, err := h.repo.FindSeriesByName(r.Context(), arch, p.StartMonth, p.EndMonth, layout.SeriesLimit, 0)
 		if err != nil {
 			slog.Error("failed to fetch architecture series", "error", err, "name", arch)
 			continue
@@ -92,12 +90,10 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 
 	data := chartdata.Build(allSeries)
 
-	w.Header().Set("Cache-Control", "public, max-age=300")
-	component := layout.Base(
+	layout.Render(w, r,
 		layout.Page{Title: "Compare System Architectures", Path: "/compare/system-architectures", Manifest: h.manifest},
 		CompareContent(presets, p.Label, data),
 	)
-	_ = component.Render(r.Context(), w)
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
