@@ -20,16 +20,19 @@ class PackageSelector extends HTMLElement {
             const btn = (e.target as Element).closest<HTMLButtonElement>(
                 "[data-toggle-package]",
             );
-            if (!btn) return;
+            if (!btn) {
+                return;
+            }
             e.preventDefault();
 
-            const name = btn.dataset.togglePackage!;
+            const name = btn.dataset.togglePackage;
+            if (!name) {
+                return;
+            }
             if (this.selected.has(name)) {
                 this.selected.delete(name);
             } else {
-                const popularity = parseFloat(
-                    btn.dataset.popularity || "0",
-                );
+                const popularity = parseFloat(btn.dataset.popularity || "0");
                 this.selected.set(name, popularity);
             }
 
@@ -46,7 +49,9 @@ class PackageSelector extends HTMLElement {
         if (compare) {
             for (const name of compare.split(",")) {
                 const trimmed = name.trim();
-                if (trimmed) this.selected.set(trimmed, 0);
+                if (trimmed) {
+                    this.selected.set(trimmed, 0);
+                }
             }
         }
 
@@ -54,13 +59,11 @@ class PackageSelector extends HTMLElement {
         for (const btn of this.querySelectorAll<HTMLButtonElement>(
             "[data-toggle-package]",
         )) {
-            const name = btn.dataset.togglePackage!;
-            if (this.selected.has(name)) {
-                this.selected.set(
-                    name,
-                    parseFloat(btn.dataset.popularity || "0"),
-                );
+            const name = btn.dataset.togglePackage;
+            if (!name || !this.selected.has(name)) {
+                continue;
             }
+            this.selected.set(name, parseFloat(btn.dataset.popularity || "0"));
         }
     }
 
@@ -68,11 +71,10 @@ class PackageSelector extends HTMLElement {
         for (const btn of this.querySelectorAll<HTMLButtonElement>(
             "[data-toggle-package]",
         )) {
+            const name = btn.dataset.togglePackage;
             const iconSpan = btn.querySelector("[data-icon]");
-            if (iconSpan) {
-                iconSpan.innerHTML = this.selected.has(
-                    btn.dataset.togglePackage!,
-                )
+            if (name && iconSpan) {
+                iconSpan.innerHTML = this.selected.has(name)
                     ? trashIcon
                     : plusIcon;
             }
@@ -81,7 +83,9 @@ class PackageSelector extends HTMLElement {
 
     private renderSummary() {
         const container = this.querySelector("[data-compare-summary]");
-        if (!container) return;
+        if (!container) {
+            return;
+        }
 
         const count = this.selected.size;
 
@@ -105,7 +109,7 @@ class PackageSelector extends HTMLElement {
                     <div class="progress bg-transparent progress-large" title="${pkg.popularity.toFixed(2)}%">
                         <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                              style="width: ${pkg.popularity.toFixed(2)}%"
-                             aria-valuenow="${pkg.popularity.toFixed(2)}">${pkg.popularity > 5 ? pkg.popularity.toFixed(2) + "%" : ""}</div>
+                             aria-valuenow="${pkg.popularity.toFixed(2)}">${pkg.popularity > 5 ? `${pkg.popularity.toFixed(2)}%` : ""}</div>
                     </div>
                 </td>
                 <td class="align-middle">
@@ -150,7 +154,9 @@ class PackageSelector extends HTMLElement {
     }
 
     private compareParam(): string {
-        if (this.selected.size === 0) return "";
+        if (this.selected.size === 0) {
+            return "";
+        }
         return [...this.selected.keys()].sort().join(",");
     }
 
@@ -159,7 +165,9 @@ class PackageSelector extends HTMLElement {
         base.delete("compare");
         const parts: string[] = [];
         for (const [key, value] of base) {
-            parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+            parts.push(
+                `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+            );
         }
         if (compare) {
             parts.push(`compare=${compare}`);

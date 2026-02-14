@@ -5,9 +5,10 @@ class SwaggerUIWrapper extends HTMLElement {
 
     private async renderSwagger() {
         // swagger-ui's dependency chain uses Node's Buffer; provide a browser shim
-        if (typeof globalThis.Buffer === "undefined") {
+        const g = globalThis as Record<string, unknown>;
+        if (typeof g.Buffer === "undefined") {
             const { Buffer } = await import("buffer");
-            globalThis.Buffer = Buffer;
+            g.Buffer = Buffer;
         }
 
         const SwaggerUI = (await import("swagger-ui")).default;
