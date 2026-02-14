@@ -1,0 +1,35 @@
+package systemarchitectures
+
+import (
+	"pkgstats.archlinux.de/internal/chartdata"
+)
+
+templ CompareContent(presets []preset, activePreset string, data chartdata.Data) {
+	<h1 class="mb-3">Compare System Architectures</h1>
+	<p class="mb-3">Relative usage of system architectures</p>
+	<ul class="nav nav-tabs mb-2">
+		for _, p := range presets {
+			<li class="nav-item">
+				if p.Label == activePreset {
+					<a class="nav-link active" aria-current="page" href={ templ.SafeURL("/compare/system-architectures/" + p.Label) }>{ presetDisplayName(p.Label) }</a>
+				} else {
+					<a class="nav-link" href={ templ.SafeURL("/compare/system-architectures/" + p.Label) }>{ presetDisplayName(p.Label) }</a>
+				}
+			</li>
+		}
+	</ul>
+	<popularity-chart>
+		@templ.JSONScript("", data)
+	</popularity-chart>
+}
+
+func presetDisplayName(label string) string {
+	switch label {
+	case "i686-x86_64":
+		return "i686 vs x86_64"
+	case "community":
+		return "community supported"
+	default:
+		return label
+	}
+}

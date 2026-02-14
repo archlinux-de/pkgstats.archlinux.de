@@ -2,7 +2,7 @@ package main
 
 import "embed"
 
-//go:embed dist/assets
+//go:embed all:dist/assets
 var embedAssets embed.FS
 
 //go:embed static

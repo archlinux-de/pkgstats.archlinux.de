@@ -17,6 +17,7 @@ import (
 	"pkgstats.archlinux.de/internal/submit"
 	"pkgstats.archlinux.de/internal/systemarchitectures"
 	"pkgstats.archlinux.de/internal/ui"
+	"pkgstats.archlinux.de/internal/ui/errorpage"
 	uilayout "pkgstats.archlinux.de/internal/ui/layout"
 	"pkgstats.archlinux.de/internal/web"
 )
@@ -90,12 +91,13 @@ func run() error {
 	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
 	sitemap.NewHandler().RegisterRoutes(mux)
 	apidoc.NewHandler().RegisterRoutes(mux)
-	ui.RegisterRoutes(mux, manifest, packagesRepo, embedAssets, embedStatic)
+	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, embedAssets, embedStatic)
 
 	// Apply middleware stack
 	middlewares := []web.Middleware{
 		web.Recovery(),
 		web.CORS(),
+		errorpage.Middleware(manifest),
 	}
 	if cfg.Environment == "production" {
 		middlewares = append(middlewares, web.CacheControl(defaultCacheMaxAge))

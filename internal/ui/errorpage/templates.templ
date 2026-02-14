@@ -1,0 +1,19 @@
+package errorpage
+
+templ NotFoundContent(path string) {
+	<div class="alert alert-danger" role="alert">
+		<h4 class="alert-heading">File not found</h4>
+		<p>The requested file <strong>{ path }</strong> was not found.</p>
+		<hr/>
+		<p class="mb-0">Contact us if the problem persists. We will resolve it as soon as possible.</p>
+	</div>
+}
+
+templ ErrorContent(title string) {
+	<div class="alert alert-danger" role="alert">
+		<h4 class="alert-heading">{ title }</h4>
+		<p>An unexpected error occurred.</p>
+		<hr/>
+		<p class="mb-0">Contact us if the problem persists. We will resolve it as soon as possible.</p>
+	</div>
+}

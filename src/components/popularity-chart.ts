@@ -41,8 +41,8 @@ class PopularityChart extends HTMLElement {
         if (!data.labels?.length) return;
 
         const canvas = document.createElement("canvas");
-        canvas.width = 800;
-        canvas.height = 350;
+        canvas.width = 1280;
+        canvas.height = 720;
         this.appendChild(canvas);
 
         this.drawChart(canvas, data);

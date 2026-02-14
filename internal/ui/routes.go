@@ -5,13 +5,20 @@ import (
 	"io/fs"
 	"net/http"
 
+	"pkgstats.archlinux.de/internal/countries"
 	"pkgstats.archlinux.de/internal/packages"
+	"pkgstats.archlinux.de/internal/systemarchitectures"
+	"pkgstats.archlinux.de/internal/ui/apidocpage"
 	"pkgstats.archlinux.de/internal/ui/compare"
+	"pkgstats.archlinux.de/internal/ui/countrypage"
+	"pkgstats.archlinux.de/internal/ui/fun"
+	"pkgstats.archlinux.de/internal/ui/fundetail"
 	"pkgstats.archlinux.de/internal/ui/home"
 	"pkgstats.archlinux.de/internal/ui/layout"
 	"pkgstats.archlinux.de/internal/ui/legal"
 	"pkgstats.archlinux.de/internal/ui/packagedetail"
 	"pkgstats.archlinux.de/internal/ui/packagepage"
+	uisysarch "pkgstats.archlinux.de/internal/ui/systemarchitectures"
 )
 
 const (
@@ -19,11 +26,23 @@ const (
 	staticCacheMaxAge = 86400    // 1 day
 )
 
-func RegisterRoutes(mux *http.ServeMux, manifest *layout.Manifest, pkgRepo packages.Repository, assets, static fs.FS) {
+func RegisterRoutes(
+	mux *http.ServeMux,
+	manifest *layout.Manifest,
+	pkgRepo packages.Repository,
+	countriesRepo countries.Repository,
+	systemArchRepo systemarchitectures.Repository,
+	assets, static fs.FS,
+) {
 	home.NewHandler(manifest).RegisterRoutes(mux)
 	packagepage.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
 	packagedetail.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
 	compare.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
+	countrypage.NewHandler(countriesRepo, manifest).RegisterRoutes(mux)
+	uisysarch.NewHandler(systemArchRepo, manifest).RegisterRoutes(mux)
+	fun.NewHandler(manifest).RegisterRoutes(mux)
+	fundetail.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
+	apidocpage.NewHandler(manifest).RegisterRoutes(mux)
 	legal.NewHandler(manifest).RegisterRoutes(mux)
 
 	handleAssets(mux, assets)

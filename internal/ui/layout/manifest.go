@@ -6,8 +6,9 @@ import (
 )
 
 type manifestItem struct {
-	File string   `json:"file"`
-	CSS  []string `json:"css"`
+	File    string   `json:"file"`
+	CSS     []string `json:"css"`
+	IsEntry bool     `json:"isEntry"`
 }
 
 type Manifest struct {
@@ -21,17 +22,20 @@ func NewManifest(manifestFile []byte) (*Manifest, error) {
 		return nil, fmt.Errorf("failed to unmarshal manifest: %w", err)
 	}
 
-	jsFiles := make([]string, 0, len(result))
-	cssFiles := make([]string, 0, len(result))
+	var jsFiles []string
+	var cssFiles []string
 
 	for _, item := range result {
+		if !item.IsEntry {
+			continue
+		}
+
 		if item.File != "" {
 			jsFiles = append(jsFiles, "/"+item.File)
 		}
-		if len(item.CSS) > 0 {
-			for _, cssFile := range item.CSS {
-				cssFiles = append(cssFiles, "/"+cssFile)
-			}
+
+		for _, cssFile := range item.CSS {
+			cssFiles = append(cssFiles, "/"+cssFile)
 		}
 	}
 
