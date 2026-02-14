@@ -29,7 +29,9 @@ function renderYearMonth(yearMonth: number | string): string {
 class PopularityChart extends HTMLElement {
     connectedCallback() {
         const script = this.querySelector('script[type="application/json"]');
-        if (!script?.textContent) return;
+        if (!script?.textContent) {
+            return;
+        }
 
         let data: ChartData;
         try {
@@ -38,7 +40,9 @@ class PopularityChart extends HTMLElement {
             return;
         }
 
-        if (!data.labels?.length) return;
+        if (!data.labels?.length) {
+            return;
+        }
 
         const canvas = document.createElement("canvas");
         canvas.width = 1280;
@@ -88,8 +92,7 @@ class PopularityChart extends HTMLElement {
                         itemSort: (a, b) =>
                             (b.raw as number) - (a.raw as number),
                         callbacks: {
-                            title: (items) =>
-                                renderYearMonth(items[0].label),
+                            title: (items) => renderYearMonth(items[0].label),
                         },
                     },
                     legend: {

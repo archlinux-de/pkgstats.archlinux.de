@@ -1,7 +1,9 @@
 class CountryMap extends HTMLElement {
     connectedCallback() {
         const script = this.querySelector('script[type="application/json"]');
-        if (!script?.textContent) return;
+        if (!script?.textContent) {
+            return;
+        }
 
         let values: Record<string, { popularity: number }>;
         try {
@@ -10,10 +12,12 @@ class CountryMap extends HTMLElement {
             return;
         }
 
-        if (!Object.keys(values).length) return;
+        if (!Object.keys(values).length) {
+            return;
+        }
 
         const container = document.createElement("div");
-        container.id = "countries-map-" + Math.random().toString(36).slice(2);
+        container.id = `countries-map-${Math.random().toString(36).slice(2)}`;
         this.appendChild(container);
 
         this.renderMap(container.id, values);
@@ -23,13 +27,10 @@ class CountryMap extends HTMLElement {
         targetId: string,
         values: Record<string, { popularity: number }>,
     ) {
-        const { default: SvgMap } = await import(
-            "svgmap/src/js/core/svg-map"
-        );
+        const { default: SvgMap } = await import("svgmap/src/js/core/svg-map");
 
         const style = getComputedStyle(document.documentElement);
-        const cssVar = (name: string) =>
-            style.getPropertyValue(name).trim();
+        const cssVar = (name: string) => style.getPropertyValue(name).trim();
 
         new SvgMap({
             targetElementID: targetId,

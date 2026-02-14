@@ -2,13 +2,15 @@
     "name": "pkgstats",
     "type": "module",
     "scripts": {
-        "build": "vite build"
+        "build": "vite build",
+        "lint": "biome check src/ && tsc --noEmit",
+        "format": "biome format --write src/"
     },
     "devDependencies": {
+        "@biomejs/biome": "^2.3.15",
         "@fullhuman/postcss-purgecss": "^8.0.0",
         "cssnano": "^7.1.2",
         "cssnano-preset-advanced": "^7.0.10",
-        "prettier": "3.8.1",
         "sass": "^1.97.3",
         "terser": "^5.46.0",
         "tsx": "^4.21.0",
@@ -19,7 +21,7 @@
         "bootstrap": "^5.3.8",
         "bootstrap-icons": "^1.13.1",
         "buffer": "^6.0.3",
-        "chart.js": "^4.4.8",
+        "chart.js": "^4.5.1",
         "svg-pan-zoom": "^3.6.2",
         "svgmap": "^2.19.2",
         "swagger-ui": "^5.31.0"
