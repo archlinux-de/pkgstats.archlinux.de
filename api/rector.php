@@ -8,6 +8,7 @@ use Rector\CodeQuality\Rector\FuncCall\SimplifyRegexPatternRector;
 use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\Config\RectorConfig;
 use Rector\Php80\Rector\Class_\ClassPropertyAssignToConstructorPromotionRector;
+use Rector\PHPUnit\PHPUnit120\Rector\Class_\AllowMockObjectsWhereParentClassRector;
 use Rector\Renaming\Rector\Name\RenameClassRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\Symfony\Bridge\Symfony\Routing\SymfonyRoutesProvider;
@@ -36,4 +37,5 @@ return RectorConfig::configure()
         // want to replace [0-9]  with \d which is not the same though
         SimplifyRegexPatternRector::class,
         LocallyCalledStaticMethodToNonStaticRector::class,
+        AllowMockObjectsWhereParentClassRector::class,
     ]);
