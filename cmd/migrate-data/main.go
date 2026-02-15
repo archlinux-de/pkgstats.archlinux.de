@@ -22,7 +22,7 @@ import (
 
 func main() {
 	mariadbDSN := flag.String("mariadb", "", "MariaDB connection string (user:pass@tcp(host:3306)/dbname)")
-	sqlitePath := flag.String("sqlite", "./pkgstats.db", "SQLite database path")
+	sqlitePath := flag.String("sqlite", "", "SQLite database path")
 	flag.Parse()
 
 	if *mariadbDSN == "" {

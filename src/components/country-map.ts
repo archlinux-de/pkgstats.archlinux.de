@@ -2,7 +2,9 @@ class CountryMap extends HTMLElement {
     connectedCallback() {
         const script = this.querySelector('script[type="application/json"]');
         if (!script?.textContent) {
-            console.error('country-map: script element or textContent missing.');
+            console.error(
+                "country-map: script element or textContent missing.",
+            );
             return;
         }
 
@@ -10,12 +12,12 @@ class CountryMap extends HTMLElement {
         try {
             values = JSON.parse(script.textContent);
         } catch (error) {
-            console.error('Failed to parse country-map data:', error);
+            console.error("Failed to parse country-map data:", error);
             return;
         }
 
         if (!Object.keys(values).length) {
-            console.error('country-map data is empty.');
+            console.error("country-map data is empty.");
             return;
         }
 
