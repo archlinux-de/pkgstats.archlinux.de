@@ -28,8 +28,10 @@ var Categories = []Category{
 	{
 		Name: "Desktop Environments",
 		Packages: []string{
-			"budgie-desktop", "cinnamon", "gnome-shell", "lxde-common", "mate-panel",
-			"plasma-workspace", "cosmic-session", "xfdesktop",
+			"budgie-desktop", "cinnamon", "cosmic-session", "cutefish-core", "deepin-session",
+			"enlightenment", "gnome-session", "lxde-common", "lxqt-session",
+			"mate-session-manager", "plasma-workspace", "sugar", "ukui-session-manager",
+			"xfce4-session",
 		},
 	},
 	{
@@ -39,9 +41,25 @@ var Categories = []Category{
 		},
 	},
 	{
+		Name: "Linux Kernels",
+		Packages: []string{
+			"linux", "linux-hardened", "linux-lts", "linux-rt", "linux-rt-lts", "linux-zen",
+		},
+	},
+	{
 		Name: "Window Managers",
 		Packages: []string{
-			"awesome", "fluxbox", "hyprland", "i3-wm", "labwc", "niri", "openbox", "river", "sway",
+			"awesome", "blackbox", "bspwm", "cage", "ctwm", "cwm", "dwm", "fluxbox", "fvwm3",
+			"herbstluftwm", "hyprland", "i3-wm", "icewm", "jwm", "labwc", "mangowc", "niri",
+			"notion", "openbox", "pekwm", "qtile", "ratpoison", "river", "spectrwm", "stumpwm",
+			"sway", "wayfire", "weston", "windowmaker", "xmonad", "xorg-twm",
+		},
+	},
+	{
+		Name: "Graphics Drivers",
+		Packages: []string{
+			"mesa", "nvidia-utils", "vulkan-broadcom", "vulkan-dzn", "vulkan-gfxstream",
+			"vulkan-intel", "vulkan-nouveau", "vulkan-radeon", "vulkan-swrast",
 		},
 	},
 	{
@@ -86,6 +104,12 @@ var Categories = []Category{
 			"konversation", "kopete", "kvirc", "mcabber", "neochat", "nheko", "pidgin", //nolint:misspell
 			"polari", "pork", "profanity", "psi", "senpai", "signal-desktop",
 			"telegram-desktop", "tiny", "toxic", "utox", "weechat", "wire-desktop",
+		},
+	},
+	{
+		Name: "Widget Toolkits",
+		Packages: []string{
+			"gtk3", "gtk4", "qt5-base", "qt6-base",
 		},
 	},
 }
