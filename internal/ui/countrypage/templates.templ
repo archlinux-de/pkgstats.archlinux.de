@@ -1,8 +1,6 @@
 package countrypage
 
-import (
-	"pkgstats.archlinux.de/internal/countries"
-)
+import "pkgstats.archlinux.de/internal/countries"
 
 templ CountriesContent(countryPopularities []countries.CountryPopularity) {
 	<h1 class="mb-4">Countries</h1>

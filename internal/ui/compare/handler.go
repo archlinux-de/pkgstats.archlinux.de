@@ -62,6 +62,14 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 	)
 }
 
+func (h *Handler) HandleLegacyCompare(w http.ResponseWriter, r *http.Request) {
+	layout.Render(w, r,
+		layout.Page{Title: "Compare packages", Path: "/packages", Manifest: h.manifest},
+		LegacyCompareContent(),
+	)
+}
+
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
+	mux.HandleFunc("GET /compare/packages", h.HandleLegacyCompare)
 	mux.HandleFunc("GET /compare/packages/{names...}", h.HandleCompare)
 }
