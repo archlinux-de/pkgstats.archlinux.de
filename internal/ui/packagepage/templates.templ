@@ -2,9 +2,9 @@ package packagepage
 
 import (
 	"fmt"
-	"strings"
 	"pkgstats.archlinux.de/internal/packages"
 	"pkgstats.archlinux.de/internal/ui/components"
+	"strings"
 )
 
 templ PackagesContent(list *packages.PackagePopularityList, query string, currentOffset int, limit int, compare string, selectedPackages []packages.PackagePopularity) {
