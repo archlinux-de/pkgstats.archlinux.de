@@ -30,17 +30,20 @@ class PopularityChart extends HTMLElement {
     connectedCallback() {
         const script = this.querySelector('script[type="application/json"]');
         if (!script?.textContent) {
+            console.error('popularity-chart: script textContent is missing.');
             return;
         }
 
         let data: ChartData;
         try {
             data = JSON.parse(script.textContent);
-        } catch {
+        } catch (error) {
+            console.error('popularity-chart: Failed to parse data:', error);
             return;
         }
 
         if (!data.labels?.length) {
+            console.error('popularity-chart: data labels are missing or empty.');
             return;
         }
 

@@ -2,17 +2,20 @@ class CountryMap extends HTMLElement {
     connectedCallback() {
         const script = this.querySelector('script[type="application/json"]');
         if (!script?.textContent) {
+            console.error('country-map: script element or textContent missing.');
             return;
         }
 
         let values: Record<string, { popularity: number }>;
         try {
             values = JSON.parse(script.textContent);
-        } catch {
+        } catch (error) {
+            console.error('Failed to parse country-map data:', error);
             return;
         }
 
         if (!Object.keys(values).length) {
+            console.error('country-map data is empty.');
             return;
         }
 
