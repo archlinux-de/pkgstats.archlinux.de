@@ -1,17 +1,9 @@
 package packages
 
 import (
-	"encoding/json"
 	"net/http"
-	"strconv"
-	"time"
-)
 
-const (
-	defaultLimit    = 100
-	defaultOffset   = 0
-	maxLimit        = 10000
-	monthMultiplier = 100
+	"pkgstats.archlinux.de/internal/web"
 )
 
 // Handler handles HTTP requests for package endpoints.
@@ -32,7 +24,7 @@ func (h *Handler) HandleGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	startMonth, endMonth := parseMonthRange(r)
+	startMonth, endMonth := web.ParseMonthRange(r)
 
 	pkg, err := h.repo.FindByName(r.Context(), name, startMonth, endMonth)
 	if err != nil {
@@ -40,27 +32,17 @@ func (h *Handler) HandleGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJSON(w, pkg)
+	web.WriteEntityJSON(w, pkg)
 }
 
 // HandleList handles GET /api/packages
 func (h *Handler) HandleList(w http.ResponseWriter, r *http.Request) {
-	startMonth, endMonth := parseMonthRange(r)
-	limit := parseIntParam(r, "limit", defaultLimit)
-	offset := parseIntParam(r, "offset", defaultOffset)
+	startMonth, endMonth := web.ParseMonthRange(r)
+	limit := web.ParseIntParam(r, "limit", web.DefaultLimit)
+	offset := web.ParseIntParam(r, "offset", 0)
 	query := r.URL.Query().Get("query")
 
-	if limit > maxLimit {
-		limit = maxLimit
-	}
-	if limit == 0 {
-		limit = maxLimit
-	} else if limit < 1 {
-		limit = 1
-	}
-	if offset < 0 {
-		offset = 0
-	}
+	limit, offset = web.NormalizePagination(limit, offset)
 
 	list, err := h.repo.FindAll(r.Context(), query, startMonth, endMonth, limit, offset)
 	if err != nil {
@@ -68,7 +50,7 @@ func (h *Handler) HandleList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJSON(w, list)
+	web.WriteEntityJSON(w, list)
 }
 
 // HandleSeries handles GET /api/packages/{name}/series
@@ -79,21 +61,11 @@ func (h *Handler) HandleSeries(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	startMonth, endMonth := parseMonthRange(r)
-	limit := parseIntParam(r, "limit", defaultLimit)
-	offset := parseIntParam(r, "offset", defaultOffset)
+	startMonth, endMonth := web.ParseMonthRange(r)
+	limit := web.ParseIntParam(r, "limit", web.DefaultLimit)
+	offset := web.ParseIntParam(r, "offset", 0)
 
-	if limit > maxLimit {
-		limit = maxLimit
-	}
-	if limit == 0 {
-		limit = maxLimit
-	} else if limit < 1 {
-		limit = 1
-	}
-	if offset < 0 {
-		offset = 0
-	}
+	limit, offset = web.NormalizePagination(limit, offset)
 
 	list, err := h.repo.FindSeriesByName(r.Context(), name, startMonth, endMonth, limit, offset)
 	if err != nil {
@@ -101,7 +73,7 @@ func (h *Handler) HandleSeries(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJSON(w, list)
+	web.WriteEntityJSON(w, list)
 }
 
 // RegisterRoutes registers the package routes on the given mux.
@@ -109,45 +81,4 @@ func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /api/packages", h.HandleList)
 	mux.HandleFunc("GET /api/packages/{name}", h.HandleGet)
 	mux.HandleFunc("GET /api/packages/{name}/series", h.HandleSeries)
-}
-
-func parseMonthRange(r *http.Request) (startMonth, endMonth int) {
-	now := time.Now()
-	currentMonth := now.Year()*monthMultiplier + int(now.Month())
-
-	startMonth = parseIntParam(r, "startMonth", currentMonth)
-	endMonth = parseIntParam(r, "endMonth", currentMonth)
-
-	// Treat 0 as "no constraint" to match PHP behavior where
-	// startMonth=0/endMonth=0 means "no date filter"
-	if endMonth <= 0 {
-		endMonth = 999912
-	}
-
-	// Ensure valid range
-	if startMonth > endMonth {
-		startMonth, endMonth = endMonth, startMonth
-	}
-
-	return startMonth, endMonth
-}
-
-func parseIntParam(r *http.Request, key string, defaultValue int) int {
-	s := r.URL.Query().Get(key)
-	if s == "" {
-		return defaultValue
-	}
-	v, err := strconv.Atoi(s)
-	if err != nil {
-		return defaultValue
-	}
-	return v
-}
-
-func writeJSON(w http.ResponseWriter, v any) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	if err := json.NewEncoder(w).Encode(v); err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
-	}
 }

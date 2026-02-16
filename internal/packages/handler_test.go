@@ -9,6 +9,8 @@ import (
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"pkgstats.archlinux.de/internal/web"
 )
 
 // mockRepository implements Repository for testing
@@ -236,11 +238,11 @@ func TestHandleList_DefaultPagination(t *testing.T) {
 	if rr.Code != http.StatusOK {
 		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
-	if captured.limit != defaultLimit {
-		t.Errorf("expected default limit %d, got %d", defaultLimit, captured.limit)
+	if captured.limit != web.DefaultLimit {
+		t.Errorf("expected default limit %d, got %d", web.DefaultLimit, captured.limit)
 	}
-	if captured.offset != defaultOffset {
-		t.Errorf("expected default offset %d, got %d", defaultOffset, captured.offset)
+	if captured.offset != 0 {
+		t.Errorf("expected default offset 0, got %d", captured.offset)
 	}
 }
 
@@ -255,8 +257,8 @@ func TestHandleList_LimitZeroMeansMaxLimit(t *testing.T) {
 	if rr.Code != http.StatusOK {
 		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
-	if captured.limit != maxLimit {
-		t.Errorf("limit=0 should resolve to maxLimit %d, got %d", maxLimit, captured.limit)
+	if captured.limit != web.MaxLimit {
+		t.Errorf("limit=0 should resolve to maxLimit %d, got %d", web.MaxLimit, captured.limit)
 	}
 }
 
@@ -271,8 +273,8 @@ func TestHandleList_LimitExceedsMax(t *testing.T) {
 	if rr.Code != http.StatusOK {
 		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
-	if captured.limit != maxLimit {
-		t.Errorf("limit > max should be capped to %d, got %d", maxLimit, captured.limit)
+	if captured.limit != web.MaxLimit {
+		t.Errorf("limit > max should be capped to %d, got %d", web.MaxLimit, captured.limit)
 	}
 }
 
@@ -319,8 +321,8 @@ func TestHandleList_InvalidLimitFallsToDefault(t *testing.T) {
 	if rr.Code != http.StatusOK {
 		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
-	if captured.limit != defaultLimit {
-		t.Errorf("invalid limit should fall back to default %d, got %d", defaultLimit, captured.limit)
+	if captured.limit != web.DefaultLimit {
+		t.Errorf("invalid limit should fall back to default %d, got %d", web.DefaultLimit, captured.limit)
 	}
 }
 
@@ -550,8 +552,8 @@ func TestHandleSeries_LimitZeroMeansMaxLimit(t *testing.T) {
 	if rr.Code != http.StatusOK {
 		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
-	if capturedLimit != maxLimit {
-		t.Errorf("limit=0 on series should resolve to maxLimit %d, got %d", maxLimit, capturedLimit)
+	if capturedLimit != web.MaxLimit {
+		t.Errorf("limit=0 on series should resolve to maxLimit %d, got %d", web.MaxLimit, capturedLimit)
 	}
 }
 
@@ -607,17 +609,17 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 		expectedLimit  int
 		expectedOffset int
 	}{
-		{"default", "/api/packages", defaultLimit, 0},
-		{"limit=0", "/api/packages?limit=0", maxLimit, 0},
+		{"default", "/api/packages", web.DefaultLimit, 0},
+		{"limit=0", "/api/packages?limit=0", web.MaxLimit, 0},
 		{"limit=1", "/api/packages?limit=1", 1, 0},
-		{"limit=max", fmt.Sprintf("/api/packages?limit=%d", maxLimit), maxLimit, 0},
-		{"limit=max+1", fmt.Sprintf("/api/packages?limit=%d", maxLimit+1), maxLimit, 0},
+		{"limit=max", fmt.Sprintf("/api/packages?limit=%d", web.MaxLimit), web.MaxLimit, 0},
+		{"limit=max+1", fmt.Sprintf("/api/packages?limit=%d", web.MaxLimit+1), web.MaxLimit, 0},
 		{"limit=-1", "/api/packages?limit=-1", 1, 0},
-		{"limit=invalid", "/api/packages?limit=abc", defaultLimit, 0},
-		{"offset=0", "/api/packages?offset=0", defaultLimit, 0},
-		{"offset=100", "/api/packages?offset=100", defaultLimit, 100},
-		{"offset=-1", "/api/packages?offset=-1", defaultLimit, 0},
-		{"offset=invalid", "/api/packages?offset=abc", defaultLimit, 0},
+		{"limit=invalid", "/api/packages?limit=abc", web.DefaultLimit, 0},
+		{"offset=0", "/api/packages?offset=0", web.DefaultLimit, 0},
+		{"offset=100", "/api/packages?offset=100", web.DefaultLimit, 100},
+		{"offset=-1", "/api/packages?offset=-1", web.DefaultLimit, 0},
+		{"offset=invalid", "/api/packages?offset=abc", web.DefaultLimit, 0},
 	}
 
 	for _, tt := range tests {
