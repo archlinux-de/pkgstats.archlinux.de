@@ -1,152 +1,65 @@
 package countries
 
 import (
-	"encoding/json"
+	"context"
+	"database/sql"
 	"net/http"
-	"strconv"
-	"time"
+
+	"pkgstats.archlinux.de/internal/popularity"
 )
 
-const (
-	defaultLimit    = 100
-	defaultOffset   = 0
-	maxLimit        = 10000
-	monthMultiplier = 100
-)
+// SQLiteRepository wraps the generic popularity repository.
+type SQLiteRepository struct {
+	*popularity.Repository[CountryPopularity, CountryPopularityList]
+}
+
+// NewSQLiteRepository creates a new SQLiteRepository.
+func NewSQLiteRepository(db *sql.DB) *SQLiteRepository {
+	return &SQLiteRepository{
+		Repository: popularity.NewRepository(db, popularity.Config{
+			Table:  "country",
+			Column: "code",
+		}, newItem, newList),
+	}
+}
+
+func (r *SQLiteRepository) FindByCode(ctx context.Context, code string, startMonth, endMonth int) (*CountryPopularity, error) {
+	return r.FindByIdentifier(ctx, code, startMonth, endMonth)
+}
+
+func (r *SQLiteRepository) FindSeriesByCode(ctx context.Context, code string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error) {
+	return r.FindSeries(ctx, code, startMonth, endMonth, limit, offset)
+}
 
 // Handler handles HTTP requests for country endpoints.
 type Handler struct {
-	repo Repository
+	pop *popularity.Handler[CountryPopularity, CountryPopularityList]
 }
 
-// NewHandler creates a new Handler with the given repository.
-func NewHandler(repo Repository) *Handler {
-	return &Handler{repo: repo}
+// NewHandler creates a new Handler from a database connection.
+func NewHandler(db *sql.DB) *Handler {
+	repo := popularity.NewRepository(db, popularity.Config{
+		Table:  "country",
+		Column: "code",
+	}, newItem, newList)
+
+	return &Handler{
+		pop: popularity.NewHandler[CountryPopularity, CountryPopularityList](
+			repo, "/api/countries", "code", "country code required",
+		),
+	}
 }
 
-// HandleGet handles GET /api/countries/{code}
-func (h *Handler) HandleGet(w http.ResponseWriter, r *http.Request) {
-	code := r.PathValue("code")
-	if code == "" {
-		http.Error(w, "country code required", http.StatusBadRequest)
-		return
+// newHandlerFromQuerier creates a Handler from a Querier (for testing).
+func newHandlerFromQuerier(q popularity.Querier[CountryPopularity, CountryPopularityList]) *Handler {
+	return &Handler{
+		pop: popularity.NewHandler[CountryPopularity, CountryPopularityList](
+			q, "/api/countries", "code", "country code required",
+		),
 	}
-
-	startMonth, endMonth := parseMonthRange(r)
-
-	country, err := h.repo.FindByCode(r.Context(), code, startMonth, endMonth)
-	if err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
-		return
-	}
-
-	writeJSON(w, country)
-}
-
-// HandleList handles GET /api/countries
-func (h *Handler) HandleList(w http.ResponseWriter, r *http.Request) {
-	startMonth, endMonth := parseMonthRange(r)
-	limit := parseIntParam(r, "limit", defaultLimit)
-	offset := parseIntParam(r, "offset", defaultOffset)
-	query := r.URL.Query().Get("query")
-
-	if limit > maxLimit {
-		limit = maxLimit
-	}
-	if limit == 0 {
-		limit = maxLimit
-	} else if limit < 1 {
-		limit = 1
-	}
-	if offset < 0 {
-		offset = 0
-	}
-
-	list, err := h.repo.FindAll(r.Context(), query, startMonth, endMonth, limit, offset)
-	if err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
-		return
-	}
-
-	writeJSON(w, list)
-}
-
-// HandleSeries handles GET /api/countries/{code}/series
-func (h *Handler) HandleSeries(w http.ResponseWriter, r *http.Request) {
-	code := r.PathValue("code")
-	if code == "" {
-		http.Error(w, "country code required", http.StatusBadRequest)
-		return
-	}
-
-	startMonth, endMonth := parseMonthRange(r)
-	limit := parseIntParam(r, "limit", defaultLimit)
-	offset := parseIntParam(r, "offset", defaultOffset)
-
-	if limit > maxLimit {
-		limit = maxLimit
-	}
-	if limit == 0 {
-		limit = maxLimit
-	} else if limit < 1 {
-		limit = 1
-	}
-	if offset < 0 {
-		offset = 0
-	}
-
-	list, err := h.repo.FindSeriesByCode(r.Context(), code, startMonth, endMonth, limit, offset)
-	if err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
-		return
-	}
-
-	writeJSON(w, list)
 }
 
 // RegisterRoutes registers the country routes on the given mux.
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("GET /api/countries", h.HandleList)
-	mux.HandleFunc("GET /api/countries/{code}", h.HandleGet)
-	mux.HandleFunc("GET /api/countries/{code}/series", h.HandleSeries)
-}
-
-func parseMonthRange(r *http.Request) (startMonth, endMonth int) {
-	now := time.Now()
-	currentMonth := now.Year()*monthMultiplier + int(now.Month())
-
-	startMonth = parseIntParam(r, "startMonth", currentMonth)
-	endMonth = parseIntParam(r, "endMonth", currentMonth)
-
-	// Treat 0 as "no constraint" to match PHP behavior where
-	// startMonth=0/endMonth=0 means "no date filter"
-	if endMonth <= 0 {
-		endMonth = 999912
-	}
-
-	if startMonth > endMonth {
-		startMonth, endMonth = endMonth, startMonth
-	}
-
-	return startMonth, endMonth
-}
-
-func parseIntParam(r *http.Request, key string, defaultValue int) int {
-	s := r.URL.Query().Get(key)
-	if s == "" {
-		return defaultValue
-	}
-	v, err := strconv.Atoi(s)
-	if err != nil {
-		return defaultValue
-	}
-	return v
-}
-
-func writeJSON(w http.ResponseWriter, v any) {
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	if err := json.NewEncoder(w).Encode(v); err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
-	}
+	h.pop.RegisterRoutes(mux)
 }
