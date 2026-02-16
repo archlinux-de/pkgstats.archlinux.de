@@ -13,6 +13,7 @@ import (
 
 const (
 	top5Limit     = 5
+	top5Filter    = "top5"
 	presetCurrent = "current"
 	presetHistory = "history"
 )
@@ -90,7 +91,7 @@ func (h *Handler) handleHistory(w http.ResponseWriter, r *http.Request, category
 
 	data := chartdata.Build(allSeries)
 
-	if filter == "top5" && len(data.Datasets) > top5Limit {
+	if filter == top5Filter && len(data.Datasets) > top5Limit {
 		data.Datasets = data.Datasets[:top5Limit]
 	}
 
