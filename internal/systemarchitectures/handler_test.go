@@ -8,41 +8,43 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"pkgstats.archlinux.de/internal/web"
 )
 
-type mockRepository struct {
-	findByNameFunc       func(ctx context.Context, name string, startMonth, endMonth int) (*SystemArchitecturePopularity, error)
+type mockQuerier struct {
+	findByIdentifierFunc func(ctx context.Context, identifier string, startMonth, endMonth int) (*SystemArchitecturePopularity, error)
 	findAllFunc          func(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error)
-	findSeriesByNameFunc func(ctx context.Context, name string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error)
+	findSeriesFunc       func(ctx context.Context, identifier string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error)
 }
 
-func (m *mockRepository) FindByName(ctx context.Context, name string, startMonth, endMonth int) (*SystemArchitecturePopularity, error) {
-	return m.findByNameFunc(ctx, name, startMonth, endMonth)
+func (m *mockQuerier) FindByIdentifier(ctx context.Context, identifier string, startMonth, endMonth int) (*SystemArchitecturePopularity, error) {
+	return m.findByIdentifierFunc(ctx, identifier, startMonth, endMonth)
 }
 
-func (m *mockRepository) FindAll(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error) {
+func (m *mockQuerier) FindAll(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error) {
 	return m.findAllFunc(ctx, query, startMonth, endMonth, limit, offset)
 }
 
-func (m *mockRepository) FindSeriesByName(ctx context.Context, name string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error) {
-	return m.findSeriesByNameFunc(ctx, name, startMonth, endMonth, limit, offset)
+func (m *mockQuerier) FindSeries(ctx context.Context, identifier string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error) {
+	return m.findSeriesFunc(ctx, identifier, startMonth, endMonth, limit, offset)
 }
 
-func newTestMux(repo Repository) *http.ServeMux {
-	handler := NewHandler(repo)
+func newTestMux(q *mockQuerier) *http.ServeMux {
+	handler := newHandlerFromQuerier(q)
 	mux := http.NewServeMux()
 	handler.RegisterRoutes(mux)
 	return mux
 }
 
 func TestHandleGet(t *testing.T) {
-	repo := &mockRepository{
-		findByNameFunc: func(_ context.Context, name string, _, _ int) (*SystemArchitecturePopularity, error) {
+	q := &mockQuerier{
+		findByIdentifierFunc: func(_ context.Context, name string, _, _ int) (*SystemArchitecturePopularity, error) {
 			return &SystemArchitecturePopularity{Name: name, Samples: 500, Count: 100, Popularity: 20, StartMonth: 202501, EndMonth: 202501}, nil
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/system-architectures/x86_64", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -68,13 +70,13 @@ func TestHandleGet(t *testing.T) {
 }
 
 func TestHandleGet_RepositoryError(t *testing.T) {
-	repo := &mockRepository{
-		findByNameFunc: func(_ context.Context, _ string, _, _ int) (*SystemArchitecturePopularity, error) {
+	q := &mockQuerier{
+		findByIdentifierFunc: func(_ context.Context, _ string, _, _ int) (*SystemArchitecturePopularity, error) {
 			return nil, errors.New("database error")
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/system-architectures/x86_64", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -85,7 +87,7 @@ func TestHandleGet_RepositoryError(t *testing.T) {
 }
 
 func TestHandleList_ResponseStructure(t *testing.T) {
-	repo := &mockRepository{
+	q := &mockQuerier{
 		findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*SystemArchitecturePopularityList, error) {
 			return &SystemArchitecturePopularityList{
 				SystemArchitecturePopularities: []SystemArchitecturePopularity{},
@@ -96,7 +98,7 @@ func TestHandleList_ResponseStructure(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/system-architectures", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -124,17 +126,17 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 		expectedLimit  int
 		expectedOffset int
 	}{
-		{"default", "/api/system-architectures", defaultLimit, 0},
-		{"limit=0", "/api/system-architectures?limit=0", maxLimit, 0},
-		{"limit=max+1", fmt.Sprintf("/api/system-architectures?limit=%d", maxLimit+1), maxLimit, 0},
+		{"default", "/api/system-architectures", web.DefaultLimit, 0},
+		{"limit=0", "/api/system-architectures?limit=0", web.MaxLimit, 0},
+		{"limit=max+1", fmt.Sprintf("/api/system-architectures?limit=%d", web.MaxLimit+1), web.MaxLimit, 0},
 		{"limit=-1", "/api/system-architectures?limit=-1", 1, 0},
-		{"offset=-1", "/api/system-architectures?offset=-1", defaultLimit, 0},
+		{"offset=-1", "/api/system-architectures?offset=-1", web.DefaultLimit, 0},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var capturedLimit, capturedOffset int
-			repo := &mockRepository{
+			q := &mockQuerier{
 				findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*SystemArchitecturePopularityList, error) {
 					capturedLimit = limit
 					capturedOffset = offset
@@ -147,7 +149,7 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 				},
 			}
 
-			mux := newTestMux(repo)
+			mux := newTestMux(q)
 			req := httptest.NewRequest(http.MethodGet, tt.url, nil)
 			rr := httptest.NewRecorder()
 			mux.ServeHTTP(rr, req)
@@ -167,7 +169,7 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 
 func TestHandleList_MonthZeroMeansNoFilter(t *testing.T) {
 	var capturedStart, capturedEnd int
-	repo := &mockRepository{
+	q := &mockQuerier{
 		findAllFunc: func(_ context.Context, query string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error) {
 			capturedStart = startMonth
 			capturedEnd = endMonth
@@ -180,7 +182,7 @@ func TestHandleList_MonthZeroMeansNoFilter(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/system-architectures?startMonth=0&endMonth=0", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -198,18 +200,17 @@ func TestHandleList_MonthZeroMeansNoFilter(t *testing.T) {
 
 func TestHandleSeries_MonthZeroMeansNoFilter(t *testing.T) {
 	var capturedStart, capturedEnd int
-	repo := &mockRepository{
-		findSeriesByNameFunc: func(_ context.Context, _ string, startMonth, endMonth, limit, _ int) (*SystemArchitecturePopularityList, error) {
+	q := &mockQuerier{
+		findSeriesFunc: func(_ context.Context, _ string, startMonth, endMonth, _, _ int) (*SystemArchitecturePopularityList, error) {
 			capturedStart = startMonth
 			capturedEnd = endMonth
 			return &SystemArchitecturePopularityList{
 				SystemArchitecturePopularities: []SystemArchitecturePopularity{},
-				Limit:                          limit,
 			}, nil
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/system-architectures/x86_64/series?startMonth=0&endMonth=0&limit=0", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -226,8 +227,8 @@ func TestHandleSeries_MonthZeroMeansNoFilter(t *testing.T) {
 }
 
 func TestHandleSeries(t *testing.T) {
-	repo := &mockRepository{
-		findSeriesByNameFunc: func(_ context.Context, name string, _, _, limit, _ int) (*SystemArchitecturePopularityList, error) {
+	q := &mockQuerier{
+		findSeriesFunc: func(_ context.Context, name string, _, _, limit, _ int) (*SystemArchitecturePopularityList, error) {
 			return &SystemArchitecturePopularityList{
 				Total:                          1,
 				Count:                          1,
@@ -237,7 +238,7 @@ func TestHandleSeries(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/system-architectures/x86_64/series", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -248,7 +249,7 @@ func TestHandleSeries(t *testing.T) {
 }
 
 func TestCORSHeader(t *testing.T) {
-	repo := &mockRepository{
+	q := &mockQuerier{
 		findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*SystemArchitecturePopularityList, error) {
 			return &SystemArchitecturePopularityList{
 				SystemArchitecturePopularities: []SystemArchitecturePopularity{},
@@ -259,7 +260,7 @@ func TestCORSHeader(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/system-architectures", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)

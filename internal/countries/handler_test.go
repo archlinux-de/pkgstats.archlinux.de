@@ -8,41 +8,43 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"pkgstats.archlinux.de/internal/web"
 )
 
-type mockRepository struct {
-	findByCodeFunc       func(ctx context.Context, code string, startMonth, endMonth int) (*CountryPopularity, error)
+type mockQuerier struct {
+	findByIdentifierFunc func(ctx context.Context, identifier string, startMonth, endMonth int) (*CountryPopularity, error)
 	findAllFunc          func(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error)
-	findSeriesByCodeFunc func(ctx context.Context, code string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error)
+	findSeriesFunc       func(ctx context.Context, identifier string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error)
 }
 
-func (m *mockRepository) FindByCode(ctx context.Context, code string, startMonth, endMonth int) (*CountryPopularity, error) {
-	return m.findByCodeFunc(ctx, code, startMonth, endMonth)
+func (m *mockQuerier) FindByIdentifier(ctx context.Context, identifier string, startMonth, endMonth int) (*CountryPopularity, error) {
+	return m.findByIdentifierFunc(ctx, identifier, startMonth, endMonth)
 }
 
-func (m *mockRepository) FindAll(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error) {
+func (m *mockQuerier) FindAll(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error) {
 	return m.findAllFunc(ctx, query, startMonth, endMonth, limit, offset)
 }
 
-func (m *mockRepository) FindSeriesByCode(ctx context.Context, code string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error) {
-	return m.findSeriesByCodeFunc(ctx, code, startMonth, endMonth, limit, offset)
+func (m *mockQuerier) FindSeries(ctx context.Context, identifier string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error) {
+	return m.findSeriesFunc(ctx, identifier, startMonth, endMonth, limit, offset)
 }
 
-func newTestMux(repo Repository) *http.ServeMux {
-	handler := NewHandler(repo)
+func newTestMux(q *mockQuerier) *http.ServeMux {
+	handler := newHandlerFromQuerier(q)
 	mux := http.NewServeMux()
 	handler.RegisterRoutes(mux)
 	return mux
 }
 
 func TestHandleGet(t *testing.T) {
-	repo := &mockRepository{
-		findByCodeFunc: func(_ context.Context, code string, _, _ int) (*CountryPopularity, error) {
+	q := &mockQuerier{
+		findByIdentifierFunc: func(_ context.Context, code string, _, _ int) (*CountryPopularity, error) {
 			return &CountryPopularity{Code: code, Samples: 500, Count: 100, Popularity: 20, StartMonth: 202501, EndMonth: 202501}, nil
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/countries/DE", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -56,7 +58,6 @@ func TestHandleGet(t *testing.T) {
 		t.Fatalf("decode response: %v", err)
 	}
 
-	// Verify response structure matches PHP
 	expectedKeys := []string{"code", "samples", "count", "popularity", "startMonth", "endMonth"}
 	for _, key := range expectedKeys {
 		if _, ok := raw[key]; !ok {
@@ -69,13 +70,13 @@ func TestHandleGet(t *testing.T) {
 }
 
 func TestHandleGet_RepositoryError(t *testing.T) {
-	repo := &mockRepository{
-		findByCodeFunc: func(_ context.Context, _ string, _, _ int) (*CountryPopularity, error) {
+	q := &mockQuerier{
+		findByIdentifierFunc: func(_ context.Context, _ string, _, _ int) (*CountryPopularity, error) {
 			return nil, errors.New("database error")
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/countries/DE", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -86,7 +87,7 @@ func TestHandleGet_RepositoryError(t *testing.T) {
 }
 
 func TestHandleList_ResponseStructure(t *testing.T) {
-	repo := &mockRepository{
+	q := &mockQuerier{
 		findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*CountryPopularityList, error) {
 			return &CountryPopularityList{
 				CountryPopularities: []CountryPopularity{},
@@ -97,7 +98,7 @@ func TestHandleList_ResponseStructure(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/countries", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -125,17 +126,17 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 		expectedLimit  int
 		expectedOffset int
 	}{
-		{"default", "/api/countries", defaultLimit, 0},
-		{"limit=0", "/api/countries?limit=0", maxLimit, 0},
-		{"limit=max+1", fmt.Sprintf("/api/countries?limit=%d", maxLimit+1), maxLimit, 0},
+		{"default", "/api/countries", web.DefaultLimit, 0},
+		{"limit=0", "/api/countries?limit=0", web.MaxLimit, 0},
+		{"limit=max+1", fmt.Sprintf("/api/countries?limit=%d", web.MaxLimit+1), web.MaxLimit, 0},
 		{"limit=-1", "/api/countries?limit=-1", 1, 0},
-		{"offset=-1", "/api/countries?offset=-1", defaultLimit, 0},
+		{"offset=-1", "/api/countries?offset=-1", web.DefaultLimit, 0},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var capturedLimit, capturedOffset int
-			repo := &mockRepository{
+			q := &mockQuerier{
 				findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*CountryPopularityList, error) {
 					capturedLimit = limit
 					capturedOffset = offset
@@ -143,7 +144,7 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 				},
 			}
 
-			mux := newTestMux(repo)
+			mux := newTestMux(q)
 			req := httptest.NewRequest(http.MethodGet, tt.url, nil)
 			rr := httptest.NewRecorder()
 			mux.ServeHTTP(rr, req)
@@ -162,8 +163,8 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 }
 
 func TestHandleSeries(t *testing.T) {
-	repo := &mockRepository{
-		findSeriesByCodeFunc: func(_ context.Context, code string, _, _, limit, _ int) (*CountryPopularityList, error) {
+	q := &mockQuerier{
+		findSeriesFunc: func(_ context.Context, code string, _, _, limit, _ int) (*CountryPopularityList, error) {
 			return &CountryPopularityList{
 				Total:               1,
 				Count:               1,
@@ -173,7 +174,7 @@ func TestHandleSeries(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/countries/DE/series?startMonth=202501&endMonth=202501", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -193,7 +194,7 @@ func TestHandleSeries(t *testing.T) {
 
 func TestHandleList_MonthRangeSwap(t *testing.T) {
 	var capturedStart, capturedEnd int
-	repo := &mockRepository{
+	q := &mockQuerier{
 		findAllFunc: func(_ context.Context, query string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error) {
 			capturedStart = startMonth
 			capturedEnd = endMonth
@@ -201,7 +202,7 @@ func TestHandleList_MonthRangeSwap(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/countries?startMonth=202512&endMonth=202501", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -215,13 +216,13 @@ func TestHandleList_MonthRangeSwap(t *testing.T) {
 }
 
 func TestCORSHeader(t *testing.T) {
-	repo := &mockRepository{
+	q := &mockQuerier{
 		findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*CountryPopularityList, error) {
 			return &CountryPopularityList{CountryPopularities: []CountryPopularity{}, Limit: limit, Offset: offset, Query: &query}, nil
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/countries", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)

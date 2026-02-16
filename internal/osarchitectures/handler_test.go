@@ -8,41 +8,43 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"pkgstats.archlinux.de/internal/web"
 )
 
-type mockRepository struct {
-	findByNameFunc       func(ctx context.Context, name string, startMonth, endMonth int) (*OperatingSystemArchitecturePopularity, error)
+type mockQuerier struct {
+	findByIdentifierFunc func(ctx context.Context, identifier string, startMonth, endMonth int) (*OperatingSystemArchitecturePopularity, error)
 	findAllFunc          func(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*OperatingSystemArchitecturePopularityList, error)
-	findSeriesByNameFunc func(ctx context.Context, name string, startMonth, endMonth, limit, offset int) (*OperatingSystemArchitecturePopularityList, error)
+	findSeriesFunc       func(ctx context.Context, identifier string, startMonth, endMonth, limit, offset int) (*OperatingSystemArchitecturePopularityList, error)
 }
 
-func (m *mockRepository) FindByName(ctx context.Context, name string, startMonth, endMonth int) (*OperatingSystemArchitecturePopularity, error) {
-	return m.findByNameFunc(ctx, name, startMonth, endMonth)
+func (m *mockQuerier) FindByIdentifier(ctx context.Context, identifier string, startMonth, endMonth int) (*OperatingSystemArchitecturePopularity, error) {
+	return m.findByIdentifierFunc(ctx, identifier, startMonth, endMonth)
 }
 
-func (m *mockRepository) FindAll(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*OperatingSystemArchitecturePopularityList, error) {
+func (m *mockQuerier) FindAll(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*OperatingSystemArchitecturePopularityList, error) {
 	return m.findAllFunc(ctx, query, startMonth, endMonth, limit, offset)
 }
 
-func (m *mockRepository) FindSeriesByName(ctx context.Context, name string, startMonth, endMonth, limit, offset int) (*OperatingSystemArchitecturePopularityList, error) {
-	return m.findSeriesByNameFunc(ctx, name, startMonth, endMonth, limit, offset)
+func (m *mockQuerier) FindSeries(ctx context.Context, identifier string, startMonth, endMonth, limit, offset int) (*OperatingSystemArchitecturePopularityList, error) {
+	return m.findSeriesFunc(ctx, identifier, startMonth, endMonth, limit, offset)
 }
 
-func newTestMux(repo Repository) *http.ServeMux {
-	handler := NewHandler(repo)
+func newTestMux(q *mockQuerier) *http.ServeMux {
+	handler := newHandlerFromQuerier(q)
 	mux := http.NewServeMux()
 	handler.RegisterRoutes(mux)
 	return mux
 }
 
 func TestHandleGet(t *testing.T) {
-	repo := &mockRepository{
-		findByNameFunc: func(_ context.Context, name string, _, _ int) (*OperatingSystemArchitecturePopularity, error) {
+	q := &mockQuerier{
+		findByIdentifierFunc: func(_ context.Context, name string, _, _ int) (*OperatingSystemArchitecturePopularity, error) {
 			return &OperatingSystemArchitecturePopularity{Name: name, Samples: 500, Count: 100, Popularity: 20, StartMonth: 202501, EndMonth: 202501}, nil
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/operating-system-architectures/x86_64", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -65,13 +67,13 @@ func TestHandleGet(t *testing.T) {
 }
 
 func TestHandleGet_RepositoryError(t *testing.T) {
-	repo := &mockRepository{
-		findByNameFunc: func(_ context.Context, _ string, _, _ int) (*OperatingSystemArchitecturePopularity, error) {
+	q := &mockQuerier{
+		findByIdentifierFunc: func(_ context.Context, _ string, _, _ int) (*OperatingSystemArchitecturePopularity, error) {
 			return nil, errors.New("database error")
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/operating-system-architectures/x86_64", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -82,7 +84,7 @@ func TestHandleGet_RepositoryError(t *testing.T) {
 }
 
 func TestHandleList_ResponseStructure(t *testing.T) {
-	repo := &mockRepository{
+	q := &mockQuerier{
 		findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*OperatingSystemArchitecturePopularityList, error) {
 			return &OperatingSystemArchitecturePopularityList{
 				OperatingSystemArchitecturePopularities: []OperatingSystemArchitecturePopularity{},
@@ -93,7 +95,7 @@ func TestHandleList_ResponseStructure(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/operating-system-architectures", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -121,17 +123,17 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 		expectedLimit  int
 		expectedOffset int
 	}{
-		{"default", "/api/operating-system-architectures", defaultLimit, 0},
-		{"limit=0", "/api/operating-system-architectures?limit=0", maxLimit, 0},
-		{"limit=max+1", fmt.Sprintf("/api/operating-system-architectures?limit=%d", maxLimit+1), maxLimit, 0},
+		{"default", "/api/operating-system-architectures", web.DefaultLimit, 0},
+		{"limit=0", "/api/operating-system-architectures?limit=0", web.MaxLimit, 0},
+		{"limit=max+1", fmt.Sprintf("/api/operating-system-architectures?limit=%d", web.MaxLimit+1), web.MaxLimit, 0},
 		{"limit=-1", "/api/operating-system-architectures?limit=-1", 1, 0},
-		{"offset=-1", "/api/operating-system-architectures?offset=-1", defaultLimit, 0},
+		{"offset=-1", "/api/operating-system-architectures?offset=-1", web.DefaultLimit, 0},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			var capturedLimit, capturedOffset int
-			repo := &mockRepository{
+			q := &mockQuerier{
 				findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*OperatingSystemArchitecturePopularityList, error) {
 					capturedLimit = limit
 					capturedOffset = offset
@@ -144,7 +146,7 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 				},
 			}
 
-			mux := newTestMux(repo)
+			mux := newTestMux(q)
 			req := httptest.NewRequest(http.MethodGet, tt.url, nil)
 			rr := httptest.NewRecorder()
 			mux.ServeHTTP(rr, req)
@@ -163,8 +165,8 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 }
 
 func TestHandleSeries(t *testing.T) {
-	repo := &mockRepository{
-		findSeriesByNameFunc: func(_ context.Context, name string, _, _, limit, _ int) (*OperatingSystemArchitecturePopularityList, error) {
+	q := &mockQuerier{
+		findSeriesFunc: func(_ context.Context, name string, _, _, limit, _ int) (*OperatingSystemArchitecturePopularityList, error) {
 			return &OperatingSystemArchitecturePopularityList{
 				Total:                                   1,
 				Count:                                   1,
@@ -174,7 +176,7 @@ func TestHandleSeries(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/operating-system-architectures/x86_64/series", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
@@ -185,7 +187,7 @@ func TestHandleSeries(t *testing.T) {
 }
 
 func TestCORSHeader(t *testing.T) {
-	repo := &mockRepository{
+	q := &mockQuerier{
 		findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*OperatingSystemArchitecturePopularityList, error) {
 			return &OperatingSystemArchitecturePopularityList{
 				OperatingSystemArchitecturePopularities: []OperatingSystemArchitecturePopularity{},
@@ -196,7 +198,7 @@ func TestCORSHeader(t *testing.T) {
 		},
 	}
 
-	mux := newTestMux(repo)
+	mux := newTestMux(q)
 	req := httptest.NewRequest(http.MethodGet, "/api/operating-system-architectures", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)

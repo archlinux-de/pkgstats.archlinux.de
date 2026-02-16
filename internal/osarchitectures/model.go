@@ -1,5 +1,7 @@
 package osarchitectures
 
+import "context"
+
 type OperatingSystemArchitecturePopularity struct {
 	Name       string  `json:"name"`
 	Samples    int     `json:"samples"`
@@ -16,4 +18,24 @@ type OperatingSystemArchitecturePopularityList struct {
 	Limit                                   int                                     `json:"limit"`
 	Offset                                  int                                     `json:"offset"`
 	Query                                   *string                                 `json:"query"`
+}
+
+type Repository interface {
+	FindByName(ctx context.Context, name string, startMonth, endMonth int) (*OperatingSystemArchitecturePopularity, error)
+	FindAll(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*OperatingSystemArchitecturePopularityList, error)
+	FindSeriesByName(ctx context.Context, name string, startMonth, endMonth, limit, offset int) (*OperatingSystemArchitecturePopularityList, error)
+}
+
+func newItem(identifier string, samples, count int, popularity float64, startMonth, endMonth int) OperatingSystemArchitecturePopularity {
+	return OperatingSystemArchitecturePopularity{
+		Name: identifier, Samples: samples, Count: count,
+		Popularity: popularity, StartMonth: startMonth, EndMonth: endMonth,
+	}
+}
+
+func newList(total, count int, items []OperatingSystemArchitecturePopularity, limit, offset int, query *string) OperatingSystemArchitecturePopularityList {
+	return OperatingSystemArchitecturePopularityList{
+		Total: total, Count: count, OperatingSystemArchitecturePopularities: items,
+		Limit: limit, Offset: offset, Query: query,
+	}
 }
