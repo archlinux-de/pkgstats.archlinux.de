@@ -119,7 +119,7 @@ func TestHandleList_ResponseStructure(t *testing.T) {
 	}
 }
 
-func TestHandleList_PaginationEdgeCases(t *testing.T) {
+func TestHandleList_PaginationValidCases(t *testing.T) {
 	tests := []struct {
 		name           string
 		url            string
@@ -128,9 +128,6 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 	}{
 		{"default", "/api/countries", web.DefaultLimit, 0},
 		{"limit=0", "/api/countries?limit=0", web.MaxLimit, 0},
-		{"limit=max+1", fmt.Sprintf("/api/countries?limit=%d", web.MaxLimit+1), web.MaxLimit, 0},
-		{"limit=-1", "/api/countries?limit=-1", 1, 0},
-		{"offset=-1", "/api/countries?offset=-1", web.DefaultLimit, 0},
 	}
 
 	for _, tt := range tests {
@@ -157,6 +154,32 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 			}
 			if capturedOffset != tt.expectedOffset {
 				t.Errorf("expected offset %d, got %d", tt.expectedOffset, capturedOffset)
+			}
+		})
+	}
+}
+
+func TestHandleList_PaginationInvalidCases(t *testing.T) {
+	tests := []struct {
+		name string
+		url  string
+	}{
+		{"limit=max+1", fmt.Sprintf("/api/countries?limit=%d", web.MaxLimit+1)},
+		{"limit=-1", "/api/countries?limit=-1"},
+		{"offset=-1", "/api/countries?offset=-1"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			q := &mockQuerier{}
+
+			mux := newTestMux(q)
+			req := httptest.NewRequest(http.MethodGet, tt.url, nil)
+			rr := httptest.NewRecorder()
+			mux.ServeHTTP(rr, req)
+
+			if rr.Code != http.StatusBadRequest {
+				t.Fatalf("expected status %d, got %d", http.StatusBadRequest, rr.Code)
 			}
 		})
 	}
@@ -207,11 +230,11 @@ func TestHandleList_MonthRangeSwap(t *testing.T) {
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
 
-	if capturedStart != 202501 {
-		t.Errorf("expected swapped startMonth 202501, got %d", capturedStart)
+	if capturedStart != 202512 {
+		t.Errorf("expected startMonth 202512 (not swapped), got %d", capturedStart)
 	}
-	if capturedEnd != 202512 {
-		t.Errorf("expected swapped endMonth 202512, got %d", capturedEnd)
+	if capturedEnd != 202501 {
+		t.Errorf("expected endMonth 202501 (not swapped), got %d", capturedEnd)
 	}
 }
 

@@ -263,66 +263,54 @@ func TestHandleList_LimitZeroMeansMaxLimit(t *testing.T) {
 }
 
 func TestHandleList_LimitExceedsMax(t *testing.T) {
-	repo, captured := captureListRepo()
+	repo, _ := captureListRepo()
 
 	mux := newTestMux(repo)
 	req := httptest.NewRequest(http.MethodGet, "/api/packages?limit=99999", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
 
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
-	}
-	if captured.limit != web.MaxLimit {
-		t.Errorf("limit > max should be capped to %d, got %d", web.MaxLimit, captured.limit)
+	if rr.Code != http.StatusBadRequest {
+		t.Fatalf("expected status %d, got %d", http.StatusBadRequest, rr.Code)
 	}
 }
 
 func TestHandleList_LimitNegative(t *testing.T) {
-	repo, captured := captureListRepo()
+	repo, _ := captureListRepo()
 
 	mux := newTestMux(repo)
 	req := httptest.NewRequest(http.MethodGet, "/api/packages?limit=-5", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
 
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
-	}
-	if captured.limit != 1 {
-		t.Errorf("negative limit should resolve to 1, got %d", captured.limit)
+	if rr.Code != http.StatusBadRequest {
+		t.Errorf("expected status %d, got %d", http.StatusBadRequest, rr.Code)
 	}
 }
 
 func TestHandleList_OffsetNegative(t *testing.T) {
-	repo, captured := captureListRepo()
+	repo, _ := captureListRepo()
 
 	mux := newTestMux(repo)
 	req := httptest.NewRequest(http.MethodGet, "/api/packages?offset=-10", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
 
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
-	}
-	if captured.offset != 0 {
-		t.Errorf("negative offset should resolve to 0, got %d", captured.offset)
+	if rr.Code != http.StatusBadRequest {
+		t.Errorf("expected status %d, got %d", http.StatusBadRequest, rr.Code)
 	}
 }
 
-func TestHandleList_InvalidLimitFallsToDefault(t *testing.T) {
-	repo, captured := captureListRepo()
+func TestHandleList_InvalidLimitReturns400(t *testing.T) {
+	repo, _ := captureListRepo()
 
 	mux := newTestMux(repo)
 	req := httptest.NewRequest(http.MethodGet, "/api/packages?limit=abc", nil)
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
 
-	if rr.Code != http.StatusOK {
-		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
-	}
-	if captured.limit != web.DefaultLimit {
-		t.Errorf("invalid limit should fall back to default %d, got %d", web.DefaultLimit, captured.limit)
+	if rr.Code != http.StatusBadRequest {
+		t.Errorf("expected status %d, got %d", http.StatusBadRequest, rr.Code)
 	}
 }
 
@@ -348,6 +336,7 @@ func TestHandleList_MonthRangeDefaults(t *testing.T) {
 
 func TestHandleList_MonthZeroMeansNoFilter(t *testing.T) {
 	repo, captured := captureListRepo()
+	cm := currentMonth()
 
 	mux := newTestMux(repo)
 	req := httptest.NewRequest(http.MethodGet, "/api/packages?startMonth=0&endMonth=0", nil)
@@ -357,18 +346,19 @@ func TestHandleList_MonthZeroMeansNoFilter(t *testing.T) {
 	if rr.Code != http.StatusOK {
 		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
-	// startMonth=0 means "from the beginning" (0 is lower than any real month)
+	// startMonth=0 means "from the beginning"
 	if captured.startMonth != 0 {
 		t.Errorf("expected startMonth 0, got %d", captured.startMonth)
 	}
-	// endMonth=0 means "no upper bound" and should be mapped to 999912
-	if captured.endMonth != 999912 {
-		t.Errorf("expected endMonth 999912 (no upper bound), got %d", captured.endMonth)
+	// endMonth=0 maps to current month (matching PHP behavior)
+	if captured.endMonth != cm {
+		t.Errorf("expected endMonth %d (current month), got %d", cm, captured.endMonth)
 	}
 }
 
 func TestHandleGet_MonthZeroMeansNoFilter(t *testing.T) {
 	var capturedStart, capturedEnd int
+	cm := currentMonth()
 	repo := &mockRepository{
 		findByNameFunc: func(_ context.Context, name string, startMonth, endMonth int) (*PackagePopularity, error) {
 			capturedStart = startMonth
@@ -395,13 +385,14 @@ func TestHandleGet_MonthZeroMeansNoFilter(t *testing.T) {
 	if capturedStart != 0 {
 		t.Errorf("expected startMonth 0, got %d", capturedStart)
 	}
-	if capturedEnd != 999912 {
-		t.Errorf("expected endMonth 999912 (no upper bound), got %d", capturedEnd)
+	if capturedEnd != cm {
+		t.Errorf("expected endMonth %d (current month), got %d", cm, capturedEnd)
 	}
 }
 
 func TestHandleSeries_MonthZeroMeansNoFilter(t *testing.T) {
 	var capturedStart, capturedEnd int
+	cm := currentMonth()
 	repo := &mockRepository{
 		findSeriesByNameFunc: func(_ context.Context, _ string, startMonth, endMonth, _, _ int) (*PackagePopularityList, error) {
 			capturedStart = startMonth
@@ -421,12 +412,12 @@ func TestHandleSeries_MonthZeroMeansNoFilter(t *testing.T) {
 	if capturedStart != 0 {
 		t.Errorf("expected startMonth 0, got %d", capturedStart)
 	}
-	if capturedEnd != 999912 {
-		t.Errorf("expected endMonth 999912 (no upper bound), got %d", capturedEnd)
+	if capturedEnd != cm {
+		t.Errorf("expected endMonth %d (current month), got %d", cm, capturedEnd)
 	}
 }
 
-func TestHandleList_MonthRangeSwap(t *testing.T) {
+func TestHandleList_MonthRangeSwappedNotCorrected(t *testing.T) {
 	repo, captured := captureListRepo()
 
 	mux := newTestMux(repo)
@@ -437,11 +428,12 @@ func TestHandleList_MonthRangeSwap(t *testing.T) {
 	if rr.Code != http.StatusOK {
 		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
-	if captured.startMonth != 202501 {
-		t.Errorf("expected swapped startMonth 202501, got %d", captured.startMonth)
+	// Swapped months are passed through as-is (query returns empty results)
+	if captured.startMonth != 202512 {
+		t.Errorf("expected startMonth 202512, got %d", captured.startMonth)
 	}
-	if captured.endMonth != 202512 {
-		t.Errorf("expected swapped endMonth 202512, got %d", captured.endMonth)
+	if captured.endMonth != 202501 {
+		t.Errorf("expected endMonth 202501, got %d", captured.endMonth)
 	}
 }
 
@@ -602,7 +594,7 @@ func TestCORSHeader(t *testing.T) {
 	}
 }
 
-func TestHandleList_PaginationEdgeCases(t *testing.T) {
+func TestHandleList_PaginationValidCases(t *testing.T) {
 	tests := []struct {
 		name           string
 		url            string
@@ -613,13 +605,8 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 		{"limit=0", "/api/packages?limit=0", web.MaxLimit, 0},
 		{"limit=1", "/api/packages?limit=1", 1, 0},
 		{"limit=max", fmt.Sprintf("/api/packages?limit=%d", web.MaxLimit), web.MaxLimit, 0},
-		{"limit=max+1", fmt.Sprintf("/api/packages?limit=%d", web.MaxLimit+1), web.MaxLimit, 0},
-		{"limit=-1", "/api/packages?limit=-1", 1, 0},
-		{"limit=invalid", "/api/packages?limit=abc", web.DefaultLimit, 0},
 		{"offset=0", "/api/packages?offset=0", web.DefaultLimit, 0},
 		{"offset=100", "/api/packages?offset=100", web.DefaultLimit, 100},
-		{"offset=-1", "/api/packages?offset=-1", web.DefaultLimit, 0},
-		{"offset=invalid", "/api/packages?offset=abc", web.DefaultLimit, 0},
 	}
 
 	for _, tt := range tests {
@@ -639,6 +626,35 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 			}
 			if captured.offset != tt.expectedOffset {
 				t.Errorf("expected offset %d, got %d", tt.expectedOffset, captured.offset)
+			}
+		})
+	}
+}
+
+func TestHandleList_PaginationInvalidCases(t *testing.T) {
+	tests := []struct {
+		name string
+		url  string
+	}{
+		{"limit=-1", "/api/packages?limit=-1"},
+		{"limit=abc", "/api/packages?limit=abc"},
+		{"limit=max+1", fmt.Sprintf("/api/packages?limit=%d", web.MaxLimit+1)},
+		{"offset=-1", "/api/packages?offset=-1"},
+		{"offset=abc", "/api/packages?offset=abc"},
+		{"offset=100001", "/api/packages?offset=100001"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			repo, _ := captureListRepo()
+
+			mux := newTestMux(repo)
+			req := httptest.NewRequest(http.MethodGet, tt.url, nil)
+			rr := httptest.NewRecorder()
+			mux.ServeHTTP(rr, req)
+
+			if rr.Code != http.StatusBadRequest {
+				t.Errorf("expected status %d, got %d", http.StatusBadRequest, rr.Code)
 			}
 		})
 	}

@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"pkgstats.archlinux.de/internal/web"
 )
@@ -119,7 +120,7 @@ func TestHandleList_ResponseStructure(t *testing.T) {
 	}
 }
 
-func TestHandleList_PaginationEdgeCases(t *testing.T) {
+func TestHandleList_PaginationValidCases(t *testing.T) {
 	tests := []struct {
 		name           string
 		url            string
@@ -128,9 +129,6 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 	}{
 		{"default", "/api/system-architectures", web.DefaultLimit, 0},
 		{"limit=0", "/api/system-architectures?limit=0", web.MaxLimit, 0},
-		{"limit=max+1", fmt.Sprintf("/api/system-architectures?limit=%d", web.MaxLimit+1), web.MaxLimit, 0},
-		{"limit=-1", "/api/system-architectures?limit=-1", 1, 0},
-		{"offset=-1", "/api/system-architectures?offset=-1", web.DefaultLimit, 0},
 	}
 
 	for _, tt := range tests {
@@ -167,7 +165,47 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 	}
 }
 
-func TestHandleList_MonthZeroMeansNoFilter(t *testing.T) {
+func TestHandleList_PaginationInvalidCases(t *testing.T) {
+	tests := []struct {
+		name string
+		url  string
+	}{
+		{"limit=max+1", fmt.Sprintf("/api/system-architectures?limit=%d", web.MaxLimit+1)},
+		{"limit=-1", "/api/system-architectures?limit=-1"},
+		{"offset=-1", "/api/system-architectures?offset=-1"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			q := &mockQuerier{
+				findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*SystemArchitecturePopularityList, error) {
+					return &SystemArchitecturePopularityList{
+						SystemArchitecturePopularities: []SystemArchitecturePopularity{},
+						Limit:                          limit,
+						Offset:                         offset,
+						Query:                          &query,
+					}, nil
+				},
+			}
+
+			mux := newTestMux(q)
+			req := httptest.NewRequest(http.MethodGet, tt.url, nil)
+			rr := httptest.NewRecorder()
+			mux.ServeHTTP(rr, req)
+
+			if rr.Code != http.StatusBadRequest {
+				t.Fatalf("expected status %d, got %d", http.StatusBadRequest, rr.Code)
+			}
+		})
+	}
+}
+
+func currentMonth() int {
+	now := time.Now()
+	return now.Year()*100 + int(now.Month())
+}
+
+func TestHandleList_MonthZeroMeansCurrentMonth(t *testing.T) {
 	var capturedStart, capturedEnd int
 	q := &mockQuerier{
 		findAllFunc: func(_ context.Context, query string, startMonth, endMonth, limit, offset int) (*SystemArchitecturePopularityList, error) {
@@ -187,18 +225,19 @@ func TestHandleList_MonthZeroMeansNoFilter(t *testing.T) {
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
 
+	cm := currentMonth()
 	if rr.Code != http.StatusOK {
 		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
 	if capturedStart != 0 {
 		t.Errorf("expected startMonth 0, got %d", capturedStart)
 	}
-	if capturedEnd != 999912 {
-		t.Errorf("expected endMonth 999912 (no upper bound), got %d", capturedEnd)
+	if capturedEnd != cm {
+		t.Errorf("expected endMonth %d (current month), got %d", cm, capturedEnd)
 	}
 }
 
-func TestHandleSeries_MonthZeroMeansNoFilter(t *testing.T) {
+func TestHandleSeries_MonthZeroMeansCurrentMonth(t *testing.T) {
 	var capturedStart, capturedEnd int
 	q := &mockQuerier{
 		findSeriesFunc: func(_ context.Context, _ string, startMonth, endMonth, _, _ int) (*SystemArchitecturePopularityList, error) {
@@ -215,14 +254,15 @@ func TestHandleSeries_MonthZeroMeansNoFilter(t *testing.T) {
 	rr := httptest.NewRecorder()
 	mux.ServeHTTP(rr, req)
 
+	cm := currentMonth()
 	if rr.Code != http.StatusOK {
 		t.Fatalf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
 	if capturedStart != 0 {
 		t.Errorf("expected startMonth 0, got %d", capturedStart)
 	}
-	if capturedEnd != 999912 {
-		t.Errorf("expected endMonth 999912 (no upper bound), got %d", capturedEnd)
+	if capturedEnd != cm {
+		t.Errorf("expected endMonth %d (current month), got %d", cm, capturedEnd)
 	}
 }
 

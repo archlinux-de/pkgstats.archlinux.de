@@ -116,7 +116,7 @@ func TestHandleList_ResponseStructure(t *testing.T) {
 	}
 }
 
-func TestHandleList_PaginationEdgeCases(t *testing.T) {
+func TestHandleList_PaginationValidCases(t *testing.T) {
 	tests := []struct {
 		name           string
 		url            string
@@ -125,9 +125,6 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 	}{
 		{"default", "/api/operating-system-architectures", web.DefaultLimit, 0},
 		{"limit=0", "/api/operating-system-architectures?limit=0", web.MaxLimit, 0},
-		{"limit=max+1", fmt.Sprintf("/api/operating-system-architectures?limit=%d", web.MaxLimit+1), web.MaxLimit, 0},
-		{"limit=-1", "/api/operating-system-architectures?limit=-1", 1, 0},
-		{"offset=-1", "/api/operating-system-architectures?offset=-1", web.DefaultLimit, 0},
 	}
 
 	for _, tt := range tests {
@@ -159,6 +156,32 @@ func TestHandleList_PaginationEdgeCases(t *testing.T) {
 			}
 			if capturedOffset != tt.expectedOffset {
 				t.Errorf("expected offset %d, got %d", tt.expectedOffset, capturedOffset)
+			}
+		})
+	}
+}
+
+func TestHandleList_PaginationInvalidCases(t *testing.T) {
+	tests := []struct {
+		name string
+		url  string
+	}{
+		{"limit=max+1", fmt.Sprintf("/api/operating-system-architectures?limit=%d", web.MaxLimit+1)},
+		{"limit=-1", "/api/operating-system-architectures?limit=-1"},
+		{"offset=-1", "/api/operating-system-architectures?offset=-1"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			q := &mockQuerier{}
+
+			mux := newTestMux(q)
+			req := httptest.NewRequest(http.MethodGet, tt.url, nil)
+			rr := httptest.NewRecorder()
+			mux.ServeHTTP(rr, req)
+
+			if rr.Code != http.StatusBadRequest {
+				t.Fatalf("expected status %d, got %d", http.StatusBadRequest, rr.Code)
 			}
 		})
 	}
