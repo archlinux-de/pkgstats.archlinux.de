@@ -59,8 +59,8 @@ importers:
         specifier: ^3.48.0
         version: 3.48.0
       css-loader:
-        specifier: ^7.1.3
-        version: 7.1.3(webpack@5.105.2)
+        specifier: ^7.1.4
+        version: 7.1.4(webpack@5.105.2)
       css-minimizer-webpack-plugin:
         specifier: ^7.0.4
         version: 7.0.4(webpack@5.105.2)
@@ -98,8 +98,8 @@ importers:
         specifier: ^2.19.2
         version: 2.19.2
       swagger-ui:
-        specifier: ^5.31.0
-        version: 5.31.0
+        specifier: ^5.31.1
+        version: 5.31.1
       vue:
         specifier: ^3.5.28
         version: 3.5.28(typescript@5.7.3)
@@ -145,10 +145,10 @@ importers:
         version: 5.3.0(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-import:
         specifier: ^2.32.0
-        version: 2.32.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))
+        version: 2.32.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-jest:
         specifier: ^29.15.0
-        version: 29.15.0(@typescript-eslint/eslint-plugin@8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(jest@30.2.0(@types/node@25.2.3))(typescript@5.7.3)
+        version: 29.15.0(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(jest@30.2.0(@types/node@25.2.3))(typescript@5.7.3)
       eslint-plugin-n:
         specifier: ^17.24.0
         version: 17.24.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
@@ -157,7 +157,7 @@ importers:
         version: 7.2.1(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-vue:
         specifier: ^10.8.0
-        version: 10.8.0(@stylistic/eslint-plugin@2.11.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.4.0(eslint@9.39.2(jiti@2.6.1)))
+        version: 10.8.0(@stylistic/eslint-plugin@2.11.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.4.0(eslint@9.39.2(jiti@2.6.1)))
       jest:
         specifier: 30.2.0
         version: 30.2.0(@types/node@25.2.3)
@@ -166,7 +166,7 @@ importers:
         version: 30.2.0
       neostandard:
         specifier: ^0.12.2
-        version: 0.12.2(@typescript-eslint/utils@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+        version: 0.12.2(@typescript-eslint/utils@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       stylelint:
         specifier: ^17.3.0
         version: 17.3.0(typescript@5.7.3)
@@ -1452,104 +1452,104 @@ packages:
   '@surma/rollup-plugin-off-main-thread@2.2.3':
     resolution: {integrity: sha512-lR8q/9W7hZpMWweNiAKU7NQerBnzQQLvi8qnTDU/fxItPhtZVMbPV3lbCwjhIlNBe9Bbr5V+KHshvWmVSG9cxQ==}
 
-  '@swagger-api/apidom-ast@1.4.0':
-    resolution: {integrity: sha512-vaN7kA/okd3dWn45BRdsPHgGfMQdjL3TqRcxTmb41q6SLRJezINTE5nyJ8qVmH9bverOTAfn5IjYziwhV0lh7A==}
+  '@swagger-api/apidom-ast@1.5.0':
+    resolution: {integrity: sha512-sSfoHE1Bb/FM4//sqsU9VN1refIRGd/RlIwsWJ132TJyEtMAw/Blo68hl4zTGh6ob89OZSKqQ0oZNmwickYhxA==}
 
-  '@swagger-api/apidom-core@1.4.0':
-    resolution: {integrity: sha512-otHtWG8J/0bvaKThUfbSuYG9ega1jAM4ugIcxQRRozOMS7r1+pTwntbY0my5MJwZ+TeBJfVA39NRjMPiPdGttg==}
+  '@swagger-api/apidom-core@1.5.0':
+    resolution: {integrity: sha512-esQ++pv78gCr8ZDdM9dfEjrOymcELzFmJCe5i3q8Q2pQSSkW+FUsUCaSP6mdB+HHqz4H9L+Jy9N7h4e/uVsCVQ==}
 
-  '@swagger-api/apidom-error@1.4.0':
-    resolution: {integrity: sha512-oYVvGSE/y7g2mNnfNPq1IrEhhEQ0Faz1YWZWpaLF786iT0lunzzph9JG1Q9YSl+Z5yZ6XsmbKSOdvql+gK9xCw==}
+  '@swagger-api/apidom-error@1.5.0':
+    resolution: {integrity: sha512-lSc/7wS/t4y6KmueouAopzZnm1r1/5QzcOUPmwQcDrnoLLqtfd2Hkp+v3a0vqHbbyUi+lHYmCA0JoITzbJYcgQ==}
 
-  '@swagger-api/apidom-json-pointer@1.4.0':
-    resolution: {integrity: sha512-LAMOgJaKy2id2zTmMmQzSEh4HahXYfWoR6pBsdNIKaLWx6sirznFnpKHa2+shfjksAkm0Gng5/eKO1jcdySOrw==}
+  '@swagger-api/apidom-json-pointer@1.5.0':
+    resolution: {integrity: sha512-YiRA7n6aOnXD6ZrZcp6avZiVz55rihye5gp4QB3+qEtfcOvFIG6jYRRawXO/1dj9haZvq/2gQys+kJSEQEhMhg==}
 
-  '@swagger-api/apidom-ns-api-design-systems@1.4.0':
-    resolution: {integrity: sha512-uRTqvqSUdQwkiNlO9QMPcpI5ZF7PbwnavFwIkupbkZDb5r+kSdgu4bepXY9BjzvVeiOWqyvviIfTeccVcVOCeA==}
+  '@swagger-api/apidom-ns-api-design-systems@1.5.0':
+    resolution: {integrity: sha512-jt8hCcN/NhmZPMMGy7DNbw1LHu7gUqcNkG840aC2OUVj+qHp7CDG7wing0F2zIW3+fDfw+UIiVzFy7oVbiiheg==}
 
-  '@swagger-api/apidom-ns-arazzo-1@1.4.0':
-    resolution: {integrity: sha512-gUWldcU8cCN4zYfpGdgK+rXFkcmNCv/g9eXOvQaAzYHp+N8mccRl5E0weEDRVvn9kUOA0bew7NjEEZhMulblWQ==}
+  '@swagger-api/apidom-ns-arazzo-1@1.5.0':
+    resolution: {integrity: sha512-ATkcwJfyu3rhwLwicCmARhfQM6/KRGZ2+Y5HuG5smPxzzDdgb0o5/VP9goSvxgfAveIJsEWFbP6CMm/LW4Gy3A==}
 
-  '@swagger-api/apidom-ns-asyncapi-2@1.4.0':
-    resolution: {integrity: sha512-QCzE1Dio18x/1oyElrMzwCOjnpQxlWErhcd4EIJCC61cblkHQC7feuhuZHVhH7dYqBehNH3lvJC/rBnUz8Fmlg==}
+  '@swagger-api/apidom-ns-asyncapi-2@1.5.0':
+    resolution: {integrity: sha512-luYRreqMhHRSGQWEOt8I8Pd12Up2tl66w1oCBBJHwzc97j8a9sN6S0s6FuJS+LLajJgyDwwL6msgP5r92W9Ppw==}
 
-  '@swagger-api/apidom-ns-asyncapi-3@1.4.0':
-    resolution: {integrity: sha512-XcPsuGVKO8ed8WDvA56UAUR6b8YgsL+JB/pQrSnUm2KRajg6+736c8L83a2EZB0ulaZOY2+Ex/bkuYNak0ceJA==}
+  '@swagger-api/apidom-ns-asyncapi-3@1.5.0':
+    resolution: {integrity: sha512-Xvj6tAVchSkki9rWb5d9KzHbr7f0EmO8tZ6rfqEQHlx+XGAOoMzlRrwjvPvrn/8+wOI8E/AxVw25TuRfxiHMAQ==}
 
-  '@swagger-api/apidom-ns-json-schema-2019-09@1.4.0':
-    resolution: {integrity: sha512-xvsYdcfk00vcDYAK+qA2PBQs/uyuYUc3Bubv19s8rRd+gykdzm+7vZjYEMXIZuqn4ao+DDe7kIFipx31Cz4zTw==}
+  '@swagger-api/apidom-ns-json-schema-2019-09@1.5.0':
+    resolution: {integrity: sha512-xd4Fhs3YSqKNDO7yhs7u+mcrEi9gBIo2i1NjUDAX4YLs4QPwACq4ruEp1VihSrgunv/A1dQvmQcLpjpTsoqtIg==}
 
-  '@swagger-api/apidom-ns-json-schema-2020-12@1.4.0':
-    resolution: {integrity: sha512-FOadSRcNmKmXDi71DpOaNyXIvIY13FSFzCVLoMrIJfAVMmuuWN+hgBjedjnp8mkRjzTW96XRjAuCQ1WUT2OCFA==}
+  '@swagger-api/apidom-ns-json-schema-2020-12@1.5.0':
+    resolution: {integrity: sha512-+WdWwrLpdZaEDqS5uzVUJ34emCZSNOzqs2AfrxopOenbQM/Th29lHrTt2Zu6L4xhlp8HTUaqIb8nnkjVd/wheg==}
 
-  '@swagger-api/apidom-ns-json-schema-draft-4@1.4.0':
-    resolution: {integrity: sha512-LKzAUqHEAgm4WmuYbhPCDycr1nO/G14NwNG35RQJHVZi+FRrvzFgD80h5yNNzYjXYtNQrRGtKPTR6LXImZjWag==}
+  '@swagger-api/apidom-ns-json-schema-draft-4@1.5.0':
+    resolution: {integrity: sha512-YxGZcTjXuKOPX2DHhSM3SBtxzriXs/8blNIBouIxqtalythud+nyi2sx1pQllBraBDsqQl3q5nCNXufum+TrNw==}
 
-  '@swagger-api/apidom-ns-json-schema-draft-6@1.4.0':
-    resolution: {integrity: sha512-QoxxQw0xDpFe2SYeX96Gt2rp1MSQcvSoiiV9yR6G9j0Jbr3bipFiI6rK4OFSXq3Wcalfccjz77aiG42K9QDWUQ==}
+  '@swagger-api/apidom-ns-json-schema-draft-6@1.5.0':
+    resolution: {integrity: sha512-OOzP1Xi/GETOQ4qEksoESsq7CV7mW51aYk8T7yKArWocT3dJ9pn6smmpNmd3MnGVXJFumscKHCQzYrjnCQE6/A==}
 
-  '@swagger-api/apidom-ns-json-schema-draft-7@1.4.0':
-    resolution: {integrity: sha512-jnjuj4n26FhS2ZXwA6n86PlRi2sZ5GIP18JBRLGwDxTRCEqguX7Ar1NgKDn9VCoCmSZQ04ebLoipFGafvlA3VA==}
+  '@swagger-api/apidom-ns-json-schema-draft-7@1.5.0':
+    resolution: {integrity: sha512-lL8S8Qmm5gc386bYfO4ptL1BVlN5Htg3QITXew8y6EItAo8syXCPkWy7h8JXC76vGVMNLr1KAISuZ0dzqz3Yow==}
 
-  '@swagger-api/apidom-ns-openapi-2@1.4.0':
-    resolution: {integrity: sha512-2Uxy+dv4oU5Zw03Twkoxz1FWz4117Sz6UEWUmRaFsijGpaxWkauy6tBpp/U43D86eMRpkR6Jb6OA+UTaENYxxQ==}
+  '@swagger-api/apidom-ns-openapi-2@1.5.0':
+    resolution: {integrity: sha512-i8quM2983OaWJf4/44CeFwzZI0Kr0W4i54lfbKw88kcZWgYB5OXqdUcbOX9g15z2bd+IpmLzmeWjY5O0WiXWKg==}
 
-  '@swagger-api/apidom-ns-openapi-3-0@1.4.0':
-    resolution: {integrity: sha512-012Zx/r6ncajjc98AzZNDUpt1ShXwutUtrvCuBoz8dwQzpJfPc2HNGMM6tOvYX/isqzeCG7+zlKEG8tEv0X1RA==}
+  '@swagger-api/apidom-ns-openapi-3-0@1.5.0':
+    resolution: {integrity: sha512-P+97SVL+uomuO1lmByBcXZLkZjHJCZ/7hTPbMmmm40f0J6Se46tRuakImaQLtZld5X067aSxYVo9/npm+VecMQ==}
 
-  '@swagger-api/apidom-ns-openapi-3-1@1.4.0':
-    resolution: {integrity: sha512-ZW91r56RyalrNdxB4vnJNOXLNi/iQZSyvUjNDkJAO5e8/z3Hf7evU1ftCpgvsQVwiVXOG+b5KfgOw3Lwbc+a2w==}
+  '@swagger-api/apidom-ns-openapi-3-1@1.5.0':
+    resolution: {integrity: sha512-8tIL0Kz+3FYelW+zoWd8/5Pj5neDOD4nOV4GJbmLntfQRjboi1ki/eoKqHJvhBBrMSzgBZidgBauzK7HipTZ8A==}
 
-  '@swagger-api/apidom-parser-adapter-api-design-systems-json@1.4.0':
-    resolution: {integrity: sha512-XtLjh4dHQZwLkqhYSA2Uizu33/MrJsnk2KYXujokMJN4BkfGa6thzzvjTUCC7ZFQW6hV2aMm6tmwm51UdWCCMQ==}
+  '@swagger-api/apidom-parser-adapter-api-design-systems-json@1.5.0':
+    resolution: {integrity: sha512-BeX09CAvJYuwwg6uxtHBWOdrviF7Q0ylve2Qc4U5M8TST5Cff2X8H6y26WU6ss6te/VsFYMtkZw6uYf78m9kXA==}
 
-  '@swagger-api/apidom-parser-adapter-api-design-systems-yaml@1.4.0':
-    resolution: {integrity: sha512-1adlUHS7X1FAFVFb/3XnLh/D8PLcbBcf40OXmIpdQW92fIUdhhUJfuthTD6i4no0bEplkFATyO6Yd6LYNAGSCw==}
+  '@swagger-api/apidom-parser-adapter-api-design-systems-yaml@1.5.0':
+    resolution: {integrity: sha512-OBP/ccJLkZA0TEgzZvzuVOnv/2ic1Q3xW1BkTEGUapAqG0qBuUFNVjiIBVWKbPA88BP4vamvTxtT/nhnraC04w==}
 
-  '@swagger-api/apidom-parser-adapter-arazzo-json-1@1.4.0':
-    resolution: {integrity: sha512-Xqzi8ciYxNaMIXLtWh/80xQAh6ulqd/yOxDXJKdQqAQSExGwRI3bXHo0ynIvMJIkO049VKDhvqmTv1vEmZwQUA==}
+  '@swagger-api/apidom-parser-adapter-arazzo-json-1@1.5.0':
+    resolution: {integrity: sha512-mpJoq0zhvweYoctl8IfjcmYPQVWaFptEpNq0AtjXYvHp1bNNTLV/Q+oRKOO4odSPTyoHVzJjahtwgxP1DqXBag==}
 
-  '@swagger-api/apidom-parser-adapter-arazzo-yaml-1@1.4.0':
-    resolution: {integrity: sha512-HkWOuNjKnzgaa/ZCSLT1v+kqBof1dou6m3dXUfWw/hTpXk4Pp/kwKtqz9n+LCvG2bNfVEZFvwgGF3N6ZSujdog==}
+  '@swagger-api/apidom-parser-adapter-arazzo-yaml-1@1.5.0':
+    resolution: {integrity: sha512-WNC4C8U+cb8kprYFWziMtnO+9/mZuJ5BYXCe79vCH9G9CTDcmoDD1HeYkpAon4BKAI4jNbsZ4boF09ineAHFSQ==}
 
-  '@swagger-api/apidom-parser-adapter-asyncapi-json-2@1.4.0':
-    resolution: {integrity: sha512-i0WWw0xPZvPf3jTET0YzE8INu7PyNTyypD09WCKhhKgmFpNmZ2SHbHTP6+/OTTRu4nId9+icD6cHKCma0/W2tQ==}
+  '@swagger-api/apidom-parser-adapter-asyncapi-json-2@1.5.0':
+    resolution: {integrity: sha512-9xL8PTHqBv1oBZpTlST596n/TBAuHRa+t41OrThQIg+6mqkQFy6jqf/nFFe4B6MQyOURNLcII4VNcdBVwvHSpQ==}
 
-  '@swagger-api/apidom-parser-adapter-asyncapi-json-3@1.4.0':
-    resolution: {integrity: sha512-zKklrdThBa9yqmYeZYyX5zd0NKCLIUOIkV1HtMXsCg2f9ceTHldtenn3RvqYMY0EDd6IpVRfLfOhUNPpttTLOg==}
+  '@swagger-api/apidom-parser-adapter-asyncapi-json-3@1.5.0':
+    resolution: {integrity: sha512-ySX+YuSMiJUR5CMox3GBotiT9vtA7jdZz+ZD7XC2zb4RGfayGtHX02QBqBarlgoZIVorP4+ps6ol0+Zg55vbYA==}
 
-  '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2@1.4.0':
-    resolution: {integrity: sha512-+hzzfCSJ8KaoApYmI22aYKoXi0La0/696FaOnCloPloKZwcPvjR5S7WxleZTMuAcXzeM4R/92LbD5BTUein4Ow==}
+  '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2@1.5.0':
+    resolution: {integrity: sha512-E+SY7E1nE4A40fgrZvKy0U0nXYAWk4sHTCIp0uxpfkzBXq5wp7IU+wr6E56THzuNF0HaNMzzSfi6agNad30bPg==}
 
-  '@swagger-api/apidom-parser-adapter-asyncapi-yaml-3@1.4.0':
-    resolution: {integrity: sha512-R7cbEbFYTJ8hCV04VkaRap54T0t4Q+v9gXvxVf+Kn1csRXoR0O/yJBakCcmv7taswzv+1dCWbjJOJSHDJFIB0w==}
+  '@swagger-api/apidom-parser-adapter-asyncapi-yaml-3@1.5.0':
+    resolution: {integrity: sha512-NCwY+ZcmEjwabbDp1/uQtnNWfSd1KI9ikM6McM4aOWHp4b24AdClbTl1W5QXskM2f9g45TadmWR8Ol7yex6H3g==}
 
-  '@swagger-api/apidom-parser-adapter-json@1.4.0':
-    resolution: {integrity: sha512-QfwjuG1UaEYGf+tpPfN6GAZTJezhq2uy5Dgxmxe1f9Z/0V3mZmmdFck+NEXU698tAvFsf+qMeFmeR22EB4mzSg==}
+  '@swagger-api/apidom-parser-adapter-json@1.5.0':
+    resolution: {integrity: sha512-pSavF+9zuaaEoQ5lHqfYoHpo4sKBAnZGQcLAGI6ZhpNOHkxFkcmDd/hNYI0gM9g7NuwX6+xFBZi29OYsA4qtlw==}
 
-  '@swagger-api/apidom-parser-adapter-openapi-json-2@1.4.0':
-    resolution: {integrity: sha512-1crFQpjzGod/wdW8BE1C8j/qMe02EaUlXt8ZWePns3GzEWSEdxRuiiNh/b0EzXVlAUStcRigzaajNsn+KT3tUA==}
+  '@swagger-api/apidom-parser-adapter-openapi-json-2@1.5.0':
+    resolution: {integrity: sha512-O9ndJK/oOiPnY0UmrqIDYFAL4bODT3PJFa8bVVORKr+ZdUPg/xRZL/kgWgA8uOBfTuKU57sQvFvTOV8omyeURQ==}
 
-  '@swagger-api/apidom-parser-adapter-openapi-json-3-0@1.4.0':
-    resolution: {integrity: sha512-K7r2qZ3wNu+ql4yUsTILbMCTZ5BY0deEi+ig+9KskRqjJ/0TZeeqq3rj8GCgHw7ocQh2WnMBeGGX1YO8bWBAUQ==}
+  '@swagger-api/apidom-parser-adapter-openapi-json-3-0@1.5.0':
+    resolution: {integrity: sha512-qxh/sV54E6Y8VknvzAu/21r8ElxB1N3mmCnxTh1q6AUo6MX0SWCmnL1E2v3/2/HlJAA6yHW4RjwdKAv90Wklxw==}
 
-  '@swagger-api/apidom-parser-adapter-openapi-json-3-1@1.4.0':
-    resolution: {integrity: sha512-oECL5TrqbYzVRv17Jco1G3KruZkh7N7iKhfqgBcb1irZ4ozXNlv1FtZ8bZxpczXxvGhSkSLFKbEd0pHZaO0iPA==}
+  '@swagger-api/apidom-parser-adapter-openapi-json-3-1@1.5.0':
+    resolution: {integrity: sha512-DAMwQlrZj8b9lBj4G4huWLPoOHmOASe0JFFfhu18kmcCFtUSOR5UsCTvbJDyOuztOyKCT/HIMXp3/OEKbU8y6w==}
 
-  '@swagger-api/apidom-parser-adapter-openapi-yaml-2@1.4.0':
-    resolution: {integrity: sha512-Ai0j0oInutDAb0Lvpb/UBhatc0QOLgdYpAPupafvjCEFt6fTpomO2HjNA+4Z+0cqH69ggKgQ/ldJ5G8FgqKcrw==}
+  '@swagger-api/apidom-parser-adapter-openapi-yaml-2@1.5.0':
+    resolution: {integrity: sha512-KHPrgAY1g5Fucy+BFDdzUrGaFaVr86d3IgWFvifnKUQGpz96zMMaGG+IWsUoSfoAQaJSHpz+SVnNFaIF2sLOfQ==}
 
-  '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0@1.4.0':
-    resolution: {integrity: sha512-DD6JwfHcywPxZl7e3UqeAU4qdzjQaVudUnnFHWH83m6qWEHldN1+vSfQTzn4DQgi9dz88XfIakUJ1HFHIfEBhg==}
+  '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0@1.5.0':
+    resolution: {integrity: sha512-owFoZyqiRsSUtDEuSafLGWHwupVeh+pcspfnQy2sl7bmYmsi73NMJpsdIMcizlyeOqav0MWQ7FNrBZOSctiPIQ==}
 
-  '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1@1.4.0':
-    resolution: {integrity: sha512-FWGMgP1iJGIXISLSyz0j/Pthux11H712gPYzaL7DRZz8wevQvgc4TrYF4hHZwSvN8xpEkJLURBclfwsLDKzIXQ==}
+  '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1@1.5.0':
+    resolution: {integrity: sha512-9NcPLDbXZTftx9cMDh9iW+nXLeFFFTCuRyXKvtV+tu3PEiACMUIi0ij5J6+NZ3sBQVaEp7qF7nqzPIT2JRZHzw==}
 
-  '@swagger-api/apidom-parser-adapter-yaml-1-2@1.4.0':
-    resolution: {integrity: sha512-rqVxBEiuCyBbNhnFUsBxPEewFjKDBYkiFqJGmwNo79G51wJOK9GnSjT1AyMZ+fW3RDlDZ+HR8IojQCykhYoAGg==}
+  '@swagger-api/apidom-parser-adapter-yaml-1-2@1.5.0':
+    resolution: {integrity: sha512-TBpyfwQ0aFWmVlpI4aKMVwoPM3bLxtc9MzDchjo5BXWLfpYIXNbI72VzzeEeUnauC9I5kTomT4xQKZQzNtEGnw==}
 
-  '@swagger-api/apidom-reference@1.4.0':
-    resolution: {integrity: sha512-MRqShsNMzigiJxFNYWF4YyPfzVNyEAm1E4DngYENuZxV+Hf+2Zri+DEk3FL6JPoDLLx/UYO1EB9S8VuPZeNT6g==}
+  '@swagger-api/apidom-reference@1.5.0':
+    resolution: {integrity: sha512-6PrvPqAecUcYkMlJGK4g7wEcpSAMTAOysxGAxfF42JRD6pAkAqAiGAzCGrucZXzK9UyRqfchloUlv/5fqnQ+CQ==}
 
   '@swaggerexpert/cookie@2.0.2':
     resolution: {integrity: sha512-DPI8YJ0Vznk4CT+ekn3rcFNq1uQwvUHZhH6WvTSPD0YKBIlMS9ur2RYKghXuxxOiqOam/i4lHJH4xTIiTgs3Mg==}
@@ -1717,63 +1717,63 @@ packages:
   '@types/yargs@17.0.35':
     resolution: {integrity: sha512-qUHkeCyQFxMXg79wQfTtfndEC+N9ZZg76HJftDJp+qH2tV7Gj4OJi7l+PiWwJ+pWtW8GwSmqsDj/oymhrTWXjg==}
 
-  '@typescript-eslint/eslint-plugin@8.55.0':
-    resolution: {integrity: sha512-1y/MVSz0NglV1ijHC8OT49mPJ4qhPYjiK08YUQVbIOyu+5k862LKUHFkpKHWu//zmr7hDR2rhwUm6gnCGNmGBQ==}
+  '@typescript-eslint/eslint-plugin@8.56.0':
+    resolution: {integrity: sha512-lRyPDLzNCuae71A3t9NEINBiTn7swyOhvUj3MyUOxb8x6g6vPEFoOU+ZRmGMusNC3X3YMhqMIX7i8ShqhT74Pw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      '@typescript-eslint/parser': ^8.55.0
-      eslint: ^8.57.0 || ^9.0.0
+      '@typescript-eslint/parser': ^8.56.0
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/parser@8.55.0':
-    resolution: {integrity: sha512-4z2nCSBfVIMnbuu8uinj+f0o4qOeggYJLbjpPHka3KH1om7e+H9yLKTYgksTaHcGco+NClhhY2vyO3HsMH1RGw==}
+  '@typescript-eslint/parser@8.56.0':
+    resolution: {integrity: sha512-IgSWvLobTDOjnaxAfDTIHaECbkNlAlKv2j5SjpB2v7QHKv1FIfjwMy8FsDbVfDX/KjmCmYICcw7uGaXLhtsLNg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/project-service@8.55.0':
-    resolution: {integrity: sha512-zRcVVPFUYWa3kNnjaZGXSu3xkKV1zXy8M4nO/pElzQhFweb7PPtluDLQtKArEOGmjXoRjnUZ29NjOiF0eCDkcQ==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      typescript: '>=4.8.4 <6.0.0'
-
-  '@typescript-eslint/scope-manager@8.55.0':
-    resolution: {integrity: sha512-fVu5Omrd3jeqeQLiB9f1YsuK/iHFOwb04bCtY4BSCLgjNbOD33ZdV6KyEqplHr+IlpgT0QTZ/iJ+wT7hvTx49Q==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-
-  '@typescript-eslint/tsconfig-utils@8.55.0':
-    resolution: {integrity: sha512-1R9cXqY7RQd7WuqSN47PK9EDpgFUK3VqdmbYrvWJZYDd0cavROGn+74ktWBlmJ13NXUQKlZ/iAEQHI/V0kKe0Q==}
+  '@typescript-eslint/project-service@8.56.0':
+    resolution: {integrity: sha512-M3rnyL1vIQOMeWxTWIW096/TtVP+8W3p/XnaFflhmcFp+U4zlxUxWj4XwNs6HbDeTtN4yun0GNTTDBw/SvufKg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/type-utils@8.55.0':
-    resolution: {integrity: sha512-x1iH2unH4qAt6I37I2CGlsNs+B9WGxurP2uyZLRz6UJoZWDBx9cJL1xVN/FiOmHEONEg6RIufdvyT0TEYIgC5g==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
-      typescript: '>=4.8.4 <6.0.0'
-
-  '@typescript-eslint/types@8.55.0':
-    resolution: {integrity: sha512-ujT0Je8GI5BJWi+/mMoR0wxwVEQaxM+pi30xuMiJETlX80OPovb2p9E8ss87gnSVtYXtJoU9U1Cowcr6w2FE0w==}
+  '@typescript-eslint/scope-manager@8.56.0':
+    resolution: {integrity: sha512-7UiO/XwMHquH+ZzfVCfUNkIXlp/yQjjnlYUyYz7pfvlK3/EyyN6BK+emDmGNyQLBtLGaYrTAI6KOw8tFucWL2w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@typescript-eslint/typescript-estree@8.55.0':
-    resolution: {integrity: sha512-EwrH67bSWdx/3aRQhCoxDaHM+CrZjotc2UCCpEDVqfCE+7OjKAGWNY2HsCSTEVvWH2clYQK8pdeLp42EVs+xQw==}
+  '@typescript-eslint/tsconfig-utils@8.56.0':
+    resolution: {integrity: sha512-bSJoIIt4o3lKXD3xmDh9chZcjCz5Lk8xS7Rxn+6l5/pKrDpkCwtQNQQwZ2qRPk7TkUYhrq3WPIHXOXlbXP0itg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/utils@8.55.0':
-    resolution: {integrity: sha512-BqZEsnPGdYpgyEIkDC1BadNY8oMwckftxBT+C8W0g1iKPdeqKZBtTfnvcq0nf60u7MkjFO8RBvpRGZBPw4L2ow==}
+  '@typescript-eslint/type-utils@8.56.0':
+    resolution: {integrity: sha512-qX2L3HWOU2nuDs6GzglBeuFXviDODreS58tLY/BALPC7iu3Fa+J7EOTwnX9PdNBxUI7Uh0ntP0YWGnxCkXzmfA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: '>=4.8.4 <6.0.0'
 
-  '@typescript-eslint/visitor-keys@8.55.0':
-    resolution: {integrity: sha512-AxNRwEie8Nn4eFS1FzDMJWIISMGoXMb037sgCBJ3UR6o0fQTzr2tqN9WT+DkWJPhIdQCfV7T6D387566VtnCJA==}
+  '@typescript-eslint/types@8.56.0':
+    resolution: {integrity: sha512-DBsLPs3GsWhX5HylbP9HNG15U0bnwut55Lx12bHB9MpXxQ+R5GC8MwQe+N1UFXxAeQDvEsEDY6ZYwX03K7Z6HQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@typescript-eslint/typescript-estree@8.56.0':
+    resolution: {integrity: sha512-ex1nTUMWrseMltXUHmR2GAQ4d+WjkZCT4f+4bVsps8QEdh0vlBsaCokKTPlnqBFqqGaxilDNJG7b8dolW2m43Q==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      typescript: '>=4.8.4 <6.0.0'
+
+  '@typescript-eslint/utils@8.56.0':
+    resolution: {integrity: sha512-RZ3Qsmi2nFGsS+n+kjLAYDPVlrzf7UhTffrDIKr+h2yzAlYP/y5ZulU0yeDEPItos2Ph46JAL5P/On3pe7kDIQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
+      typescript: '>=4.8.4 <6.0.0'
+
+  '@typescript-eslint/visitor-keys@8.56.0':
+    resolution: {integrity: sha512-q+SL+b+05Ud6LbEE35qe4A99P+htKTKVbyiNEe45eCbJFyh/HVK9QXwlrbz+Q4L8SOW4roxSVwXYj4DMBT7Ieg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@ungap/structured-clone@1.3.0':
@@ -2611,11 +2611,11 @@ packages:
     resolution: {integrity: sha512-8HFEBPKhOpJPEPu70wJJetjKta86Gw9+CCyCnB3sui2qQfOvRyqBy4IKLKKAwdMpWb2lHXWk9Wb4Z6AmaUT1Pg==}
     engines: {node: '>=12'}
 
-  css-loader@7.1.3:
-    resolution: {integrity: sha512-frbERmjT0UC5lMheWpJmMilnt9GEhbZJN/heUb7/zaJYeIzj5St9HvDcfshzzOqbsS+rYpMk++2SD3vGETDSyA==}
+  css-loader@7.1.4:
+    resolution: {integrity: sha512-vv3J9tlOl04WjiMvHQI/9tmIrCxVrj6PFbHemBB1iihpeRbi/I4h033eoFIhwxBBqLhI0KYFS7yvynBFhIZfTw==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
-      '@rspack/core': 0.x || 1.x
+      '@rspack/core': 0.x || ^1.0.0 || ^2.0.0-0
       webpack: ^5.27.0
     peerDependenciesMeta:
       '@rspack/core':
@@ -5691,8 +5691,8 @@ packages:
   swagger-client@3.36.1:
     resolution: {integrity: sha512-bcYpeN4P3sOoKi22zsxIlL9lSgouBAmQmL5hH4g5yeOvyTUvq1+OFtGTs0l1C5Dkb0ZN+2vNgp0FBAFulmUklA==}
 
-  swagger-ui@5.31.0:
-    resolution: {integrity: sha512-FKVcgFnbZDhQR6Cfj/s+gvhZKtg1xosRFfXSenF8bia8eLzFIdHU2BMWFP0E7x5Yy78YPAYCE05wrlOuXfNakw==}
+  swagger-ui@5.31.1:
+    resolution: {integrity: sha512-3i7iAOf4SiHD/T2fw44G1dqTmhnujuRExV9/3SeNXtBePfr6Lem+jV/9ozcPyI9NM9U+VfJeBVXZd58iEBXg4A==}
 
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
@@ -5881,11 +5881,11 @@ packages:
   types-ramda@0.30.1:
     resolution: {integrity: sha512-1HTsf5/QVRmLzcGfldPFvkVsAdi1db1BBKzi7iW3KBUlOICg/nKnFS+jGqDJS3YD8VsWbAh7JiHeBvbsw8RPxA==}
 
-  typescript-eslint@8.55.0:
-    resolution: {integrity: sha512-HE4wj+r5lmDVS9gdaN0/+iqNvPZwGfnJ5lZuz7s5vLlg9ODw0bIiiETaios9LvFI1U94/VBXGm3CB2Y5cNFMpw==}
+  typescript-eslint@8.56.0:
+    resolution: {integrity: sha512-c7toRLrotJ9oixgdW7liukZpsnq5CZ7PuKztubGYlNppuTqhIoWfhgHo/7EU0v06gS2l/x0i2NEFK1qMIf0rIg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
-      eslint: ^8.57.0 || ^9.0.0
+      eslint: ^8.57.0 || ^9.0.0 || ^10.0.0
       typescript: '>=4.8.4 <6.0.0'
 
   typescript@5.7.3:
@@ -7857,7 +7857,7 @@ snapshots:
 
   '@stylistic/eslint-plugin@2.11.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
-      '@typescript-eslint/utils': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       eslint: 9.39.2(jiti@2.6.1)
       eslint-visitor-keys: 4.2.1
       espree: 10.4.0
@@ -7874,20 +7874,20 @@ snapshots:
       magic-string: 0.25.9
       string.prototype.matchall: 4.0.12
 
-  '@swagger-api/apidom-ast@1.4.0':
+  '@swagger-api/apidom-ast@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-error': 1.4.0
+      '@swagger-api/apidom-error': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       unraw: 3.0.0
 
-  '@swagger-api/apidom-core@1.4.0':
+  '@swagger-api/apidom-core@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-ast': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
+      '@swagger-api/apidom-ast': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
       '@types/ramda': 0.30.2
       minim: 0.23.8
       ramda: 0.30.1
@@ -7895,246 +7895,246 @@ snapshots:
       short-unique-id: 5.3.2
       ts-mixer: 6.0.4
 
-  '@swagger-api/apidom-error@1.4.0':
+  '@swagger-api/apidom-error@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
 
-  '@swagger-api/apidom-json-pointer@1.4.0':
+  '@swagger-api/apidom-json-pointer@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
       '@swaggerexpert/json-pointer': 2.10.2
 
-  '@swagger-api/apidom-ns-api-design-systems@1.4.0':
+  '@swagger-api/apidom-ns-api-design-systems@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
-      '@swagger-api/apidom-ns-openapi-3-1': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
+      '@swagger-api/apidom-ns-openapi-3-1': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
     optional: true
 
-  '@swagger-api/apidom-ns-arazzo-1@1.4.0':
+  '@swagger-api/apidom-ns-arazzo-1@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-json-schema-2020-12': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-json-schema-2020-12': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
     optional: true
 
-  '@swagger-api/apidom-ns-asyncapi-2@1.4.0':
+  '@swagger-api/apidom-ns-asyncapi-2@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-json-schema-draft-7': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-json-schema-draft-7': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
     optional: true
 
-  '@swagger-api/apidom-ns-asyncapi-3@1.4.0':
+  '@swagger-api/apidom-ns-asyncapi-3@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-asyncapi-2': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-asyncapi-2': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
     optional: true
 
-  '@swagger-api/apidom-ns-json-schema-2019-09@1.4.0':
+  '@swagger-api/apidom-ns-json-schema-2019-09@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
-      '@swagger-api/apidom-ns-json-schema-draft-7': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
+      '@swagger-api/apidom-ns-json-schema-draft-7': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
 
-  '@swagger-api/apidom-ns-json-schema-2020-12@1.4.0':
+  '@swagger-api/apidom-ns-json-schema-2020-12@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
-      '@swagger-api/apidom-ns-json-schema-2019-09': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
+      '@swagger-api/apidom-ns-json-schema-2019-09': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
 
-  '@swagger-api/apidom-ns-json-schema-draft-4@1.4.0':
+  '@swagger-api/apidom-ns-json-schema-draft-4@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-ast': 1.4.0
-      '@swagger-api/apidom-core': 1.4.0
+      '@swagger-api/apidom-ast': 1.5.0
+      '@swagger-api/apidom-core': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
 
-  '@swagger-api/apidom-ns-json-schema-draft-6@1.4.0':
+  '@swagger-api/apidom-ns-json-schema-draft-6@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
-      '@swagger-api/apidom-ns-json-schema-draft-4': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
+      '@swagger-api/apidom-ns-json-schema-draft-4': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
 
-  '@swagger-api/apidom-ns-json-schema-draft-7@1.4.0':
+  '@swagger-api/apidom-ns-json-schema-draft-7@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
-      '@swagger-api/apidom-ns-json-schema-draft-6': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
+      '@swagger-api/apidom-ns-json-schema-draft-6': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
 
-  '@swagger-api/apidom-ns-openapi-2@1.4.0':
+  '@swagger-api/apidom-ns-openapi-2@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
-      '@swagger-api/apidom-ns-json-schema-draft-4': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
+      '@swagger-api/apidom-ns-json-schema-draft-4': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
     optional: true
 
-  '@swagger-api/apidom-ns-openapi-3-0@1.4.0':
+  '@swagger-api/apidom-ns-openapi-3-0@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
-      '@swagger-api/apidom-ns-json-schema-draft-4': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
+      '@swagger-api/apidom-ns-json-schema-draft-4': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
 
-  '@swagger-api/apidom-ns-openapi-3-1@1.4.0':
+  '@swagger-api/apidom-ns-openapi-3-1@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-ast': 1.4.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-json-pointer': 1.4.0
-      '@swagger-api/apidom-ns-json-schema-2020-12': 1.4.0
-      '@swagger-api/apidom-ns-openapi-3-0': 1.4.0
+      '@swagger-api/apidom-ast': 1.5.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-json-pointer': 1.5.0
+      '@swagger-api/apidom-ns-json-schema-2020-12': 1.5.0
+      '@swagger-api/apidom-ns-openapi-3-0': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
       ts-mixer: 6.0.4
 
-  '@swagger-api/apidom-parser-adapter-api-design-systems-json@1.4.0':
+  '@swagger-api/apidom-parser-adapter-api-design-systems-json@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-api-design-systems': 1.4.0
-      '@swagger-api/apidom-parser-adapter-json': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-api-design-systems': 1.5.0
+      '@swagger-api/apidom-parser-adapter-json': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-api-design-systems-yaml@1.4.0':
+  '@swagger-api/apidom-parser-adapter-api-design-systems-yaml@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-api-design-systems': 1.4.0
-      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-api-design-systems': 1.5.0
+      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-arazzo-json-1@1.4.0':
+  '@swagger-api/apidom-parser-adapter-arazzo-json-1@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-arazzo-1': 1.4.0
-      '@swagger-api/apidom-parser-adapter-json': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-arazzo-1': 1.5.0
+      '@swagger-api/apidom-parser-adapter-json': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-arazzo-yaml-1@1.4.0':
+  '@swagger-api/apidom-parser-adapter-arazzo-yaml-1@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-arazzo-1': 1.4.0
-      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-arazzo-1': 1.5.0
+      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-asyncapi-json-2@1.4.0':
+  '@swagger-api/apidom-parser-adapter-asyncapi-json-2@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-asyncapi-2': 1.4.0
-      '@swagger-api/apidom-parser-adapter-json': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-asyncapi-2': 1.5.0
+      '@swagger-api/apidom-parser-adapter-json': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-asyncapi-json-3@1.4.0':
+  '@swagger-api/apidom-parser-adapter-asyncapi-json-3@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-asyncapi-3': 1.4.0
-      '@swagger-api/apidom-parser-adapter-json': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-asyncapi-3': 1.5.0
+      '@swagger-api/apidom-parser-adapter-json': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2@1.4.0':
+  '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-asyncapi-2': 1.4.0
-      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-asyncapi-2': 1.5.0
+      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-asyncapi-yaml-3@1.4.0':
+  '@swagger-api/apidom-parser-adapter-asyncapi-yaml-3@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-asyncapi-3': 1.4.0
-      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-asyncapi-3': 1.5.0
+      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-json@1.4.0':
+  '@swagger-api/apidom-parser-adapter-json@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-ast': 1.4.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
+      '@swagger-api/apidom-ast': 1.5.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
@@ -8143,78 +8143,78 @@ snapshots:
       web-tree-sitter: 0.24.5
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-openapi-json-2@1.4.0':
+  '@swagger-api/apidom-parser-adapter-openapi-json-2@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-openapi-2': 1.4.0
-      '@swagger-api/apidom-parser-adapter-json': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-openapi-2': 1.5.0
+      '@swagger-api/apidom-parser-adapter-json': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-openapi-json-3-0@1.4.0':
+  '@swagger-api/apidom-parser-adapter-openapi-json-3-0@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-openapi-3-0': 1.4.0
-      '@swagger-api/apidom-parser-adapter-json': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-openapi-3-0': 1.5.0
+      '@swagger-api/apidom-parser-adapter-json': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-openapi-json-3-1@1.4.0':
+  '@swagger-api/apidom-parser-adapter-openapi-json-3-1@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-openapi-3-1': 1.4.0
-      '@swagger-api/apidom-parser-adapter-json': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-openapi-3-1': 1.5.0
+      '@swagger-api/apidom-parser-adapter-json': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-openapi-yaml-2@1.4.0':
+  '@swagger-api/apidom-parser-adapter-openapi-yaml-2@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-openapi-2': 1.4.0
-      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-openapi-2': 1.5.0
+      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0@1.4.0':
+  '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-openapi-3-0': 1.4.0
-      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-openapi-3-0': 1.5.0
+      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1@1.4.0':
+  '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-ns-openapi-3-1': 1.4.0
-      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-ns-openapi-3-1': 1.5.0
+      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.5.0
       '@types/ramda': 0.30.2
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optional: true
 
-  '@swagger-api/apidom-parser-adapter-yaml-1-2@1.4.0':
+  '@swagger-api/apidom-parser-adapter-yaml-1-2@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-ast': 1.4.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
+      '@swagger-api/apidom-ast': 1.5.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
       '@tree-sitter-grammars/tree-sitter-yaml': 0.7.1(tree-sitter@0.22.4)
       '@types/ramda': 0.30.2
       ramda: 0.30.1
@@ -8223,11 +8223,11 @@ snapshots:
       web-tree-sitter: 0.24.5
     optional: true
 
-  '@swagger-api/apidom-reference@1.4.0':
+  '@swagger-api/apidom-reference@1.5.0':
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
       '@types/ramda': 0.30.2
       axios: 1.13.5
       minimatch: 7.4.6
@@ -8235,28 +8235,28 @@ snapshots:
       ramda: 0.30.1
       ramda-adjunct: 5.1.0(ramda@0.30.1)
     optionalDependencies:
-      '@swagger-api/apidom-json-pointer': 1.4.0
-      '@swagger-api/apidom-ns-arazzo-1': 1.4.0
-      '@swagger-api/apidom-ns-asyncapi-2': 1.4.0
-      '@swagger-api/apidom-ns-openapi-2': 1.4.0
-      '@swagger-api/apidom-ns-openapi-3-0': 1.4.0
-      '@swagger-api/apidom-ns-openapi-3-1': 1.4.0
-      '@swagger-api/apidom-parser-adapter-api-design-systems-json': 1.4.0
-      '@swagger-api/apidom-parser-adapter-api-design-systems-yaml': 1.4.0
-      '@swagger-api/apidom-parser-adapter-arazzo-json-1': 1.4.0
-      '@swagger-api/apidom-parser-adapter-arazzo-yaml-1': 1.4.0
-      '@swagger-api/apidom-parser-adapter-asyncapi-json-2': 1.4.0
-      '@swagger-api/apidom-parser-adapter-asyncapi-json-3': 1.4.0
-      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2': 1.4.0
-      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-3': 1.4.0
-      '@swagger-api/apidom-parser-adapter-json': 1.4.0
-      '@swagger-api/apidom-parser-adapter-openapi-json-2': 1.4.0
-      '@swagger-api/apidom-parser-adapter-openapi-json-3-0': 1.4.0
-      '@swagger-api/apidom-parser-adapter-openapi-json-3-1': 1.4.0
-      '@swagger-api/apidom-parser-adapter-openapi-yaml-2': 1.4.0
-      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0': 1.4.0
-      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1': 1.4.0
-      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.4.0
+      '@swagger-api/apidom-json-pointer': 1.5.0
+      '@swagger-api/apidom-ns-arazzo-1': 1.5.0
+      '@swagger-api/apidom-ns-asyncapi-2': 1.5.0
+      '@swagger-api/apidom-ns-openapi-2': 1.5.0
+      '@swagger-api/apidom-ns-openapi-3-0': 1.5.0
+      '@swagger-api/apidom-ns-openapi-3-1': 1.5.0
+      '@swagger-api/apidom-parser-adapter-api-design-systems-json': 1.5.0
+      '@swagger-api/apidom-parser-adapter-api-design-systems-yaml': 1.5.0
+      '@swagger-api/apidom-parser-adapter-arazzo-json-1': 1.5.0
+      '@swagger-api/apidom-parser-adapter-arazzo-yaml-1': 1.5.0
+      '@swagger-api/apidom-parser-adapter-asyncapi-json-2': 1.5.0
+      '@swagger-api/apidom-parser-adapter-asyncapi-json-3': 1.5.0
+      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-2': 1.5.0
+      '@swagger-api/apidom-parser-adapter-asyncapi-yaml-3': 1.5.0
+      '@swagger-api/apidom-parser-adapter-json': 1.5.0
+      '@swagger-api/apidom-parser-adapter-openapi-json-2': 1.5.0
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-0': 1.5.0
+      '@swagger-api/apidom-parser-adapter-openapi-json-3-1': 1.5.0
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-2': 1.5.0
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-0': 1.5.0
+      '@swagger-api/apidom-parser-adapter-openapi-yaml-3-1': 1.5.0
+      '@swagger-api/apidom-parser-adapter-yaml-1-2': 1.5.0
     transitivePeerDependencies:
       - debug
 
@@ -8451,14 +8451,14 @@ snapshots:
     dependencies:
       '@types/yargs-parser': 21.0.3
 
-  '@typescript-eslint/eslint-plugin@8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)':
+  '@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@eslint-community/regexpp': 4.12.2
-      '@typescript-eslint/parser': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
-      '@typescript-eslint/scope-manager': 8.55.0
-      '@typescript-eslint/type-utils': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
-      '@typescript-eslint/utils': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
-      '@typescript-eslint/visitor-keys': 8.55.0
+      '@typescript-eslint/parser': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/scope-manager': 8.56.0
+      '@typescript-eslint/type-utils': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/visitor-keys': 8.56.0
       eslint: 9.39.2(jiti@2.6.1)
       ignore: 7.0.5
       natural-compare: 1.4.0
@@ -8467,41 +8467,41 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)':
+  '@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
-      '@typescript-eslint/scope-manager': 8.55.0
-      '@typescript-eslint/types': 8.55.0
-      '@typescript-eslint/typescript-estree': 8.55.0(typescript@5.7.3)
-      '@typescript-eslint/visitor-keys': 8.55.0
+      '@typescript-eslint/scope-manager': 8.56.0
+      '@typescript-eslint/types': 8.56.0
+      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.7.3)
+      '@typescript-eslint/visitor-keys': 8.56.0
       debug: 4.4.3
       eslint: 9.39.2(jiti@2.6.1)
       typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/project-service@8.55.0(typescript@5.7.3)':
+  '@typescript-eslint/project-service@8.56.0(typescript@5.7.3)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.55.0(typescript@5.7.3)
-      '@typescript-eslint/types': 8.55.0
+      '@typescript-eslint/tsconfig-utils': 8.56.0(typescript@5.7.3)
+      '@typescript-eslint/types': 8.56.0
       debug: 4.4.3
       typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/scope-manager@8.55.0':
+  '@typescript-eslint/scope-manager@8.56.0':
     dependencies:
-      '@typescript-eslint/types': 8.55.0
-      '@typescript-eslint/visitor-keys': 8.55.0
+      '@typescript-eslint/types': 8.56.0
+      '@typescript-eslint/visitor-keys': 8.56.0
 
-  '@typescript-eslint/tsconfig-utils@8.55.0(typescript@5.7.3)':
+  '@typescript-eslint/tsconfig-utils@8.56.0(typescript@5.7.3)':
     dependencies:
       typescript: 5.7.3
 
-  '@typescript-eslint/type-utils@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)':
+  '@typescript-eslint/type-utils@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
-      '@typescript-eslint/types': 8.55.0
-      '@typescript-eslint/typescript-estree': 8.55.0(typescript@5.7.3)
-      '@typescript-eslint/utils': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/types': 8.56.0
+      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       debug: 4.4.3
       eslint: 9.39.2(jiti@2.6.1)
       ts-api-utils: 2.4.0(typescript@5.7.3)
@@ -8509,14 +8509,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/types@8.55.0': {}
+  '@typescript-eslint/types@8.56.0': {}
 
-  '@typescript-eslint/typescript-estree@8.55.0(typescript@5.7.3)':
+  '@typescript-eslint/typescript-estree@8.56.0(typescript@5.7.3)':
     dependencies:
-      '@typescript-eslint/project-service': 8.55.0(typescript@5.7.3)
-      '@typescript-eslint/tsconfig-utils': 8.55.0(typescript@5.7.3)
-      '@typescript-eslint/types': 8.55.0
-      '@typescript-eslint/visitor-keys': 8.55.0
+      '@typescript-eslint/project-service': 8.56.0(typescript@5.7.3)
+      '@typescript-eslint/tsconfig-utils': 8.56.0(typescript@5.7.3)
+      '@typescript-eslint/types': 8.56.0
+      '@typescript-eslint/visitor-keys': 8.56.0
       debug: 4.4.3
       minimatch: 9.0.5
       semver: 7.7.4
@@ -8526,21 +8526,21 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)':
+  '@typescript-eslint/utils@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.2(jiti@2.6.1))
-      '@typescript-eslint/scope-manager': 8.55.0
-      '@typescript-eslint/types': 8.55.0
-      '@typescript-eslint/typescript-estree': 8.55.0(typescript@5.7.3)
+      '@typescript-eslint/scope-manager': 8.56.0
+      '@typescript-eslint/types': 8.56.0
+      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.7.3)
       eslint: 9.39.2(jiti@2.6.1)
       typescript: 5.7.3
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/visitor-keys@8.55.0':
+  '@typescript-eslint/visitor-keys@8.56.0':
     dependencies:
-      '@typescript-eslint/types': 8.55.0
-      eslint-visitor-keys: 4.2.1
+      '@typescript-eslint/types': 8.56.0
+      eslint-visitor-keys: 5.0.0
 
   '@ungap/structured-clone@1.3.0': {}
 
@@ -9448,7 +9448,7 @@ snapshots:
 
   css-functions-list@3.3.3: {}
 
-  css-loader@7.1.3(webpack@5.105.2):
+  css-loader@7.1.4(webpack@5.105.2):
     dependencies:
       icss-utils: 5.1.0(postcss@8.5.6)
       postcss: 8.5.6
@@ -9905,7 +9905,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1)):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.3
@@ -9916,16 +9916,16 @@ snapshots:
       tinyglobby: 0.2.15
       unrs-resolver: 1.11.1
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))
-      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1))
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)):
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
-      '@typescript-eslint/parser': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/parser': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       eslint: 9.39.2(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
@@ -9955,9 +9955,9 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       eslint-compat-utils: 0.5.1(eslint@9.39.2(jiti@2.6.1))
 
-  eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)):
+  eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
-      '@typescript-eslint/types': 8.55.0
+      '@typescript-eslint/types': 8.56.0
       comment-parser: 1.4.5
       debug: 4.4.3
       eslint: 9.39.2(jiti@2.6.1)
@@ -9968,12 +9968,12 @@ snapshots:
       stable-hash-x: 0.2.0
       unrs-resolver: 1.11.1
     optionalDependencies:
-      '@typescript-eslint/utils': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       eslint-import-resolver-node: 0.3.9
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -9984,7 +9984,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.39.2(jiti@2.6.1)
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1))
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1))
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -9996,18 +9996,18 @@ snapshots:
       string.prototype.trimend: 1.0.9
       tsconfig-paths: 3.15.0
     optionalDependencies:
-      '@typescript-eslint/parser': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/parser': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-jest@29.15.0(@typescript-eslint/eslint-plugin@8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(jest@30.2.0(@types/node@25.2.3))(typescript@5.7.3):
+  eslint-plugin-jest@29.15.0(@typescript-eslint/eslint-plugin@8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(jest@30.2.0(@types/node@25.2.3))(typescript@5.7.3):
     dependencies:
-      '@typescript-eslint/utils': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       eslint: 9.39.2(jiti@2.6.1)
     optionalDependencies:
-      '@typescript-eslint/eslint-plugin': 8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/eslint-plugin': 8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       jest: 30.2.0(@types/node@25.2.3)
       typescript: 5.7.3
     transitivePeerDependencies:
@@ -10055,7 +10055,7 @@ snapshots:
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
 
-  eslint-plugin-vue@10.8.0(@stylistic/eslint-plugin@2.11.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.4.0(eslint@9.39.2(jiti@2.6.1))):
+  eslint-plugin-vue@10.8.0(@stylistic/eslint-plugin@2.11.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(vue-eslint-parser@10.4.0(eslint@9.39.2(jiti@2.6.1))):
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.2(jiti@2.6.1))
       eslint: 9.39.2(jiti@2.6.1)
@@ -10067,7 +10067,7 @@ snapshots:
       xml-name-validator: 4.0.0
     optionalDependencies:
       '@stylistic/eslint-plugin': 2.11.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
-      '@typescript-eslint/parser': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/parser': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
 
   eslint-scope@5.1.1:
     dependencies:
@@ -11612,20 +11612,20 @@ snapshots:
 
   neo-async@2.6.2: {}
 
-  neostandard@0.12.2(@typescript-eslint/utils@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3):
+  neostandard@0.12.2(@typescript-eslint/utils@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3):
     dependencies:
       '@humanwhocodes/gitignore-to-minimatch': 1.0.2
       '@stylistic/eslint-plugin': 2.11.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       eslint: 9.39.2(jiti@2.6.1)
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))
-      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1))
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import-x@4.16.1(@typescript-eslint/utils@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1)))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1)))(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-import-x: 4.16.1(@typescript-eslint/utils@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint-import-resolver-node@0.3.9)(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-n: 17.24.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       eslint-plugin-promise: 7.2.1(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-react: 7.37.5(eslint@9.39.2(jiti@2.6.1))
       find-up: 5.0.0
       globals: 15.15.0
       peowly: 1.3.3
-      typescript-eslint: 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      typescript-eslint: 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
     transitivePeerDependencies:
       - '@typescript-eslint/utils'
       - eslint-import-resolver-node
@@ -12956,11 +12956,11 @@ snapshots:
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
       '@scarf/scarf': 1.4.0
-      '@swagger-api/apidom-core': 1.4.0
-      '@swagger-api/apidom-error': 1.4.0
-      '@swagger-api/apidom-json-pointer': 1.4.0
-      '@swagger-api/apidom-ns-openapi-3-1': 1.4.0
-      '@swagger-api/apidom-reference': 1.4.0
+      '@swagger-api/apidom-core': 1.5.0
+      '@swagger-api/apidom-error': 1.5.0
+      '@swagger-api/apidom-json-pointer': 1.5.0
+      '@swagger-api/apidom-ns-openapi-3-1': 1.5.0
+      '@swagger-api/apidom-reference': 1.5.0
       '@swaggerexpert/cookie': 2.0.2
       deepmerge: 4.3.1
       fast-json-patch: 3.1.1
@@ -12975,7 +12975,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  swagger-ui@5.31.0:
+  swagger-ui@5.31.1:
     dependencies:
       '@babel/runtime-corejs3': 7.29.0
       '@scarf/scarf': 1.4.0
@@ -13209,12 +13209,12 @@ snapshots:
     dependencies:
       ts-toolbelt: 9.6.0
 
-  typescript-eslint@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3):
+  typescript-eslint@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3):
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
-      '@typescript-eslint/parser': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
-      '@typescript-eslint/typescript-estree': 8.55.0(typescript@5.7.3)
-      '@typescript-eslint/utils': 8.55.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/eslint-plugin': 8.56.0(@typescript-eslint/parser@8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3))(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/parser': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
+      '@typescript-eslint/typescript-estree': 8.56.0(typescript@5.7.3)
+      '@typescript-eslint/utils': 8.56.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.7.3)
       eslint: 9.39.2(jiti@2.6.1)
       typescript: 5.7.3
     transitivePeerDependencies:
