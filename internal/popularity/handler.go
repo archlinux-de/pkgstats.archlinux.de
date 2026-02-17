@@ -36,7 +36,11 @@ func (h *Handler[T, L]) HandleGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	startMonth, endMonth := web.ParseMonthRange(r)
+	startMonth, endMonth, err := web.ParseMonthRange(r)
+	if err != nil {
+		web.BadRequest(w, err.Error())
+		return
+	}
 
 	item, err := h.repo.FindByIdentifier(r.Context(), identifier, startMonth, endMonth)
 	if err != nil {
@@ -48,12 +52,23 @@ func (h *Handler[T, L]) HandleGet(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler[T, L]) HandleList(w http.ResponseWriter, r *http.Request) {
-	startMonth, endMonth := web.ParseMonthRange(r)
-	limit := web.ParseIntParam(r, "limit", web.DefaultLimit)
-	offset := web.ParseIntParam(r, "offset", 0)
-	query := r.URL.Query().Get("query")
+	startMonth, endMonth, err := web.ParseMonthRange(r)
+	if err != nil {
+		web.BadRequest(w, err.Error())
+		return
+	}
 
-	limit, offset = web.NormalizePagination(limit, offset)
+	limit, offset, err := web.ParsePagination(r)
+	if err != nil {
+		web.BadRequest(w, err.Error())
+		return
+	}
+
+	query, err := web.ParseQuery(r)
+	if err != nil {
+		web.BadRequest(w, err.Error())
+		return
+	}
 
 	list, err := h.repo.FindAll(r.Context(), query, startMonth, endMonth, limit, offset)
 	if err != nil {
@@ -71,11 +86,17 @@ func (h *Handler[T, L]) HandleSeries(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	startMonth, endMonth := web.ParseMonthRange(r)
-	limit := web.ParseIntParam(r, "limit", web.DefaultLimit)
-	offset := web.ParseIntParam(r, "offset", 0)
+	startMonth, endMonth, err := web.ParseMonthRange(r)
+	if err != nil {
+		web.BadRequest(w, err.Error())
+		return
+	}
 
-	limit, offset = web.NormalizePagination(limit, offset)
+	limit, offset, err := web.ParsePagination(r)
+	if err != nil {
+		web.BadRequest(w, err.Error())
+		return
+	}
 
 	list, err := h.repo.FindSeries(r.Context(), identifier, startMonth, endMonth, limit, offset)
 	if err != nil {
