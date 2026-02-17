@@ -71,6 +71,11 @@ func TestHandleSubmit_Success(t *testing.T) {
 		t.Fatalf("expected 204, got %d: %s", w.Code, w.Body.String())
 	}
 
+	// Verify empty response body
+	if w.Body.Len() != 0 {
+		t.Errorf("expected empty response body, got %d bytes", w.Body.Len())
+	}
+
 	// Verify packages
 	var pkgCount int
 	_ = db.QueryRow("SELECT COUNT(*) FROM package").Scan(&pkgCount)
@@ -427,4 +432,257 @@ type errorRateLimiter struct{}
 
 func (errorRateLimiter) Allow(_ context.Context, _ string) (bool, time.Time, error) {
 	return false, time.Time{}, errors.New("rate limit error")
+}
+
+func TestHandleSubmit_UnsupportedVersions(t *testing.T) {
+	handler, _ := setupTestHandler(t)
+
+	versions := []string{
+		"1.0", "2.0", "2.1", "2.2", "2.3", "2.4", "2.4.0", "2.4.2",
+		"2.4.9999", "2.4.2-5-g163d6c2", "2.5.0", "3.0.0", "3.1", "3.2.0",
+		"0.1", "", "a", "1.0alpha", "42",
+	}
+
+	for _, version := range versions {
+		t.Run("version="+version, func(t *testing.T) {
+			body := `{
+				"version": "` + version + `",
+				"system": {"architecture": "x86_64"},
+				"os": {"architecture": "x86_64"},
+				"pacman": {"packages": ["pkgstats", "pacman", "linux"]}
+			}`
+
+			w := submitRequest(handler, body)
+			if w.Code != http.StatusBadRequest {
+				t.Errorf("version %q: expected 400, got %d", version, w.Code)
+			}
+		})
+	}
+}
+
+func TestHandleSubmit_SupportedArchitectureCombinations(t *testing.T) {
+	archCombos := []struct {
+		systemArch string
+		osArch     string
+	}{
+		// x86_64 system
+		{"x86_64", "x86_64"},
+		{"x86_64", "i686"},
+		{"x86_64", "i586"},
+		// x86_64_v2 system
+		{"x86_64_v2", "x86_64"},
+		{"x86_64_v2", "i686"},
+		{"x86_64_v2", "i586"},
+		// x86_64_v3 system
+		{"x86_64_v3", "x86_64"},
+		{"x86_64_v3", "i686"},
+		{"x86_64_v3", "i586"},
+		// x86_64_v4 system
+		{"x86_64_v4", "x86_64"},
+		{"x86_64_v4", "i686"},
+		{"x86_64_v4", "i586"},
+		// i686 system
+		{"i686", "i686"},
+		{"i686", "i586"},
+		// i586 system
+		{"i586", "i586"},
+		// aarch64 system
+		{"aarch64", "aarch64"},
+		{"aarch64", "armv7h"},
+		{"aarch64", "armv6h"},
+		{"aarch64", "armv7l"},
+		{"aarch64", "armv6l"},
+		{"aarch64", "arm"},
+		{"aarch64", "armv5tel"},
+		// armv7 system
+		{"armv7", "armv7h"},
+		{"armv7", "armv6h"},
+		{"armv7", "armv7l"},
+		{"armv7", "armv6l"},
+		{"armv7", "arm"},
+		{"armv7", "armv5tel"},
+		// armv6 system
+		{"armv6", "armv6h"},
+		{"armv6", "armv6l"},
+		{"armv6", "arm"},
+		{"armv6", "armv5tel"},
+		// armv5 system
+		{"armv5", "arm"},
+		{"armv5", "armv5tel"},
+		// riscv64 system
+		{"riscv64", "riscv64"},
+		// loong64 system
+		{"loong64", "loongarch64"},
+	}
+
+	for _, combo := range archCombos {
+		t.Run(combo.systemArch+"/"+combo.osArch, func(t *testing.T) {
+			handler, db := setupTestHandler(t)
+
+			body := `{
+				"version": "3",
+				"system": {"architecture": "` + combo.systemArch + `"},
+				"os": {"architecture": "` + combo.osArch + `"},
+				"pacman": {
+					"packages": ["pkgstats", "pacman", "linux"]
+				}
+			}`
+
+			w := submitRequest(handler, body)
+			if w.Code != http.StatusNoContent {
+				t.Fatalf("expected 204, got %d: %s", w.Code, w.Body.String())
+			}
+
+			var sysArchCount int
+			_ = db.QueryRow("SELECT count FROM system_architecture WHERE name = ?", combo.systemArch).Scan(&sysArchCount)
+			if sysArchCount != 1 {
+				t.Errorf("expected system_architecture count 1 for %s, got %d", combo.systemArch, sysArchCount)
+			}
+
+			var osArchCount int
+			_ = db.QueryRow("SELECT count FROM operating_system_architecture WHERE name = ?", combo.osArch).Scan(&osArchCount)
+			if osArchCount != 1 {
+				t.Errorf("expected operating_system_architecture count 1 for %s, got %d", combo.osArch, osArchCount)
+			}
+		})
+	}
+}
+
+func TestHandleSubmit_UnsupportedArchitectureCombinations(t *testing.T) {
+	handler, _ := setupTestHandler(t)
+
+	archCombos := []struct {
+		systemArch string
+		osArch     string
+	}{
+		{"", ""},
+		{"ppc", "ppc"},
+		{"i486", "i486"},
+		{"aarch64", "x86_64"},
+		{"aarch64", "armv5"},
+		{"x86_64", "aarch64"},
+	}
+
+	for _, combo := range archCombos {
+		t.Run(combo.systemArch+"/"+combo.osArch, func(t *testing.T) {
+			body := `{
+				"version": "3",
+				"system": {"architecture": "` + combo.systemArch + `"},
+				"os": {"architecture": "` + combo.osArch + `"},
+				"pacman": {"packages": ["pkgstats", "pacman", "linux"]}
+			}`
+
+			w := submitRequest(handler, body)
+			if w.Code != http.StatusBadRequest {
+				t.Errorf("arch combo (%s, %s): expected 400, got %d", combo.systemArch, combo.osArch, w.Code)
+			}
+		})
+	}
+}
+
+func TestHandleSubmit_LongPackageName(t *testing.T) {
+	handler, _ := setupTestHandler(t)
+
+	longPkg := strings.Repeat("a", 256)
+	body := `{
+		"version": "3",
+		"system": {"architecture": "x86_64"},
+		"os": {"architecture": "x86_64"},
+		"pacman": {"packages": ["pkgstats", "pacman", "` + longPkg + `"]}
+	}`
+
+	w := submitRequest(handler, body)
+	if w.Code != http.StatusBadRequest {
+		t.Errorf("expected 400 for long package name, got %d", w.Code)
+	}
+}
+
+func TestHandleSubmit_OnlyUnexpectedPackages(t *testing.T) {
+	handler, _ := setupTestHandler(t)
+
+	body := `{
+		"version": "3",
+		"system": {"architecture": "x86_64"},
+		"os": {"architecture": "x86_64"},
+		"pacman": {"packages": ["some-other-package"]}
+	}`
+
+	w := submitRequest(handler, body)
+	if w.Code != http.StatusBadRequest {
+		t.Errorf("expected 400 for missing expected packages, got %d: %s", w.Code, w.Body.String())
+	}
+}
+
+func TestHandleSubmit_OSIDCountIncrements(t *testing.T) {
+	handler, db := setupTestHandler(t)
+
+	body := `{
+		"version": "3",
+		"system": {"architecture": "x86_64"},
+		"os": {"architecture": "x86_64", "id": "arch"},
+		"pacman": {
+			"packages": ["pkgstats", "pacman", "linux"]
+		}
+	}`
+
+	w1 := submitRequest(handler, body)
+	if w1.Code != http.StatusNoContent {
+		t.Fatalf("first submit: expected 204, got %d", w1.Code)
+	}
+
+	w2 := submitRequest(handler, body)
+	if w2.Code != http.StatusNoContent {
+		t.Fatalf("second submit: expected 204, got %d", w2.Code)
+	}
+
+	var count int
+	_ = db.QueryRow("SELECT count FROM operating_system_id WHERE id = 'arch'").Scan(&count)
+	if count != 2 {
+		t.Errorf("expected operating_system_id count 2, got %d", count)
+	}
+
+	var rows int
+	_ = db.QueryRow("SELECT COUNT(*) FROM operating_system_id WHERE id = 'arch'").Scan(&rows)
+	if rows != 1 {
+		t.Errorf("expected 1 operating_system_id row, got %d", rows)
+	}
+}
+
+func TestHandleSubmit_NoOSIDWhenAbsent(t *testing.T) {
+	handler, db := setupTestHandler(t)
+
+	body := `{
+		"version": "3",
+		"system": {"architecture": "x86_64"},
+		"os": {"architecture": "x86_64"},
+		"pacman": {
+			"packages": ["pkgstats", "pacman", "linux"]
+		}
+	}`
+
+	w := submitRequest(handler, body)
+	if w.Code != http.StatusNoContent {
+		t.Fatalf("expected 204, got %d: %s", w.Code, w.Body.String())
+	}
+
+	var osIDRows int
+	_ = db.QueryRow("SELECT COUNT(*) FROM operating_system_id").Scan(&osIDRows)
+	if osIDRows != 0 {
+		t.Errorf("expected 0 operating_system_id rows when os.id absent, got %d", osIDRows)
+	}
+}
+
+func TestHandleSubmit_MethodNotAllowed(t *testing.T) {
+	handler, _ := setupTestHandler(t)
+
+	mux := http.NewServeMux()
+	handler.RegisterRoutes(mux)
+
+	req := httptest.NewRequest(http.MethodGet, "/api/submit", nil)
+	w := httptest.NewRecorder()
+	mux.ServeHTTP(w, req)
+
+	if w.Code != http.StatusMethodNotAllowed {
+		t.Errorf("expected 405, got %d", w.Code)
+	}
 }
