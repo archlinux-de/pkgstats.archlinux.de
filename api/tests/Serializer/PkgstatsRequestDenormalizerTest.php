@@ -123,6 +123,67 @@ class PkgstatsRequestDenormalizerTest extends TestCase
         $this->assertEquals('arch', $pkgstatsRequest->getOperatingSystemId()->getId());
     }
 
+    public function testDenormalizeLowercasesPackages(): void
+    {
+        $this->mirrorUrlFilter->expects($this->once())->method('filter')->willReturnArgument(0);
+        $this->geoIp
+            ->expects($this->once())
+            ->method('getCountryCode')
+            ->willReturn('DE');
+        $context = ['clientIp' => 'abc'];
+
+        $data = [
+            'version' => '3',
+            'system' => [
+                'architecture' => 'x86_64'
+            ],
+            'os' => [
+                'architecture' => 'x86_64'
+            ],
+            'pacman' => [
+                'mirror' => 'https://mirror.archlinux.de/',
+                'packages' => ['NetworkManager', 'kColorPicker', 'networkmanager']
+            ]
+        ];
+
+        $pkgstatsRequest = $this->denormalizer->denormalize($data, PkgstatsRequest::class, 'form', $context);
+
+        $packages = $pkgstatsRequest->getPackages();
+        $this->assertCount(2, $packages);
+        $this->assertEquals('kcolorpicker', $packages[0]->getName());
+        $this->assertEquals('networkmanager', $packages[1]->getName());
+    }
+
+    public function testDenormalizeLowercasesOperatingSystemId(): void
+    {
+        $this->mirrorUrlFilter->expects($this->once())->method('filter')->willReturnArgument(0);
+        $this->geoIp
+            ->expects($this->once())
+            ->method('getCountryCode')
+            ->willReturn('DE');
+        $context = ['clientIp' => 'abc'];
+
+        $data = [
+            'version' => '3',
+            'system' => [
+                'architecture' => 'x86_64'
+            ],
+            'os' => [
+                'architecture' => 'x86_64',
+                'id' => 'Arch'
+            ],
+            'pacman' => [
+                'mirror' => 'https://mirror.archlinux.de/',
+                'packages' => ['foo']
+            ]
+        ];
+
+        $pkgstatsRequest = $this->denormalizer->denormalize($data, PkgstatsRequest::class, 'form', $context);
+
+        $this->assertNotNull($pkgstatsRequest->getOperatingSystemId());
+        $this->assertEquals('arch', $pkgstatsRequest->getOperatingSystemId()->getId());
+    }
+
     public function testSpportsDenormalization(): void
     {
         $this->geoIp->expects($this->never())->method('getCountryCode');

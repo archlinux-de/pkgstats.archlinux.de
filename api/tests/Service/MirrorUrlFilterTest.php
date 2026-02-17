@@ -47,7 +47,10 @@ class MirrorUrlFilterTest extends TestCase
                 'http://mirror.archlinux.de/pub/archlinux/'
             ],
             ['https://foo:bar@mirror.archlinux.de/', null],
-            ['http://mirror.archlinux.de/pkgstats-3.11-1-x86_64.pkg.tar.zst', 'http://mirror.archlinux.de/']
+            ['http://mirror.archlinux.de/pkgstats-3.11-1-x86_64.pkg.tar.zst', 'http://mirror.archlinux.de/'],
+            ['https://Mirror.ArchLinux.DE/', 'https://mirror.archlinux.de/'],
+            ['https://mirror.archlinux.de/ArchLinux/', 'https://mirror.archlinux.de/archlinux/'],
+            ['http://Teapot.Tempest.Net/ArchLinux/', 'http://teapot.tempest.net/archlinux/'],
         ];
     }
 }

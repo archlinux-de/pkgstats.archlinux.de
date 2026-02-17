@@ -33,7 +33,7 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
 
         $packages = $this->filterList($data['pacman']['packages'] ?? []); // @phpstan-ignore-line
         $arch = ($data['os']['architecture'] ?? '');  // @phpstan-ignore-line
-        $id = ($data['os']['id'] ?? '');  // @phpstan-ignore-line
+        $id = mb_strtolower($data['os']['id'] ?? '');  // @phpstan-ignore-line
         $cpuArch = $data['system']['architecture'] ?? '';  // @phpstan-ignore-line
         $mirror = $this->mirrorUrlFilter->filter(($data['pacman']['mirror'] ?? '')); // @phpstan-ignore-line
 
@@ -45,7 +45,7 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
         );
         if ($id) {
             $pkgstatsRequest->setOperatingSystemId(
-                new OperatingSystemId($id)->setMonth((int)date('Ym')) // @phpstan-ignore-line
+                new OperatingSystemId($id)->setMonth((int)date('Ym'))
             );
         }
         $pkgstatsRequest->setSystemArchitecture(
@@ -87,6 +87,7 @@ readonly class PkgstatsRequestDenormalizer implements DenormalizerInterface
      */
     private function filterList(array $array): array
     {
+        $array = array_map(mb_strtolower(...), $array);
         $array = array_filter(array_unique($array));
         sort($array);
 

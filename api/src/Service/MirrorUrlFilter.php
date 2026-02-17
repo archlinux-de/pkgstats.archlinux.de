@@ -10,6 +10,8 @@ class MirrorUrlFilter
             return null;
         }
 
+        $url = mb_strtolower($url);
+
         /** @var string[] $parsedUrl */
         $parsedUrl = parse_url($url);
 
