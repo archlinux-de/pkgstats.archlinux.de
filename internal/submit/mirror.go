@@ -98,5 +98,5 @@ func FilterMirrorURL(rawURL string) string {
 	path = strings.ReplaceAll(path, "//", "/")
 	path = strings.ReplaceAll(path, "\\", "")
 
-	return parsed.Scheme + "://" + hostname + path
+	return parsed.Scheme + "://" + strings.ToLower(hostname) + strings.ToLower(path)
 }

@@ -49,6 +49,11 @@ func TestFilterMirrorURL(t *testing.T) {
 		{"private suffix", "https://mirror.private/", ""},
 		{"box suffix", "https://mirror.box/", ""},
 
+		// Case normalization
+		{"uppercase hostname", "https://Mirror.Example.COM/archlinux/", "https://mirror.example.com/archlinux/"},
+		{"uppercase path", "https://mirror.example.com/ArchLinux/", "https://mirror.example.com/archlinux/"},
+		{"mixed case", "https://Teapot.Tempest.Net/ArchLinux/", "https://teapot.tempest.net/archlinux/"},
+
 		// Double slashes and backslashes
 		{"double slash", "https://mirror.example.com//archlinux//", "https://mirror.example.com/archlinux/"},
 		{"backslash", "https://mirror.example.com/arch\\linux/", "https://mirror.example.com/archlinux/"},
