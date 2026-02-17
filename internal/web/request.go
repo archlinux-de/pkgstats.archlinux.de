@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"regexp"
 	"strconv"
 	"time"
 )
@@ -113,6 +114,18 @@ func ParsePagination(r *http.Request) (limit, offset int, err error) {
 	}
 
 	return limit, offset, nil
+}
+
+var queryRegexp = regexp.MustCompile(`^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]*$`)
+
+// ParseQuery extracts and validates the query parameter.
+func ParseQuery(r *http.Request) (string, error) {
+	query := r.URL.Query().Get("query")
+	if query != "" && !queryRegexp.MatchString(query) {
+		return "", errors.New("invalid query parameter")
+	}
+
+	return query, nil
 }
 
 // WriteEntityJSON writes a JSON response with CORS header for API entities.

@@ -97,6 +97,48 @@ func TestParsePagination(t *testing.T) {
 	}
 }
 
+func TestParseQuery(t *testing.T) {
+	tests := []struct {
+		name      string
+		url       string
+		want      string
+		wantError bool
+	}{
+		{"empty query", "/test", "", false},
+		{"valid query", "/test?query=pacman", "pacman", false},
+		{"alphanumeric", "/test?query=lib32", "lib32", false},
+		{"with dots", "/test?query=xorg.fonts", "xorg.fonts", false},
+		{"with plus", "/test?query=g%2B%2B", "g++", false},
+		{"with at", "/test?query=python@3", "python@3", false},
+		{"with colon", "/test?query=texlive:base", "texlive:base", false},
+		{"with underscore", "/test?query=python_dateutil", "python_dateutil", false},
+		{"with hyphen", "/test?query=xdg-utils", "xdg-utils", false},
+		{"percent wildcard", "/test?query=%25", "", true},
+		{"underscore start", "/test?query=_foo", "", true},
+		{"space", "/test?query=foo+bar", "", true},
+		{"asterisk", "/test?query=foo*", "", true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := httptest.NewRequest(http.MethodGet, tt.url, nil)
+			got, err := ParseQuery(r)
+			if tt.wantError {
+				if err == nil {
+					t.Error("expected error, got nil")
+				}
+			} else {
+				if err != nil {
+					t.Errorf("unexpected error: %v", err)
+				}
+				if got != tt.want {
+					t.Errorf("got %q, want %q", got, tt.want)
+				}
+			}
+		})
+	}
+}
+
 func TestParseMonthRange(t *testing.T) {
 	cm := currentMonth()
 

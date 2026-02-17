@@ -53,7 +53,11 @@ func (h *Handler) HandleList(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	query := r.URL.Query().Get("query")
+	query, err := web.ParseQuery(r)
+	if err != nil {
+		web.BadRequest(w, err.Error())
+		return
+	}
 
 	list, err := h.repo.FindAll(r.Context(), query, startMonth, endMonth, limit, offset)
 	if err != nil {
