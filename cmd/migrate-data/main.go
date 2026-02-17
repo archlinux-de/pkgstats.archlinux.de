@@ -37,8 +37,6 @@ func main() {
 }
 
 func run(mariadbDSN, sqlitePath string) error {
-	ctx := context.Background()
-
 	// Fail early if SQLite file already exists to avoid duplicate key errors
 	if _, err := os.Stat(sqlitePath); err == nil {
 		return fmt.Errorf("sqlite file %s already exists, remove it first", sqlitePath)
@@ -52,6 +50,7 @@ func run(mariadbDSN, sqlitePath string) error {
 	}
 	defer func() { _ = mariadb.Close() }()
 
+	ctx := context.Background()
 	if err := mariadb.PingContext(ctx); err != nil {
 		return fmt.Errorf("ping mariadb: %w", err)
 	}
@@ -65,6 +64,12 @@ func run(mariadbDSN, sqlitePath string) error {
 	}
 	defer func() { _ = sqlite.Close() }()
 	log.Println("SQLite initialized")
+
+	return migrate(mariadb, sqlite)
+}
+
+func migrate(src, dst *sql.DB) error {
+	ctx := context.Background()
 
 	// Migrate each table
 	tables := []struct {
@@ -80,7 +85,7 @@ func run(mariadbDSN, sqlitePath string) error {
 	}
 
 	for _, table := range tables {
-		if err := migrateTable(ctx, mariadb, sqlite, table.name, table.columns); err != nil {
+		if err := migrateTable(ctx, src, dst, table.name, table.columns); err != nil {
 			return fmt.Errorf("migrate %s: %w", table.name, err)
 		}
 	}
@@ -88,7 +93,7 @@ func run(mariadbDSN, sqlitePath string) error {
 	// Verify counts
 	log.Println("\nVerifying row counts...")
 	for _, table := range tables {
-		if err := verifyCount(ctx, mariadb, sqlite, table.name); err != nil {
+		if err := verifyCount(ctx, src, dst, table.name); err != nil {
 			return fmt.Errorf("verify %s: %w", table.name, err)
 		}
 	}

@@ -249,6 +249,41 @@ func TestVerifyCount_Mismatch(t *testing.T) {
 	}
 }
 
+func TestMigrate_EndToEnd(t *testing.T) {
+	t.Parallel()
+
+	src := setupSourceDB(t)
+	dst := setupDestDB(t)
+
+	// Populate all 6 source tables with sample data
+	for _, table := range tables {
+		for i := range 3 {
+			_, err := src.Exec(
+				fmt.Sprintf("INSERT INTO %s VALUES (?, ?, ?)", table.name),
+				fmt.Sprintf("test-%d", i), 202601+i, (i+1)*5,
+			)
+			if err != nil {
+				t.Fatal(err)
+			}
+		}
+	}
+
+	if err := migrate(src, dst); err != nil {
+		t.Fatalf("migrate: %v", err)
+	}
+
+	// Verify all tables have correct row counts
+	for _, table := range tables {
+		var count int
+		if err := dst.QueryRow("SELECT COUNT(*) FROM " + table.name).Scan(&count); err != nil {
+			t.Fatal(err)
+		}
+		if count != 3 {
+			t.Errorf("%s: got %d rows, want 3", table.name, count)
+		}
+	}
+}
+
 func TestRun_FailsIfFileExists(t *testing.T) {
 	t.Parallel()
 
