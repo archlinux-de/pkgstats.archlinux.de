@@ -49,17 +49,28 @@ func NewRepository[T any, L any](db *sql.DB, cfg Config, newItem ItemFunc[T], ne
 	}
 }
 
+// monthRange returns the SQL WHERE fragment and bound args for a month range.
+// When startMonth is 0, no lower bound is applied (all history up to endMonth).
+func monthRange(startMonth, endMonth int) (clause string, args []any) {
+	if startMonth == 0 {
+		return "month <= ?", []any{endMonth}
+	}
+
+	return "month >= ? AND month <= ?", []any{startMonth, endMonth}
+}
+
 // FindByIdentifier returns popularity data for a single identifier.
 func (r *Repository[T, L]) FindByIdentifier(ctx context.Context, identifier string, startMonth, endMonth int) (*T, error) {
 	var count int
 
+	mClause, mArgs := monthRange(startMonth, endMonth)
 	//nolint:gosec
 	query := fmt.Sprintf(
-		`SELECT COALESCE(SUM(count), 0) FROM %s WHERE %s = ? AND month >= ? AND month <= ?`,
+		`SELECT COALESCE(SUM(count), 0) FROM %s WHERE %s = ? AND `+mClause,
 		r.cfg.Table, r.cfg.Column,
 	)
 
-	if err := r.db.QueryRowContext(ctx, query, identifier, startMonth, endMonth).Scan(&count); err != nil {
+	if err := r.db.QueryRowContext(ctx, query, append([]any{identifier}, mArgs...)...).Scan(&count); err != nil {
 		return nil, fmt.Errorf("query %s count: %w", r.cfg.Table, err)
 	}
 
@@ -80,17 +91,18 @@ func (r *Repository[T, L]) FindAll(ctx context.Context, query string, startMonth
 		return nil, fmt.Errorf("get samples: %w", err)
 	}
 
+	mClause, mArgs := monthRange(startMonth, endMonth)
 	likeCondition := fmt.Sprintf(` AND %s LIKE ?`, r.cfg.Column)
 
 	//nolint:gosec
 	sqlQuery := fmt.Sprintf(`
 		SELECT %s, SUM(count) as total_count
 		FROM %s
-		WHERE month >= ? AND month <= ?`,
+		WHERE `+mClause,
 		r.cfg.Column, r.cfg.Table,
 	)
-	args := []any{startMonth, endMonth}
-	countArgs := []any{startMonth, endMonth}
+	args := append([]any{}, mArgs...)
+	countArgs := append([]any{}, mArgs...)
 
 	if query != "" {
 		sqlQuery += likeCondition
@@ -105,7 +117,7 @@ func (r *Repository[T, L]) FindAll(ctx context.Context, query string, startMonth
 	args = append(args, limit, offset)
 
 	//nolint:gosec
-	countQuery := fmt.Sprintf(`SELECT COUNT(DISTINCT %s) FROM %s WHERE month >= ? AND month <= ?`,
+	countQuery := fmt.Sprintf(`SELECT COUNT(DISTINCT %s) FROM %s WHERE `+mClause,
 		r.cfg.Column, r.cfg.Table,
 	)
 	if query != "" {
@@ -149,13 +161,15 @@ func (r *Repository[T, L]) FindAll(ctx context.Context, query string, startMonth
 
 // FindSeries returns monthly popularity data for an identifier.
 func (r *Repository[T, L]) FindSeries(ctx context.Context, identifier string, startMonth, endMonth, limit, offset int) (*L, error) {
+	mClause, mArgs := monthRange(startMonth, endMonth)
+
 	//nolint:gosec
-	countQuery := fmt.Sprintf(`SELECT COUNT(*) FROM %s WHERE %s = ? AND month >= ? AND month <= ?`,
+	countQuery := fmt.Sprintf(`SELECT COUNT(*) FROM %s WHERE %s = ? AND `+mClause,
 		r.cfg.Table, r.cfg.Column,
 	)
 
 	var total int
-	if err := r.db.QueryRowContext(ctx, countQuery, identifier, startMonth, endMonth).Scan(&total); err != nil {
+	if err := r.db.QueryRowContext(ctx, countQuery, append([]any{identifier}, mArgs...)...).Scan(&total); err != nil {
 		return nil, fmt.Errorf("count series: %w", err)
 	}
 
@@ -165,16 +179,11 @@ func (r *Repository[T, L]) FindSeries(ctx context.Context, identifier string, st
 	}
 
 	//nolint:gosec
-	sqlQuery := fmt.Sprintf(`
-		SELECT month, count
-		FROM %s
-		WHERE %s = ? AND month >= ? AND month <= ?
-		ORDER BY month ASC
-		LIMIT ? OFFSET ?`,
+	sqlQuery := fmt.Sprintf(`SELECT month, count FROM %s WHERE %s = ? AND `+mClause+` ORDER BY month ASC LIMIT ? OFFSET ?`,
 		r.cfg.Table, r.cfg.Column,
 	)
 
-	rows, err := r.db.QueryContext(ctx, sqlQuery, identifier, startMonth, endMonth, limit, offset)
+	rows, err := r.db.QueryContext(ctx, sqlQuery, append(append([]any{identifier}, mArgs...), limit, offset)...)
 	if err != nil {
 		return nil, fmt.Errorf("query series: %w", err)
 	}

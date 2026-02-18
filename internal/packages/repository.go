@@ -42,6 +42,16 @@ func NewSQLiteRepository(db *sql.DB) *SQLiteRepository {
 	}
 }
 
+// monthRange returns the SQL WHERE fragment and bound args for a month range.
+// When startMonth is 0, no lower bound is applied (all history up to endMonth).
+func monthRange(startMonth, endMonth int) (clause string, args []any) {
+	if startMonth == 0 {
+		return "month <= ?", []any{endMonth}
+	}
+
+	return "month >= ? AND month <= ?", []any{startMonth, endMonth}
+}
+
 func (r *SQLiteRepository) FindByName(ctx context.Context, name string, startMonth, endMonth int) (*PackagePopularity, error) {
 	// Get the package count
 	var count int
@@ -52,8 +62,9 @@ func (r *SQLiteRepository) FindByName(ctx context.Context, name string, startMon
 		query = `SELECT COALESCE(SUM(count), 0) FROM package WHERE name = ? AND month = ?`
 		args = []any{name, startMonth}
 	} else {
-		query = `SELECT COALESCE(SUM(count), 0) FROM package WHERE name = ? AND month >= ? AND month <= ?`
-		args = []any{name, startMonth, endMonth}
+		mClause, mArgs := monthRange(startMonth, endMonth)
+		query = `SELECT COALESCE(SUM(count), 0) FROM package WHERE name = ? AND ` + mClause
+		args = append([]any{name}, mArgs...)
 	}
 
 	if err := r.db.QueryRowContext(ctx, query, args...).Scan(&count); err != nil {
@@ -115,12 +126,13 @@ func (r *SQLiteRepository) FindAll(ctx context.Context, query string, startMonth
 		}
 	} else {
 		// Multi-month aggregation
+		mClause, mArgs := monthRange(startMonth, endMonth)
 		sqlQuery = `
 			SELECT name, SUM(count) as total_count
 			FROM package
-			WHERE month >= ? AND month <= ?`
-		args = []any{startMonth, endMonth}
-		countArgs = []any{startMonth, endMonth}
+			WHERE ` + mClause
+		args = mArgs
+		countArgs = append([]any{}, mArgs...)
 
 		if query != "" {
 			sqlQuery += nameLikeCondition
@@ -134,7 +146,7 @@ func (r *SQLiteRepository) FindAll(ctx context.Context, query string, startMonth
 		countQuery = `
 			SELECT COUNT(*) FROM (
 				SELECT name FROM package
-				WHERE month >= ? AND month <= ?`
+				WHERE ` + mClause
 		if query != "" {
 			countQuery += nameLikeCondition
 		}
@@ -192,12 +204,13 @@ func (r *SQLiteRepository) FindAll(ctx context.Context, query string, startMonth
 }
 
 func (r *SQLiteRepository) FindSeriesByName(ctx context.Context, name string, startMonth, endMonth, limit, offset int) (*PackagePopularityList, error) {
+	mClause, mArgs := monthRange(startMonth, endMonth)
+
 	// Get total count
-	countQuery := `
-		SELECT COUNT(*) FROM package
-		WHERE name = ? AND month >= ? AND month <= ?`
+	//nolint:gosec
+	countQuery := `SELECT COUNT(*) FROM package WHERE name = ? AND ` + mClause
 	var total int
-	if err := r.db.QueryRowContext(ctx, countQuery, name, startMonth, endMonth).Scan(&total); err != nil {
+	if err := r.db.QueryRowContext(ctx, countQuery, append([]any{name}, mArgs...)...).Scan(&total); err != nil {
 		return nil, fmt.Errorf("count series: %w", err)
 	}
 
@@ -208,14 +221,10 @@ func (r *SQLiteRepository) FindSeriesByName(ctx context.Context, name string, st
 	}
 
 	// Query monthly data
-	sqlQuery := `
-		SELECT month, count
-		FROM package
-		WHERE name = ? AND month >= ? AND month <= ?
-		ORDER BY month ASC
-		LIMIT ? OFFSET ?`
+	//nolint:gosec
+	sqlQuery := `SELECT month, count FROM package WHERE name = ? AND ` + mClause + ` ORDER BY month ASC LIMIT ? OFFSET ?`
 
-	rows, err := r.db.QueryContext(ctx, sqlQuery, name, startMonth, endMonth, limit, offset)
+	rows, err := r.db.QueryContext(ctx, sqlQuery, append(append([]any{name}, mArgs...), limit, offset)...)
 	if err != nil {
 		return nil, fmt.Errorf("query series: %w", err)
 	}

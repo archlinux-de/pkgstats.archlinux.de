@@ -14,7 +14,7 @@ import (
 
 const (
 	defaultReadTimeout     = 5 * time.Second
-	defaultWriteTimeout    = 10 * time.Second
+	defaultWriteTimeout    = 60 * time.Second
 	defaultIdleTimeout     = 120 * time.Second
 	defaultShutdownTimeout = 30 * time.Second
 )
