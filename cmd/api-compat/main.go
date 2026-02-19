@@ -100,6 +100,10 @@ var tests = []testCase{
 	// max valid offset (boundary)
 	jsonTest("/api/packages?limit=2&offset=100000&" + monthParams),
 
+	// --- CLI client specific patterns (no month params) ---
+	jsonTest("/api/packages/pacman"),
+	jsonTest("/api/packages?limit=10&query=pac"),
+
 	// --- error cases (expect matching HTTP status codes) ---
 
 	// invalid limit
