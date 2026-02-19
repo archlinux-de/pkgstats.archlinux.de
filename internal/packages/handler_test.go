@@ -578,20 +578,6 @@ func TestHandleList_ContentType(t *testing.T) {
 	}
 }
 
-func TestCORSHeader(t *testing.T) {
-	repo, _ := captureListRepo()
-
-	mux := newTestMux(repo)
-	req := httptest.NewRequest(http.MethodGet, "/api/packages", nil)
-	rr := httptest.NewRecorder()
-	mux.ServeHTTP(rr, req)
-
-	cors := rr.Header().Get("Access-Control-Allow-Origin")
-	if cors != "*" {
-		t.Errorf("expected CORS header *, got %s", cors)
-	}
-}
-
 func TestHandleList_PaginationValidCases(t *testing.T) {
 	tests := []struct {
 		name           string

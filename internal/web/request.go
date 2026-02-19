@@ -141,10 +141,9 @@ func ParseQuery(r *http.Request) (string, error) {
 	return query, nil
 }
 
-// WriteEntityJSON writes a JSON response with CORS header for API entities.
+// WriteEntityJSON writes a JSON response for API entities.
 func WriteEntityJSON(w http.ResponseWriter, v any) {
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if err := json.NewEncoder(w).Encode(v); err != nil {
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 	}
