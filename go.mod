@@ -6,6 +6,7 @@ require (
 	github.com/a-h/templ v0.3.977
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/golang-migrate/migrate/v4 v4.19.1
+	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/oschwald/maxminddb-golang/v2 v2.1.1
 	modernc.org/sqlite v1.45.0
 )
