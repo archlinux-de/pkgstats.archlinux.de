@@ -54,10 +54,9 @@ update:
 coverage:
     #!/usr/bin/env bash
     set -euo pipefail
-    COVER_FILE=$(mktemp)
-    go test -coverpkg=./... -coverprofile "$COVER_FILE" ./...
-    go tool cover -html="$COVER_FILE"
-    rm -f "$COVER_FILE"
+    go test -coverpkg=./... -coverprofile coverage.out ./...
+    go tool cover -func=coverage.out
+    # go tool cover -html=coverage.out
 
 # generate Go fixtures for local development
 fixtures months="3":
