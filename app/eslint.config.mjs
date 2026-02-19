@@ -2,7 +2,7 @@ import { defineConfig } from 'eslint/config'
 import js from '@eslint/js'
 import neostandard from 'neostandard'
 // @ts-ignore
-import pluginCypress from 'eslint-plugin-cypress/flat'
+import pluginCypress from 'eslint-plugin-cypress'
 import pluginJest from 'eslint-plugin-jest'
 import compat from 'eslint-plugin-compat'
 
