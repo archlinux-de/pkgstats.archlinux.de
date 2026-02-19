@@ -10,15 +10,15 @@ type testPop struct {
 	popularity float64
 }
 
-func (p testPop) GetName() string       { return p.name }
-func (p testPop) GetStartMonth() int    { return p.month }
+func (p testPop) GetName() string        { return p.name }
+func (p testPop) GetStartMonth() int     { return p.month }
 func (p testPop) GetPopularity() float64 { return p.popularity }
 
 func TestBuild(t *testing.T) {
 	tests := []struct {
-		name     string
-		input    []testPop
-		wantLabels []int
+		name         string
+		input        []testPop
+		wantLabels   []int
 		wantDatasets int
 	}{
 		{

@@ -12,7 +12,7 @@ func TestSQLiteRepository(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to create database: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	repo := NewSQLiteRepository(db)
 

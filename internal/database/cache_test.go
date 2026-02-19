@@ -5,15 +5,15 @@ import (
 	"testing"
 	"time"
 
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 func TestMonthlySamplesCache(t *testing.T) {
-	db, err := sql.Open("sqlite3", ":memory:")
+	db, err := sql.Open("sqlite", ":memory:")
 	if err != nil {
 		t.Fatalf("open database: %v", err)
 	}
-	defer db.Close()
+	defer func() { _ = db.Close() }()
 
 	_, _ = db.Exec(`CREATE TABLE test_samples (month INTEGER, count INTEGER)`)
 	_, _ = db.Exec(`INSERT INTO test_samples (month, count) VALUES (202501, 100), (202502, 200)`)

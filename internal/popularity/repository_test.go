@@ -18,12 +18,12 @@ type testItem struct {
 }
 
 type testList struct {
-	Total int        `json:"total"`
-	Count int        `json:"count"`
-	Items []testItem `json:"items"`
-	Limit int        `json:"limit"`
-	Offset int       `json:"offset"`
-	Query *string    `json:"query"`
+	Total  int        `json:"total"`
+	Count  int        `json:"count"`
+	Items  []testItem `json:"items"`
+	Limit  int        `json:"limit"`
+	Offset int        `json:"offset"`
+	Query  *string    `json:"query"`
 }
 
 func newTestItem(identifier string, samples, count int, popularity float64, startMonth, endMonth int) testItem {

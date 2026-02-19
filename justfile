@@ -1,5 +1,6 @@
 set quiet := true
 
+export CGO_ENABLED := '0'
 export PORT := '8182'
 export DATABASE := 'tmp/pkgstats.db'
 export GEOIP_DATABASE := 'tmp/GeoIP2-Country.mmdb'
@@ -22,7 +23,7 @@ build-templates:
     go tool templ generate
 
 build: build-assets build-templates
-    CGO_ENABLED=0 go build -o pkgstatsd -ldflags="-s -w" -trimpath
+    go build -o pkgstatsd -ldflags="-s -w" -trimpath
 
 run:
     go run .
