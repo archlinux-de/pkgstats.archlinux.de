@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 
 	"pkgstats.archlinux.de/internal/web"
 )
@@ -33,8 +32,7 @@ func (m *mockRepository) FindSeriesByName(ctx context.Context, name string, star
 }
 
 func currentMonth() int {
-	now := time.Now()
-	return now.Year()*100 + int(now.Month())
+	return web.GetCurrentMonth()
 }
 
 func newTestMux(repo Repository) *http.ServeMux {

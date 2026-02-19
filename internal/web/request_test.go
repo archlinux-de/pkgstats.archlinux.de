@@ -4,12 +4,10 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 )
 
 func currentMonth() int {
-	now := time.Now()
-	return now.Year()*monthMultiplier + int(now.Month())
+	return GetCurrentMonth()
 }
 
 func TestParseIntParam(t *testing.T) {

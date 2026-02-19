@@ -34,34 +34,47 @@ func ParseIntParam(r *http.Request, key string, defaultValue int) (int, error) {
 	return v, nil
 }
 
+// GetCurrentMonth returns the last complete month as an integer (YYYYMM).
+func GetCurrentMonth() int {
+	now := time.Now()
+	lastMonth := now.AddDate(0, -1, 0)
+	return lastMonth.Year()*monthMultiplier + int(lastMonth.Month())
+}
+
+// GetActualCurrentMonth returns the actual current month as an integer (YYYYMM).
+func GetActualCurrentMonth() int {
+	now := time.Now()
+	return now.Year()*monthMultiplier + int(now.Month())
+}
+
 // ParseMonthRange extracts and validates startMonth and endMonth from query parameters.
 func ParseMonthRange(r *http.Request) (startMonth, endMonth int, err error) {
-	now := time.Now()
-	currentMonth := now.Year()*monthMultiplier + int(now.Month())
+	defaultMonth := GetCurrentMonth()
+	actualMonth := GetActualCurrentMonth()
 
-	startMonth, err = ParseIntParam(r, "startMonth", currentMonth)
+	startMonth, err = ParseIntParam(r, "startMonth", defaultMonth)
 	if err != nil {
 		return 0, 0, err
 	}
 
-	endMonth, err = ParseIntParam(r, "endMonth", currentMonth)
+	endMonth, err = ParseIntParam(r, "endMonth", defaultMonth)
 	if err != nil {
 		return 0, 0, err
 	}
 
-	// endMonth=0 maps to current month (matching PHP behavior)
+	// endMonth=0 maps to default month (matching PHP behavior)
 	if endMonth == 0 {
-		endMonth = currentMonth
+		endMonth = defaultMonth
 	}
 
 	// Validate month format (startMonth=0 means "no lower bound")
 	if startMonth != 0 {
-		if err := validateMonth(startMonth, currentMonth); err != nil {
+		if err := validateMonth(startMonth, actualMonth); err != nil {
 			return 0, 0, fmt.Errorf("invalid startMonth: %w", err)
 		}
 	}
 
-	if err := validateMonth(endMonth, currentMonth); err != nil {
+	if err := validateMonth(endMonth, actualMonth); err != nil {
 		return 0, 0, fmt.Errorf("invalid endMonth: %w", err)
 	}
 

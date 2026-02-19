@@ -8,7 +8,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"time"
 
 	"pkgstats.archlinux.de/internal/web"
 )
@@ -201,8 +200,7 @@ func TestHandleList_PaginationInvalidCases(t *testing.T) {
 }
 
 func currentMonth() int {
-	now := time.Now()
-	return now.Year()*100 + int(now.Month())
+	return web.GetCurrentMonth()
 }
 
 func TestHandleList_MonthZeroMeansCurrentMonth(t *testing.T) {
