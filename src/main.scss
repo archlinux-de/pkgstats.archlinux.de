@@ -92,3 +92,23 @@ pre:has(> code) {
     grid-row: 2 / span 4;
     grid-column: 2 / span 3;
 }
+
+popularity-chart {
+    display: block;
+    aspect-ratio: auto 16 / 9;
+
+    // prevent scroll bars during graph rendering
+    & canvas {
+        display: none;
+    }
+}
+
+country-map {
+    display: block;
+    aspect-ratio: auto 2 / 1;
+}
+
+swagger-ui-wrapper {
+    display: block;
+    min-height: 300px;
+}
