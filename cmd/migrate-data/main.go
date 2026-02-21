@@ -17,7 +17,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "modernc.org/sqlite"
 
-	"pkgstats.archlinux.de/internal/database"
+	"pkgstatsd/internal/database"
 )
 
 func main() {

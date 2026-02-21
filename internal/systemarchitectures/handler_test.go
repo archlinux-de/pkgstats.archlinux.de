@@ -9,7 +9,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"pkgstats.archlinux.de/internal/web"
+	"pkgstatsd/internal/web"
 )
 
 type mockQuerier struct {

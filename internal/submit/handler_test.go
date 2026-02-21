@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"pkgstats.archlinux.de/internal/database"
+	"pkgstatsd/internal/database"
 )
 
 type mockGeoIP struct {

@@ -3,9 +3,9 @@ package packagedetail
 import (
 	"net/http"
 
-	"pkgstats.archlinux.de/internal/chartdata"
-	"pkgstats.archlinux.de/internal/packages"
-	"pkgstats.archlinux.de/internal/ui/layout"
+	"pkgstatsd/internal/chartdata"
+	"pkgstatsd/internal/packages"
+	"pkgstatsd/internal/ui/layout"
 )
 
 type Handler struct {

@@ -22,7 +22,7 @@ import (
 	"strings"
 	"time"
 
-	"pkgstats.archlinux.de/internal/database"
+	"pkgstatsd/internal/database"
 )
 
 const (

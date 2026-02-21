@@ -11,7 +11,7 @@ import (
 
 	_ "modernc.org/sqlite"
 
-	"pkgstats.archlinux.de/internal/database"
+	"pkgstatsd/internal/database"
 )
 
 type tableSpec struct {

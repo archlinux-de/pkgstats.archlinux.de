@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"pkgstats.archlinux.de/internal/database"
+	"pkgstatsd/internal/database"
 )
 
 func TestOffsetMonth(t *testing.T) {
@@ -74,7 +74,7 @@ func TestAnomalyDetection_Integration(t *testing.T) {
 
 	// Insert data for growth anomalies
 	// Mirror baseline: 3 months of 100
-	_, _ = db.Exec(`INSERT INTO mirror (url, month, count) VALUES 
+	_, _ = db.Exec(`INSERT INTO mirror (url, month, count) VALUES
 		('http://m1', 202410, 100), ('http://m1', 202411, 100), ('http://m1', 202412, 100),
 		('http://m1', 202501, 1000)`) // 900% growth
 
@@ -82,7 +82,7 @@ func TestAnomalyDetection_Integration(t *testing.T) {
 	_, _ = db.Exec(`INSERT INTO package (name, month, count) VALUES ('new-spike', 202501, 2000)`)
 
 	// Base package correlation
-	_, _ = db.Exec(`INSERT INTO package (name, month, count) VALUES 
+	_, _ = db.Exec(`INSERT INTO package (name, month, count) VALUES
 		('pkgstats', 202501, 5000), ('pacman', 202501, 5000), ('linux', 202501, 5000)`)
 
 	target := 202501

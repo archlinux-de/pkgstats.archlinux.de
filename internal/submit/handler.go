@@ -7,7 +7,7 @@ import (
 	"net/netip"
 	"time"
 
-	"pkgstats.archlinux.de/internal/web"
+	"pkgstatsd/internal/web"
 )
 
 const defaultMaxMissing = 0.35

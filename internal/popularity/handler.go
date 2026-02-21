@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"pkgstats.archlinux.de/internal/web"
+	"pkgstatsd/internal/web"
 )
 
 // Querier defines the generic interface for popularity data access.

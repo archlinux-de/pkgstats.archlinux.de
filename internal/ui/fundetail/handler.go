@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"sort"
 
-	"pkgstats.archlinux.de/internal/chartdata"
-	"pkgstats.archlinux.de/internal/packages"
-	"pkgstats.archlinux.de/internal/ui/fun"
-	"pkgstats.archlinux.de/internal/ui/layout"
+	"pkgstatsd/internal/chartdata"
+	"pkgstatsd/internal/packages"
+	"pkgstatsd/internal/ui/fun"
+	"pkgstatsd/internal/ui/layout"
 )
 
 const (

@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"pkgstats.archlinux.de/internal/ui/layout"
+	"pkgstatsd/internal/ui/layout"
 )
 
 func TestHandleHome(t *testing.T) {
