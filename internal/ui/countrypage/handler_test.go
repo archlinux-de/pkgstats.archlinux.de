@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"pkgstats.archlinux.de/internal/countries"
-	"pkgstats.archlinux.de/internal/ui/layout"
+	"pkgstatsd/internal/countries"
+	"pkgstatsd/internal/ui/layout"
 )
 
 type mockRepo struct {

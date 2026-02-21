@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"pkgstats.archlinux.de/internal/web"
+	"pkgstatsd/internal/web"
 )
 
 type Querier[T any, L any] interface {

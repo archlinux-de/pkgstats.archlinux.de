@@ -4,9 +4,9 @@ import (
 	"log/slog"
 	"net/http"
 
-	"pkgstats.archlinux.de/internal/chartdata"
-	"pkgstats.archlinux.de/internal/systemarchitectures"
-	"pkgstats.archlinux.de/internal/ui/layout"
+	"pkgstatsd/internal/chartdata"
+	"pkgstatsd/internal/systemarchitectures"
+	"pkgstatsd/internal/ui/layout"
 )
 
 const (

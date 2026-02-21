@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"pkgstats.archlinux.de/internal/packages"
-	"pkgstats.archlinux.de/internal/ui/layout"
+	"pkgstatsd/internal/packages"
+	"pkgstatsd/internal/ui/layout"
 )
 
 const (

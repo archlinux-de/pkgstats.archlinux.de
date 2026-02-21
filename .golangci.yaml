@@ -26,6 +26,7 @@ formatters:
   settings:
     gofumpt:
       extra-rules: true
+      module-path: pkgstatsd
 
 linters-settings:
   gocyclo:

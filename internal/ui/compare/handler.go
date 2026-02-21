@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
-	"pkgstats.archlinux.de/internal/chartdata"
-	"pkgstats.archlinux.de/internal/packages"
-	"pkgstats.archlinux.de/internal/ui/layout"
+	"pkgstatsd/internal/chartdata"
+	"pkgstatsd/internal/packages"
+	"pkgstatsd/internal/ui/layout"
 )
 
 const maxPackages = 10

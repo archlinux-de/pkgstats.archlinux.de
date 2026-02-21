@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"net/http"
 
-	"pkgstats.archlinux.de/internal/popularity"
+	"pkgstatsd/internal/popularity"
 )
 
 type SQLiteRepository struct {

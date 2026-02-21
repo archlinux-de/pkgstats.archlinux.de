@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"pkgstats.archlinux.de/internal/database"
+	"pkgstatsd/internal/database"
 )
 
 func TestSQLiteRepository(t *testing.T) {

@@ -6,7 +6,7 @@ import (
 
 	"github.com/a-h/templ"
 
-	"pkgstats.archlinux.de/internal/ui/layout"
+	"pkgstatsd/internal/ui/layout"
 )
 
 // Middleware returns an HTTP middleware that intercepts error responses (4xx/5xx)

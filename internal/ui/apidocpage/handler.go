@@ -3,7 +3,7 @@ package apidocpage
 import (
 	"net/http"
 
-	"pkgstats.archlinux.de/internal/ui/layout"
+	"pkgstatsd/internal/ui/layout"
 )
 
 type Handler struct {

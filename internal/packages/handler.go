@@ -3,7 +3,7 @@ package packages
 import (
 	"net/http"
 
-	"pkgstats.archlinux.de/internal/web"
+	"pkgstatsd/internal/web"
 )
 
 type Handler struct {

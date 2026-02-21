@@ -1,4 +1,4 @@
-module pkgstats.archlinux.de
+module pkgstatsd
 
 go 1.26.0
 
