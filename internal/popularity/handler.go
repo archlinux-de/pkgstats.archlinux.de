@@ -23,7 +23,7 @@ type Handler[T any, L any] struct {
 }
 
 // NewHandler creates a new generic popularity handler.
-func NewHandler[T any, L any](repo Querier[T, L], basePath, pathParam, errMsg string) *Handler[T, L] {
+func NewHandler[T, L any](repo Querier[T, L], basePath, pathParam, errMsg string) *Handler[T, L] {
 	return &Handler[T, L]{
 		repo:      repo,
 		basePath:  basePath,

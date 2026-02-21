@@ -67,6 +67,7 @@ func (r *SQLiteRepository) FindByName(ctx context.Context, name string, startMon
 		args = append([]any{name}, mArgs...)
 	}
 
+	//nolint:gosec // Query is safely constructed using fixed strings from monthRange and parameterized arguments
 	if err := r.db.QueryRowContext(ctx, query, args...).Scan(&count); err != nil {
 		return nil, fmt.Errorf("query package count: %w", err)
 	}
@@ -207,9 +208,9 @@ func (r *SQLiteRepository) FindSeriesByName(ctx context.Context, name string, st
 	mClause, mArgs := monthRange(startMonth, endMonth)
 
 	// Get total count
-	//nolint:gosec
 	countQuery := `SELECT COUNT(*) FROM package WHERE name = ? AND ` + mClause
 	var total int
+	//nolint:gosec // countQuery is safely constructed using fixed strings from monthRange and parameterized arguments
 	if err := r.db.QueryRowContext(ctx, countQuery, append([]any{name}, mArgs...)...).Scan(&total); err != nil {
 		return nil, fmt.Errorf("count series: %w", err)
 	}
@@ -221,9 +222,10 @@ func (r *SQLiteRepository) FindSeriesByName(ctx context.Context, name string, st
 	}
 
 	// Query monthly data
-	//nolint:gosec
+	//nolint:gosec // sqlQuery is safely constructed using fixed strings from monthRange and parameterized arguments
 	sqlQuery := `SELECT month, count FROM package WHERE name = ? AND ` + mClause + ` ORDER BY month ASC LIMIT ? OFFSET ?`
 
+	//nolint:gosec // Safe execution of the securely constructed sqlQuery using parameterized arguments
 	rows, err := r.db.QueryContext(ctx, sqlQuery, append(append([]any{name}, mArgs...), limit, offset)...)
 	if err != nil {
 		return nil, fmt.Errorf("query series: %w", err)

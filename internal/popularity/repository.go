@@ -37,7 +37,7 @@ type Repository[T any, L any] struct {
 }
 
 // NewRepository creates a new generic popularity repository.
-func NewRepository[T any, L any](db *sql.DB, cfg Config, newItem ItemFunc[T], newList ListFunc[L, T]) *Repository[T, L] {
+func NewRepository[T, L any](db *sql.DB, cfg Config, newItem ItemFunc[T], newList ListFunc[L, T]) *Repository[T, L] {
 	samplesQuery := fmt.Sprintf(`SELECT month, SUM(count) FROM %s GROUP BY month`, cfg.Table)
 
 	return &Repository[T, L]{
