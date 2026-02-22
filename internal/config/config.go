@@ -1,6 +1,9 @@
 package config
 
-import "os"
+import (
+	"errors"
+	"os"
+)
 
 type Config struct {
 	Database      string
@@ -9,14 +12,19 @@ type Config struct {
 	Environment   string
 }
 
-func Load() Config {
-	return Config{
-		// @TODO add error handling
+func Load() (Config, error) {
+	cfg := Config{
 		Database:      getEnv("DATABASE", ""),
 		GeoIPDatabase: getEnv("GEOIP_DATABASE", ""),
 		Port:          getEnv("PORT", "8282"),
-		Environment:   getEnv("ENVIRONMENT", ""),
+		Environment:   getEnv("ENVIRONMENT", "production"),
 	}
+
+	if cfg.Database == "" {
+		return Config{}, errors.New("DATABASE environment variable is required")
+	}
+
+	return cfg, nil
 }
 
 func getEnv(key, defaultValue string) string {

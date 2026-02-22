@@ -17,7 +17,10 @@ import (
 )
 
 func main() {
-	cfg := config.Load()
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
 	mariadbDSN := flag.String("mariadb", "", "MariaDB connection string (user:pass@tcp(host:3306)/dbname)")
 	sqlitePath := &cfg.Database
 	flag.Parse()

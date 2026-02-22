@@ -8,8 +8,6 @@ import (
 	"net/url"
 	"os"
 	"strings"
-
-	"pkgstatsd/internal/config"
 )
 
 const monthParams = "startMonth=202501&endMonth=202501"
@@ -126,9 +124,12 @@ var tests = []testCase{
 }
 
 func main() {
-	cfg := config.Load()
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8282"
+	}
 	reference := flag.String("reference", "https://pkgstats.archlinux.de", "reference server base URL")
-	target := flag.String("target", "http://localhost:"+cfg.Port, "target server base URL")
+	target := flag.String("target", "http://localhost:"+port, "target server base URL")
 	flag.Parse()
 
 	if err := run(*reference, *target); err != nil {

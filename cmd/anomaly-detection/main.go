@@ -112,7 +112,11 @@ func (r *DetectionResult) IsHighConfidence() bool {
 }
 
 func main() {
-	cfg := config.Load()
+	cfg, err := config.Load()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 
 	dbPath := &cfg.Database
 	monthFlag := flag.String("month", "", "Month to analyze (YYYYMM format, defaults to last month)")

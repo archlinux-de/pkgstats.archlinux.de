@@ -50,13 +50,19 @@ func RegisterRoutes(
 }
 
 func handleAssets(mux *http.ServeMux, assets fs.FS) {
-	sub, _ := fs.Sub(assets, "dist/assets")
+	sub, err := fs.Sub(assets, "dist/assets")
+	if err != nil {
+		panic(err)
+	}
 	fileServer := http.FileServer(http.FS(sub))
 	mux.Handle("GET /assets/", http.StripPrefix("/assets/", cacheHandler(fileServer, assetsCacheMaxAge)))
 }
 
 func handleStatic(mux *http.ServeMux, static fs.FS) {
-	sub, _ := fs.Sub(static, "static")
+	sub, err := fs.Sub(static, "static")
+	if err != nil {
+		panic(err)
+	}
 	fileServer := http.FileServer(http.FS(sub))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", cacheHandler(fileServer, staticCacheMaxAge)))
 }

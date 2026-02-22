@@ -99,7 +99,10 @@ type fixtureTable struct {
 }
 
 func main() {
-	cfg := config.Load()
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
 	dbPath := &cfg.Database
 	months := flag.Int("months", defaultMonths, "Number of months to generate (going back from current)")
 	flag.Parse()

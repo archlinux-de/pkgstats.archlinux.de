@@ -34,7 +34,10 @@ func main() {
 
 func run() error {
 	// Load configuration from environment
-	cfg := config.Load()
+	cfg, err := config.Load()
+	if err != nil {
+		return err
+	}
 
 	// Setup logger
 	logger := setupLogger(cfg.Environment)
