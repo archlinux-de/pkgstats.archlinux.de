@@ -177,7 +177,7 @@ func TestCalculatePopularity(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := calculatePopularity(tt.count, tt.samples)
+		got := CalculatePopularity(tt.count, tt.samples)
 		if got != tt.expected {
 			t.Errorf("calculatePopularity(%d, %d) = %f, want %f", tt.count, tt.samples, got, tt.expected)
 		}

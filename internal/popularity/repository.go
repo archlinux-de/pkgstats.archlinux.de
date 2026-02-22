@@ -73,7 +73,7 @@ func (r *Repository[T, L]) FindByIdentifier(ctx context.Context, identifier stri
 		return nil, fmt.Errorf("get samples: %w", err)
 	}
 
-	item := r.newItem(identifier, samples, count, calculatePopularity(count, samples), startMonth, endMonth)
+	item := r.newItem(identifier, samples, count, CalculatePopularity(count, samples), startMonth, endMonth)
 
 	return &item, nil
 }
@@ -136,7 +136,7 @@ func (r *Repository[T, L]) FindAll(ctx context.Context, query string, startMonth
 			return nil, fmt.Errorf("scan %s: %w", r.cfg.Table, err)
 		}
 
-		items = append(items, r.newItem(identifier, samples, count, calculatePopularity(count, samples), startMonth, endMonth))
+		items = append(items, r.newItem(identifier, samples, count, CalculatePopularity(count, samples), startMonth, endMonth))
 	}
 
 	if err := rows.Err(); err != nil {
@@ -189,7 +189,7 @@ func (r *Repository[T, L]) FindSeries(ctx context.Context, identifier string, st
 		}
 
 		samples := samplesMap[month]
-		items = append(items, r.newItem(identifier, samples, count, calculatePopularity(count, samples), month, month))
+		items = append(items, r.newItem(identifier, samples, count, CalculatePopularity(count, samples), month, month))
 	}
 
 	if err := rows.Err(); err != nil {
@@ -231,7 +231,8 @@ func (r *Repository[T, L]) getMonthlySamples(startMonth, endMonth int) (map[int]
 	return r.samplesCache.Get(startMonth, endMonth)
 }
 
-func calculatePopularity(count, samples int) float64 {
+// CalculatePopularity returns a percentage rounded to 2 decimal places.
+func CalculatePopularity(count, samples int) float64 {
 	if samples == 0 {
 		return 0
 	}

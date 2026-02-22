@@ -4,16 +4,14 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"math"
 
 	"pkgstatsd/internal/database"
+	"pkgstatsd/internal/popularity"
 )
 
 const (
-	minPopularity       = 16
-	nameLikeCondition   = ` AND name LIKE ?`
-	popularityScale     = 10000
-	popularityPrecision = 100
+	minPopularity     = 16
+	nameLikeCondition = ` AND name LIKE ?`
 )
 
 type Repository interface {
@@ -68,13 +66,11 @@ func (r *SQLiteRepository) FindByName(ctx context.Context, name string, startMon
 		return nil, fmt.Errorf("get samples: %w", err)
 	}
 
-	popularity := calculatePopularity(count, samples)
-
 	return &PackagePopularity{
 		Name:       name,
 		Samples:    samples,
 		Count:      count,
-		Popularity: popularity,
+		Popularity: popularity.CalculatePopularity(count, samples),
 		StartMonth: startMonth,
 		EndMonth:   endMonth,
 	}, nil
@@ -164,7 +160,7 @@ func (r *SQLiteRepository) FindAll(ctx context.Context, query string, startMonth
 			Name:       name,
 			Samples:    samples,
 			Count:      count,
-			Popularity: calculatePopularity(count, samples),
+			Popularity: popularity.CalculatePopularity(count, samples),
 			StartMonth: startMonth,
 			EndMonth:   endMonth,
 		})
@@ -225,7 +221,7 @@ func (r *SQLiteRepository) FindSeriesByName(ctx context.Context, name string, st
 			Name:       name,
 			Samples:    samples,
 			Count:      count,
-			Popularity: calculatePopularity(count, samples),
+			Popularity: popularity.CalculatePopularity(count, samples),
 			StartMonth: month,
 			EndMonth:   month,
 		})
@@ -264,12 +260,4 @@ func (r *SQLiteRepository) getMaxCount(ctx context.Context, startMonth, endMonth
 
 func (r *SQLiteRepository) getMonthlyMaxCounts(_ context.Context, startMonth, endMonth int) (map[int]int, error) {
 	return r.monthlyMaxCache.Get(startMonth, endMonth)
-}
-
-func calculatePopularity(count, samples int) float64 {
-	if samples == 0 {
-		return 0
-	}
-	// Round to 2 decimal places
-	return math.Round(float64(count)/float64(samples)*popularityScale) / popularityPrecision
 }

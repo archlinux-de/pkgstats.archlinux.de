@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"pkgstatsd/internal/database"
+	"pkgstatsd/internal/popularity"
 )
 
 func setupTestDB(t *testing.T) *SQLiteRepository {
@@ -533,9 +534,9 @@ func TestCalculatePopularity(t *testing.T) {
 	}
 
 	for _, tt := range tests {
-		got := calculatePopularity(tt.count, tt.samples)
+		got := popularity.CalculatePopularity(tt.count, tt.samples)
 		if got != tt.expected {
-			t.Errorf("calculatePopularity(%d, %d) = %f, want %f", tt.count, tt.samples, got, tt.expected)
+			t.Errorf("popularity.CalculatePopularity(%d, %d) = %f, want %f", tt.count, tt.samples, got, tt.expected)
 		}
 	}
 }
