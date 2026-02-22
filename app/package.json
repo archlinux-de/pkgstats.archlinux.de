@@ -35,7 +35,7 @@
     "style-loader": "^4.0.0",
     "svg-pan-zoom": "^3.6.2",
     "svgmap": "^2.19.2",
-    "swagger-ui": "^5.31.1",
+    "swagger-ui": "^5.31.2",
     "vue": "^3.5.28",
     "vue-loader": "^17.4.2",
     "vue-router": "^5.0.3",
@@ -78,7 +78,13 @@
   "pnpm": {
     "updateConfig": {
       "ignoreDependencies": [
-        "eslint"
+        "eslint",
+        "eslint-plugin-compat",
+        "eslint-plugin-cypress",
+        "eslint-plugin-import",
+        "eslint-plugin-n",
+        "eslint-plugin-promise",
+        "eslint-plugin-vue"
       ]
     }
   }

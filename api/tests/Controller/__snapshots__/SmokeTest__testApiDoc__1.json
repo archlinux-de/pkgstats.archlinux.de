@@ -251,10 +251,20 @@
                     ],
                     "properties": {
                         "packagePopularities": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/components/schemas/PackagePopularity"
-                            }
+                            "oneOf": [
+                                {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PackagePopularity"
+                                    }
+                                },
+                                {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "$ref": "#/components/schemas/PackagePopularity"
+                                    }
+                                }
+                            ]
                         },
                         "total": {
                             "type": "integer"
