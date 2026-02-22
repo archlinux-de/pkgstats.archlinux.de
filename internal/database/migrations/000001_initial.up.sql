@@ -48,6 +48,16 @@ CREATE TABLE operating_system_architecture (
 CREATE INDEX idx_os_architecture_month_name ON operating_system_architecture(month, name);
 CREATE INDEX idx_os_architecture_month_count ON operating_system_architecture(month, count DESC);
 
+-- Operating system ID statistics (os-release ID)
+CREATE TABLE operating_system_id (
+    id TEXT NOT NULL,
+    month INTEGER NOT NULL,
+    count INTEGER NOT NULL DEFAULT 1,
+    PRIMARY KEY (id, month)
+);
+CREATE INDEX idx_operating_system_id_month_id ON operating_system_id(month, id);
+CREATE INDEX idx_operating_system_id_month_count ON operating_system_id(month, count DESC);
+
 -- Rate limiting table (sliding window)
 CREATE TABLE rate_limit (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
