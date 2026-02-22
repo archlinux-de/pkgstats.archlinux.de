@@ -7,7 +7,7 @@ import (
 )
 
 func currentMonth() int {
-	return GetCurrentMonth()
+	return GetLastCompleteMonth()
 }
 
 func TestParseIntParam(t *testing.T) {

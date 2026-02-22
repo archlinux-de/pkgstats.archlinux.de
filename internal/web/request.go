@@ -32,22 +32,20 @@ func ParseIntParam(r *http.Request, key string, defaultValue int) (int, error) {
 	return v, nil
 }
 
-// GetCurrentMonth returns the last complete month as an integer (YYYYMM).
-func GetCurrentMonth() int {
+func GetLastCompleteMonth() int {
 	now := time.Now()
 	lastMonth := now.AddDate(0, -1, 0)
 	return lastMonth.Year()*monthMultiplier + int(lastMonth.Month())
 }
 
-// GetActualCurrentMonth returns the actual current month as an integer (YYYYMM).
-func GetActualCurrentMonth() int {
+func GetCurrentMonth() int {
 	now := time.Now()
 	return now.Year()*monthMultiplier + int(now.Month())
 }
 
 func ParseMonthRange(r *http.Request) (startMonth, endMonth int, err error) {
-	defaultMonth := GetCurrentMonth()
-	actualMonth := GetActualCurrentMonth()
+	defaultMonth := GetLastCompleteMonth()
+	actualMonth := GetCurrentMonth()
 
 	startMonth, err = ParseIntParam(r, "startMonth", defaultMonth)
 	if err != nil {

@@ -200,7 +200,7 @@ func TestHandleList_PaginationInvalidCases(t *testing.T) {
 }
 
 func currentMonth() int {
-	return web.GetCurrentMonth()
+	return web.GetLastCompleteMonth()
 }
 
 func TestHandleList_MonthZeroMeansCurrentMonth(t *testing.T) {

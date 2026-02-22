@@ -8,6 +8,7 @@ import (
 	"pkgstatsd/internal/chartdata"
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/ui/layout"
+	"pkgstatsd/internal/web"
 )
 
 const maxPackages = 10
@@ -40,7 +41,7 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 			continue
 		}
 
-		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, layout.MaxEndMonth, layout.SeriesLimit, 0)
+		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, web.GetLastCompleteMonth(), layout.SeriesLimit, 0)
 		if err != nil {
 			// Sanitize 'name' before logging to prevent log injection.
 			sanitizedName := strings.ReplaceAll(name, "\n", " ")

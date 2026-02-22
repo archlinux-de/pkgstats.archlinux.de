@@ -7,12 +7,14 @@ import (
 	"pkgstatsd/internal/chartdata"
 	"pkgstatsd/internal/systemarchitectures"
 	"pkgstatsd/internal/ui/layout"
+	"pkgstatsd/internal/web"
 )
 
 const (
 	startMonthCurrent   = 202105
 	endMonthLegacy      = 201812
 	startMonthCommunity = 201712
+	endMonthUnbounded   = 999912
 )
 
 type preset struct {
@@ -27,13 +29,13 @@ var presets = []preset{
 		Label:         "current",
 		Architectures: []string{"aarch64", "armv5", "armv6", "armv7", "i686", "loong64", "riscv64", "x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4"},
 		StartMonth:    startMonthCurrent,
-		EndMonth:      layout.MaxEndMonth,
+		EndMonth:      endMonthUnbounded,
 	},
 	{
 		Label:         "all",
 		Architectures: []string{"aarch64", "armv5", "armv6", "armv7", "i686", "loong64", "riscv64", "x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4"},
 		StartMonth:    0,
-		EndMonth:      layout.MaxEndMonth,
+		EndMonth:      endMonthUnbounded,
 	},
 	{
 		Label:         "i686-x86_64",
@@ -45,13 +47,13 @@ var presets = []preset{
 		Label:         "x86_64",
 		Architectures: []string{"x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4"},
 		StartMonth:    startMonthCurrent,
-		EndMonth:      layout.MaxEndMonth,
+		EndMonth:      endMonthUnbounded,
 	},
 	{
 		Label:         "community",
 		Architectures: []string{"aarch64", "armv5", "armv6", "armv7", "i686", "loong64", "riscv64"},
 		StartMonth:    startMonthCommunity,
-		EndMonth:      layout.MaxEndMonth,
+		EndMonth:      endMonthUnbounded,
 	},
 }
 
@@ -78,8 +80,9 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 
 	var allSeries []systemarchitectures.SystemArchitecturePopularity
 
+	endMonth := min(p.EndMonth, web.GetLastCompleteMonth())
 	for _, arch := range p.Architectures {
-		list, err := h.repo.FindSeriesByName(r.Context(), arch, p.StartMonth, p.EndMonth, layout.SeriesLimit, 0)
+		list, err := h.repo.FindSeriesByName(r.Context(), arch, p.StartMonth, endMonth, layout.SeriesLimit, 0)
 		if err != nil {
 			// G706: Log injection via taint analysis (gosec)
 			// 'arch' is a hardcoded string from presets, not user input.

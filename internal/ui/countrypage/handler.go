@@ -5,6 +5,7 @@ import (
 
 	"pkgstatsd/internal/countries"
 	"pkgstatsd/internal/ui/layout"
+	"pkgstatsd/internal/web"
 )
 
 const allCountries = 300
@@ -19,7 +20,7 @@ func NewHandler(repo countries.Repository, manifest *layout.Manifest) *Handler {
 }
 
 func (h *Handler) HandleCountries(w http.ResponseWriter, r *http.Request) {
-	currentMonth := layout.CurrentMonth()
+	currentMonth := web.GetLastCompleteMonth()
 
 	list, err := h.repo.FindAll(r.Context(), "", currentMonth, currentMonth, allCountries, 0)
 	if err != nil {

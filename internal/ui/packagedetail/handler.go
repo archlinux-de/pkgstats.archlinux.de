@@ -6,6 +6,7 @@ import (
 	"pkgstatsd/internal/chartdata"
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/ui/layout"
+	"pkgstatsd/internal/web"
 )
 
 type Handler struct {
@@ -24,7 +25,7 @@ func (h *Handler) HandlePackageDetail(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	list, err := h.repo.FindSeriesByName(r.Context(), name, 0, layout.MaxEndMonth, layout.SeriesLimit, 0)
+	list, err := h.repo.FindSeriesByName(r.Context(), name, 0, web.GetLastCompleteMonth(), layout.SeriesLimit, 0)
 	if err != nil {
 		layout.ServerError(w, "failed to fetch package series", err)
 		return

@@ -9,6 +9,7 @@ import (
 
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/ui/layout"
+	"pkgstatsd/internal/web"
 )
 
 const (
@@ -36,7 +37,7 @@ func (h *Handler) HandlePackages(w http.ResponseWriter, r *http.Request) {
 	limit = max(limit, 1)
 	offset = max(offset, 0)
 
-	currentMonth := layout.CurrentMonth()
+	currentMonth := web.GetLastCompleteMonth()
 
 	list, err := h.repo.FindAll(r.Context(), query, currentMonth, currentMonth, limit, offset)
 	if err != nil {

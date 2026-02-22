@@ -32,7 +32,7 @@ func (m *mockRepository) FindSeriesByName(ctx context.Context, name string, star
 }
 
 func currentMonth() int {
-	return web.GetCurrentMonth()
+	return web.GetLastCompleteMonth()
 }
 
 func newTestMux(repo Repository) *http.ServeMux {

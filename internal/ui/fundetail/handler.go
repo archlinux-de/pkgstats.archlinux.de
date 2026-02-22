@@ -9,6 +9,7 @@ import (
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/ui/fun"
 	"pkgstatsd/internal/ui/layout"
+	"pkgstatsd/internal/web"
 )
 
 const (
@@ -50,7 +51,7 @@ func (h *Handler) HandleFunDetail(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) handleCurrent(w http.ResponseWriter, r *http.Request, category *fun.Category) {
-	currentMonth := layout.CurrentMonth()
+	currentMonth := web.GetLastCompleteMonth()
 
 	var pkgs []packages.PackagePopularity
 
@@ -80,7 +81,7 @@ func (h *Handler) handleHistory(w http.ResponseWriter, r *http.Request, category
 	var allSeries []packages.PackagePopularity
 
 	for _, name := range category.Packages {
-		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, layout.MaxEndMonth, layout.SeriesLimit, 0)
+		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, web.GetLastCompleteMonth(), layout.SeriesLimit, 0)
 		if err != nil {
 			slog.Error("failed to fetch package series", "error", err, "name", name)
 			continue
