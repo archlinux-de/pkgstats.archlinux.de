@@ -13,7 +13,7 @@ import (
 )
 
 //go:embed migrations/*.sql
-var migrations embed.FS
+var embedMigrations embed.FS
 
 func New(path string) (*sql.DB, error) {
 	// Apply SQLite pragmas via DSN so they are set on every connection in the pool.
@@ -40,7 +40,7 @@ func New(path string) (*sql.DB, error) {
 }
 
 func runMigrations(db *sql.DB) error {
-	source, err := iofs.New(migrations, "migrations")
+	source, err := iofs.New(embedMigrations, "migrations")
 	if err != nil {
 		return fmt.Errorf("create migration source: %w", err)
 	}

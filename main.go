@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"pkgstatsd/internal/apidoc"
+	"pkgstatsd/internal/config"
 	"pkgstatsd/internal/countries"
 	"pkgstatsd/internal/database"
 	"pkgstatsd/internal/mirrors"
@@ -33,7 +34,7 @@ func main() {
 
 func run() error {
 	// Load configuration from environment
-	cfg := loadConfig()
+	cfg := config.Load()
 
 	// Setup logger
 	logger := setupLogger(cfg.Environment)
@@ -101,30 +102,6 @@ func run() error {
 	// Create and start server
 	server := web.NewServer(":"+cfg.Port, handler)
 	return server.ListenAndServe()
-}
-
-type config struct {
-	Database      string
-	GeoIPDatabase string
-	Port          string
-	Environment   string
-}
-
-func loadConfig() config {
-	return config{
-		// @TODO add error handling
-		Database:      getEnv("DATABASE", ""),
-		GeoIPDatabase: getEnv("GEOIP_DATABASE", ""),
-		Port:          getEnv("PORT", "8282"),
-		Environment:   getEnv("ENVIRONMENT", ""),
-	}
-}
-
-func getEnv(key, defaultValue string) string {
-	if value := os.Getenv(key); value != "" {
-		return value
-	}
-	return defaultValue
 }
 
 func setupLogger(environment string) *slog.Logger {

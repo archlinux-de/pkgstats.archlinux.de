@@ -22,6 +22,7 @@ import (
 	"strings"
 	"time"
 
+	"pkgstatsd/internal/config"
 	"pkgstatsd/internal/database"
 )
 
@@ -111,7 +112,9 @@ func (r *DetectionResult) IsHighConfidence() bool {
 }
 
 func main() {
-	dbPath := flag.String("db", "./pkgstats.db", "SQLite database path")
+	cfg := config.Load()
+
+	dbPath := &cfg.Database
 	monthFlag := flag.String("month", "", "Month to analyze (YYYYMM format, defaults to last month)")
 	expectedPkgs := flag.String("expected-packages", "pkgstats,pacman", "Comma-separated list of expected base packages")
 	flag.Parse()

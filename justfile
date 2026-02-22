@@ -1,7 +1,7 @@
 set quiet := true
 
 export CGO_ENABLED := '0'
-export PORT := '8182'
+export PORT := '8282'
 export DATABASE := 'tmp/pkgstats.db'
 export GEOIP_DATABASE := 'tmp/GeoIP2-Country.mmdb'
 export ENVIRONMENT := 'development'
@@ -60,7 +60,7 @@ coverage:
 
 # generate Go fixtures for local development
 fixtures months="3":
-    go run ./cmd/fixtures -db '{{ DATABASE }}' -months {{ months }}
+    go run ./cmd/fixtures -months {{ months }}
 
 anomaly-detection:
     go run ./cmd/anomaly-detection
@@ -87,6 +87,6 @@ migrate dump:
     docker exec pkgstats-migrate-mariadb mariadb-admin ping --wait > /dev/null 2>&1
 
     rm -f '{{ DATABASE }}'
-    go run ./cmd/migrate-data -mariadb 'root@tcp(localhost:3306)/pkgstats_archlinux_de' -sqlite '{{ DATABASE }}'
+    go run ./cmd/migrate-data -mariadb 'root@tcp(localhost:3306)/pkgstats_archlinux_de'
 
     docker rm -f pkgstats-migrate-mariadb

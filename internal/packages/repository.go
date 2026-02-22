@@ -142,11 +142,11 @@ func (r *SQLiteRepository) FindAll(ctx context.Context, query string, startMonth
 	}
 
 	var total int
-	if err := r.db.QueryRowContext(ctx, countQuery, countArgs...).Scan(&total); err != nil {
+	if err := r.db.QueryRowContext(ctx, countQuery, countArgs...).Scan(&total); err != nil { //nolint:gosec // query is built from hardcoded strings and ? placeholders
 		return nil, fmt.Errorf("count packages: %w", err)
 	}
 
-	rows, err := r.db.QueryContext(ctx, sqlQuery, args...)
+	rows, err := r.db.QueryContext(ctx, sqlQuery, args...) //nolint:gosec // query is built from hardcoded strings and ? placeholders
 	if err != nil {
 		return nil, fmt.Errorf("query packages: %w", err)
 	}

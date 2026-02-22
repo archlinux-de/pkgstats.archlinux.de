@@ -10,6 +10,7 @@ import (
 	"os"
 	"time"
 
+	"pkgstatsd/internal/config"
 	"pkgstatsd/internal/database"
 )
 
@@ -98,7 +99,8 @@ type fixtureTable struct {
 }
 
 func main() {
-	dbPath := flag.String("db", "./pkgstats.db", "SQLite database path")
+	cfg := config.Load()
+	dbPath := &cfg.Database
 	months := flag.Int("months", defaultMonths, "Number of months to generate (going back from current)")
 	flag.Parse()
 

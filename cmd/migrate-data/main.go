@@ -12,12 +12,14 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "modernc.org/sqlite"
 
+	"pkgstatsd/internal/config"
 	"pkgstatsd/internal/database"
 )
 
 func main() {
+	cfg := config.Load()
 	mariadbDSN := flag.String("mariadb", "", "MariaDB connection string (user:pass@tcp(host:3306)/dbname)")
-	sqlitePath := flag.String("sqlite", "", "SQLite database path")
+	sqlitePath := &cfg.Database
 	flag.Parse()
 
 	if *mariadbDSN == "" {
