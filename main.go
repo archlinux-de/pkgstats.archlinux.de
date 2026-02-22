@@ -47,10 +47,13 @@ func run() error {
 	}
 	defer func() { _ = db.Close() }()
 
-	// Setup repositories (for UI pages that need direct repo access)
+	// Setup repositories
 	packagesRepo := packages.NewSQLiteRepository(db)
 	countriesRepo := countries.NewSQLiteRepository(db)
+	mirrorsRepo := mirrors.NewSQLiteRepository(db)
 	systemArchRepo := systemarchitectures.NewSQLiteRepository(db)
+	osRepo := operatingsystems.NewSQLiteRepository(db)
+	osArchRepo := osarchitectures.NewSQLiteRepository(db)
 	submitRepo := submit.NewRepository(db)
 
 	// Setup GeoIP lookup
@@ -81,11 +84,11 @@ func run() error {
 	mux := http.NewServeMux()
 
 	packages.NewHandler(packagesRepo).RegisterRoutes(mux)
-	countries.NewHandler(db).RegisterRoutes(mux)
-	mirrors.NewHandler(db).RegisterRoutes(mux)
-	systemarchitectures.NewHandler(db).RegisterRoutes(mux)
-	operatingsystems.NewHandler(db).RegisterRoutes(mux)
-	osarchitectures.NewHandler(db).RegisterRoutes(mux)
+	countries.NewHandler(countriesRepo).RegisterRoutes(mux)
+	mirrors.NewHandler(mirrorsRepo).RegisterRoutes(mux)
+	systemarchitectures.NewHandler(systemArchRepo).RegisterRoutes(mux)
+	operatingsystems.NewHandler(osRepo).RegisterRoutes(mux)
+	osarchitectures.NewHandler(osArchRepo).RegisterRoutes(mux)
 	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
 	sitemap.NewHandler().RegisterRoutes(mux)
 	apidoc.NewHandler().RegisterRoutes(mux)

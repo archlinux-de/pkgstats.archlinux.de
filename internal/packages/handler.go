@@ -17,7 +17,7 @@ func NewHandler(repo Repository) *Handler {
 func (h *Handler) HandleGet(w http.ResponseWriter, r *http.Request) {
 	name := r.PathValue("name")
 	if name == "" {
-		http.Error(w, "package name required", http.StatusBadRequest)
+		web.BadRequest(w, "package name required")
 		return
 	}
 
@@ -29,7 +29,7 @@ func (h *Handler) HandleGet(w http.ResponseWriter, r *http.Request) {
 
 	pkg, err := h.repo.FindByName(r.Context(), name, startMonth, endMonth)
 	if err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		web.InternalServerError(w, err.Error())
 		return
 	}
 
@@ -57,7 +57,7 @@ func (h *Handler) HandleList(w http.ResponseWriter, r *http.Request) {
 
 	list, err := h.repo.FindAll(r.Context(), query, startMonth, endMonth, limit, offset)
 	if err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		web.InternalServerError(w, err.Error())
 		return
 	}
 
@@ -67,7 +67,7 @@ func (h *Handler) HandleList(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) HandleSeries(w http.ResponseWriter, r *http.Request) {
 	name := r.PathValue("name")
 	if name == "" {
-		http.Error(w, "package name required", http.StatusBadRequest)
+		web.BadRequest(w, "package name required")
 		return
 	}
 
@@ -85,7 +85,7 @@ func (h *Handler) HandleSeries(w http.ResponseWriter, r *http.Request) {
 
 	list, err := h.repo.FindSeriesByName(r.Context(), name, startMonth, endMonth, limit, offset)
 	if err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		web.InternalServerError(w, err.Error())
 		return
 	}
 

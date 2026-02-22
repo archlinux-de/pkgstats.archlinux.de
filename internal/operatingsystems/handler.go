@@ -33,13 +33,7 @@ type Handler struct {
 	pop *popularity.Handler[OperatingSystemIdPopularity, OperatingSystemIdPopularityList]
 }
 
-// NewHandler creates a new Handler from a database connection.
-func NewHandler(db *sql.DB) *Handler {
-	repo := popularity.NewRepository(db, popularity.Config{
-		Table:  "operating_system_id",
-		Column: "id",
-	}, newItem, newList)
-
+func NewHandler(repo *SQLiteRepository) *Handler {
 	return &Handler{
 		pop: popularity.NewHandler[OperatingSystemIdPopularity, OperatingSystemIdPopularityList](
 			repo, "/api/operating-systems", "id", "operating system id required",

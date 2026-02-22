@@ -33,13 +33,7 @@ type Handler struct {
 	pop *popularity.Handler[CountryPopularity, CountryPopularityList]
 }
 
-// NewHandler creates a new Handler from a database connection.
-func NewHandler(db *sql.DB) *Handler {
-	repo := popularity.NewRepository(db, popularity.Config{
-		Table:  "country",
-		Column: "code",
-	}, newItem, newList)
-
+func NewHandler(repo *SQLiteRepository) *Handler {
 	return &Handler{
 		pop: popularity.NewHandler[CountryPopularity, CountryPopularityList](
 			repo, "/api/countries", "code", "country code required",

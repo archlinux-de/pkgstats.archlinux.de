@@ -34,14 +34,7 @@ type Handler struct {
 	pop *popularity.Handler[MirrorPopularity, MirrorPopularityList]
 }
 
-// NewHandler creates a new Handler from a database connection.
-func NewHandler(db *sql.DB) *Handler {
-	repo := popularity.NewRepository(db, popularity.Config{
-		Table:         "mirror",
-		Column:        "url",
-		QueryContains: true,
-	}, newItem, newList)
-
+func NewHandler(repo *SQLiteRepository) *Handler {
 	return &Handler{
 		pop: popularity.NewHandler[MirrorPopularity, MirrorPopularityList](
 			repo, "/api/mirrors", "url", "mirror url required",
