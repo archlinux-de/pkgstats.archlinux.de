@@ -27,6 +27,10 @@ func Load() (Config, error) {
 	return cfg, nil
 }
 
+func (c Config) IsDevelopment() bool {
+	return c.Environment == "development" || c.Environment == "test"
+}
+
 func getEnv(key, defaultValue string) string {
 	if value := os.Getenv(key); value != "" {
 		return value

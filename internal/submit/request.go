@@ -17,9 +17,9 @@ var (
 
 const (
 	expectedVersion       = "3"
-	maxPackages           = 20000
+	MaxPackages           = 20000
 	minPackages           = 1
-	maxPackageLen         = 191
+	MaxPackageLen         = 191
 	truncateErrorMsgLimit = 20
 	archX86_64            = "x86_64"
 )
@@ -76,16 +76,16 @@ func (r *Request) Validate() error {
 		return errors.New("pacman.packages must contain at least 1 package")
 	}
 
-	if len(r.Pacman.Packages) > maxPackages {
-		return fmt.Errorf("pacman.packages must contain at most %d packages", maxPackages)
+	if len(r.Pacman.Packages) > MaxPackages {
+		return fmt.Errorf("pacman.packages must contain at most %d packages", MaxPackages)
 	}
 
 	for _, pkg := range r.Pacman.Packages {
 		if pkg == "" {
 			return errors.New("package name cannot be empty")
 		}
-		if len(pkg) > maxPackageLen {
-			return fmt.Errorf("package name %q exceeds maximum length of %d", truncate(pkg, truncateErrorMsgLimit), maxPackageLen)
+		if len(pkg) > MaxPackageLen {
+			return fmt.Errorf("package name %q exceeds maximum length of %d", truncate(pkg, truncateErrorMsgLimit), MaxPackageLen)
 		}
 		if !packageNameRegexp.MatchString(pkg) {
 			return fmt.Errorf("invalid package name %q", truncate(pkg, truncateErrorMsgLimit))

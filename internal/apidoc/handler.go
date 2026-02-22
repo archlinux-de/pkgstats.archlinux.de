@@ -1,23 +1,25 @@
 package apidoc
 
 import (
-	_ "embed"
+	"encoding/json"
 	"net/http"
 )
 
-//go:embed spec.json
-var specJSON []byte
+type Handler struct {
+	specJSON []byte
+}
 
-type Handler struct{}
-
-// NewHandler creates a new Handler.
-func NewHandler() *Handler {
-	return &Handler{}
+func NewHandler(includeInternal bool) *Handler {
+	data, err := json.MarshalIndent(buildSpec(includeInternal), "", "    ")
+	if err != nil {
+		panic("apidoc: failed to marshal OpenAPI spec: " + err.Error())
+	}
+	return &Handler{specJSON: data}
 }
 
 func (h *Handler) HandleDocJSON(w http.ResponseWriter, _ *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	_, _ = w.Write(specJSON)
+	_, _ = w.Write(h.specJSON)
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {

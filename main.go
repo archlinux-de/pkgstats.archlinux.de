@@ -40,7 +40,7 @@ func run() error {
 	}
 
 	// Setup logger
-	logger := setupLogger(cfg.Environment)
+	logger := setupLogger(cfg.IsDevelopment())
 	slog.SetDefault(logger)
 
 	// Initialize database
@@ -71,7 +71,7 @@ func run() error {
 
 	// Setup rate limiter
 	var rateLimiter submit.RateLimiter
-	if cfg.Environment == "development" || cfg.Environment == "test" {
+	if cfg.IsDevelopment() {
 		rateLimiter = submit.NewInMemoryRateLimiter()
 	} else {
 		rateLimiter = submit.NewSQLiteRateLimiter(db)
@@ -94,7 +94,7 @@ func run() error {
 	osarchitectures.NewHandler(osArchRepo).RegisterRoutes(mux)
 	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
 	sitemap.NewHandler().RegisterRoutes(mux)
-	apidoc.NewHandler().RegisterRoutes(mux)
+	apidoc.NewHandler(cfg.IsDevelopment()).RegisterRoutes(mux)
 	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, embedAssets, embedStatic)
 
 	// Apply middleware stack
@@ -110,9 +110,9 @@ func run() error {
 	return server.ListenAndServe()
 }
 
-func setupLogger(environment string) *slog.Logger {
+func setupLogger(isDevelopment bool) *slog.Logger {
 	var handler slog.Handler
-	if environment == "development" {
+	if isDevelopment {
 		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 			Level: slog.LevelDebug,
 		})
