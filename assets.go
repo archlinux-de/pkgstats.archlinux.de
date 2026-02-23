@@ -12,3 +12,6 @@ var embedStatic embed.FS
 
 //go:embed dist/manifest.json
 var embedManifest []byte
+
+//go:embed dist/service-worker.js
+var embedServiceWorker []byte

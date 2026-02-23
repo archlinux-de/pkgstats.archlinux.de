@@ -97,6 +97,13 @@ func run() error {
 	apidoc.NewHandler(cfg.IsDevelopment()).RegisterRoutes(mux)
 	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, embedAssets, embedStatic)
 
+	// Kill switch for the legacy Workbox service worker — remove after ~2026-09.
+	mux.HandleFunc("GET /service-worker.js", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/javascript")
+		w.Header().Set("Cache-Control", "public, max-age=3600")
+		_, _ = w.Write(embedServiceWorker)
+	})
+
 	// Apply middleware stack
 	handler := web.Chain(mux,
 		web.Recovery(),

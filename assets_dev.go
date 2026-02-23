@@ -10,3 +10,5 @@ var embedAssets embed.FS
 var embedStatic embed.FS
 
 var embedManifest = []byte(`{}`)
+
+var embedServiceWorker []byte
