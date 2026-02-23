@@ -1,0 +1,17 @@
+// TODO: load this only on the countries page once per-page CSS loading is supported
+@use "svgmap-variables" with (
+    $textColor: var(--bs-body-color),
+    $textColorLight: var(--bs-secondary-color),
+    $oceanColor: transparent,
+    $mapActiveStrokeColor: var(--bs-link-hover-color),
+    $mapControlsColor: var(--bs-body-color),
+    $mapControlsBackgroundColor: var(--bs-body-bg),
+    $mapTooltipColor: var(--bs-body-color),
+    $mapTooltipBackgroundColor: var(--bs-body-bg),
+);
+@use "svgmap-styles";
+
+country-map {
+    display: block;
+    aspect-ratio: auto 2 / 1;
+}

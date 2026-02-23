@@ -4,20 +4,15 @@ import cssnano from "cssnano";
 module.exports = {
     plugins: [
         purgeCSSPlugin({
-            content: ["**/*.js", "**/*.html", "**/*.templ"],
+            content: ["**/*.templ", "**/*.ts"],
             skippedContentGlobs: ["node_modules/**", "tests/**", "tmp/**"],
             variables: true,
             safelist: {
                 greedy: [/^svgMap-/],
-                variables: [
-                    "--bs-primary",
-                    "--bs-body-color",
-                    "--bs-body-bg",
-                    "--bs-secondary-bg",
-                    "--bs-secondary-color",
-                    "--bs-border-color",
-                    "--bs-link-hover-color",
-                ],
+                // --bs-primary is only consumed via getPropertyValue() in country-map.ts
+                // and never referenced in a CSS var() expression, so PurgeCSS cannot
+                // detect it automatically and it must be safelisted explicitly.
+                variables: ["--bs-primary"],
             },
         }),
         cssnano({ preset: ["cssnano-preset-advanced"] }),

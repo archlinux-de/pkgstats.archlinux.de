@@ -1,0 +1,9 @@
+popularity-chart {
+    display: block;
+    aspect-ratio: auto 16 / 9;
+
+    // prevent scroll bars during graph rendering
+    canvas {
+        display: none;
+    }
+}
