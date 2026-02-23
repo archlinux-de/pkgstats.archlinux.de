@@ -23,10 +23,10 @@ build-templates:
     go tool templ generate
 
 build: build-assets build-templates
-    go build -o pkgstatsd -ldflags="-s -w" -trimpath
+    go build -tags production -o pkgstatsd -ldflags="-s -w" -trimpath
 
 run:
-    go run .
+    go run -tags production .
 
 test:
     go test ./...

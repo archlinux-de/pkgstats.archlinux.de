@@ -27,9 +27,6 @@ runs:
       run: just install
       shell: bash
 
-    - name: Build Assets
-      run: just build-assets
-      shell: bash
     - name: Build Templates
       run: just build-templates
       shell: bash
