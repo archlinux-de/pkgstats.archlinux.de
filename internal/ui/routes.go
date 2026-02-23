@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/fs"
 	"net/http"
+	"strings"
 
 	"pkgstatsd/internal/countries"
 	"pkgstatsd/internal/packages"
@@ -55,7 +56,7 @@ func handleAssets(mux *http.ServeMux, assets fs.FS) {
 		panic(err)
 	}
 	fileServer := http.FileServer(http.FS(sub))
-	mux.Handle("GET /assets/", http.StripPrefix("/assets/", cacheHandler(fileServer, assetsCacheMaxAge)))
+	mux.Handle("GET /assets/", http.StripPrefix("/assets/", cacheHandler(fileServer, assetsCacheMaxAge, "immutable")))
 }
 
 func handleStatic(mux *http.ServeMux, static fs.FS) {
@@ -67,9 +68,13 @@ func handleStatic(mux *http.ServeMux, static fs.FS) {
 	mux.Handle("GET /static/", http.StripPrefix("/static/", cacheHandler(fileServer, staticCacheMaxAge)))
 }
 
-func cacheHandler(next http.Handler, maxAge int) http.Handler {
+func cacheHandler(next http.Handler, maxAge int, directives ...string) http.Handler {
+	value := fmt.Sprintf("public, max-age=%d", maxAge)
+	if len(directives) > 0 {
+		value += ", " + strings.Join(directives, ", ")
+	}
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Cache-Control", fmt.Sprintf("public, max-age=%d", maxAge))
+		w.Header().Set("Cache-Control", value)
 		next.ServeHTTP(w, r)
 	})
 }
