@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"runtime/debug"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -30,6 +31,26 @@ func Recovery() Middleware {
 					InternalServerError(w, "internal server error")
 				}
 			}()
+			next.ServeHTTP(w, r)
+		})
+	}
+}
+
+func SecureHeaders() Middleware {
+	csp := strings.Join([]string{
+		"default-src 'self'",
+		"script-src 'self'",
+		"style-src 'self' 'unsafe-inline'",
+		"img-src 'self' data:",
+		"object-src 'none'",
+		"base-uri 'self'",
+		"frame-ancestors 'none'",
+	}, "; ")
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Content-Security-Policy", csp)
+			w.Header().Set("X-Content-Type-Options", "nosniff")
+			w.Header().Set("Referrer-Policy", "strict-origin-when-cross-origin")
 			next.ServeHTTP(w, r)
 		})
 	}

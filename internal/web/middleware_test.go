@@ -86,6 +86,33 @@ func TestCORS(t *testing.T) {
 	})
 }
 
+func TestSecureHeaders(t *testing.T) {
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
+	sh := SecureHeaders()(h)
+	req := httptest.NewRequest(http.MethodGet, "/", nil)
+	rr := httptest.NewRecorder()
+	sh.ServeHTTP(rr, req)
+
+	tests := []struct {
+		header string
+		want   string
+	}{
+		{"Content-Security-Policy", "default-src 'self'"},
+		{"Content-Security-Policy", "img-src 'self' data:"},
+		{"Content-Security-Policy", "frame-ancestors 'none'"},
+		{"X-Content-Type-Options", "nosniff"},
+		{"Referrer-Policy", "strict-origin-when-cross-origin"},
+	}
+	for _, tt := range tests {
+		if !strings.Contains(rr.Header().Get(tt.header), tt.want) {
+			t.Errorf("%s: want %q in %q", tt.header, tt.want, rr.Header().Get(tt.header))
+		}
+	}
+}
+
 func TestCacheControl(t *testing.T) {
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
