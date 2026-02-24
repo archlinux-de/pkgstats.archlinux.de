@@ -100,14 +100,7 @@ func run() error {
 	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
 	sitemap.NewHandler().RegisterRoutes(mux)
 	apidoc.NewHandler(cfg.IsDevelopment()).RegisterRoutes(mux)
-	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, embedAssets, embedStatic)
-
-	// Kill switch for the legacy Workbox service worker — remove after ~2026-09.
-	mux.HandleFunc("GET /service-worker.js", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/javascript")
-		w.Header().Set("Cache-Control", "public, max-age=3600")
-		_, _ = w.Write(embedServiceWorker)
-	})
+	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, embedAssets, embedStatic, embedRoot)
 
 	// Apply middleware stack
 	handler := web.Chain(mux,

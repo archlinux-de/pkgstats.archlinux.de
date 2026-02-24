@@ -49,6 +49,7 @@ export default {
             },
         },
     },
+    publicDir: false,
     build: {
         manifest: "manifest.json",
         minify: "terser",

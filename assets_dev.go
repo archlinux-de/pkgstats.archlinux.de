@@ -9,6 +9,7 @@ var embedAssets embed.FS
 //go:embed static
 var embedStatic embed.FS
 
-var embedManifest = []byte(`{}`)
+//go:embed root
+var embedRoot embed.FS
 
-var embedServiceWorker []byte
+var embedManifest = []byte(`{}`)

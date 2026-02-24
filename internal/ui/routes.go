@@ -33,7 +33,7 @@ func RegisterRoutes(
 	pkgRepo packages.Repository,
 	countriesRepo countries.Repository,
 	systemArchRepo systemarchitectures.Repository,
-	assets, static fs.FS,
+	assets, static, root fs.FS,
 ) {
 	home.NewHandler(manifest).RegisterRoutes(mux)
 	packagepage.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
@@ -48,6 +48,27 @@ func RegisterRoutes(
 
 	handleAssets(mux, assets)
 	handleStatic(mux, static)
+	handleFavicon(mux, root)
+	handleRobots(mux, root)
+	handleServiceWorker(mux, root)
+}
+
+func handleFavicon(mux *http.ServeMux, root fs.FS) {
+	mux.Handle("GET /favicon.ico", cacheHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFileFS(w, r, root, "root/favicon.ico")
+	}), staticCacheMaxAge))
+}
+
+func handleRobots(mux *http.ServeMux, root fs.FS) {
+	mux.Handle("GET /robots.txt", cacheHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFileFS(w, r, root, "root/robots.txt")
+	}), staticCacheMaxAge))
+}
+
+func handleServiceWorker(mux *http.ServeMux, root fs.FS) {
+	mux.Handle("GET /service-worker.js", cacheHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFileFS(w, r, root, "root/service-worker.js")
+	}), staticCacheMaxAge))
 }
 
 func handleAssets(mux *http.ServeMux, assets fs.FS) {
