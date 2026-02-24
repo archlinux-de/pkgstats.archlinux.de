@@ -1,5 +1,5 @@
 name: 'Common Setup'
-description: 'Performs common setup steps for Go/Node.js projects, including checking out code, installing Just, Go, Templ, GolangCI-Lint, pnpm, and project dependencies.'
+description: 'Performs common setup steps for Go/Node.js projects, including installing Just, Go, GolangCI-Lint, pnpm, and project dependencies.'
 
 runs:
   using: "composite"
@@ -16,17 +16,9 @@ runs:
       uses: actions/setup-go@v6
       with:
           go-version-file: "go.mod"
-    - name: Install templ
-      run: go install github.com/a-h/templ/cmd/templ@latest
-      shell: bash
     - name: Install golangci-lint
       run: go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
       shell: bash
-
     - name: Install dependencies
       run: just install
-      shell: bash
-
-    - name: Build Templates
-      run: just build-templates
       shell: bash
