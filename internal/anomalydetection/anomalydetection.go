@@ -1,14 +1,4 @@
-// Command anomaly-detection detects suspicious submission patterns in package statistics.
-//
-// Usage:
-//
-//	anomaly-detection -db ./pkgstats.db [-month 202601] [-expected-packages pkgstats,pacman]
-//
-// Exit codes:
-//   - 0: No high-confidence anomalies detected
-//   - 1: Minor anomalies detected (single mirror or architecture spike)
-//   - 2: High-confidence anomalies detected (requires investigation)
-package main
+package anomalydetection
 
 import (
 	"context"
@@ -41,7 +31,6 @@ const (
 	maxCorrelationPackages        = 8
 )
 
-// Anomaly types.
 type (
 	GrowthAnomaly struct {
 		Identifier    string
@@ -111,24 +100,26 @@ func (r *DetectionResult) IsHighConfidence() bool {
 		r.HasExtremeMirrorGrowth()
 }
 
-func main() {
+// Run executes the detect-anomalies subcommand. args are os.Args[2:].
+// Returns the process exit code.
+func Run(args []string) int {
 	cfg, err := config.Load()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
+		return 1
 	}
 
-	dbPath := &cfg.Database
-	monthFlag := flag.String("month", "", "Month to analyze (YYYYMM format, defaults to last month)")
-	expectedPkgs := flag.String("expected-packages", "pkgstats,pacman", "Comma-separated list of expected base packages")
-	flag.Parse()
+	fs := flag.NewFlagSet("detect-anomalies", flag.ExitOnError)
+	monthFlag := fs.String("month", "", "Month to analyze (YYYYMM format, defaults to last month)")
+	expectedPkgs := fs.String("expected-packages", "pkgstats,pacman", "Comma-separated list of expected base packages")
+	_ = fs.Parse(args)
 
-	exitCode, err := run(*dbPath, *monthFlag, *expectedPkgs)
+	exitCode, err := run(cfg.Database, *monthFlag, *expectedPkgs)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
-		os.Exit(1)
+		return 1
 	}
-	os.Exit(exitCode)
+	return exitCode
 }
 
 func run(dbPath, monthFlag, expectedPkgs string) (int, error) {

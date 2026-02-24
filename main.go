@@ -6,6 +6,7 @@ import (
 	"os"
 	"time"
 
+	"pkgstatsd/internal/anomalydetection"
 	"pkgstatsd/internal/apidoc"
 	"pkgstatsd/internal/config"
 	"pkgstatsd/internal/countries"
@@ -26,6 +27,10 @@ import (
 const defaultCacheMaxAge = 5 * time.Minute
 
 func main() {
+	if len(os.Args) > 1 && os.Args[1] == "detect-anomalies" {
+		os.Exit(anomalydetection.Run(os.Args[2:]))
+	}
+
 	if err := run(); err != nil {
 		slog.Error("fatal error", "error", err)
 		os.Exit(1)

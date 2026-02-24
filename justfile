@@ -62,8 +62,8 @@ coverage:
 fixtures months="3":
     go run ./cmd/fixtures -months {{ months }}
 
-anomaly-detection:
-    go run ./cmd/anomaly-detection
+detect-anomalies:
+    go run . detect-anomalies
 
 # run data migration from a mariadb dump
 migrate dump:
