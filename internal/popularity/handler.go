@@ -32,7 +32,7 @@ func NewHandler[T, L any](repo Querier[T, L], basePath, pathParam, errMsg string
 func (h *Handler[T, L]) HandleGet(w http.ResponseWriter, r *http.Request) {
 	identifier := r.PathValue(h.pathParam)
 	if identifier == "" {
-		http.Error(w, h.errMsg, http.StatusBadRequest)
+		web.BadRequest(w, h.errMsg)
 		return
 	}
 
@@ -44,7 +44,7 @@ func (h *Handler[T, L]) HandleGet(w http.ResponseWriter, r *http.Request) {
 
 	item, err := h.repo.FindByIdentifier(r.Context(), identifier, startMonth, endMonth)
 	if err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		web.InternalServerError(w, "internal server error")
 		return
 	}
 
@@ -72,7 +72,7 @@ func (h *Handler[T, L]) HandleList(w http.ResponseWriter, r *http.Request) {
 
 	list, err := h.repo.FindAll(r.Context(), query, startMonth, endMonth, limit, offset)
 	if err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		web.InternalServerError(w, "internal server error")
 		return
 	}
 
@@ -82,7 +82,7 @@ func (h *Handler[T, L]) HandleList(w http.ResponseWriter, r *http.Request) {
 func (h *Handler[T, L]) HandleSeries(w http.ResponseWriter, r *http.Request) {
 	identifier := r.PathValue(h.pathParam)
 	if identifier == "" {
-		http.Error(w, h.errMsg, http.StatusBadRequest)
+		web.BadRequest(w, h.errMsg)
 		return
 	}
 
@@ -100,7 +100,7 @@ func (h *Handler[T, L]) HandleSeries(w http.ResponseWriter, r *http.Request) {
 
 	list, err := h.repo.FindSeries(r.Context(), identifier, startMonth, endMonth, limit, offset)
 	if err != nil {
-		http.Error(w, "internal server error", http.StatusInternalServerError)
+		web.InternalServerError(w, "internal server error")
 		return
 	}
 
