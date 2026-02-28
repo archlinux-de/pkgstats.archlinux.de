@@ -4,7 +4,6 @@ namespace App\Tests\Controller;
 
 use App\Controller\ApiMirrorsController;
 use App\Entity\Mirror;
-use App\Repository\MirrorRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +16,8 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
     public function testFetchAllMirrors(string $mirrorUrl): void
     {
         $entityManager = $this->getEntityManager();
-        $mirror = $this->createPopularMirror($mirrorUrl, (int)new \DateTime()->format('Ym'));
+        $mirror = new Mirror($mirrorUrl)
+            ->setMonth((int)new \DateTime()->format('Ym'));
         $entityManager->persist($mirror);
         $entityManager->flush();
 
@@ -215,17 +215,6 @@ class ApiMirrorsControllerTest extends DatabaseTestCase
         $this->assertEquals(1, $popularityList['count']);
         $this->assertCount(1, $popularityList['mirrorPopularities']);
         $this->assertEquals($mirrorUrl, $popularityList['mirrorPopularities'][0]['url']);
-    }
-
-    private function createPopularMirror(string $url, int $month): Mirror
-    {
-        $mirror = new Mirror($url)
-            ->setMonth($month);
-        for ($i = 1; $i < MirrorRepository::MIN_POPULARITY; $i++) {
-            $mirror->incrementCount();
-        }
-
-        return $mirror;
     }
 
     /**
