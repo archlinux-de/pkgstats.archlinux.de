@@ -100,7 +100,7 @@ func run() error {
 	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
 	sitemap.NewHandler().RegisterRoutes(mux)
 	apidoc.NewHandler(cfg.IsDevelopment()).RegisterRoutes(mux)
-	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, embedAssets, embedStatic, embedRoot)
+	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, osRepo, embedAssets, embedStatic, embedRoot)
 
 	// Apply middleware stack
 	handler := web.Chain(mux,

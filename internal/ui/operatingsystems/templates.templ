@@ -1,0 +1,11 @@
+package operatingsystems
+
+import "pkgstatsd/internal/chartdata"
+
+templ CompareContent(data chartdata.Data) {
+	<h1 class="mb-3">Compare Operating Systems</h1>
+	<p class="mb-3">Relative usage of operating system distributions</p>
+	<popularity-chart>
+		@templ.JSONScript("", data)
+	</popularity-chart>
+}

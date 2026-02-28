@@ -26,6 +26,10 @@ type Repository interface {
 	FindSeriesByID(ctx context.Context, id string, startMonth, endMonth, limit, offset int) (*OperatingSystemIdPopularityList, error)
 }
 
+func (o OperatingSystemIdPopularity) GetName() string        { return o.ID }
+func (o OperatingSystemIdPopularity) GetStartMonth() int     { return o.StartMonth }
+func (o OperatingSystemIdPopularity) GetPopularity() float64 { return o.Popularity }
+
 func newItem(identifier string, samples, count int, popularity float64, startMonth, endMonth int) OperatingSystemIdPopularity {
 	return OperatingSystemIdPopularity{
 		ID: identifier, Samples: samples, Count: count,

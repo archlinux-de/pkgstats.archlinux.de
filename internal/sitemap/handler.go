@@ -31,6 +31,7 @@ func (h *Handler) HandleSitemap(w http.ResponseWriter, r *http.Request) {
 			{Loc: baseURL + "/countries"},
 			{Loc: baseURL + "/packages"},
 			{Loc: baseURL + "/compare/system-architectures/current"},
+			{Loc: baseURL + "/compare/operating-systems"},
 			{Loc: baseURL + "/fun"},
 		},
 	}

@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"pkgstatsd/internal/countries"
+	"pkgstatsd/internal/operatingsystems"
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/systemarchitectures"
 	"pkgstatsd/internal/ui/apidocpage"
@@ -17,6 +18,7 @@ import (
 	"pkgstatsd/internal/ui/home"
 	"pkgstatsd/internal/ui/layout"
 	"pkgstatsd/internal/ui/legal"
+	uios "pkgstatsd/internal/ui/operatingsystems"
 	"pkgstatsd/internal/ui/packagedetail"
 	"pkgstatsd/internal/ui/packagepage"
 	uisysarch "pkgstatsd/internal/ui/systemarchitectures"
@@ -33,6 +35,7 @@ func RegisterRoutes(
 	pkgRepo packages.Repository,
 	countriesRepo countries.Repository,
 	systemArchRepo systemarchitectures.Repository,
+	osRepo operatingsystems.Repository,
 	assets, static, root fs.FS,
 ) {
 	home.NewHandler(manifest).RegisterRoutes(mux)
@@ -41,6 +44,7 @@ func RegisterRoutes(
 	compare.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
 	countrypage.NewHandler(countriesRepo, manifest).RegisterRoutes(mux)
 	uisysarch.NewHandler(systemArchRepo, manifest).RegisterRoutes(mux)
+	uios.NewHandler(osRepo, manifest).RegisterRoutes(mux)
 	fun.NewHandler(manifest).RegisterRoutes(mux)
 	fundetail.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
 	apidocpage.NewHandler(manifest).RegisterRoutes(mux)
