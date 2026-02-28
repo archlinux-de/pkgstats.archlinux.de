@@ -15,8 +15,9 @@ type SQLiteRepository struct {
 func NewSQLiteRepository(db *sql.DB) *SQLiteRepository {
 	return &SQLiteRepository{
 		Repository: popularity.NewRepository(db, popularity.Config{
-			Table:  "operating_system_architecture",
-			Column: "name",
+			Table:         "operating_system_architecture",
+			Column:        "name",
+			QueryContains: true,
 		}, newItem, newList),
 	}
 }
