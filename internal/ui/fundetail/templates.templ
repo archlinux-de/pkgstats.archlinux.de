@@ -22,12 +22,12 @@ templ FunDetailHistoryContent(category string, data chartdata.Data, filter strin
 	</popularity-chart>
 	<h2 class="mt-4">Filters</h2>
 	<div class="btn-group" role="group" aria-label="Filter chart data">
-		if filter != "top5" {
+		if filter != top5Filter {
 			<a class="btn btn-primary" href={ templ.SafeURL("/fun/" + category + "/history") }>All</a>
 		} else {
 			<a class="btn btn-outline-primary" href={ templ.SafeURL("/fun/" + category + "/history") }>All</a>
 		}
-		if filter == "top5" {
+		if filter == top5Filter {
 			<a class="btn btn-primary" href={ templ.SafeURL("/fun/" + category + "/history?filter=top5") }>Top 5</a>
 		} else {
 			<a class="btn btn-outline-primary" href={ templ.SafeURL("/fun/" + category + "/history?filter=top5") }>Top 5</a>
