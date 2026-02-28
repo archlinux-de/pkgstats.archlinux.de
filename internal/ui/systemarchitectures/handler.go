@@ -81,6 +81,9 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 	for _, arch := range p.Architectures {
 		list, err := h.repo.FindSeriesByName(r.Context(), arch, p.StartMonth, p.EndMonth, layout.SeriesLimit, 0)
 		if err != nil {
+			// G706: Log injection via taint analysis (gosec)
+			// 'arch' is a hardcoded string from presets, not user input.
+			//nolint:gosec
 			slog.Error("failed to fetch architecture series", "error", err, "name", arch)
 			continue
 		}

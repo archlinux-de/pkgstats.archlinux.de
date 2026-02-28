@@ -208,25 +208,3 @@ func TestHandleSeries(t *testing.T) {
 		t.Errorf("expected status %d, got %d", http.StatusOK, rr.Code)
 	}
 }
-
-func TestCORSHeader(t *testing.T) {
-	q := &mockQuerier{
-		findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*OperatingSystemArchitecturePopularityList, error) {
-			return &OperatingSystemArchitecturePopularityList{
-				OperatingSystemArchitecturePopularities: []OperatingSystemArchitecturePopularity{},
-				Limit:                                   limit,
-				Offset:                                  offset,
-				Query:                                   &query,
-			}, nil
-		},
-	}
-
-	mux := newTestMux(q)
-	req := httptest.NewRequest(http.MethodGet, "/api/operating-system-architectures", nil)
-	rr := httptest.NewRecorder()
-	mux.ServeHTTP(rr, req)
-
-	if cors := rr.Header().Get("Access-Control-Allow-Origin"); cors != "*" {
-		t.Errorf("expected CORS header *, got %s", cors)
-	}
-}

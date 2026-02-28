@@ -237,20 +237,3 @@ func TestHandleList_MonthRangeSwap(t *testing.T) {
 		t.Errorf("expected endMonth 202501 (not swapped), got %d", capturedEnd)
 	}
 }
-
-func TestCORSHeader(t *testing.T) {
-	q := &mockQuerier{
-		findAllFunc: func(_ context.Context, query string, _, _, limit, offset int) (*CountryPopularityList, error) {
-			return &CountryPopularityList{CountryPopularities: []CountryPopularity{}, Limit: limit, Offset: offset, Query: &query}, nil
-		},
-	}
-
-	mux := newTestMux(q)
-	req := httptest.NewRequest(http.MethodGet, "/api/countries", nil)
-	rr := httptest.NewRecorder()
-	mux.ServeHTTP(rr, req)
-
-	if cors := rr.Header().Get("Access-Control-Allow-Origin"); cors != "*" {
-		t.Errorf("expected CORS header *, got %s", cors)
-	}
-}

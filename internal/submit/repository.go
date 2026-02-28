@@ -69,6 +69,7 @@ func (r *Repository) SaveSubmission(ctx context.Context, req *Request, mirrorURL
 }
 
 func (r *Repository) savePackages(ctx context.Context, tx *sql.Tx, packages []string, month int) error {
+	//nolint:gosec // Query uses a hardcoded string and parameterized inputs
 	stmt, err := tx.PrepareContext(ctx,
 		`INSERT INTO package (name, month, count) VALUES (?, ?, 1)
 		 ON CONFLICT(name, month) DO UPDATE SET count = count + 1`)
@@ -87,6 +88,7 @@ func (r *Repository) savePackages(ctx context.Context, tx *sql.Tx, packages []st
 }
 
 func (r *Repository) upsertCountry(ctx context.Context, tx *sql.Tx, code string, month int) error {
+	//nolint:gosec // Query uses a hardcoded string and parameterized inputs
 	_, err := tx.ExecContext(ctx,
 		`INSERT INTO country (code, month, count) VALUES (?, ?, 1)
 		 ON CONFLICT(code, month) DO UPDATE SET count = count + 1`,
@@ -95,6 +97,7 @@ func (r *Repository) upsertCountry(ctx context.Context, tx *sql.Tx, code string,
 }
 
 func (r *Repository) upsertMirror(ctx context.Context, tx *sql.Tx, url string, month int) error {
+	//nolint:gosec // Query uses a hardcoded string and parameterized inputs
 	_, err := tx.ExecContext(ctx,
 		`INSERT INTO mirror (url, month, count) VALUES (?, ?, 1)
 		 ON CONFLICT(url, month) DO UPDATE SET count = count + 1`,
@@ -103,6 +106,7 @@ func (r *Repository) upsertMirror(ctx context.Context, tx *sql.Tx, url string, m
 }
 
 func (r *Repository) upsertSystemArchitecture(ctx context.Context, tx *sql.Tx, name string, month int) error {
+	//nolint:gosec // Query uses a hardcoded string and parameterized inputs
 	_, err := tx.ExecContext(ctx,
 		`INSERT INTO system_architecture (name, month, count) VALUES (?, ?, 1)
 		 ON CONFLICT(name, month) DO UPDATE SET count = count + 1`,
@@ -111,6 +115,7 @@ func (r *Repository) upsertSystemArchitecture(ctx context.Context, tx *sql.Tx, n
 }
 
 func (r *Repository) upsertOSArchitecture(ctx context.Context, tx *sql.Tx, name string, month int) error {
+	//nolint:gosec // Query uses a hardcoded string and parameterized inputs
 	_, err := tx.ExecContext(ctx,
 		`INSERT INTO operating_system_architecture (name, month, count) VALUES (?, ?, 1)
 		 ON CONFLICT(name, month) DO UPDATE SET count = count + 1`,
@@ -119,6 +124,7 @@ func (r *Repository) upsertOSArchitecture(ctx context.Context, tx *sql.Tx, name 
 }
 
 func (r *Repository) upsertOperatingSystemId(ctx context.Context, tx *sql.Tx, id string, month int) error {
+	//nolint:gosec // Query uses a hardcoded string and parameterized inputs
 	_, err := tx.ExecContext(ctx,
 		`INSERT INTO operating_system_id (id, month, count) VALUES (?, ?, 1)
 		 ON CONFLICT(id, month) DO UPDATE SET count = count + 1`,

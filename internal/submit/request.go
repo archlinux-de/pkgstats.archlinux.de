@@ -173,7 +173,7 @@ func getValidSystemArchitectures(osArch string) []string {
 
 // ValidateExpectedPackages returns an error if more than maxMissing fraction
 // of expected packages are missing from the submission.
-func ValidateExpectedPackages(packages []string, expected []string, maxMissing float64) error {
+func ValidateExpectedPackages(packages, expected []string, maxMissing float64) error {
 	if len(expected) == 0 {
 		return nil
 	}
