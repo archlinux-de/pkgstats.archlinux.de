@@ -50,12 +50,29 @@ func TestParseRequest_ValidRequestWithOSID(t *testing.T) {
 	}
 }
 
+func TestParseRequest_OSIDNormalizedToLowercase(t *testing.T) {
+	jsonData := `{
+		"version": "3",
+		"system": {"architecture": "x86_64"},
+		"os": {"architecture": "x86_64", "id": "Arch"},
+		"pacman": {"packages": ["pacman"]}
+	}`
+
+	req, err := ParseRequest(strings.NewReader(jsonData))
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if req.OS.ID != "arch" {
+		t.Errorf("expected os.id to be normalized to 'arch', got %s", req.OS.ID)
+	}
+}
+
 func TestParseRequest_InvalidOSID(t *testing.T) {
 	tests := []struct {
 		name string
 		id   string
 	}{
-		{"uppercase", "Arch"},
 		{"spaces", "arch linux"},
 		{"special chars", "arch@linux"},
 		{"too long", strings.Repeat("a", 51)},

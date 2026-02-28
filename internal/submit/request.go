@@ -52,6 +52,8 @@ func ParseRequest(r io.Reader) (*Request, error) {
 		return nil, fmt.Errorf("invalid JSON: %w", err)
 	}
 
+	req.OS.ID = strings.ToLower(req.OS.ID)
+
 	if err := req.Validate(); err != nil {
 		return nil, err
 	}
