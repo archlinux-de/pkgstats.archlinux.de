@@ -102,19 +102,12 @@ func (r *DetectionResult) IsHighConfidence() bool {
 
 // Run executes the detect-anomalies subcommand. args are os.Args[2:].
 // Returns the process exit code.
-func Run(args []string) int {
-	cfg, err := config.Load()
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		return 1
-	}
-
+func Run(args []string, cfg config.Config) int {
 	fs := flag.NewFlagSet("detect-anomalies", flag.ExitOnError)
-	monthFlag := fs.String("month", "", "Month to analyze (YYYYMM format, defaults to last month)")
-	expectedPkgs := fs.String("expected-packages", "pkgstats,pacman", "Comma-separated list of expected base packages")
+	monthFlag := fs.String("month", "", "Month to analyze (YYYYMM format, defaults to current month)")
 	_ = fs.Parse(args)
 
-	exitCode, err := run(cfg.Database, *monthFlag, *expectedPkgs)
+	exitCode, err := run(cfg.Database, *monthFlag, cfg.ExpectedPackages)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		return 1
@@ -122,7 +115,7 @@ func Run(args []string) int {
 	return exitCode
 }
 
-func run(dbPath, monthFlag, expectedPkgs string) (int, error) {
+func run(dbPath, monthFlag string, expectedPackages []string) (int, error) {
 	ctx := context.Background()
 
 	db, err := database.New(dbPath)
@@ -139,11 +132,6 @@ func run(dbPath, monthFlag, expectedPkgs string) (int, error) {
 	baselineEnd := offsetMonth(targetMonth, -1)
 	baselineStart := offsetMonth(targetMonth, -lookbackMonths)
 
-	var expectedPackages []string
-	if expectedPkgs != "" {
-		expectedPackages = strings.Split(expectedPkgs, ",")
-	}
-
 	printHeader(targetMonth, baselineStart, baselineEnd)
 
 	result, err := detect(ctx, db, targetMonth, baselineStart, baselineEnd, expectedPackages)
@@ -159,8 +147,7 @@ func run(dbPath, monthFlag, expectedPkgs string) (int, error) {
 func parseTargetMonth(monthFlag string) (int, error) {
 	if monthFlag == "" {
 		now := time.Now()
-		prev := now.AddDate(0, -1, 0)
-		return prev.Year()*monthMultiplier + int(prev.Month()), nil
+		return now.Year()*monthMultiplier + int(now.Month()), nil
 	}
 
 	matched, _ := regexp.MatchString(`^[0-9]{6}$`, monthFlag)

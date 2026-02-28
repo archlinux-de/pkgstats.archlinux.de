@@ -3,9 +3,42 @@ package anomalydetection
 import (
 	"context"
 	"testing"
+	"time"
 
 	"pkgstatsd/internal/database"
 )
+
+func TestParseTargetMonth_Default(t *testing.T) {
+	month, err := parseTargetMonth("")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	now := time.Now()
+	want := now.Year()*monthMultiplier + int(now.Month())
+
+	if month != want {
+		t.Errorf("expected current month %d, got %d", want, month)
+	}
+}
+
+func TestParseTargetMonth_Explicit(t *testing.T) {
+	month, err := parseTargetMonth("202501")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	if month != 202501 {
+		t.Errorf("expected 202501, got %d", month)
+	}
+}
+
+func TestParseTargetMonth_Invalid(t *testing.T) {
+	_, err := parseTargetMonth("invalid")
+	if err == nil {
+		t.Error("expected error for invalid format")
+	}
+}
 
 func TestOffsetMonth(t *testing.T) {
 	tests := []struct {

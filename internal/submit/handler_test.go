@@ -37,7 +37,7 @@ func setupTestHandler(t *testing.T) (*Handler, *sql.DB) {
 
 	repo := NewRepository(db)
 	geoip := &mockGeoIP{code: "DE"}
-	handler := NewHandler(repo, geoip, NoopRateLimiter{})
+	handler := NewHandler(repo, geoip, NoopRateLimiter{}, []string{"pkgstats", "pacman"})
 
 	return handler, db
 }
@@ -159,7 +159,7 @@ func TestHandleSubmit_RateLimited(t *testing.T) {
 	geoip := &mockGeoIP{code: "DE"}
 	limiter := NewInMemoryRateLimiter()
 	limiter.limit = 2
-	handler := NewHandler(repo, geoip, limiter)
+	handler := NewHandler(repo, geoip, limiter, []string{"pkgstats", "pacman"})
 
 	body := validRequestBody()
 
@@ -330,7 +330,7 @@ func TestHandleSubmit_NoCountryWhenGeoIPEmpty(t *testing.T) {
 
 	repo := NewRepository(db)
 	geoip := &mockGeoIP{code: ""}
-	handler := NewHandler(repo, geoip, NoopRateLimiter{})
+	handler := NewHandler(repo, geoip, NoopRateLimiter{}, []string{"pkgstats", "pacman"})
 
 	body := `{
 		"version": "3",
@@ -419,7 +419,7 @@ func TestHandleSubmit_RateLimitError(t *testing.T) {
 	repo := NewRepository(db)
 	geoip := &mockGeoIP{code: "DE"}
 	limiter := &errorRateLimiter{}
-	handler := NewHandler(repo, geoip, limiter)
+	handler := NewHandler(repo, geoip, limiter, []string{"pkgstats", "pacman"})
 
 	w := submitRequest(handler, validRequestBody())
 	if w.Code != http.StatusInternalServerError {

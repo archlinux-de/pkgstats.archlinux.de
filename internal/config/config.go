@@ -1,23 +1,34 @@
 package config
 
 import (
+	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 )
 
+var defaultExpectedPackages = []string{"pkgstats", "pacman"}
+
 type Config struct {
-	Database      string
-	GeoIPDatabase string
-	Port          string
-	Environment   string
+	Database         string
+	GeoIPDatabase    string
+	Port             string
+	Environment      string
+	ExpectedPackages []string
 }
 
 func Load() (Config, error) {
+	expectedPackages, err := loadExpectedPackages()
+	if err != nil {
+		return Config{}, err
+	}
+
 	cfg := Config{
-		Database:      getEnv("DATABASE", ""),
-		GeoIPDatabase: getEnv("GEOIP_DATABASE", ""),
-		Port:          getEnv("PORT", "8282"),
-		Environment:   getEnv("ENVIRONMENT", "production"),
+		Database:         getEnv("DATABASE", ""),
+		GeoIPDatabase:    getEnv("GEOIP_DATABASE", ""),
+		Port:             getEnv("PORT", "8282"),
+		Environment:      getEnv("ENVIRONMENT", "production"),
+		ExpectedPackages: expectedPackages,
 	}
 
 	if cfg.Database == "" {
@@ -25,6 +36,20 @@ func Load() (Config, error) {
 	}
 
 	return cfg, nil
+}
+
+func loadExpectedPackages() ([]string, error) {
+	envVal := os.Getenv("EXPECTED_PACKAGES")
+	if envVal == "" {
+		return defaultExpectedPackages, nil
+	}
+
+	var packages []string
+	if err := json.Unmarshal([]byte(envVal), &packages); err != nil {
+		return nil, fmt.Errorf("invalid EXPECTED_PACKAGES: %w", err)
+	}
+
+	return packages, nil
 }
 
 func (c Config) IsDevelopment() bool {

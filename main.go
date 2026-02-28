@@ -27,23 +27,23 @@ import (
 const defaultCacheMaxAge = 5 * time.Minute
 
 func main() {
-	if len(os.Args) > 1 && os.Args[1] == "detect-anomalies" {
-		os.Exit(anomalydetection.Run(os.Args[2:]))
+	cfg, err := config.Load()
+	if err != nil {
+		slog.Error("failed to load config", "error", err)
+		os.Exit(1)
 	}
 
-	if err := run(); err != nil {
+	if len(os.Args) > 1 && os.Args[1] == "detect-anomalies" {
+		os.Exit(anomalydetection.Run(os.Args[2:], cfg))
+	}
+
+	if err := run(cfg); err != nil {
 		slog.Error("fatal error", "error", err)
 		os.Exit(1)
 	}
 }
 
-func run() error {
-	// Load configuration from environment
-	cfg, err := config.Load()
-	if err != nil {
-		return err
-	}
-
+func run(cfg config.Config) error {
 	// Setup logger
 	logger := setupLogger(cfg.IsDevelopment())
 	slog.SetDefault(logger)
@@ -97,7 +97,7 @@ func run() error {
 	systemarchitectures.NewHandler(systemArchRepo).RegisterRoutes(mux)
 	operatingsystems.NewHandler(osRepo).RegisterRoutes(mux)
 	osarchitectures.NewHandler(osArchRepo).RegisterRoutes(mux)
-	submit.NewHandler(submitRepo, geoip, rateLimiter).RegisterRoutes(mux)
+	submit.NewHandler(submitRepo, geoip, rateLimiter, cfg.ExpectedPackages).RegisterRoutes(mux)
 	sitemap.NewHandler().RegisterRoutes(mux)
 	apidoc.NewHandler(cfg.IsDevelopment()).RegisterRoutes(mux)
 	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, osRepo, embedAssets, embedStatic, embedRoot)

@@ -20,12 +20,12 @@ type Handler struct {
 	maxMissing       float64
 }
 
-func NewHandler(repo *Repository, geoip GeoIPLookup, limiter RateLimiter) *Handler {
+func NewHandler(repo *Repository, geoip GeoIPLookup, limiter RateLimiter, expectedPackages []string) *Handler {
 	return &Handler{
 		repo:             repo,
 		geoip:            geoip,
 		limiter:          limiter,
-		expectedPackages: []string{"pkgstats", "pacman"},
+		expectedPackages: expectedPackages,
 		maxMissing:       defaultMaxMissing,
 	}
 }
