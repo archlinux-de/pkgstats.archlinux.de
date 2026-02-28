@@ -10,47 +10,70 @@ export ENVIRONMENT := 'development'
 default:
     just --list
 
+# install dependencies and test data
 install:
     curl -sf 'https://raw.githubusercontent.com/maxmind/MaxMind-DB/main/test-data/GeoIP2-Country-Test.mmdb' -o '{{ GEOIP_DATABASE }}'
     go mod download
     pnpm install
 
+# compile frontend assets
 build-assets:
     pnpm run build
 
+# generate Go code and templ templates
 build-templates:
     go generate ./...
     go tool templ generate
 
+# build the production binary
 build: build-assets build-templates
     go build -tags production -o pkgstatsd -ldflags="-s -w" -trimpath
 
+# run the application locally
 run:
     go run -tags production .
 
+# run all tests
 test:
     go test ./...
 
+# run all linters
 lint:
     pnpm run lint
     golangci-lint run
     just --fmt --unstable --check
 
+# auto-format all code
 fmt:
     pnpm run format
     go tool templ fmt .
     golangci-lint fmt
     just --fmt --unstable
 
+# remove all untracked and ignored files
 clean:
-    git clean -fdqx
+    git clean -fdqx -e .idea
 
+# remove untracked files, reinstall dependencies, rebuild and load fixtures
+rebuild: clean install build-assets build-templates fixtures
+
+# list outdated direct dependencies
+outdated:
+    pnpm outdated
+    go list -u -m -json all | jq -r 'select(.Update and (.Indirect | not)) | "\(.Path): \(.Version) -> \(.Update.Version)"'
+
+# audit dependencies for known vulnerabilities
+audit:
+    pnpm audit --prod
+
+# update all dependencies to latest versions
 update:
     pnpm update --latest
     #sed -E '/^go\s+[0-9\.]+$/d' -i go.mod
     go get -u -t all
     go mod tidy
 
+# generate test coverage report
 coverage:
     #!/usr/bin/env bash
     set -euo pipefail
@@ -62,6 +85,7 @@ coverage:
 fixtures months="3":
     go run ./cmd/fixtures -months {{ months }}
 
+# detect anomalies in submission data
 detect-anomalies:
     go run . detect-anomalies
 
