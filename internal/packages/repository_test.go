@@ -528,7 +528,7 @@ func TestCalculatePopularity(t *testing.T) {
 		{50, 100, 50},
 		{1, 3, 33.33},
 		{90, 499, 18.04},
-		{200, 100, 200},   // count > samples: no cap in calculatePopularity
+		{200, 100, 100},   // count > samples: capped at 100%
 		{1, 1000000, 0},   // very small ratio rounds to 0
 		{999, 1000, 99.9}, // near 100%
 	}

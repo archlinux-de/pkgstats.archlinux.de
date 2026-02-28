@@ -12,6 +12,7 @@ import (
 const (
 	popularityScale     = 10000
 	popularityPrecision = 100
+	maxPopularity       = 100
 )
 
 type Config struct {
@@ -231,11 +232,11 @@ func (r *Repository[T, L]) getMonthlySamples(startMonth, endMonth int) (map[int]
 	return r.samplesCache.Get(startMonth, endMonth)
 }
 
-// CalculatePopularity returns a percentage rounded to 2 decimal places.
+// CalculatePopularity returns a percentage rounded to 2 decimal places, capped at 100.
 func CalculatePopularity(count, samples int) float64 {
 	if samples == 0 {
 		return 0
 	}
 
-	return math.Round(float64(count)/float64(samples)*popularityScale) / popularityPrecision
+	return min(math.Round(float64(count)/float64(samples)*popularityScale)/popularityPrecision, maxPopularity)
 }
