@@ -2,6 +2,7 @@ package operatingsystems
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -63,5 +64,32 @@ func TestHandleCompare(t *testing.T) {
 	body := rr.Body.String()
 	if !strings.Contains(body, "Compare Operating Systems") {
 		t.Error("expected body to contain title")
+	}
+}
+
+func TestHandleCompare_SeriesError(t *testing.T) {
+	manifest, _ := layout.NewManifest([]byte(`{}`))
+	repo := &mockRepo{
+		findAllFunc: func(_ context.Context, _ string, _, _, _, _ int) (*operatingsystems.OperatingSystemIdPopularityList, error) {
+			return &operatingsystems.OperatingSystemIdPopularityList{
+				Total: 1,
+				OperatingSystemIdPopularities: []operatingsystems.OperatingSystemIdPopularity{
+					{ID: "arch", StartMonth: 202602, EndMonth: 202602, Popularity: 88.0},
+				},
+			}, nil
+		},
+		findSeriesByIDFunc: func(_ context.Context, _ string, _, _, _, _ int) (*operatingsystems.OperatingSystemIdPopularityList, error) {
+			return nil, errors.New("db error")
+		},
+	}
+	handler := NewHandler(repo, manifest)
+
+	req := httptest.NewRequest(http.MethodGet, "/compare/operating-systems", nil)
+	rr := httptest.NewRecorder()
+
+	handler.HandleCompare(rr, req)
+
+	if rr.Code != http.StatusInternalServerError {
+		t.Errorf("expected status 500, got %d", rr.Code)
 	}
 }

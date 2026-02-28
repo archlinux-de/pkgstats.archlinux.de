@@ -2,6 +2,7 @@ package packagepage
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -84,5 +85,27 @@ func TestHandlePackages_WithCompare(t *testing.T) {
 	body := rr.Body.String()
 	if !strings.Contains(body, "glibc") || !strings.Contains(body, "linux") {
 		t.Error("expected body to contain compare package names")
+	}
+}
+
+func TestHandlePackages_CompareError(t *testing.T) {
+	manifest, _ := layout.NewManifest([]byte(`{}`))
+	repo := &mockRepo{
+		findAllFunc: func(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+			return &packages.PackagePopularityList{Total: 0}, nil
+		},
+		findByNameFunc: func(_ context.Context, _ string, _, _ int) (*packages.PackagePopularity, error) {
+			return nil, errors.New("db error")
+		},
+	}
+	handler := NewHandler(repo, manifest)
+
+	req := httptest.NewRequest(http.MethodGet, "/packages?compare=glibc", nil)
+	rr := httptest.NewRecorder()
+
+	handler.HandlePackages(rr, req)
+
+	if rr.Code != http.StatusInternalServerError {
+		t.Errorf("expected status 500, got %d", rr.Code)
 	}
 }

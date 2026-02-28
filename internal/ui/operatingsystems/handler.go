@@ -1,7 +1,6 @@
 package operatingsystems
 
 import (
-	"log/slog"
 	"net/http"
 
 	"pkgstatsd/internal/chartdata"
@@ -38,11 +37,8 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 	for _, osID := range list.OperatingSystemIdPopularities {
 		series, err := h.repo.FindSeriesByID(r.Context(), osID.ID, startMonth, endMonth, layout.SeriesLimit, 0)
 		if err != nil {
-			// G706: Log injection via taint analysis (gosec)
-			// slog structured logging safely handles the user-supplied value.
-			//nolint:gosec
-			slog.Error("failed to fetch operating system series", "error", err, "id", osID.ID)
-			continue
+			layout.ServerError(w, "failed to fetch operating system series", err)
+			return
 		}
 
 		allSeries = append(allSeries, series.OperatingSystemIdPopularities...)

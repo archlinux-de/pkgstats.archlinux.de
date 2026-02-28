@@ -1,7 +1,6 @@
 package compare
 
 import (
-	"log/slog"
 	"net/http"
 	"strings"
 
@@ -43,11 +42,8 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 
 		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, web.GetLastCompleteMonth(), layout.SeriesLimit, 0)
 		if err != nil {
-			// Sanitize 'name' before logging to prevent log injection.
-			sanitizedName := strings.ReplaceAll(name, "\n", " ")
-			//nolint:gosec // Input is sanitized right above
-			slog.Error("failed to fetch package series", "error", err, "name", sanitizedName)
-			continue
+			layout.ServerError(w, "failed to fetch package series", err)
+			return
 		}
 
 		allSeries = append(allSeries, list.PackagePopularities...)

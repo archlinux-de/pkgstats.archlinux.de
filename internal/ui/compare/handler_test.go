@@ -2,6 +2,7 @@ package compare
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -54,6 +55,26 @@ func TestHandleCompare(t *testing.T) {
 	body := rr.Body.String()
 	if !strings.Contains(body, "pacman") || !strings.Contains(body, "glibc") {
 		t.Error("expected body to contain package names")
+	}
+}
+
+func TestHandleCompare_SeriesError(t *testing.T) {
+	manifest, _ := layout.NewManifest([]byte(`{}`))
+	repo := &mockRepo{
+		findSeriesByNameFunc: func(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+			return nil, errors.New("db error")
+		},
+	}
+	handler := NewHandler(repo, manifest)
+
+	req := httptest.NewRequest(http.MethodGet, "/compare/packages/pacman,glibc", nil)
+	req.SetPathValue("names", "pacman,glibc")
+	rr := httptest.NewRecorder()
+
+	handler.HandleCompare(rr, req)
+
+	if rr.Code != http.StatusInternalServerError {
+		t.Errorf("expected status 500, got %d", rr.Code)
 	}
 }
 

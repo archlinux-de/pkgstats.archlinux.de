@@ -1,7 +1,6 @@
 package fundetail
 
 import (
-	"log/slog"
 	"net/http"
 	"sort"
 
@@ -58,8 +57,8 @@ func (h *Handler) handleCurrent(w http.ResponseWriter, r *http.Request, category
 	for _, name := range category.Packages {
 		pkg, err := h.repo.FindByName(r.Context(), name, currentMonth, currentMonth)
 		if err != nil {
-			slog.Error("failed to fetch package", "error", err, "name", name)
-			continue
+			layout.ServerError(w, "failed to fetch package", err)
+			return
 		}
 
 		pkgs = append(pkgs, *pkg)
@@ -83,8 +82,8 @@ func (h *Handler) handleHistory(w http.ResponseWriter, r *http.Request, category
 	for _, name := range category.Packages {
 		list, err := h.repo.FindSeriesByName(r.Context(), name, 0, web.GetLastCompleteMonth(), layout.SeriesLimit, 0)
 		if err != nil {
-			slog.Error("failed to fetch package series", "error", err, "name", name)
-			continue
+			layout.ServerError(w, "failed to fetch package series", err)
+			return
 		}
 
 		allSeries = append(allSeries, list.PackagePopularities...)

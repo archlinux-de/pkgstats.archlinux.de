@@ -1,7 +1,6 @@
 package packagepage
 
 import (
-	"log/slog"
 	"net/http"
 	"sort"
 	"strconv"
@@ -45,7 +44,11 @@ func (h *Handler) HandlePackages(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	selectedPackages := h.fetchComparePackages(r, compare, currentMonth)
+	selectedPackages, err := h.fetchComparePackages(r, compare, currentMonth)
+	if err != nil {
+		layout.ServerError(w, "failed to fetch compare packages", err)
+		return
+	}
 
 	layout.Render(w, r,
 		layout.Page{Title: "Package statistics", Path: "/packages", Manifest: h.manifest},
@@ -53,9 +56,9 @@ func (h *Handler) HandlePackages(w http.ResponseWriter, r *http.Request) {
 	)
 }
 
-func (h *Handler) fetchComparePackages(r *http.Request, compare string, currentMonth int) []packages.PackagePopularity {
+func (h *Handler) fetchComparePackages(r *http.Request, compare string, currentMonth int) ([]packages.PackagePopularity, error) {
 	if compare == "" {
-		return nil
+		return nil, nil
 	}
 
 	names := strings.Split(compare, ",")
@@ -72,8 +75,7 @@ func (h *Handler) fetchComparePackages(r *http.Request, compare string, currentM
 
 		pkg, err := h.repo.FindByName(r.Context(), name, currentMonth, currentMonth)
 		if err != nil {
-			slog.Error("failed to fetch compare package", "error", err, "name", name)
-			continue
+			return nil, err
 		}
 
 		result = append(result, *pkg)
@@ -83,7 +85,7 @@ func (h *Handler) fetchComparePackages(r *http.Request, compare string, currentM
 		return result[i].Popularity > result[j].Popularity
 	})
 
-	return result
+	return result, nil
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
