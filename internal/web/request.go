@@ -122,7 +122,7 @@ func ParsePagination(r *http.Request) (limit, offset int, err error) {
 	return limit, offset, nil
 }
 
-var queryRegexp = regexp.MustCompile(`^[a-zA-Z0-9][a-zA-Z0-9@:.+_-]*$`)
+var queryRegexp = regexp.MustCompile(`^[a-zA-Z0-9][a-zA-Z0-9@:.+_/~-]*$`)
 
 func ParseQuery(r *http.Request) (string, error) {
 	query := r.URL.Query().Get("query")

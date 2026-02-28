@@ -111,6 +111,8 @@ func TestParseQuery(t *testing.T) {
 		{"with colon", "/test?query=texlive:base", "texlive:base", false},
 		{"with underscore", "/test?query=python_dateutil", "python_dateutil", false},
 		{"with hyphen", "/test?query=xdg-utils", "xdg-utils", false},
+		{"with slash", "/test?query=https://example.com/repo", "https://example.com/repo", false},
+		{"with tilde", "/test?query=https://example.com/~user", "https://example.com/~user", false},
 		{"percent wildcard", "/test?query=%25", "", true},
 		{"underscore start", "/test?query=_foo", "", true},
 		{"space", "/test?query=foo+bar", "", true},
