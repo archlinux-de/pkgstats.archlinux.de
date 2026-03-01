@@ -80,25 +80,9 @@ func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("POST /api/submit", h.HandleSubmit)
 }
 
-// Checks X-Forwarded-For header first (for reverse proxy setups),
-// then falls back to RemoteAddr.
+// getClientIP extracts the client IP, checking X-Real-IP (set by nginx)
+// before falling back to RemoteAddr.
 func getClientIP(r *http.Request) netip.Addr {
-	// Check X-Forwarded-For header (first IP is the original client)
-	if xff := r.Header.Get("X-Forwarded-For"); xff != "" {
-		// X-Forwarded-For can contain multiple IPs: "client, proxy1, proxy2"
-		// We want the first one (original client)
-		for i := range len(xff) {
-			if xff[i] == ',' {
-				xff = xff[:i]
-				break
-			}
-		}
-		if ip, err := netip.ParseAddr(xff); err == nil {
-			return ip
-		}
-	}
-
-	// Check X-Real-IP header
 	if xri := r.Header.Get("X-Real-IP"); xri != "" {
 		if ip, err := netip.ParseAddr(xri); err == nil {
 			return ip

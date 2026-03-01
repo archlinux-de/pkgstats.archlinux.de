@@ -56,8 +56,8 @@ func getBaseURL(r *http.Request) string {
 		scheme = "https"
 	}
 
-	// Check X-Forwarded-Proto header
-	if proto := r.Header.Get("X-Forwarded-Proto"); proto != "" {
+	// Check X-Forwarded-Proto header (set by nginx reverse proxy)
+	if proto := r.Header.Get("X-Forwarded-Proto"); proto == "https" {
 		scheme = proto
 	}
 

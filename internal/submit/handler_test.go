@@ -44,7 +44,7 @@ func setupTestHandler(t *testing.T) (*Handler, *sql.DB) {
 
 func submitRequest(handler *Handler, body string) *httptest.ResponseRecorder {
 	req := httptest.NewRequest(http.MethodPost, "/api/submit", strings.NewReader(body))
-	req.Header.Set("X-Forwarded-For", "203.0.113.50")
+	req.Header.Set("X-Real-IP", "203.0.113.50")
 	w := httptest.NewRecorder()
 	handler.HandleSubmit(w, req)
 	return w
