@@ -61,11 +61,13 @@ jobs:
               env:
                   SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
                   KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+                  DEPLOY_HOST: ${{ vars.DEPLOY_HOST }}
+                  DEPLOY_SSH_PORT: ${{ vars.DEPLOY_SSH_PORT }}
               run: |
                   mkdir -p ~/.ssh
                   echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
                   echo "$KNOWN_HOSTS" > ~/.ssh/known_hosts
                   chmod 600 ~/.ssh/id_ed25519
                   chmod +x pkgstatsd
-                  rsync pkgstatsd deploy@yourserver:/opt/pkgstatsd/pkgstatsd.new
-                  ssh deploy@yourserver "mv /opt/pkgstatsd/pkgstatsd.new /opt/pkgstatsd/pkgstatsd"
+                  rsync -e "ssh -p ${DEPLOY_SSH_PORT}" pkgstatsd pkgstatsd@${DEPLOY_HOST}:/opt/pkgstatsd/pkgstatsd.new
+                  ssh -p "${DEPLOY_SSH_PORT}" pkgstatsd@${DEPLOY_HOST} "mv /opt/pkgstatsd/pkgstatsd.new /opt/pkgstatsd/pkgstatsd"
