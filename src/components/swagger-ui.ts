@@ -1,4 +1,4 @@
-class SwaggerUIWrapper extends HTMLElement {
+class SwaggerUIElement extends HTMLElement {
     connectedCallback() {
         this.renderSwagger();
     }
@@ -45,4 +45,4 @@ class SwaggerUIWrapper extends HTMLElement {
     }
 }
 
-customElements.define("swagger-ui-wrapper", SwaggerUIWrapper);
+customElements.define("swagger-ui", SwaggerUIElement);

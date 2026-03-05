@@ -1,5 +1,11 @@
 package apidocpage
 
 templ APIDocContent() {
-	<swagger-ui-wrapper></swagger-ui-wrapper>
+	<h1 class="mb-4">API</h1>
+	<p class="mb-4">
+		The pkgstats API provides read-only access to package popularity data.
+		The <a href="/getting-started">pkgstats CLI</a> uses this API to search and compare packages from the terminal.
+		Please be considerate with request rates to keep the service available for everyone.
+	</p>
+	<swagger-ui></swagger-ui>
 }

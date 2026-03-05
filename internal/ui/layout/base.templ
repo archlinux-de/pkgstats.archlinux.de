@@ -81,9 +81,8 @@ templ Navigation(path string) {
 					@navLink(path, "/", "Start")
 					@navLink(path, "/countries", "Countries")
 					@navLink(path, "/packages", "Packages")
-					@navLink(path, "/compare/system-architectures", "System Architectures")
+					@navLink(path, "/compare/system-architectures", "Architectures")
 					@navLink(path, "/fun", "Fun")
-					@navLink(path, "/api/doc", "API")
 				</ul>
 			</div>
 		</div>
@@ -103,6 +102,7 @@ templ navLink(currentPath, href, label string) {
 templ Footer() {
 	<footer id="footer">
 		<nav class="nav justify-content-end mt-4">
+			<a class="nav-link" href="/api/doc">API</a>
 			<a class="nav-link" href="/privacy-policy">Privacy policy</a>
 			<a class="nav-link" href="/impressum">Impressum</a>
 		</nav>
