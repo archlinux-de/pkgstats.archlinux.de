@@ -42,8 +42,8 @@ jobs:
               run: just build
             - name: Upload binary
               uses: actions/upload-artifact@v4
-              # TODO: remove workflow_dispatch condition after merging go branch to main
-              if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+              # TODO: remove go branch condition after merging go branch to main
+              if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/go'
               with:
                   name: pkgstatsd
                   path: pkgstatsd
@@ -52,8 +52,8 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         needs: [build]
-        # TODO: remove workflow_dispatch condition after merging go branch to main
-        if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+        # TODO: remove go branch condition after merging go branch to main
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/go'
         steps:
             - name: Download binary
               uses: actions/download-artifact@v4

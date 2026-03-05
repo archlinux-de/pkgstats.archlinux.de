@@ -66,12 +66,18 @@ outdated:
 audit:
     pnpm audit --prod
 
-# update all dependencies to latest versions
-update:
-    pnpm update --latest
-    #sed -E '/^go\s+[0-9\.]+$/d' -i go.mod
+# update Go toolchain and module dependencies
+update-go:
+    go mod edit -go=$(go env GOVERSION | sed 's/go//')
     go get -u -t all
     go mod tidy
+
+# update pnpm dependencies
+update-pnpm:
+    pnpm update --latest
+
+# update all dependencies to latest versions
+update: update-go update-pnpm
 
 # generate test coverage report
 coverage:

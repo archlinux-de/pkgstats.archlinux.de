@@ -1,0 +1,38 @@
+name: Update pnpm
+
+on:
+    schedule:
+        - cron: "0 2 1 * *"
+    workflow_dispatch:
+
+jobs:
+    update:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v5
+              with:
+                  token: ${{ secrets.MAINTENANCE_TOKEN }}
+            - name: Run Common Setup
+              uses: ./.github/actions/setup
+              with:
+                  pnpm-version: latest
+            - name: Update pnpm version in package.json
+              run: npm pkg set packageManager=pnpm@$(pnpm --version)
+            - name: Update pnpm dependencies
+              run: just update-pnpm
+            - name: Build Templates
+              run: just build-templates
+            - name: Format code
+              run: just fmt
+            - name: Run Linter
+              run: just lint
+            - name: Run Tests
+              run: just test
+            - name: Commit updates
+              uses: stefanzweifel/git-auto-commit-action@v7
+              with:
+                  commit_message: Update pnpm dependencies
+                  commit_user_name: Maintenance Bob
+                  commit_user_email: bob@archlinux.de
+                  commit_author: Maintenance Bob <bob@archlinux.de>

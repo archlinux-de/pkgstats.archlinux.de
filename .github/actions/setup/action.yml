@@ -1,6 +1,14 @@
 name: 'Common Setup'
 description: 'Performs common setup steps for Go/Node.js projects, including installing Just, Go, GolangCI-Lint, pnpm, and project dependencies.'
 
+inputs:
+  go-version:
+    description: 'Go version to install (defaults to version from go.mod)'
+    required: false
+  pnpm-version:
+    description: 'pnpm version to install (defaults to packageManager in package.json)'
+    required: false
+
 runs:
   using: "composite"
   steps:
@@ -10,12 +18,17 @@ runs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Install pnpm
       uses: pnpm/action-setup@v4
+      if: ${{ !inputs.pnpm-version }}
+    - name: Install pnpm (override)
+      uses: pnpm/action-setup@v4
+      if: ${{ inputs.pnpm-version }}
       with:
-          version: 10
+          version: ${{ inputs.pnpm-version }}
     - name: Set up Go
       uses: actions/setup-go@v6
       with:
-          go-version-file: "go.mod"
+          go-version: ${{ inputs.go-version }}
+          go-version-file: ${{ inputs.go-version && '' || 'go.mod' }}
     - name: Install golangci-lint
       run: go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
       shell: bash
