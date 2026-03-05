@@ -20,8 +20,18 @@ func (h *Handler) HandleHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	baseURL := layout.GetBaseURL(r)
 	layout.Render(w, r,
-		layout.Page{Title: "Arch Linux package statistics", Path: "/", Manifest: h.manifest},
+		layout.Page{
+			Title:       "Arch Linux package statistics",
+			Description: "How popular is your favorite Arch Linux package? Browse usage statistics collected from voluntary pkgstats submissions.",
+			Path:        "/",
+			Manifest:    h.manifest,
+			JsonLD: map[string]any{
+				"website-schema": webSiteSchema(baseURL),
+				"dataset-schema": datasetSchema(baseURL),
+			},
+		},
 		HomeContent(),
 	)
 }

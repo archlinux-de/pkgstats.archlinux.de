@@ -1,10 +1,14 @@
 package layout
 
 type Page struct {
-	Title    string
-	Path     string
-	Manifest *Manifest
-	NoIndex  bool
+	Title         string
+	Description   string
+	Path          string
+	Manifest      *Manifest
+	NoIndex       bool
+	CanonicalPath string
+	CanonicalURL  string
+	JsonLD        map[string]any
 }
 
 templ Base(page Page, contents templ.Component) {
@@ -18,9 +22,25 @@ templ Base(page Page, contents templ.Component) {
 				<meta name="robots" content="noindex"/>
 			}
 			<title>{ page.Title }</title>
+			if page.Description != "" {
+				<meta name="description" content={ page.Description }/>
+			}
+			if page.CanonicalURL != "" {
+				<link rel="canonical" href={ page.CanonicalURL }/>
+				<meta property="og:title" content={ page.Title }/>
+				if page.Description != "" {
+					<meta property="og:description" content={ page.Description }/>
+				}
+				<meta property="og:url" content={ page.CanonicalURL }/>
+				<meta property="og:type" content="website"/>
+				<meta property="og:site_name" content="Arch Linux Package Statistics"/>
+			}
 			@CSSTags(page.Manifest)
 			<link rel="icon" href="/static/archicon.svg" type="image/svg+xml"/>
 			<link rel="manifest" href="/static/manifest.webmanifest"/>
+			for id, schema := range page.JsonLD {
+				@templ.JSONScript(id, schema).WithType("application/ld+json")
+			}
 		</head>
 		<body>
 			<div id="page">

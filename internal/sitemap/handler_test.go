@@ -1,0 +1,96 @@
+package sitemap
+
+import (
+	"context"
+	"net/http"
+	"net/http/httptest"
+	"strings"
+	"testing"
+
+	"pkgstatsd/internal/packages"
+	"pkgstatsd/internal/web"
+)
+
+type mockRepo struct{}
+
+func (m *mockRepo) FindByName(_ context.Context, _ string, _, _ int) (*packages.PackagePopularity, error) {
+	return nil, nil
+}
+
+func (m *mockRepo) FindSeriesByName(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+	return nil, nil
+}
+
+func (m *mockRepo) FindAll(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+	return &packages.PackagePopularityList{
+		PackagePopularities: []packages.PackagePopularity{
+			{Name: "linux"},
+			{Name: "firefox"},
+		},
+	}, nil
+}
+
+func TestHandleSitemap(t *testing.T) {
+	handler := NewHandler(&mockRepo{})
+
+	req := httptest.NewRequest(http.MethodGet, "/sitemap.xml", nil)
+	req.Host = "example.com"
+	rr := httptest.NewRecorder()
+
+	handler.HandleSitemap(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("expected status 200, got %d", rr.Code)
+	}
+
+	if cc := rr.Header().Get("Cache-Control"); cc != "public, max-age=86400" {
+		t.Errorf("expected Cache-Control %q, got %q", "public, max-age=86400", cc)
+	}
+
+	body := rr.Body.String()
+
+	for _, path := range []string{
+		"http://example.com/",
+		"http://example.com/packages",
+		"http://example.com/countries",
+		"http://example.com/fun",
+		"http://example.com/fun/Browsers/current",
+		"http://example.com/fun/Browsers/history",
+		"http://example.com/fun/Editors/current",
+		"http://example.com/packages/linux",
+		"http://example.com/packages/firefox",
+	} {
+		if !strings.Contains(body, "<loc>"+path+"</loc>") {
+			t.Errorf("expected sitemap to contain %s", path)
+		}
+	}
+
+	expectedLastMod := lastDayOfMonth(web.GetLastCompleteMonth())
+	if !strings.Contains(body, "<lastmod>"+expectedLastMod+"</lastmod>") {
+		t.Errorf("expected sitemap to contain lastmod %s", expectedLastMod)
+	}
+
+	// getting-started is static and should not have lastmod
+	if strings.Contains(body, "getting-started</loc>\n      <lastmod>") {
+		t.Error("expected getting-started to not have lastmod")
+	}
+}
+
+func TestLastDayOfMonth(t *testing.T) {
+	tests := []struct {
+		yearMonth int
+		expected  string
+	}{
+		{202602, "2026-02-28"},
+		{202412, "2024-12-31"},
+		{202401, "2024-01-31"},
+		{202404, "2024-04-30"},
+		{202402, "2024-02-29"}, // leap year
+	}
+
+	for _, tt := range tests {
+		if got := lastDayOfMonth(tt.yearMonth); got != tt.expected {
+			t.Errorf("lastDayOfMonth(%d) = %q, want %q", tt.yearMonth, got, tt.expected)
+		}
+	}
+}

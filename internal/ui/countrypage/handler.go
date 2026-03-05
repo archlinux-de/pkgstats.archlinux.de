@@ -29,7 +29,7 @@ func (h *Handler) HandleCountries(w http.ResponseWriter, r *http.Request) {
 	}
 
 	layout.Render(w, r,
-		layout.Page{Title: "Country statistics", Path: "/countries", Manifest: h.manifest},
+		layout.Page{Title: "Country statistics", Description: "Geographic distribution of Arch Linux pkgstats submissions by country.", Path: "/countries", Manifest: h.manifest},
 		CountriesContent(list.CountryPopularities),
 	)
 }

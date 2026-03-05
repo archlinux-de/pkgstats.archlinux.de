@@ -47,7 +47,7 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 	data := chartdata.Build(allSeries)
 
 	layout.Render(w, r,
-		layout.Page{Title: "Compare Operating Systems", Path: "/compare/operating-systems", Manifest: h.manifest},
+		layout.Page{Title: "Compare Operating Systems", Description: "Usage share of operating system distributions reported by Arch Linux pkgstats.", Path: "/compare/operating-systems", Manifest: h.manifest},
 		CompareContent(data),
 	)
 }

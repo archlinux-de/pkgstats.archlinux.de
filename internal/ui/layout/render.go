@@ -8,6 +8,15 @@ import (
 )
 
 func Render(w http.ResponseWriter, r *http.Request, page Page, content templ.Component) {
+	if !page.NoIndex {
+		canonicalPath := page.CanonicalPath
+		if canonicalPath == "" {
+			canonicalPath = page.Path
+		}
+
+		page.CanonicalURL = GetBaseURL(r) + canonicalPath
+	}
+
 	if err := Base(page, content).Render(r.Context(), w); err != nil {
 		slog.Error("failed to render page", "error", err)
 	}

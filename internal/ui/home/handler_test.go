@@ -26,6 +26,24 @@ func TestHandleHome(t *testing.T) {
 	if !strings.Contains(body, "Arch Linux package statistics") {
 		t.Error("expected body to contain title")
 	}
+	if !strings.Contains(body, `name="description"`) {
+		t.Error("expected body to contain meta description")
+	}
+	if !strings.Contains(body, `rel="canonical"`) {
+		t.Error("expected body to contain canonical link")
+	}
+	if !strings.Contains(body, `og:title`) {
+		t.Error("expected body to contain og:title meta tag")
+	}
+	if !strings.Contains(body, `application/ld+json`) {
+		t.Error("expected body to contain JSON-LD script")
+	}
+	if !strings.Contains(body, `SearchAction`) {
+		t.Error("expected body to contain SearchAction schema")
+	}
+	if !strings.Contains(body, `"@type":"Dataset"`) {
+		t.Error("expected body to contain Dataset schema")
+	}
 }
 
 func TestHandleHome_NotFound(t *testing.T) {

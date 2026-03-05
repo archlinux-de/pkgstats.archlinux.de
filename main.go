@@ -65,14 +65,11 @@ func run(cfg config.Config) error {
 	submitRepo := submit.NewRepository(db)
 
 	// Setup GeoIP lookup
-	var geoip submit.GeoIPLookup
-	geoip, err = submit.NewMaxMindGeoIP(cfg.GeoIPDatabase)
+	geoip, err := submit.NewMaxMindGeoIP(cfg.GeoIPDatabase)
 	if err != nil {
-		slog.Warn("geoip database not available, country detection disabled", "path", cfg.GeoIPDatabase, "error", err)
-		geoip = submit.NoopGeoIP{}
-	} else {
-		defer func() { _ = geoip.Close() }()
+		return err
 	}
+	defer func() { _ = geoip.Close() }()
 
 	// Setup rate limiter
 	var rateLimiter submit.RateLimiter
@@ -98,7 +95,7 @@ func run(cfg config.Config) error {
 	operatingsystems.NewHandler(osRepo).RegisterRoutes(mux)
 	osarchitectures.NewHandler(osArchRepo).RegisterRoutes(mux)
 	submit.NewHandler(submitRepo, geoip, rateLimiter, cfg.ExpectedPackages).RegisterRoutes(mux)
-	sitemap.NewHandler().RegisterRoutes(mux)
+	sitemap.NewHandler(packagesRepo).RegisterRoutes(mux)
 	apidoc.NewHandler(cfg.IsDevelopment()).RegisterRoutes(mux)
 	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, osRepo, embedAssets, embedStatic, embedRoot)
 
@@ -107,6 +104,7 @@ func run(cfg config.Config) error {
 		web.Recovery(),
 		web.SecureHeaders(),
 		web.CORS(),
+		ui.LegacyMiddleware,
 		errorpage.Middleware(manifest),
 		web.CacheControl(defaultCacheMaxAge),
 	)

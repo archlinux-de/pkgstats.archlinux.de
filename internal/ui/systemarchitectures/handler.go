@@ -93,7 +93,7 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 	data := chartdata.Build(allSeries)
 
 	layout.Render(w, r,
-		layout.Page{Title: "Compare System Architectures", Path: "/compare/system-architectures", Manifest: h.manifest},
+		layout.Page{Title: "Compare System Architectures", Description: "Usage share of CPU architectures reported by Arch Linux pkgstats.", Path: "/compare/system-architectures", Manifest: h.manifest, CanonicalPath: "/compare/system-architectures/" + p.Label},
 		CompareContent(presets, p.Label, data),
 	)
 }

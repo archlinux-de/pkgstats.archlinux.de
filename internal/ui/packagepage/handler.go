@@ -51,7 +51,7 @@ func (h *Handler) HandlePackages(w http.ResponseWriter, r *http.Request) {
 	}
 
 	layout.Render(w, r,
-		layout.Page{Title: "Package statistics", Path: "/packages", Manifest: h.manifest},
+		layout.Page{Title: "Package statistics", Description: "Search and compare Arch Linux package popularity based on pkgstats submissions.", Path: "/packages", Manifest: h.manifest},
 		PackagesContent(list, query, offset, limit, compare, selectedPackages),
 	)
 }

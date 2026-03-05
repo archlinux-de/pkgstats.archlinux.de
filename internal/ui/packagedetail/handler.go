@@ -2,6 +2,7 @@ package packagedetail
 
 import (
 	"net/http"
+	"net/url"
 
 	"pkgstatsd/internal/chartdata"
 	"pkgstatsd/internal/packages"
@@ -39,7 +40,7 @@ func (h *Handler) HandlePackageDetail(w http.ResponseWriter, r *http.Request) {
 	data := chartdata.Build(list.PackagePopularities)
 
 	layout.Render(w, r,
-		layout.Page{Title: name + " - Package statistics", Path: "/packages", Manifest: h.manifest},
+		layout.Page{Title: name + " - Package statistics", Description: "Popularity of " + name + " on Arch Linux over time.", Path: "/packages", Manifest: h.manifest, CanonicalPath: "/packages/" + url.PathEscape(name)},
 		PackageDetailContent(name, data),
 	)
 }
