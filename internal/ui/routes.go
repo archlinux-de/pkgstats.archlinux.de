@@ -15,6 +15,7 @@ import (
 	"pkgstatsd/internal/ui/countrypage"
 	"pkgstatsd/internal/ui/fun"
 	"pkgstatsd/internal/ui/fundetail"
+	"pkgstatsd/internal/ui/gettingstarted"
 	"pkgstatsd/internal/ui/home"
 	"pkgstatsd/internal/ui/layout"
 	"pkgstatsd/internal/ui/legal"
@@ -39,6 +40,7 @@ func RegisterRoutes(
 	assets, static, root fs.FS,
 ) {
 	home.NewHandler(manifest).RegisterRoutes(mux)
+	gettingstarted.NewHandler(manifest).RegisterRoutes(mux)
 	packagepage.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
 	packagedetail.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
 	compare.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
