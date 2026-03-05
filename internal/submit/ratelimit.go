@@ -38,18 +38,27 @@ func (r *SQLiteRateLimiter) Allow(ctx context.Context, key string) (bool, time.T
 	now := r.now()
 	windowStart := now.Add(-r.interval)
 
-	// Count requests in the sliding window
-	var count int
-	err := r.db.QueryRowContext(ctx,
-		`SELECT COUNT(*) FROM rate_limit WHERE key = ? AND timestamp > ?`,
-		key, windowStart.Unix(),
-	).Scan(&count)
+	// Atomically insert only if under the limit
+	result, err := r.db.ExecContext(ctx,
+		`INSERT INTO rate_limit (key, timestamp)
+		SELECT ?, ?
+		WHERE (SELECT COUNT(*) FROM rate_limit WHERE key = ? AND timestamp > ?) < ?`,
+		key, now.Unix(), key, windowStart.Unix(), r.limit,
+	)
 	if err != nil {
-		return false, time.Time{}, fmt.Errorf("query rate limit: %w", err)
+		return false, time.Time{}, fmt.Errorf("rate limit check: %w", err)
 	}
 
-	if count >= r.limit {
-		// Find oldest entry to calculate retry-after
+	inserted, err := result.RowsAffected()
+	if err != nil {
+		return false, time.Time{}, fmt.Errorf("rate limit rows affected: %w", err)
+	}
+
+	// Cleanup old entries (best effort)
+	_, _ = r.db.ExecContext(ctx, `DELETE FROM rate_limit WHERE timestamp < ?`, windowStart.Unix())
+
+	if inserted == 0 {
+		// Over the limit — find oldest entry to calculate retry-after
 		var oldestTimestamp int64
 		err := r.db.QueryRowContext(ctx,
 			`SELECT MIN(timestamp) FROM rate_limit WHERE key = ? AND timestamp > ?`,
@@ -62,19 +71,6 @@ func (r *SQLiteRateLimiter) Allow(ctx context.Context, key string) (bool, time.T
 		retryAfter := time.Unix(oldestTimestamp, 0).Add(r.interval)
 		return false, retryAfter, nil
 	}
-
-	_, err = r.db.ExecContext(ctx,
-		`INSERT INTO rate_limit (key, timestamp) VALUES (?, ?)`,
-		key, now.Unix(),
-	)
-	if err != nil {
-		return false, time.Time{}, fmt.Errorf("insert rate limit: %w", err)
-	}
-
-	// Cleanup old entries (best effort)
-	go func() {
-		_, _ = r.db.Exec(`DELETE FROM rate_limit WHERE timestamp < ?`, windowStart.Unix())
-	}()
 
 	return true, time.Time{}, nil
 }
