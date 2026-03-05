@@ -87,6 +87,7 @@ class PopularityChart extends HTMLElement {
             type: "line",
             data,
             options: {
+                maintainAspectRatio: false,
                 interaction: {
                     mode: "index",
                     intersect: false,

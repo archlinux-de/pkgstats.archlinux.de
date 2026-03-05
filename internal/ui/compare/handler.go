@@ -11,8 +11,6 @@ import (
 	"pkgstatsd/internal/web"
 )
 
-const maxPackages = 10
-
 type Handler struct {
 	repo     packages.Repository
 	manifest *layout.Manifest
@@ -30,8 +28,10 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 	}
 
 	names := strings.Split(namesParam, ",")
-	if len(names) > maxPackages {
-		names = names[:maxPackages]
+	var excessNames []string
+	if len(names) > layout.MaxCompareChartPackages {
+		excessNames = names[layout.MaxCompareChartPackages:]
+		names = names[:layout.MaxCompareChartPackages]
 	}
 
 	var allSeries []packages.PackagePopularity
@@ -64,7 +64,7 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 
 	layout.Render(w, r,
 		layout.Page{Title: "Compare packages", Description: "Compare the popularity of Arch Linux packages side by side.", Path: "/packages", Manifest: h.manifest, CanonicalPath: "/compare/packages/" + strings.Join(escapedNames, ",")},
-		CompareContent(names, data),
+		CompareContent(names, excessNames, data),
 	)
 }
 

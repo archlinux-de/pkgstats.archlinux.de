@@ -1,6 +1,8 @@
 popularity-chart {
     display: block;
-    aspect-ratio: auto 16 / 9;
+    // 600px: comfortable max on large screens (leaves room for navbar, heading, footer on 900px viewports)
+    // 65dvh: viewport-relative cap so the chart never causes vertical scrolling
+    height: min(600px, 65dvh);
 
     // prevent scroll bars during graph rendering
     canvas {

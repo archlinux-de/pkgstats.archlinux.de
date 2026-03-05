@@ -14,7 +14,6 @@ import (
 const (
 	defaultLimit = 25
 	maxLimit     = 250
-	maxCompare   = 10
 )
 
 type Handler struct {
@@ -62,8 +61,8 @@ func (h *Handler) fetchComparePackages(r *http.Request, compare string, currentM
 	}
 
 	names := strings.Split(compare, ",")
-	if len(names) > maxCompare {
-		names = names[:maxCompare]
+	if len(names) > layout.MaxSelectPackages {
+		names = names[:layout.MaxSelectPackages]
 	}
 
 	var result []packages.PackagePopularity

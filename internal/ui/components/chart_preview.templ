@@ -1,0 +1,16 @@
+package components
+
+templ ChartPreviewGrid() {
+	<div class="chart-preview-grid">
+		<picture class="chart-preview-overlapping">
+			<source srcset="/static/fun_barChart_lightMode.png" media="(prefers-color-scheme: light)"/>
+			<source srcset="/static/fun_barChart_darkMode.png" media="(prefers-color-scheme: dark)"/>
+			<img alt="Package Bar Charts" height="522" width="1872" src="/static/fun_barChart_darkMode.png" class="border border-primary-subtle shadow"/>
+		</picture>
+		<picture class="chart-preview-underlying">
+			<source srcset="/static/fun_graph_lightMode.png" media="(prefers-color-scheme: light)"/>
+			<source srcset="/static/fun_graph_darkMode.png" media="(prefers-color-scheme: dark)"/>
+			<img alt="Package Graphs" height="1052" width="1870" src="/static/fun_graph_lightMode.png" class="border border-primary-subtle shadow"/>
+		</picture>
+	</div>
+}

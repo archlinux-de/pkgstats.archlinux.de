@@ -1,19 +1,36 @@
 package compare
 
 import (
+	"fmt"
 	"pkgstatsd/internal/chartdata"
+	"pkgstatsd/internal/ui/layout"
 	"strings"
 )
 
-templ CompareContent(names []string, data chartdata.Data) {
+templ CompareContent(names []string, excessNames []string, data chartdata.Data) {
 	<h1 class="mb-3">Compare packages</h1>
 	<p class="mb-3">Comparing: <strong>{ strings.Join(names, ", ") }</strong></p>
+	if len(excessNames) > 0 {
+		<div role="alert" class="alert alert-info mt-3">
+			{ fmt.Sprintf("You can only compare up to %d packages. Only the first %d are shown.", layout.MaxCompareChartPackages, layout.MaxCompareChartPackages) }
+			<a class="alert-link" href={ templ.SafeURL("/compare/packages/" + strings.Join(names, ",")) }>
+				Remove { strings.Join(excessNames, ", ") } from list
+			</a>
+		</div>
+	}
 	<popularity-chart>
 		@templ.JSONScript("", data)
 	</popularity-chart>
 	<div class="mt-3">
-		<a class="btn btn-primary" href={ templ.SafeURL("/packages?compare=" + strings.Join(names, ",")) }>Edit selection</a>
+		<a class="btn btn-primary" href={ templ.SafeURL("/packages?compare=" + allNames(names, excessNames)) }>Edit selection</a>
 	</div>
+}
+
+func allNames(names, excessNames []string) string {
+	all := make([]string, 0, len(names)+len(excessNames))
+	all = append(all, names...)
+	all = append(all, excessNames...)
+	return strings.Join(all, ",")
 }
 
 templ LegacyCompareContent() {

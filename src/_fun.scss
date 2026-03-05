@@ -3,7 +3,16 @@
 
     @include media-breakpoint-up(lg) {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    picture {
+        display: block;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
     }
 }
 
@@ -11,9 +20,17 @@
     grid-row: 1 / span 2;
     grid-column: 1 / span 3;
     z-index: 2;
+
+    img {
+        aspect-ratio: 1872 / 522;
+    }
 }
 
 .chart-preview-underlying {
     grid-row: 2 / span 4;
     grid-column: 2 / span 3;
+
+    img {
+        aspect-ratio: 1870 / 1052;
+    }
 }

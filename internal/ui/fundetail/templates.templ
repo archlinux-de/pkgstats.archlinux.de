@@ -6,32 +6,41 @@ import (
 	"pkgstatsd/internal/ui/components"
 )
 
-templ FunDetailCurrentContent(category string, pkgs []packages.PackagePopularity) {
+templ FunDetailCurrentContent(category string, topPkgs []packages.PackagePopularity, otherPkgs []packages.PackagePopularity, compareURL string) {
 	<h1 class="mb-4">{ category } statistics</h1>
 	@components.TabNav(funTabs(category, "current"))
-	if len(pkgs) > 0 {
-		@funPackageTable(pkgs)
+	if len(topPkgs) > 0 {
+		@funPackageTable(topPkgs)
 	}
+	if len(otherPkgs) > 0 {
+		<p class="text-body-secondary mt-2">
+			Others:
+			for i, pkg := range otherPkgs {
+				if i > 0 {
+					{ ", " }
+				}
+				<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
+			}
+		</p>
+	}
+	@funCompareLink(compareURL)
 }
 
-templ FunDetailHistoryContent(category string, data chartdata.Data, filter string) {
+templ FunDetailHistoryContent(category string, data chartdata.Data, compareURL string) {
 	<h1 class="mb-4">{ category } statistics</h1>
 	@components.TabNav(funTabs(category, "history"))
 	<popularity-chart>
 		@templ.JSONScript("", data)
 	</popularity-chart>
-	<h2 class="mt-4">Filters</h2>
-	<div class="btn-group" role="group" aria-label="Filter chart data">
-		if filter != top5Filter {
-			<a class="btn btn-primary" href={ templ.SafeURL("/fun/" + category + "/history") }>All</a>
-		} else {
-			<a class="btn btn-outline-primary" href={ templ.SafeURL("/fun/" + category + "/history") }>All</a>
-		}
-		if filter == top5Filter {
-			<a class="btn btn-primary" href={ templ.SafeURL("/fun/" + category + "/history?filter=top5") }>Top 5</a>
-		} else {
-			<a class="btn btn-outline-primary" href={ templ.SafeURL("/fun/" + category + "/history?filter=top5") }>Top 5</a>
-		}
+	@funCompareLink(compareURL)
+}
+
+templ funCompareLink(compareURL string) {
+	<div class="mt-4">
+		<a class="btn btn-outline-primary" href={ templ.SafeURL(compareURL) }>
+			<i class="bi bi-bar-chart-line me-1"></i>
+			Compare all in detail
+		</a>
 	</div>
 }
 

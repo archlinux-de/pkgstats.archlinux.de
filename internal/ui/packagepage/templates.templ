@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/ui/components"
+	"pkgstatsd/internal/ui/layout"
 	"strings"
 )
 
@@ -14,17 +15,27 @@ templ PackagesContent(list *packages.PackagePopularityList, query string, curren
 		if len(selectedPackages) > 0 {
 			<div class="mb-2">
 				@CompareTable(selectedPackages, query, currentOffset, limit, compare)
-				if len(selectedPackages) > 1 && len(selectedPackages) <= 10 {
-					<a
-						class="d-inline-flex btn btn-primary"
-						href={ templ.SafeURL("/compare/packages/" + compareNames(selectedPackages)) }
-					>
-						Compare
-					</a>
+				if len(selectedPackages) > 1 {
+					if compareCount(compare) <= layout.MaxCompareChartPackages {
+						<a
+							class="d-inline-flex btn btn-primary"
+							href={ templ.SafeURL("/compare/packages/" + compareNames(selectedPackages)) }
+						>
+							Compare
+						</a>
+					} else {
+						<button class="d-inline-flex btn btn-primary" disabled>Compare</button>
+						<div role="alert" class="alert alert-warning mt-3 mb-4">
+							{ fmt.Sprintf("You can only compare up to %d packages in a chart. Please remove %d to continue.", layout.MaxCompareChartPackages, compareCount(compare) - layout.MaxCompareChartPackages) }
+						</div>
+					}
 				}
-				if len(selectedPackages) > 10 {
-					<div role="alert" class="alert alert-info mb-4">
-						You can only compare up to 10 packages.
+				if compareCount(compare) > layout.MaxSelectPackages {
+					<div role="alert" class="alert alert-info mt-3 mb-4">
+						{ fmt.Sprintf("You can only select up to %d packages. Only the first %d are shown.", layout.MaxSelectPackages, layout.MaxSelectPackages) }
+						<a class="alert-link" href={ trimCompareURL(query, currentOffset, limit, compare) }>
+							Remove { excessNames(compare) } from list
+						</a>
 					</div>
 				}
 			</div>
@@ -72,21 +83,21 @@ templ CompareTable(pkgs []packages.PackagePopularity, query string, offset int, 
 			<tr>
 				<th scope="col">Package</th>
 				<th scope="col">Popularity</th>
-				<th scope="col" class="d-none d-lg-block text-center">Compare</th>
+				<th scope="col" class="d-none d-lg-table-cell text-center">Compare</th>
 			</tr>
 		</thead>
 		<tbody>
 			for _, pkg := range pkgs {
 				<tr>
-					<td class="text-nowrap">
+					<td class="text-nowrap align-middle">
 						<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
 					</td>
-					<td class="w-75">
+					<td class="w-75 align-middle">
 						@components.PopularityBar(pkg.Popularity)
 					</td>
 					<td class="align-middle text-center">
 						<a
-							class="d-inline-flex text-danger justify-content-center w-100"
+							class="text-danger"
 							href={ toggleURL(query, offset, limit, compare, pkg.Name) }
 							title={ "Remove " + pkg.Name }
 						>
@@ -105,30 +116,30 @@ templ PackageTable(pkgs []packages.PackagePopularity, query string, offset int, 
 			<tr>
 				<th scope="col">Package</th>
 				<th scope="col">Popularity</th>
-				<th scope="col" class="d-none d-lg-block text-center">Compare</th>
+				<th scope="col" class="d-none d-lg-table-cell text-center">Compare</th>
 			</tr>
 		</thead>
 		<tbody>
 			for _, pkg := range pkgs {
 				<tr>
-					<td class="text-nowrap">
+					<td class="text-nowrap align-middle">
 						<a href={ templ.SafeURL("/packages/" + pkg.Name) }>{ pkg.Name }</a>
 					</td>
-					<td class="w-75">
+					<td class="w-75 align-middle">
 						@components.PopularityBar(pkg.Popularity)
 					</td>
 					<td class="align-middle text-center">
 						if isSelected(compare, pkg.Name) {
 							<a
-								class="d-inline-flex text-danger justify-content-center w-100"
+								class="text-danger"
 								href={ toggleURL(query, offset, limit, compare, pkg.Name) }
 								title={ "Remove " + pkg.Name }
 							>
 								@templ.Raw(iconTrash)
 							</a>
-						} else {
+						} else if compareCount(compare) < layout.MaxSelectPackages {
 							<a
-								class="d-inline-flex text-primary justify-content-center w-100"
+								class="text-primary"
 								href={ toggleURL(query, offset, limit, compare, pkg.Name) }
 								title={ "Add " + pkg.Name }
 							>
@@ -242,4 +253,30 @@ func compareNames(pkgs []packages.PackagePopularity) string {
 		names[i] = pkg.Name
 	}
 	return strings.Join(names, ",")
+}
+
+func compareCount(compare string) int {
+	if compare == "" {
+		return 0
+	}
+	return len(strings.Split(compare, ","))
+}
+
+func excessNames(compare string) string {
+	names := strings.Split(compare, ",")
+	if len(names) <= layout.MaxSelectPackages {
+		return ""
+	}
+	return strings.Join(names[layout.MaxSelectPackages:], ", ")
+}
+
+func trimCompareURL(query string, offset, limit int, compare string) templ.SafeURL {
+	names := strings.Split(compare, ",")
+	trimmed := strings.Join(names[:layout.MaxSelectPackages], ",")
+	url := fmt.Sprintf("/packages?limit=%d&offset=%d", limit, offset)
+	if query != "" {
+		url += "&query=" + query
+	}
+	url += "&compare=" + trimmed
+	return templ.SafeURL(url)
 }
