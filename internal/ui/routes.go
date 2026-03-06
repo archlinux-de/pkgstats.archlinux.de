@@ -55,13 +55,22 @@ func RegisterRoutes(
 	handleAssets(mux, assets)
 	handleStatic(mux, static)
 	handleFavicon(mux, root)
+	handleManifest(mux, root)
 	handleRobots(mux, root)
 	handleServiceWorker(mux, root)
+	handleLegacyPost(mux)
 }
 
 func handleFavicon(mux *http.ServeMux, root fs.FS) {
 	mux.Handle("GET /favicon.ico", cacheHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFileFS(w, r, root, "root/favicon.ico")
+	}), staticCacheMaxAge))
+}
+
+func handleManifest(mux *http.ServeMux, root fs.FS) {
+	mux.Handle("GET /manifest.webmanifest", cacheHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/manifest+json")
+		http.ServeFileFS(w, r, root, "root/manifest.webmanifest")
 	}), staticCacheMaxAge))
 }
 

@@ -37,7 +37,7 @@ templ Base(page Page, contents templ.Component) {
 			}
 			@CSSTags(page.Manifest)
 			<link rel="icon" href="/static/archicon.svg" type="image/svg+xml"/>
-			<link rel="manifest" href="/static/manifest.webmanifest"/>
+			<link rel="manifest" href="/manifest.webmanifest"/>
 			for id, schema := range page.JsonLD {
 				@templ.JSONScript(id, schema).WithType("application/ld+json")
 			}
