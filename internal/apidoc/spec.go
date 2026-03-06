@@ -81,8 +81,6 @@ type specComponents struct {
 	Schemas map[string]*schema `json:"schemas"`
 }
 
-func intPtr(n int) *int { return &n }
-
 type entitySpec struct {
 	basePath        string // e.g. "/api/packages"
 	pathParam       string // e.g. "name"
@@ -180,19 +178,19 @@ var (
 		Name:        "limit",
 		In:          "query",
 		Description: "Maximum number of results to return.",
-		Schema:      &schema{Type: "integer", Default: web.DefaultLimit, Minimum: intPtr(1), Maximum: intPtr(web.MaxLimit)},
+		Schema:      &schema{Type: "integer", Default: web.DefaultLimit, Minimum: new(1), Maximum: new(web.MaxLimit)},
 	}
 	paramOffset = parameter{
 		Name:        "offset",
 		In:          "query",
 		Description: "Number of results to skip.",
-		Schema:      &schema{Type: "integer", Default: 0, Minimum: intPtr(0), Maximum: intPtr(web.MaxOffset)},
+		Schema:      &schema{Type: "integer", Default: 0, Minimum: new(0), Maximum: new(web.MaxOffset)},
 	}
 	paramQuery = parameter{
 		Name:        "query",
 		In:          "query",
 		Description: "Filter by name.",
-		Schema:      &schema{Type: "string", MaxLength: intPtr(submit.MaxPackageLen)},
+		Schema:      &schema{Type: "string", MaxLength: new(submit.MaxPackageLen)},
 	}
 )
 
@@ -349,8 +347,8 @@ func buildSpec(includeInternal bool) *openAPISpec {
 						"packages": {
 							Type:     "array",
 							Items:    &schema{Type: "string"},
-							MinItems: intPtr(1),
-							MaxItems: intPtr(submit.MaxPackages),
+							MinItems: new(1),
+							MaxItems: new(submit.MaxPackages),
 						},
 					},
 				},

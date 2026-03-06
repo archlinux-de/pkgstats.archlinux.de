@@ -77,9 +77,13 @@ func ParseMonthRange(r *http.Request) (startMonth, endMonth int, err error) {
 	return startMonth, endMonth, nil
 }
 
+// SplitYearMonth splits a YYYYMM encoded int into its year and month components.
+func SplitYearMonth(yearMonth int) (int, time.Month) {
+	return yearMonth / monthMultiplier, time.Month(yearMonth % monthMultiplier)
+}
+
 func validateMonth(yearMonth, currentMonth int) error {
-	year := yearMonth / monthMultiplier
-	month := yearMonth % monthMultiplier
+	year, month := SplitYearMonth(yearMonth)
 
 	if year < minYear {
 		return errors.New("year must be >= 2002")
