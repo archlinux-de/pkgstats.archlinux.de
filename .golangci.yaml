@@ -19,6 +19,20 @@ linters:
     - staticcheck
     - unparam
     - usestdlibvars
+  exclusions:
+    rules:
+      - path: _test\.go
+        linters:
+          - dupl
+          - goconst
+          - gocyclo
+          - gosec
+          - mnd
+          - perfsprint
+      - path: cmd/fixtures/data\.go
+        linters:
+          - mnd
+          - misspell
 
 formatters:
   enable:
@@ -46,15 +60,3 @@ linters-settings:
     ignored-functions:
       - "time.*"
       - "http.StatusText"
-
-issues:
-  exclude-rules:
-    # Exclude some linters from running on test files
-    - path: _test\.go
-      linters:
-        - dupl
-        - goconst
-        - gocyclo
-        - gosec
-        - mnd
-        - perfsprint

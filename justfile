@@ -88,8 +88,8 @@ coverage:
     # go tool cover -html=coverage.out
 
 # generate Go fixtures for local development
-fixtures months="3":
-    go run ./cmd/fixtures -months {{ months }}
+fixtures:
+    go run ./cmd/fixtures
 
 # detect anomalies in submission data
 detect-anomalies:

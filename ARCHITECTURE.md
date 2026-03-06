@@ -25,7 +25,6 @@ internal/
   ui/                    — all HTML pages (templ templates)
 cmd/
   fixtures/              — generate test data
-  api-compat/            — API compatibility checks
   migrate-data/          — data migration from legacy format
 ```
 

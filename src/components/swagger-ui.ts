@@ -19,8 +19,6 @@ class SwaggerUIElement extends HTMLElement {
 
         const style = document.createElement("style");
         style.textContent =
-            // store this as external css file and compile it in here
-            // makes it easier to work with due to ide support
             swaggerCSS +
             `
             .information-container { display: none; }
