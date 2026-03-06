@@ -69,7 +69,7 @@ func (r *Repository[T, L]) FindByIdentifier(ctx context.Context, identifier stri
 		return nil, fmt.Errorf("query %s count: %w", r.cfg.Table, err)
 	}
 
-	samples, err := r.getSamples(startMonth, endMonth)
+	samples, err := r.getSamples(ctx, startMonth, endMonth)
 	if err != nil {
 		return nil, fmt.Errorf("get samples: %w", err)
 	}
@@ -80,7 +80,7 @@ func (r *Repository[T, L]) FindByIdentifier(ctx context.Context, identifier stri
 }
 
 func (r *Repository[T, L]) FindAll(ctx context.Context, query string, startMonth, endMonth, limit, offset int) (*L, error) {
-	samples, err := r.getSamples(startMonth, endMonth)
+	samples, err := r.getSamples(ctx, startMonth, endMonth)
 	if err != nil {
 		return nil, fmt.Errorf("get samples: %w", err)
 	}
@@ -166,7 +166,7 @@ func (r *Repository[T, L]) FindSeries(ctx context.Context, identifier string, st
 		return nil, fmt.Errorf("count series: %w", err)
 	}
 
-	samplesMap, err := r.getMonthlySamples(startMonth, endMonth)
+	samplesMap, err := r.getMonthlySamples(ctx, startMonth, endMonth)
 	if err != nil {
 		return nil, fmt.Errorf("get monthly samples: %w", err)
 	}
@@ -214,8 +214,8 @@ func (r *Repository[T, L]) queryPattern(query string) string {
 	return query + "%"
 }
 
-func (r *Repository[T, L]) getSamples(startMonth, endMonth int) (int, error) {
-	monthlySamples, err := r.getMonthlySamples(startMonth, endMonth)
+func (r *Repository[T, L]) getSamples(ctx context.Context, startMonth, endMonth int) (int, error) {
+	monthlySamples, err := r.getMonthlySamples(ctx, startMonth, endMonth)
 	if err != nil {
 		return 0, err
 	}
@@ -228,8 +228,8 @@ func (r *Repository[T, L]) getSamples(startMonth, endMonth int) (int, error) {
 	return total, nil
 }
 
-func (r *Repository[T, L]) getMonthlySamples(startMonth, endMonth int) (map[int]int, error) {
-	return r.samplesCache.Get(startMonth, endMonth)
+func (r *Repository[T, L]) getMonthlySamples(ctx context.Context, startMonth, endMonth int) (map[int]int, error) {
+	return r.samplesCache.Get(ctx, startMonth, endMonth)
 }
 
 // CalculatePopularity returns a percentage rounded to 2 decimal places, capped at 100.

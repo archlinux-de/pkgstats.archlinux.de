@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -136,6 +137,7 @@ func ParseQuery(r *http.Request) (string, error) {
 func WriteEntityJSON(w http.ResponseWriter, v any) {
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(v); err != nil {
+		slog.Error("failed to encode JSON response", "error", err)
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 	}
 }

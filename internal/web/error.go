@@ -2,6 +2,7 @@ package web
 
 import (
 	"encoding/json"
+	"log/slog"
 	"net/http"
 	"strconv"
 )
@@ -23,7 +24,9 @@ func WriteError(w http.ResponseWriter, status int, detail string) {
 
 	w.Header().Set("Content-Type", "application/problem+json")
 	w.WriteHeader(status)
-	_ = json.NewEncoder(w).Encode(problem)
+	if err := json.NewEncoder(w).Encode(problem); err != nil {
+		slog.Error("failed to encode error response", "error", err)
+	}
 }
 
 func NotFound(w http.ResponseWriter, detail string) {

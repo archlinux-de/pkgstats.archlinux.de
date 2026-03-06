@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log/slog"
 	"net/netip"
 	"sync"
 	"time"
@@ -55,7 +56,9 @@ func (r *SQLiteRateLimiter) Allow(ctx context.Context, key string) (bool, time.T
 	}
 
 	// Cleanup old entries (best effort)
-	_, _ = r.db.ExecContext(ctx, `DELETE FROM rate_limit WHERE timestamp < ?`, windowStart.Unix())
+	if _, err := r.db.ExecContext(ctx, `DELETE FROM rate_limit WHERE timestamp < ?`, windowStart.Unix()); err != nil {
+		slog.Warn("failed to cleanup old rate limit entries", "error", err)
+	}
 
 	if inserted == 0 {
 		// Over the limit — find oldest entry to calculate retry-after

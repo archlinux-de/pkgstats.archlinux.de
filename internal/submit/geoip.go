@@ -33,7 +33,7 @@ func NewMaxMindGeoIP(dbPath string) (*MaxMindGeoIP, error) {
 func (g *MaxMindGeoIP) GetCountryCode(ip netip.Addr) string {
 	var record countryRecord
 	if err := g.reader.Lookup(ip).Decode(&record); err != nil {
-		slog.Debug("geoip lookup failed", "ip", ip, "error", err)
+		slog.Warn("geoip lookup failed", "ip", ip, "error", err)
 		return ""
 	}
 	return record.Country.ISOCode
@@ -41,14 +41,4 @@ func (g *MaxMindGeoIP) GetCountryCode(ip netip.Addr) string {
 
 func (g *MaxMindGeoIP) Close() error {
 	return g.reader.Close()
-}
-
-type NoopGeoIP struct{}
-
-func (NoopGeoIP) GetCountryCode(_ netip.Addr) string {
-	return ""
-}
-
-func (NoopGeoIP) Close() error {
-	return nil
 }

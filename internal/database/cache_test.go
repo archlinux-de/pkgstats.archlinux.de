@@ -1,6 +1,7 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"testing"
 	"time"
@@ -21,7 +22,7 @@ func TestMonthlySamplesCache(t *testing.T) {
 	cache := NewMonthlySamplesCache(db, "SELECT month, count FROM test_samples")
 
 	// First load
-	res, err := cache.Get(202501, 202502)
+	res, err := cache.Get(context.Background(), 202501, 202502)
 	if err != nil {
 		t.Fatalf("Get error: %v", err)
 	}
@@ -34,7 +35,7 @@ func TestMonthlySamplesCache(t *testing.T) {
 
 	// Update DB, but cache should still be valid
 	_, _ = db.Exec(`UPDATE test_samples SET count = 300 WHERE month = 202501`)
-	res, _ = cache.Get(202501, 202502)
+	res, _ = cache.Get(context.Background(), 202501, 202502)
 	if res[202501] != 100 {
 		t.Errorf("expected cached value 100, got %d", res[202501])
 	}
@@ -44,7 +45,7 @@ func TestMonthlySamplesCache(t *testing.T) {
 	cache.expiry = time.Now().Add(-1 * time.Hour)
 	cache.mu.Unlock()
 
-	res, _ = cache.Get(202501, 202502)
+	res, _ = cache.Get(context.Background(), 202501, 202502)
 	if res[202501] != 300 {
 		t.Errorf("expected new value 300 after expiry, got %d", res[202501])
 	}

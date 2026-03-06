@@ -44,7 +44,6 @@ func (s *Server) ListenAndServe() error {
 	errCh := make(chan error, 1)
 
 	go func() {
-		slog.Info("server starting", "addr", s.httpServer.Addr)
 		if err := s.httpServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			errCh <- err
 		}
@@ -53,19 +52,18 @@ func (s *Server) ListenAndServe() error {
 	select {
 	case err := <-errCh:
 		return err
-	case sig := <-stop:
-		slog.Info("shutdown signal received", "signal", sig)
+	case <-stop:
+		slog.Warn("shutting down server")
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), s.shutdownTimeout)
 	defer cancel()
 
-	slog.Info("shutting down server")
 	if err := s.httpServer.Shutdown(ctx); err != nil {
 		return err
 	}
 
-	slog.Info("server stopped")
+	slog.Warn("server stopped")
 	return nil
 }
 

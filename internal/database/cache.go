@@ -1,6 +1,7 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"sync"
@@ -26,8 +27,8 @@ func NewMonthlySamplesCache(db *sql.DB, query string) *MonthlySamplesCache {
 	return &MonthlySamplesCache{db: db, query: query}
 }
 
-func (c *MonthlySamplesCache) Get(startMonth, endMonth int) (map[int]int, error) {
-	all, err := c.load()
+func (c *MonthlySamplesCache) Get(ctx context.Context, startMonth, endMonth int) (map[int]int, error) {
+	all, err := c.load(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +43,7 @@ func (c *MonthlySamplesCache) Get(startMonth, endMonth int) (map[int]int, error)
 	return result, nil
 }
 
-func (c *MonthlySamplesCache) load() (map[int]int, error) {
+func (c *MonthlySamplesCache) load(ctx context.Context) (map[int]int, error) {
 	c.mu.RLock()
 	if c.cache != nil && time.Now().Before(c.expiry) {
 		cache := c.cache
@@ -59,7 +60,7 @@ func (c *MonthlySamplesCache) load() (map[int]int, error) {
 		return c.cache, nil
 	}
 
-	rows, err := c.db.Query(c.query)
+	rows, err := c.db.QueryContext(ctx, c.query)
 	if err != nil {
 		return nil, fmt.Errorf("query monthly samples: %w", err)
 	}

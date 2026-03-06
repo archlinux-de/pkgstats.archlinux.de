@@ -258,6 +258,6 @@ func (r *SQLiteRepository) getMaxCount(ctx context.Context, startMonth, endMonth
 	return total, nil
 }
 
-func (r *SQLiteRepository) getMonthlyMaxCounts(_ context.Context, startMonth, endMonth int) (map[int]int, error) {
-	return r.monthlyMaxCache.Get(startMonth, endMonth)
+func (r *SQLiteRepository) getMonthlyMaxCounts(ctx context.Context, startMonth, endMonth int) (map[int]int, error) {
+	return r.monthlyMaxCache.Get(ctx, startMonth, endMonth)
 }
