@@ -126,11 +126,8 @@ func TestCacheControl(t *testing.T) {
 		cc.ServeHTTP(rr, req)
 
 		val := rr.Header().Get("Cache-Control")
-		if !strings.Contains(val, "max-age=300") {
+		if val != "public, max-age=300" {
 			t.Errorf("unexpected Cache-Control: %s", val)
-		}
-		if !strings.Contains(val, "s-maxage=") {
-			t.Errorf("missing s-maxage: %s", val)
 		}
 	})
 

@@ -17,6 +17,7 @@ const (
 	MaxOffset       = 100000
 	monthMultiplier = 100
 	minYear         = 2002
+	apiCacheMaxAge  = 5 * time.Minute
 )
 
 func ParseIntParam(r *http.Request, key string, defaultValue int) (int, error) {
@@ -140,6 +141,7 @@ func ParseQuery(r *http.Request) (string, error) {
 
 func WriteEntityJSON(w http.ResponseWriter, v any) {
 	w.Header().Set("Content-Type", "application/json")
+	setAPICacheControl(w, apiCacheMaxAge)
 	if err := json.NewEncoder(w).Encode(v); err != nil {
 		slog.Error("failed to encode JSON response", "error", err)
 		http.Error(w, "internal server error", http.StatusInternalServerError)

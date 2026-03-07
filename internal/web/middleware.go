@@ -65,16 +65,13 @@ func CORS() Middleware {
 	}
 }
 
-// CacheControl sets s-maxage until the first day of next month,
-// matching the monthly data refresh cycle. Handlers can override.
+// CacheControl sets Cache-Control with the given max-age for both
+// browser and shared (proxy/CDN) caches.
 func CacheControl(maxAge time.Duration) Middleware {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if r.Method == http.MethodGet {
-				sMaxAge := secondsUntilNextMonth()
-				w.Header().Set("Cache-Control",
-					"public, max-age="+formatSeconds(maxAge)+
-						", s-maxage="+strconv.Itoa(sMaxAge))
+				w.Header().Set("Cache-Control", "public, max-age="+formatSeconds(maxAge))
 			}
 			next.ServeHTTP(w, r)
 		})
@@ -85,8 +82,16 @@ func formatSeconds(d time.Duration) string {
 	return strconv.Itoa(int(d.Seconds()))
 }
 
-// secondsUntilNextMonth returns the number of seconds from now until the
-// first day of the next month (matching the PHP Month::create(1) behavior).
+// setAPICacheControl overrides Cache-Control for API responses, setting
+// s-maxage until the first day of next month (data only changes monthly).
+func setAPICacheControl(w http.ResponseWriter, maxAge time.Duration) {
+	sMaxAge := secondsUntilNextMonth()
+	w.Header().Set("Cache-Control",
+		"public, max-age="+formatSeconds(maxAge)+
+			", s-maxage="+strconv.Itoa(sMaxAge)+
+			", stale-while-revalidate=86400")
+}
+
 func secondsUntilNextMonth() int {
 	now := time.Now()
 	firstOfNextMonth := time.Date(now.Year(), now.Month()+1, 1, 0, 0, 0, 0, now.Location())

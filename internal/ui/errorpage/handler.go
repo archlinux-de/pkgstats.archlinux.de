@@ -67,6 +67,7 @@ func renderErrorPage(w http.ResponseWriter, r *http.Request, manifest *layout.Ma
 		content = ErrorContent(http.StatusText(status))
 	}
 
+	w.Header().Set("Cache-Control", "no-store")
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(status)
 	_ = layout.Base(page, content).Render(r.Context(), w)

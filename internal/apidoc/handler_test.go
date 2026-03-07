@@ -20,6 +20,10 @@ func TestHandleDocJSON(t *testing.T) {
 		t.Fatalf("expected status 200, got %d", rr.Code)
 	}
 
+	if cc := rr.Header().Get("Cache-Control"); cc != "public, max-age=86400" {
+		t.Fatalf("expected Cache-Control %q, got %q", "public, max-age=86400", cc)
+	}
+
 	if ct := rr.Header().Get("Content-Type"); ct != "application/json" {
 		t.Fatalf("expected Content-Type application/json, got %q", ct)
 	}

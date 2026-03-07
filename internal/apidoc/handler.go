@@ -18,6 +18,7 @@ func NewHandler(includeInternal bool) *Handler {
 }
 
 func (h *Handler) HandleDocJSON(w http.ResponseWriter, _ *http.Request) {
+	w.Header().Set("Cache-Control", "public, max-age=86400")
 	w.Header().Set("Content-Type", "application/json")
 	_, _ = w.Write(h.specJSON)
 }

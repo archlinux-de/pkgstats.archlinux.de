@@ -19,6 +19,9 @@ func TestErrorResponses(t *testing.T) {
 		if pd.Detail != "missing item" {
 			t.Errorf("got detail %q", pd.Detail)
 		}
+		if cc := rr.Header().Get("Cache-Control"); cc != "no-store" {
+			t.Errorf("expected Cache-Control %q, got %q", "no-store", cc)
+		}
 	})
 
 	t.Run("BadRequest", func(t *testing.T) {

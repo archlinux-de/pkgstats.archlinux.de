@@ -22,6 +22,7 @@ func WriteError(w http.ResponseWriter, status int, detail string) {
 		Detail: detail,
 	}
 
+	w.Header().Set("Cache-Control", "no-store")
 	w.Header().Set("Content-Type", "application/problem+json")
 	w.WriteHeader(status)
 	if err := json.NewEncoder(w).Encode(problem); err != nil {

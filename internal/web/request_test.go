@@ -3,7 +3,9 @@ package web
 import (
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
+	"time"
 )
 
 func currentMonth() int {
@@ -136,6 +138,41 @@ func TestParseQuery(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestWriteEntityJSON_CacheControl(t *testing.T) {
+	rr := httptest.NewRecorder()
+	WriteEntityJSON(rr, map[string]string{"key": "value"})
+
+	cc := rr.Header().Get("Cache-Control")
+	if !strings.Contains(cc, "max-age=300") {
+		t.Errorf("expected max-age=300, got %s", cc)
+	}
+	if !strings.Contains(cc, "s-maxage=") {
+		t.Errorf("expected s-maxage in Cache-Control, got %s", cc)
+	}
+	if !strings.Contains(cc, "stale-while-revalidate=86400") {
+		t.Errorf("expected stale-while-revalidate=86400 in Cache-Control, got %s", cc)
+	}
+}
+
+func TestWriteEntityJSON_OverridesMiddleware(t *testing.T) {
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		WriteEntityJSON(w, map[string]string{"key": "value"})
+	})
+
+	// Wrap with CacheControl middleware (simulates global middleware)
+	wrapped := CacheControl(5 * time.Minute)(h)
+
+	req := httptest.NewRequest(http.MethodGet, "/api/test", nil)
+	rr := httptest.NewRecorder()
+	wrapped.ServeHTTP(rr, req)
+
+	cc := rr.Header().Get("Cache-Control")
+	// WriteEntityJSON should have overridden the middleware's value
+	if !strings.Contains(cc, "s-maxage=") {
+		t.Errorf("expected s-maxage from API handler, got %s", cc)
 	}
 }
 

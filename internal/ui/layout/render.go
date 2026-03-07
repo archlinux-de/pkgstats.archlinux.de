@@ -17,6 +17,10 @@ func Render(w http.ResponseWriter, r *http.Request, page Page, content templ.Com
 		page.CanonicalURL = GetBaseURL(r) + canonicalPath
 	}
 
+	for _, file := range page.Manifest.CSS {
+		w.Header().Add("Link", "<"+file+">; rel=preload; as=style")
+	}
+
 	if err := Base(page, content).Render(r.Context(), w); err != nil {
 		slog.Error("failed to render page", "error", err)
 	}
