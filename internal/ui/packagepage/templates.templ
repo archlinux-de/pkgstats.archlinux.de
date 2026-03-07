@@ -49,13 +49,13 @@ templ PackagesContent(list *packages.PackagePopularityList, query string, curren
 	<h2>Package Search</h2>
 	<form method="GET" action="/packages" class="mb-4">
 		<div class="input-group">
-			<span class="input-group-text" id="package-search-label">Package name</span>
+			<label class="input-group-text" for="package-search">Package name</label>
 			<input
+				id="package-search"
 				class="form-control"
 				type="search"
 				name="query"
 				placeholder="Search packages"
-				aria-describedby="package-search-label"
 				value={ query }
 			/>
 			if compare != "" {
@@ -100,6 +100,7 @@ templ CompareTable(pkgs []packages.PackagePopularity, query string, offset int, 
 							class="text-danger"
 							href={ toggleURL(query, offset, limit, compare, pkg.Name) }
 							title={ "Remove " + pkg.Name }
+							aria-label={ "Remove " + pkg.Name }
 						>
 							@templ.Raw(iconTrash)
 						</a>
@@ -134,6 +135,7 @@ templ PackageTable(pkgs []packages.PackagePopularity, query string, offset int, 
 								class="text-danger"
 								href={ toggleURL(query, offset, limit, compare, pkg.Name) }
 								title={ "Remove " + pkg.Name }
+								aria-label={ "Remove " + pkg.Name }
 							>
 								@templ.Raw(iconTrash)
 							</a>
@@ -142,6 +144,7 @@ templ PackageTable(pkgs []packages.PackagePopularity, query string, offset int, 
 								class="text-primary"
 								href={ toggleURL(query, offset, limit, compare, pkg.Name) }
 								title={ "Add " + pkg.Name }
+								aria-label={ "Add " + pkg.Name }
 							>
 								@templ.Raw(iconPlus)
 							</a>

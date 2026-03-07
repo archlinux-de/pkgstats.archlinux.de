@@ -43,6 +43,7 @@ templ Base(page Page, contents templ.Component) {
 			}
 		</head>
 		<body>
+			<a href="#content" class="visually-hidden-focusable">Skip to main content</a>
 			<div id="page">
 				@Navigation(page.Path)
 				<main id="content" class="container">
@@ -68,7 +69,7 @@ templ JSTags(manifest *Manifest) {
 }
 
 templ Navigation(path string) {
-	<nav class="navbar navbar-expand-md navbar-dark navbar-border-brand bg-dark mb-4">
+	<nav class="navbar navbar-expand-md navbar-border-brand bg-dark mb-4" data-bs-theme="dark">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="/">
 				<img alt="Arch Linux" height="40" width="190" src="/static/archlogo.svg" class="d-inline-block align-text-top"/>
@@ -101,7 +102,7 @@ templ navLink(currentPath, href, label string) {
 
 templ Footer() {
 	<footer id="footer">
-		<nav class="nav justify-content-end mt-4">
+		<nav class="nav justify-content-end mt-4" aria-label="Footer">
 			<a class="nav-link" href="/api/doc">API</a>
 			<a class="nav-link" href="/privacy-policy">Privacy policy</a>
 			<a class="nav-link" href="/impressum">Impressum</a>

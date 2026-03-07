@@ -5,7 +5,7 @@ import "pkgstatsd/internal/chartdata"
 templ CompareContent(data chartdata.Data) {
 	<h1 class="mb-3">Compare Operating Systems</h1>
 	<p class="mb-3">Relative usage of operating system distributions</p>
-	<popularity-chart>
+	<popularity-chart role="img" aria-label="Chart showing relative usage of operating system distributions over time">
 		@templ.JSONScript("", data)
 	</popularity-chart>
 }

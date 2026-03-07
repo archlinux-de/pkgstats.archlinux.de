@@ -18,7 +18,7 @@ templ CompareContent(names []string, excessNames []string, data chartdata.Data) 
 			</a>
 		</div>
 	}
-	<popularity-chart>
+	<popularity-chart role="img" aria-label={ "Chart comparing popularity of " + strings.Join(names, ", ") + " over time" }>
 		@templ.JSONScript("", data)
 	</popularity-chart>
 	<div class="mt-3">

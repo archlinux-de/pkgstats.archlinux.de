@@ -5,7 +5,7 @@ import "pkgstatsd/internal/chartdata"
 templ PackageDetailContent(name string, data chartdata.Data) {
 	<h1 class="mb-3">{ name }</h1>
 	<p class="mb-3">Relative usage of <strong>{ name }</strong></p>
-	<popularity-chart>
+	<popularity-chart role="img" aria-label={ "Chart showing popularity of " + name + " over time" }>
 		@templ.JSONScript("", data)
 	</popularity-chart>
 }

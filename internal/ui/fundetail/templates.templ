@@ -29,7 +29,7 @@ templ FunDetailCurrentContent(category string, topPkgs []packages.PackagePopular
 templ FunDetailHistoryContent(category string, data chartdata.Data, compareURL string) {
 	<h1 class="mb-4">{ category } statistics</h1>
 	@components.TabNav(funTabs(category, "history"))
-	<popularity-chart>
+	<popularity-chart role="img" aria-label={ category + " popularity over time" }>
 		@templ.JSONScript("", data)
 	</popularity-chart>
 	@funCompareLink(compareURL)

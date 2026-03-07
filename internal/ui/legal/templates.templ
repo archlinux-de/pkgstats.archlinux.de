@@ -2,34 +2,22 @@ package legal
 
 templ ImpressumContent() {
 	<h1 class="mb-4">Impressum</h1>
-	<div class="d-inline-flex">
-		<table class="table table-sm">
-			<tbody>
-				<tr>
-					<th></th>
-					<td>Pierre Schmitz</td>
-				</tr>
-				<tr>
-					<th>Address</th>
-					<td>
-						Saarstr. 1
-						<br/>
-						53175 Bonn
-						<br/>
-						Germany
-					</td>
-				</tr>
-				<tr>
-					<th>Phone</th>
-					<td>+49 228 9716608</td>
-				</tr>
-				<tr>
-					<th>E-Mail</th>
-					<td><a href="mailto:pierre@archlinux.de">pierre@archlinux.de</a></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<dl>
+		<dt>Name</dt>
+		<dd>Pierre Schmitz</dd>
+		<dt>Address</dt>
+		<dd>
+			Saarstr. 1
+			<br/>
+			53175 Bonn
+			<br/>
+			Germany
+		</dd>
+		<dt>Phone</dt>
+		<dd>+49 228 9716608</dd>
+		<dt>E-Mail</dt>
+		<dd><a href="mailto:pierre@archlinux.de">pierre@archlinux.de</a></dd>
+	</dl>
 }
 
 templ PrivacyPolicyContent() {

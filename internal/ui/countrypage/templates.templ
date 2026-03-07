@@ -5,7 +5,7 @@ import "pkgstatsd/internal/countries"
 templ CountriesContent(countryPopularities []countries.CountryPopularity) {
 	<h1 class="mb-4">Countries</h1>
 	<p>Explore the distribution of the submitted package statistics.</p>
-	<country-map>
+	<country-map role="img" aria-label="World map showing distribution of submitted package statistics by country">
 		@templ.JSONScript("", toSvgMapValues(countryPopularities))
 	</country-map>
 }

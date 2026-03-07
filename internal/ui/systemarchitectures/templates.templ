@@ -9,7 +9,7 @@ templ CompareContent(presets []preset, activePreset string, data chartdata.Data)
 	<h1 class="mb-3">Compare System Architectures</h1>
 	<p class="mb-3">Relative usage of system architectures</p>
 	@components.TabNav(presetTabs(presets, activePreset))
-	<popularity-chart>
+	<popularity-chart role="img" aria-label="Chart showing relative usage of system architectures over time">
 		@templ.JSONScript("", data)
 	</popularity-chart>
 }
