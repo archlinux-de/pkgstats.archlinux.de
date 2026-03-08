@@ -206,6 +206,10 @@ func (r *Repository[T, L]) FindSeries(ctx context.Context, identifier string, st
 	return &list, nil
 }
 
+func (r *Repository[T, L]) WarmupCache(ctx context.Context) error {
+	return r.samplesCache.Warmup(ctx)
+}
+
 func (r *Repository[T, L]) queryPattern(query string) string {
 	if r.cfg.QueryContains {
 		return "%" + query + "%"

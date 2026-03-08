@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 	"os"
@@ -83,6 +84,16 @@ func run(cfg config.Config) error {
 	manifest, err := uilayout.NewManifest(embedManifest)
 	if err != nil {
 		return err
+	}
+
+	// Warm up caches
+	ctx := context.Background()
+	for _, repo := range []interface{ WarmupCache(context.Context) error }{
+		packagesRepo, countriesRepo, mirrorsRepo, systemArchRepo, osRepo,
+	} {
+		if err := repo.WarmupCache(ctx); err != nil {
+			slog.Warn("failed to warm up cache", "error", err)
+		}
 	}
 
 	// Setup HTTP routes

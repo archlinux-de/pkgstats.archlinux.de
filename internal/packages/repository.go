@@ -32,6 +32,10 @@ func NewSQLiteRepository(db *sql.DB) *SQLiteRepository {
 	}
 }
 
+func (r *SQLiteRepository) WarmupCache(ctx context.Context) error {
+	return r.monthlyMaxCache.Warmup(ctx)
+}
+
 // monthRange returns the SQL WHERE fragment and bound args for a month range.
 // When startMonth is 0, no lower bound is applied (all history up to endMonth).
 func monthRange(startMonth, endMonth int) (clause string, args []any) {

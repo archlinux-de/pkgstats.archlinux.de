@@ -85,6 +85,11 @@ func (c *MonthlySamplesCache) load(ctx context.Context) (map[int]int, error) {
 	return cache, nil
 }
 
+func (c *MonthlySamplesCache) Warmup(ctx context.Context) error {
+	_, err := c.load(ctx)
+	return err
+}
+
 func startOfNextMonth() time.Time {
 	now := time.Now()
 	return time.Date(now.Year(), now.Month()+1, 1, 0, 0, 0, 0, now.Location())
