@@ -13,12 +13,12 @@ jobs:
               uses: actions/checkout@v6
               with:
                   token: ${{ secrets.MAINTENANCE_TOKEN }}
+            - name: Fetch latest pnpm version and update package.json
+              run: |
+                  LATEST=$(npm view pnpm version)
+                  npm pkg set packageManager=pnpm@${LATEST}
             - name: Run Common Setup
               uses: ./.github/actions/setup
-              with:
-                  pnpm-version: latest
-            - name: Update pnpm version in package.json
-              run: npm pkg set packageManager=pnpm@$(pnpm --version)
             - name: Update pnpm dependencies
               run: just update-pnpm
             - name: Build Templates
