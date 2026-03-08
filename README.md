@@ -12,10 +12,17 @@ the Arch Linux package statistics website.
 
 # Setup
 1. Run `just init` to install dependencies, build and generate fixtures
-2. Run `just run` to start the application locally or `just dev` to watch for template and Go changes and rebuild automatically (requires [air](https://github.com/air-verse/air))
+2. Run `just run` to start the application locally
 3. Run `just` for a full list of available commands
 
-# Contributions
+# Contributing
+## Dev Mode
+Run `just dev` to watch for template and Go changes and rebuild automatically (requires [air](https://github.com/air-verse/air)).
+The automatic rebuild does not include assets (images, JS, CSS) and all unused classes are stripped during the build process.
+Thus, when changing classes for example, you might need to stop the dev server and run `just build-assets` and then start
+the project again.
+
+## Tests
 For contributing you'll probably want to test your changes at least once
 before submitting a pull request. Run `just test` to run all tests.
 
