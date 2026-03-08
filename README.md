@@ -6,10 +6,9 @@ the Arch Linux package statistics website.
 - [just](https://github.com/casey/just)
 
 # Setup
-1. Run `just install` to install dependencies
-2. Run `just init` to perform the initial setup & start the application locally
-3. Use `just start` and `just stop` to start and stop the app.
-4. Run `just` for a full list of available commands
+1. Run `just init` to install dependencies, build and generate fixtures
+2. Run `just run` to start the application locally
+3. Run `just` for a full list of available commands
 
 # Contributions
 For contributing you'll probably want to test your changes at least once

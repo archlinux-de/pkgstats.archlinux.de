@@ -10,6 +10,9 @@ export ENVIRONMENT := 'development'
 default:
     just --list
 
+# first-time setup: install dependencies, build and generate fixtures
+init: install build-assets build-templates fixtures
+
 # install dependencies and test data
 install:
     curl -sf 'https://raw.githubusercontent.com/maxmind/MaxMind-DB/main/test-data/GeoIP2-Country-Test.mmdb' -o '{{ GEOIP_DATABASE }}'
