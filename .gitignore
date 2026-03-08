@@ -1,4 +1,9 @@
-/.idea/
+# IDE/OS specific
+.idea
+.vscode
+.DS_Store
+
+# application
 /pkgstats*.db*
 /dist
 /node_modules
@@ -8,5 +13,12 @@
 /tmp/*
 !/tmp/.gitkeep
 /pkgstatsd
+
+# development
 /fixtures
 /migrate-data
+
+# old Symfony directories/files
+.cache
+api/*
+app/*
