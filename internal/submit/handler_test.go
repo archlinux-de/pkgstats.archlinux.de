@@ -672,6 +672,16 @@ func TestHandleSubmit_NoOSIDWhenAbsent(t *testing.T) {
 	}
 }
 
+func TestHandleSubmit_OversizedBody(t *testing.T) {
+	handler, _ := setupTestHandler(t)
+
+	body := strings.Repeat("x", maxRequestBodySize+1)
+	w := submitRequest(handler, body)
+	if w.Code != http.StatusBadRequest {
+		t.Errorf("expected 400 for oversized body, got %d", w.Code)
+	}
+}
+
 func TestHandleSubmit_MethodNotAllowed(t *testing.T) {
 	handler, _ := setupTestHandler(t)
 

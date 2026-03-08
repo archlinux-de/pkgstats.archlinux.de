@@ -10,7 +10,10 @@ import (
 	"pkgstatsd/internal/web"
 )
 
-const defaultMaxMissing = 0.35
+const (
+	defaultMaxMissing  = 0.35
+	maxRequestBodySize = 5 << 20 // 5 MB
+)
 
 type Handler struct {
 	repo             *Repository
@@ -50,6 +53,7 @@ func (h *Handler) HandleSubmit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	r.Body = http.MaxBytesReader(w, r.Body, maxRequestBodySize)
 	req, err := ParseRequest(r.Body)
 	if err != nil {
 		web.BadRequest(w, err.Error())
