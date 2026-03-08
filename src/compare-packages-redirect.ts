@@ -1,4 +1,4 @@
-function syncAndRedirect(): void {
+function redirectComparePackagesHash(): void {
     const { pathname, hash, origin } = window.location;
     if (pathname.replace(/\/$/, "") !== "/compare/packages") {
         return;
@@ -19,4 +19,4 @@ function syncAndRedirect(): void {
     }
 }
 
-syncAndRedirect();
+redirectComparePackagesHash();
