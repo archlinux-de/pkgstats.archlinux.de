@@ -37,10 +37,16 @@ func (h *Handler) HandlePackages(w http.ResponseWriter, r *http.Request) {
 
 	currentMonth := web.GetLastCompleteMonth()
 
-	list, err := h.repo.FindAll(r.Context(), query, currentMonth, currentMonth, limit, offset)
-	if err != nil {
-		layout.ServerError(w, "failed to fetch packages", err)
-		return
+	var list *packages.PackagePopularityList
+	if query != "" {
+		var err error
+		list, err = h.repo.FindAll(r.Context(), query, currentMonth, currentMonth, limit, offset)
+		if err != nil {
+			layout.ServerError(w, "failed to fetch packages", err)
+			return
+		}
+	} else {
+		list = &packages.PackagePopularityList{}
 	}
 
 	selectedPackages, err := h.fetchComparePackages(r, compare, currentMonth)
