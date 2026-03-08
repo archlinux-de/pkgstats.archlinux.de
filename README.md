@@ -4,12 +4,16 @@ the Arch Linux package statistics website.
 
 # Dependencies
 - [just](https://github.com/casey/just)
+- [go](https://go.dev/)
+- [pnpm](https://pnpm.io/)
+
+## Optional
+- [air](https://github.com/air-verse/air)
 
 # Setup
 1. Run `just init` to install dependencies, build and generate fixtures
-2. Run `just run` to start the application locally
-3. Run `just dev` to watch for template and Go changes and rebuild automatically (requires [air](https://github.com/air-verse/air))
-4. Run `just` for a full list of available commands
+2. Run `just run` to start the application locally or `just dev` to watch for template and Go changes and rebuild automatically (requires [air](https://github.com/air-verse/air))
+3. Run `just` for a full list of available commands
 
 # Contributions
 For contributing you'll probably want to test your changes at least once
