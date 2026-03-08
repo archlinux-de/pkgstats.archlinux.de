@@ -8,7 +8,7 @@ import (
 )
 
 templ CompareContent(names []string, excessNames []string, data chartdata.Data) {
-	<h1 class="mb-3">Compare packages</h1>
+	<h1 class="mb-3">Package History</h1>
 	<p class="mb-3">Comparing: <strong>{ strings.Join(names, ", ") }</strong></p>
 	if len(excessNames) > 0 {
 		<div role="alert" class="alert alert-info mt-3">
