@@ -71,9 +71,12 @@ func TestHandleSubmit_Success(t *testing.T) {
 		t.Fatalf("expected 204, got %d: %s", w.Code, w.Body.String())
 	}
 
-	// Verify empty response body
 	if w.Body.Len() != 0 {
 		t.Errorf("expected empty response body, got %d bytes", w.Body.Len())
+	}
+
+	if cc := w.Header().Get("Cache-Control"); cc != "no-store" {
+		t.Errorf("expected Cache-Control no-store, got %q", cc)
 	}
 
 	// Verify packages
