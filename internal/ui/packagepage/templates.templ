@@ -83,7 +83,7 @@ templ CompareTable(pkgs []packages.PackagePopularity, query string, offset int, 
 			<tr>
 				<th scope="col">Package</th>
 				<th scope="col">Popularity</th>
-				<th scope="col" class="d-none d-lg-table-cell text-center">Compare</th>
+				<th scope="col" class="d-none d-lg-table-cell text-end">Compare</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -95,7 +95,7 @@ templ CompareTable(pkgs []packages.PackagePopularity, query string, offset int, 
 					<td class="w-75 align-middle">
 						@components.PopularityBar(pkg.Popularity)
 					</td>
-					<td class="align-middle text-center">
+					<td class="align-middle text-end">
 						<a
 							class="text-danger"
 							href={ toggleURL(query, offset, limit, compare, pkg.Name) }
@@ -117,7 +117,7 @@ templ PackageTable(pkgs []packages.PackagePopularity, query string, offset int, 
 			<tr>
 				<th scope="col">Package</th>
 				<th scope="col">Popularity</th>
-				<th scope="col" class="d-none d-lg-table-cell text-center">Compare</th>
+				<th scope="col" class="d-none d-lg-table-cell text-end">Compare</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -129,7 +129,7 @@ templ PackageTable(pkgs []packages.PackagePopularity, query string, offset int, 
 					<td class="w-75 align-middle">
 						@components.PopularityBar(pkg.Popularity)
 					</td>
-					<td class="align-middle text-center">
+					<td class="align-middle text-end">
 						if isSelected(compare, pkg.Name) {
 							<a
 								class="text-danger"
