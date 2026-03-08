@@ -36,6 +36,10 @@ build: build-assets build-templates
 run:
     go run -tags production .
 
+# watch for template and Go changes and rebuild automatically
+dev:
+    air
+
 # run all tests
 test:
     go test ./...
