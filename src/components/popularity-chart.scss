@@ -1,11 +1,51 @@
+@use "sass:map";
+
 popularity-chart {
     display: block;
     // 600px: comfortable max on large screens (leaves room for navbar, heading, footer on 900px viewports)
     // 65dvh: viewport-relative cap so the chart never causes vertical scrolling
     height: min(600px, 65dvh);
+    position: relative;
 
     // prevent scroll bars during graph rendering
     canvas {
         display: none;
+    }
+}
+
+.chart-tooltip {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -100%);
+    background: var(--bs-body-bg);
+    border: $border-width solid var(--bs-border-color);
+    border-radius: $border-radius;
+    padding: map.get($spacers, 2) map.get($spacers, 3);
+    font-size: $font-size-sm;
+    white-space: nowrap;
+    z-index: $zindex-tooltip;
+    box-shadow: $box-shadow-sm;
+
+    .chart-tooltip-title {
+        font-weight: bold;
+        margin-bottom: map.get($spacers, 1);
+        text-align: center;
+    }
+
+    table {
+        border-spacing: 0;
+
+        td {
+            padding: 0;
+
+            &:nth-child(2) {
+                padding: 0 map.get($spacers, 3) 0 map.get($spacers, 2);
+            }
+
+            &:last-child {
+                text-align: right;
+            }
+        }
     }
 }

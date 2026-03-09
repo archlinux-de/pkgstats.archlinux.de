@@ -26,6 +26,25 @@ function renderYearMonth(yearMonth: number | string): string {
     return `${s.substring(0, 4)}-${s.substring(4, 6)}`;
 }
 
+function getTooltipElement(chart: {
+    canvas: HTMLCanvasElement;
+}): HTMLDivElement {
+    const parent = chart.canvas.parentElement;
+    if (!parent) {
+        throw new Error("chart-tooltip: canvas has no parent element");
+    }
+
+    let el = parent.querySelector(".chart-tooltip") as HTMLDivElement | null;
+
+    if (!el) {
+        el = document.createElement("div");
+        el.className = "chart-tooltip";
+        parent.appendChild(el);
+    }
+
+    return el;
+}
+
 class PopularityChart extends HTMLElement {
     connectedCallback() {
         const script = this.querySelector('script[type="application/json"]');
@@ -54,10 +73,117 @@ class PopularityChart extends HTMLElement {
         canvas.height = 720;
         this.appendChild(canvas);
 
-        this.drawChart(canvas, data);
+        const style = getComputedStyle(document.documentElement);
+        const textColor = style.getPropertyValue("--bs-body-color");
+        const gridColor = style.getPropertyValue("--bs-border-color");
+
+        if (data.labels.length < 3) {
+            this.drawBarChart(canvas, data, textColor, gridColor);
+        } else {
+            this.drawLineChart(canvas, data, textColor, gridColor);
+        }
     }
 
-    private async drawChart(canvas: HTMLCanvasElement, data: ChartData) {
+    private async drawBarChart(
+        canvas: HTMLCanvasElement,
+        data: ChartData,
+        textColor: string,
+        gridColor: string,
+    ) {
+        const {
+            Chart,
+            BarElement,
+            BarController,
+            CategoryScale,
+            LinearScale,
+            Tooltip,
+        } = await import("chart.js");
+
+        Chart.register(
+            BarElement,
+            BarController,
+            CategoryScale,
+            LinearScale,
+            Tooltip,
+        );
+
+        const lastIndex = data.labels.length - 1;
+        const barData = {
+            labels: data.datasets.map((ds) => ds.label),
+            datasets: [
+                {
+                    label: renderYearMonth(data.labels[lastIndex]),
+                    data: data.datasets.map((ds) => ds.data[lastIndex] ?? 0),
+                    backgroundColor: colors.slice(0, data.datasets.length),
+                },
+            ],
+        };
+
+        new Chart(canvas, {
+            type: "bar",
+            data: barData,
+            options: {
+                indexAxis: "y",
+                animation: false,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        enabled: false,
+                        external: ({ chart, tooltip }) => {
+                            const el = getTooltipElement(chart);
+
+                            if (tooltip.opacity === 0) {
+                                el.style.opacity = "0";
+                                return;
+                            }
+
+                            const item = tooltip.dataPoints[0];
+                            el.innerHTML = (item.raw as number).toFixed(2);
+                            el.style.opacity = "1";
+                            el.style.left = `${tooltip.caretX}px`;
+                            el.style.top = `${tooltip.caretY}px`;
+                        },
+                    },
+                },
+                scales: {
+                    x: {
+                        min: 0,
+                        max: 100,
+                        border: {
+                            color: gridColor,
+                        },
+                        grid: {
+                            color: gridColor,
+                        },
+                        ticks: {
+                            color: textColor,
+                        },
+                    },
+                    y: {
+                        border: {
+                            color: gridColor,
+                        },
+                        grid: {
+                            display: false,
+                        },
+                        ticks: {
+                            color: textColor,
+                        },
+                    },
+                },
+            },
+        });
+    }
+
+    private async drawLineChart(
+        canvas: HTMLCanvasElement,
+        data: ChartData,
+        textColor: string,
+        gridColor: string,
+    ) {
         const {
             Chart,
             LineElement,
@@ -79,14 +205,11 @@ class PopularityChart extends HTMLElement {
             Tooltip,
         );
 
-        const style = getComputedStyle(document.documentElement);
-        const textColor = style.getPropertyValue("--bs-body-color");
-        const gridColor = style.getPropertyValue("--bs-border-color");
-
         new Chart(canvas, {
             type: "line",
             data,
             options: {
+                animation: false,
                 maintainAspectRatio: false,
                 interaction: {
                     mode: "index",
@@ -94,11 +217,35 @@ class PopularityChart extends HTMLElement {
                 },
                 plugins: {
                     tooltip: {
-                        displayColors: false,
+                        enabled: false,
                         itemSort: (a, b) =>
                             (b.raw as number) - (a.raw as number),
-                        callbacks: {
-                            title: (items) => renderYearMonth(items[0].label),
+                        external: ({ chart, tooltip }) => {
+                            const el = getTooltipElement(chart);
+
+                            if (tooltip.opacity === 0) {
+                                el.style.opacity = "0";
+                                return;
+                            }
+
+                            const rows = tooltip.dataPoints
+                                .map((item) => {
+                                    const color =
+                                        colors[
+                                            item.datasetIndex % colors.length
+                                        ];
+                                    return `<tr>
+                                        <td style="color:${color}">&#9679;</td>
+                                        <td>${item.dataset.label}</td>
+                                        <td>${(item.raw as number).toFixed(2)}</td>
+                                    </tr>`;
+                                })
+                                .join("");
+
+                            el.innerHTML = `<div class="chart-tooltip-title">${renderYearMonth(tooltip.title[0])}</div><table>${rows}</table>`;
+                            el.style.opacity = "1";
+                            el.style.left = `${tooltip.caretX}px`;
+                            el.style.top = `${tooltip.caretY}px`;
                         },
                     },
                     legend: {
@@ -110,6 +257,9 @@ class PopularityChart extends HTMLElement {
                 normalized: true,
                 scales: {
                     x: {
+                        border: {
+                            color: gridColor,
+                        },
                         ticks: {
                             callback(val) {
                                 return renderYearMonth(
@@ -127,6 +277,9 @@ class PopularityChart extends HTMLElement {
                     y: {
                         type: "linear",
                         min: 0,
+                        border: {
+                            color: gridColor,
+                        },
                         grid: {
                             color: gridColor,
                         },
