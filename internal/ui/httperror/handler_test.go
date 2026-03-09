@@ -1,4 +1,4 @@
-package errorpage
+package httperror
 
 import (
 	"net/http"
@@ -19,7 +19,7 @@ func TestErrorPageCacheControl(t *testing.T) {
 	})
 
 	// Apply middleware in the same order as main.go:
-	// errorpage.Middleware wraps the handler, CacheControl is outer
+	// httperror.Middleware wraps the handler, CacheControl is outer
 	handler := web.CacheControl(5 * time.Minute)(Middleware(manifest)(notFound))
 
 	req := httptest.NewRequest(http.MethodGet, "/nonexistent", nil)

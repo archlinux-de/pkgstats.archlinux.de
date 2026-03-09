@@ -1,4 +1,4 @@
-package countrypage
+package country
 
 import (
 	"net/http"

@@ -1,4 +1,4 @@
-package apidocpage
+package apidoc
 
 import (
 	"net/http"

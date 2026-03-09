@@ -20,7 +20,7 @@ import (
 	"pkgstatsd/internal/submit"
 	"pkgstatsd/internal/systemarchitectures"
 	"pkgstatsd/internal/ui"
-	"pkgstatsd/internal/ui/errorpage"
+	"pkgstatsd/internal/ui/httperror"
 	uilayout "pkgstatsd/internal/ui/layout"
 	"pkgstatsd/internal/web"
 )
@@ -116,7 +116,7 @@ func run(cfg config.Config) error {
 		web.SecureHeaders(),
 		web.CORS(),
 		ui.LegacyMiddleware,
-		errorpage.Middleware(manifest),
+		httperror.Middleware(manifest),
 		web.CacheControl(defaultCacheMaxAge),
 	)
 

@@ -10,9 +10,9 @@ import (
 	"pkgstatsd/internal/operatingsystems"
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/systemarchitectures"
-	"pkgstatsd/internal/ui/apidocpage"
+	"pkgstatsd/internal/ui/apidoc"
 	"pkgstatsd/internal/ui/compare"
-	"pkgstatsd/internal/ui/countrypage"
+	"pkgstatsd/internal/ui/country"
 	"pkgstatsd/internal/ui/fun"
 	"pkgstatsd/internal/ui/fundetail"
 	"pkgstatsd/internal/ui/gettingstarted"
@@ -21,7 +21,7 @@ import (
 	"pkgstatsd/internal/ui/legal"
 	uios "pkgstatsd/internal/ui/operatingsystems"
 	"pkgstatsd/internal/ui/packagedetail"
-	"pkgstatsd/internal/ui/packagepage"
+	"pkgstatsd/internal/ui/packagelist"
 	uisysarch "pkgstatsd/internal/ui/systemarchitectures"
 )
 
@@ -41,15 +41,15 @@ func RegisterRoutes(
 ) {
 	home.NewHandler(manifest).RegisterRoutes(mux)
 	gettingstarted.NewHandler(manifest).RegisterRoutes(mux)
-	packagepage.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
+	packagelist.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
 	packagedetail.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
 	compare.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
-	countrypage.NewHandler(countriesRepo, manifest).RegisterRoutes(mux)
+	country.NewHandler(countriesRepo, manifest).RegisterRoutes(mux)
 	uisysarch.NewHandler(systemArchRepo, manifest).RegisterRoutes(mux)
 	uios.NewHandler(osRepo, manifest).RegisterRoutes(mux)
 	fun.NewHandler(manifest).RegisterRoutes(mux)
 	fundetail.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
-	apidocpage.NewHandler(manifest).RegisterRoutes(mux)
+	apidoc.NewHandler(manifest).RegisterRoutes(mux)
 	legal.NewHandler(manifest).RegisterRoutes(mux)
 
 	handleAssets(mux, assets)
