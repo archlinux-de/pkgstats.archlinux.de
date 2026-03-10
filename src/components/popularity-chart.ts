@@ -187,7 +187,7 @@ class PopularityChart extends HTMLElement {
         const textColor = style.getPropertyValue("--bs-body-color");
         const gridColor = style.getPropertyValue("--bs-border-color");
 
-        if (data.labels.length < 3) {
+        if (data.labels.length < 6) {
             this.drawBarChart(canvas, data, textColor, gridColor);
         } else {
             this.drawLineChart(canvas, data, textColor, gridColor);
