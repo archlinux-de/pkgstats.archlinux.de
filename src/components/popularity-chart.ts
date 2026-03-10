@@ -3,6 +3,10 @@ interface ChartData {
     datasets: { label: string; data: (number | null)[] }[];
 }
 
+const isSmallScreen = window.matchMedia(
+    "(pointer: coarse) and (max-width: 768px)",
+).matches;
+
 const colors = [
     "#08c",
     "#dc3545",
@@ -44,6 +48,112 @@ function getTooltipElement(chart: {
 
     return el;
 }
+
+function showTooltip(el: HTMLDivElement, html: string, x: number, y: number) {
+    el.innerHTML = html;
+    el.style.opacity = "1";
+    el.style.left = `${x}px`;
+    el.style.top = `${y}px`;
+}
+
+function barTooltipHandler({
+    chart,
+    tooltip,
+}: {
+    chart: { canvas: HTMLCanvasElement };
+    tooltip: {
+        opacity: number;
+        dataPoints: { raw: unknown }[];
+        caretX: number;
+        caretY: number;
+    };
+}) {
+    const el = getTooltipElement(chart);
+    if (tooltip.opacity === 0) {
+        el.style.opacity = "0";
+        return;
+    }
+    const value = (tooltip.dataPoints[0].raw as number).toFixed(2);
+    showTooltip(el, value, tooltip.caretX, tooltip.caretY);
+}
+
+function lineTooltipHandler({
+    chart,
+    tooltip,
+}: {
+    chart: { canvas: HTMLCanvasElement };
+    tooltip: {
+        opacity: number;
+        title: string[];
+        dataPoints: {
+            raw: unknown;
+            datasetIndex: number;
+            dataset: { label?: string };
+        }[];
+        caretX: number;
+        caretY: number;
+    };
+}) {
+    const el = getTooltipElement(chart);
+    if (tooltip.opacity === 0) {
+        el.style.opacity = "0";
+        return;
+    }
+
+    const rows = tooltip.dataPoints
+        .map((item) => {
+            const color = colors[item.datasetIndex % colors.length];
+            return `<tr>
+                <td style="color:${color}">&#9679;</td>
+                <td>${item.dataset.label}</td>
+                <td>${(item.raw as number).toFixed(2)}</td>
+            </tr>`;
+        })
+        .join("");
+
+    showTooltip(
+        el,
+        `<div class="chart-tooltip-title">${renderYearMonth(tooltip.title[0])}</div><table>${rows}</table>`,
+        tooltip.caretX,
+        tooltip.caretY,
+    );
+}
+
+function generateLegendLabels(textColor: string, gridColor: string) {
+    return (chart: {
+        data: { datasets: { label?: string }[] };
+        isDatasetVisible(index: number): boolean;
+    }) => {
+        return chart.data.datasets.map((ds, i) => {
+            const hidden = !chart.isDatasetVisible(i);
+            const color = colors[i % colors.length];
+            return {
+                text: ds.label ?? "",
+                fontColor: hidden ? gridColor : textColor,
+                fillStyle: hidden ? "transparent" : color,
+                strokeStyle: hidden ? gridColor : color,
+                lineWidth: 1,
+                hidden: false,
+                datasetIndex: i,
+            };
+        });
+    };
+}
+
+const legendPaddingPlugin = {
+    id: "legendPadding",
+    beforeInit(chart: { legend?: { fit(): void; height: number } }) {
+        const legend = chart.legend;
+        if (!legend) {
+            return;
+        }
+        const originalFit = legend.fit.bind(legend);
+        legend.fit = function () {
+            originalFit();
+            this.height += 16;
+        };
+    },
+};
 
 class PopularityChart extends HTMLElement {
     connectedCallback() {
@@ -127,51 +237,24 @@ class PopularityChart extends HTMLElement {
                 animation: false,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false,
-                    },
+                    legend: { display: false },
                     tooltip: {
                         enabled: false,
-                        external: ({ chart, tooltip }) => {
-                            const el = getTooltipElement(chart);
-
-                            if (tooltip.opacity === 0) {
-                                el.style.opacity = "0";
-                                return;
-                            }
-
-                            const item = tooltip.dataPoints[0];
-                            el.innerHTML = (item.raw as number).toFixed(2);
-                            el.style.opacity = "1";
-                            el.style.left = `${tooltip.caretX}px`;
-                            el.style.top = `${tooltip.caretY}px`;
-                        },
+                        external: isSmallScreen ? undefined : barTooltipHandler,
                     },
                 },
                 scales: {
                     x: {
                         min: 0,
                         max: 100,
-                        border: {
-                            color: gridColor,
-                        },
-                        grid: {
-                            color: gridColor,
-                        },
-                        ticks: {
-                            color: textColor,
-                        },
+                        border: { color: gridColor },
+                        grid: { color: gridColor },
+                        ticks: { color: textColor },
                     },
                     y: {
-                        border: {
-                            color: gridColor,
-                        },
-                        grid: {
-                            display: false,
-                        },
-                        ticks: {
-                            color: textColor,
-                        },
+                        border: { color: gridColor },
+                        grid: { display: false },
+                        ticks: { color: textColor },
                     },
                 },
             },
@@ -208,58 +291,41 @@ class PopularityChart extends HTMLElement {
         new Chart(canvas, {
             type: "line",
             data,
+            plugins: [legendPaddingPlugin],
             options: {
                 animation: false,
                 maintainAspectRatio: false,
-                interaction: {
-                    mode: "index",
-                    intersect: false,
-                },
+                interaction: isSmallScreen
+                    ? undefined
+                    : { mode: "index" as const, intersect: false },
                 plugins: {
                     tooltip: {
                         enabled: false,
-                        itemSort: (a, b) =>
-                            (b.raw as number) - (a.raw as number),
-                        external: ({ chart, tooltip }) => {
-                            const el = getTooltipElement(chart);
-
-                            if (tooltip.opacity === 0) {
-                                el.style.opacity = "0";
-                                return;
-                            }
-
-                            const rows = tooltip.dataPoints
-                                .map((item) => {
-                                    const color =
-                                        colors[
-                                            item.datasetIndex % colors.length
-                                        ];
-                                    return `<tr>
-                                        <td style="color:${color}">&#9679;</td>
-                                        <td>${item.dataset.label}</td>
-                                        <td>${(item.raw as number).toFixed(2)}</td>
-                                    </tr>`;
-                                })
-                                .join("");
-
-                            el.innerHTML = `<div class="chart-tooltip-title">${renderYearMonth(tooltip.title[0])}</div><table>${rows}</table>`;
-                            el.style.opacity = "1";
-                            el.style.left = `${tooltip.caretX}px`;
-                            el.style.top = `${tooltip.caretY}px`;
-                        },
+                        itemSort: isSmallScreen
+                            ? undefined
+                            : (a, b) => (b.raw as number) - (a.raw as number),
+                        external: isSmallScreen
+                            ? undefined
+                            : lineTooltipHandler,
                     },
                     legend: {
+                        align: isSmallScreen ? "start" : "center",
                         labels: {
                             color: textColor,
+                            boxWidth: 11,
+                            boxHeight: 11,
+                            font: isSmallScreen ? { size: 11 } : undefined,
+                            generateLabels: generateLegendLabels(
+                                textColor,
+                                gridColor,
+                            ),
                         },
                     },
                 },
                 normalized: true,
                 scales: {
                     x: {
-                        border: {
-                            color: gridColor,
-                        },
+                        border: { color: gridColor },
                         ticks: {
                             callback(val) {
                                 return renderYearMonth(
@@ -269,32 +335,24 @@ class PopularityChart extends HTMLElement {
                             color: textColor,
                             autoSkipPadding: 30,
                         },
-                        grid: {
-                            display: false,
-                            color: gridColor,
-                        },
+                        grid: { display: false, color: gridColor },
                     },
                     y: {
                         type: "linear",
                         min: 0,
-                        border: {
-                            color: gridColor,
-                        },
-                        grid: {
-                            color: gridColor,
-                        },
-                        ticks: {
-                            color: textColor,
-                        },
+                        border: { color: gridColor },
+                        grid: { color: gridColor },
+                        ticks: { color: textColor },
                     },
                 },
                 elements: {
                     line: {
                         borderColor: colors,
+                        borderWidth: isSmallScreen ? 1.5 : 3,
                     },
                     point: {
                         radius: 0,
-                        hoverRadius: 4,
+                        hoverRadius: isSmallScreen ? 0 : 4,
                         hoverBackgroundColor: textColor,
                     },
                 },
