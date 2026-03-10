@@ -1,8 +1,20 @@
+import { writeFileSync } from "fs";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
-import type { UserConfig } from "vite";
+import type { Plugin, UserConfig } from "vite";
+
+const isWatch = process.argv.includes("--watch");
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+function notifyAir(): Plugin {
+    return {
+        name: "notify-air",
+        writeBundle() {
+            writeFileSync(".assets-rebuilt", String(Date.now()));
+        },
+    };
+}
 
 export default {
     resolve: {
@@ -49,10 +61,11 @@ export default {
             },
         },
     },
+    plugins: isWatch ? [notifyAir()] : [],
     publicDir: false,
     build: {
         manifest: "manifest.json",
-        minify: "terser",
+        minify: isWatch ? false : "terser",
         rollupOptions: {
             input: "src/main.ts",
         },

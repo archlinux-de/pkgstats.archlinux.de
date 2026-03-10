@@ -36,8 +36,20 @@ build: build-assets build-templates
 run:
     go run -tags production .
 
+# open the local dev server in the default browser
+open:
+    xdg-open 'http://localhost:{{ PORT }}'
+
 # watch for template and Go changes and rebuild automatically
-dev:
+[parallel]
+dev: dev-assets dev-server
+
+[private]
+dev-assets:
+    pnpm exec vite build --watch
+
+[private]
+dev-server:
     air
 
 # run all tests

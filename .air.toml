@@ -3,5 +3,6 @@ pre_cmd = ["go tool templ generate"]
 cmd = "go build -tags production -o ./tmp/pkgstatsd ."
 entrypoint = ["./tmp/pkgstatsd"]
 include_ext = ["go", "templ"]
+include_file = [".assets-rebuilt"]
 exclude_dir = [".idea", "dist", "node_modules", "tmp"]
 exclude_regex = ["_templ\\.go$"]

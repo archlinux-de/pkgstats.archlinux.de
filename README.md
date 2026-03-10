@@ -17,10 +17,7 @@ the Arch Linux package statistics website.
 
 # Contributing
 ## Dev Mode
-Run `just dev` to watch for template and Go changes and rebuild automatically (requires [air](https://github.com/air-verse/air)).
-The automatic rebuild does not include assets (images, JS, CSS) and all unused classes are stripped during the build process.
-Thus, when changing classes for example, you might need to stop the dev server and run `just build-assets` and then start
-the project again.
+Run `just dev` to watch for Go, template and frontend changes and rebuild automatically (requires [air](https://github.com/air-verse/air)).
 
 ## Tests
 For contributing you'll probably want to test your changes at least once
