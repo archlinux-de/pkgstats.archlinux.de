@@ -17,8 +17,8 @@ country-map {
         // Reserve space before svgmap loads to avoid layout shift
         aspect-ratio: auto 2 / 1;
         // 550px: comfortable max on large screens (leaves room for navbar, heading, footer on 900px viewports)
-        // 65dvh: viewport-relative cap so the map never causes vertical scrolling
-        max-height: min(550px, 65dvh);
+        // 65svh: viewport-relative cap so the map never causes vertical scrolling
+        max-height: min(550px, 65svh);
 
         // Propagate max-height into svgmap's padding-based layout
         .svgMap-map-wrapper {
