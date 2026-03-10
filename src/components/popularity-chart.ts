@@ -309,6 +309,7 @@ class PopularityChart extends HTMLElement {
                             : lineTooltipHandler,
                     },
                     legend: {
+                        display: data.datasets.length > 1,
                         align: isSmallScreen ? "start" : "center",
                         labels: {
                             color: textColor,
