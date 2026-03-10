@@ -7,7 +7,7 @@ Single Go binary (`pkgstatsd`) serving both a JSON API and server-rendered HTML 
 ```
 main.go                  — wiring: config → DB → repos → handlers → middleware → server
 internal/
-  config/                — env-based config (DATABASE, PORT, GEOIP_DATABASE, ENVIRONMENT)
+  config/                — env-based config (DATABASE, PORT, GEOIP_DATABASE)
   database/              — SQLite setup, auto-migrations (golang-migrate), MonthlySamplesCache
   web/                   — HTTP server, middleware stack, error responses (RFC 7807)
   submit/                — POST /api/submit: the write path (only write endpoint)
@@ -79,7 +79,7 @@ Interactive components use native [Custom Elements](https://developer.mozilla.or
 
 Frontend assets (CSS/JS) built with [Vite](https://vite.dev/) from a single entry point (`src/main.ts`). Styling uses [Bootstrap](https://getbootstrap.com/) + SCSS. Vite emits hashed assets to `dist/assets/` and a `dist/manifest.json` that the layout uses to inject the correct `<script>` and `<link>` tags.
 
-Asset embedding controlled by build tag `production`: `//go:embed all:dist/assets` bakes Vite output into the binary. Without the tag, assets are read from disk (for dev rebuilds).
+Build tags control compile-time behavior: `production` (release binary) and `development` (local dev with no-cache, text logger, in-memory rate limiter) both embed real Vite assets. Without either tag (tests), stub embeds are used.
 
 ## CLI Subcommand: Anomaly Detection
 
@@ -91,7 +91,7 @@ Checks for count correlations, new entity spikes, mirror/arch growth anomalies, 
 
 Run `just --list` for available commands. Key ones: `install`, `build`, `run`, `test`, `fixtures`, `lint`.
 
-Key env vars: `DATABASE` (required), `PORT`, `GEOIP_DATABASE`, `ENVIRONMENT`. See `internal/config/config.go` for defaults.
+Key env vars: `DATABASE` (required), `PORT`, `GEOIP_DATABASE`. See `internal/config/config.go` for defaults.
 
 ## Patterns to Know
 

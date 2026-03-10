@@ -141,3 +141,37 @@ func TestCacheControl(t *testing.T) {
 		}
 	})
 }
+
+func TestNoCache(t *testing.T) {
+	t.Run("overrides handler cache headers", func(t *testing.T) {
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Cache-Control", "public, max-age=86400")
+			w.WriteHeader(http.StatusOK)
+		})
+
+		nc := NoCache()(h)
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		rr := httptest.NewRecorder()
+		nc.ServeHTTP(rr, req)
+
+		if cc := rr.Header().Get("Cache-Control"); cc != "no-store" {
+			t.Errorf("expected Cache-Control %q, got %q", "no-store", cc)
+		}
+	})
+
+	t.Run("sets no-store on implicit write", func(t *testing.T) {
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Cache-Control", "public, max-age=300")
+			_, _ = w.Write([]byte("hello"))
+		})
+
+		nc := NoCache()(h)
+		req := httptest.NewRequest(http.MethodGet, "/", nil)
+		rr := httptest.NewRecorder()
+		nc.ServeHTTP(rr, req)
+
+		if cc := rr.Header().Get("Cache-Control"); cc != "no-store" {
+			t.Errorf("expected Cache-Control %q, got %q", "no-store", cc)
+		}
+	})
+}

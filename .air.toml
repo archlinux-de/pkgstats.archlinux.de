@@ -1,6 +1,6 @@
 [build]
 pre_cmd = ["go tool templ generate"]
-cmd = "go build -tags production -o ./tmp/pkgstatsd ."
+cmd = "go build -tags development -o ./tmp/pkgstatsd ."
 entrypoint = ["./tmp/pkgstatsd"]
 include_ext = ["go", "templ"]
 include_file = [".assets-rebuilt"]

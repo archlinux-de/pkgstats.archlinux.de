@@ -46,7 +46,7 @@ func main() {
 
 func run(cfg config.Config) error {
 	// Setup logger
-	logger := setupLogger(cfg.IsDevelopment())
+	logger := setupLogger(isDevelopment)
 	slog.SetDefault(logger)
 
 	// Initialize database
@@ -74,7 +74,7 @@ func run(cfg config.Config) error {
 
 	// Setup rate limiter
 	var rateLimiter submit.RateLimiter
-	if cfg.IsDevelopment() {
+	if isDevelopment {
 		rateLimiter = submit.NewInMemoryRateLimiter()
 	} else {
 		rateLimiter = submit.NewSQLiteRateLimiter(db)
@@ -107,17 +107,24 @@ func run(cfg config.Config) error {
 	osarchitectures.NewHandler(osArchRepo).RegisterRoutes(mux)
 	submit.NewHandler(submitRepo, geoip, rateLimiter, cfg.ExpectedPackages).RegisterRoutes(mux)
 	sitemap.NewHandler(packagesRepo).RegisterRoutes(mux)
-	apidoc.NewHandler(cfg.IsDevelopment()).RegisterRoutes(mux)
+	apidoc.NewHandler(isDevelopment).RegisterRoutes(mux)
 	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, osRepo, embedAssets, embedStatic, embedRoot)
 
 	// Apply middleware stack
+	var cacheMiddleware web.Middleware
+	if isDevelopment {
+		cacheMiddleware = web.NoCache()
+	} else {
+		cacheMiddleware = web.CacheControl(defaultCacheMaxAge)
+	}
+
 	handler := web.Chain(mux,
 		web.Recovery(),
 		web.SecureHeaders(),
 		web.CORS(),
 		ui.LegacyMiddleware,
 		httperror.Middleware(manifest),
-		web.CacheControl(defaultCacheMaxAge),
+		cacheMiddleware,
 	)
 
 	// Create and start server

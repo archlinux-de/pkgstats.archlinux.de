@@ -4,7 +4,6 @@ export CGO_ENABLED := '0'
 export PORT := '8282'
 export DATABASE := 'tmp/pkgstats.db'
 export GEOIP_DATABASE := 'tmp/GeoIP2-Country.mmdb'
-export ENVIRONMENT := 'development'
 
 [private]
 default:
@@ -34,7 +33,7 @@ build: build-assets build-templates
 
 # run the application locally
 run:
-    go run -tags production .
+    go run -tags development .
 
 # open the local dev server in the default browser
 open:

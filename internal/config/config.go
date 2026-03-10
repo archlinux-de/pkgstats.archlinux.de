@@ -13,7 +13,6 @@ type Config struct {
 	Database         string
 	GeoIPDatabase    string
 	Port             string
-	Environment      string
 	ExpectedPackages []string
 }
 
@@ -27,7 +26,6 @@ func Load() (Config, error) {
 		Database:         getEnv("DATABASE", ""),
 		GeoIPDatabase:    getEnv("GEOIP_DATABASE", ""),
 		Port:             getEnv("PORT", "8282"),
-		Environment:      getEnv("ENVIRONMENT", "production"),
 		ExpectedPackages: expectedPackages,
 	}
 
@@ -50,10 +48,6 @@ func loadExpectedPackages() ([]string, error) {
 	}
 
 	return packages, nil
-}
-
-func (c Config) IsDevelopment() bool {
-	return c.Environment == "development" || c.Environment == "test"
 }
 
 func getEnv(key, defaultValue string) string {

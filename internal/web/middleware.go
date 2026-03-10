@@ -78,6 +78,34 @@ func CacheControl(maxAge time.Duration) Middleware {
 	}
 }
 
+// NoCache wraps responses so that Cache-Control is always set to no-store,
+// overriding any value set by inner handlers.
+func NoCache() Middleware {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			next.ServeHTTP(noCacheWriter{w}, r)
+		})
+	}
+}
+
+type noCacheWriter struct {
+	http.ResponseWriter
+}
+
+func (w noCacheWriter) WriteHeader(code int) {
+	w.Header().Set("Cache-Control", "no-store")
+	w.ResponseWriter.WriteHeader(code)
+}
+
+func (w noCacheWriter) Write(b []byte) (int, error) {
+	w.Header().Set("Cache-Control", "no-store")
+	return w.ResponseWriter.Write(b)
+}
+
+func (w noCacheWriter) Unwrap() http.ResponseWriter {
+	return w.ResponseWriter
+}
+
 func formatSeconds(d time.Duration) string {
 	return strconv.Itoa(int(d.Seconds()))
 }
