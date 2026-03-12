@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strings"
 
+	specpkg "pkgstatsd/internal/apidoc"
 	"pkgstatsd/internal/countries"
 	"pkgstatsd/internal/operatingsystems"
 	"pkgstatsd/internal/packages"
@@ -38,6 +39,7 @@ func RegisterRoutes(
 	systemArchRepo systemarchitectures.Repository,
 	osRepo operatingsystems.Repository,
 	assets, static, root fs.FS,
+	includeInternalAPIDocs bool,
 ) {
 	home.NewHandler(manifest).RegisterRoutes(mux)
 	gettingstarted.NewHandler(manifest).RegisterRoutes(mux)
@@ -49,7 +51,7 @@ func RegisterRoutes(
 	uios.NewHandler(osRepo, manifest).RegisterRoutes(mux)
 	fun.NewHandler(manifest).RegisterRoutes(mux)
 	fundetail.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
-	apidoc.NewHandler(manifest).RegisterRoutes(mux)
+	apidoc.NewHandler(manifest, specpkg.BuildSpec(includeInternalAPIDocs)).RegisterRoutes(mux)
 	legal.NewHandler(manifest).RegisterRoutes(mux)
 
 	handleAssets(mux, assets)

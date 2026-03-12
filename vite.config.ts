@@ -19,15 +19,7 @@ function notifyAir(): Plugin {
 export default {
     resolve: {
         alias: [
-            {
-                // swagger-ui's ESM entry excludes React; use the CJS bundle which includes it
-                find: /^swagger-ui$/,
-                replacement: resolve(
-                    __dirname,
-                    "node_modules/swagger-ui/dist/swagger-ui.js",
-                ),
-            },
-            {
+{
                 // svgmap doesn't export src/ in package.json "exports"; alias to bypass
                 find: /^svgmap-variables$/,
                 replacement: resolve(
@@ -61,11 +53,7 @@ export default {
             },
         },
     },
-    define: {
-        // swagger-ui's CJS deps reference Node's `global`; Rolldown no longer shims it
-        global: "globalThis",
-    },
-    plugins: isWatch ? [notifyAir()] : [],
+plugins: isWatch ? [notifyAir()] : [],
     publicDir: false,
     build: {
         manifest: "manifest.json",

@@ -1,11 +1,296 @@
 package apidoc
 
-templ APIDocContent() {
+import (
+	"fmt"
+	"slices"
+	"sort"
+	"strings"
+
+	"pkgstatsd/internal/apidoc"
+)
+
+templ APIDocContent(spec *apidoc.OpenAPISpec) {
 	<h1 class="mb-4">API</h1>
 	<p class="mb-4">
 		The pkgstats API provides read-only access to package popularity data.
 		The <a href="/getting-started">pkgstats CLI</a> uses this API to search and compare packages from the terminal.
 		Please be considerate with request rates to keep the service available for everyone.
 	</p>
-	<swagger-ui></swagger-ui>
+	<div class="accordion accordion-flush">
+		for _, path := range sortedPaths(spec.Paths) {
+			@renderPath(path, spec.Paths[path], spec.Components)
+		}
+	</div>
+}
+
+func sortedPaths(paths map[string]apidoc.PathItem) []string {
+	keys := make([]string, 0, len(paths))
+	for k := range paths {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return keys
+}
+
+func sortedResponseCodes(responses map[string]apidoc.Response) []string {
+	keys := make([]string, 0, len(responses))
+	for k := range responses {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return keys
+}
+
+func accordionID(method, path string) string {
+	s := method + "-" + path
+	s = strings.ReplaceAll(s, "/", "-")
+	s = strings.ReplaceAll(s, "{", "")
+	s = strings.ReplaceAll(s, "}", "")
+	return strings.Trim(s, "-")
+}
+
+func resolveSchema(s *apidoc.Schema, components apidoc.SpecComponents) (*apidoc.Schema, string) {
+	if s == nil {
+		return nil, ""
+	}
+	if s.Ref != "" {
+		name := strings.TrimPrefix(s.Ref, "#/components/schemas/")
+		if resolved, ok := components.Schemas[name]; ok {
+			return resolved, name
+		}
+	}
+	return s, ""
+}
+
+func schemaTypeString(s *apidoc.Schema) string {
+	if s == nil {
+		return ""
+	}
+	if s.Ref != "" {
+		return strings.TrimPrefix(s.Ref, "#/components/schemas/")
+	}
+	t := s.Type
+	if s.Format != "" {
+		t += " (" + s.Format + ")"
+	}
+	if s.Type == "array" && s.Items != nil {
+		t = "array of " + schemaTypeString(s.Items)
+	}
+	if s.Nullable {
+		t += ", nullable"
+	}
+	return t
+}
+
+func schemaConstraints(s *apidoc.Schema) string {
+	var parts []string
+	if s.Minimum != nil {
+		parts = append(parts, fmt.Sprintf("min: %d", *s.Minimum))
+	}
+	if s.Maximum != nil {
+		parts = append(parts, fmt.Sprintf("max: %d", *s.Maximum))
+	}
+	if s.MaxLength != nil {
+		parts = append(parts, fmt.Sprintf("maxLength: %d", *s.MaxLength))
+	}
+	if s.MinItems != nil {
+		parts = append(parts, fmt.Sprintf("minItems: %d", *s.MinItems))
+	}
+	if s.MaxItems != nil {
+		parts = append(parts, fmt.Sprintf("maxItems: %d", *s.MaxItems))
+	}
+	if s.Pattern != "" {
+		parts = append(parts, "pattern: "+s.Pattern)
+	}
+	if len(s.Enum) > 0 {
+		parts = append(parts, "enum: "+strings.Join(s.Enum, ", "))
+	}
+	if s.Default != nil {
+		parts = append(parts, fmt.Sprintf("default: %v", s.Default))
+	}
+	return strings.Join(parts, " · ")
+}
+
+func sortedProperties(properties map[string]*apidoc.Schema) []string {
+	keys := make([]string, 0, len(properties))
+	for k := range properties {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return keys
+}
+
+templ renderPath(path string, item apidoc.PathItem, components apidoc.SpecComponents) {
+	if item.Get != nil {
+		@renderOperation("GET", path, item.Get, components)
+	}
+	if item.Post != nil {
+		@renderOperation("POST", path, item.Post, components)
+	}
+}
+
+templ renderOperation(method, path string, op *apidoc.Operation, components apidoc.SpecComponents) {
+	<div class="accordion-item">
+		<h2 class="accordion-header">
+			<button
+				class="accordion-button collapsed"
+				type="button"
+				data-bs-toggle="collapse"
+				data-bs-target={ "#" + accordionID(method, path) }
+				aria-expanded="false"
+				aria-controls={ accordionID(method, path) }
+			>
+				@methodBadge(method)
+				<code class="ms-2">{ path }</code>
+				if op.Summary != "" {
+					<span class="text-body-secondary ms-3">{ op.Summary }</span>
+				}
+			</button>
+		</h2>
+		<div id={ accordionID(method, path) } class="accordion-collapse collapse">
+			<div class="accordion-body">
+				if len(op.Parameters) > 0 {
+					<h3 class="h6">Parameters</h3>
+					@renderParameters(op.Parameters)
+				}
+				if op.RequestBody != nil {
+					<h3 class="h6 mt-3">Request body</h3>
+					for contentType, media := range op.RequestBody.Content {
+						<p class="text-body-secondary mb-2">Content type: <code>{ contentType }</code></p>
+						@renderSchemaDetail(media.Schema, components)
+					}
+				}
+				<h3 class="h6 mt-3">Responses</h3>
+				@renderResponses(op.Responses, components)
+			</div>
+		</div>
+	</div>
+}
+
+templ methodBadge(method string) {
+	if method == "GET" {
+		<span class="badge text-bg-primary">GET</span>
+	} else if method == "POST" {
+		<span class="badge text-bg-success">POST</span>
+	} else if method == "PUT" {
+		<span class="badge text-bg-warning">PUT</span>
+	} else if method == "DELETE" {
+		<span class="badge text-bg-danger">DELETE</span>
+	} else {
+		<span class="badge text-bg-secondary">{ method }</span>
+	}
+}
+
+templ renderParameters(params []apidoc.Parameter) {
+	<div class="table-responsive">
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>In</th>
+					<th>Type</th>
+					<th>Required</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				for _, p := range params {
+					<tr>
+						<td><code>{ p.Name }</code></td>
+						<td>{ p.In }</td>
+						<td>
+							if p.Schema != nil {
+								<code>{ schemaTypeString(p.Schema) }</code>
+								if constraints := schemaConstraints(p.Schema); constraints != "" {
+									<br/>
+									<small class="text-body-secondary">{ constraints }</small>
+								}
+							}
+						</td>
+						<td>
+							if p.Required {
+								yes
+							}
+						</td>
+						<td>{ p.Description }</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+}
+
+templ renderResponses(responses map[string]apidoc.Response, components apidoc.SpecComponents) {
+	<div class="table-responsive">
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Status</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				for _, code := range sortedResponseCodes(responses) {
+					<tr>
+						<td><code>{ code }</code></td>
+						<td>{ responses[code].Description }</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+	for _, code := range sortedResponseCodes(responses) {
+		for contentType, media := range responses[code].Content {
+			<p class="text-body-secondary mb-2">
+				<code>{ code }</code> response (<code>{ contentType }</code>):
+			</p>
+			@renderSchemaDetail(media.Schema, components)
+		}
+	}
+}
+
+templ renderSchemaDetail(s *apidoc.Schema, components apidoc.SpecComponents) {
+	if s != nil {
+		if resolved, name := resolveSchema(s, components); resolved != nil {
+			if name != "" {
+				<p class="mb-2"><strong>{ name }</strong></p>
+			}
+			if resolved.Properties != nil {
+				@renderSchemaProperties(resolved, components)
+			}
+		}
+	}
+}
+
+templ renderSchemaProperties(s *apidoc.Schema, components apidoc.SpecComponents) {
+	<div class="table-responsive">
+		<table class="table table-sm">
+			<thead>
+				<tr>
+					<th>Field</th>
+					<th>Type</th>
+					<th>Required</th>
+					<th>Constraints</th>
+				</tr>
+			</thead>
+			<tbody>
+				for _, name := range sortedProperties(s.Properties) {
+					<tr>
+						<td><code>{ name }</code></td>
+						<td><code>{ schemaTypeString(s.Properties[name]) }</code></td>
+						<td>
+							if slices.Contains(s.Required, name) {
+								yes
+							}
+						</td>
+						<td>
+							if constraints := schemaConstraints(s.Properties[name]); constraints != "" {
+								<small>{ constraints }</small>
+							}
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
 }

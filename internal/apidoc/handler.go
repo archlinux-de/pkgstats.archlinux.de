@@ -10,7 +10,7 @@ type Handler struct {
 }
 
 func NewHandler(includeInternal bool) *Handler {
-	data, err := json.MarshalIndent(buildSpec(includeInternal), "", "    ")
+	data, err := json.MarshalIndent(BuildSpec(includeInternal), "", "    ")
 	if err != nil {
 		panic("apidoc: failed to marshal OpenAPI spec: " + err.Error())
 	}

@@ -5,61 +5,61 @@ import (
 	"pkgstatsd/internal/web"
 )
 
-type openAPISpec struct {
+type OpenAPISpec struct {
 	OpenAPI    string              `json:"openapi"`
-	Info       specInfo            `json:"info"`
-	Tags       []specTag           `json:"tags,omitempty"`
-	Paths      map[string]pathItem `json:"paths"`
-	Components specComponents      `json:"components"`
+	Info       SpecInfo            `json:"info"`
+	Tags       []SpecTag           `json:"tags,omitempty"`
+	Paths      map[string]PathItem `json:"paths"`
+	Components SpecComponents      `json:"components"`
 }
 
-type specInfo struct {
+type SpecInfo struct {
 	Title   string `json:"title"`
 	Version string `json:"version"`
 }
 
-type specTag struct {
+type SpecTag struct {
 	Name        string `json:"name"`
 	Description string `json:"description,omitempty"`
 }
 
-type pathItem struct {
-	Get  *operation `json:"get,omitempty"`
-	Post *operation `json:"post,omitempty"`
+type PathItem struct {
+	Get  *Operation `json:"get,omitempty"`
+	Post *Operation `json:"post,omitempty"`
 }
 
-type operation struct {
+type Operation struct {
 	Tags        []string            `json:"tags,omitempty"`
 	Summary     string              `json:"summary,omitempty"`
 	OperationID string              `json:"operationId,omitempty"`
-	Parameters  []parameter         `json:"parameters,omitempty"`
-	RequestBody *requestBody        `json:"requestBody,omitempty"`
-	Responses   map[string]response `json:"responses"`
+	Parameters  []Parameter         `json:"parameters,omitempty"`
+	RequestBody *RequestBody        `json:"requestBody,omitempty"`
+	Responses   map[string]Response `json:"responses"`
 }
 
-type parameter struct {
+type Parameter struct {
 	Name        string  `json:"name"`
 	In          string  `json:"in"`
 	Description string  `json:"description,omitempty"`
 	Required    bool    `json:"required,omitempty"`
-	Schema      *schema `json:"schema,omitempty"`
+	Schema      *Schema `json:"schema,omitempty"`
 }
 
-type requestBody struct {
+type RequestBody struct {
 	Required bool                 `json:"required,omitempty"`
-	Content  map[string]mediaType `json:"content"`
+	Content  map[string]MediaType `json:"content"`
 }
 
-type mediaType struct {
-	Schema *schema `json:"schema,omitempty"`
+type MediaType struct {
+	Schema *Schema `json:"schema,omitempty"`
 }
 
-type response struct {
+type Response struct {
 	Description string               `json:"description"`
-	Content     map[string]mediaType `json:"content,omitempty"`
+	Content     map[string]MediaType `json:"content,omitempty"`
 }
 
-type schema struct {
+type Schema struct {
 	Ref        string             `json:"$ref,omitempty"`
 	Type       string             `json:"type,omitempty"`
 	Format     string             `json:"format,omitempty"`
@@ -73,24 +73,24 @@ type schema struct {
 	MaxItems   *int               `json:"maxItems,omitempty"`
 	Nullable   bool               `json:"nullable,omitempty"`
 	Required   []string           `json:"required,omitempty"`
-	Properties map[string]*schema `json:"properties,omitempty"`
-	Items      *schema            `json:"items,omitempty"`
+	Properties map[string]*Schema `json:"properties,omitempty"`
+	Items      *Schema            `json:"items,omitempty"`
 }
 
-type specComponents struct {
-	Schemas map[string]*schema `json:"schemas"`
+type SpecComponents struct {
+	Schemas map[string]*Schema `json:"schemas"`
 }
 
 type entitySpec struct {
-	basePath        string // e.g. "/api/packages"
-	pathParam       string // e.g. "name"
-	pathParamDesc   string // e.g. "Package name"
-	tag             string // e.g. "packages"
-	itemSchemaName  string // e.g. "PackagePopularity"
-	listSchemaName  string // e.g. "PackagePopularityList"
-	identifierField string // JSON field for the identifier in the item (e.g. "name")
-	collectionField string // JSON field for items in the list (e.g. "packagePopularities")
-	internal        bool   // omit from the spec in production
+	basePath        string
+	pathParam       string
+	pathParamDesc   string
+	tag             string
+	itemSchemaName  string
+	listSchemaName  string
+	identifierField string
+	collectionField string
+	internal        bool
 }
 
 var popularityEntities = []entitySpec{
@@ -162,43 +162,43 @@ var popularityEntities = []entitySpec{
 }
 
 var (
-	paramStartMonth = parameter{
+	paramStartMonth = Parameter{
 		Name:        "startMonth",
 		In:          "query",
 		Description: "Start month in Ym format (e.g. 202501). Defaults to 12 months ago.",
-		Schema:      &schema{Type: "integer"},
+		Schema:      &Schema{Type: "integer"},
 	}
-	paramEndMonth = parameter{
+	paramEndMonth = Parameter{
 		Name:        "endMonth",
 		In:          "query",
 		Description: "End month in Ym format (e.g. 202501). Defaults to last month.",
-		Schema:      &schema{Type: "integer"},
+		Schema:      &Schema{Type: "integer"},
 	}
-	paramLimit = parameter{
+	paramLimit = Parameter{
 		Name:        "limit",
 		In:          "query",
 		Description: "Maximum number of results to return.",
-		Schema:      &schema{Type: "integer", Default: web.DefaultLimit, Minimum: new(1), Maximum: new(web.MaxLimit)},
+		Schema:      &Schema{Type: "integer", Default: web.DefaultLimit, Minimum: new(1), Maximum: new(web.MaxLimit)},
 	}
-	paramOffset = parameter{
+	paramOffset = Parameter{
 		Name:        "offset",
 		In:          "query",
 		Description: "Number of results to skip.",
-		Schema:      &schema{Type: "integer", Default: 0, Minimum: new(0), Maximum: new(web.MaxOffset)},
+		Schema:      &Schema{Type: "integer", Default: 0, Minimum: new(0), Maximum: new(web.MaxOffset)},
 	}
-	paramQuery = parameter{
+	paramQuery = Parameter{
 		Name:        "query",
 		In:          "query",
 		Description: "Filter by name.",
-		Schema:      &schema{Type: "string", MaxLength: new(submit.MaxPackageLen)},
+		Schema:      &Schema{Type: "string", MaxLength: new(submit.MaxPackageLen)},
 	}
 )
 
-func popularityItemSchema(identifierField string) *schema {
-	return &schema{
+func popularityItemSchema(identifierField string) *Schema {
+	return &Schema{
 		Type:     "object",
 		Required: []string{identifierField, "samples", "count", "popularity", "startMonth", "endMonth"},
-		Properties: map[string]*schema{
+		Properties: map[string]*Schema{
 			identifierField: {Type: "string"},
 			"samples":       {Type: "integer"},
 			"count":         {Type: "integer"},
@@ -209,14 +209,14 @@ func popularityItemSchema(identifierField string) *schema {
 	}
 }
 
-func popularityListSchema(collectionField, itemSchemaRef string) *schema {
-	return &schema{
+func popularityListSchema(collectionField, itemSchemaRef string) *Schema {
+	return &Schema{
 		Type:     "object",
 		Required: []string{collectionField, "total", "count", "limit", "offset"},
-		Properties: map[string]*schema{
+		Properties: map[string]*Schema{
 			collectionField: {
 				Type:  "array",
-				Items: &schema{Ref: itemSchemaRef},
+				Items: &Schema{Ref: itemSchemaRef},
 			},
 			"total":  {Type: "integer"},
 			"count":  {Type: "integer"},
@@ -227,12 +227,12 @@ func popularityListSchema(collectionField, itemSchemaRef string) *schema {
 	}
 }
 
-func jsonResponse(schemaName string) map[string]response {
-	return map[string]response{
+func jsonResponse(schemaName string) map[string]Response {
+	return map[string]Response{
 		"200": {
 			Description: "Success",
-			Content: map[string]mediaType{
-				"application/json": {Schema: &schema{Ref: "#/components/schemas/" + schemaName}},
+			Content: map[string]MediaType{
+				"application/json": {Schema: &Schema{Ref: "#/components/schemas/" + schemaName}},
 			},
 		},
 		"400": {Description: "Invalid request"},
@@ -240,78 +240,78 @@ func jsonResponse(schemaName string) map[string]response {
 	}
 }
 
-func buildSpec(includeInternal bool) *openAPISpec {
-	spec := &openAPISpec{
+func BuildSpec(includeInternal bool) *OpenAPISpec {
+	spec := &OpenAPISpec{
 		OpenAPI: "3.0.0",
-		Info: specInfo{
+		Info: SpecInfo{
 			Title:   "pkgstats API documentation",
 			Version: "3.0.0",
 		},
-		Paths:      make(map[string]pathItem),
-		Components: specComponents{Schemas: make(map[string]*schema)},
+		Paths:      make(map[string]PathItem),
+		Components: SpecComponents{Schemas: make(map[string]*Schema)},
 	}
 
 	for _, e := range popularityEntities {
 		if !includeInternal && e.internal {
 			continue
 		}
-		spec.Tags = append(spec.Tags, specTag{Name: e.tag})
+		spec.Tags = append(spec.Tags, SpecTag{Name: e.tag})
 
 		itemSchemaRef := "#/components/schemas/" + e.itemSchemaName
 		spec.Components.Schemas[e.itemSchemaName] = popularityItemSchema(e.identifierField)
 		spec.Components.Schemas[e.listSchemaName] = popularityListSchema(e.collectionField, itemSchemaRef)
 
-		pathParam := parameter{
+		pathParam := Parameter{
 			Name:        e.pathParam,
 			In:          "path",
 			Description: e.pathParamDesc,
 			Required:    true,
-			Schema:      &schema{Type: "string"},
+			Schema:      &Schema{Type: "string"},
 		}
 
-		spec.Paths[e.basePath] = pathItem{
-			Get: &operation{
+		spec.Paths[e.basePath] = PathItem{
+			Get: &Operation{
 				Tags:        []string{e.tag},
 				Summary:     "List " + e.tag,
 				OperationID: "list_" + e.tag,
-				Parameters:  []parameter{paramStartMonth, paramEndMonth, paramLimit, paramOffset, paramQuery},
+				Parameters:  []Parameter{paramStartMonth, paramEndMonth, paramLimit, paramOffset, paramQuery},
 				Responses:   jsonResponse(e.listSchemaName),
 			},
 		}
-		spec.Paths[e.basePath+"/{"+e.pathParam+"}"] = pathItem{
-			Get: &operation{
+		spec.Paths[e.basePath+"/{"+e.pathParam+"}"] = PathItem{
+			Get: &Operation{
 				Tags:        []string{e.tag},
 				Summary:     "Get " + e.tag + " by " + e.pathParam,
 				OperationID: "get_" + e.tag + "_by_" + e.pathParam,
-				Parameters:  []parameter{pathParam, paramStartMonth, paramEndMonth},
+				Parameters:  []Parameter{pathParam, paramStartMonth, paramEndMonth},
 				Responses:   jsonResponse(e.itemSchemaName),
 			},
 		}
-		spec.Paths[e.basePath+"/{"+e.pathParam+"}/series"] = pathItem{
-			Get: &operation{
+		spec.Paths[e.basePath+"/{"+e.pathParam+"}/series"] = PathItem{
+			Get: &Operation{
 				Tags:        []string{e.tag},
 				Summary:     "List " + e.tag + " series by " + e.pathParam,
 				OperationID: "list_" + e.tag + "_series_by_" + e.pathParam,
-				Parameters:  []parameter{pathParam, paramStartMonth, paramEndMonth, paramLimit, paramOffset},
+				Parameters:  []Parameter{pathParam, paramStartMonth, paramEndMonth, paramLimit, paramOffset},
 				Responses:   jsonResponse(e.listSchemaName),
 			},
 		}
 	}
 
 	if includeInternal {
-		spec.Tags = append(spec.Tags, specTag{Name: "submit"})
-		spec.Paths["/api/submit"] = pathItem{
-			Post: &operation{
+		spec.Tags = append(spec.Tags, SpecTag{Name: "submit"})
+		spec.Paths["/api/submit"] = PathItem{
+			Post: &Operation{
 				Tags:        []string{"submit"},
 				Summary:     "Submit package statistics",
 				OperationID: "submit",
-				RequestBody: &requestBody{
+				RequestBody: &RequestBody{
 					Required: true,
-					Content: map[string]mediaType{
-						"application/json": {Schema: &schema{Ref: "#/components/schemas/SubmitRequest"}},
+					Content: map[string]MediaType{
+						"application/json": {Schema: &Schema{Ref: "#/components/schemas/SubmitRequest"}},
 					},
 				},
-				Responses: map[string]response{
+				Responses: map[string]Response{
 					"204": {Description: "Statistics accepted"},
 					"400": {Description: "Invalid request"},
 					"429": {Description: "Rate limit exceeded"},
@@ -319,22 +319,22 @@ func buildSpec(includeInternal bool) *openAPISpec {
 				},
 			},
 		}
-		spec.Components.Schemas["SubmitRequest"] = &schema{
+		spec.Components.Schemas["SubmitRequest"] = &Schema{
 			Type:     "object",
 			Required: []string{"version", "system", "os", "pacman"},
-			Properties: map[string]*schema{
+			Properties: map[string]*Schema{
 				"version": {Type: "string", Enum: []string{"3"}},
 				"system": {
 					Type:     "object",
 					Required: []string{"architecture"},
-					Properties: map[string]*schema{
+					Properties: map[string]*Schema{
 						"architecture": {Type: "string"},
 					},
 				},
 				"os": {
 					Type:     "object",
 					Required: []string{"architecture"},
-					Properties: map[string]*schema{
+					Properties: map[string]*Schema{
 						"architecture": {Type: "string"},
 						"id":           {Type: "string", Pattern: `^[0-9a-z._-]{1,50}$`},
 					},
@@ -342,11 +342,11 @@ func buildSpec(includeInternal bool) *openAPISpec {
 				"pacman": {
 					Type:     "object",
 					Required: []string{"packages"},
-					Properties: map[string]*schema{
+					Properties: map[string]*Schema{
 						"mirror": {Type: "string"},
 						"packages": {
 							Type:     "array",
-							Items:    &schema{Type: "string"},
+							Items:    &Schema{Type: "string"},
 							MinItems: new(1),
 							MaxItems: new(submit.MaxPackages),
 						},

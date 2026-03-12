@@ -108,7 +108,7 @@ func run(cfg config.Config) error {
 	submit.NewHandler(submitRepo, geoip, rateLimiter, cfg.ExpectedPackages).RegisterRoutes(mux)
 	sitemap.NewHandler(packagesRepo).RegisterRoutes(mux)
 	apidoc.NewHandler(isDevelopment).RegisterRoutes(mux)
-	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, osRepo, embedAssets, embedStatic, embedRoot)
+	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, osRepo, embedAssets, embedStatic, embedRoot, isDevelopment)
 
 	// Apply middleware stack
 	var cacheMiddleware web.Middleware
