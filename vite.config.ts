@@ -65,8 +65,8 @@ export default {
     publicDir: false,
     build: {
         manifest: "manifest.json",
-        minify: isWatch ? false : "terser",
-        rollupOptions: {
+        minify: !isWatch,
+        rolldownOptions: {
             input: "src/main.ts",
         },
     },

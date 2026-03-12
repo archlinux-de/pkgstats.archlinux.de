@@ -1,7 +1,7 @@
 import purgeCSSPlugin from "@fullhuman/postcss-purgecss";
 import cssnano from "cssnano";
 
-module.exports = {
+export default {
     plugins: [
         purgeCSSPlugin({
             content: ["**/*.templ", "**/*.ts"],

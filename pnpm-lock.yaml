@@ -52,9 +52,6 @@ importers:
       sass:
         specifier: ^1.98.0
         version: 1.98.0
-      terser:
-        specifier: ^5.46.0
-        version: 5.46.0
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -2037,20 +2034,25 @@ snapshots:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
       '@jridgewell/trace-mapping': 0.3.31
+    optional: true
 
-  '@jridgewell/resolve-uri@3.1.2': {}
+  '@jridgewell/resolve-uri@3.1.2':
+    optional: true
 
   '@jridgewell/source-map@0.3.11':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
       '@jridgewell/trace-mapping': 0.3.31
+    optional: true
 
-  '@jridgewell/sourcemap-codec@1.5.5': {}
+  '@jridgewell/sourcemap-codec@1.5.5':
+    optional: true
 
   '@jridgewell/trace-mapping@0.3.31':
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+    optional: true
 
   '@kurkle/color@0.3.4': {}
 
@@ -2659,7 +2661,8 @@ snapshots:
 
   '@types/use-sync-external-store@0.0.6': {}
 
-  acorn@8.16.0: {}
+  acorn@8.16.0:
+    optional: true
 
   apg-lite@1.0.5: {}
 
@@ -2726,7 +2729,8 @@ snapshots:
       node-releases: 2.0.36
       update-browserslist-db: 1.2.3(browserslist@4.28.1)
 
-  buffer-from@1.1.2: {}
+  buffer-from@1.1.2:
+    optional: true
 
   buffer@6.0.3:
     dependencies:
@@ -2787,7 +2791,8 @@ snapshots:
 
   commander@12.1.0: {}
 
-  commander@2.20.3: {}
+  commander@2.20.3:
+    optional: true
 
   copy-to-clipboard@3.3.3:
     dependencies:
@@ -3662,8 +3667,10 @@ snapshots:
     dependencies:
       buffer-from: 1.1.2
       source-map: 0.6.1
+    optional: true
 
-  source-map@0.6.1: {}
+  source-map@0.6.1:
+    optional: true
 
   space-separated-tokens@2.0.2: {}
 
@@ -3763,6 +3770,7 @@ snapshots:
       acorn: 8.16.0
       commander: 2.20.3
       source-map-support: 0.5.21
+    optional: true
 
   tinyglobby@0.2.15:
     dependencies:
