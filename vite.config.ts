@@ -61,6 +61,10 @@ export default {
             },
         },
     },
+    define: {
+        // swagger-ui's CJS deps reference Node's `global`; Rolldown no longer shims it
+        global: "globalThis",
+    },
     plugins: isWatch ? [notifyAir()] : [],
     publicDir: false,
     build: {
