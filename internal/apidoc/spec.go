@@ -14,8 +14,9 @@ type OpenAPISpec struct {
 }
 
 type SpecInfo struct {
-	Title   string `json:"title"`
-	Version string `json:"version"`
+	Title       string `json:"title"`
+	Version     string `json:"version"`
+	Description string `json:"description,omitempty"`
 }
 
 type SpecTag struct {
@@ -233,8 +234,9 @@ func BuildSpec(includeInternal bool) *OpenAPISpec {
 	spec := &OpenAPISpec{
 		OpenAPI: "3.0.0",
 		Info: SpecInfo{
-			Title:   "pkgstats API documentation",
-			Version: "3.0.0",
+			Title:       "pkgstats API documentation",
+			Version:     "3.0.0",
+			Description: "Read-only API for Arch Linux package popularity statistics.",
 		},
 		Paths:      make(map[string]PathItem),
 		Components: SpecComponents{Schemas: make(map[string]*Schema)},

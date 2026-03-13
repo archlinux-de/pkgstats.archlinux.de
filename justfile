@@ -61,6 +61,15 @@ lint:
     golangci-lint run
     just --fmt --unstable --check
 
+# validate the OpenAPI spec
+check-spec:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    spec=$(mktemp --suffix=.json)
+    trap 'rm -f "$spec"' EXIT
+    go run ./cmd/spec > "$spec"
+    go tool vacuum lint -bx -r vacuum.conf.yaml "$spec"
+
 # auto-format all code
 fmt:
     pnpm run format

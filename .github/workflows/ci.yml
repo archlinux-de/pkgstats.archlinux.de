@@ -17,6 +17,8 @@ jobs:
               run: just build-templates
             - name: Run Linter
               run: just lint
+            - name: Validate OpenAPI Spec
+              run: just check-spec
 
     test:
         runs-on: ubuntu-latest
