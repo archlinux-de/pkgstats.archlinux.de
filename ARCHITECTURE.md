@@ -21,7 +21,7 @@ internal/
   chartdata/             — transforms popularity series → Chart.js-ready JSON
   anomalydetection/      — CLI subcommand to detect bot/spam anomalies
   sitemap/               — /sitemap.xml
-  apidoc/                — /api/doc.json (OpenAPI spec)
+  apidoc/                — /api/doc.json (OpenAPI spec, also used by ui/apidoc)
   ui/                    — all HTML pages (templ templates)
 cmd/
   fixtures/              — generate test data
