@@ -26,6 +26,7 @@ func datasetSchema(baseURL string) any {
 			"name":  "pkgstats",
 			"url":   baseURL,
 		},
+		"license": "https://creativecommons.org/licenses/by-sa/4.0/",
 		"distribution": map[string]any{
 			"@type":          "DataDownload",
 			"encodingFormat": "application/json",
