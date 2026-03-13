@@ -56,14 +56,10 @@ type Schema struct {
 	Ref        string             `json:"$ref,omitempty"`
 	Type       string             `json:"type,omitempty"`
 	Format     string             `json:"format,omitempty"`
-	Pattern    string             `json:"pattern,omitempty"`
-	Enum       []string           `json:"enum,omitempty"`
 	Default    any                `json:"default,omitempty"`
 	Minimum    *int               `json:"minimum,omitempty"`
 	Maximum    *int               `json:"maximum,omitempty"`
 	MaxLength  *int               `json:"maxLength,omitempty"`
-	MinItems   *int               `json:"minItems,omitempty"`
-	MaxItems   *int               `json:"maxItems,omitempty"`
 	Nullable   bool               `json:"nullable,omitempty"`
 	Required   []string           `json:"required,omitempty"`
 	Properties map[string]*Schema `json:"properties,omitempty"`

@@ -16,11 +16,23 @@ templ APIDocContent(spec *apidoc.OpenAPISpec) {
 		The <a href="/getting-started">pkgstats CLI</a> uses this API to search and compare packages from the terminal.
 		Please be considerate with request rates to keep the service available for everyone.
 	</p>
-	<div class="accordion accordion-flush">
-		for _, path := range sortedPaths(spec.Paths) {
-			@renderPath(path, spec.Paths[path], spec.Components)
-		}
-	</div>
+	for _, tag := range spec.Tags {
+		<h2 class="h5 mt-4 mb-3 text-capitalize">{ tag.Name }</h2>
+		<div class="accordion accordion-flush mb-3">
+			for _, path := range sortedPaths(spec.Paths) {
+				if pathHasTag(spec.Paths[path], tag.Name) {
+					@renderPath(path, spec.Paths[path], spec.Components)
+				}
+			}
+		</div>
+	}
+}
+
+func pathHasTag(item apidoc.PathItem, tag string) bool {
+	if item.Get != nil {
+		return slices.Contains(item.Get.Tags, tag)
+	}
+	return false
 }
 
 func sortedPaths(paths map[string]apidoc.PathItem) []string {
@@ -73,7 +85,7 @@ func schemaTypeString(s *apidoc.Schema) string {
 		t += " (" + s.Format + ")"
 	}
 	if s.Type == "array" && s.Items != nil {
-		t = "array of " + schemaTypeString(s.Items)
+		t = schemaTypeString(s.Items) + "[]"
 	}
 	if s.Nullable {
 		t += ", nullable"
@@ -91,18 +103,6 @@ func schemaConstraints(s *apidoc.Schema) string {
 	}
 	if s.MaxLength != nil {
 		parts = append(parts, fmt.Sprintf("maxLength: %d", *s.MaxLength))
-	}
-	if s.MinItems != nil {
-		parts = append(parts, fmt.Sprintf("minItems: %d", *s.MinItems))
-	}
-	if s.MaxItems != nil {
-		parts = append(parts, fmt.Sprintf("maxItems: %d", *s.MaxItems))
-	}
-	if s.Pattern != "" {
-		parts = append(parts, "pattern: "+s.Pattern)
-	}
-	if len(s.Enum) > 0 {
-		parts = append(parts, "enum: "+strings.Join(s.Enum, ", "))
 	}
 	if s.Default != nil {
 		parts = append(parts, fmt.Sprintf("default: %v", s.Default))
@@ -151,6 +151,9 @@ templ renderOperation(path string, op *apidoc.Operation, components apidoc.SpecC
 				}
 				<h3 class="h6 mt-3">Responses</h3>
 				@renderResponses(op.Responses, components)
+				<div class="text-end">
+					@requiredLegend()
+				</div>
 			</div>
 		</div>
 	</div>
@@ -164,14 +167,18 @@ templ renderParameters(params []apidoc.Parameter) {
 					<th>Name</th>
 					<th>In</th>
 					<th>Type</th>
-					<th>Required</th>
 					<th>Description</th>
 				</tr>
 			</thead>
 			<tbody>
 				for _, p := range params {
 					<tr>
-						<td><code>{ p.Name }</code></td>
+						<td>
+							<code>{ p.Name }</code>
+							if p.Required {
+								@requiredMarker()
+							}
+						</td>
 						<td>{ p.In }</td>
 						<td>
 							if p.Schema != nil {
@@ -180,11 +187,6 @@ templ renderParameters(params []apidoc.Parameter) {
 									<br/>
 									<small class="text-body-secondary">{ constraints }</small>
 								}
-							}
-						</td>
-						<td>
-							if p.Required {
-								yes
 							}
 						</td>
 						<td>{ p.Description }</td>
@@ -202,6 +204,7 @@ templ renderResponses(responses map[string]apidoc.Response, components apidoc.Sp
 				<tr>
 					<th>Status</th>
 					<th>Description</th>
+					<th>Content Type</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -209,16 +212,18 @@ templ renderResponses(responses map[string]apidoc.Response, components apidoc.Sp
 					<tr>
 						<td><code>{ code }</code></td>
 						<td>{ responses[code].Description }</td>
+						<td>
+							for contentType := range responses[code].Content {
+								<code>{ contentType }</code>
+							}
+						</td>
 					</tr>
 				}
 			</tbody>
 		</table>
 	</div>
 	for _, code := range sortedResponseCodes(responses) {
-		for contentType, media := range responses[code].Content {
-			<p class="text-body-secondary mb-2">
-				<code>{ code }</code> response (<code>{ contentType }</code>):
-			</p>
+		for _, media := range responses[code].Content {
 			@renderSchemaDetail(media.Schema, components)
 		}
 	}
@@ -231,41 +236,42 @@ templ renderSchemaDetail(s *apidoc.Schema, components apidoc.SpecComponents) {
 				<p class="mb-2"><strong>{ name }</strong></p>
 			}
 			if resolved.Properties != nil {
-				@renderSchemaProperties(resolved, components)
+				@renderSchemaProperties(resolved)
 			}
 		}
 	}
 }
 
-templ renderSchemaProperties(s *apidoc.Schema, components apidoc.SpecComponents) {
+templ renderSchemaProperties(s *apidoc.Schema) {
 	<div class="table-responsive">
 		<table class="table table-sm">
 			<thead>
 				<tr>
 					<th>Field</th>
 					<th>Type</th>
-					<th>Required</th>
-					<th>Constraints</th>
 				</tr>
 			</thead>
 			<tbody>
 				for _, name := range sortedProperties(s.Properties) {
 					<tr>
-						<td><code>{ name }</code></td>
-						<td><code>{ schemaTypeString(s.Properties[name]) }</code></td>
 						<td>
+							<code>{ name }</code>
 							if slices.Contains(s.Required, name) {
-								yes
+								@requiredMarker()
 							}
 						</td>
-						<td>
-							if constraints := schemaConstraints(s.Properties[name]); constraints != "" {
-								<small>{ constraints }</small>
-							}
-						</td>
+						<td><code>{ schemaTypeString(s.Properties[name]) }</code></td>
 					</tr>
 				}
 			</tbody>
 		</table>
 	</div>
+}
+
+templ requiredMarker() {
+	<span class="text-danger" title="required">*</span>
+}
+
+templ requiredLegend() {
+	<small class="text-body-secondary"><span class="text-danger">*</span> required</small>
 }

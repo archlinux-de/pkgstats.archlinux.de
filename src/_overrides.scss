@@ -17,6 +17,10 @@ pre:has(> code) {
     padding: map.get($gutters, 2);
 }
 
+.accordion-button:hover {
+    background-color: rgba(var(--bs-emphasis-color-rgb), 0.05);
+}
+
 .code-link {
     color: inherit;
 
