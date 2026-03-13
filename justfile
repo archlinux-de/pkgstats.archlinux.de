@@ -68,7 +68,7 @@ check-spec:
     spec=$(mktemp --suffix=.json)
     trap 'rm -f "$spec"' EXIT
     go run ./cmd/spec > "$spec"
-    go tool vacuum lint -bx -r vacuum.conf.yaml "$spec"
+    vacuum lint -bx -r vacuum.conf.yaml "$spec"
 
 # auto-format all code
 fmt:
