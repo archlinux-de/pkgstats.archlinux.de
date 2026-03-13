@@ -24,8 +24,7 @@ type SpecTag struct {
 }
 
 type PathItem struct {
-	Get  *Operation `json:"get,omitempty"`
-	Post *Operation `json:"post,omitempty"`
+	Get *Operation `json:"get,omitempty"`
 }
 
 type Operation struct {
@@ -33,7 +32,6 @@ type Operation struct {
 	Summary     string              `json:"summary,omitempty"`
 	OperationID string              `json:"operationId,omitempty"`
 	Parameters  []Parameter         `json:"parameters,omitempty"`
-	RequestBody *RequestBody        `json:"requestBody,omitempty"`
 	Responses   map[string]Response `json:"responses"`
 }
 
@@ -43,11 +41,6 @@ type Parameter struct {
 	Description string  `json:"description,omitempty"`
 	Required    bool    `json:"required,omitempty"`
 	Schema      *Schema `json:"schema,omitempty"`
-}
-
-type RequestBody struct {
-	Required bool                 `json:"required,omitempty"`
-	Content  map[string]MediaType `json:"content"`
 }
 
 type MediaType struct {
@@ -294,64 +287,6 @@ func BuildSpec(includeInternal bool) *OpenAPISpec {
 				OperationID: "list_" + e.tag + "_series_by_" + e.pathParam,
 				Parameters:  []Parameter{pathParam, paramStartMonth, paramEndMonth, paramLimit, paramOffset},
 				Responses:   jsonResponse(e.listSchemaName),
-			},
-		}
-	}
-
-	if includeInternal {
-		spec.Tags = append(spec.Tags, SpecTag{Name: "submit"})
-		spec.Paths["/api/submit"] = PathItem{
-			Post: &Operation{
-				Tags:        []string{"submit"},
-				Summary:     "Submit package statistics",
-				OperationID: "submit",
-				RequestBody: &RequestBody{
-					Required: true,
-					Content: map[string]MediaType{
-						"application/json": {Schema: &Schema{Ref: "#/components/schemas/SubmitRequest"}},
-					},
-				},
-				Responses: map[string]Response{
-					"204": {Description: "Statistics accepted"},
-					"400": {Description: "Invalid request"},
-					"429": {Description: "Rate limit exceeded"},
-					"500": {Description: "Internal server error"},
-				},
-			},
-		}
-		spec.Components.Schemas["SubmitRequest"] = &Schema{
-			Type:     "object",
-			Required: []string{"version", "system", "os", "pacman"},
-			Properties: map[string]*Schema{
-				"version": {Type: "string", Enum: []string{"3"}},
-				"system": {
-					Type:     "object",
-					Required: []string{"architecture"},
-					Properties: map[string]*Schema{
-						"architecture": {Type: "string"},
-					},
-				},
-				"os": {
-					Type:     "object",
-					Required: []string{"architecture"},
-					Properties: map[string]*Schema{
-						"architecture": {Type: "string"},
-						"id":           {Type: "string", Pattern: `^[0-9a-z._-]{1,50}$`},
-					},
-				},
-				"pacman": {
-					Type:     "object",
-					Required: []string{"packages"},
-					Properties: map[string]*Schema{
-						"mirror": {Type: "string"},
-						"packages": {
-							Type:     "array",
-							Items:    &Schema{Type: "string"},
-							MinItems: new(1),
-							MaxItems: new(submit.MaxPackages),
-						},
-					},
-				},
 			},
 		}
 	}

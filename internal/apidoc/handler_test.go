@@ -70,7 +70,6 @@ func TestHandleDocJSON(t *testing.T) {
 		"/api/operating-system-architectures",
 		"/api/operating-system-architectures/{name}",
 		"/api/operating-system-architectures/{name}/series",
-		"/api/submit",
 	}
 
 	for _, p := range expectedPaths {
@@ -116,7 +115,6 @@ func TestHandleDocJSONProduction(t *testing.T) {
 		"/api/system-architectures",
 		"/api/operating-systems",
 		"/api/operating-system-architectures",
-		"/api/submit",
 	}
 	for _, p := range internalPaths {
 		if _, found := paths[p]; found {

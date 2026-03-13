@@ -41,9 +41,8 @@ func sortedResponseCodes(responses map[string]apidoc.Response) []string {
 	return keys
 }
 
-func accordionID(method, path string) string {
-	s := method + "-" + path
-	s = strings.ReplaceAll(s, "/", "-")
+func accordionID(path string) string {
+	s := strings.ReplaceAll(path, "/", "-")
 	s = strings.ReplaceAll(s, "{", "")
 	s = strings.ReplaceAll(s, "}", "")
 	return strings.Trim(s, "-")
@@ -122,63 +121,39 @@ func sortedProperties(properties map[string]*apidoc.Schema) []string {
 
 templ renderPath(path string, item apidoc.PathItem, components apidoc.SpecComponents) {
 	if item.Get != nil {
-		@renderOperation("GET", path, item.Get, components)
-	}
-	if item.Post != nil {
-		@renderOperation("POST", path, item.Post, components)
+		@renderOperation(path, item.Get, components)
 	}
 }
 
-templ renderOperation(method, path string, op *apidoc.Operation, components apidoc.SpecComponents) {
+templ renderOperation(path string, op *apidoc.Operation, components apidoc.SpecComponents) {
 	<div class="accordion-item">
 		<h2 class="accordion-header">
 			<button
 				class="accordion-button collapsed"
 				type="button"
 				data-bs-toggle="collapse"
-				data-bs-target={ "#" + accordionID(method, path) }
+				data-bs-target={ "#" + accordionID(path) }
 				aria-expanded="false"
-				aria-controls={ accordionID(method, path) }
+				aria-controls={ accordionID(path) }
 			>
-				@methodBadge(method)
+				<span class="badge text-bg-primary">GET</span>
 				<code class="ms-2">{ path }</code>
 				if op.Summary != "" {
 					<span class="text-body-secondary ms-3">{ op.Summary }</span>
 				}
 			</button>
 		</h2>
-		<div id={ accordionID(method, path) } class="accordion-collapse collapse">
+		<div id={ accordionID(path) } class="accordion-collapse collapse">
 			<div class="accordion-body">
 				if len(op.Parameters) > 0 {
 					<h3 class="h6">Parameters</h3>
 					@renderParameters(op.Parameters)
-				}
-				if op.RequestBody != nil {
-					<h3 class="h6 mt-3">Request body</h3>
-					for contentType, media := range op.RequestBody.Content {
-						<p class="text-body-secondary mb-2">Content type: <code>{ contentType }</code></p>
-						@renderSchemaDetail(media.Schema, components)
-					}
 				}
 				<h3 class="h6 mt-3">Responses</h3>
 				@renderResponses(op.Responses, components)
 			</div>
 		</div>
 	</div>
-}
-
-templ methodBadge(method string) {
-	if method == "GET" {
-		<span class="badge text-bg-primary">GET</span>
-	} else if method == "POST" {
-		<span class="badge text-bg-success">POST</span>
-	} else if method == "PUT" {
-		<span class="badge text-bg-warning">PUT</span>
-	} else if method == "DELETE" {
-		<span class="badge text-bg-danger">DELETE</span>
-	} else {
-		<span class="badge text-bg-secondary">{ method }</span>
-	}
 }
 
 templ renderParameters(params []apidoc.Parameter) {
