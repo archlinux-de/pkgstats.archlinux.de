@@ -1,7 +1,7 @@
 {
     "$schema": "https://biomejs.dev/schemas/2.3.15/schema.json",
     "files": {
-        "includes": ["src/**"]
+        "includes": ["src/**", "*.ts", "*.json"]
     },
     "formatter": {
         "indentStyle": "space",

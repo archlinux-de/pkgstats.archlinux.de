@@ -5,8 +5,8 @@
     "scripts": {
         "build": "vite build",
         "watch": "vite build --watch",
-        "lint": "biome check src/ && tsc --noEmit",
-        "format": "biome format --write src/"
+        "lint": "biome check && tsc --noEmit",
+        "format": "biome format --write"
     },
     "devDependencies": {
         "@biomejs/biome": "^2.4.6",

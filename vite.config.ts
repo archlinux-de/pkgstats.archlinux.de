@@ -1,6 +1,6 @@
-import { writeFileSync } from "fs";
-import { fileURLToPath } from "url";
-import { dirname, resolve } from "path";
+import { writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { Plugin, UserConfig } from "vite";
 
 const isWatch = process.argv.includes("--watch");
@@ -19,7 +19,7 @@ function notifyAir(): Plugin {
 export default {
     resolve: {
         alias: [
-{
+            {
                 // svgmap doesn't export src/ in package.json "exports"; alias to bypass
                 find: /^svgmap-variables$/,
                 replacement: resolve(
@@ -53,7 +53,7 @@ export default {
             },
         },
     },
-plugins: isWatch ? [notifyAir()] : [],
+    plugins: isWatch ? [notifyAir()] : [],
     publicDir: false,
     build: {
         manifest: "manifest.json",
