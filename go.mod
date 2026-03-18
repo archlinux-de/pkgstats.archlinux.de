@@ -7,7 +7,7 @@ require (
 	github.com/go-sql-driver/mysql v1.9.3
 	github.com/golang-migrate/migrate/v4 v4.19.1
 	github.com/oschwald/maxminddb-golang/v2 v2.1.1
-	modernc.org/sqlite v1.46.1
+	modernc.org/sqlite v1.47.0
 )
 
 require (
@@ -22,7 +22,7 @@ require (
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/pprof v0.0.0-20260302011040-a15ffb7f9dcc // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/lib/pq v1.11.2 // indirect
+	github.com/lib/pq v1.12.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/natefinch/atomic v1.0.1 // indirect
@@ -34,6 +34,7 @@ require (
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 	golang.org/x/tools v0.43.0 // indirect
+	modernc.org/ccgo/v4 v4.32.1 // indirect
 	modernc.org/libc v1.70.0 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
