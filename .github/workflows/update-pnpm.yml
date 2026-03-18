@@ -21,6 +21,8 @@ jobs:
               uses: ./.github/actions/setup
             - name: Update pnpm dependencies
               run: just update-pnpm
+            - name: Migrate biome configuration
+              run: pnpm biome migrate --write
             - name: Build Templates
               run: just build-templates
             - name: Format code
