@@ -9,7 +9,7 @@ var Categories = []Category{
 	{
 		Name: "Browsers",
 		Packages: []string{
-			"angelfish", "brave-bin", "chromium", "dillo", "eolie", "epiphany", "elinks",
+			"angelfish", "brave-bin", "chromium", "dillo", "elinks", "eolie", "epiphany",
 			"falkon", "firefox", "firefox-developer-edition", "google-chrome", "helium-browser-bin",
 			"konqueror", "links", "lynx", "netsurf", "nyxt", "opera", "qutebrowser",
 			"torbrowser-launcher", "vimb", "vivaldi", "w3m",
@@ -27,8 +27,8 @@ var Categories = []Category{
 	{
 		Name: "Editors",
 		Packages: []string{
-			"code", "e3", "ed", "emacs", "geany", "gedit", "helix", "kakoune", "kate",
-			"gnome-text-editor", "gobby", "leafpad", "micro", "mousepad", "nano", "neovim",
+			"code", "e3", "ed", "emacs", "geany", "gedit", "gnome-text-editor", "gobby",
+			"helix", "kakoune", "kate", "leafpad", "micro", "mousepad", "nano", "neovim",
 			"notepadqq", "orbiton", "orbiton-nano", "scite", "vi", "vim", "vis", "xed", "zed",
 		},
 	},
