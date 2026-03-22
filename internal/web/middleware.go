@@ -44,6 +44,7 @@ func SecureHeaders() Middleware {
 		"img-src 'self' data:",
 		"object-src 'none'",
 		"base-uri 'self'",
+		"form-action 'self'",
 		"frame-ancestors 'none'",
 	}, "; ")
 	return func(next http.Handler) http.Handler {
