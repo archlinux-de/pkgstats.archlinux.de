@@ -25,7 +25,6 @@ internal/
   ui/                    — all HTML pages (templ templates)
 cmd/
   fixtures/              — generate test data
-  migrate-data/          — data migration from legacy format
 ```
 
 ## Database Schema

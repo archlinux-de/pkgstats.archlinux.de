@@ -121,29 +121,3 @@ fixtures:
 # detect anomalies in submission data
 detect-anomalies:
     go run . detect-anomalies
-
-# run data migration from a mariadb dump
-migrate dump:
-    #!/usr/bin/env bash
-    set -euo pipefail
-
-    docker rm -f pkgstats-migrate-mariadb || true
-
-    docker run --rm --detach --name pkgstats-migrate-mariadb \
-        --env MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=1 \
-        --env MARIADB_DATABASE=pkgstats_archlinux_de \
-        -p 3306:3306 \
-        --volume '{{ absolute_path(dump) }}:/docker-entrypoint-initdb.d/{{ file_name(dump) }}:ro' \
-        --tmpfs '/var/lib/mysql' \
-        mariadb:12
-
-    until docker logs pkgstats-migrate-mariadb 2>&1 | grep -q "MariaDB init process done. Ready for start up."; do
-        sleep 1
-    done
-
-    docker exec pkgstats-migrate-mariadb mariadb-admin ping --wait > /dev/null 2>&1
-
-    rm -f '{{ DATABASE }}'
-    go run ./cmd/migrate-data -mariadb 'root@tcp(localhost:3306)/pkgstats_archlinux_de'
-
-    docker rm -f pkgstats-migrate-mariadb
