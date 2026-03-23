@@ -19,6 +19,24 @@ linters:
     - staticcheck
     - unparam
     - usestdlibvars
+  settings:
+    gocyclo:
+      min-complexity: 20
+    dupl:
+      threshold: 100
+    goconst:
+      min-len: 3
+      min-occurrences: 3
+    mnd:
+      ignored-numbers:
+        - "0"
+        - "1"
+        - "2"
+        - "10"
+        - "100"
+      ignored-functions:
+        - "time.*"
+        - "http.StatusText"
   exclusions:
     rules:
       - path: _test\.go
@@ -41,22 +59,3 @@ formatters:
     gofumpt:
       extra-rules: true
       module-path: pkgstatsd
-
-linters-settings:
-  gocyclo:
-    min-complexity: 15
-  dupl:
-    threshold: 100
-  goconst:
-    min-len: 3
-    min-occurrences: 3
-  mnd:
-    ignored-numbers:
-      - "0"
-      - "1"
-      - "2"
-      - "10"
-      - "100"
-    ignored-functions:
-      - "time.*"
-      - "http.StatusText"
