@@ -15,7 +15,7 @@ runs:
     - name: Install Just
       uses: extractions/setup-just@v3
       env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
     - name: Install pnpm
       uses: pnpm/action-setup@v4
       if: ${{ !inputs.pnpm-version }}
