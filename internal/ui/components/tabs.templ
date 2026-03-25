@@ -7,15 +7,38 @@ type Tab struct {
 }
 
 templ TabNav(tabs []Tab) {
-	<ul class="nav nav-tabs mb-2">
-		for _, tab := range tabs {
-			<li class="nav-item">
+	if len(tabs) > 3 {
+		<select class="form-select mb-2 d-md-none" data-tab-nav>
+			for _, tab := range tabs {
 				if tab.Active {
-					<a class="nav-link active" aria-current="page" href={ tab.Href }>{ tab.Label }</a>
+					<option value={ string(tab.Href) } selected>{ tab.Label }</option>
 				} else {
-					<a class="nav-link" href={ tab.Href }>{ tab.Label }</a>
+					<option value={ string(tab.Href) }>{ tab.Label }</option>
 				}
-			</li>
-		}
-	</ul>
+			}
+		</select>
+		<ul class="nav nav-tabs mb-2 d-none d-md-flex">
+			for _, tab := range tabs {
+				<li class="nav-item">
+					if tab.Active {
+						<a class="nav-link active" aria-current="page" href={ tab.Href }>{ tab.Label }</a>
+					} else {
+						<a class="nav-link" href={ tab.Href }>{ tab.Label }</a>
+					}
+				</li>
+			}
+		</ul>
+	} else {
+		<ul class="nav nav-tabs mb-2">
+			for _, tab := range tabs {
+				<li class="nav-item">
+					if tab.Active {
+						<a class="nav-link active" aria-current="page" href={ tab.Href }>{ tab.Label }</a>
+					} else {
+						<a class="nav-link" href={ tab.Href }>{ tab.Label }</a>
+					}
+				</li>
+			}
+		</ul>
+	}
 }
