@@ -49,7 +49,7 @@ templ PackagesContent(list *packages.PackagePopularityList, query string, curren
 	<h2>Package Search</h2>
 	<form method="GET" action="/packages" class="mb-4" autocomplete="off">
 		<div class="input-group">
-			<label class="input-group-text" for="package-search">Package name</label>
+			<label class="input-group-text d-none d-sm-block" for="package-search">Package name</label>
 			<input
 				id="package-search"
 				class="form-control"
@@ -61,7 +61,7 @@ templ PackagesContent(list *packages.PackagePopularityList, query string, curren
 			if compare != "" {
 				<input type="hidden" name="compare" value={ compare }/>
 			}
-			<button class="btn btn-primary" type="submit">Search</button>
+			<button class="btn btn-primary d-none d-sm-block" type="submit">Search</button>
 		</div>
 	</form>
 	if len(list.PackagePopularities) > 0 {
