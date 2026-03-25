@@ -5,3 +5,4 @@ import "./components/country-map.ts";
 import "./compare-packages-redirect";
 import "./packages-redirect";
 import "./tab-nav";
+import "./package-search-suggest";

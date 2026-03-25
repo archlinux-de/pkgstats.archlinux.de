@@ -57,12 +57,14 @@ templ PackagesContent(list *packages.PackagePopularityList, query string, curren
 				name="query"
 				placeholder="Search packages"
 				value={ query }
+				list="package-suggestions"
 			/>
 			if compare != "" {
 				<input type="hidden" name="compare" value={ compare }/>
 			}
 			<button class="btn btn-primary d-none d-sm-block" type="submit">Search</button>
 		</div>
+		<datalist id="package-suggestions"></datalist>
 	</form>
 	if len(list.PackagePopularities) > 0 {
 		@PackageTable(list.PackagePopularities, query, currentOffset, limit, compare)
