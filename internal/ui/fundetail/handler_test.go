@@ -198,6 +198,40 @@ func TestHandleHistory_CompareURLIncludesAllPackages(t *testing.T) {
 	}
 }
 
+func TestHandleFunDetail_CamelCaseRedirect(t *testing.T) {
+	manifest, _ := layout.NewManifest([]byte(`{}`))
+	handler := NewHandler(nil, manifest)
+
+	tests := []struct {
+		input    string
+		location string
+	}{
+		{"DesktopEnvironments", "/fun/Desktop%20Environments/current"},
+		{"WindowManagers", "/fun/Window%20Managers/history"},
+		{"TerminalEmulators", "/fun/Terminal%20Emulators/current"},
+	}
+
+	for _, tt := range tests {
+		preset := "current"
+		if strings.Contains(tt.location, "history") {
+			preset = "history"
+		}
+		req := httptest.NewRequest(http.MethodGet, "/fun/"+tt.input+"/"+preset, nil)
+		req.SetPathValue("category", tt.input)
+		req.SetPathValue("preset", preset)
+		rr := httptest.NewRecorder()
+
+		handler.HandleFunDetail(rr, req)
+
+		if rr.Code != http.StatusMovedPermanently {
+			t.Errorf("%s: expected 301, got %d", tt.input, rr.Code)
+		}
+		if got := rr.Header().Get("Location"); got != tt.location {
+			t.Errorf("%s: expected Location %q, got %q", tt.input, tt.location, got)
+		}
+	}
+}
+
 func TestHandleFunDetail_InvalidCategory(t *testing.T) {
 	manifest, _ := layout.NewManifest([]byte(`{}`))
 	handler := NewHandler(nil, manifest)

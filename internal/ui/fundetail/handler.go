@@ -5,6 +5,7 @@ import (
 	"net/url"
 	"sort"
 	"strings"
+	"unicode"
 
 	"pkgstatsd/internal/chartdata"
 	"pkgstatsd/internal/packages"
@@ -35,6 +36,12 @@ func (h *Handler) HandleFunDetail(w http.ResponseWriter, r *http.Request) {
 
 	category := fun.FindCategory(categoryName)
 	if category == nil {
+		if expanded := expandCamelCase(categoryName); expanded != categoryName {
+			if fun.FindCategory(expanded) != nil {
+				http.Redirect(w, r, "/fun/"+url.PathEscape(expanded)+"/"+preset, http.StatusMovedPermanently)
+				return
+			}
+		}
 		http.NotFound(w, r)
 		return
 	}
@@ -137,6 +144,17 @@ func compareURLFromDatasets(datasets []chartdata.Dataset) string {
 		names[i] = url.QueryEscape(ds.Label)
 	}
 	return "/packages?compare=" + strings.Join(names, ",")
+}
+
+func expandCamelCase(s string) string {
+	var b strings.Builder
+	for i, r := range s {
+		if i > 0 && unicode.IsUpper(r) {
+			b.WriteByte(' ')
+		}
+		b.WriteRune(r)
+	}
+	return b.String()
 }
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
