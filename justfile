@@ -96,6 +96,8 @@ audit:
 # update Go toolchain and module dependencies
 update-go:
     go mod edit -go=$(go env GOVERSION | sed 's/go//; s/-.*//')
+    go get -u ./...
+    go mod tidy
     go get -u -t all
     go mod tidy
 
