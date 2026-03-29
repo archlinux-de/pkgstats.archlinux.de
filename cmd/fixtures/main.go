@@ -112,10 +112,13 @@ func run(dbPath string) error {
 }
 
 func generateMonths(count int) []int {
+	// Use the 1st of the month to avoid AddDate normalizing
+	// days that don't exist (e.g. Feb 29 in non-leap years).
 	now := time.Now()
+	first := time.Date(now.Year(), now.Month(), 1, 0, 0, 0, 0, time.UTC)
 	months := make([]int, count)
 	for i := range count {
-		t := now.AddDate(0, -i, 0)
+		t := first.AddDate(0, -i, 0)
 		months[i] = t.Year()*monthMultiplier + int(t.Month())
 	}
 	return months
