@@ -1,7 +1,6 @@
 package packages
 
 import (
-	"log/slog"
 	"net/http"
 
 	"pkgstatsd/internal/web"
@@ -30,8 +29,7 @@ func (h *Handler) HandleGet(w http.ResponseWriter, r *http.Request) {
 
 	pkg, err := h.repo.FindByName(r.Context(), name, startMonth, endMonth)
 	if err != nil {
-		slog.Error("failed to find package", "error", err)
-		web.InternalServerError(w, "internal server error")
+		web.ServerError(w, "failed to find package", err)
 		return
 	}
 
@@ -59,8 +57,7 @@ func (h *Handler) HandleList(w http.ResponseWriter, r *http.Request) {
 
 	list, err := h.repo.FindAll(r.Context(), query, startMonth, endMonth, limit, offset)
 	if err != nil {
-		slog.Error("failed to list packages", "error", err)
-		web.InternalServerError(w, "internal server error")
+		web.ServerError(w, "failed to list packages", err)
 		return
 	}
 
@@ -88,8 +85,7 @@ func (h *Handler) HandleSeries(w http.ResponseWriter, r *http.Request) {
 
 	list, err := h.repo.FindSeriesByName(r.Context(), name, startMonth, endMonth, limit, offset)
 	if err != nil {
-		slog.Error("failed to find package series", "error", err)
-		web.InternalServerError(w, "internal server error")
+		web.ServerError(w, "failed to find package series", err)
 		return
 	}
 

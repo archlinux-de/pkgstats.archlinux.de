@@ -2,7 +2,6 @@ package submit
 
 import (
 	"fmt"
-	"log/slog"
 	"net/http"
 	"net/netip"
 	"time"
@@ -39,8 +38,7 @@ func (h *Handler) HandleSubmit(w http.ResponseWriter, r *http.Request) {
 	anonymizedIP := AnonymizeIP(clientIP)
 	allowed, retryAfter, err := h.limiter.Allow(r.Context(), anonymizedIP)
 	if err != nil {
-		slog.Error("rate limit check failed", "error", err)
-		web.InternalServerError(w, "internal server error")
+		web.ServerError(w, "rate limit check failed", err)
 		return
 	}
 
@@ -72,8 +70,7 @@ func (h *Handler) HandleSubmit(w http.ResponseWriter, r *http.Request) {
 	mirrorURL := FilterMirrorURL(req.Pacman.Mirror)
 
 	if err := h.repo.SaveSubmission(r.Context(), req, mirrorURL); err != nil {
-		slog.Error("failed to save submission", "error", err)
-		web.InternalServerError(w, "failed to save submission")
+		web.ServerError(w, "failed to save submission", err)
 		return
 	}
 

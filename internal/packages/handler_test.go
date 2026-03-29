@@ -615,6 +615,66 @@ func TestHandleList_PaginationValidCases(t *testing.T) {
 	}
 }
 
+func TestHandleGet_ContextCanceled(t *testing.T) {
+	repo := &mockRepository{
+		findByNameFunc: func(_ context.Context, _ string, _, _ int) (*PackagePopularity, error) {
+			return nil, context.Canceled
+		},
+	}
+
+	mux := newTestMux(repo)
+	req := httptest.NewRequest(http.MethodGet, "/api/packages/pacman", nil)
+	rr := httptest.NewRecorder()
+	mux.ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("expected no response written (status 200), got %d", rr.Code)
+	}
+	if rr.Body.Len() != 0 {
+		t.Errorf("expected empty body, got %q", rr.Body.String())
+	}
+}
+
+func TestHandleList_ContextCanceled(t *testing.T) {
+	repo := &mockRepository{
+		findAllFunc: func(_ context.Context, _ string, _, _, _, _ int) (*PackagePopularityList, error) {
+			return nil, fmt.Errorf("count packages: %w", context.Canceled)
+		},
+	}
+
+	mux := newTestMux(repo)
+	req := httptest.NewRequest(http.MethodGet, "/api/packages", nil)
+	rr := httptest.NewRecorder()
+	mux.ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("expected no response written (status 200), got %d", rr.Code)
+	}
+	if rr.Body.Len() != 0 {
+		t.Errorf("expected empty body, got %q", rr.Body.String())
+	}
+}
+
+func TestHandleSeries_ContextCanceled(t *testing.T) {
+	repo := &mockRepository{
+		findSeriesByNameFunc: func(_ context.Context, _ string, _, _, _, _ int) (*PackagePopularityList, error) {
+			return nil, context.Canceled
+		},
+	}
+
+	mux := newTestMux(repo)
+	req := httptest.NewRequest(http.MethodGet, "/api/packages/pacman/series", nil)
+	rr := httptest.NewRecorder()
+	mux.ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("expected no response written (status 200), got %d", rr.Code)
+	}
+	if rr.Body.Len() != 0 {
+		t.Errorf("expected empty body, got %q", rr.Body.String())
+	}
+}
+
 func TestHandleList_PaginationInvalidCases(t *testing.T) {
 	tests := []struct {
 		name string

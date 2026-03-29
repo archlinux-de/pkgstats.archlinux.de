@@ -2,6 +2,7 @@ package sitemap
 
 import (
 	"context"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -12,6 +13,10 @@ import (
 )
 
 type mockRepo struct{}
+
+type errorRepo struct {
+	err error
+}
 
 func (m *mockRepo) FindByName(_ context.Context, _ string, _, _ int) (*packages.PackagePopularity, error) {
 	return nil, nil
@@ -73,6 +78,57 @@ func TestHandleSitemap(t *testing.T) {
 	// getting-started is static and should not have lastmod
 	if strings.Contains(body, "getting-started</loc>\n      <lastmod>") {
 		t.Error("expected getting-started to not have lastmod")
+	}
+}
+
+func (m *errorRepo) FindByName(_ context.Context, _ string, _, _ int) (*packages.PackagePopularity, error) {
+	return nil, m.err
+}
+
+func (m *errorRepo) FindSeriesByName(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+	return nil, m.err
+}
+
+func (m *errorRepo) FindAll(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+	return nil, m.err
+}
+
+func TestHandleSitemapReturnsEarlyOnClientDisconnect(t *testing.T) {
+	handler := NewHandler(&errorRepo{err: context.Canceled})
+
+	req := httptest.NewRequest(http.MethodGet, "/sitemap.xml", nil)
+	req.Host = "example.com"
+	rr := httptest.NewRecorder()
+
+	handler.HandleSitemap(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("expected status 200, got %d", rr.Code)
+	}
+	if rr.Body.Len() != 0 {
+		t.Errorf("expected empty body on client disconnect, got %d bytes", rr.Body.Len())
+	}
+}
+
+func TestHandleSitemapServesPartialOnError(t *testing.T) {
+	handler := NewHandler(&errorRepo{err: errors.New("db error")})
+
+	req := httptest.NewRequest(http.MethodGet, "/sitemap.xml", nil)
+	req.Host = "example.com"
+	rr := httptest.NewRecorder()
+
+	handler.HandleSitemap(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("expected status 200, got %d", rr.Code)
+	}
+
+	body := rr.Body.String()
+	if !strings.Contains(body, "<loc>http://example.com/</loc>") {
+		t.Error("expected static URLs in partial sitemap")
+	}
+	if strings.Contains(body, "<loc>http://example.com/packages/linux</loc>") {
+		t.Error("expected no package URLs on error")
 	}
 }
 

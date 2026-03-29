@@ -62,6 +62,9 @@ func (h *Handler) HandleSitemap(w http.ResponseWriter, r *http.Request) {
 
 	list, err := h.repo.FindAll(r.Context(), "", currentMonth, currentMonth, packageLimit, 0)
 	if err != nil {
+		if web.IsClientDisconnect(err) {
+			return
+		}
 		slog.Error("failed to fetch packages for sitemap", "error", err)
 	} else {
 		for _, pkg := range list.PackagePopularities {

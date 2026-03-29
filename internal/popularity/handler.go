@@ -44,7 +44,7 @@ func (h *Handler[T, L]) HandleGet(w http.ResponseWriter, r *http.Request) {
 
 	item, err := h.repo.FindByIdentifier(r.Context(), identifier, startMonth, endMonth)
 	if err != nil {
-		web.InternalServerError(w, "internal server error")
+		web.ServerError(w, "failed to find item", err)
 		return
 	}
 
@@ -72,7 +72,7 @@ func (h *Handler[T, L]) HandleList(w http.ResponseWriter, r *http.Request) {
 
 	list, err := h.repo.FindAll(r.Context(), query, startMonth, endMonth, limit, offset)
 	if err != nil {
-		web.InternalServerError(w, "internal server error")
+		web.ServerError(w, "failed to list items", err)
 		return
 	}
 
@@ -100,7 +100,7 @@ func (h *Handler[T, L]) HandleSeries(w http.ResponseWriter, r *http.Request) {
 
 	list, err := h.repo.FindSeries(r.Context(), identifier, startMonth, endMonth, limit, offset)
 	if err != nil {
-		web.InternalServerError(w, "internal server error")
+		web.ServerError(w, "failed to find item series", err)
 		return
 	}
 

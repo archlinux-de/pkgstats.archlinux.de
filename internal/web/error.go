@@ -1,7 +1,9 @@
 package web
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
 	"strconv"
@@ -40,6 +42,21 @@ func BadRequest(w http.ResponseWriter, detail string) {
 
 func InternalServerError(w http.ResponseWriter, detail string) {
 	WriteError(w, http.StatusInternalServerError, detail)
+}
+
+// ServerError logs the error and writes a 500 response, unless the error
+// is due to a canceled context (client disconnect), in which case it's a no-op.
+func ServerError(w http.ResponseWriter, msg string, err error) {
+	if errors.Is(err, context.Canceled) {
+		return
+	}
+	slog.Error(msg, "error", err)
+	InternalServerError(w, "internal server error")
+}
+
+// IsClientDisconnect reports whether the error is due to a canceled context.
+func IsClientDisconnect(err error) bool {
+	return errors.Is(err, context.Canceled)
 }
 
 func TooManyRequests(w http.ResponseWriter, detail string, retryAfterSeconds int) {
