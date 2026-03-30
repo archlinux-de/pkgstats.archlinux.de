@@ -30,8 +30,13 @@ func (m *mockRepo) FindSeriesByName(ctx context.Context, name string, startMonth
 
 func TestHandleCompare(t *testing.T) {
 	manifest, _ := layout.NewManifest([]byte(`{}`))
+	// Track which individual names were looked up to ensure comma-separated
+	// values are correctly split. This URL schema is also used by the pkgstats
+	// client, so the decoding must not change.
+	var lookedUp []string
 	repo := &mockRepo{
 		findSeriesByNameFunc: func(ctx context.Context, name string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+			lookedUp = append(lookedUp, name)
 			return &packages.PackagePopularityList{
 				Total: 1,
 				PackagePopularities: []packages.PackagePopularity{
@@ -52,9 +57,8 @@ func TestHandleCompare(t *testing.T) {
 		t.Errorf("expected status 200, got %d", rr.Code)
 	}
 
-	body := rr.Body.String()
-	if !strings.Contains(body, "pacman") || !strings.Contains(body, "glibc") {
-		t.Error("expected body to contain package names")
+	if len(lookedUp) != 2 || lookedUp[0] != "pacman" || lookedUp[1] != "glibc" {
+		t.Errorf("expected individual lookups for [pacman glibc], got %v", lookedUp)
 	}
 }
 

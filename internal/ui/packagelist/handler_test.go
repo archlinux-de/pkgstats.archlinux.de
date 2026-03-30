@@ -91,7 +91,15 @@ func TestHandlePackages_WithQuery(t *testing.T) {
 
 func TestHandlePackages_WithCompare(t *testing.T) {
 	manifest, _ := layout.NewManifest([]byte(`{}`))
+	// Track which individual names were looked up to ensure comma-separated
+	// values are correctly split. This URL schema is also used by the pkgstats
+	// client, so the decoding must not change.
+	var lookedUp []string
 	repo := &mockRepo{
+		findByNameFunc: func(_ context.Context, name string, _, _ int) (*packages.PackagePopularity, error) {
+			lookedUp = append(lookedUp, name)
+			return &packages.PackagePopularity{Name: name, Popularity: 5.0}, nil
+		},
 		findAllFunc: func(ctx context.Context, query string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
 			t.Error("FindAll should not be called when compare is set without query")
 			return &packages.PackagePopularityList{Total: 0}, nil
@@ -108,9 +116,8 @@ func TestHandlePackages_WithCompare(t *testing.T) {
 		t.Errorf("expected status 200, got %d", rr.Code)
 	}
 
-	body := rr.Body.String()
-	if !strings.Contains(body, "glibc") || !strings.Contains(body, "linux") {
-		t.Error("expected body to contain compare package names")
+	if len(lookedUp) != 2 || lookedUp[0] != "glibc" || lookedUp[1] != "linux" {
+		t.Errorf("expected individual lookups for [glibc linux], got %v", lookedUp)
 	}
 }
 
