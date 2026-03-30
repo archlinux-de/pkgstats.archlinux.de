@@ -265,6 +265,32 @@ func TestPaginationURL_EncodesQuery(t *testing.T) {
 	}
 }
 
+func TestToggleURL_CompareFormat(t *testing.T) {
+	// The compare parameter format (comma-separated package names) is part of the
+	// public URL schema and also used by the pkgstats client. Do not change it.
+	got := string(toggleURL("", 0, 25, "glibc", "linux"))
+	expected := "/packages?limit=25&offset=0&compare=glibc,linux"
+	if got != expected {
+		t.Errorf("expected %q, got %q", expected, got)
+	}
+}
+
+func TestToggleURL_RemoveFromCompare(t *testing.T) {
+	got := string(toggleURL("", 0, 25, "glibc,linux", "glibc"))
+	expected := "/packages?limit=25&offset=0&compare=linux"
+	if got != expected {
+		t.Errorf("expected %q, got %q", expected, got)
+	}
+}
+
+func TestPaginationURL_CompareFormat(t *testing.T) {
+	got := string(paginationURL("", 0, 25, "glibc,linux,pacman"))
+	expected := "/packages?limit=25&offset=0&compare=glibc,linux,pacman"
+	if got != expected {
+		t.Errorf("expected %q, got %q", expected, got)
+	}
+}
+
 func TestHandlePackages_CompareError(t *testing.T) {
 	manifest, _ := layout.NewManifest([]byte(`{}`))
 	repo := &mockRepo{
