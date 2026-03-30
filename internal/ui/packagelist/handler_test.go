@@ -121,6 +121,32 @@ func TestHandlePackages_WithCompare(t *testing.T) {
 	}
 }
 
+func TestHandlePackages_WithCompareEncoded(t *testing.T) {
+	manifest, _ := layout.NewManifest([]byte(`{}`))
+	var lookedUp []string
+	repo := &mockRepo{
+		findByNameFunc: func(_ context.Context, name string, _, _ int) (*packages.PackagePopularity, error) {
+			lookedUp = append(lookedUp, name)
+			return &packages.PackagePopularity{Name: name, Popularity: 5.0}, nil
+		},
+	}
+	handler := NewHandler(repo, manifest)
+
+	// %2C is a comma encoded by other apps when sharing the URL
+	req := httptest.NewRequest(http.MethodGet, "/packages?compare=glibc%2Clinux", nil)
+	rr := httptest.NewRecorder()
+
+	handler.HandlePackages(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("expected status 200, got %d", rr.Code)
+	}
+
+	if len(lookedUp) != 2 || lookedUp[0] != "glibc" || lookedUp[1] != "linux" {
+		t.Errorf("expected individual lookups for [glibc linux], got %v", lookedUp)
+	}
+}
+
 func TestHandlePackages_WithCompareAndQuery(t *testing.T) {
 	manifest, _ := layout.NewManifest([]byte(`{}`))
 	findAllCalled := false

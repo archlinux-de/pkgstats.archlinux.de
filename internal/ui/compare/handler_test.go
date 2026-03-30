@@ -62,6 +62,38 @@ func TestHandleCompare(t *testing.T) {
 	}
 }
 
+func TestHandleCompare_EncodedComma(t *testing.T) {
+	manifest, _ := layout.NewManifest([]byte(`{}`))
+	var lookedUp []string
+	repo := &mockRepo{
+		findSeriesByNameFunc: func(ctx context.Context, name string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+			lookedUp = append(lookedUp, name)
+			return &packages.PackagePopularityList{
+				Total: 1,
+				PackagePopularities: []packages.PackagePopularity{
+					{Name: name, StartMonth: 202501, EndMonth: 202501, Popularity: 10.5},
+				},
+			}, nil
+		},
+	}
+	handler := NewHandler(repo, manifest)
+
+	// %2C is a comma encoded by other apps when sharing the URL
+	req := httptest.NewRequest(http.MethodGet, "/compare/packages/pacman%2Cglibc", nil)
+	req.SetPathValue("names", "pacman,glibc")
+	rr := httptest.NewRecorder()
+
+	handler.HandleCompare(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("expected status 200, got %d", rr.Code)
+	}
+
+	if len(lookedUp) != 2 || lookedUp[0] != "pacman" || lookedUp[1] != "glibc" {
+		t.Errorf("expected individual lookups for [pacman glibc], got %v", lookedUp)
+	}
+}
+
 func TestHandleCompare_SeriesError(t *testing.T) {
 	manifest, _ := layout.NewManifest([]byte(`{}`))
 	repo := &mockRepo{
