@@ -56,8 +56,8 @@ func (h *Handler) HandleSitemap(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for _, category := range fun.Categories {
-		urls = append(urls, URL{Loc: baseURL + "/fun/" + category.Name + "/current", LastMod: lastMod})
-		urls = append(urls, URL{Loc: baseURL + "/fun/" + category.Name + "/history", LastMod: lastMod})
+		urls = append(urls, URL{Loc: baseURL + "/fun/" + url.PathEscape(category.Name) + "/current", LastMod: lastMod})
+		urls = append(urls, URL{Loc: baseURL + "/fun/" + url.PathEscape(category.Name) + "/history", LastMod: lastMod})
 	}
 
 	list, err := h.repo.FindAll(r.Context(), "", currentMonth, currentMonth, packageLimit, 0)

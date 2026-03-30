@@ -95,7 +95,7 @@ func (h *Handler) handleCurrent(w http.ResponseWriter, r *http.Request, category
 	}
 
 	layout.Render(w, r,
-		layout.Page{Title: category.Name + " statistics", Description: "Current popularity ranking of " + category.Name + " on Arch Linux.", Path: "/fun", Manifest: h.manifest, CanonicalPath: "/fun/" + category.Name + "/current"},
+		layout.Page{Title: category.Name + " statistics", Description: "Current popularity ranking of " + category.Name + " on Arch Linux.", Path: "/fun", Manifest: h.manifest, CanonicalPath: "/fun/" + url.PathEscape(category.Name) + "/current"},
 		FunDetailCurrentContent(category.Name, topPkgs, otherPkgs, compareURL(pkgs)),
 	)
 }
@@ -125,7 +125,7 @@ func (h *Handler) handleHistory(w http.ResponseWriter, r *http.Request, category
 	}
 
 	layout.Render(w, r,
-		layout.Page{Title: category.Name + " statistics", Description: "Popularity of " + category.Name + " on Arch Linux over time.", Path: "/fun", Manifest: h.manifest, CanonicalPath: "/fun/" + category.Name + "/history"},
+		layout.Page{Title: category.Name + " statistics", Description: "Popularity of " + category.Name + " on Arch Linux over time.", Path: "/fun", Manifest: h.manifest, CanonicalPath: "/fun/" + url.PathEscape(category.Name) + "/history"},
 		FunDetailHistoryContent(category.Name, data, cmpURL),
 	)
 }

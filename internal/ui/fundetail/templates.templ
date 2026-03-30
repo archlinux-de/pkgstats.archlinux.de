@@ -1,6 +1,7 @@
 package fundetail
 
 import (
+	"net/url"
 	"pkgstatsd/internal/chartdata"
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/ui/components"
@@ -46,8 +47,8 @@ templ funCompareLink(compareURL string) {
 
 func funTabs(category, activeTab string) []components.Tab {
 	return []components.Tab{
-		{Label: "current", Href: templ.SafeURL("/fun/" + category + "/current"), Active: activeTab == "current"},
-		{Label: "history", Href: templ.SafeURL("/fun/" + category + "/history"), Active: activeTab == "history"},
+		{Label: "current", Href: templ.SafeURL("/fun/" + url.PathEscape(category) + "/current"), Active: activeTab == "current"},
+		{Label: "history", Href: templ.SafeURL("/fun/" + url.PathEscape(category) + "/history"), Active: activeTab == "history"},
 	}
 }
 

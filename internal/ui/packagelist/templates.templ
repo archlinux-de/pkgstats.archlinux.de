@@ -2,6 +2,7 @@ package packagelist
 
 import (
 	"fmt"
+	"net/url"
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/ui/components"
 	"pkgstatsd/internal/ui/layout"
@@ -221,14 +222,14 @@ func toggleURL(query string, offset, limit int, compare, name string) templ.Safe
 		newCompare = addToCompare(compare, name)
 	}
 
-	url := fmt.Sprintf("/packages?limit=%d&offset=%d", limit, offset)
+	u := fmt.Sprintf("/packages?limit=%d&offset=%d", limit, offset)
 	if query != "" {
-		url += "&query=" + query
+		u += "&query=" + url.QueryEscape(query)
 	}
 	if newCompare != "" {
-		url += "&compare=" + newCompare
+		u += "&compare=" + newCompare
 	}
-	return templ.SafeURL(url)
+	return templ.SafeURL(u)
 }
 
 func prevOffset(currentOffset, limit int) int {
@@ -240,14 +241,14 @@ func prevOffset(currentOffset, limit int) int {
 }
 
 func paginationURL(query string, offset, limit int, compare string) templ.SafeURL {
-	url := fmt.Sprintf("/packages?limit=%d&offset=%d", limit, offset)
+	u := fmt.Sprintf("/packages?limit=%d&offset=%d", limit, offset)
 	if query != "" {
-		url += "&query=" + query
+		u += "&query=" + url.QueryEscape(query)
 	}
 	if compare != "" {
-		url += "&compare=" + compare
+		u += "&compare=" + compare
 	}
-	return templ.SafeURL(url)
+	return templ.SafeURL(u)
 }
 
 func compareNames(pkgs []packages.PackagePopularity) string {
@@ -276,10 +277,10 @@ func excessNames(compare string) string {
 func trimCompareURL(query string, offset, limit int, compare string) templ.SafeURL {
 	names := strings.Split(compare, ",")
 	trimmed := strings.Join(names[:layout.MaxSelectPackages], ",")
-	url := fmt.Sprintf("/packages?limit=%d&offset=%d", limit, offset)
+	u := fmt.Sprintf("/packages?limit=%d&offset=%d", limit, offset)
 	if query != "" {
-		url += "&query=" + query
+		u += "&query=" + url.QueryEscape(query)
 	}
-	url += "&compare=" + trimmed
-	return templ.SafeURL(url)
+	u += "&compare=" + trimmed
+	return templ.SafeURL(u)
 }

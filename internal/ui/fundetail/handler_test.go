@@ -83,6 +83,19 @@ func TestHandleCurrent_SmallCategory(t *testing.T) {
 	if !strings.Contains(body, "/packages?compare=") {
 		t.Error("expected compare URL")
 	}
+
+	// Tab links should have percent-encoded category name
+	if !strings.Contains(body, "/fun/Widget%20Toolkits/current") {
+		t.Error("expected current tab href to encode spaces")
+	}
+	if !strings.Contains(body, "/fun/Widget%20Toolkits/history") {
+		t.Error("expected history tab href to encode spaces")
+	}
+
+	// Canonical URL should have percent-encoded category name
+	if strings.Contains(body, "/fun/Widget Toolkits/") {
+		t.Error("expected canonical URL to not contain literal spaces")
+	}
 }
 
 func TestHandleCurrent_LargeCategory(t *testing.T) {

@@ -62,6 +62,8 @@ func TestHandleSitemap(t *testing.T) {
 		"http://example.com/fun/Browsers/current",
 		"http://example.com/fun/Browsers/history",
 		"http://example.com/fun/Editors/current",
+		"http://example.com/fun/Desktop%20Environments/current",
+		"http://example.com/fun/Desktop%20Environments/history",
 		"http://example.com/packages/linux",
 		"http://example.com/packages/firefox",
 	} {

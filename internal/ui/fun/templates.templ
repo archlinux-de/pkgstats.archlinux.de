@@ -1,6 +1,9 @@
 package fun
 
-import "pkgstatsd/internal/ui/components"
+import (
+	"net/url"
+	"pkgstatsd/internal/ui/components"
+)
 
 templ FunContent(categories []Category) {
 	<h1 class="mb-4">Fun statistics</h1>
@@ -10,7 +13,7 @@ templ FunContent(categories []Category) {
 			<h2>Categories</h2>
 			for _, cat := range categories {
 				<div>
-					<a href={ templ.SafeURL("/fun/" + cat.Name + "/current") }>{ cat.Name }</a>
+					<a href={ templ.SafeURL("/fun/" + url.PathEscape(cat.Name) + "/current") }>{ cat.Name }</a>
 				</div>
 			}
 		</div>

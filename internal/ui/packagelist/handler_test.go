@@ -245,6 +245,26 @@ func TestHandlePackages_CompareExceedsChartLimit(t *testing.T) {
 	}
 }
 
+func TestToggleURL_EncodesQuery(t *testing.T) {
+	got := string(toggleURL("foo bar", 0, 25, "", "linux"))
+	if !strings.Contains(got, "query=foo+bar") {
+		t.Errorf("expected encoded query in URL, got %s", got)
+	}
+	if strings.Contains(got, "query=foo bar") {
+		t.Errorf("expected no literal space in URL, got %s", got)
+	}
+}
+
+func TestPaginationURL_EncodesQuery(t *testing.T) {
+	got := string(paginationURL("foo bar", 25, 25, "linux"))
+	if !strings.Contains(got, "query=foo+bar") {
+		t.Errorf("expected encoded query in URL, got %s", got)
+	}
+	if strings.Contains(got, "query=foo bar") {
+		t.Errorf("expected no literal space in URL, got %s", got)
+	}
+}
+
 func TestHandlePackages_CompareError(t *testing.T) {
 	manifest, _ := layout.NewManifest([]byte(`{}`))
 	repo := &mockRepo{
