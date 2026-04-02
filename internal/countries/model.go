@@ -26,6 +26,10 @@ type Repository interface {
 	FindSeriesByCode(ctx context.Context, code string, startMonth, endMonth, limit, offset int) (*CountryPopularityList, error)
 }
 
+func (p CountryPopularity) GetName() string        { return p.Code }
+func (p CountryPopularity) GetStartMonth() int     { return p.StartMonth }
+func (p CountryPopularity) GetPopularity() float64 { return p.Popularity }
+
 func newItem(identifier string, samples, count int, popularity float64, startMonth, endMonth int) CountryPopularity {
 	return CountryPopularity{
 		Code: identifier, Samples: samples, Count: count,

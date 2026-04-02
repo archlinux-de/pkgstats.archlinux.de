@@ -8,7 +8,7 @@ class CountryMap extends HTMLElement {
             return;
         }
 
-        let values: Record<string, { popularity: number }>;
+        let values: Record<string, { popularity: number; link?: string }>;
         try {
             values = JSON.parse(script.textContent);
         } catch (error) {
@@ -34,7 +34,7 @@ class CountryMap extends HTMLElement {
     }
 
     private async renderBarChart(
-        values: Record<string, { popularity: number }>,
+        values: Record<string, { popularity: number; link?: string }>,
     ) {
         const sorted = Object.entries(values).sort(
             ([, a], [, b]) => b.popularity - a.popularity,
@@ -43,6 +43,7 @@ class CountryMap extends HTMLElement {
         const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
         const labels = sorted.map(([code]) => regionNames.of(code) ?? code);
         const data = sorted.map(([, v]) => v.popularity);
+        const links = sorted.map(([, v]) => v.link);
 
         const { Chart, BarElement, BarController, CategoryScale, LinearScale } =
             await import("chart.js");
@@ -73,7 +74,7 @@ class CountryMap extends HTMLElement {
                 indexAxis: "y",
                 animation: false,
                 maintainAspectRatio: false,
-                events: [],
+                events: ["click", "mousemove"],
                 plugins: {
                     legend: { display: false },
                 },
@@ -89,6 +90,17 @@ class CountryMap extends HTMLElement {
                         grid: { display: false },
                         ticks: { color: textColor },
                     },
+                },
+                onHover: (_event, elements) => {
+                    canvas.style.cursor = elements.length > 0 ? "pointer" : "";
+                },
+                onClick: (_event, elements) => {
+                    if (elements.length > 0) {
+                        const link = links[elements[0].index];
+                        if (link) {
+                            window.location.href = link;
+                        }
+                    }
                 },
             },
         });

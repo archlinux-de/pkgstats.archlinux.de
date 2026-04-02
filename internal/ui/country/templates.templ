@@ -1,6 +1,10 @@
 package country
 
-import "pkgstatsd/internal/countries"
+import (
+	"pkgstatsd/internal/chartdata"
+	"pkgstatsd/internal/countries"
+	"strings"
+)
 
 templ CountriesContent(countryPopularities []countries.CountryPopularity) {
 	<h1 class="mb-4">Countries</h1>
@@ -12,12 +16,24 @@ templ CountriesContent(countryPopularities []countries.CountryPopularity) {
 
 type popularityValue struct {
 	Popularity float64 `json:"popularity"`
+	Link       string  `json:"link"`
 }
 
 func toSvgMapValues(pops []countries.CountryPopularity) map[string]popularityValue {
 	m := make(map[string]popularityValue, len(pops))
 	for _, p := range pops {
-		m[p.Code] = popularityValue{Popularity: p.Popularity}
+		m[p.Code] = popularityValue{Popularity: p.Popularity, Link: "/countries/" + strings.ToLower(p.Code)}
 	}
 	return m
+}
+
+templ CountryDetailContent(code string, data chartdata.Data) {
+	<h1 class="mb-3">{ code }</h1>
+	<p class="mb-3">Relative usage from <strong>{ code }</strong></p>
+	<popularity-chart role="img" aria-label={ "Chart showing popularity of Arch Linux in " + code + " over time" }>
+		@templ.JSONScript("", data)
+	</popularity-chart>
+	<div class="mt-3">
+		<a class="btn btn-outline-primary" href="/countries">All countries</a>
+	</div>
 }
