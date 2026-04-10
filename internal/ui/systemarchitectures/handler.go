@@ -100,7 +100,7 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /compare/system-architectures", func(w http.ResponseWriter, r *http.Request) {
-		http.Redirect(w, r, "/compare/system-architectures/current", http.StatusFound)
+		http.Redirect(w, r, "/compare/system-architectures/current", http.StatusMovedPermanently)
 	})
 	mux.HandleFunc("GET /compare/system-architectures/{preset}", h.HandleCompare)
 }
