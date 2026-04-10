@@ -106,7 +106,7 @@ func run(cfg config.Config) error {
 	operatingsystems.NewHandler(osRepo).RegisterRoutes(mux)
 	osarchitectures.NewHandler(osArchRepo).RegisterRoutes(mux)
 	submit.NewHandler(submitRepo, geoip, rateLimiter, cfg.ExpectedPackages).RegisterRoutes(mux)
-	sitemap.NewHandler(packagesRepo).RegisterRoutes(mux)
+	sitemap.NewHandler(packagesRepo, countriesRepo).RegisterRoutes(mux)
 	apidoc.NewHandler(isDevelopment).RegisterRoutes(mux)
 	ui.RegisterRoutes(mux, manifest, packagesRepo, countriesRepo, systemArchRepo, osRepo, embedAssets, embedStatic, embedRoot, isDevelopment)
 

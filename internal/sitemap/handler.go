@@ -5,15 +5,20 @@ import (
 	"log/slog"
 	"net/http"
 	"net/url"
+	"strings"
 	"time"
 
+	"pkgstatsd/internal/countries"
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/ui/fun"
 	"pkgstatsd/internal/ui/layout"
 	"pkgstatsd/internal/web"
 )
 
-const packageLimit = 5000
+const (
+	packageLimit = 5000
+	countryLimit = 300
+)
 
 type URLSet struct {
 	XMLName xml.Name `xml:"urlset"`
@@ -27,11 +32,12 @@ type URL struct {
 }
 
 type Handler struct {
-	repo packages.Repository
+	packageRepo packages.Repository
+	countryRepo countries.Repository
 }
 
-func NewHandler(repo packages.Repository) *Handler {
-	return &Handler{repo: repo}
+func NewHandler(packageRepo packages.Repository, countryRepo countries.Repository) *Handler {
+	return &Handler{packageRepo: packageRepo, countryRepo: countryRepo}
 }
 
 // lastDayOfMonth returns the last day of the month encoded as YYYYMM in "2006-01-02" format.
@@ -60,14 +66,26 @@ func (h *Handler) HandleSitemap(w http.ResponseWriter, r *http.Request) {
 		urls = append(urls, URL{Loc: baseURL + "/fun/" + url.PathEscape(category.Name) + "/history", LastMod: lastMod})
 	}
 
-	list, err := h.repo.FindAll(r.Context(), "", currentMonth, currentMonth, packageLimit, 0)
+	countryList, err := h.countryRepo.FindAll(r.Context(), "", currentMonth, currentMonth, countryLimit, 0)
+	if err != nil {
+		if web.IsClientDisconnect(err) {
+			return
+		}
+		slog.Error("failed to fetch countries for sitemap", "error", err)
+	} else {
+		for _, country := range countryList.CountryPopularities {
+			urls = append(urls, URL{Loc: baseURL + "/countries/" + strings.ToLower(country.Code), LastMod: lastMod})
+		}
+	}
+
+	packageList, err := h.packageRepo.FindAll(r.Context(), "", currentMonth, currentMonth, packageLimit, 0)
 	if err != nil {
 		if web.IsClientDisconnect(err) {
 			return
 		}
 		slog.Error("failed to fetch packages for sitemap", "error", err)
 	} else {
-		for _, pkg := range list.PackagePopularities {
+		for _, pkg := range packageList.PackagePopularities {
 			urls = append(urls, URL{Loc: baseURL + "/packages/" + url.PathEscape(pkg.Name), LastMod: lastMod})
 		}
 	}

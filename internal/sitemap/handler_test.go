@@ -8,25 +8,32 @@ import (
 	"strings"
 	"testing"
 
+	"pkgstatsd/internal/countries"
 	"pkgstatsd/internal/packages"
 	"pkgstatsd/internal/web"
 )
 
-type mockRepo struct{}
+type mockPackageRepo struct{}
 
-type errorRepo struct {
+type mockCountryRepo struct{}
+
+type errorPackageRepo struct {
 	err error
 }
 
-func (m *mockRepo) FindByName(_ context.Context, _ string, _, _ int) (*packages.PackagePopularity, error) {
+type errorCountryRepo struct {
+	err error
+}
+
+func (m *mockPackageRepo) FindByName(_ context.Context, _ string, _, _ int) (*packages.PackagePopularity, error) {
 	return nil, nil
 }
 
-func (m *mockRepo) FindSeriesByName(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+func (m *mockPackageRepo) FindSeriesByName(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
 	return nil, nil
 }
 
-func (m *mockRepo) FindAll(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+func (m *mockPackageRepo) FindAll(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
 	return &packages.PackagePopularityList{
 		PackagePopularities: []packages.PackagePopularity{
 			{Name: "linux"},
@@ -35,8 +42,25 @@ func (m *mockRepo) FindAll(_ context.Context, _ string, _, _, _, _ int) (*packag
 	}, nil
 }
 
+func (m *mockCountryRepo) FindByCode(_ context.Context, _ string, _, _ int) (*countries.CountryPopularity, error) {
+	return nil, nil
+}
+
+func (m *mockCountryRepo) FindSeriesByCode(_ context.Context, _ string, _, _, _, _ int) (*countries.CountryPopularityList, error) {
+	return nil, nil
+}
+
+func (m *mockCountryRepo) FindAll(_ context.Context, _ string, _, _, _, _ int) (*countries.CountryPopularityList, error) {
+	return &countries.CountryPopularityList{
+		CountryPopularities: []countries.CountryPopularity{
+			{Code: "DE"},
+			{Code: "US"},
+		},
+	}, nil
+}
+
 func TestHandleSitemap(t *testing.T) {
-	handler := NewHandler(&mockRepo{})
+	handler := NewHandler(&mockPackageRepo{}, &mockCountryRepo{})
 
 	req := httptest.NewRequest(http.MethodGet, "/sitemap.xml", nil)
 	req.Host = "example.com"
@@ -58,6 +82,8 @@ func TestHandleSitemap(t *testing.T) {
 		"http://example.com/",
 		"http://example.com/packages",
 		"http://example.com/countries",
+		"http://example.com/countries/de",
+		"http://example.com/countries/us",
 		"http://example.com/fun",
 		"http://example.com/fun/Browsers/current",
 		"http://example.com/fun/Browsers/history",
@@ -83,20 +109,32 @@ func TestHandleSitemap(t *testing.T) {
 	}
 }
 
-func (m *errorRepo) FindByName(_ context.Context, _ string, _, _ int) (*packages.PackagePopularity, error) {
+func (m *errorPackageRepo) FindByName(_ context.Context, _ string, _, _ int) (*packages.PackagePopularity, error) {
 	return nil, m.err
 }
 
-func (m *errorRepo) FindSeriesByName(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+func (m *errorPackageRepo) FindSeriesByName(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
 	return nil, m.err
 }
 
-func (m *errorRepo) FindAll(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+func (m *errorPackageRepo) FindAll(_ context.Context, _ string, _, _, _, _ int) (*packages.PackagePopularityList, error) {
+	return nil, m.err
+}
+
+func (m *errorCountryRepo) FindByCode(_ context.Context, _ string, _, _ int) (*countries.CountryPopularity, error) {
+	return nil, m.err
+}
+
+func (m *errorCountryRepo) FindSeriesByCode(_ context.Context, _ string, _, _, _, _ int) (*countries.CountryPopularityList, error) {
+	return nil, m.err
+}
+
+func (m *errorCountryRepo) FindAll(_ context.Context, _ string, _, _, _, _ int) (*countries.CountryPopularityList, error) {
 	return nil, m.err
 }
 
 func TestHandleSitemapReturnsEarlyOnClientDisconnect(t *testing.T) {
-	handler := NewHandler(&errorRepo{err: context.Canceled})
+	handler := NewHandler(&errorPackageRepo{err: context.Canceled}, &errorCountryRepo{err: context.Canceled})
 
 	req := httptest.NewRequest(http.MethodGet, "/sitemap.xml", nil)
 	req.Host = "example.com"
@@ -113,7 +151,7 @@ func TestHandleSitemapReturnsEarlyOnClientDisconnect(t *testing.T) {
 }
 
 func TestHandleSitemapServesPartialOnError(t *testing.T) {
-	handler := NewHandler(&errorRepo{err: errors.New("db error")})
+	handler := NewHandler(&errorPackageRepo{err: errors.New("db error")}, &errorCountryRepo{err: errors.New("db error")})
 
 	req := httptest.NewRequest(http.MethodGet, "/sitemap.xml", nil)
 	req.Host = "example.com"
