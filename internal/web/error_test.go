@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"syscall"
 	"testing"
 )
 
@@ -96,6 +97,10 @@ func TestIsClientDisconnect(t *testing.T) {
 	}{
 		{"context.Canceled", context.Canceled, true},
 		{"wrapped context.Canceled", fmt.Errorf("scan: %w", context.Canceled), true},
+		{"ECONNRESET", syscall.ECONNRESET, true},
+		{"wrapped ECONNRESET", fmt.Errorf("write: %w", syscall.ECONNRESET), true},
+		{"EPIPE", syscall.EPIPE, true},
+		{"wrapped EPIPE", fmt.Errorf("write: %w", syscall.EPIPE), true},
 		{"generic error", errors.New("timeout"), false},
 		{"nil", nil, false},
 	}

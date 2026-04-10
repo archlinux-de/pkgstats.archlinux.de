@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net/http"
 	"strconv"
+	"syscall"
 )
 
 type ProblemDetails struct {
@@ -47,16 +48,18 @@ func InternalServerError(w http.ResponseWriter, detail string) {
 // ServerError logs the error and writes a 500 response, unless the error
 // is due to a canceled context (client disconnect), in which case it's a no-op.
 func ServerError(w http.ResponseWriter, msg string, err error) {
-	if errors.Is(err, context.Canceled) {
+	if IsClientDisconnect(err) {
 		return
 	}
 	slog.Error(msg, "error", err)
 	InternalServerError(w, "internal server error")
 }
 
-// IsClientDisconnect reports whether the error is due to a canceled context.
+// IsClientDisconnect reports whether the error is due to a client disconnecting.
 func IsClientDisconnect(err error) bool {
-	return errors.Is(err, context.Canceled)
+	return errors.Is(err, context.Canceled) ||
+		errors.Is(err, syscall.ECONNRESET) ||
+		errors.Is(err, syscall.EPIPE)
 }
 
 func TooManyRequests(w http.ResponseWriter, detail string, retryAfterSeconds int) {
