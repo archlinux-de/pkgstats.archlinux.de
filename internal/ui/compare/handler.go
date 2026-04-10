@@ -2,7 +2,6 @@ package compare
 
 import (
 	"net/http"
-	"net/url"
 	"strings"
 
 	"pkgstatsd/internal/chartdata"
@@ -57,13 +56,8 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 
 	data := chartdata.Build(allSeries)
 
-	escapedNames := make([]string, len(names))
-	for i, n := range names {
-		escapedNames[i] = url.PathEscape(n)
-	}
-
 	layout.Render(w, r,
-		layout.Page{Title: "Compare packages", Description: "Compare the popularity of Arch Linux packages side by side.", Path: "/packages", Manifest: h.manifest, CanonicalPath: "/compare/packages/" + strings.Join(escapedNames, ",")},
+		layout.Page{Title: "Compare packages", Description: "Compare the popularity of Arch Linux packages side by side.", Path: "/packages", Manifest: h.manifest, NoIndex: true},
 		CompareContent(names, excessNames, data),
 	)
 }
