@@ -13,7 +13,7 @@ templ CompareContent(names []string, excessNames []string, data chartdata.Data) 
 	if len(excessNames) > 0 {
 		<div role="alert" class="alert alert-info mt-3">
 			{ fmt.Sprintf("You can only compare up to %d packages. Only the first %d are shown.", layout.MaxCompareChartPackages, layout.MaxCompareChartPackages) }
-			<a class="alert-link" href={ templ.SafeURL("/compare/packages/" + strings.Join(names, ",")) }>
+			<a class="alert-link" rel="nofollow" href={ templ.SafeURL("/compare/packages/" + strings.Join(names, ",")) }>
 				Remove { strings.Join(excessNames, ", ") } from list
 			</a>
 		</div>
@@ -22,7 +22,7 @@ templ CompareContent(names []string, excessNames []string, data chartdata.Data) 
 		@templ.JSONScript("", data)
 	</popularity-chart>
 	<div class="mt-3">
-		<a class="btn btn-primary" href={ templ.SafeURL("/packages?compare=" + allNames(names, excessNames)) }>Edit selection</a>
+		<a class="btn btn-primary" rel="nofollow" href={ templ.SafeURL("/packages?compare=" + allNames(names, excessNames)) }>Edit selection</a>
 	</div>
 }
 

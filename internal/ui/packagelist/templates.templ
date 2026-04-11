@@ -20,6 +20,7 @@ templ PackagesContent(list *packages.PackagePopularityList, query string, curren
 					if compareCount(compare) <= layout.MaxCompareChartPackages {
 						<a
 							class="d-inline-flex btn btn-primary"
+							rel="nofollow"
 							href={ templ.SafeURL("/compare/packages/" + compareNames(selectedPackages)) }
 						>
 							View History
@@ -34,7 +35,7 @@ templ PackagesContent(list *packages.PackagePopularityList, query string, curren
 				if compareCount(compare) > layout.MaxSelectPackages {
 					<div role="alert" class="alert alert-info mt-3 mb-4">
 						{ fmt.Sprintf("You can only select up to %d packages. Only the first %d are shown.", layout.MaxSelectPackages, layout.MaxSelectPackages) }
-						<a class="alert-link" href={ trimCompareURL(query, currentOffset, limit, compare) }>
+						<a class="alert-link" rel="nofollow" href={ trimCompareURL(query, currentOffset, limit, compare) }>
 							Remove { excessNames(compare) } from list
 						</a>
 					</div>
@@ -99,6 +100,7 @@ templ CompareTable(pkgs []packages.PackagePopularity, query string, offset int, 
 					<td class="align-middle text-end">
 						<a
 							class="text-danger"
+							rel="nofollow"
 							href={ toggleURL(query, offset, limit, compare, pkg.Name) }
 							title={ "Remove " + pkg.Name }
 							aria-label={ "Remove " + pkg.Name }
@@ -134,6 +136,7 @@ templ PackageTable(pkgs []packages.PackagePopularity, query string, offset int, 
 						if isSelected(compare, pkg.Name) {
 							<a
 								class="text-danger"
+								rel="nofollow"
 								href={ toggleURL(query, offset, limit, compare, pkg.Name) }
 								title={ "Remove " + pkg.Name }
 								aria-label={ "Remove " + pkg.Name }
@@ -143,6 +146,7 @@ templ PackageTable(pkgs []packages.PackagePopularity, query string, offset int, 
 						} else if compareCount(compare) < layout.MaxSelectPackages {
 							<a
 								class="text-primary"
+								rel="nofollow"
 								href={ toggleURL(query, offset, limit, compare, pkg.Name) }
 								title={ "Add " + pkg.Name }
 								aria-label={ "Add " + pkg.Name }
@@ -163,7 +167,7 @@ templ Pagination(total int, currentOffset int, limit int, query string, compare 
 			<ul class="pagination">
 				if currentOffset > 0 {
 					<li class="page-item">
-						<a class="page-link" href={ paginationURL(query, prevOffset(currentOffset, limit), limit, compare) }>Previous</a>
+						<a class="page-link" rel="nofollow" href={ paginationURL(query, prevOffset(currentOffset, limit), limit, compare) }>Previous</a>
 					</li>
 				} else {
 					<li class="page-item disabled">
@@ -172,7 +176,7 @@ templ Pagination(total int, currentOffset int, limit int, query string, compare 
 				}
 				if currentOffset+limit < total {
 					<li class="page-item">
-						<a class="page-link" href={ paginationURL(query, currentOffset+limit, limit, compare) }>Next</a>
+						<a class="page-link" rel="nofollow" href={ paginationURL(query, currentOffset+limit, limit, compare) }>Next</a>
 					</li>
 				} else {
 					<li class="page-item disabled">
