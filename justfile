@@ -1,4 +1,4 @@
-set quiet := true
+set quiet
 
 export CGO_ENABLED := '0'
 export PORT := '8282'
