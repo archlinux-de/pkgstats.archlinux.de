@@ -13,10 +13,11 @@ import (
 )
 
 const (
-	defaultReadTimeout     = 5 * time.Second
-	defaultWriteTimeout    = 60 * time.Second
-	defaultIdleTimeout     = 120 * time.Second
-	defaultShutdownTimeout = 30 * time.Second
+	defaultReadHeaderTimeout = 5 * time.Second
+	defaultReadTimeout       = 60 * time.Second
+	defaultWriteTimeout      = 60 * time.Second
+	defaultIdleTimeout       = 120 * time.Second
+	defaultShutdownTimeout   = 30 * time.Second
 )
 
 type Server struct {
@@ -27,11 +28,12 @@ type Server struct {
 func NewServer(addr string, handler http.Handler) *Server {
 	return &Server{
 		httpServer: &http.Server{
-			Addr:         addr,
-			Handler:      handler,
-			ReadTimeout:  defaultReadTimeout,
-			WriteTimeout: defaultWriteTimeout,
-			IdleTimeout:  defaultIdleTimeout,
+			Addr:              addr,
+			Handler:           handler,
+			ReadHeaderTimeout: defaultReadHeaderTimeout,
+			ReadTimeout:       defaultReadTimeout,
+			WriteTimeout:      defaultWriteTimeout,
+			IdleTimeout:       defaultIdleTimeout,
 		},
 		shutdownTimeout: defaultShutdownTimeout,
 	}
