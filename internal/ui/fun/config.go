@@ -12,7 +12,7 @@ var Categories = []Category{
 			"angelfish", "brave-bin", "chromium", "dillo", "elinks", "eolie", "epiphany",
 			"falkon", "firefox", "firefox-developer-edition", "google-chrome", "helium-browser-bin",
 			"konqueror", "links", "lynx", "netsurf", "nyxt", "opera", "qutebrowser",
-			"torbrowser-launcher", "vimb", "vivaldi", "w3m",
+			"torbrowser-launcher", "vimb", "vivaldi", "w3m", "zen-browser-bin",
 		},
 	},
 	{
