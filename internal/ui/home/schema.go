@@ -1,5 +1,6 @@
 package home
 
+//nolint:goconst
 func webSiteSchema(baseURL string) any {
 	return map[string]any{
 		"@context": "https://schema.org",
@@ -14,6 +15,7 @@ func webSiteSchema(baseURL string) any {
 	}
 }
 
+//nolint:goconst
 func datasetSchema(baseURL string) any {
 	return map[string]any{
 		"@context":    "https://schema.org",

@@ -23,6 +23,7 @@ type preset struct {
 	EndMonth      int
 }
 
+//nolint:goconst
 var presets = []preset{
 	{
 		Label:         "current",

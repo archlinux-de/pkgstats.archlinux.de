@@ -38,6 +38,7 @@ func (h *Handler) HandleFunDetail(w http.ResponseWriter, r *http.Request) {
 	if category == nil {
 		if expanded := expandCamelCase(categoryName); expanded != categoryName {
 			if fun.FindCategory(expanded) != nil {
+				//nolint:gosec // Target is prefixed and escaped
 				http.Redirect(w, r, "/fun/"+url.PathEscape(expanded)+"/"+preset, http.StatusMovedPermanently)
 				return
 			}

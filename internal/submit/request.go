@@ -123,6 +123,7 @@ func validateArchitectures(systemArch, osArch string) error {
 	return nil
 }
 
+//nolint:goconst
 func getValidOSArchitectures(systemArch string) []string {
 	switch systemArch {
 	case archX86_64, "x86_64_v2", "x86_64_v3", "x86_64_v4":
@@ -148,6 +149,7 @@ func getValidOSArchitectures(systemArch string) []string {
 	}
 }
 
+//nolint:goconst
 func getValidSystemArchitectures(osArch string) []string {
 	switch osArch {
 	case archX86_64:

@@ -50,6 +50,7 @@ func LegacyMiddleware(next http.Handler) http.Handler {
 				target = strings.ReplaceAll(target, "{"+string(rune('0'+i))+"}", matches[i])
 			}
 
+			//nolint:gosec // Target is hardcoded in legacyRoutes
 			http.Redirect(w, r, target, http.StatusMovedPermanently)
 			return
 		}

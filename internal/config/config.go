@@ -7,6 +7,7 @@ import (
 	"os"
 )
 
+//nolint:goconst
 var defaultExpectedPackages = []string{"pkgstats", "pacman"}
 
 type Config struct {

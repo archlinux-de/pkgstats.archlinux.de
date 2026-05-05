@@ -83,6 +83,7 @@ type entitySpec struct {
 	internal        bool
 }
 
+//nolint:goconst
 var popularityEntities = []entitySpec{
 	{
 		basePath:        "/api/packages",
@@ -151,6 +152,7 @@ var popularityEntities = []entitySpec{
 	},
 }
 
+//nolint:goconst
 var (
 	paramStartMonth = Parameter{
 		Name:        "startMonth",
@@ -184,6 +186,7 @@ var (
 	}
 )
 
+//nolint:goconst
 func popularityItemSchema(identifierField string) *Schema {
 	return &Schema{
 		Type:     "object",
@@ -230,6 +233,7 @@ func jsonResponse(schemaName string) map[string]Response {
 	}
 }
 
+//nolint:goconst
 func BuildSpec(includeInternal bool) *OpenAPISpec {
 	spec := &OpenAPISpec{
 		OpenAPI: "3.0.0",
