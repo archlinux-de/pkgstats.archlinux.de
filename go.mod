@@ -5,8 +5,8 @@ go 1.26.3
 require (
 	github.com/a-h/templ v0.3.1020
 	github.com/golang-migrate/migrate/v4 v4.19.1
-	github.com/oschwald/maxminddb-golang/v2 v2.2.0
-	modernc.org/sqlite v1.50.0
+	github.com/oschwald/maxminddb-golang/v2 v2.3.0
+	modernc.org/sqlite v1.50.1
 )
 
 require (
@@ -32,7 +32,7 @@ require (
 	golang.org/x/sync v0.20.0 // indirect
 	golang.org/x/sys v0.44.0 // indirect
 	golang.org/x/tools v0.45.0 // indirect
-	modernc.org/gc/v3 v3.1.3 // indirect
+	modernc.org/ccgo/v4 v4.34.2 // indirect
 	modernc.org/libc v1.72.3 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
