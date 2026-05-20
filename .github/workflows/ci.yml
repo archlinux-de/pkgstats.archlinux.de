@@ -10,11 +10,13 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+              with:
+                persist-credentials: false
             - name: Run Common Setup
               uses: ./.github/actions/setup
             - name: Cache Go tools
-              uses: actions/cache@v5
+              uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae #v5.0.5
               with:
                   path: |
                       ~/go/bin/golangci-lint
@@ -36,7 +38,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+              with:
+                persist-credentials: false
             - name: Run Common Setup
               uses: ./.github/actions/setup
             - name: Build Templates
@@ -49,13 +53,15 @@ jobs:
         needs: [lint, test]
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v6
+              uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd #v6.0.2
+              with:
+                persist-credentials: false
             - name: Run Common Setup
               uses: ./.github/actions/setup
             - name: Build Application
               run: just build
             - name: Upload binary
-              uses: actions/upload-artifact@v7
+              uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a #v7.0.1
               if: github.ref == 'refs/heads/main'
               with:
                   name: pkgstatsd
@@ -68,7 +74,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         steps:
             - name: Download binary
-              uses: actions/download-artifact@v8
+              uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c #v8.0.1
               with:
                   name: pkgstatsd
             - name: Deploy
