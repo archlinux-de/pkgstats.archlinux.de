@@ -13,19 +13,19 @@ runs:
   using: "composite"
   steps:
     - name: Install Just
-      uses: extractions/setup-just@v3
+      uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 #v4
       env:
           GITHUB_TOKEN: ${{ github.token }}
     - name: Install pnpm
-      uses: pnpm/action-setup@v4
+      uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 #v6.0.8
       if: ${{ !inputs.pnpm-version }}
     - name: Install pnpm (override)
-      uses: pnpm/action-setup@v4
+      uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 #v6.0.8
       if: ${{ inputs.pnpm-version }}
       with:
           version: ${{ inputs.pnpm-version }}
     - name: Set up Go
-      uses: actions/setup-go@v6
+      uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c #v6.4.0
       with:
           go-version: ${{ inputs.go-version }}
           go-version-file: ${{ inputs.go-version && '' || 'go.mod' }}
