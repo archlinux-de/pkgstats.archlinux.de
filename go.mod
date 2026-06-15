@@ -33,7 +33,7 @@ require (
 	golang.org/x/sys v0.46.0 // indirect
 	golang.org/x/tools v0.46.0 // indirect
 	modernc.org/gc/v3 v3.1.4 // indirect
-	modernc.org/libc v1.73.1 // indirect
+	modernc.org/libc v1.73.3 // indirect
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )
