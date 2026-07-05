@@ -1,7 +1,7 @@
 {
     "name": "pkgstatsd",
     "type": "module",
-    "packageManager": "pnpm@11.6.0",
+    "packageManager": "pnpm@11.10.0",
     "scripts": {
         "build": "vite build",
         "watch": "vite build --watch",
@@ -9,15 +9,15 @@
         "format": "biome format --write"
     },
     "devDependencies": {
-        "@biomejs/biome": "^2.5.0",
+        "@biomejs/biome": "^2.5.2",
         "@fullhuman/postcss-purgecss": "^8.0.0",
-        "@types/node": "^25.9.3",
+        "@types/node": "^26.1.0",
         "cssnano": "^8.0.2",
         "cssnano-preset-advanced": "^8.0.2",
         "sass": "^1.101.0",
-        "tsx": "^4.22.4",
+        "tsx": "^4.23.0",
         "typescript": "^6.0.3",
-        "vite": "^8.0.16"
+        "vite": "^8.1.3"
     },
     "dependencies": {
         "bootstrap": "^5.3.8",
