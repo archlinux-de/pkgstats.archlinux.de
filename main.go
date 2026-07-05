@@ -34,8 +34,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	if len(os.Args) > 1 && os.Args[1] == "detect-anomalies" {
-		os.Exit(anomalydetection.Run(os.Args[2:], cfg))
+	if len(os.Args) > 1 {
+		switch os.Args[1] {
+		case "detect-anomalies":
+			os.Exit(anomalydetection.Run(os.Args[2:], cfg))
+		case "prune-submission-log":
+			os.Exit(submit.RunPruneLog(os.Args[2:], cfg))
+		}
 	}
 
 	if err := run(cfg); err != nil {

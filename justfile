@@ -123,3 +123,7 @@ fixtures:
 # detect anomalies in submission data
 detect-anomalies:
     go run . detect-anomalies
+
+# prune submission log entries past the retention window
+prune-submission-log:
+    go run . prune-submission-log

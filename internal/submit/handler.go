@@ -1,7 +1,9 @@
 package submit
 
 import (
+	"bytes"
 	"fmt"
+	"io"
 	"net/http"
 	"net/netip"
 	"time"
@@ -52,7 +54,13 @@ func (h *Handler) HandleSubmit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	r.Body = http.MaxBytesReader(w, r.Body, maxRequestBodySize)
-	req, err := ParseRequest(r.Body)
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		web.BadRequest(w, err.Error())
+		return
+	}
+
+	req, err := ParseRequest(bytes.NewReader(body))
 	if err != nil {
 		web.BadRequest(w, err.Error())
 		return
@@ -69,7 +77,9 @@ func (h *Handler) HandleSubmit(w http.ResponseWriter, r *http.Request) {
 
 	mirrorURL := FilterMirrorURL(req.Pacman.Mirror)
 
-	if err := h.repo.SaveSubmission(r.Context(), req, mirrorURL); err != nil {
+	logEntry := NewLogEntry(r.Header, clientIP, body, req.Country)
+
+	if err := h.repo.SaveSubmission(r.Context(), req, mirrorURL, logEntry); err != nil {
 		web.ServerError(w, "failed to save submission", err)
 		return
 	}

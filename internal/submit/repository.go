@@ -21,8 +21,9 @@ func NewRepository(db *sql.DB) *Repository {
 	}
 }
 
-func (r *Repository) SaveSubmission(ctx context.Context, req *Request, mirrorURL string) error {
-	month := r.currentMonth()
+func (r *Repository) SaveSubmission(ctx context.Context, req *Request, mirrorURL string, logEntry *LogEntry) error {
+	now := r.now()
+	month := yearMonth(now)
 
 	tx, err := r.db.BeginTx(ctx, nil)
 	if err != nil {
@@ -61,11 +62,51 @@ func (r *Repository) SaveSubmission(ctx context.Context, req *Request, mirrorURL
 		}
 	}
 
+	// Logged in the same transaction so the log contains exactly the
+	// submissions that were counted.
+	if err := r.insertLogEntry(ctx, tx, logEntry, month, now.Unix()); err != nil {
+		return fmt.Errorf("save submission log: %w", err)
+	}
+
 	if err := tx.Commit(); err != nil {
 		return fmt.Errorf("commit transaction: %w", err)
 	}
 
 	return nil
+}
+
+func (r *Repository) insertLogEntry(ctx context.Context, tx *sql.Tx, entry *LogEntry, month int, timestamp int64) error {
+	//nolint:gosec // Query uses a hardcoded string and parameterized inputs
+	_, err := tx.ExecContext(ctx,
+		`INSERT INTO submission_log (month, timestamp, ip, headers, payload, payload_hash, country)
+		 VALUES (?, ?, ?, ?, ?, ?, ?)`,
+		month, timestamp, entry.IP, entry.Headers,
+		entry.Payload, entry.PayloadHash, entry.Country)
+	return err
+}
+
+// retentionMonths is the number of previous calendar months kept in the
+// submission log in addition to the current one. Older entries are pruned
+// to limit how long client IPs and headers are retained.
+const retentionMonths = 2
+
+// retentionCutoff returns the oldest month still kept in the submission log
+// (inclusive): the current month and the retentionMonths preceding ones.
+// Older months are pruned.
+func retentionCutoff(now time.Time) int {
+	return yearMonth(time.Date(now.Year(), now.Month()-retentionMonths, 1, 0, 0, 0, 0, now.Location()))
+}
+
+// PruneLog deletes submission log entries older than the retention window and
+// returns the number of rows removed. It runs as a scheduled maintenance
+// command rather than on the request path.
+func (r *Repository) PruneLog(ctx context.Context) (int64, error) {
+	result, err := r.db.ExecContext(ctx,
+		`DELETE FROM submission_log WHERE month < ?`, retentionCutoff(r.now()))
+	if err != nil {
+		return 0, fmt.Errorf("prune submission log: %w", err)
+	}
+	return result.RowsAffected()
 }
 
 func (r *Repository) savePackages(ctx context.Context, tx *sql.Tx, packages []string, month int) error {
@@ -132,7 +173,6 @@ func (r *Repository) upsertOperatingSystemId(ctx context.Context, tx *sql.Tx, id
 	return err
 }
 
-func (r *Repository) currentMonth() int {
-	now := r.now()
-	return now.Year()*monthMultiplier + int(now.Month())
+func yearMonth(t time.Time) int {
+	return t.Year()*monthMultiplier + int(t.Month())
 }

@@ -32,6 +32,27 @@ func TestParseRequest_ValidRequest(t *testing.T) {
 	}
 }
 
+func TestParseRequest_RejectsTrailingData(t *testing.T) {
+	valid := `{
+		"version": "3",
+		"system": {"architecture": "x86_64"},
+		"os": {"architecture": "x86_64"},
+		"pacman": {"mirror": "https://geo.mirror.pkgbuild.com/", "packages": ["pacman"]}
+	}`
+
+	// Trailing whitespace is tolerated; trailing content is rejected so the
+	// stored payload is always valid JSON.
+	if _, err := ParseRequest(strings.NewReader(valid + "\n  ")); err != nil {
+		t.Errorf("trailing whitespace should be accepted, got: %v", err)
+	}
+
+	for _, suffix := range []string{"{}", " garbage", "\x00"} {
+		if _, err := ParseRequest(strings.NewReader(valid + suffix)); err == nil {
+			t.Errorf("expected error for trailing %q, got nil", suffix)
+		}
+	}
+}
+
 func TestParseRequest_ValidRequestWithOSID(t *testing.T) {
 	jsonData := `{
 		"version": "3",

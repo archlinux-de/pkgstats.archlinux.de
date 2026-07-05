@@ -31,7 +31,11 @@ cmd/
 
 All data tables have the same shape: `(<name> TEXT, month INT, count INT)` with `PRIMARY KEY (<name>, month)`. The identifier column name varies by table (`name`, `code`, `url`, `id`). Month is encoded as `YEAR*100 + MONTH` (e.g. 202603). Each table maps 1:1 to a package in `internal/`.
 
-Migrations are embedded SQL files run automatically on startup via `golang-migrate`.
+The exception is `submission_log`: one row per accepted submission with client IP, HTTP headers and the raw JSON payload. It exists to analyze abusive submissions and recover the aggregate tables from data poisoning, and is pruned periodically. Payloads are plain JSON, so ad-hoc analysis works with SQLite's built-in JSON functions (e.g. `json_each(payload, '$.pacman.packages')`).
+
+Migrations are numbered sequential SQL files run automatically on startup via `golang-migrate`. When adding a new migration, use the next number after the highest existing one.
+
+To keep migration count low, older migrations can be squashed into the latest one after it has been deployed to production. Move the full current schema into the highest-numbered migration and delete all prior migration files. This works because production is already past the old versions, and fresh databases will start from the single remaining migration.
 
 ## The Write Path: `POST /api/submit`
 
@@ -42,7 +46,7 @@ The only write endpoint. Flow:
 3. **Expected packages check** — rejects submissions missing too many expected packages (anti-spam).
 4. **GeoIP** — MaxMind lookup for country code (noop fallback if DB unavailable).
 5. **Mirror URL filtering** — validates and normalizes the mirror URL.
-6. **Save** — single transaction: upsert into all tables.
+6. **Save** — single transaction: upsert into all count tables and insert the raw submission into `submission_log`, so the log contains exactly the submissions that were counted. Expired log entries are removed separately by the `prune-submission-log` command, not on the request path.
 
 ## The Read Path: API
 
@@ -85,6 +89,10 @@ Build tags control compile-time behavior: `production` (release binary) and `dev
 `pkgstatsd detect-anomalies [--month YYYYMM]` — detects bot-driven data inflation.
 
 Checks for count correlations, new entity spikes, mirror/arch growth anomalies, and base package outliers. Exit codes: 0 = clean, 1 = minor, 2 = high-confidence.
+
+## CLI Subcommand: Prune Submission Log
+
+`pkgstatsd prune-submission-log` — deletes `submission_log` rows older than the retention window (the current plus two previous calendar months). Pruning is intentionally kept off the request path and is meant to be run periodically by an external scheduler, so retention is enforced on a schedule and its success is independently observable.
 
 ## Dev Workflow (`justfile`)
 

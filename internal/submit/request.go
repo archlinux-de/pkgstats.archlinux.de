@@ -48,8 +48,14 @@ type PacmanInfo struct {
 
 func ParseRequest(r io.Reader) (*Request, error) {
 	var req Request
-	if err := json.NewDecoder(r).Decode(&req); err != nil {
+	dec := json.NewDecoder(r)
+	if err := dec.Decode(&req); err != nil {
 		return nil, fmt.Errorf("invalid JSON: %w", err)
+	}
+	// Reject anything after the JSON document so the stored payload is
+	// always valid JSON and payload hashes cannot be varied by a suffix.
+	if err := dec.Decode(&struct{}{}); !errors.Is(err, io.EOF) {
+		return nil, errors.New("unexpected data after JSON payload")
 	}
 
 	req.OS.ID = strings.ToLower(req.OS.ID)
