@@ -14,28 +14,9 @@ import (
 func marshalHeaders(h http.Header) ([]byte, error) {
 	headers := make(map[string]string, len(h))
 	for k, vv := range h {
-		headers[k] = joinHeaderValues(vv)
+		headers[k] = strings.Join(vv, ", ")
 	}
 	return json.Marshal(headers)
-}
-
-// joinHeaderValues joins header values with commas, as per HTTP spec.
-func joinHeaderValues(vv []string) string {
-	if len(vv) == 0 {
-		return ""
-	}
-	// Most headers have a single value; avoid allocation for this case.
-	if len(vv) == 1 {
-		return vv[0]
-	}
-	// Join with comma+space as per RFC 7230 Section 3.2.2
-	var buf strings.Builder
-	buf.WriteString(vv[0])
-	for _, v := range vv[1:] {
-		buf.WriteString(", ")
-		buf.WriteString(v)
-	}
-	return buf.String()
 }
 
 // LogEntry is the raw record of an accepted submission. It allows analyzing
