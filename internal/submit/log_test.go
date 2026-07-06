@@ -4,10 +4,73 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"net/http"
+	"reflect"
 	"testing"
 	"time"
 )
+
+func TestMarshalHeaders(t *testing.T) {
+	tests := []struct {
+		name     string
+		headers  http.Header
+		expected string
+	}{
+		{
+			name:     "empty headers",
+			headers:  http.Header{},
+			expected: "{}",
+		},
+		{
+			name: "single value headers",
+			headers: http.Header{
+				"User-Agent":   {"Mozilla/5.0"},
+				"Content-Type": {"application/json"},
+				"Accept":       {"application/json"},
+			},
+			expected: `{"Accept":"application/json","Content-Type":"application/json","User-Agent":"Mozilla/5.0"}`,
+		},
+		{
+			name: "multi-value header joined with comma",
+			headers: http.Header{
+				"Accept": {"text/html", "application/xhtml+xml"},
+			},
+			expected: `{"Accept":"text/html, application/xhtml+xml"}`,
+		},
+		{
+			name: "mixed single and multi-value headers",
+			headers: http.Header{
+				"User-Agent": {"Mozilla/5.0"},
+				"Accept":     {"text/html", "application/xhtml+xml"},
+				"X-Custom":   {"value1", "value2"},
+			},
+			expected: `{"Accept":"text/html, application/xhtml+xml","User-Agent":"Mozilla/5.0","X-Custom":"value1, value2"}`,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := marshalHeaders(tt.headers)
+			if err != nil {
+				t.Fatalf("marshalHeaders failed: %v", err)
+			}
+
+			// Parse both to compare semantically (order doesn't matter in JSON objects)
+			var gotMap, expectedMap map[string]string
+			if err := json.Unmarshal(got, &gotMap); err != nil {
+				t.Fatalf("failed to parse got JSON: %v", err)
+			}
+			if err := json.Unmarshal([]byte(tt.expected), &expectedMap); err != nil {
+				t.Fatalf("failed to parse expected JSON: %v", err)
+			}
+
+			if !reflect.DeepEqual(gotMap, expectedMap) {
+				t.Errorf("got %s, want %s", got, tt.expected)
+			}
+		})
+	}
+}
 
 func TestHandleSubmit_LogsSubmission(t *testing.T) {
 	handler, db := setupTestHandler(t)
