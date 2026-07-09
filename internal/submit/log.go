@@ -11,9 +11,14 @@ import (
 
 // marshalHeaders serializes http.Header to JSON, joining multi-value
 // headers with commas (per HTTP spec). All header values are strings.
+// X-Real-IP is omitted because the client IP is already stored in the
+// dedicated ip column, so retaining it here would be redundant.
 func marshalHeaders(h http.Header) ([]byte, error) {
 	headers := make(map[string]string, len(h))
 	for k, vv := range h {
+		if k == "X-Real-Ip" {
+			continue
+		}
 		headers[k] = strings.Join(vv, ", ")
 	}
 	return json.Marshal(headers)
