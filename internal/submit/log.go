@@ -13,7 +13,7 @@ import (
 //   - X-Real-Ip: already stored in the dedicated ip column.
 //   - X-Forwarded-Proto: always "https" (enforced by nginx); carries no signal.
 var headersToSkip = map[string]struct{}{
-	"X-Real-Ip":        {},
+	"X-Real-Ip":         {},
 	"X-Forwarded-Proto": {},
 }
 
