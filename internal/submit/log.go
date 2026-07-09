@@ -9,14 +9,21 @@ import (
 	"strings"
 )
 
+// headersToSkip lists nginx-injected headers that are redundant in the log:
+//   - X-Real-Ip: already stored in the dedicated ip column.
+//   - X-Forwarded-Proto: always "https" (enforced by nginx); carries no signal.
+var headersToSkip = map[string]struct{}{
+	"X-Real-Ip":        {},
+	"X-Forwarded-Proto": {},
+}
+
 // marshalHeaders serializes http.Header to JSON, joining multi-value
-// headers with commas (per HTTP spec). All header values are strings.
-// X-Real-IP is omitted because the client IP is already stored in the
-// dedicated ip column, so retaining it here would be redundant.
+// headers with commas (per HTTP spec). Nginx-injected headers that are
+// redundant or constant are omitted (see headersToSkip).
 func marshalHeaders(h http.Header) ([]byte, error) {
 	headers := make(map[string]string, len(h))
 	for k, vv := range h {
-		if k == "X-Real-Ip" {
+		if _, skip := headersToSkip[k]; skip {
 			continue
 		}
 		headers[k] = strings.Join(vv, ", ")

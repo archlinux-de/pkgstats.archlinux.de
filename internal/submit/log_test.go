@@ -48,12 +48,14 @@ func TestMarshalHeaders(t *testing.T) {
 			expected: `{"Accept":"text/html, application/xhtml+xml","User-Agent":"Mozilla/5.0","X-Custom":"value1, value2"}`,
 		},
 		{
-			name: "X-Real-Ip is excluded",
+			name: "nginx-injected headers are excluded",
 			headers: http.Header{
-				"User-Agent": {"curl/8.0"},
-				"X-Real-Ip":  {"203.0.113.1"},
+				"User-Agent":        {"pkgstats/3.5.3"},
+				"Accept":            {"application/json"},
+				"X-Real-Ip":         {"203.0.113.1"},
+				"X-Forwarded-Proto": {"https"},
 			},
-			expected: `{"User-Agent":"curl/8.0"}`,
+			expected: `{"User-Agent":"pkgstats/3.5.3","Accept":"application/json"}`,
 		},
 	}
 
