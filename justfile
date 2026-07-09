@@ -127,3 +127,7 @@ detect-anomalies:
 # prune submission log entries past the retention window
 prune-submission-log:
     go run . prune-submission-log
+
+# migrate submission log headers from arrays to strings
+fix-submission-log-headers:
+    go run . fix-submission-log-headers

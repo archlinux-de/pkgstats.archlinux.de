@@ -40,6 +40,8 @@ func main() {
 			os.Exit(anomalydetection.Run(os.Args[2:], cfg))
 		case "prune-submission-log":
 			os.Exit(submit.RunPruneLog(os.Args[2:], cfg))
+		case "fix-submission-log-headers":
+			os.Exit(submit.RunFixHeaders(os.Args[2:], cfg))
 		}
 	}
 
