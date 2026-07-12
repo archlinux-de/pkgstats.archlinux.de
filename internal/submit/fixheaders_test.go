@@ -247,3 +247,40 @@ func TestMigrateHeaders_Idempotent(t *testing.T) {
 		t.Errorf("second run: fixed=%d skipped=%d, want 0/1", fixed2, skipped2)
 	}
 }
+
+func TestMigrateHeaders_RollsBackOnUpdateFailure(t *testing.T) {
+	db, err := database.New(":memory:")
+	if err != nil {
+		t.Fatalf("failed to create test database: %v", err)
+	}
+	t.Cleanup(func() { _ = db.Close() })
+
+	_, err = db.Exec(`
+		INSERT INTO submission_log (month, timestamp, ip, headers, payload, payload_hash, country)
+		VALUES
+			(202607, 1000, '', '{"User-Agent":["first"]}', '{}', 'h1', ''),
+			(202607, 1001, '', '{"User-Agent":["second"]}', '{}', 'h2', '');
+
+		CREATE TRIGGER reject_second_header_update
+		BEFORE UPDATE OF headers ON submission_log
+		WHEN NEW.id = 2
+		BEGIN
+			SELECT RAISE(ABORT, 'test update failure');
+		END;
+	`)
+	if err != nil {
+		t.Fatalf("set up test data: %v", err)
+	}
+
+	if _, _, err := migrateHeaders(context.Background(), db); err == nil {
+		t.Fatal("expected migration to fail")
+	}
+
+	var headers string
+	if err := db.QueryRow(`SELECT headers FROM submission_log WHERE id = 1`).Scan(&headers); err != nil {
+		t.Fatalf("read first row: %v", err)
+	}
+	if headers != `{"User-Agent":["first"]}` {
+		t.Errorf("first row was committed despite the failed migration: %s", headers)
+	}
+}

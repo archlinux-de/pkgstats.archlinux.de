@@ -116,15 +116,29 @@ func migrateHeaders(ctx context.Context, db *sql.DB) (fixed, skipped int, err er
 		return 0, skipped, fmt.Errorf("iterate rows: %w", err)
 	}
 
-	// Phase 2: apply updates now that the read cursor is closed.
+	// Phase 2: apply updates atomically now that the read cursor is closed.
+	// Besides avoiding a partially cleaned log on failure, this avoids a
+	// separate SQLite transaction for every row.
+	tx, err := db.BeginTx(ctx, nil)
+	if err != nil {
+		return 0, skipped, fmt.Errorf("begin updates: %w", err)
+	}
+	defer func() { _ = tx.Rollback() }()
+
+	stmt, err := tx.PrepareContext(ctx, `UPDATE submission_log SET headers = ? WHERE id = ?`)
+	if err != nil {
+		return 0, skipped, fmt.Errorf("prepare updates: %w", err)
+	}
+	defer func() { _ = stmt.Close() }()
+
 	for _, u := range pending {
-		if _, uerr := db.ExecContext(ctx,
-			`UPDATE submission_log SET headers = ? WHERE id = ?`,
-			u.cleaned, u.id,
-		); uerr != nil {
+		if _, uerr := stmt.ExecContext(ctx, u.cleaned, u.id); uerr != nil {
 			return fixed, skipped, fmt.Errorf("update row %d: %w", u.id, uerr)
 		}
 		fixed++
+	}
+	if err := tx.Commit(); err != nil {
+		return 0, skipped, fmt.Errorf("commit updates: %w", err)
 	}
 
 	return fixed, skipped, nil
