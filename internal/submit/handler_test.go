@@ -43,9 +43,13 @@ func setupTestHandler(t *testing.T) (*Handler, *sql.DB) {
 }
 
 func submitRequest(handler *Handler, body string) *httptest.ResponseRecorder {
+	return submitRequestFrom(handler, body, "203.0.113.50", "pkgstats/3.0")
+}
+
+func submitRequestFrom(handler *Handler, body, ip, userAgent string) *httptest.ResponseRecorder {
 	req := httptest.NewRequest(http.MethodPost, "/api/submit", strings.NewReader(body))
-	req.Header.Set("X-Real-IP", "203.0.113.50")
-	req.Header.Set("User-Agent", "pkgstats/3.0")
+	req.Header.Set("X-Real-IP", ip)
+	req.Header.Set("User-Agent", userAgent)
 	w := httptest.NewRecorder()
 	handler.HandleSubmit(w, req)
 	return w
@@ -123,7 +127,7 @@ func TestHandleSubmit_Success(t *testing.T) {
 	}
 }
 
-func TestHandleSubmit_IncrementsCount(t *testing.T) {
+func TestHandleSubmit_DeduplicatesIdenticalRequest(t *testing.T) {
 	handler, db := setupTestHandler(t)
 
 	// Submit twice
@@ -137,11 +141,11 @@ func TestHandleSubmit_IncrementsCount(t *testing.T) {
 		t.Fatalf("second submit: expected 204, got %d", w2.Code)
 	}
 
-	// Verify package count incremented
+	// A retry has the same successful response but does not change aggregates.
 	var count int
 	_ = db.QueryRow("SELECT count FROM package WHERE name = 'pacman'").Scan(&count)
-	if count != 2 {
-		t.Errorf("expected package count 2, got %d", count)
+	if count != 1 {
+		t.Errorf("expected package count 1, got %d", count)
 	}
 
 	// Verify single row (not duplicate)
@@ -149,6 +153,36 @@ func TestHandleSubmit_IncrementsCount(t *testing.T) {
 	_ = db.QueryRow("SELECT COUNT(*) FROM package WHERE name = 'pacman'").Scan(&rows)
 	if rows != 1 {
 		t.Errorf("expected 1 package row, got %d", rows)
+	}
+
+	var logEntries int
+	_ = db.QueryRow("SELECT COUNT(*) FROM submission_log").Scan(&logEntries)
+	if logEntries != 1 {
+		t.Errorf("expected 1 logged submission, got %d", logEntries)
+	}
+}
+
+func TestHandleSubmit_DeduplicationIncludesIPAndUserAgent(t *testing.T) {
+	handler, db := setupTestHandler(t)
+	body := validRequestBody()
+
+	for _, submission := range []struct {
+		ip        string
+		userAgent string
+	}{
+		{"203.0.113.50", "pkgstats/3.5.3"},
+		{"198.51.100.50", "pkgstats/3.5.3"},
+		{"203.0.113.50", "pkgstats/3.5.4"},
+	} {
+		if w := submitRequestFrom(handler, body, submission.ip, submission.userAgent); w.Code != http.StatusNoContent {
+			t.Fatalf("submit from %s with %s: expected 204, got %d", submission.ip, submission.userAgent, w.Code)
+		}
+	}
+
+	var count int
+	_ = db.QueryRow("SELECT count FROM package WHERE name = 'pacman'").Scan(&count)
+	if count != 3 {
+		t.Errorf("expected all distinct fingerprints to count, got %d", count)
 	}
 }
 
@@ -641,8 +675,8 @@ func TestHandleSubmit_OSIDCountIncrements(t *testing.T) {
 
 	var count int
 	_ = db.QueryRow("SELECT count FROM operating_system_id WHERE id = 'arch'").Scan(&count)
-	if count != 2 {
-		t.Errorf("expected operating_system_id count 2, got %d", count)
+	if count != 1 {
+		t.Errorf("expected operating_system_id count 1, got %d", count)
 	}
 
 	var rows int

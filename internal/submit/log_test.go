@@ -144,6 +144,10 @@ func TestPrune(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to insert expired log entry: %v", err)
 	}
+	_, err = db.Exec(`INSERT INTO submission_dedup (fingerprint, expires_at) VALUES (X'01', 0)`)
+	if err != nil {
+		t.Fatalf("failed to insert expired deduplication entry: %v", err)
+	}
 
 	if w := submitRequest(handler, validRequestBody()); w.Code != http.StatusNoContent {
 		t.Fatalf("expected 204, got %d: %s", w.Code, w.Body.String())
@@ -172,6 +176,14 @@ func TestPrune(t *testing.T) {
 	}
 	if remaining != 0 {
 		t.Errorf("expected expired log entry to be pruned, found %d", remaining)
+	}
+
+	var dedupEntries int
+	if err := db.QueryRow(`SELECT COUNT(*) FROM submission_dedup WHERE fingerprint = X'01'`).Scan(&dedupEntries); err != nil {
+		t.Fatalf("failed to count deduplication entries: %v", err)
+	}
+	if dedupEntries != 0 {
+		t.Errorf("expected expired deduplication entry to be pruned, found %d", dedupEntries)
 	}
 }
 

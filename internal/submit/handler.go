@@ -79,8 +79,16 @@ func (h *Handler) HandleSubmit(w http.ResponseWriter, r *http.Request) {
 
 	logEntry := NewLogEntry(r.Header, clientIP, body, req.Country)
 
-	if err := h.repo.SaveSubmission(r.Context(), req, mirrorURL, logEntry); err != nil {
+	counted, err := h.repo.SaveSubmission(r.Context(), req, mirrorURL, logEntry)
+	if err != nil {
 		web.ServerError(w, "failed to save submission", err)
+		return
+	}
+	if !counted {
+		// A deduplicated retry is an idempotent success, so returning 204 stops
+		// the client's failure backoff without counting the submission again.
+		w.Header().Set("Cache-Control", "no-store")
+		w.WriteHeader(http.StatusNoContent)
 		return
 	}
 

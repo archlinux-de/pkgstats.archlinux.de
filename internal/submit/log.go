@@ -38,6 +38,7 @@ type LogEntry struct {
 	Headers     string
 	Payload     string
 	PayloadHash string
+	Fingerprint []byte
 	Country     string
 }
 
@@ -55,12 +56,22 @@ func NewLogEntry(headers http.Header, clientIP netip.Addr, body []byte, country 
 	}
 
 	hash := sha256.Sum256(body)
+	payloadHash := hex.EncodeToString(hash[:])
+
+	// The fingerprint is deliberately scoped to an identical request from the
+	// same client address. It is retained only in the short-lived dedup table.
+	var fingerprint []byte
+	if ip != "" {
+		sum := sha256.Sum256([]byte(ip + "\x00" + payloadHash + "\x00" + headers.Get("User-Agent")))
+		fingerprint = sum[:]
+	}
 
 	return &LogEntry{
 		IP:          ip,
 		Headers:     string(headerJSON),
 		Payload:     string(body),
-		PayloadHash: hex.EncodeToString(hash[:]),
+		PayloadHash: payloadHash,
+		Fingerprint: fingerprint,
 		Country:     country,
 	}
 }
