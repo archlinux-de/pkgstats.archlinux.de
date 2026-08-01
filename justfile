@@ -131,3 +131,7 @@ prune-submission-log:
 # migrate submission log headers from arrays to strings
 fix-submission-log-headers:
     go run . fix-submission-log-headers
+
+# report material exact-payload replays in the submission log
+analyze-submission-log:
+    go run . analyze-submission-log
