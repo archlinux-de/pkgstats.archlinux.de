@@ -47,6 +47,16 @@ func TestMarshalHeaders(t *testing.T) {
 			},
 			expected: `{"Accept":"text/html, application/xhtml+xml","User-Agent":"Mozilla/5.0","X-Custom":"value1, value2"}`,
 		},
+		{
+			name: "nginx-injected headers are excluded",
+			headers: http.Header{
+				"User-Agent":        {"pkgstats/3.5.3"},
+				"Accept":            {"application/json"},
+				"X-Real-Ip":         {"203.0.113.1"},
+				"X-Forwarded-Proto": {"https"},
+			},
+			expected: `{"User-Agent":"pkgstats/3.5.3","Accept":"application/json"}`,
+		},
 	}
 
 	for _, tt := range tests {
@@ -101,8 +111,15 @@ func TestHandleSubmit_LogsSubmission(t *testing.T) {
 	if ip != "203.0.113.50" {
 		t.Errorf("expected IP 203.0.113.50, got %q", ip)
 	}
-	if headers == "" || headers == "{}" {
-		t.Errorf("expected headers to be captured, got %q", headers)
+	var parsedHeaders map[string]string
+	if err := json.Unmarshal([]byte(headers), &parsedHeaders); err != nil {
+		t.Fatalf("headers column is not valid JSON: %v — raw: %s", err, headers)
+	}
+	if _, ok := parsedHeaders["X-Real-Ip"]; ok {
+		t.Error("X-Real-Ip should be excluded from stored headers (already captured in ip column)")
+	}
+	if parsedHeaders["User-Agent"] != "pkgstats/3.0" {
+		t.Errorf("expected User-Agent to be captured, got %q", parsedHeaders["User-Agent"])
 	}
 	if payload != body {
 		t.Errorf("expected payload to match request body, got %q", payload)
