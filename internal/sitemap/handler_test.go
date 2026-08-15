@@ -80,6 +80,7 @@ func TestHandleSitemap(t *testing.T) {
 
 	for _, path := range []string{
 		"http://example.com/",
+		"http://example.com/methodology",
 		"http://example.com/packages",
 		"http://example.com/countries",
 		"http://example.com/countries/de",

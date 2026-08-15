@@ -84,6 +84,11 @@ class CountryMap extends HTMLElement {
                         border: { color: gridColor },
                         grid: { color: gridColor },
                         ticks: { color: textColor },
+                        title: {
+                            display: true,
+                            text: "Popularity (%)",
+                            color: textColor,
+                        },
                     },
                     y: {
                         border: { color: gridColor },
@@ -125,8 +130,8 @@ class CountryMap extends HTMLElement {
             data: {
                 data: {
                     popularity: {
-                        name: "share",
-                        format: "{0}%",
+                        name: "Popularity (%)",
+                        format: "{0}",
                         thousandSeparator: ",",
                     },
                 },

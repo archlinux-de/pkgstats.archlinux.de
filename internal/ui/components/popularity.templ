@@ -2,14 +2,28 @@ package components
 
 import "fmt"
 
+templ PackagePopularityExplanation() {
+	<p class="small text-body-secondary mt-3 mb-0">
+		Popularity is the percentage of pkgstats reports in the selected period that include a package.
+		<a href="/methodology">How popularity is measured</a>.
+	</p>
+}
+
+templ ValuePopularityExplanation() {
+	<p class="small text-body-secondary mt-3 mb-0">
+		Popularity is the percentage of pkgstats reports in the selected period that report each value.
+		<a href="/methodology">How popularity is measured</a>.
+	</p>
+}
+
 templ PopularityBar(popularity float64) {
-	<div class="progress bg-transparent progress-large" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={ fmt.Sprintf("%.2f", popularity) } title={ fmt.Sprintf("%.2f%%", popularity) }>
+	<div class="progress bg-transparent progress-large" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow={ fmt.Sprintf("%.2f", popularity) } title={ fmt.Sprintf("%.2f", popularity) }>
 		<div
 			class="progress-bar"
 			style={ fmt.Sprintf("width: %.2f%%", popularity) }
 		>
 			if popularity > 5 {
-				{ fmt.Sprintf("%.2f%%", popularity) }
+				{ fmt.Sprintf("%.2f", popularity) }
 			}
 		</div>
 	</div>

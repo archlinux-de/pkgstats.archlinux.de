@@ -54,6 +54,7 @@ func (h *Handler) HandleSitemap(w http.ResponseWriter, r *http.Request) {
 	urls := []URL{
 		{Loc: baseURL + "/", LastMod: lastMod},
 		{Loc: baseURL + "/getting-started"},
+		{Loc: baseURL + "/methodology"},
 		{Loc: baseURL + "/countries", LastMod: lastMod},
 		{Loc: baseURL + "/packages", LastMod: lastMod},
 		{Loc: baseURL + "/compare/system-architectures/current", LastMod: lastMod},

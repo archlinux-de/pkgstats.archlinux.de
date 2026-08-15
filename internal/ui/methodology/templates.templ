@@ -1,0 +1,54 @@
+package methodology
+
+templ MethodologyContent() {
+	<div class="row">
+		<div class="col-12 col-lg-8">
+			<h1 class="mb-3">How popularity is measured</h1>
+			<p class="mb-4">
+				pkgstats collects anonymous reports and groups them by month. Popularity is shown as a percentage and is
+				calculated from reports received during the selected period.
+			</p>
+			<div class="table-responsive">
+				<table class="table table-sm">
+					<thead>
+						<tr>
+							<th scope="col">Statistic</th>
+							<th scope="col">What is counted</th>
+							<th scope="col">Percentage calculation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">Packages</th>
+							<td>Reports that include the package</td>
+							<td>Package count divided by the monthly report total</td>
+						</tr>
+						<tr>
+							<th scope="row">Other statistics</th>
+							<td>One recorded value per report</td>
+							<td>Value count divided by all recorded values for the metric</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<h2 class="h4 mt-4">Packages</h2>
+			<p>
+				A report can include many packages, so summing package counts would count each report more than once. To
+				estimate the number of reports for a month, pkgstats uses the count of that month's most frequently reported
+				package.
+			</p>
+			<h2 class="h4 mt-4">Other statistics</h2>
+			<p>
+				Countries, mirrors, system architectures, operating-system architectures, and operating-system IDs each
+				record at most one value per report. Some older clients omit optional values, and country lookup can
+				occasionally fail. These cases are uncommon; the percentage uses reports with a recorded value for the
+				relevant metric.
+			</p>
+			<h2 class="h4 mt-4">Time ranges</h2>
+			<p>
+				For periods spanning multiple months, pkgstats combines each month's counts and totals before calculating the
+				percentage. Values are rounded to two decimal places.
+			</p>
+		</div>
+	</div>
+}

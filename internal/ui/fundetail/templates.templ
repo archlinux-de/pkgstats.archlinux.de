@@ -25,6 +25,7 @@ templ FunDetailCurrentContent(category string, topPkgs []packages.PackagePopular
 		</p>
 	}
 	@funCompareLink(compareURL)
+	@components.PackagePopularityExplanation()
 }
 
 templ FunDetailHistoryContent(category string, data chartdata.Data, compareURL string) {
@@ -34,6 +35,7 @@ templ FunDetailHistoryContent(category string, data chartdata.Data, compareURL s
 		@templ.JSONScript("", data)
 	</popularity-chart>
 	@funCompareLink(compareURL)
+	@components.PackagePopularityExplanation()
 }
 
 templ funCompareLink(compareURL string) {
@@ -57,7 +59,7 @@ templ funPackageTable(pkgs []packages.PackagePopularity) {
 		<thead>
 			<tr>
 				<th scope="col">Package</th>
-				<th scope="col">Popularity</th>
+				<th scope="col">Popularity (%)</th>
 			</tr>
 		</thead>
 		<tbody>
