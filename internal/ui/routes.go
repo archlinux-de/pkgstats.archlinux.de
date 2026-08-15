@@ -20,6 +20,7 @@ import (
 	"pkgstatsd/internal/ui/home"
 	"pkgstatsd/internal/ui/layout"
 	"pkgstatsd/internal/ui/legal"
+	"pkgstatsd/internal/ui/methodology"
 	uios "pkgstatsd/internal/ui/operatingsystems"
 	"pkgstatsd/internal/ui/packagedetail"
 	"pkgstatsd/internal/ui/packagelist"
@@ -53,6 +54,7 @@ func RegisterRoutes(
 	fundetail.NewHandler(pkgRepo, manifest).RegisterRoutes(mux)
 	apidoc.NewHandler(manifest, specpkg.BuildSpec(includeInternalAPIDocs)).RegisterRoutes(mux)
 	legal.NewHandler(manifest).RegisterRoutes(mux)
+	methodology.NewHandler(manifest).RegisterRoutes(mux)
 
 	handleAssets(mux, assets)
 	handleStatic(mux, static)

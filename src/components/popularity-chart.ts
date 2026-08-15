@@ -250,6 +250,11 @@ class PopularityChart extends HTMLElement {
                         border: { color: gridColor },
                         grid: { color: gridColor },
                         ticks: { color: textColor },
+                        title: {
+                            display: true,
+                            text: "Popularity (%)",
+                            color: textColor,
+                        },
                     },
                     y: {
                         border: { color: gridColor },
@@ -344,6 +349,11 @@ class PopularityChart extends HTMLElement {
                         border: { color: gridColor },
                         grid: { color: gridColor },
                         ticks: { color: textColor },
+                        title: {
+                            display: true,
+                            text: "Popularity (%)",
+                            color: textColor,
+                        },
                     },
                 },
                 elements: {
