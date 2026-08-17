@@ -14,6 +14,7 @@ templ APIDocContent(spec *apidoc.OpenAPISpec) {
 	<p class="mb-4">
 		The pkgstats API provides read-only access to package popularity data.
 		The <a href="/getting-started">pkgstats CLI</a> uses this API to search and compare packages from the terminal.
+		See <a href="/methodology">how popularity is measured</a>.
 		Please be considerate with request rates to keep the service available for everyone.
 	</p>
 	for _, tag := range spec.Tags {
@@ -237,6 +238,11 @@ templ renderSchemaDetail(s *apidoc.Schema, components apidoc.SpecComponents) {
 			}
 			if resolved.Properties != nil {
 				@renderSchemaProperties(resolved)
+				for _, property := range resolved.Properties {
+					if property.Items != nil && property.Items.Ref != "" {
+						@renderSchemaDetail(property.Items, components)
+					}
+				}
 			}
 		}
 	}
@@ -249,6 +255,7 @@ templ renderSchemaProperties(s *apidoc.Schema) {
 				<tr>
 					<th>Field</th>
 					<th>Type</th>
+					<th>Description</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -261,6 +268,7 @@ templ renderSchemaProperties(s *apidoc.Schema) {
 							}
 						</td>
 						<td><code>{ schemaTypeString(s.Properties[name]) }</code></td>
+						<td>{ s.Properties[name].Description }</td>
 					</tr>
 				}
 			</tbody>

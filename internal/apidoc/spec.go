@@ -54,17 +54,18 @@ type Response struct {
 }
 
 type Schema struct {
-	Ref        string             `json:"$ref,omitempty"`
-	Type       string             `json:"type,omitempty"`
-	Format     string             `json:"format,omitempty"`
-	Default    any                `json:"default,omitempty"`
-	Minimum    *int               `json:"minimum,omitempty"`
-	Maximum    *int               `json:"maximum,omitempty"`
-	MaxLength  *int               `json:"maxLength,omitempty"`
-	Nullable   bool               `json:"nullable,omitempty"`
-	Required   []string           `json:"required,omitempty"`
-	Properties map[string]*Schema `json:"properties,omitempty"`
-	Items      *Schema            `json:"items,omitempty"`
+	Description string             `json:"description,omitempty"`
+	Ref         string             `json:"$ref,omitempty"`
+	Type        string             `json:"type,omitempty"`
+	Format      string             `json:"format,omitempty"`
+	Default     any                `json:"default,omitempty"`
+	Minimum     *int               `json:"minimum,omitempty"`
+	Maximum     *int               `json:"maximum,omitempty"`
+	MaxLength   *int               `json:"maxLength,omitempty"`
+	Nullable    bool               `json:"nullable,omitempty"`
+	Required    []string           `json:"required,omitempty"`
+	Properties  map[string]*Schema `json:"properties,omitempty"`
+	Items       *Schema            `json:"items,omitempty"`
 }
 
 type SpecComponents struct {
@@ -80,6 +81,7 @@ type entitySpec struct {
 	listSchemaName  string
 	identifierField string
 	collectionField string
+	packages        bool
 	internal        bool
 }
 
@@ -94,6 +96,7 @@ var popularityEntities = []entitySpec{
 		listSchemaName:  "PackagePopularityList",
 		identifierField: "name",
 		collectionField: "packagePopularities",
+		packages:        true,
 	},
 	{
 		basePath:        "/api/countries",
@@ -187,35 +190,44 @@ var (
 )
 
 //nolint:goconst
-func popularityItemSchema(identifierField string) *Schema {
+func popularityItemSchema(identifierField, identifierDescription string, packages bool) *Schema {
+	countDescription := "Number of reports in the selected period that record this value."
+	samplesDescription := "Number of reports in the selected period with a recorded value for this metric."
+	if packages {
+		countDescription = "Number of reports in the selected period that include the package."
+		samplesDescription = "Estimated number of reports in the selected period."
+	}
+
 	return &Schema{
 		Type:     "object",
 		Required: []string{identifierField, "samples", "count", "popularity", "startMonth", "endMonth"},
 		Properties: map[string]*Schema{
-			identifierField: {Type: "string"},
-			"samples":       {Type: "integer"},
-			"count":         {Type: "integer"},
-			"popularity":    {Type: "number", Format: "float"},
-			"startMonth":    {Type: "integer"},
-			"endMonth":      {Type: "integer"},
+			identifierField: {Type: "string", Description: identifierDescription},
+			"samples":       {Type: "integer", Description: samplesDescription},
+			"count":         {Type: "integer", Description: countDescription},
+			"popularity":    {Type: "number", Format: "float", Description: "Percentage calculated as count / samples × 100, rounded to two decimal places."},
+			"startMonth":    {Type: "integer", Description: "First month included, in YYYYMM format."},
+			"endMonth":      {Type: "integer", Description: "Last month included, in YYYYMM format."},
 		},
 	}
 }
 
+//nolint:goconst
 func popularityListSchema(collectionField, itemSchemaRef string) *Schema {
 	return &Schema{
 		Type:     "object",
 		Required: []string{collectionField, "total", "count", "limit", "offset"},
 		Properties: map[string]*Schema{
 			collectionField: {
-				Type:  "array",
-				Items: &Schema{Ref: itemSchemaRef},
+				Type:        "array",
+				Description: "Matching popularity records.",
+				Items:       &Schema{Ref: itemSchemaRef},
 			},
-			"total":  {Type: "integer"},
-			"count":  {Type: "integer"},
-			"limit":  {Type: "integer"},
-			"offset": {Type: "integer"},
-			"query":  {Type: "string", Nullable: true},
+			"total":  {Type: "integer", Description: "Total number of matching records."},
+			"count":  {Type: "integer", Description: "Number of records returned."},
+			"limit":  {Type: "integer", Description: "Maximum number of records requested."},
+			"offset": {Type: "integer", Description: "Number of records skipped."},
+			"query":  {Type: "string", Nullable: true, Description: "Applied name filter, or null when not supplied."},
 		},
 	}
 }
@@ -253,7 +265,7 @@ func BuildSpec(includeInternal bool) *OpenAPISpec {
 		spec.Tags = append(spec.Tags, SpecTag{Name: e.tag})
 
 		itemSchemaRef := "#/components/schemas/" + e.itemSchemaName
-		spec.Components.Schemas[e.itemSchemaName] = popularityItemSchema(e.identifierField)
+		spec.Components.Schemas[e.itemSchemaName] = popularityItemSchema(e.identifierField, e.pathParamDesc, e.packages)
 		spec.Components.Schemas[e.listSchemaName] = popularityListSchema(e.collectionField, itemSchemaRef)
 
 		pathParam := Parameter{
