@@ -4,9 +4,47 @@ import (
 	"io/fs"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 	"testing/fstest"
+
+	"pkgstatsd/internal/ui/layout"
 )
+
+func TestRegisterRoutes_Methodology(t *testing.T) {
+	manifest, err := layout.NewManifest([]byte(`{}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	mux := http.NewServeMux()
+	RegisterRoutes(
+		mux,
+		manifest,
+		nil, nil, nil, nil,
+		fstest.MapFS{"dist/assets/main.css": {Data: []byte("body {}")}},
+		fstest.MapFS{"static/archicon.svg": {Data: []byte("<svg/>")}},
+		fstest.MapFS{},
+		false,
+	)
+
+	rr := httptest.NewRecorder()
+	mux.ServeHTTP(rr, httptest.NewRequest(http.MethodGet, "/methodology", nil))
+
+	if rr.Code != http.StatusOK {
+		t.Fatalf("status = %d, want %d", rr.Code, http.StatusOK)
+	}
+
+	body := rr.Body.String()
+	for _, text := range []string{
+		"<title>How popularity is measured</title>",
+		`rel="canonical" href="http://example.com/methodology"`,
+	} {
+		if !strings.Contains(body, text) {
+			t.Errorf("response does not contain %q", text)
+		}
+	}
+}
 
 func TestRootFiles(t *testing.T) {
 	root := fstest.MapFS{
