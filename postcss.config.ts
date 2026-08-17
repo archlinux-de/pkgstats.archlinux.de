@@ -15,6 +15,6 @@ export default {
                 variables: ["--bs-primary"],
             },
         }),
-        cssnano({ preset: ["cssnano-preset-advanced"] }),
+        cssnano({ preset: ["cssnano-preset-advanced", { svgo: false }] }),
     ],
 };
