@@ -8,6 +8,7 @@ import (
 	"math"
 	"math/rand/v2"
 	"os"
+	"slices"
 	"time"
 
 	"pkgstatsd/internal/config"
@@ -148,11 +149,11 @@ func generateFixtures(ctx context.Context, db *sql.DB, rng *rand.Rand, months []
 	defer func() { _ = stmt.Close() }()
 
 	// Iterate oldest-first so monthIndex 0 = oldest
-	for i := len(months) - 1; i >= 0; i-- {
+	for i, month := range slices.Backward(months) {
 		monthIndex := len(months) - 1 - i
 		for _, entity := range table.entities {
 			c := realisticCount(rng, entity, table.maxSamples, monthIndex)
-			if _, err := stmt.ExecContext(ctx, entity.name, months[i], c); err != nil {
+			if _, err := stmt.ExecContext(ctx, entity.name, month, c); err != nil {
 				return err
 			}
 		}
