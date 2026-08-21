@@ -98,7 +98,8 @@ func TestHandleSubmit_LogsSubmission(t *testing.T) {
 	)
 	err := db.QueryRow(
 		`SELECT month, ip, headers, payload, payload_hash, country
-		 FROM submission_log`).
+		 FROM submission_log`,
+	).
 		Scan(&month, &ip, &headers, &payload, &payloadHash, &country)
 	if err != nil {
 		t.Fatalf("failed to load log entry: %v", err)
@@ -140,7 +141,8 @@ func TestPrune(t *testing.T) {
 
 	_, err := db.Exec(
 		`INSERT INTO submission_log (month, timestamp, ip, headers, payload, payload_hash, country)
-		 VALUES (200001, 0, '', '{}', '{}', '', '')`)
+		 VALUES (200001, 0, '', '{}', '{}', '', '')`,
+	)
 	if err != nil {
 		t.Fatalf("failed to insert expired log entry: %v", err)
 	}
