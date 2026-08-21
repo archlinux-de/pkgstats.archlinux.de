@@ -24,11 +24,16 @@ runs:
       if: ${{ inputs.pnpm-version }}
       with:
           version: ${{ inputs.pnpm-version }}
-    - name: Set up Go
+    - name: Set up Go (override)
       uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c #v6.4.0
+      if: ${{ inputs.go-version }}
       with:
           go-version: ${{ inputs.go-version }}
-          go-version-file: ${{ inputs.go-version && '' || 'go.mod' }}
+    - name: Set up Go
+      uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c #v6.4.0
+      if: ${{ !inputs.go-version }}
+      with:
+          go-version-file: go.mod
     - name: Install dependencies
       run: just install
       shell: bash
