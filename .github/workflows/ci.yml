@@ -5,6 +5,9 @@ on:
     pull_request:
     workflow_dispatch:
 
+permissions:
+    contents: read
+
 jobs:
     lint:
         runs-on: ubuntu-latest
@@ -15,17 +18,21 @@ jobs:
                 persist-credentials: false
             - name: Run Common Setup
               uses: ./.github/actions/setup
+            - name: Resolve golangci-lint version
+              id: golangci-lint-version
+              run: |
+                  echo "version=$(go list -m -f '{{.Version}}' github.com/golangci/golangci-lint/v2@latest)" >> "$GITHUB_OUTPUT"
+                  echo "go-version=$(go env GOVERSION)" >> "$GITHUB_OUTPUT"
             - name: Cache Go tools
               uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 #v6.1.0
               with:
                   path: |
                       ~/go/bin/golangci-lint
                       ~/go/bin/vacuum
-                  key: go-tools-${{ runner.os }}-${{ hashFiles('go.mod') }}
-                  restore-keys: go-tools-${{ runner.os }}-
+                  key: go-tools-${{ runner.os }}-${{ steps.golangci-lint-version.outputs.go-version }}-${{ steps.golangci-lint-version.outputs.version }}
             - name: Install Go tools
               run: |
-                  test -x ~/go/bin/golangci-lint || go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
+                  test -x ~/go/bin/golangci-lint || go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@${{ steps.golangci-lint-version.outputs.version }}
                   test -x ~/go/bin/vacuum || go install github.com/daveshanley/vacuum@latest
             - name: Build Templates
               run: just build-templates
