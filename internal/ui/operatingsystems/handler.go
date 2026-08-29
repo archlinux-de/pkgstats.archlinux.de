@@ -45,6 +45,11 @@ func (h *Handler) HandleCompare(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := chartdata.Build(allSeries)
+	for i := range data.Datasets {
+		if data.Datasets[i].Label == "arch" {
+			data.Datasets[i].Hidden = true
+		}
+	}
 
 	layout.Render(w, r,
 		layout.Page{Title: "Compare Operating Systems", Description: "Usage share of operating system distributions reported by Arch Linux pkgstats.", Path: "/compare/operating-systems", Manifest: h.manifest},

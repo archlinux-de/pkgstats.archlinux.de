@@ -1,6 +1,6 @@
 interface ChartData {
     labels: number[];
-    datasets: { label: string; data: (number | null)[] }[];
+    datasets: { label: string; data: (number | null)[]; hidden?: boolean }[];
 }
 
 const isSmallScreen = window.matchMedia(

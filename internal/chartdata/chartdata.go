@@ -21,8 +21,9 @@ type Data struct {
 }
 
 type Dataset struct {
-	Label string     `json:"label"`
-	Data  []*float64 `json:"data"`
+	Label  string     `json:"label"`
+	Data   []*float64 `json:"data"`
+	Hidden bool       `json:"hidden,omitempty"`
 }
 
 // Build transforms popularity entries into ChartJS-ready format.

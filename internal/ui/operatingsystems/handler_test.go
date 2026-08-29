@@ -65,6 +65,9 @@ func TestHandleCompare(t *testing.T) {
 	if !strings.Contains(body, "Compare Operating Systems") {
 		t.Error("expected body to contain title")
 	}
+	if !strings.Contains(body, `"label":"arch","data":[10.5],"hidden":true`) {
+		t.Error("expected Arch dataset to be hidden by default")
+	}
 }
 
 func TestHandleCompare_SeriesError(t *testing.T) {
