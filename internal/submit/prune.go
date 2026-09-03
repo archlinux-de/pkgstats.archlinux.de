@@ -21,12 +21,13 @@ func RunPruneLog(_ []string, cfg config.Config) int {
 	}
 	defer func() { _ = db.Close() }()
 
-	deleted, err := NewRepository(db).PruneLog(context.Background())
+	result, err := NewRepository(db).ArchiveAndPruneLog(context.Background(), cfg.SubmissionLogArchiveDir)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
 		return 1
 	}
 
-	fmt.Printf("Pruned %d expired submission log entries.\n", deleted)
+	fmt.Printf("Archived %d months, pruned %d expired submission log entries, and removed %d expired archives.\n",
+		result.ArchivedMonths, result.PrunedEntries, result.RemovedArchives)
 	return 0
 }

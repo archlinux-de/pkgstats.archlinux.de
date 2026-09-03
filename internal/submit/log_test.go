@@ -1,11 +1,14 @@
 package submit
 
 import (
+	"compress/gzip"
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
 	"encoding/json"
 	"net/http"
+	"os"
+	"path/filepath"
 	"reflect"
 	"testing"
 	"time"
@@ -164,12 +167,42 @@ func TestPrune(t *testing.T) {
 		t.Fatalf("expected 2 rows before prune, got %d", before)
 	}
 
-	deleted, err := NewRepository(db).PruneLog(context.Background())
+	archiveDir := t.TempDir()
+	repository := NewRepository(db)
+	repository.now = func() time.Time { return time.Date(2001, time.January, 1, 0, 0, 0, 0, time.UTC) }
+	result, err := repository.ArchiveAndPruneLog(context.Background(), archiveDir)
 	if err != nil {
 		t.Fatalf("prune failed: %v", err)
 	}
-	if deleted != 1 {
-		t.Errorf("expected 1 pruned entry, got %d", deleted)
+	if result.ArchivedMonths != 1 {
+		t.Errorf("expected 1 archived month, got %d", result.ArchivedMonths)
+	}
+	if result.PrunedEntries != 1 {
+		t.Errorf("expected 1 pruned entry, got %d", result.PrunedEntries)
+	}
+	if result.RemovedArchives != 0 {
+		t.Errorf("expected no expired archives to be removed, got %d", result.RemovedArchives)
+	}
+
+	archive, err := os.Open(filepath.Join(archiveDir, "submission-log-200001.jsonl.gz"))
+	if err != nil {
+		t.Fatalf("open archive: %v", err)
+	}
+	defer func() { _ = archive.Close() }()
+	compressed, err := gzip.NewReader(archive)
+	if err != nil {
+		t.Fatalf("read gzip archive: %v", err)
+	}
+	defer func() { _ = compressed.Close() }()
+	var entry archivedLogEntry
+	if err := json.NewDecoder(compressed).Decode(&entry); err != nil {
+		t.Fatalf("decode archive entry: %v", err)
+	}
+	if entry.Month != 200001 {
+		t.Errorf("archive month = %d, want 200001", entry.Month)
+	}
+	if entry.Payload != "{}" || entry.Headers != "{}" || entry.Country != "" {
+		t.Errorf("archive entry = %#v, want original submission log values", entry)
 	}
 
 	var remaining int
@@ -186,6 +219,165 @@ func TestPrune(t *testing.T) {
 	}
 	if dedupEntries != 0 {
 		t.Errorf("expected expired deduplication entry to be pruned, found %d", dedupEntries)
+	}
+}
+
+func TestArchiveAndPruneRequiresArchiveDirectory(t *testing.T) {
+	_, db := setupTestHandler(t)
+	_, err := db.Exec(`
+		INSERT INTO submission_log (month, timestamp, ip, headers, payload, payload_hash, country)
+		VALUES (200001, 0, '', '{}', '{}', '', '')`)
+	if err != nil {
+		t.Fatalf("insert expired submission log: %v", err)
+	}
+
+	repository := NewRepository(db)
+	repository.now = func() time.Time { return time.Date(2001, time.January, 1, 0, 0, 0, 0, time.UTC) }
+	_, err = repository.ArchiveAndPruneLog(context.Background(), "")
+	if err == nil {
+		t.Fatal("expected missing archive directory error")
+	}
+
+	var remaining int
+	if err := db.QueryRow(`SELECT COUNT(*) FROM submission_log WHERE month = 200001`).Scan(&remaining); err != nil {
+		t.Fatalf("count expired submission logs: %v", err)
+	}
+	if remaining != 1 {
+		t.Errorf("expected expired log entry to remain, found %d", remaining)
+	}
+}
+
+func TestArchiveRetention(t *testing.T) {
+	archiveDir := t.TempDir()
+	for _, name := range []string{
+		"submission-log-202409.jsonl.gz",
+		"submission-log-202509.jsonl.gz",
+		"unrelated.jsonl.gz",
+	} {
+		if err := os.WriteFile(filepath.Join(archiveDir, name), nil, archiveFileMode); err != nil {
+			t.Fatalf("create archive %s: %v", name, err)
+		}
+	}
+
+	repository := NewRepository(nil)
+	repository.now = func() time.Time { return time.Date(2026, time.September, 3, 0, 0, 0, 0, time.UTC) }
+	removed, err := repository.pruneArchives(archiveDir, archiveRetentionCutoff(repository.now()))
+	if err != nil {
+		t.Fatalf("prune archives: %v", err)
+	}
+	if removed != 1 {
+		t.Errorf("removed archives = %d, want 1", removed)
+	}
+	for _, name := range []string{"submission-log-202509.jsonl.gz", "unrelated.jsonl.gz"} {
+		if _, err := os.Stat(filepath.Join(archiveDir, name)); err != nil {
+			t.Errorf("expected %s to remain: %v", name, err)
+		}
+	}
+}
+
+func TestArchiveAndPruneReplacesExistingArchive(t *testing.T) {
+	_, db := setupTestHandler(t)
+	_, err := db.Exec(`
+		INSERT INTO submission_log (month, timestamp, ip, headers, payload, payload_hash, country)
+		VALUES (200001, 0, '', '{}', '{}', '', '')`)
+	if err != nil {
+		t.Fatalf("insert expired submission log: %v", err)
+	}
+
+	archiveDir := t.TempDir()
+	archivePath := filepath.Join(archiveDir, "submission-log-200001.jsonl.gz")
+	if err := os.WriteFile(archivePath, []byte("not a gzip archive"), archiveFileMode); err != nil {
+		t.Fatalf("write old archive: %v", err)
+	}
+	repository := NewRepository(db)
+	repository.now = func() time.Time { return time.Date(2001, time.January, 1, 0, 0, 0, 0, time.UTC) }
+	result, err := repository.ArchiveAndPruneLog(context.Background(), archiveDir)
+	if err != nil {
+		t.Fatalf("archive and prune logs: %v", err)
+	}
+	if result.PrunedEntries != 1 {
+		t.Errorf("pruned entries = %d, want 1", result.PrunedEntries)
+	}
+
+	archive, err := os.Open(archivePath)
+	if err != nil {
+		t.Fatalf("open archive: %v", err)
+	}
+	defer func() { _ = archive.Close() }()
+	compressed, err := gzip.NewReader(archive)
+	if err != nil {
+		t.Fatalf("read gzip archive: %v", err)
+	}
+	defer func() { _ = compressed.Close() }()
+	var entry archivedLogEntry
+	if err := json.NewDecoder(compressed).Decode(&entry); err != nil {
+		t.Fatalf("decode archive entry: %v", err)
+	}
+	if entry.Month != 200001 {
+		t.Errorf("archive month = %d, want 200001", entry.Month)
+	}
+}
+
+func TestArchiveAndPruneRejectsConcurrentRun(t *testing.T) {
+	_, db := setupTestHandler(t)
+	_, err := db.Exec(`
+		INSERT INTO submission_log (month, timestamp, ip, headers, payload, payload_hash, country)
+		VALUES (200001, 0, '', '{}', '{}', '', '')`)
+	if err != nil {
+		t.Fatalf("insert expired submission log: %v", err)
+	}
+
+	archiveDir := t.TempDir()
+	release, err := lockArchiveDirectory(archiveDir)
+	if err != nil {
+		t.Fatalf("lock archive directory: %v", err)
+	}
+	defer release()
+	repository := NewRepository(db)
+	repository.now = func() time.Time { return time.Date(2001, time.January, 1, 0, 0, 0, 0, time.UTC) }
+	if _, err := repository.ArchiveAndPruneLog(context.Background(), archiveDir); err == nil {
+		t.Fatal("expected concurrent archive error")
+	}
+
+	var remaining int
+	if err := db.QueryRow(`SELECT COUNT(*) FROM submission_log WHERE month = 200001`).Scan(&remaining); err != nil {
+		t.Fatalf("count submission logs: %v", err)
+	}
+	if remaining != 1 {
+		t.Errorf("expected expired log entry to remain, found %d", remaining)
+	}
+}
+
+func TestArchiveAndPruneUsesSingleCutoff(t *testing.T) {
+	_, db := setupTestHandler(t)
+	_, err := db.Exec(`
+		INSERT INTO submission_log (month, timestamp, ip, headers, payload, payload_hash, country)
+		VALUES
+			(202605, 0, '', '{}', '{}', '', ''),
+			(202606, 0, '', '{}', '{}', '', '')`)
+	if err != nil {
+		t.Fatalf("insert submission logs: %v", err)
+	}
+
+	repository := NewRepository(db)
+	nowCalls := 0
+	repository.now = func() time.Time {
+		nowCalls++
+		if nowCalls == 1 {
+			return time.Date(2026, time.August, 1, 0, 0, 0, 0, time.UTC)
+		}
+		return time.Date(2026, time.September, 1, 0, 0, 0, 0, time.UTC)
+	}
+	if _, err := repository.ArchiveAndPruneLog(context.Background(), t.TempDir()); err != nil {
+		t.Fatalf("archive and prune logs: %v", err)
+	}
+
+	var remaining int
+	if err := db.QueryRow(`SELECT COUNT(*) FROM submission_log WHERE month = 202606`).Scan(&remaining); err != nil {
+		t.Fatalf("count submission logs: %v", err)
+	}
+	if remaining != 1 {
+		t.Errorf("expected June log entry to remain, found %d", remaining)
 	}
 }
 

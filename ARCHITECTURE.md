@@ -31,7 +31,7 @@ cmd/
 
 All data tables have the same shape: `(<name> TEXT, month INT, count INT)` with `PRIMARY KEY (<name>, month)`. The identifier column name varies by table (`name`, `code`, `url`, `id`). Month is encoded as `YEAR*100 + MONTH` (e.g. 202603). Each table maps 1:1 to a package in `internal/`.
 
-The exception is `submission_log`: one row per accepted submission with client IP, HTTP headers and the raw JSON payload. It exists to analyze abusive submissions and recover the aggregate tables from data poisoning, and is pruned periodically. Payloads are plain JSON, so ad-hoc analysis works with SQLite's built-in JSON functions (e.g. `json_each(payload, '$.pacman.packages')`).
+The exception is `submission_log`: one row per accepted submission with client IP, HTTP headers and the raw JSON payload. It exists to analyze abusive submissions and recover the aggregate tables from data poisoning. Payloads are plain JSON, so ad-hoc analysis works with SQLite's built-in JSON functions (e.g. `json_each(payload, '$.pacman.packages')`).
 
 Migrations are numbered sequential SQL files run automatically on startup via `golang-migrate`. When adding a new migration, use the next number after the highest existing one.
 
@@ -92,7 +92,7 @@ Checks for count correlations, new entity spikes, mirror/arch growth anomalies, 
 
 ## CLI Subcommand: Prune Submission Log
 
-`pkgstatsd prune-submission-log` — deletes `submission_log` rows older than the retention window (the current plus two previous calendar months). Pruning is intentionally kept off the request path and is meant to be run periodically by an external scheduler, so retention is enforced on a schedule and its success is independently observable.
+`pkgstatsd prune-submission-log` — archives `submission_log` rows older than the retention window (the current plus two previous calendar months) to gzip-compressed JSON Lines files, then deletes them from SQLite. Archives older than 12 months are removed. Set `SUBMISSION_LOG_ARCHIVE_DIR` to the archive location. Pruning is intentionally kept off the request path and is meant to be run periodically by an external scheduler, so retention is enforced on a schedule and its success is independently observable.
 
 ## Dev Workflow (`justfile`)
 

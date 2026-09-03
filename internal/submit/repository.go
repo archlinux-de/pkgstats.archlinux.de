@@ -136,16 +136,14 @@ func retentionCutoff(now time.Time) int {
 	return yearMonth(time.Date(now.Year(), now.Month()-retentionMonths, 1, 0, 0, 0, 0, now.Location()))
 }
 
-// PruneLog deletes expired submission logs and deduplication fingerprints. It
-// returns the number of log entries removed and runs as scheduled maintenance.
-func (r *Repository) PruneLog(ctx context.Context) (int64, error) {
+func (r *Repository) pruneLog(ctx context.Context, cutoff int, now time.Time) (int64, error) {
 	result, err := r.db.ExecContext(ctx,
-		`DELETE FROM submission_log WHERE month < ?`, retentionCutoff(r.now()))
+		`DELETE FROM submission_log WHERE month < ?`, cutoff)
 	if err != nil {
 		return 0, fmt.Errorf("prune submission log: %w", err)
 	}
 	if _, err := r.db.ExecContext(ctx,
-		`DELETE FROM submission_dedup WHERE expires_at < ?`, r.now().Unix()); err != nil {
+		`DELETE FROM submission_dedup WHERE expires_at < ?`, now.Unix()); err != nil {
 		return 0, fmt.Errorf("prune submission deduplication: %w", err)
 	}
 	return result.RowsAffected()

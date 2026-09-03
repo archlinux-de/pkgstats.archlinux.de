@@ -11,10 +11,11 @@ import (
 var defaultExpectedPackages = []string{"pkgstats", "pacman"}
 
 type Config struct {
-	Database         string
-	GeoIPDatabase    string
-	Port             string
-	ExpectedPackages []string
+	Database                string
+	GeoIPDatabase           string
+	Port                    string
+	ExpectedPackages        []string
+	SubmissionLogArchiveDir string
 }
 
 func Load() (Config, error) {
@@ -24,10 +25,11 @@ func Load() (Config, error) {
 	}
 
 	cfg := Config{
-		Database:         getEnv("DATABASE", ""),
-		GeoIPDatabase:    getEnv("GEOIP_DATABASE", ""),
-		Port:             getEnv("PORT", "8282"),
-		ExpectedPackages: expectedPackages,
+		Database:                getEnv("DATABASE", ""),
+		GeoIPDatabase:           getEnv("GEOIP_DATABASE", ""),
+		Port:                    getEnv("PORT", "8282"),
+		ExpectedPackages:        expectedPackages,
+		SubmissionLogArchiveDir: getEnv("SUBMISSION_LOG_ARCHIVE_DIR", ""),
 	}
 
 	if cfg.Database == "" {
