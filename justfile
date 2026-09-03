@@ -121,8 +121,8 @@ fixtures:
     go run ./cmd/fixtures
 
 # detect anomalies in submission data
-detect-anomalies:
-    go run . detect-anomalies
+detect-anomalies *args:
+    go run . detect-anomalies {{ args }}
 
 # prune submission log entries past the retention window
 prune-submission-log:
