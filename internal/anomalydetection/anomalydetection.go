@@ -29,6 +29,8 @@ const (
 	maxDisplayItems               = 10
 	maxCorrelationDisplay         = 5
 	maxCorrelationPackages        = 8
+	rapidReplayWindow             = 2 * time.Hour
+	rapidReplayThreshold          = 0.1
 )
 
 type (
@@ -62,6 +64,11 @@ type (
 		PackagesAboveThreshold []PackageRatio
 	}
 
+	RapidReplayResult struct {
+		Reports      int
+		TotalReports int
+	}
+
 	DetectionResult struct {
 		CountCorrelations   []CountCorrelation
 		NewPackageSpikes    []Spike
@@ -70,6 +77,7 @@ type (
 		SystemArchAnomalies []GrowthAnomaly
 		OSArchAnomalies     []GrowthAnomaly
 		BasePackageResult   BasePackageResult
+		RapidReplays        RapidReplayResult
 	}
 )
 
@@ -94,10 +102,22 @@ func (r *DetectionResult) HasExtremeMirrorGrowth() bool {
 	return false
 }
 
+func (r *RapidReplayResult) Share() float64 {
+	if r.TotalReports == 0 {
+		return 0
+	}
+	return float64(r.Reports) / float64(r.TotalReports) * 100
+}
+
+func (r *RapidReplayResult) NeedsInvestigation() bool {
+	return r.Share() >= rapidReplayThreshold
+}
+
 func (r *DetectionResult) IsHighConfidence() bool {
 	return r.BasePackageResult.HasAnomalies() ||
 		(r.HasMirrorAnomalies() && r.HasArchitectureAnomalies()) ||
-		r.HasExtremeMirrorGrowth()
+		r.HasExtremeMirrorGrowth() ||
+		r.RapidReplays.NeedsInvestigation()
 }
 
 // Run executes the detect-anomalies subcommand. args are os.Args[2:].
@@ -234,6 +254,11 @@ func detect(ctx context.Context, db *sql.DB, targetMonth, baselineStart, baselin
 		return nil, fmt.Errorf("base package anomalies: %w", err)
 	}
 
+	rapidReplays, err := detectRapidReplays(ctx, db, targetMonth)
+	if err != nil {
+		return nil, fmt.Errorf("rapid replays: %w", err)
+	}
+
 	return &DetectionResult{
 		CountCorrelations:   countCorrelations,
 		NewPackageSpikes:    newPackageSpikes,
@@ -242,7 +267,31 @@ func detect(ctx context.Context, db *sql.DB, targetMonth, baselineStart, baselin
 		SystemArchAnomalies: systemArchAnomalies,
 		OSArchAnomalies:     osArchAnomalies,
 		BasePackageResult:   basePackageResult,
+		RapidReplays:        rapidReplays,
 	}, nil
+}
+
+func detectRapidReplays(ctx context.Context, db *sql.DB, month int) (RapidReplayResult, error) {
+	result := RapidReplayResult{}
+	windowSeconds := int(rapidReplayWindow.Seconds())
+	err := db.QueryRowContext(ctx, `
+		WITH reports AS (
+			SELECT timestamp, ip, payload_hash, json_extract(headers, '$.User-Agent') AS user_agent
+			FROM submission_log
+			WHERE month = ?
+		), ordered AS (
+			SELECT timestamp, LAG(timestamp) OVER (
+				PARTITION BY ip, payload_hash, user_agent
+				ORDER BY timestamp
+			) AS previous_timestamp
+			FROM reports
+		)
+		SELECT COUNT(*), COALESCE(SUM(timestamp - previous_timestamp < ?), 0)
+		FROM ordered`, month, windowSeconds).Scan(&result.TotalReports, &result.Reports)
+	if err != nil {
+		return RapidReplayResult{}, err
+	}
+	return result, nil
 }
 
 func detectCountCorrelations(ctx context.Context, db *sql.DB, targetMonth, previousMonth int) ([]CountCorrelation, error) {
@@ -514,6 +563,7 @@ func findPackagesAboveBaseThreshold(ctx context.Context, db *sql.DB, targetMonth
 
 func renderResults(result *DetectionResult) {
 	renderBasePackageAnomalies(&result.BasePackageResult)
+	renderRapidReplays(&result.RapidReplays)
 	renderGrowthAnomalies("Mirror Anomalies", result.MirrorAnomalies)
 	renderSpikes("New Mirror Spikes", result.NewMirrorSpikes)
 	renderArchitectureAnomalies(result)
@@ -524,6 +574,19 @@ func renderResults(result *DetectionResult) {
 	}
 
 	renderSummary(result)
+}
+
+func renderRapidReplays(result *RapidReplayResult) {
+	if result.Reports == 0 {
+		return
+	}
+
+	severity := "WARNING"
+	if result.NeedsInvestigation() {
+		severity = "ERROR"
+	}
+	fmt.Printf("%s: %d rapid exact replays within %s (%.3f%% of %d logged reports)\n\n",
+		severity, result.Reports, rapidReplayWindow, result.Share(), result.TotalReports)
 }
 
 func renderBasePackageAnomalies(result *BasePackageResult) {
@@ -629,6 +692,9 @@ func renderSummary(result *DetectionResult) {
 			typeCount++
 		}
 		if result.BasePackageResult.HasAnomalies() {
+			typeCount++
+		}
+		if result.RapidReplays.NeedsInvestigation() {
 			typeCount++
 		}
 		fmt.Printf("ERROR: High-confidence anomalies detected (%d types) - requires investigation\n", typeCount)

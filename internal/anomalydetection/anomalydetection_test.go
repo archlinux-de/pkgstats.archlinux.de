@@ -155,3 +155,34 @@ func TestDetectionResult_IsHighConfidence(t *testing.T) {
 		}
 	})
 }
+
+func TestDetectRapidReplays(t *testing.T) {
+	db, err := database.New(":memory:")
+	if err != nil {
+		t.Fatalf("failed to create database: %v", err)
+	}
+	defer func() { _ = db.Close() }()
+
+	for _, timestamp := range []int{0, 60, 120, 8000, 8001} {
+		_, err := db.Exec(`
+			INSERT INTO submission_log (month, timestamp, ip, headers, payload, payload_hash, country)
+			VALUES (202501, ?, '203.0.113.1', '{"User-Agent":"pkgstats/3.5.4"}', '{}', 'hash', 'DE')`, timestamp)
+		if err != nil {
+			t.Fatalf("insert submission log: %v", err)
+		}
+	}
+
+	result, err := detectRapidReplays(context.Background(), db, 202501)
+	if err != nil {
+		t.Fatalf("detect rapid replays: %v", err)
+	}
+	if result.TotalReports != 5 {
+		t.Errorf("total reports = %d, want 5", result.TotalReports)
+	}
+	if result.Reports != 3 {
+		t.Errorf("rapid replays = %d, want 3", result.Reports)
+	}
+	if !result.NeedsInvestigation() {
+		t.Error("rapid replays should require investigation")
+	}
+}
