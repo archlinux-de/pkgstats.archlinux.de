@@ -98,7 +98,7 @@ var Categories = []Category{
 		Name: "Window Managers",
 		Packages: []string{
 			"awesome", "blackbox", "bspwm", "cage", "ctwm", "cwm", "dwm", "fluxbox", "fvwm3",
-			"herbstluftwm", "hyprland", "i3-wm", "icewm", "jwm", "labwc", "mangowc", "niri",
+			"herbstluftwm", "hyprland", "i3-wm", "icewm", "jay", "jwm", "labwc", "mangowc", "niri",
 			"notion", "openbox", "pekwm", "qtile", "ratpoison", "river", "spectrwm", "stumpwm",
 			"sway", "wayfire", "weston", "windowmaker", "xmonad", "xorg-twm",
 		},
