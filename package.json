@@ -1,7 +1,7 @@
 {
     "name": "pkgstatsd",
     "type": "module",
-    "packageManager": "pnpm@12.8.1",
+    "packageManager": "pnpm@12.16.1",
     "scripts": {
         "build": "vite build",
         "watch": "vite build --watch",
@@ -9,20 +9,20 @@
         "format": "biome format --write"
     },
     "devDependencies": {
-        "@biomejs/biome": "^2.5.14",
+        "@biomejs/biome": "^2.6.4",
         "@fullhuman/postcss-purgecss": "^8.0.0",
-        "@types/node": "^26.6.3",
-        "cssnano": "^9.1.2",
-        "cssnano-preset-advanced": "^9.1.2",
-        "sass": "^1.105.1",
+        "@types/node": "^26.6.6",
+        "cssnano": "^9.9.0",
+        "cssnano-preset-advanced": "^10.0.0",
+        "sass": "^1.107.1",
         "tsx": "^4.23.15",
         "typescript": "^7.0.2",
-        "vite": "^8.3.1"
+        "vite": "^8.3.5"
     },
     "dependencies": {
         "bootstrap": "^5.3.8",
-        "bootstrap-icons": "^1.13.1",
-        "chart.js": "^4.5.1",
+        "bootstrap-icons": "^1.13.2",
+        "chart.js": "^4.6.1",
         "svg-pan-zoom": "^3.6.2",
         "svgmap": "^2.21.0"
     }
